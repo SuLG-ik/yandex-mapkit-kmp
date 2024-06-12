@@ -1,0 +1,24 @@
+[versions]
+android-compileSdk = "34"
+android-minSdk = "24"
+android-targetSdk = "34"
+
+kotlin = "2.0.0"
+agp = "8.2.2"
+spotless = "7.0.0.BETA1"
+yandex-mapkit = "4.6.1-lite"
+compose-plugin = "1.6.11"
+androidx-activity = "1.9.0"
+
+[libraries]
+yandex-mapkit = { module = "com.yandex.android:maps.mobile", version.ref = "yandex-mapkit" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+
+[plugins]
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+compose-plugin = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+spotless = { id="com.diffplug.spotless", version.ref = "spotless" }
+cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
