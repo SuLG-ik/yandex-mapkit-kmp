@@ -1,5 +1,6 @@
-rootProject.name = "yandex-map-kmp"
-include(":yandex-map-kmp")
+rootProject.name = "yandex-mapkit-kmp"
+include(":yandex-mapkit-kmp")
+include(":yandex-mapkit-kmp-compose")
 include(":sample:common")
 include(":sample:android")
 includeBuild("convention-plugins")
