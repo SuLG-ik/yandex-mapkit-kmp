@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.android.library)
     id("convention.publication")
     alias(libs.plugins.spotless)
+    alias(libs.plugins.compose.plugin)
+    alias(libs.plugins.compose.compiler)
 }
 
 group = "ru.sulgik.maps"
@@ -16,14 +18,13 @@ kotlin {
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_11)
+                    jvmTarget.set(JvmTarget.JVM_1_8)
                 }
             }
         }
     }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -38,6 +39,11 @@ kotlin {
         }
         commonMain.dependencies {
             api(project(":yandex-mapkit-kmp"))
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
         }
 
         commonTest.dependencies {
@@ -65,7 +71,7 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }

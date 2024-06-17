@@ -4,13 +4,18 @@ import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.MapKit as NativeMapKit
 
 actual class MapKit(private val nativeMapKit: NativeMapKit) {
+
+    fun toNative(): NativeMapKit {
+        return nativeMapKit
+    }
+
     actual companion object {
         actual fun setApiKey(apiKey: String) {
             MapKitFactory.setApiKey(apiKey)
         }
 
         actual fun getInstance(): MapKit {
-            return MapKitFactory.getInstance().toNative()
+            return MapKitFactory.getInstance().toCommon()
         }
 
         actual fun setLocale(locale: String?) {
@@ -22,8 +27,35 @@ actual class MapKit(private val nativeMapKit: NativeMapKit) {
         }
     }
 
+    /**
+     * Returns the version of the MapKit bundle.
+     */
+    actual val version: String
+        get() = nativeMapKit.version
+
+    /**
+     * Resets the global location manager to a default one, that is a location manager that is created by createLocationManager() call.
+     */
+    actual fun resetLocationManagerToDefault() {
+        nativeMapKit.resetLocationManagerToDefault()
+    }
+
+    /**
+     * Notifies MapKit when the application resumes the foreground state.
+     */
+    actual fun onStart() {
+        nativeMapKit.onStart()
+    }
+
+    /**
+     * Notifies MapKit when the application pauses and goes to the background.
+     */
+    actual fun onStop() {
+        nativeMapKit.onStop()
+    }
+
 }
 
-private fun NativeMapKit.toNative(): MapKit {
-    return ru.sulgik.mapkit.MapKit(this)
+fun NativeMapKit.toCommon(): MapKit {
+    return MapKit(this)
 }

@@ -17,7 +17,7 @@ actual class MapKit(private val nativeMapKit: NativeMapKit) {
         }
 
         actual fun getInstance(): MapKit {
-            return NativeMapKit.sharedInstance().toNative()
+            return NativeMapKit.sharedInstance().toCommon()
         }
 
         actual fun setLocale(locale: String?) {
@@ -31,6 +31,6 @@ actual class MapKit(private val nativeMapKit: NativeMapKit) {
 
 }
 
-private fun NativeMapKit.toNative(): MapKit {
-    return ru.sulgik.mapkit.MapKit(this)
+fun NativeMapKit.toCommon(): MapKit {
+    return MapKit(this)
 }

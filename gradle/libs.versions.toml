@@ -3,6 +3,7 @@ android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
 
+buildKonfig = "0.15.1"
 kotlin = "2.0.0"
 agp = "8.2.2"
 spotless = "7.0.0.BETA1"
@@ -15,7 +16,9 @@ yandex-mapkit = { module = "com.yandex.android:maps.mobile", version.ref = "yand
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 
 [plugins]
+buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 compose-plugin = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }

@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -7,18 +7,20 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.compose.plugin)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.buildKonfig)
 }
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_1_8)
+                }
+            }
         }
     }
-    
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -38,13 +40,13 @@ kotlin {
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            api(project(":yandex-mapkit-kmp-compose"))
         }
     }
 }
 
 android {
-    namespace = "ru.sulgik.ymk.sample"
+    namespace = "ru.sulgik.mapkit.sample"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
@@ -57,11 +59,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
         compose = true
     }
 }
 
+buildkonfig {
+    packageName = "ru.sulgik.mapkit.sample"
+    defaultConfigs {
+        buildConfigField(FieldSpec.Type.STRING, "MAPKIT_API_KEY", rootProject.ext.get("mapKitApiKey").toString(), const = true)
+    }
+}

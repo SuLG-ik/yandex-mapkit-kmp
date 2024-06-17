@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.App.Starting" parent="android:Theme.Material.NoActionBar" />
+</resources>
