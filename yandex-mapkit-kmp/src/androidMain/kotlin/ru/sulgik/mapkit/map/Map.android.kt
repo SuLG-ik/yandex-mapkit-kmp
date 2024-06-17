@@ -153,7 +153,7 @@ actual class Map(private val nativeMap: NativeMap) {
     actual fun move(
         cameraPosition: CameraPosition,
         animation: Animation,
-        cameraCallback: CameraCallback,
+        cameraCallback: CameraCallback?,
     ) {
         nativeMap.move(cameraPosition.toNative(), animation.toNative(), cameraCallback)
     }

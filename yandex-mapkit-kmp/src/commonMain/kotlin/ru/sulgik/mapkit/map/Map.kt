@@ -103,6 +103,6 @@ expect class Map {
      * * A camera action is cancelled (for example, as a result of a subsequent request for camera movement), passing false as an argument.
      * * A camera action finished successfully, passing true as an argument.
      */
-    fun move(cameraPosition: CameraPosition, animation: Animation, cameraCallback: CameraCallback)
+    fun move(cameraPosition: CameraPosition, animation: Animation, cameraCallback: CameraCallback? = null)
 
 }
