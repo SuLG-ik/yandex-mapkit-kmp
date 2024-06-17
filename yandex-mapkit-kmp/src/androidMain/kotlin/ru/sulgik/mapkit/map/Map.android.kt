@@ -28,6 +28,8 @@ actual class Map(private val nativeMap: NativeMap) {
     actual val cameraBounds: CameraBounds
         get() = nativeMap.cameraBounds.toCommon()
 
+    actual val mapObjects: MapObjectCollection = nativeMap.mapObjects.toCommon()
+
     /**
      * If enabled, night mode will reduce map brightness and improve contrast.
      */

@@ -11,12 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,26 +27,111 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.YandexMapController
+import ru.sulgik.mapkit.compose.imageProvider
 import ru.sulgik.mapkit.compose.rememberYandexMapController
+import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.map.ClusterListener
+import ru.sulgik.mapkit.map.ClusterTapListener
+import ru.sulgik.mapkit.map.MapObjectTapListener
+import ru.sulgik.mapkit.map.getCastedUserData
 import ru.sulgik.mapkit.sample.ui.CombinedFilledTonalIconButton
+import yandex_mapkit_kmp.sample.common.generated.resources.Res
+import yandex_mapkit_kmp.sample.common.generated.resources.cluster
+import yandex_mapkit_kmp.sample.common.generated.resources.pin_green
+import yandex_mapkit_kmp.sample.common.generated.resources.pin_red
+import yandex_mapkit_kmp.sample.common.generated.resources.pin_yellow
 import kotlin.time.Duration.Companion.milliseconds
+
+fun randomPlacemarks(): List<Pair<Point, PlacemarkUserData>> {
+    return clusterizedPoints.mapIndexed { index, point ->
+        point to PlacemarkUserData(
+            type = PlacemarkType.entries.random(),
+            name = "point_$index"
+        )
+    }
+}
 
 
 @Composable
 fun MapScreen(modifier: Modifier = Modifier) {
+    val snackbarHostState = remember { SnackbarHostState() }
     val mapController = rememberYandexMapController()
-    LaunchedEffect(mapController) {
-        mapController.mapWindow.map.move(startPosition)
+    val map = mapController.mapWindow.map
+    val placemarks = remember { randomPlacemarks() }
+
+    val clusterImage = imageProvider(Res.drawable.cluster)
+    val pinRedImage = imageProvider(Res.drawable.pin_red)
+    val pinGreenImage = imageProvider(Res.drawable.pin_green)
+    val pinYellowImage = imageProvider(Res.drawable.pin_yellow)
+
+    val scope = rememberCoroutineScope()
+
+    val clusterTapListener = remember(scope, snackbarHostState) {
+        ClusterTapListener {
+            scope.launch {
+                snackbarHostState.showSnackbar("Clicked on cluster with ${it.size} items", withDismissAction = true)
+            }
+            true
+        }
     }
+
+    val clusterListener = remember(clusterImage, clusterTapListener) {
+        ClusterListener { cluster ->
+            // Sets each cluster appearance using the custom view
+            // that shows a cluster's pins
+            cluster.appearance.setIcon(clusterImage)
+            cluster.appearance.zIndex = 100f
+
+            cluster.addClusterTapListener(clusterTapListener)
+        }
+    }
+
+    val mapObjectTapListener = remember(scope, snackbarHostState) {
+        MapObjectTapListener { mapObject, point ->
+            scope.launch {
+                snackbarHostState.showSnackbar("MapObject (${mapObject.getCastedUserData<PlacemarkUserData>()}) was tapped (${point})", withDismissAction = true)
+            }
+            true
+        }
+    }
+
+    LaunchedEffect(map) {
+        map.move(startPosition)
+    }
+
+    LaunchedEffect(map) {
+        val typeToImageMap = mapOf(
+            PlacemarkType.YELLOW to pinYellowImage,
+            PlacemarkType.RED to pinRedImage,
+            PlacemarkType.GREEN to pinGreenImage
+        )
+        val cluster =
+            map.mapObjects.addClusterizedPlacemarkCollection(clusterListener)
+
+        placemarks.forEach { (point, data) ->
+            cluster.addPlacemark().apply {
+                geometry = point
+                setIcon(typeToImageMap[data.type]!!)
+                userData = data
+                addTapListener(mapObjectTapListener)
+            }
+        }
+        cluster.clusterPlacemarks(60.0, 15)
+    }
+
     Scaffold(
         bottomBar = {
             MapActions(
                 mapController = mapController,
                 modifier = Modifier.fillMaxWidth(),
             )
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
         },
         modifier = modifier,
     ) { _ ->

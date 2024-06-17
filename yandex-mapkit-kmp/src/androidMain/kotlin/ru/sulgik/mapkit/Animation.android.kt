@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit
 
+import com.yandex.mapkit.map.Arrow
 import kotlin.time.Duration.Companion.milliseconds
 import com.yandex.mapkit.Animation as NativeAnimation
 
