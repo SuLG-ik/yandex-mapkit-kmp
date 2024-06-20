@@ -5,10 +5,10 @@ plugins {
     alias(libs.plugins.android.library)
     id("convention.publication")
     alias(libs.plugins.spotless)
+    alias(libs.plugins.cocoapods)
 }
 
-group = "ru.sulgik.mapkit.moko"
-version = "1.0"
+val supportIosTarget = project.property("skipIosTarget") != "true"
 
 kotlin {
     androidTarget {
@@ -22,17 +22,35 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
+    if (supportIosTarget) {
+        iosX64()
+        iosArm64()
         iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "yandex-map-kmp-moko"
-            isStatic = true
+
+        cocoapods {
+            ios.deploymentTarget = "15.0"
+            framework {
+                baseName = "YandexMapKitKMPMoko"
+            }
+            noPodspec()
+            pod("YandexMapsMobile") {
+                version = libs.versions.yandex.mapkit.get()
+                packageName = "YandexMapKit"
+            }
         }
     }
 
     sourceSets {
+        all {
+            languageSettings.apply {
+                progressiveMode = true
+                if (name.lowercase().contains("ios")) {
+                    optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                    optIn("kotlinx.cinterop.BetaInteropApi")
+                }
+            }
+        }
+
         androidMain.dependencies {
         }
         commonMain.dependencies {

@@ -2,15 +2,16 @@ package ru.sulgik.mapkit.map
 
 import com.yandex.mapkit.map.MapObjectVisitor as NativeMapObjectVisitor
 
-actual abstract class MapObjectVisitor : NativeMapObjectVisitor {
-    actual abstract fun onPlacemarkVisited(placemark: PlacemarkMapObject)
-    actual abstract fun onPolylineVisited(polyline: PolylineMapObject)
-    actual abstract fun onPolygonVisited(polygon: PolygonMapObject)
-    actual abstract fun onCircleVisited(circle: CircleMapObject)
-    actual abstract fun onCollectionVisitStart(collection: MapObjectCollection): Boolean
-    actual abstract fun onCollectionVisitEnd(collection: MapObjectCollection): Boolean
-    actual abstract fun onClusterizedCollectionVisitStart(collection: ClusterizedPlacemarkCollection): Boolean
-    actual abstract fun onClusterizedCollectionVisitEnd(collection: ClusterizedPlacemarkCollection)
+actual class MapObjectVisitor actual constructor(
+    private val onPlacemarkVisited: (placemark: PlacemarkMapObject) -> Unit,
+    private val onPolylineVisited: (polyline: PolylineMapObject) -> Unit,
+    private val onPolygonVisited: (polygon: PolygonMapObject) -> Unit,
+    private val onCircleVisited: (circle: CircleMapObject) -> Unit,
+    private val onCollectionVisitStart: (collection: MapObjectCollection) -> Boolean,
+    private val onCollectionVisitEnd: (collection: MapObjectCollection) -> Boolean,
+    private val onClusterizedCollectionVisitStart: (collection: ClusterizedPlacemarkCollection) -> Boolean,
+    private val onClusterizedCollectionVisitEnd: (collection: ClusterizedPlacemarkCollection) -> Unit,
+) : NativeMapObjectVisitor {
 
     override fun onPlacemarkVisited(p0: com.yandex.mapkit.map.PlacemarkMapObject) {
         onPlacemarkVisited(p0.toCommon())

@@ -10,13 +10,14 @@ import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
 import platform.CoreGraphics.CGImageAlphaInfo
 import platform.UIKit.UIImage
 import ru.sulgik.mapkit.map.ImageProvider
+import ru.sulgik.mapkit.map.UIImageImageProvider
 
 actual fun ImageBitmap.toImageProvider(): ImageProvider {
-    TODO()
+    return UIImageImageProvider(toUIImage())
 }
 
 @OptIn(ExperimentalForeignApi::class)
-fun ImageBitmap.toUIImage(): UIImage? {
+fun ImageBitmap.toUIImage(): UIImage {
     val width = this.width
     val height = this.height
     val buffer = IntArray(width * height)
@@ -35,5 +36,5 @@ fun ImageBitmap.toUIImage(): UIImage? {
     )
 
     val cgImage = CGBitmapContextCreateImage(context)
-    return cgImage?.let { UIImage.imageWithCGImage(it) }
+    return cgImage.let { UIImage.imageWithCGImage(it) }
 }

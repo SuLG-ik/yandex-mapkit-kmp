@@ -7,7 +7,7 @@ fun TextStyle.toNative(): NativeTextStyle {
     return NativeTextStyle(
         size,
         color?.value,
-        outlinedWidth,
+        outlineWidth,
         outlineColor?.value,
         placement.toNative(),
         offset,
@@ -20,7 +20,7 @@ fun NativeTextStyle.toCommon(): TextStyle {
     return TextStyle(
         size = size,
         color = color?.let(::Color),
-        outlinedWidth = outlineWidth,
+        outlineWidth = outlineWidth,
         outlineColor = outlineColor?.let(::Color),
         placement = placement.toCommon(),
         offset = offset,

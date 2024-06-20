@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -7,10 +8,10 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.compose.plugin)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.cocoapods)
 }
 
-group = "ru.sulgik.maps"
-version = "1.0"
+val supportIosTarget = project.property("skipIosTarget") != "true"
 
 kotlin {
     androidTarget {
@@ -24,17 +25,34 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
+    if (supportIosTarget) {
+        iosX64()
+        iosArm64()
         iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "yandex-map-kmp-compose"
-            isStatic = true
+
+        cocoapods {
+            ios.deploymentTarget = "15.0"
+            framework {
+                baseName = "YandexMapKitKMPCompose"
+            }
+            noPodspec()
+            pod("YandexMapsMobile") {
+                version = libs.versions.yandex.mapkit.get()
+                packageName = "YandexMapKit"
+            }
         }
     }
 
     sourceSets {
+        all {
+            languageSettings.apply {
+                progressiveMode = true
+                if (name.lowercase().contains("ios")) {
+                    optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                    optIn("kotlinx.cinterop.BetaInteropApi")
+                }
+            }
+        }
         androidMain.dependencies {
         }
         commonMain.dependencies {
@@ -62,6 +80,12 @@ kotlin {
     }
 
 }
+
+
+tasks.withType<KotlinCompilationTask<*>> {
+    compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.cinterop.ExperimentalForeignApi")
+}
+
 
 android {
     namespace = "ru.sulgik.mapkit.compose"

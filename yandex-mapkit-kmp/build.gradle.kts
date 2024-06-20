@@ -8,8 +8,7 @@ plugins {
     alias(libs.plugins.cocoapods)
 }
 
-group = "ru.sulgik.maps"
-version = "1.0"
+val supportIosTarget = project.property("skipIosTarget") != "true"
 
 kotlin {
     androidTarget {
@@ -23,33 +22,35 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
+    if (supportIosTarget) {
+        iosX64()
+        iosArm64()
         iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "yandex-map-kmp"
-            isStatic = true
-        }
-    }
 
-    cocoapods {
-        summary = "Module to add new KMP api for Yandex MapKit"
-        homepage = "https://yandex.ru/dev/mapkit/doc"
-        version = "1.0"
-        ios.deploymentTarget = "16.0"
-        framework {
-            baseName = "YandexMapKitKMP"
-            isStatic = true
-        }
-        pod("YandexMapsMobile") {
-            moduleName = "YandexMapsMobile"
-            version = libs.versions.yandex.mapkit.get()
-            packageName = "YandexMapKit"
+        cocoapods {
+            ios.deploymentTarget = "15.0"
+            framework {
+                baseName = "YandexMapKitKMP"
+            }
+            noPodspec()
+            pod("YandexMapsMobile") {
+                version = libs.versions.yandex.mapkit.get()
+                packageName = "YandexMapKit"
+            }
         }
     }
 
     sourceSets {
+        all {
+            languageSettings.apply {
+                progressiveMode = true
+                if (name.lowercase().contains("ios")) {
+                    optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                    optIn("kotlinx.cinterop.BetaInteropApi")
+                }
+            }
+        }
+
         androidMain.dependencies {
             api(libs.yandex.mapkit)
         }
@@ -70,7 +71,6 @@ kotlin {
             }
         }
     }
-
 }
 
 android {

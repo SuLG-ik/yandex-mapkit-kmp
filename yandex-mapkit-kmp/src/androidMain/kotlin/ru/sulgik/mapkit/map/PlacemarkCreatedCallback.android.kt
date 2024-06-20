@@ -2,11 +2,11 @@ package ru.sulgik.mapkit.map
 
 import com.yandex.mapkit.map.PlacemarkCreatedCallback as NativePlacemarkCreatedCallback
 
-actual abstract class PlacemarkCreatedCallback actual constructor() :
+actual class PlacemarkCreatedCallback actual constructor(private val onPlacemarkCreated: (placemark: PlacemarkMapObject) -> Unit) :
     NativePlacemarkCreatedCallback {
-    actual abstract fun onPlacemarkCreated(placemark: PlacemarkMapObject)
 
     override fun onPlacemarkCreated(p0: com.yandex.mapkit.map.PlacemarkMapObject) {
         onPlacemarkCreated(p0.toCommon())
     }
+
 }

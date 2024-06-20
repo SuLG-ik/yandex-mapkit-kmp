@@ -4,12 +4,9 @@ import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import com.yandex.mapkit.map.MapObjectTapListener as NativeMapObjectTapListener
 
-actual abstract class MapObjectTapListener actual constructor() : NativeMapObjectTapListener {
-
-    actual abstract fun onMapObjectTap(
-        mapObject: MapObject,
-        point: Point,
-    ): Boolean
+actual class MapObjectTapListener actual constructor(
+    private val onMapObjectTap: (mapObject: MapObject, point: Point) -> Boolean,
+) : NativeMapObjectTapListener {
 
     override fun onMapObjectTap(
         p0: com.yandex.mapkit.map.MapObject,

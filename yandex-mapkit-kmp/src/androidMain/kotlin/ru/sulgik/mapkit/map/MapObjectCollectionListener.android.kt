@@ -2,10 +2,10 @@ package ru.sulgik.mapkit.map
 
 import com.yandex.mapkit.map.MapObjectCollectionListener as NativeMapObjectCollectionListener
 
-actual abstract class MapObjectCollectionListener : NativeMapObjectCollectionListener {
-    actual abstract fun onMapObjectAdded(mapObject: MapObject)
-    actual abstract fun onMapObjectRemoved(mapObject: MapObject)
-
+actual class MapObjectCollectionListener actual constructor(
+    val onMapObjectAdded: (mapObject: MapObject) -> Unit,
+    val onMapObjectRemoved: (mapObject: MapObject) -> Unit,
+) : NativeMapObjectCollectionListener {
     override fun onMapObjectAdded(p0: com.yandex.mapkit.map.MapObject) {
         onMapObjectAdded(p0.toCommon())
     }

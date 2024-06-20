@@ -5,6 +5,11 @@ import ru.sulgik.mapkit.map.toCommon
 import com.yandex.mapkit.map.MapWindow as NativeMapWindow
 
 actual class MapWindow(private val nativeMapWindow: NativeMapWindow) {
+
+    fun toNative(): NativeMapWindow {
+        return nativeMapWindow
+    }
+
     actual val width: Int
         get() = nativeMapWindow.width()
     actual val height: Int

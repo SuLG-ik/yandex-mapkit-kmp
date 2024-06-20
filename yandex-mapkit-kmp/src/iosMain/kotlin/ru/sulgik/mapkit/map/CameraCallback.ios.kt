@@ -1,9 +1,8 @@
 package ru.sulgik.mapkit.map
 
-import platform.darwin.NSObject
 import YandexMapKit.YMKMapCameraCallback as NativeCameraCallback
 
-actual abstract class CameraCallback: NativeCameraCallback, NSObject() {
+actual abstract class CameraCallback : NativeCameraCallback {
 
     actual abstract fun onMoveFinished(completed: Boolean)
 

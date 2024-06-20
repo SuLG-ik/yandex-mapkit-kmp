@@ -1,6 +1,6 @@
 package ru.sulgik.mapkit.geometry
 
-data class Geometry internal constructor(
+data class Geometry constructor(
     val point: Point? = null,
     val polyline: Polyline? = null,
     val polygon: Polygon? = null,

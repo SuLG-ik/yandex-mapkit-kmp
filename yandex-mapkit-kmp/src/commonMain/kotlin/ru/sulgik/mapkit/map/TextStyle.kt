@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.Color
 data class TextStyle(
     val size: Float = 8f,
     val color: Color? = null,
-    val outlinedWidth: Float = 1f,
+    val outlineWidth: Float = 1f,
     val outlineColor: Color? = null,
     val placement: Placement = Placement.CENTER,
     val offset: Float = 0f,

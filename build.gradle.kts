@@ -24,3 +24,7 @@ fun getMapkitApiKey(): String {
     }
     return value
 }
+
+subprojects {
+    group = "ru.sulgik.mapkit"
+}
