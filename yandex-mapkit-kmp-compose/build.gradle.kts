@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
     id("convention.publication")
-    alias(libs.plugins.spotless)
     alias(libs.plugins.compose.plugin)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.cocoapods)
