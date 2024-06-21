@@ -1,6 +1,7 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -97,8 +98,22 @@ buildkonfig {
         buildConfigField(
             FieldSpec.Type.STRING,
             "MAPKIT_API_KEY",
-            rootProject.ext.get("mapKitApiKey").toString(),
+            getMapkitApiKey(),
             const = true
         )
+    }
+}
+
+fun getMapkitApiKey(): String {
+    return try {
+        val properties = Properties()
+        rootProject.file("local.properties").inputStream().use { properties.load(it) }
+        val value = properties.getProperty("MAPKIT_API_KEY", "")
+        if (value.isEmpty()) {
+            throw InvalidUserDataException("MapKit API key is not provided. Set your API key in the project's local.properties file: `MAPKIT_API_KEY=<your-api-key-value>`.")
+        }
+        value
+    } catch (e: Exception) {
+        project.findProperty("signingKey") as String? ?: System.getenv()["signingKey"] ?: ""
     }
 }
