@@ -1,98 +1,84 @@
-//Publishing your Kotlin Multiplatform library to Maven Central
-//https://dev.to/kotlin/how-to-build-and-publish-a-kotlin-multiplatform-library-going-public-4a8k
-
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
-import org.gradle.kotlin.dsl.`maven-publish`
-import org.gradle.kotlin.dsl.signing
-import java.util.*
 
 plugins {
     id("maven-publish")
     id("signing")
 }
 
-// Stub secrets to let the project sync and build without the publication values set up
-ext["signing.keyId"] = null
-ext["signing.password"] = null
-ext["signing.secretKeyRingFile"] = null
-ext["ossrhUsername"] = null
-ext["ossrhPassword"] = null
+group = "ru.sulgik.mapkit.test"
 
-// Grabbing secrets from local.properties file or from environment variables, which could be used on CI
-val secretPropsFile = project.rootProject.file("local.properties")
-if (secretPropsFile.exists()) {
-    secretPropsFile.reader().use {
-        Properties().apply { load(it) }
-    }.onEach { (name, value) ->
-        ext[name.toString()] = value
-    }
-} else {
-    ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-    ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-    ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
-    ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-    ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
-}
-
-val javadocJar by tasks.registering(Jar::class) {
+val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
 
-fun getExtraString(name: String) = ext[name]?.toString()
+signing {
+    val signingKey: String? = project.findProperty("signingKey") as String? ?: System.getenv("signingKey")
+    val signingPassword: String? = project.findProperty("signingPassword") as String? ?: System.getenv("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign(publishing.publications)
+}
 
-publishing {
-    // Configure maven central repository
+configure<PublishingExtension> {
+
+    tasks.withType<Sign>().configureEach {
+        onlyIf { !project.gradle.startParameter.taskNames.any { "MavenLocal" in it } }
+    }
+
     repositories {
         maven {
-            name = "sonatype"
-            setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+
             credentials {
-                username = getExtraString("ossrhUsername")
-                password = getExtraString("ossrhPassword")
+                username = project.findProperty("sonatypeUsername") as String? ?: System.getenv("sonatypeUsername")
+                password = project.findProperty("sonatypePassword") as String? ?: System.getenv("sonatypePassword")
             }
         }
     }
 
-    // Configure all publications
-    publications.withType<MavenPublication> {
-        // Stub javadoc.jar artifact
-        artifact(javadocJar.get())
+    publications.all {
+        this as MavenPublication
+        artifact(javadocJar)
 
-        // Provide artifacts information requited by Maven Central
         pom {
-            name.set("yandex-maps-kmp")
-            description.set("Kotlin Multiplatform library")
-            //url.set("") todo
+            groupId = "ru.sulgik.mapkit.test"
+            name.set("yandex-mapkit-kmp")
+            description.set("Yandex MapKit KMP SDK is a Kotlin-first SDK for Yandex MapKit. It's API is similar to the Yandex MapKit SDK but also supports multiplatform projects and compose multiplaform, enabling you to use MapKit directly from your common source targeting iOS or Android.")
+            url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
+            inceptionYear.set("2024")
+
+            scm {
+                url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
+                connection.set("scm:git:https://github.com/SuLG-ik/yandex-mapkit-kmp.git")
+                developerConnection.set("scm:git:scm:git:https://github.com/SuLG-ik/yandex-mapkit-kmp.git")
+                tag.set("HEAD")
+            }
+
+            issueManagement {
+                system.set("GitHub Issues")
+                url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp/issues")
+            }
+
+            developers {
+                developer {
+                    name.set("Vladimir Nenashkin")
+                    email.set("nenashkinvov@gmail.com")
+                }
+            }
 
             licenses {
                 license {
-                    name.set("MIT")
-                    url.set("https://opensource.org/licenses/MIT")
+                    name.set("The Apache Software License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    distribution.set("repo")
+                    comments.set("A business-friendly OSS license")
                 }
-            }
-            developers {
-                developer {
-                    //id.set("") todo
-                    //name.set("") todo
-                    //email.set("") todo
-                }
-            }
-            scm {
-                //url.set("") todo
             }
         }
     }
+
 }
 
-// Signing artifacts. Signing.* extra properties values will be used
-signing {
-    if (getExtraString("signing.keyId") != null) {
-        sign(publishing.publications)
-    }
-}
-
-//https://github.com/gradle/gradle/issues/26132
 val signingTasks = tasks.withType<Sign>()
 tasks.withType<AbstractPublishToMaven>().configureEach {
     mustRunAfter(signingTasks)
