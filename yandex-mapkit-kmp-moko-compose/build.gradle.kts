@@ -8,6 +8,7 @@ plugins {
 }
 
 val supportIosTarget = project.property("skipIosTarget") != "true"
+version = libs.versions.project.version.get()
 
 kotlin {
     androidTarget {

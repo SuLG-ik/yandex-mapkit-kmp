@@ -6,7 +6,7 @@ plugins {
     id("signing")
 }
 
-group = "ru.sulgik.mapkit.test"
+group = "ru.sulgik"
 
 val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
@@ -41,7 +41,7 @@ configure<PublishingExtension> {
         artifact(javadocJar)
 
         pom {
-            groupId = "ru.sulgik.mapkit.test"
+            groupId = "ru.sulgik"
             name.set("yandex-mapkit-kmp")
             description.set("Yandex MapKit KMP SDK is a Kotlin-first SDK for Yandex MapKit. It's API is similar to the Yandex MapKit SDK but also supports multiplatform projects and compose multiplaform, enabling you to use MapKit directly from your common source targeting iOS or Android.")
             url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
