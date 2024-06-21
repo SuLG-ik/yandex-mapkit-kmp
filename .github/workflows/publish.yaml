@@ -1,33 +1,33 @@
-#name: Publish
-#
-#on:
-#  release:
-#    types: [ prereleased, released ]
-#
-#env:
-#  sonatypeUsername: ${{ secrets.SONATYPEUSERNAME }}
-#  sonatypePassword: ${{ secrets.SONATYPEPASSWORD }}
-#  signingKey: ${{ secrets.SIGNING_KEY }}
-#  signingPassword: ${{ secrets.SIGNING_PASSWORD }}
-#
-#jobs:
-#  build:
-#    runs-on: macos-13
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Set up JDK
-#        uses: actions/setup-java@v4
-#        with:
-#          distribution: 'zulu'
-#          java-version: '17'
-#      - uses: gradle/gradle-build-action@v3
-#      - name: Grant execute permission for gradlew
-#        run: chmod +x gradlew
-#      - name: Publish YandexMapKitKMP
-#        run: ./gradlew :yandex-mapkit-kmp:publish
-#      - name: Publish YandexMapKitKMPCompose
-#        run: ./gradlew :yandex-mapkit-kmp-compose:publish
-#      - name: Publish YandexMapKitKMPMOKO
-#        run: ./gradlew :yandex-mapkit-kmp-moko:publish
-#      - name: Publish YandexMapKitKMPMOKOCompose
-#        run: ./gradlew :yandex-mapkit-kmp-moko-compose:publish
+name: Publish
+
+on:
+  release:
+    types: [ prereleased, released ]
+
+env:
+  sonatypeUsername: ${{ secrets.SONATYPEUSERNAME }}
+  sonatypePassword: ${{ secrets.SONATYPEPASSWORD }}
+  signingKey: ${{ secrets.SIGNING_KEY }}
+  signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+
+jobs:
+  build:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: gradle/gradle-build-action@v3
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Publish YandexMapKitKMP
+        run: ./gradlew :yandex-mapkit-kmp:publish
+      - name: Publish YandexMapKitKMPCompose
+        run: ./gradlew :yandex-mapkit-kmp-compose:publish
+      - name: Publish YandexMapKitKMPMOKO
+        run: ./gradlew :yandex-mapkit-kmp-moko:publish
+      - name: Publish YandexMapKitKMPMOKOCompose
+        run: ./gradlew :yandex-mapkit-kmp-moko-compose:publish
