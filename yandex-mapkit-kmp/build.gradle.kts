@@ -1,10 +1,14 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
+import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
-    id("convention.publication")
     alias(libs.plugins.cocoapods)
+    alias(libs.plugins.publish)
 }
 
 val supportIosTarget = project.property("skipIosTarget") != "true"
@@ -12,14 +16,11 @@ version = libs.versions.project.version.get()
 
 kotlin {
     androidTarget {
-        publishLibraryVariants("release")
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
-                }
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
+        publishLibraryVariants("release")
     }
 
     if (supportIosTarget) {
@@ -71,6 +72,11 @@ kotlin {
             }
         }
     }
+
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
 }
 
 android {
@@ -83,5 +89,45 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+mavenPublishing {
+    coordinates(group.toString(), name, version.toString())
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    signAllPublications()
+    configure(
+        KotlinMultiplatform(
+            javadocJar = JavadocJar.Empty(),
+            sourcesJar = true,
+            androidVariantsToPublish = listOf("release"),
+        )
+    )
+
+    pom {
+        name.set("Yandex MapKit KMP SDK")
+        description.set("Yandex MapKit KMP SDK is a Kotlin-first SDK for Yandex MapKit. It's API is similar to the Yandex MapKit SDK but also supports multiplatform projects and compose multiplaform, enabling you to use MapKit directly from your common source targeting iOS or Android.")
+        inceptionYear.set("2024")
+        url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+        developers {
+            developer {
+                id.set("sulgik")
+                name.set("Vladimir Nenashkin")
+                url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
+            }
+        }
+        scm {
+            url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
+            connection.set("scm:git:git://github.com/SuLG-ik/yandex-mapkit-kmp.git")
+            developerConnection.set("scm:git:ssh://git@github.com/SuLG-ik/yandex-mapkit-kmp.git")
+        }
     }
 }

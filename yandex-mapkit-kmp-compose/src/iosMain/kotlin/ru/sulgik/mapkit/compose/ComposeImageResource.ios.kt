@@ -1,7 +1,6 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asSkiaBitmap
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.refTo
 import platform.CoreGraphics.CGBitmapContextCreate
@@ -10,10 +9,10 @@ import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
 import platform.CoreGraphics.CGImageAlphaInfo
 import platform.UIKit.UIImage
 import ru.sulgik.mapkit.map.ImageProvider
-import ru.sulgik.mapkit.map.UIImageImageProvider
+import ru.sulgik.mapkit.map.fromUIImage
 
 actual fun ImageBitmap.toImageProvider(): ImageProvider {
-    return UIImageImageProvider(toUIImage())
+    return ImageProvider.fromUIImage(toUIImage())
 }
 
 @OptIn(ExperimentalForeignApi::class)
