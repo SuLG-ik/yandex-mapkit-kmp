@@ -42,6 +42,16 @@ The [sample project](sample) is a app that show some library usage flow. It is
 rewritten [official yandex mapkit example](https://github.com/yandex/mapkit-android-demo). It has
 Android and IOS build, but all code is in common code.
 
+## What's completed
+
+- [x] Base map features
+    - [x] Control map
+    - [x] Map objects
+    - [x] Image providing from
+      common ([compose-resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html), [moko-resources](https://github.com/icerockdev/moko-resources))
+- [ ] User's location
+- [ ] *Full* version of MapKit SDK
+
 ## Authors
 
 - [@SuLG-ik](https://github.com/SuLG-ik) – main developer.
