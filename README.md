@@ -13,7 +13,7 @@ common source targeting iOS or Android.
 
 # Available libraries
 
-The following libraries are available for the various Firebase products.
+The following libraries are available. It uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.6.1-lite*
 
 | Module	                                        | Gradle Dependency                                                                                                                            | Description                                                                                                                                              |
 |------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -29,11 +29,61 @@ The minimum supported Android SDK is 24 (Android 7.0).
 All modules are available for use in common code, but native API available only in native code.
 
 ```kotlin
-//Core module
-implementation("ru.sulgik.mapkit:yandex-mapkit-kmp:<version>")
+commonMain.dependencies {
+    //Core module
+    implementation("ru.sulgik.mapkit:yandex-mapkit-kmp:<version>")
 
-// Optional modules
-implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-<module>:<version>")
+    // Optional modules
+    implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-<module>:<version>")
+}
+```
+
+On iOS the official [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/ios/generated/getting_started) in not linked as a transtive dependency. Therefore, any project using this SDK needs to link the same Yandex MapKit SDK as well. This can be done through your preferred installation method ([Cocoapods](https://kotlinlang.org/docs/native-cocoapods.html)/[SPM](https://kotlinlang.org/docs/native-spm.html#project-configuration-options)).
+
+Similarly, tests require linking as well. Make sure to add the required frameworks to the search path of your test targets. This can be done by specifying a `cocoapods` block in your `build.gradle`
+[See actual version](#available-libraries)
+```kotlin
+cocoapods {
+    pod("YandexMapsMobile") {
+        version = "<version>"
+    }
+}
+```
+
+## Usage
+
+### Initialize mapkit
+
+```kotlin
+// In common module
+fun initMapKit() {
+    MapKit.setApiKey("<API_KEY>")
+}
+```
+
+And call this function from entry point of your platform.
+
+Android module:
+```kotlin
+class MyApplication: Application  {
+    override fun onCreate() {
+        super.onCreate()
+        initMapKit()
+    }
+}
+```
+
+IOS module:
+```swift
+@main
+struct iOSApp: App {
+   
+    init() {
+        AppKt.doInitMapKit()
+    }
+
+    // Your code here   
+}
 ```
 
 ## Sample app
