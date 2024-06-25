@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.mapview
 
 import ru.sulgik.mapkit.map.Map
+import ru.sulgik.mapkit.map.SizeChangeListener
 import ru.sulgik.mapkit.map.toCommon
 import com.yandex.mapkit.map.MapWindow as NativeMapWindow
 
@@ -16,6 +17,10 @@ actual class MapWindow(private val nativeMapWindow: NativeMapWindow) {
         get() = nativeMapWindow.height()
 
     actual val map: Map = nativeMapWindow.map.toCommon()
+
+    actual fun addSizeChangeListener(listener: SizeChangeListener) {
+        nativeMapWindow.addSizeChangedListener(listener)
+    }
 
 }
 

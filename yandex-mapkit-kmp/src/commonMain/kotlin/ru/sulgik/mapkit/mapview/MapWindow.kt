@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.mapview
 
 import ru.sulgik.mapkit.map.Map
+import ru.sulgik.mapkit.map.SizeChangeListener
 
 expect class MapWindow {
 
@@ -9,5 +10,7 @@ expect class MapWindow {
     val height: Int
 
     val map: Map
+
+    fun addSizeChangeListener(listener: SizeChangeListener)
 
 }
