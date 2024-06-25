@@ -9,6 +9,5 @@ fun YandexMap(
     controller: YandexMapController = rememberYandexMapController(),
     modifier: Modifier = Modifier,
 ) {
-
     NativeYandexMap(controller, modifier)
 }

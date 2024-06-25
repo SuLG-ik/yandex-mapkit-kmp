@@ -9,6 +9,9 @@ import ru.sulgik.mapkit.MapKit
 import ru.sulgik.mapkit.compose.utils.LifecycleEffect
 
 @Composable
+expect fun rememberAndInitializeMapKit(): MapKit
+
+@Composable
 fun rememberMapKit(): MapKit {
     return remember { MapKit.getInstance() }
 }
