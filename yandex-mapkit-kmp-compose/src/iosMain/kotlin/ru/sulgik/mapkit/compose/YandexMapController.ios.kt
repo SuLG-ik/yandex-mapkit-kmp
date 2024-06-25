@@ -1,10 +1,9 @@
 package ru.sulgik.mapkit.compose
 
-import YandexMapKit.YMKMapView as NativeMapView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import ru.sulgik.mapkit.mapview.MapWindow
 import ru.sulgik.mapkit.mapview.toCommon
+import YandexMapKit.YMKMapView as NativeMapView
 
 /**
  * Create and remember YandexMapController.
@@ -12,17 +11,5 @@ import ru.sulgik.mapkit.mapview.toCommon
  */
 @Composable
 actual fun rememberYandexMapController(): YandexMapController {
-    return remember { YandexMapController(NativeMapView()) }
-}
-
-/**
- * Contains common implementation of MapWindow, that uses for controlling YandexMap
- */
-actual class YandexMapController(
-    internal val mapView: NativeMapView,
-) {
-
-    actual val mapWindow: MapWindow
-        get() = mapView.mapWindow!!.toCommon()
-
+    return remember { YandexMapController(NativeMapView().toCommon()) }
 }
