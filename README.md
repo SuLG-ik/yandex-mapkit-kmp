@@ -11,7 +11,8 @@ Kotlin-first SDK for Yandex MapKit. It's API is similar to the Yandex MapKit SDK
 multiplatform projects and compose multiplaform, enabling you to use MapKit directly from your
 common source targeting iOS or Android.
 
-**_NOTE:_ It is not Yandex's project. Author has no connection with original SDK, it is wrapper above official Yandex MapKit SDK**
+**_NOTE:_ It is not Yandex's project. Author has no connection with original SDK, it is wrapper
+above official Yandex MapKit SDK**
 
 # Available libraries
 
@@ -59,7 +60,7 @@ cocoapods {
 }
 ```
 
-## Initialize MapKit
+## Setup MapKit
 
 Add initializing MapKit with API key in common module. You can
 use [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) to provide API key during building
@@ -102,6 +103,56 @@ struct iOSApp: App {
 or other entry point,
 see [MapKit official documentation](https://yandex.ru/dev/mapkit/doc/ru/ios/generated/getting_started)
 
+## Initialize MapKit
+
+MapKit, by and large, must be initialized via native library loading and lifecycle binding. There
+two ways to initialize. You can mix methods, but be careful to not repeat completed actions.
+
+### First method: in native android module
+
+Call `MapKit.initialize(Context)` in your activity in android module and bind lifecycle.
+
+```kotlin
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        MapKit.initialize(this)
+        /* ... */
+    }
+
+    override fun onStart() {
+        super.onStart()
+        MapKit.getInstance().onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MapKit.getInstance().onStop()
+    }
+
+}
+```
+
+### Second method: in common code, requires [compose module](#available-libraries)
+
+Call 'rememberAndInitializeMapKit()' and call `MapKit.bindToLifecycleOwner()` in your compose
+screen.
+
+**_IMPORTANT:_ `MapKit.rememberAndInitializeMapKit()` is difficult operation,
+use `MapKit.rememberMapKit()` if you
+already initialize MapKit via other method or early**
+
+**_NOTE:_ call `MapKit.bindToLifecycleOwner()` in composition context, which disposing means to stop
+MapKit**
+
+```kotlin
+@Composable
+fun MyMap() {
+    rememberAndInitializeMapKit().bindToLifecycleOwner()
+    /* ... */
+}
+```
+
 ## Setup view
 
 To show map in app you can
@@ -129,7 +180,7 @@ fun MyMap() {
 All supported native types have extension functions (`<NativeType>.toCommon(): <CommonType>`), use
 it to pass exists native MapView to common
 code like: `MapWindow.toCommon()`/`YMKWindow.toCommon()`, `Map.toCommon()`/`YMKMap.toCommon()` and
-etc.
+etc. Follow [official documentation](https://yandex.ru/dev/mapkit/doc/ru/) to setup native view.
 
 ## Usage
 
@@ -144,6 +195,7 @@ MapView with some random generated placemarks. For more info about image provide
 
 ```kotlin
 fun MyMap() {
+    rememberAndInitializeMapKit().bindToLifecycleOwner()
     val mapController = rememberYandexMapController()
     val map = mapController.mapWindow.map
     val placemarks = remember { randomPlacemarks() }
@@ -236,7 +288,6 @@ val image = imageLoader.fromResource(MR.images.your_image)
 
 It supports convert ImageResource to ImageProvider and provides `rememberMOKOImageLoader()`. You can
 use it in common module to provide images.
-
 
 ```kotlin
 @Composable
