@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.geometry
 
 import com.yandex.mapkit.geometry.Polyline as NativePolyline
 
-actual class Polyline(private val nativePolyline: NativePolyline) {
+actual class Polyline internal constructor(private val nativePolyline: NativePolyline) {
 
     fun toNative(): NativePolyline {
         return nativePolyline

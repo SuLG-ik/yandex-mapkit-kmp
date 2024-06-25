@@ -2,7 +2,9 @@ package ru.sulgik.mapkit.map
 
 import com.yandex.mapkit.map.BaseMapObjectCollection as NativeBaseMapObjectCollection
 
-actual open class BaseMapObjectCollection(private val nativeBaseMapObjectCollection: NativeBaseMapObjectCollection) :
+actual open class BaseMapObjectCollection internal constructor(
+    private val nativeBaseMapObjectCollection: NativeBaseMapObjectCollection,
+) :
     MapObject(nativeBaseMapObjectCollection) {
 
     override fun toNative(): NativeBaseMapObjectCollection {

@@ -9,7 +9,7 @@ import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 
-actual class MapWindow(private val nativeMapWindow: MapWindow) {
+actual class MapWindow internal constructor(private val nativeMapWindow: MapWindow) {
 
     fun toNative(): MapWindow {
         return nativeMapWindow

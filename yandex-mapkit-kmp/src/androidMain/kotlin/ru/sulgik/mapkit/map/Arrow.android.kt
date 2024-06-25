@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.toCommon
 import com.yandex.mapkit.map.Arrow as NativeArrow
 
-actual class Arrow(private val nativeArrow: NativeArrow) {
+actual class Arrow internal constructor(private val nativeArrow: NativeArrow) {
 
     fun toNative(): NativeArrow {
         return nativeArrow

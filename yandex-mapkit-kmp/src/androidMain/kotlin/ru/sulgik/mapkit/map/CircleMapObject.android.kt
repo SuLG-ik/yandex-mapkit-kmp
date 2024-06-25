@@ -6,7 +6,7 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.map.CircleMapObject as NativeCircleMapObject
 
-actual class CircleMapObject(private val nativeCircleMapObject: NativeCircleMapObject) :
+actual class CircleMapObject internal constructor(private val nativeCircleMapObject: NativeCircleMapObject) :
     MapObject(nativeCircleMapObject) {
 
     override fun toNative(): NativeCircleMapObject {

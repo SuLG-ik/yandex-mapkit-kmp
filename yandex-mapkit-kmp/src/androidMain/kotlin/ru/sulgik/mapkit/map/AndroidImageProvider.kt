@@ -5,7 +5,9 @@ import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import com.yandex.runtime.image.ImageProvider as NativeImageProvider
 
-class AndroidImageProvider(private val nativeImageProvider: NativeImageProvider) : ImageProvider {
+class AndroidImageProvider internal constructor(
+    private val nativeImageProvider: NativeImageProvider,
+) : ImageProvider {
     override fun toNative(): NativeImageProvider {
         return nativeImageProvider
     }

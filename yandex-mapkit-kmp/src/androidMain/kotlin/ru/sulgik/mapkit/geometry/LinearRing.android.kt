@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.geometry
 
 import com.yandex.mapkit.geometry.LinearRing as NativeLinearRing
 
-actual class LinearRing(private val nativeLinearRing: NativeLinearRing) {
+actual class LinearRing internal constructor(private val nativeLinearRing: NativeLinearRing) {
 
     fun toNative(): NativeLinearRing {
         return nativeLinearRing

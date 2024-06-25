@@ -9,7 +9,7 @@ import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.map.Arrow as NativeArrow
 import com.yandex.mapkit.map.PolylineMapObject as NativePolylineMapObject
 
-actual class PolylineMapObject(private val nativePolylineMapObject: NativePolylineMapObject) :
+actual class PolylineMapObject internal constructor(private val nativePolylineMapObject: NativePolylineMapObject) :
     MapObject(nativePolylineMapObject) {
 
     override fun toNative(): NativePolylineMapObject {

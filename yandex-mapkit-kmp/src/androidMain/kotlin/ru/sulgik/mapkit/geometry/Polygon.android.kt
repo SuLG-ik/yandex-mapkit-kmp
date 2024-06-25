@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.geometry
 
 import com.yandex.mapkit.geometry.Polygon as NativePolygon
 
-actual class Polygon(private val nativePolygon: NativePolygon) {
+actual class Polygon internal constructor(private val nativePolygon: NativePolygon) {
 
     fun toNative(): NativePolygon {
         return nativePolygon
