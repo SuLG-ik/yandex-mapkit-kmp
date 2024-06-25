@@ -1,12 +1,8 @@
-package ru.sulgik.mapkit.mapview
+package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.geometry.Point
-import ru.sulgik.mapkit.map.GestureFocusPointMode
-import ru.sulgik.mapkit.map.Map
-import ru.sulgik.mapkit.map.PointOfView
-import ru.sulgik.mapkit.map.SizeChangeListener
 
 expect class MapWindow {
 
