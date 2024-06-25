@@ -1,8 +1,18 @@
 package ru.sulgik.mapkit.mapview
 
+import ru.sulgik.mapkit.ScreenPoint
+import ru.sulgik.mapkit.ScreenRect
+import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.geometry.toCommon
+import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.map.GestureFocusPointMode
 import ru.sulgik.mapkit.map.Map
+import ru.sulgik.mapkit.map.PointOfView
 import ru.sulgik.mapkit.map.SizeChangeListener
 import ru.sulgik.mapkit.map.toCommon
+import ru.sulgik.mapkit.map.toNative
+import ru.sulgik.mapkit.toCommon
+import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.MapWindow as NativeMapWindow
 
 actual class MapWindow(private val nativeMapWindow: NativeMapWindow) {
@@ -20,6 +30,54 @@ actual class MapWindow(private val nativeMapWindow: NativeMapWindow) {
 
     actual fun addSizeChangeListener(listener: SizeChangeListener) {
         nativeMapWindow.addSizeChangedListener(listener)
+    }
+
+    actual fun removeSizeChangeListener(listener: SizeChangeListener) {
+        nativeMapWindow.removeSizeChangedListener(listener)
+    }
+
+
+    actual var focusRect: ScreenRect?
+        get() = nativeMapWindow.focusRect?.toCommon()
+        set(value) {
+            nativeMapWindow.focusRect = value?.toNative()
+        }
+    actual var focusPoint: ScreenPoint?
+        get() = nativeMapWindow.focusPoint?.toCommon()
+        set(value) {
+            nativeMapWindow.focusPoint = value?.toNative()
+        }
+
+    actual var gestureFocusPoint: ScreenPoint?
+        get() = nativeMapWindow.gestureFocusPoint?.toCommon()
+        set(value) {
+            nativeMapWindow.gestureFocusPoint = value?.toNative()
+        }
+
+    actual var gestureFocusPointMode: GestureFocusPointMode
+        get() = nativeMapWindow.gestureFocusPointMode.toCommon()
+        set(value) {
+            nativeMapWindow.gestureFocusPointMode = value.toNative()
+        }
+
+    actual var pointOfView: PointOfView
+        get() = nativeMapWindow.pointOfView.toCommon()
+        set(value) {
+            nativeMapWindow.pointOfView = value.toNative()
+        }
+
+    actual var scaleFactor: Float
+        get() = nativeMapWindow.scaleFactor
+        set(value) {
+            nativeMapWindow.scaleFactor = scaleFactor
+        }
+
+    actual fun convertWorldToScreen(worldPoint: Point): ScreenPoint? {
+        return nativeMapWindow.worldToScreen(worldPoint.toNative())?.toCommon()
+    }
+
+    actual fun convertScreenToWorld(screenPoint: ScreenPoint): Point? {
+        return nativeMapWindow.screenToWorld(screenPoint.toNative())?.toCommon()
     }
 
 }
