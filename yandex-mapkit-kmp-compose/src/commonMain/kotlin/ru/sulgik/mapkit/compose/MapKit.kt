@@ -1,7 +1,6 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.LifecycleOwner
@@ -24,12 +23,4 @@ fun MapKit.bindToLifecycleOwner(lifecycleOwner: LifecycleOwner = LocalLifecycleO
         onStop = this::onStop,
         onDispose = this::onStop,
     )
-}
-
-@Composable
-fun MapKit.bindToComposition() {
-    DisposableEffect(this) {
-        onStart()
-        onDispose(::onStop)
-    }
 }

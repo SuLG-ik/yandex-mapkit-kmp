@@ -31,7 +31,6 @@ import kotlinx.coroutines.launch
 import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.YandexMapController
-import ru.sulgik.mapkit.compose.bindToComposition
 import ru.sulgik.mapkit.compose.bindToLifecycleOwner
 import ru.sulgik.mapkit.compose.imageProvider
 import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
@@ -149,7 +148,6 @@ fun MapScreen(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
-            mapController.bindToComposition()
             YandexMap(
                 controller = mapController,
                 modifier = Modifier.fillMaxSize(),
