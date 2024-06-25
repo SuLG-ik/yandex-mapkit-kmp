@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit
 
+import android.content.Context
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.MapKit as NativeMapKit
 
@@ -10,6 +11,11 @@ actual class MapKit(private val nativeMapKit: NativeMapKit) {
     }
 
     actual companion object {
+
+        fun initialize(context: Context) {
+            MapKitFactory.initialize(context)
+        }
+
         actual fun setApiKey(apiKey: String) {
             MapKitFactory.setApiKey(apiKey)
         }

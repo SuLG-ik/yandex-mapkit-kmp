@@ -1,7 +1,11 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
-import ru.sulgik.mapkit.mapview.MapWindow
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.LifecycleOwner
+import ru.sulgik.mapkit.compose.utils.LifecycleEffect
+import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.mapview.MapView
 
 /**
  * Create and remember YandexMapController.
@@ -13,8 +17,18 @@ expect fun rememberYandexMapController(): YandexMapController
 /**
  * Contains common implementation of MapWindow, that uses for controlling YandexMap
  */
-expect class YandexMapController {
+class YandexMapController internal constructor(val mapView: MapView) {
 
-    val mapWindow: MapWindow
+    val mapWindow: MapWindow = mapView.mapWindow
 
+}
+
+@Composable
+internal fun YandexMapController.bindToLifecycleOwner(lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
+    LifecycleEffect(
+        lifecycleOwner = lifecycleOwner,
+        onStart = mapView::onStart,
+        onStop = mapView::onStop,
+        onDispose = mapView::onStop,
+    )
 }

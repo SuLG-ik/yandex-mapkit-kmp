@@ -5,9 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ru.sulgik.mapkit.MapKit
 
-fun initMapKit(): MapKit {
+fun initMapKit() {
     MapKit.setApiKey(BuildKonfig.MAPKIT_API_KEY)
-    return MapKit.getInstance()
 }
 
 @Composable

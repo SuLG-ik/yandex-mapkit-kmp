@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
 
 @Composable
-actual fun YandexMap(
+internal actual fun NativeYandexMap(
     controller: YandexMapController,
     modifier: Modifier,
 ) {
-    UIKitView(factory = { controller.mapView }, modifier = modifier)
+    UIKitView(factory = { controller.mapView.toNative() }, modifier = modifier)
 }

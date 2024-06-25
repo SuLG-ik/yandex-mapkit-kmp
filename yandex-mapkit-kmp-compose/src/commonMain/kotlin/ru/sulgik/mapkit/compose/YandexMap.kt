@@ -5,7 +5,10 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-expect fun YandexMap(
+fun YandexMap(
     controller: YandexMapController = rememberYandexMapController(),
     modifier: Modifier = Modifier,
-)
+) {
+    controller.bindToLifecycleOwner()
+    NativeYandexMap(controller, modifier)
+}

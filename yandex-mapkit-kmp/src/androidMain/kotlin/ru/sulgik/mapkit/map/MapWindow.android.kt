@@ -1,45 +1,35 @@
-@file:OptIn(ExperimentalForeignApi::class)
+package ru.sulgik.mapkit.map
 
-package ru.sulgik.mapkit.mapview
-
-import kotlinx.cinterop.ExperimentalForeignApi
+import com.yandex.mapkit.map.MapWindow
 import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
-import ru.sulgik.mapkit.map.GestureFocusPointMode
-import ru.sulgik.mapkit.map.Map
-import ru.sulgik.mapkit.map.PointOfView
-import ru.sulgik.mapkit.map.SizeChangeListener
-import ru.sulgik.mapkit.map.toCommon
-import ru.sulgik.mapkit.map.toNative
 import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
-import YandexMapKit.YMKMapWindow as NativeMapWindow
 
-actual class MapWindow(private val nativeMapWindow: NativeMapWindow) {
+actual class MapWindow(private val nativeMapWindow: MapWindow) {
 
-    fun toNative(): NativeMapWindow {
+    fun toNative(): MapWindow {
         return nativeMapWindow
     }
 
     actual val width: Int
-        get() = nativeMapWindow.width().toInt()
-
+        get() = nativeMapWindow.width()
     actual val height: Int
-        get() = nativeMapWindow.height().toInt()
+        get() = nativeMapWindow.height()
 
-    actual val map: Map
-        get() = nativeMapWindow.map.toCommon()
+    actual val map: Map = nativeMapWindow.map.toCommon()
 
     actual fun addSizeChangeListener(listener: SizeChangeListener) {
-        nativeMapWindow.addSizeChangedListenerWithSizeChangedListener(listener)
+        nativeMapWindow.addSizeChangedListener(listener)
     }
 
     actual fun removeSizeChangeListener(listener: SizeChangeListener) {
-        nativeMapWindow.removeSizeChangedListenerWithSizeChangedListener(listener)
+        nativeMapWindow.removeSizeChangedListener(listener)
     }
+
 
     actual var focusRect: ScreenRect?
         get() = nativeMapWindow.focusRect?.toCommon()
@@ -51,6 +41,7 @@ actual class MapWindow(private val nativeMapWindow: NativeMapWindow) {
         set(value) {
             nativeMapWindow.focusPoint = value?.toNative()
         }
+
     actual var gestureFocusPoint: ScreenPoint?
         get() = nativeMapWindow.gestureFocusPoint?.toCommon()
         set(value) {
@@ -62,6 +53,7 @@ actual class MapWindow(private val nativeMapWindow: NativeMapWindow) {
         set(value) {
             nativeMapWindow.gestureFocusPointMode = value.toNative()
         }
+
     actual var pointOfView: PointOfView
         get() = nativeMapWindow.pointOfView.toCommon()
         set(value) {
@@ -71,19 +63,19 @@ actual class MapWindow(private val nativeMapWindow: NativeMapWindow) {
     actual var scaleFactor: Float
         get() = nativeMapWindow.scaleFactor
         set(value) {
-            nativeMapWindow.scaleFactor = value
+            nativeMapWindow.scaleFactor = scaleFactor
         }
 
     actual fun convertWorldToScreen(worldPoint: Point): ScreenPoint? {
-        return nativeMapWindow.worldToScreenWithWorldPoint(worldPoint.toNative())?.toCommon()
+        return nativeMapWindow.worldToScreen(worldPoint.toNative())?.toCommon()
     }
 
     actual fun convertScreenToWorld(screenPoint: ScreenPoint): Point? {
-        return nativeMapWindow.screenToWorldWithScreenPoint(screenPoint.toNative())?.toCommon()
+        return nativeMapWindow.screenToWorld(screenPoint.toNative())?.toCommon()
     }
 
 }
 
-fun NativeMapWindow.toCommon(): MapWindow {
+fun MapWindow.toCommon(): ru.sulgik.mapkit.map.MapWindow {
     return MapWindow(this)
 }
