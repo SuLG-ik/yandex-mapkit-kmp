@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.geometry
 import YandexMapKit.YMKPoint
 import YandexMapKit.YMKLinearRing as NativeLinearRing
 
-actual class LinearRing(private val nativeLinearRing: NativeLinearRing) {
+actual class LinearRing internal constructor(private val nativeLinearRing: NativeLinearRing) {
 
     fun toNative(): NativeLinearRing {
         return nativeLinearRing

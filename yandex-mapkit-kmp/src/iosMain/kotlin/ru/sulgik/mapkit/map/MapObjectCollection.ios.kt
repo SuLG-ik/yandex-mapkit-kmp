@@ -6,7 +6,7 @@ import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.geometry.toNative
 import YandexMapKit.YMKMapObjectCollection as NativeMapObjectCollection
 
-actual class MapObjectCollection(private val nativeMapObjectCollection: NativeMapObjectCollection) :
+actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) :
     BaseMapObjectCollection(nativeMapObjectCollection) {
 
     // TODO:
@@ -43,7 +43,9 @@ actual class MapObjectCollection(private val nativeMapObjectCollection: NativeMa
     }
 
     actual fun addClusterizedPlacemarkCollection(listener: ClusterListener): ClusterizedPlacemarkCollection {
-        return nativeMapObjectCollection.addClusterizedPlacemarkCollectionWithClusterListener(listener).toCommon()
+        return nativeMapObjectCollection.addClusterizedPlacemarkCollectionWithClusterListener(
+            listener
+        ).toCommon()
     }
 
 

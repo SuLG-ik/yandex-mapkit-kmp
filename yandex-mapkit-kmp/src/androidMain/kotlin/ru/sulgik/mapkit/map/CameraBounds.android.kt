@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.map.CameraBounds as NativeCameraBounds
 
-actual class CameraBounds(
+actual class CameraBounds internal constructor(
     private val nativeCameraBounds: NativeCameraBounds,
 ) {
 

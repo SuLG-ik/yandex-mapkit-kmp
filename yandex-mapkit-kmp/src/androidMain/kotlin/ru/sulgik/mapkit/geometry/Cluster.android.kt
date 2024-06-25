@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.map.PlacemarkMapObject
 import ru.sulgik.mapkit.map.toCommon
 import com.yandex.mapkit.map.Cluster as NativeCluster
 
-actual class Cluster(private val nativeCluster: NativeCluster) {
+actual class Cluster internal constructor(private val nativeCluster: NativeCluster) {
 
     fun toNative(): NativeCluster {
         return nativeCluster

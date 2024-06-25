@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.geometry.Polygon
 import ru.sulgik.mapkit.geometry.toCommon
 import com.yandex.mapkit.map.PolygonMapObject as NativePolygonMapObject
 
-actual class PolygonMapObject(private val nativePolygonMapObject: NativePolygonMapObject) :
+actual class PolygonMapObject internal constructor(private val nativePolygonMapObject: NativePolygonMapObject) :
     MapObject(nativePolygonMapObject) {
     override fun toNative(): NativePolygonMapObject {
         return nativePolygonMapObject

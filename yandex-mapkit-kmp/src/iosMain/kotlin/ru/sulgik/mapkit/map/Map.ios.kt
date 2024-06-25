@@ -9,7 +9,7 @@ import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKMap as NativeMap
 
-actual class Map(private val nativeMap: NativeMap) {
+actual class Map internal constructor(private val nativeMap: NativeMap) {
 
     fun toNative(): NativeMap {
         return nativeMap
@@ -114,7 +114,8 @@ actual class Map(private val nativeMap: NativeMap) {
         geometry: Geometry,
         screenRect: ScreenRect,
     ): CameraPosition {
-        return nativeMap.cameraPositionWithGeometry(geometry.toNative(), screenRect.toNative()).toCommon()
+        return nativeMap.cameraPositionWithGeometry(geometry.toNative(), screenRect.toNative())
+            .toCommon()
     }
 
     /**
@@ -164,7 +165,11 @@ actual class Map(private val nativeMap: NativeMap) {
         animation: Animation,
         cameraCallback: CameraCallback?,
     ) {
-        nativeMap.moveWithCameraPosition(cameraPosition.toNative(), animation.toNative(), cameraCallback)
+        nativeMap.moveWithCameraPosition(
+            cameraPosition.toNative(),
+            animation.toNative(),
+            cameraCallback
+        )
     }
 
 }

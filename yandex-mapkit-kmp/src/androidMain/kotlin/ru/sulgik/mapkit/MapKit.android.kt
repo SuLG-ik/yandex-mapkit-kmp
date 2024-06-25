@@ -4,7 +4,7 @@ import android.content.Context
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.MapKit as NativeMapKit
 
-actual class MapKit(private val nativeMapKit: NativeMapKit) {
+actual class MapKit internal constructor (private val nativeMapKit: NativeMapKit) {
 
     fun toNative(): NativeMapKit {
         return nativeMapKit

@@ -4,7 +4,7 @@ import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.map.ClusterizedPlacemarkCollection as NativeClusterizedPlacemarkCollection
 
-actual class ClusterizedPlacemarkCollection(
+actual class ClusterizedPlacemarkCollection internal constructor(
     private val nativeClusterizedPlacemarkCollection: NativeClusterizedPlacemarkCollection,
 ) : BaseMapObjectCollection(nativeClusterizedPlacemarkCollection) {
 

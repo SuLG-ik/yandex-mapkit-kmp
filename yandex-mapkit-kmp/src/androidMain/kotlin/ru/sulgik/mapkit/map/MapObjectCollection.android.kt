@@ -6,7 +6,7 @@ import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.map.MapObjectCollection as NativeMapObjectCollection
 
-actual class MapObjectCollection(private val nativeMapObjectCollection: NativeMapObjectCollection) :
+actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) :
     BaseMapObjectCollection(nativeMapObjectCollection) {
 
     override fun toNative(): NativeMapObjectCollection {

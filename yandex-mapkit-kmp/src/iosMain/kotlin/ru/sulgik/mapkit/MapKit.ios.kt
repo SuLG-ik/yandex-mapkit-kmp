@@ -9,7 +9,7 @@ import YandexMapKit.sharedInstance
 import kotlinx.cinterop.ExperimentalForeignApi
 import YandexMapKit.YMKMapKit as NativeMapKit
 
-actual class MapKit(private val nativeMapKit: NativeMapKit) {
+actual class MapKit internal constructor(private val nativeMapKit: NativeMapKit) {
 
     actual companion object {
         actual fun setApiKey(apiKey: String) {

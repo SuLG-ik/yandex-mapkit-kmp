@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.geometry
 import YandexMapKit.YMKPolygon
 import YandexMapKit.YMKMultiPolygon as NativeMultiPolygon
 
-actual class MultiPolygon(private val nativeMultiPolygon: NativeMultiPolygon) {
+actual class MultiPolygon internal constructor(private val nativeMultiPolygon: NativeMultiPolygon) {
 
     fun toNative(): NativeMultiPolygon {
         return nativeMultiPolygon

@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.geometry
 
 import com.yandex.mapkit.geometry.MultiPolygon as NativeMultiPolygon
 
-actual class MultiPolygon(private val nativeMultiPolygon: NativeMultiPolygon) {
+actual class MultiPolygon internal constructor(private val nativeMultiPolygon: NativeMultiPolygon) {
 
     fun toNative(): NativeMultiPolygon {
         return nativeMultiPolygon

@@ -7,7 +7,7 @@ import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.Map as NativeMap
 
-actual class Map(private val nativeMap: NativeMap) {
+actual class Map internal constructor(private val nativeMap: NativeMap) {
 
     fun toNative(): NativeMap {
         return nativeMap

@@ -5,7 +5,9 @@ import ru.sulgik.mapkit.geometry.toNative
 import YandexMapKit.YMKClusterizedPlacemarkCollection as NativeClusterizedPlacemarkCollection
 import YandexMapKit.YMKPlacemarkMapObject as NativePlacemarkMapObject
 
-actual class ClusterizedPlacemarkCollection(private val nativeClusterizedPlacemarkCollection: NativeClusterizedPlacemarkCollection) :
+actual class ClusterizedPlacemarkCollection internal constructor(
+    private val nativeClusterizedPlacemarkCollection: NativeClusterizedPlacemarkCollection,
+) :
     BaseMapObjectCollection(nativeClusterizedPlacemarkCollection) {
 
     override fun toNative(): NativeClusterizedPlacemarkCollection {
