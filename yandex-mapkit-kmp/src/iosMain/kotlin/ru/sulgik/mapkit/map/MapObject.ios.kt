@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.map
 
 import YandexMapKit.YMKMapObject as NativeMapObject
 
-actual open class MapObject(private val nativeMapObject: NativeMapObject) {
+actual open class MapObject internal constructor(private val nativeMapObject: NativeMapObject) {
 
     open fun toNative(): NativeMapObject {
         return nativeMapObject

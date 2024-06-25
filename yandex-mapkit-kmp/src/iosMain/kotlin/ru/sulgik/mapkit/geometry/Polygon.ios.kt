@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.geometry
 import YandexMapKit.YMKLinearRing as NativeLinearRing
 import YandexMapKit.YMKPolygon as NativePolygon
 
-actual class Polygon(private val nativePolygon: NativePolygon) {
+actual class Polygon internal constructor(private val nativePolygon: NativePolygon) {
 
     fun toNative(): NativePolygon {
         return nativePolygon

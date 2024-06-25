@@ -3,9 +3,9 @@ package ru.sulgik.mapkit.geometry
 import YandexMapKit.YMKPoint as NativePoint
 import YandexMapKit.YMKPolyline as NativePolyline
 
-actual class Polyline(private val nativePolyline: NativePolyline) {
+actual class Polyline internal constructor(private val nativePolyline: NativePolyline) {
 
-    fun toNative() : NativePolyline{
+    fun toNative(): NativePolyline {
         return nativePolyline
     }
 

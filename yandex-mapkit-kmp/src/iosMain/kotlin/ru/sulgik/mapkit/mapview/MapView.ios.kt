@@ -4,7 +4,7 @@ import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.map.toCommon
 import YandexMapKit.YMKMapView as NativeMapView
 
-actual class MapView(private val nativeMapView: NativeMapView) {
+actual class MapView internal constructor(private val nativeMapView: NativeMapView) {
 
     fun toNative(): NativeMapView {
         return nativeMapView

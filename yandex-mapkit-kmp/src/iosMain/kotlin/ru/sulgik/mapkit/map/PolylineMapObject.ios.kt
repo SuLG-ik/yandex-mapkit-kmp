@@ -14,7 +14,7 @@ import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKPolylineMapObject as NativePolylineMapObject
 
-actual class PolylineMapObject(private val nativePolylineMapObject: NativePolylineMapObject) :
+actual class PolylineMapObject internal constructor(private val nativePolylineMapObject: NativePolylineMapObject) :
     MapObject(nativePolylineMapObject) {
 
     override fun toNative(): NativePolylineMapObject {
@@ -130,7 +130,11 @@ actual class PolylineMapObject(private val nativePolylineMapObject: NativePolyli
         length: Float,
         fillColor: Color,
     ): Arrow {
-        return nativePolylineMapObject.addArrowWithPosition(position.toNative(), length, fillColor.toNative()).toCommon()
+        return nativePolylineMapObject.addArrowWithPosition(
+            position.toNative(),
+            length,
+            fillColor.toNative()
+        ).toCommon()
     }
 
     actual val arrows: List<Arrow>

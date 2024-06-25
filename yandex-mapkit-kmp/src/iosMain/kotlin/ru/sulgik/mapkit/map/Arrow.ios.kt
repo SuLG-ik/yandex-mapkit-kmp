@@ -7,7 +7,7 @@ import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKArrow as NativeArrow
 
-actual class Arrow(private val nativeArrow: NativeArrow) {
+actual class Arrow internal constructor(private val nativeArrow: NativeArrow) {
 
     fun toNative(): NativeArrow {
         return nativeArrow

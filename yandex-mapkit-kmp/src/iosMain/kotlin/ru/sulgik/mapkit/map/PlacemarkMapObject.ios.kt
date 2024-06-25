@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import YandexMapKit.YMKPlacemarkMapObject as NativePlacemarkMapObject
 
-actual class PlacemarkMapObject(private val nativePlacemarkMapObject: NativePlacemarkMapObject) :
+actual class PlacemarkMapObject internal constructor(private val nativePlacemarkMapObject: NativePlacemarkMapObject) :
     MapObject(nativePlacemarkMapObject) {
 
     override fun toNative(): NativePlacemarkMapObject {
@@ -20,10 +20,14 @@ actual class PlacemarkMapObject(private val nativePlacemarkMapObject: NativePlac
 
     actual var direction: Float
         get() = nativePlacemarkMapObject.direction
-        set(value) { nativePlacemarkMapObject.direction = value }
+        set(value) {
+            nativePlacemarkMapObject.direction = value
+        }
     actual var opacity: Float
         get() = nativePlacemarkMapObject.opacity
-        set(value) { nativePlacemarkMapObject.opacity = value }
+        set(value) {
+            nativePlacemarkMapObject.opacity = value
+        }
 
     actual fun setText(text: String, style: TextStyle) {
         nativePlacemarkMapObject.setTextWithText(text, style.toNative())
