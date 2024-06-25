@@ -31,7 +31,10 @@ import kotlinx.coroutines.launch
 import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.YandexMapController
+import ru.sulgik.mapkit.compose.bindToComposition
+import ru.sulgik.mapkit.compose.bindToLifecycleOwner
 import ru.sulgik.mapkit.compose.imageProvider
+import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
 import ru.sulgik.mapkit.compose.rememberYandexMapController
 import ru.sulgik.mapkit.composeapp.generated.resources.Res
 import ru.sulgik.mapkit.composeapp.generated.resources.cluster
@@ -58,6 +61,8 @@ fun randomPlacemarks(): List<Pair<Point, PlacemarkUserData>> {
 
 @Composable
 fun MapScreen(modifier: Modifier = Modifier) {
+    rememberAndInitializeMapKit().bindToLifecycleOwner()
+
     val snackbarHostState = remember { SnackbarHostState() }
     val mapController = rememberYandexMapController()
     val map = mapController.mapWindow.map
@@ -73,7 +78,10 @@ fun MapScreen(modifier: Modifier = Modifier) {
     val clusterTapListener = remember(scope, snackbarHostState) {
         ClusterTapListener {
             scope.launch {
-                snackbarHostState.showSnackbar("Clicked on cluster with ${it.size} items", withDismissAction = true)
+                snackbarHostState.showSnackbar(
+                    "Clicked on cluster with ${it.size} items",
+                    withDismissAction = true
+                )
             }
             true
         }
@@ -93,7 +101,10 @@ fun MapScreen(modifier: Modifier = Modifier) {
     val mapObjectTapListener = remember(scope, snackbarHostState) {
         MapObjectTapListener { mapObject, point ->
             scope.launch {
-                snackbarHostState.showSnackbar("MapObject (${mapObject.getCastedUserData<PlacemarkUserData>()}) was tapped (${point})", withDismissAction = true)
+                snackbarHostState.showSnackbar(
+                    "MapObject (${mapObject.getCastedUserData<PlacemarkUserData>()}) was tapped (${point})",
+                    withDismissAction = true
+                )
             }
             true
         }
@@ -138,6 +149,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
+            mapController.bindToComposition()
             YandexMap(
                 controller = mapController,
                 modifier = Modifier.fillMaxSize(),
