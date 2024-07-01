@@ -9,9 +9,6 @@ import YandexMapKit.YMKMapObjectCollection as NativeMapObjectCollection
 actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) :
     BaseMapObjectCollection(nativeMapObjectCollection) {
 
-    // TODO:
-    //  var placemarkStyled: PlacemarksStyler
-
     override fun toNative(): NativeMapObjectCollection {
         return nativeMapObjectCollection
     }
@@ -47,6 +44,9 @@ actual class MapObjectCollection internal constructor(private val nativeMapObjec
             listener
         ).toCommon()
     }
+
+    actual val placemarksStyler: PlacemarksStyler
+        get() = nativeMapObjectCollection.placemarksStyler().toCommon()
 
 
 }

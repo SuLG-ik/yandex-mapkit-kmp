@@ -5,6 +5,7 @@ import platform.Foundation.NSNumber
 import platform.Foundation.numberWithBool
 import platform.Foundation.numberWithFloat
 import platform.Foundation.numberWithInt
+import ru.sulgik.mapkit.toPointF
 
 fun IconStyle.toNative(): YMKIconStyle {
     return YMKIconStyle.iconStyleWithAnchor(
@@ -20,6 +21,7 @@ fun IconStyle.toNative(): YMKIconStyle {
 
 fun YMKIconStyle.toCommon(): IconStyle {
     return IconStyle(
+        anchor = anchor?.toPointF(),
         rotationType = rotationType?.let { RotationType.entries[it.intValue()] },
         zIndex = zIndex?.floatValue,
         flat = flat?.boolValue,

@@ -19,8 +19,7 @@ expect class MapObjectCollection : BaseMapObjectCollection {
     fun addCollection(): MapObjectCollection
 
     fun addClusterizedPlacemarkCollection(listener: ClusterListener): ClusterizedPlacemarkCollection
-    // TODO:
-    //  var placemarkStyled: PlacemarksStyler
 
+    val placemarksStyler: PlacemarksStyler
 
 }

@@ -41,6 +41,9 @@ actual class MapObjectCollection internal constructor(private val nativeMapObjec
         return nativeMapObjectCollection.addClusterizedPlacemarkCollection(listener).toCommon()
     }
 
+    actual val placemarksStyler: PlacemarksStyler
+        get() = nativeMapObjectCollection.placemarksStyler().toCommon()
+
 }
 
 fun NativeMapObjectCollection.toCommon(): MapObjectCollection {
