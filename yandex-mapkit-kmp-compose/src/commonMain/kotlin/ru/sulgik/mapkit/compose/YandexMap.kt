@@ -9,6 +9,5 @@ fun YandexMap(
     controller: YandexMapController = rememberYandexMapController(),
     modifier: Modifier = Modifier,
 ) {
-    controller.bindToLifecycleOwner()
     NativeYandexMap(controller, modifier)
 }

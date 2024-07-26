@@ -65,6 +65,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(libs.lifecycle.common)
+            implementation(libs.atomicfu)
         }
 
         commonTest.dependencies {

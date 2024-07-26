@@ -15,7 +15,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.sulgik.mapkit.Animation
+import ru.sulgik.mapkit.compose.MapEffect
 import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.YandexMapController
 import ru.sulgik.mapkit.compose.bindToLifecycleOwner
@@ -64,7 +64,6 @@ fun MapScreen(modifier: Modifier = Modifier) {
 
     val snackbarHostState = remember { SnackbarHostState() }
     val mapController = rememberYandexMapController()
-    val map = mapController.mapWindow.map
     val placemarks = remember { randomPlacemarks() }
 
     val clusterImage = imageProvider(Res.drawable.cluster)
@@ -109,18 +108,18 @@ fun MapScreen(modifier: Modifier = Modifier) {
         }
     }
 
-    LaunchedEffect(map) {
-        map.move(startPosition)
+    MapEffect(mapController) { mapWindow ->
+        mapWindow.map.move(startPosition)
     }
 
-    LaunchedEffect(map) {
+    MapEffect(mapController) { mapWindow ->
         val typeToImageMap = mapOf(
             PlacemarkType.YELLOW to pinYellowImage,
             PlacemarkType.RED to pinRedImage,
             PlacemarkType.GREEN to pinGreenImage
         )
         val cluster =
-            map.mapObjects.addClusterizedPlacemarkCollection(clusterListener)
+            mapWindow.map.mapObjects.addClusterizedPlacemarkCollection(clusterListener)
 
         placemarks.forEach { (point, data) ->
             cluster.addPlacemark().apply {
@@ -172,7 +171,7 @@ fun MapActions(
     ) {
         OutlinedButton(
             onClick = {
-                mapController.mapWindow.map.move(cameraPosition = startPosition)
+//              TODO: map control not available: map.move(cameraPosition = startPosition)
             },
         ) {
             Text("To start position")
@@ -186,10 +185,10 @@ fun MapControl(
     modifier: Modifier = Modifier,
 ) {
     var zoomFactor by remember { mutableStateOf(0f) }
-    LaunchedEffect(zoomFactor) {
+    MapEffect(mapController, zoomFactor) { mapWindow ->
         while (zoomFactor != 0f) {
-            val cameraPosition = mapController.mapWindow.map.cameraPosition
-            mapController.mapWindow.map.move(
+            val cameraPosition = mapWindow.map.cameraPosition
+            mapWindow.map.move(
                 cameraPosition.copy(zoom = cameraPosition.zoom + zoomFactor),
                 Animation(Animation.Type.LINEAR, 100.milliseconds),
             )
