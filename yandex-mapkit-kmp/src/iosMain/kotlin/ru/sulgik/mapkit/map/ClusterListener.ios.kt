@@ -1,15 +1,24 @@
 package ru.sulgik.mapkit.map
 
-import YandexMapKit.YMKCluster
 import platform.darwin.NSObject
 import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.toCommon
+import YandexMapKit.YMKCluster as NativeCluster
 import YandexMapKit.YMKClusterListenerProtocol as NativeClusterListener
 
-actual class ClusterListener actual constructor(private val onClusterAdded: (cluster: Cluster) -> Unit) :
-    NativeClusterListener, NSObject() {
+actual abstract class ClusterListener actual constructor() {
 
-    override fun onClusterAddedWithCluster(cluster: YMKCluster) {
-        onClusterAdded(cluster.toCommon())
+    private val nativeListener =
+        object : NativeClusterListener, NSObject() {
+            override fun onClusterAddedWithCluster(cluster: NativeCluster) {
+                onClusterAdded(cluster.toCommon())
+            }
+        }
+
+    fun toNative(): NativeClusterListener {
+        return nativeListener
     }
+
+    actual abstract fun onClusterAdded(cluster: Cluster)
+
 }

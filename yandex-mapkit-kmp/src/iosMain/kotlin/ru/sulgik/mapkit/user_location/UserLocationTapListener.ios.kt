@@ -1,16 +1,23 @@
 package ru.sulgik.mapkit.user_location
 
-import YandexMapKit.YMKUserLocationTapListenerProtocol
 import platform.darwin.NSObject
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import YandexMapKit.YMKPoint as NativePoint
+import YandexMapKit.YMKUserLocationTapListenerProtocol as NativeUserLocationTapListener
 
-actual class UserLocationTapListener actual constructor(
-    private val onUserLocationObjectTap: (point: Point) -> Unit,
-) : YMKUserLocationTapListenerProtocol, NSObject() {
-    override fun onUserLocationObjectTapWithPoint(point: NativePoint) {
-        onUserLocationObjectTap.invoke(point.toCommon())
+actual abstract class UserLocationTapListener actual constructor() {
+
+    private val nativeListener = object : NativeUserLocationTapListener, NSObject() {
+        override fun onUserLocationObjectTapWithPoint(point: NativePoint) {
+            onUserLocationObjectTap(point.toCommon())
+        }
     }
+
+    fun toNative(): NativeUserLocationTapListener {
+        return nativeListener
+    }
+
+    actual abstract fun onUserLocationObjectTap(point: Point)
 
 }

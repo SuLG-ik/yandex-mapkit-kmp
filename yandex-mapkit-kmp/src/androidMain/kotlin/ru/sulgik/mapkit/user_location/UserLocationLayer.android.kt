@@ -91,7 +91,7 @@ actual class UserLocationLayer internal constructor(private val nativeUserLocati
      * while it is attached to a class.
      */
     actual fun setTapListener(tapListener: UserLocationTapListener?) {
-        nativeUserLocationLayer.setTapListener(tapListener)
+        nativeUserLocationLayer.setTapListener(tapListener?.toNative())
     }
 
     /**
@@ -102,7 +102,7 @@ actual class UserLocationLayer internal constructor(private val nativeUserLocati
      * while it is attached to a class.
      */
     actual fun setObjectListener(objectListener: UserLocationObjectListener?) {
-        nativeUserLocationLayer.setObjectListener(objectListener)
+        nativeUserLocationLayer.setObjectListener(objectListener?.toNative())
     }
 }
 

@@ -188,7 +188,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
         nativeMap.moveWithCameraPosition(
             cameraPosition.toNative(),
             animation.toNative(),
-            cameraCallback
+            cameraCallback?.toNative()
         )
     }
 
@@ -196,14 +196,14 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
      * Adds camera listeners.
      */
     actual fun addCameraListener(cameraListener: CameraListener) {
-        nativeMap.addCameraListenerWithCameraListener(cameraListener)
+        nativeMap.addCameraListenerWithCameraListener(cameraListener.toNative())
     }
 
     /**
      * Removes camera listeners.
      */
     actual fun removeCameraListener(cameraListener: CameraListener) {
-        nativeMap.removeCameraListenerWithCameraListener(cameraListener)
+        nativeMap.removeCameraListenerWithCameraListener(cameraListener.toNative())
     }
 
     /**
@@ -226,14 +226,14 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
      * Adds input listeners.
      */
     actual fun addInputListener(inputListener: InputListener) {
-        nativeMap.addInputListenerWithInputListener(inputListener)
+        nativeMap.addInputListenerWithInputListener(inputListener.toNative())
     }
 
     /**
      * Removes input listeners.
      */
     actual fun removeInputListener(inputListener: InputListener) {
-        nativeMap.removeInputListenerWithInputListener(inputListener)
+        nativeMap.removeInputListenerWithInputListener(inputListener.toNative())
     }
 
 }

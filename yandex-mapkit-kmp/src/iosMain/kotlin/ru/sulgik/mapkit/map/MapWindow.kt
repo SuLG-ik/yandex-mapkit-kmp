@@ -25,11 +25,11 @@ actual class MapWindow internal constructor(private val nativeMapWindow: NativeM
         get() = nativeMapWindow.map.toCommon()
 
     actual fun addSizeChangeListener(listener: SizeChangeListener) {
-        nativeMapWindow.addSizeChangedListenerWithSizeChangedListener(listener)
+        nativeMapWindow.addSizeChangedListenerWithSizeChangedListener(listener.toNative())
     }
 
     actual fun removeSizeChangeListener(listener: SizeChangeListener) {
-        nativeMapWindow.removeSizeChangedListenerWithSizeChangedListener(listener)
+        nativeMapWindow.removeSizeChangedListenerWithSizeChangedListener(listener.toNative())
     }
 
     actual var focusRect: ScreenRect?

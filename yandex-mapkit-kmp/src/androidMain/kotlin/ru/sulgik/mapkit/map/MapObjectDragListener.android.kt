@@ -6,23 +6,26 @@ import com.yandex.mapkit.geometry.Point as NativePoint
 import com.yandex.mapkit.map.MapObject as NativeMapObject
 import com.yandex.mapkit.map.MapObjectDragListener as NativeMapObjectDragListener
 
-actual class MapObjectDragListener actual constructor(
-    private val onMapObjectDragStart: (mapObject: MapObject) -> Unit,
-    private val onMapObjectDrag: (mapObject: MapObject, point: Point) -> Unit,
-    private val onMapObjectDragEnd: (mapObject: MapObject) -> Unit,
-) : NativeMapObjectDragListener {
-    override fun onMapObjectDragStart(p0: NativeMapObject) {
-        onMapObjectDragStart(p0.toCommon())
+actual abstract class MapObjectDragListener actual constructor() {
+    private val nativeListener = object : NativeMapObjectDragListener {
+        override fun onMapObjectDragStart(p0: NativeMapObject) {
+            onMapObjectDragStart(p0.toCommon())
+        }
+
+        override fun onMapObjectDrag(p0: NativeMapObject, p1: NativePoint) {
+            onMapObjectDrag(p0.toCommon(), p1.toCommon())
+        }
+
+        override fun onMapObjectDragEnd(p0: NativeMapObject) {
+            onMapObjectDragEnd(p0.toCommon())
+        }
     }
 
-    override fun onMapObjectDrag(
-        p0: NativeMapObject,
-        p1: NativePoint,
-    ) {
-        onMapObjectDrag(p0.toCommon(), p1.toCommon())
+    fun toNative(): NativeMapObjectDragListener {
+        return nativeListener
     }
 
-    override fun onMapObjectDragEnd(p0: NativeMapObject) {
-        onMapObjectDragEnd(p0.toCommon())
-    }
+    actual abstract fun onMapObjectDragStart(mapObject: MapObject)
+    actual abstract fun onMapObjectDrag(mapObject: MapObject, point: Point)
+    actual abstract fun onMapObjectDragEnd(mapObject: MapObject)
 }

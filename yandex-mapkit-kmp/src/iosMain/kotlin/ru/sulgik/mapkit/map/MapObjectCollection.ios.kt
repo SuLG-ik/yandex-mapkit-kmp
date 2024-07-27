@@ -19,7 +19,7 @@ actual class MapObjectCollection internal constructor(private val nativeMapObjec
 
     actual fun addPlacemark(placemarkCreatedCallback: PlacemarkCreatedCallback): PlacemarkMapObject {
         return nativeMapObjectCollection.addPlacemarkWithPlacemarkCreatedCallback(
-            placemarkCreatedCallback
+            placemarkCreatedCallback.toNative()
         ).toCommon()
     }
 
@@ -41,7 +41,7 @@ actual class MapObjectCollection internal constructor(private val nativeMapObjec
 
     actual fun addClusterizedPlacemarkCollection(listener: ClusterListener): ClusterizedPlacemarkCollection {
         return nativeMapObjectCollection.addClusterizedPlacemarkCollectionWithClusterListener(
-            listener
+            listener.toNative()
         ).toCommon()
     }
 

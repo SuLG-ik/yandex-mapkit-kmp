@@ -25,11 +25,11 @@ actual open class BaseMapObjectCollection internal constructor(
     }
 
     actual fun addListener(collectionListener: MapObjectCollectionListener) {
-        nativeBaseMapObjectCollection.addListener(collectionListener)
+        nativeBaseMapObjectCollection.addListener(collectionListener.toNative())
     }
 
     actual fun removeListener(collectionListener: MapObjectCollectionListener) {
-        nativeBaseMapObjectCollection.removeListener(collectionListener)
+        nativeBaseMapObjectCollection.removeListener(collectionListener.toNative())
     }
 
 }

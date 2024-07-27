@@ -1,8 +1,8 @@
 package ru.sulgik.mapkit.map
 
-import YandexMapKit.YMKMapObject as NativeMapObject
 import YandexMapKit.YMKBaseMapObjectCollection as NativeBaseMapObjectCollection
 import YandexMapKit.YMKCircleMapObject as NativeCircleMapObject
+import YandexMapKit.YMKMapObject as NativeMapObject
 import YandexMapKit.YMKPlacemarkMapObject as NativePlacemarkMapObject
 import YandexMapKit.YMKPolygonMapObject as NativePolygonMapObject
 import YandexMapKit.YMKPolylineMapObject as NativePolylineMapObject
@@ -38,15 +38,15 @@ actual open class MapObject internal constructor(private val nativeMapObject: Na
         }
 
     actual fun addTapListener(tapListener: MapObjectTapListener) {
-        nativeMapObject.addTapListenerWithTapListener(tapListener)
+        nativeMapObject.addTapListenerWithTapListener(tapListener.toNative())
     }
 
     actual fun removeTapListener(tapListener: MapObjectTapListener) {
-        nativeMapObject.removeTapListenerWithTapListener(tapListener)
+        nativeMapObject.removeTapListenerWithTapListener(tapListener.toNative())
     }
 
     actual fun setDragListener(dragListener: MapObjectDragListener?) {
-        nativeMapObject.setDragListenerWithDragListener(dragListener)
+        nativeMapObject.setDragListenerWithDragListener(dragListener?.toNative())
     }
 
 }

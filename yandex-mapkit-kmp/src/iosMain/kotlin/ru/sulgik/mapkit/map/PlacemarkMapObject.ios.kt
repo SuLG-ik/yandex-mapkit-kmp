@@ -42,7 +42,11 @@ actual class PlacemarkMapObject internal constructor(private val nativePlacemark
         style: IconStyle,
         onFinished: Callback?,
     ) {
-        nativePlacemarkMapObject.setIconWithImage(image.toNative(), style.toNative(), onFinished)
+        nativePlacemarkMapObject.setIconWithImage(
+            image.toNative(),
+            style.toNative(),
+            onFinished?.toNative(),
+        )
     }
 
 }

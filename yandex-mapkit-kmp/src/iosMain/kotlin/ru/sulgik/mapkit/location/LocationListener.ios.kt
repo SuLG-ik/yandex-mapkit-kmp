@@ -5,16 +5,22 @@ import YandexMapKit.YMKLocation as NativeLocation
 import YandexMapKit.YMKLocationDelegateProtocol as NativeLocationListener
 import YandexMapKit.YMKLocationStatus as NativeLocationStatus
 
-actual class LocationListener actual constructor(
-    private val onLocationUpdated: (location: Location) -> Unit,
-    private val onLocationStatusUpdated: (locationStatus: LocationStatus) -> Unit,
-) : NativeLocationListener, NSObject() {
+actual abstract class LocationListener actual constructor() {
 
-    override fun onLocationStatusUpdatedWithStatus(status: NativeLocationStatus) {
-        onLocationStatusUpdated.invoke(status.toCommon())
+    private val nativeListener  = object : NativeLocationListener, NSObject() {
+        override fun onLocationStatusUpdatedWithStatus(status: NativeLocationStatus) {
+            onLocationStatusUpdated(status.toCommon())
+        }
+
+        override fun onLocationUpdatedWithLocation(location: NativeLocation) {
+            onLocationUpdated(location.toCommon())
+        }
     }
 
-    override fun onLocationUpdatedWithLocation(location: NativeLocation) {
-        onLocationUpdated.invoke(location.toCommon())
+    fun toNative(): NativeLocationListener {
+        return nativeListener
     }
+
+    actual abstract fun onLocationUpdated(location: Location)
+    actual abstract fun onLocationStatusUpdated(locationStatus: LocationStatus)
 }

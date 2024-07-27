@@ -23,7 +23,7 @@ actual class LocationManager(private val nativeLocationManager: NativeLocationMa
             minDistance = minDistance,
             allowUseInBackground = allowUseInBackground,
             filteringMode = filteringMode.toNative(),
-            locationListener = locationListener,
+            locationListener = locationListener.toNative(),
         )
     }
 
@@ -36,11 +36,11 @@ actual class LocationManager(private val nativeLocationManager: NativeLocationMa
     }
 
     actual fun requestSingleUpdate(locationListener: LocationListener) {
-        nativeLocationManager.requestSingleUpdateWithLocationListener(locationListener)
+        nativeLocationManager.requestSingleUpdateWithLocationListener(locationListener.toNative())
     }
 
     actual fun unsubscribe(locationListener: LocationListener) {
-        nativeLocationManager.unsubscribeWithLocationListener(locationListener)
+        nativeLocationManager.unsubscribeWithLocationListener(locationListener.toNative())
     }
 
 }

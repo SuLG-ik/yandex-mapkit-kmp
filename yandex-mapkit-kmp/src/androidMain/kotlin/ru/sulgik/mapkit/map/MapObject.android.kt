@@ -35,15 +35,15 @@ actual open class MapObject internal constructor(private val nativeMapObject: Na
         }
 
     actual fun addTapListener(tapListener: MapObjectTapListener) {
-        nativeMapObject.addTapListener(tapListener)
+        nativeMapObject.addTapListener(tapListener.toNative())
     }
 
     actual fun removeTapListener(tapListener: MapObjectTapListener) {
-        nativeMapObject.removeTapListener(tapListener)
+        nativeMapObject.removeTapListener(tapListener.toNative())
     }
 
     actual fun setDragListener(dragListener: MapObjectDragListener?) {
-        nativeMapObject.setDragListener(dragListener)
+        nativeMapObject.setDragListener(dragListener?.toNative())
     }
 
 }

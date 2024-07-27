@@ -7,21 +7,33 @@ import YandexMapKit.YMKObjectEvent as NativeObjectEvent
 import YandexMapKit.YMKUserLocationObjectListenerProtocol as NativeUserLocationObjectListener
 import YandexMapKit.YMKUserLocationView as NativeUserLocationView
 
-actual class UserLocationObjectListener actual constructor(
-    private val onObjectAdded: (view: UserLocationView) -> Unit,
-    private val onObjectRemoved: (view: UserLocationView) -> Unit,
-    private val onObjectUpdated: (view: UserLocationView, event: ObjectEvent) -> Unit,
-) : NativeUserLocationObjectListener, NSObject() {
+actual abstract class UserLocationObjectListener actual constructor() {
 
-    override fun onObjectAddedWithView(view: NativeUserLocationView) {
-        onObjectAdded.invoke(view.toCommon())
+    private val nativeListener = object : NativeUserLocationObjectListener, NSObject() {
+        override fun onObjectAddedWithView(view: NativeUserLocationView) {
+            onObjectAdded(view.toCommon())
+        }
+
+        override fun onObjectRemovedWithView(view: NativeUserLocationView) {
+            onObjectRemoved(view.toCommon())
+        }
+
+        override fun onObjectUpdatedWithView(
+            view: NativeUserLocationView,
+            event: NativeObjectEvent,
+        ) {
+            onObjectUpdated(view.toCommon(), event.toCommon())
+        }
     }
 
-    override fun onObjectRemovedWithView(view: NativeUserLocationView) {
-        onObjectRemoved.invoke(view.toCommon())
+    fun toNative(): NativeUserLocationObjectListener {
+        return nativeListener
     }
 
-    override fun onObjectUpdatedWithView(view: NativeUserLocationView, event: NativeObjectEvent) {
-        onObjectUpdated.invoke(view.toCommon(), event.toCommon())
-    }
+    actual abstract fun onObjectAdded(view: UserLocationView)
+    actual abstract fun onObjectRemoved(view: UserLocationView)
+    actual abstract fun onObjectUpdated(
+        view: UserLocationView,
+        event: ObjectEvent,
+    )
 }

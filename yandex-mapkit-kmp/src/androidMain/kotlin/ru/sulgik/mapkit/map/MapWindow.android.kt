@@ -23,11 +23,11 @@ actual class MapWindow internal constructor(private val nativeMapWindow: MapWind
     actual val map: Map = nativeMapWindow.map.toCommon()
 
     actual fun addSizeChangeListener(listener: SizeChangeListener) {
-        nativeMapWindow.addSizeChangedListener(listener)
+        nativeMapWindow.addSizeChangedListener(listener.toNative())
     }
 
     actual fun removeSizeChangeListener(listener: SizeChangeListener) {
-        nativeMapWindow.removeSizeChangedListener(listener)
+        nativeMapWindow.removeSizeChangedListener(listener.toNative())
     }
 
 
