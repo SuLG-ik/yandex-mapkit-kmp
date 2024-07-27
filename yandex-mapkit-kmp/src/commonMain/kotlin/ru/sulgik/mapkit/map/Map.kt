@@ -51,6 +51,11 @@ expect class Map {
     var isTiltGesturesEnabled: Boolean
 
     /**
+     * The base map type.
+     */
+    var mapType: MapType
+
+    /**
      * Forces the map to be flat.
      *
      * true - All loaded tiles start showing the "flatten out" animation; all new tiles do not start 3D animation. false - All tiles start showing the "rise up" animation.
@@ -127,4 +132,14 @@ expect class Map {
      */
     fun getLogo(): Logo
 
+    /**
+     * Adds input listeners.
+     */
+    fun addInputListener(inputListener: InputListener)
+
+    /**
+     * Removes input listeners.
+     */
+    fun removeInputListener(inputListener: InputListener)
+    
 }

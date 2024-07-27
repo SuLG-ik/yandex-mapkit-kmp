@@ -195,6 +195,29 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
         return nativeMap.logo.toCommon()
     }
 
+    /**
+     * The base map type.
+     */
+    actual var mapType: MapType
+        get() = nativeMap.mapType.toCommon()
+        set(value) {
+            nativeMap.mapType = value.toNative()
+        }
+
+    /**
+     * Adds input listeners.
+     */
+    actual fun addInputListener(inputListener: InputListener) {
+        nativeMap.addInputListenerWithInputListener(inputListener)
+    }
+
+    /**
+     * Removes input listeners.
+     */
+    actual fun removeInputListener(inputListener: InputListener) {
+        nativeMap.removeInputListenerWithInputListener(inputListener)
+    }
+
 }
 
 fun NativeMap.toCommon(): Map {
