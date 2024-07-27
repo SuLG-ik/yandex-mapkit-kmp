@@ -1,11 +1,12 @@
 package ru.sulgik.mapkit.map
 
 import com.yandex.mapkit.map.BaseMapObjectCollection as NativeBaseMapObjectCollection
+import com.yandex.mapkit.map.ClusterizedPlacemarkCollection as NativeClusterizedPlacemarkCollection1
+import com.yandex.mapkit.map.MapObjectCollection as NativeMapObjectCollection
 
 actual open class BaseMapObjectCollection internal constructor(
     private val nativeBaseMapObjectCollection: NativeBaseMapObjectCollection,
-) :
-    MapObject(nativeBaseMapObjectCollection) {
+) : MapObject(nativeBaseMapObjectCollection) {
 
     override fun toNative(): NativeBaseMapObjectCollection {
         return nativeBaseMapObjectCollection
@@ -31,4 +32,12 @@ actual open class BaseMapObjectCollection internal constructor(
         nativeBaseMapObjectCollection.removeListener(collectionListener)
     }
 
+}
+
+fun NativeBaseMapObjectCollection.toCommon(): BaseMapObjectCollection {
+    return when (this) {
+        is NativeMapObjectCollection -> toCommon()
+        is NativeClusterizedPlacemarkCollection1 -> toCommon()
+        else -> BaseMapObjectCollection(this)
+    }
 }
