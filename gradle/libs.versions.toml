@@ -14,8 +14,11 @@ compose-plugin = "1.6.11"
 androidx-activity = "1.9.0"
 moko-resources = "0.24.1"
 lifecycle = "2.8.0"
+datetime = "0.6.0"
 
 publish = "0.29.0"
+
+atomicfu = "0.25.0"
 
 [libraries]
 yandex-mapkit = { module = "com.yandex.android:maps.mobile", version.ref = "yandex-mapkit" }
@@ -23,6 +26,8 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 moko-resources = { module = "dev.icerock.moko:resources", version.ref = "moko-resources" }
 moko-resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resources" }
 lifecycle-common = { module = "org.jetbrains.androidx.lifecycle:lifecycle-common", version.ref = "lifecycle" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 
 [plugins]
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
@@ -34,3 +39,4 @@ compose-plugin = { id = "org.jetbrains.compose", version.ref = "compose-plugin" 
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
+atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "atomicfu" }

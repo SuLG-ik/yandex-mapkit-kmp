@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.publish)
+    alias(libs.plugins.atomicfu)
 }
 
 val supportIosTarget = project.property("skipIosTarget") != "true"
