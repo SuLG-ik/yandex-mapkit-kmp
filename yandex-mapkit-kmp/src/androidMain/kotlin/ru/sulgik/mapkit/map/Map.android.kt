@@ -4,6 +4,8 @@ import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.geometry.Geometry
 import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.logo.Logo
+import ru.sulgik.mapkit.logo.toCommon
 import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.Map as NativeMap
 
@@ -158,6 +160,27 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
         cameraCallback: CameraCallback?,
     ) {
         nativeMap.move(cameraPosition.toNative(), animation.toNative(), cameraCallback)
+    }
+
+    /**
+     * Adds camera listeners.
+     */
+    actual fun addCameraListener(cameraListener: CameraListener) {
+        nativeMap.addCameraListener(cameraListener)
+    }
+
+    /**
+     * Removes camera listeners.
+     */
+    actual fun removeCameraListener(cameraListener: CameraListener) {
+        nativeMap.removeCameraListener(cameraListener)
+    }
+
+    /**
+     * Yandex logo object.
+     */
+    actual fun getLogo(): Logo {
+        return nativeMap.logo.toCommon()
     }
 }
 

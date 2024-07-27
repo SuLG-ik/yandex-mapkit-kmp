@@ -3,6 +3,7 @@ package ru.sulgik.mapkit.map
 import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.geometry.Geometry
+import ru.sulgik.mapkit.logo.Logo
 
 expect class Map {
 
@@ -110,5 +111,20 @@ expect class Map {
         animation: Animation,
         cameraCallback: CameraCallback? = null,
     )
+
+    /**
+     * Adds camera listeners.
+     */
+    fun addCameraListener(cameraListener: CameraListener)
+
+    /**
+     * Removes camera listeners.
+     */
+    fun removeCameraListener(cameraListener: CameraListener)
+
+    /**
+     * Yandex logo object.
+     */
+    fun getLogo(): Logo
 
 }
