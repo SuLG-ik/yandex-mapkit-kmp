@@ -16,7 +16,7 @@ internal actual fun NativeYandexMap(
     val mapView = remember(nativeMapView) { nativeMapView.toCommon() }
     mapView.bindToLifecycleOwner()
     UIKitView(factory = {
-        controller.setMapView(mapView)
+        controller.mapWindowOwner.setMapWindow(mapView.mapWindow)
         nativeMapView
     }, modifier = modifier)
 }

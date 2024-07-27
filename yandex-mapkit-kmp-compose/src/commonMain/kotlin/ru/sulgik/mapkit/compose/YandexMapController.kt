@@ -1,14 +1,9 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.LifecycleOwner
-import kotlinx.atomicfu.locks.reentrantLock
-import kotlinx.atomicfu.locks.withLock
 import ru.sulgik.mapkit.compose.utils.LifecycleEffect
 import ru.sulgik.mapkit.mapview.MapView
 
@@ -26,19 +21,8 @@ fun rememberYandexMapController(): YandexMapController {
  */
 class YandexMapController internal constructor() {
 
-    private val lock = reentrantLock()
-    internal var mapView: MapView? by mutableStateOf(null)
-
-    internal fun setMapView(mapView: MapView?) {
-        lock.withLock {
-            if (this.mapView == null && mapView == null) return
-            if (this.mapView == mapView) return
-            if (this.mapView != null && mapView != null) {
-                error("YandexMapController may only be associated with one MapView at a time")
-            }
-            this.mapView = mapView
-        }
-    }
+    internal val mapWindowOwner = MapWindowOwner()
+    internal val mapView get() = mapWindowOwner.mapWindow
 
 }
 

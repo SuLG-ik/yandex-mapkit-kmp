@@ -19,7 +19,7 @@ internal actual fun NativeYandexMap(
     mapView.bindToLifecycleOwner()
     AndroidView(
         factory = {
-            controller.setMapView(mapView)
+            controller.mapWindowOwner.setMapWindow(mapView)
             nativeMapView
         },
         onRelease = { mapView.onStop() },

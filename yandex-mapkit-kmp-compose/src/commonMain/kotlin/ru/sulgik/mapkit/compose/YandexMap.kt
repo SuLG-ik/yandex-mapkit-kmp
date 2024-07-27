@@ -11,3 +11,18 @@ fun YandexMap(
 ) {
     NativeYandexMap(controller, modifier)
 }
+
+@Composable
+fun YandexMap(
+    cameraPositionState: CameraPositionState = rememberCameraPositionState(),
+    modifier: Modifier = Modifier,
+) {
+    val controller = rememberYandexMapController()
+    MapEffect(controller) {
+        cameraPositionState.mapWindowOwner.setMapWindow(it)
+    }
+    YandexMap(
+        controller = controller,
+        modifier = modifier,
+    )
+}
