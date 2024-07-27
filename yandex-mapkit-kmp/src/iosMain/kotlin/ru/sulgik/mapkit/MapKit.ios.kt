@@ -9,6 +9,9 @@ import YandexMapKit.sharedInstance
 import kotlinx.cinterop.ExperimentalForeignApi
 import ru.sulgik.mapkit.location.LocationManager
 import ru.sulgik.mapkit.location.toCommon
+import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.user_location.UserLocationLayer
+import ru.sulgik.mapkit.user_location.toCommon
 import ru.sulgik.runtime.sensors.LocationActivityType
 import ru.sulgik.runtime.sensors.toNative
 import YandexMapKit.YMKMapKit as NativeMapKit
@@ -67,6 +70,13 @@ actual class MapKit internal constructor(private val nativeMapKit: NativeMapKit)
     actual fun createLocationManager(activityType: LocationActivityType): LocationManager {
         return nativeMapKit.createLocationManagerWithActivityType(activityType.toNative())
             .toCommon()
+    }
+
+    /**
+     * Create layer with the user location icon.
+     */
+    actual fun createUserLocationLayer(mapWindow: MapWindow): UserLocationLayer {
+        return nativeMapKit.createUserLocationLayerWithMapWindow(mapWindow.toNative()).toCommon()
     }
 
     actual companion object {

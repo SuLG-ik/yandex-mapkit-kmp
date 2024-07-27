@@ -1,6 +1,8 @@
 package ru.sulgik.mapkit
 
 import ru.sulgik.mapkit.location.LocationManager
+import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.user_location.UserLocationLayer
 import ru.sulgik.runtime.sensors.LocationActivityType
 
 expect class MapKit {
@@ -41,6 +43,10 @@ expect class MapKit {
      */
     fun createLocationManager(activityType: LocationActivityType): LocationManager
 
+    /**
+     * Create layer with the user location icon.
+     */
+    fun createUserLocationLayer(mapWindow: MapWindow): UserLocationLayer
 
     companion object {
 

@@ -1,3 +1,4 @@
+package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative

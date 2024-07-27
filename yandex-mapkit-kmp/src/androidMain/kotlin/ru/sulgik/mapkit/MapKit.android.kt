@@ -4,6 +4,9 @@ import android.content.Context
 import com.yandex.mapkit.MapKitFactory
 import ru.sulgik.mapkit.location.LocationManager
 import ru.sulgik.mapkit.location.toCommon
+import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.user_location.UserLocationLayer
+import ru.sulgik.mapkit.user_location.toCommon
 import ru.sulgik.runtime.sensors.LocationActivityType
 import ru.sulgik.runtime.sensors.toNative
 import com.yandex.mapkit.MapKit as NativeMapKit
@@ -60,6 +63,13 @@ actual class MapKit internal constructor(private val nativeMapKit: NativeMapKit)
      */
     actual fun createLocationManager(activityType: LocationActivityType): LocationManager {
         return nativeMapKit.createLocationManager(activityType.toNative()).toCommon()
+    }
+
+    /**
+     * Create layer with the user location icon.
+     */
+    actual fun createUserLocationLayer(mapWindow: MapWindow): UserLocationLayer {
+        return nativeMapKit.createUserLocationLayer(mapWindow.toNative()).toCommon()
     }
 
     actual companion object {
