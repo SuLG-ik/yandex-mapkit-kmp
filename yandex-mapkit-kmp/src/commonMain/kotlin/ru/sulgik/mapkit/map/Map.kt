@@ -51,6 +51,16 @@ expect class Map {
     var isTiltGesturesEnabled: Boolean
 
     /**
+     * Enable/disable scroll gestures.
+     */
+    var isScrollGesturesEnabled: Boolean
+
+    /**
+     * Enable/disable zoom gestures.
+     */
+    var isZoomGesturesEnabled: Boolean
+
+    /**
      * The base map type.
      */
     var mapType: MapType

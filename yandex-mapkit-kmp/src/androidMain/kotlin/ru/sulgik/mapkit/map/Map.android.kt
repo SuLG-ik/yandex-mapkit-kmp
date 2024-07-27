@@ -82,6 +82,24 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
         }
 
     /**
+     * Enable/disable scroll gestures.
+     */
+    actual var isScrollGesturesEnabled: Boolean
+        get() = nativeMap.isScrollGesturesEnabled
+        set(value) {
+            nativeMap.isScrollGesturesEnabled = value
+        }
+
+    /**
+     * Enable/disable zoom gestures.
+     */
+    actual var isZoomGesturesEnabled: Boolean
+        get() = nativeMap.isZoomGesturesEnabled
+        set(value) {
+            nativeMap.isZoomGesturesEnabled = value
+        }
+
+    /**
      * Forces the map to be flat.
      *
      * true - All loaded tiles start showing the "flatten out" animation; all new tiles do not start 3D animation. false - All tiles start showing the "rise up" animation.
@@ -205,6 +223,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     actual fun removeInputListener(inputListener: InputListener) {
         nativeMap.removeInputListener(inputListener)
     }
+
 }
 
 
