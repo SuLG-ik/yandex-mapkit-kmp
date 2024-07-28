@@ -1,18 +1,28 @@
 package ru.sulgik.mapkit.map
 
-import YandexMapKit.YMKMapObject
-import YandexMapKit.YMKPoint
 import platform.darwin.NSObject
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
+import YandexMapKit.YMKMapObject as NativeMapObject
 import YandexMapKit.YMKMapObjectTapListenerProtocol as NativeMapObjectTapListener
+import YandexMapKit.YMKPoint as NativePoint
 
-actual class MapObjectTapListener actual constructor(
-    private val onMapObjectTap: (mapObject: MapObject, point: Point) -> Boolean,
-) : NativeMapObjectTapListener,
-    NSObject() {
-
-    override fun onMapObjectTapWithMapObject(mapObject: YMKMapObject, point: YMKPoint): Boolean {
-        return onMapObjectTap(mapObject.toCommon(), point.toCommon())
+actual abstract class MapObjectTapListener actual constructor() {
+    private val nativeListener = object : NativeMapObjectTapListener, NSObject() {
+        override fun onMapObjectTapWithMapObject(
+            mapObject: NativeMapObject,
+            point: NativePoint
+        ): Boolean {
+            return onMapObjectTap(mapObject.toCommon(), point.toCommon())
+        }
     }
+
+    fun toNative(): NativeMapObjectTapListener {
+        return nativeListener
+    }
+
+    actual abstract fun onMapObjectTap(
+        mapObject: MapObject,
+        point: Point
+    ): Boolean
 }

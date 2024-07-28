@@ -18,7 +18,7 @@ actual class MapObjectCollection internal constructor(private val nativeMapObjec
     }
 
     actual fun addPlacemark(placemarkCreatedCallback: PlacemarkCreatedCallback): PlacemarkMapObject {
-        return nativeMapObjectCollection.addPlacemark(placemarkCreatedCallback).toCommon()
+        return nativeMapObjectCollection.addPlacemark(placemarkCreatedCallback.toNative()).toCommon()
     }
 
     actual fun addPolyline(polyline: Polyline): PolylineMapObject {
@@ -38,7 +38,8 @@ actual class MapObjectCollection internal constructor(private val nativeMapObjec
     }
 
     actual fun addClusterizedPlacemarkCollection(listener: ClusterListener): ClusterizedPlacemarkCollection {
-        return nativeMapObjectCollection.addClusterizedPlacemarkCollection(listener).toCommon()
+        return nativeMapObjectCollection.addClusterizedPlacemarkCollection(listener.toNative())
+            .toCommon()
     }
 
     actual val placemarksStyler: PlacemarksStyler

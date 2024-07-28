@@ -1,6 +1,11 @@
 package ru.sulgik.mapkit.map
 
+import com.yandex.mapkit.map.BaseMapObjectCollection as NativeBaseMapObjectCollection
+import com.yandex.mapkit.map.CircleMapObject as NativeCircleMapObject
 import com.yandex.mapkit.map.MapObject as NativeMapObject
+import com.yandex.mapkit.map.PlacemarkMapObject as NativePlacemarkMapObject
+import com.yandex.mapkit.map.PolygonMapObject as NativePolygonMapObject
+import com.yandex.mapkit.map.PolylineMapObject as NativePolylineMapObject
 
 actual open class MapObject internal constructor(private val nativeMapObject: NativeMapObject) {
 
@@ -30,19 +35,26 @@ actual open class MapObject internal constructor(private val nativeMapObject: Na
         }
 
     actual fun addTapListener(tapListener: MapObjectTapListener) {
-        nativeMapObject.addTapListener(tapListener)
+        nativeMapObject.addTapListener(tapListener.toNative())
     }
 
     actual fun removeTapListener(tapListener: MapObjectTapListener) {
-        nativeMapObject.removeTapListener(tapListener)
+        nativeMapObject.removeTapListener(tapListener.toNative())
     }
 
     actual fun setDragListener(dragListener: MapObjectDragListener?) {
-        nativeMapObject.setDragListener(dragListener)
+        nativeMapObject.setDragListener(dragListener?.toNative())
     }
 
 }
 
 fun NativeMapObject.toCommon(): MapObject {
-    return MapObject(this)
+    return when (this) {
+        is NativeBaseMapObjectCollection -> toCommon()
+        is NativeCircleMapObject -> toCommon()
+        is NativePlacemarkMapObject -> toCommon()
+        is NativePolygonMapObject -> toCommon()
+        is NativePolylineMapObject -> toCommon()
+        else -> MapObject(this)
+    }
 }

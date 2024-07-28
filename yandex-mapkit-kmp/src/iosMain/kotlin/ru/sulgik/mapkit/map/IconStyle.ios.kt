@@ -1,20 +1,17 @@
 package ru.sulgik.mapkit.map
 
 import YandexMapKit.YMKIconStyle
-import platform.Foundation.NSNumber
-import platform.Foundation.numberWithBool
-import platform.Foundation.numberWithFloat
-import platform.Foundation.numberWithInt
+import ru.sulgik.mapkit.toNSNumber
 import ru.sulgik.mapkit.toPointF
 
 fun IconStyle.toNative(): YMKIconStyle {
     return YMKIconStyle.iconStyleWithAnchor(
         anchor = null,
-        rotationType = rotationType?.ordinal?.let(NSNumber.Companion::numberWithInt),
-        zIndex = zIndex?.let(NSNumber.Companion::numberWithFloat),
-        flat = flat?.let(NSNumber.Companion::numberWithBool),
-        visible = isVisible?.let(NSNumber.Companion::numberWithBool),
-        scale = scale?.let(NSNumber.Companion::numberWithFloat),
+        rotationType = rotationType?.ordinal?.toNSNumber(),
+        zIndex = zIndex?.toNSNumber(),
+        flat = flat?.toNSNumber(),
+        visible = isVisible?.toNSNumber(),
+        scale = scale?.toNSNumber(),
         tappableArea = null,
     )
 }

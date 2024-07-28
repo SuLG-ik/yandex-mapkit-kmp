@@ -7,26 +7,20 @@ import YandexMapKit.setLocale
 import YandexMapKit.setUserId
 import YandexMapKit.sharedInstance
 import kotlinx.cinterop.ExperimentalForeignApi
+import ru.sulgik.mapkit.location.LocationManager
+import ru.sulgik.mapkit.location.toCommon
+import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.user_location.UserLocationLayer
+import ru.sulgik.mapkit.user_location.toCommon
+import ru.sulgik.runtime.sensors.LocationActivityType
+import ru.sulgik.runtime.sensors.toNative
 import YandexMapKit.YMKMapKit as NativeMapKit
 
 actual class MapKit internal constructor(private val nativeMapKit: NativeMapKit) {
 
-    actual companion object {
-        actual fun setApiKey(apiKey: String) {
-            NativeMapKit.setApiKey(apiKey)
-        }
+    fun toNative(): NativeMapKit {
+        return nativeMapKit
 
-        actual fun getInstance(): MapKit {
-            return NativeMapKit.sharedInstance().toCommon()
-        }
-
-        actual fun setLocale(locale: String?) {
-            NativeMapKit.setLocale(locale)
-        }
-
-        actual fun setUserId(userId: String) {
-            NativeMapKit.setUserId(userId)
-        }
     }
 
     /**
@@ -56,6 +50,52 @@ actual class MapKit internal constructor(private val nativeMapKit: NativeMapKit)
         nativeMapKit.onStop()
     }
 
+    /**
+     * Sets single global location manager that is used by every module in MapKit by default.
+     */
+    actual fun setLocationManager(locationManager: LocationManager) {
+        nativeMapKit.setLocationManagerWithLocationManager(locationManager.toNative())
+    }
+
+    /**
+     * Creates a manager that allows to listen for device location updates.
+     */
+    actual fun createLocationManager(): LocationManager {
+        return nativeMapKit.createLocationManager().toCommon()
+    }
+
+    /**
+     * Creates a manager that allows to listen for device location updates, uses activityType as a hint.
+     */
+    actual fun createLocationManager(activityType: LocationActivityType): LocationManager {
+        return nativeMapKit.createLocationManagerWithActivityType(activityType.toNative())
+            .toCommon()
+    }
+
+    /**
+     * Create layer with the user location icon.
+     */
+    actual fun createUserLocationLayer(mapWindow: MapWindow): UserLocationLayer {
+        return nativeMapKit.createUserLocationLayerWithMapWindow(mapWindow.toNative()).toCommon()
+    }
+
+    actual companion object {
+        actual fun setApiKey(apiKey: String) {
+            NativeMapKit.setApiKey(apiKey)
+        }
+
+        actual fun getInstance(): MapKit {
+            return NativeMapKit.sharedInstance().toCommon()
+        }
+
+        actual fun setLocale(locale: String?) {
+            NativeMapKit.setLocale(locale)
+        }
+
+        actual fun setUserId(userId: String) {
+            NativeMapKit.setUserId(userId)
+        }
+    }
 }
 
 fun NativeMapKit.toCommon(): MapKit {

@@ -1,20 +1,26 @@
 package ru.sulgik.mapkit.map
 
-import YandexMapKit.YMKMapObject
 import platform.darwin.NSObject
+import YandexMapKit.YMKMapObject as NativeMapObject
 import YandexMapKit.YMKMapObjectCollectionListenerProtocol as NativeMapObjectCollectionListener
 
-actual class MapObjectCollectionListener actual constructor(
-    val onMapObjectAdded: (mapObject: MapObject) -> Unit,
-    val onMapObjectRemoved: (mapObject: MapObject) -> Unit,
-) : NativeMapObjectCollectionListener,
-    NSObject() {
+actual abstract class MapObjectCollectionListener actual constructor() {
 
-    override fun onMapObjectRemovedWithMapObject(mapObject: YMKMapObject) {
-        onMapObjectRemoved(mapObject.toCommon())
+    private val nativeListener = object : NativeMapObjectCollectionListener, NSObject() {
+
+        override fun onMapObjectRemovedWithMapObject(mapObject: NativeMapObject) {
+            onMapObjectRemoved(mapObject.toCommon())
+        }
+
+        override fun onMapObjectAddedWithMapObject(mapObject: NativeMapObject) {
+            onMapObjectAdded(mapObject.toCommon())
+        }
     }
 
-    override fun onMapObjectAddedWithMapObject(mapObject: YMKMapObject) {
-        onMapObjectAdded(mapObject.toCommon())
+    fun toNative(): NativeMapObjectCollectionListener {
+        return nativeListener
     }
+
+    actual abstract fun onMapObjectAdded(mapObject: MapObject)
+    actual abstract fun onMapObjectRemoved(mapObject: MapObject)
 }

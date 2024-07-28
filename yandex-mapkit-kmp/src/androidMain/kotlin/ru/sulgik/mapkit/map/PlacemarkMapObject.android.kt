@@ -44,7 +44,7 @@ actual class PlacemarkMapObject internal constructor(private val nativePlacemark
         if (onFinished != null) nativePlacemarkMapObject.setIcon(
             image.toNative(),
             style.toNative(),
-            onFinished
+            onFinished.toNative(),
         )
         else nativePlacemarkMapObject.setIcon(image.toNative(), style.toNative())
     }

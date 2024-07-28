@@ -17,7 +17,7 @@ actual class ClusterizedPlacemarkCollection internal constructor(
     }
 
     actual fun addPlacemark(placemarkCreatedCallback: PlacemarkCreatedCallback): PlacemarkMapObject {
-        return nativeClusterizedPlacemarkCollection.addPlacemark(placemarkCreatedCallback)
+        return nativeClusterizedPlacemarkCollection.addPlacemark(placemarkCreatedCallback.toNative())
             .toCommon()
     }
 

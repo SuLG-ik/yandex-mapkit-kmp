@@ -1,27 +1,32 @@
 package ru.sulgik.mapkit.map
 
-import YandexMapKit.YMKMapObject
-import YandexMapKit.YMKMapObjectDragListenerProtocol
-import YandexMapKit.YMKPoint
 import platform.darwin.NSObject
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
+import YandexMapKit.YMKMapObject as NativeMapObject
+import YandexMapKit.YMKMapObjectDragListenerProtocol as NativeMapObjectDragListener
+import YandexMapKit.YMKPoint as NativePoint
 
-actual class MapObjectDragListener actual constructor(
-    private val onMapObjectDragStart: (mapObject: MapObject) -> Unit,
-    private val onMapObjectDrag: (mapObject: MapObject, point: Point) -> Unit,
-    private val onMapObjectDragEnd: (mapObject: MapObject) -> Unit,
-) : YMKMapObjectDragListenerProtocol, NSObject() {
+actual abstract class MapObjectDragListener actual constructor() {
+    private val nativeListener = object : NativeMapObjectDragListener, NSObject() {
+        override fun onMapObjectDragEndWithMapObject(mapObject: NativeMapObject) {
+            onMapObjectDragEnd(mapObject.toCommon())
+        }
 
-    override fun onMapObjectDragEndWithMapObject(mapObject: YMKMapObject) {
-        onMapObjectDragEnd(mapObject.toCommon())
+        override fun onMapObjectDragStartWithMapObject(mapObject: NativeMapObject) {
+            onMapObjectDragStart(mapObject.toCommon())
+        }
+
+        override fun onMapObjectDragWithMapObject(mapObject: NativeMapObject, point: NativePoint) {
+            onMapObjectDrag(mapObject.toCommon(), point.toCommon())
+        }
     }
 
-    override fun onMapObjectDragStartWithMapObject(mapObject: YMKMapObject) {
-        onMapObjectDragStart(mapObject.toCommon())
+    fun toNative(): NativeMapObjectDragListener {
+        return nativeListener
     }
 
-    override fun onMapObjectDragWithMapObject(mapObject: YMKMapObject, point: YMKPoint) {
-        onMapObjectDrag(mapObject.toCommon(), point.toCommon())
-    }
+    actual abstract fun onMapObjectDragStart(mapObject: MapObject)
+    actual abstract fun onMapObjectDrag(mapObject: MapObject, point: Point)
+    actual abstract fun onMapObjectDragEnd(mapObject: MapObject)
 }

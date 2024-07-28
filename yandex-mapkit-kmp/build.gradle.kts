@@ -56,6 +56,7 @@ kotlin {
             api(libs.yandex.mapkit)
         }
         commonMain.dependencies {
+            api(libs.kotlinx.datetime)
         }
 
         commonTest.dependencies {

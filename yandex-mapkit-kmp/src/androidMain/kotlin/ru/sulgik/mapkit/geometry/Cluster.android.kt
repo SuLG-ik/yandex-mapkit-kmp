@@ -21,11 +21,11 @@ actual class Cluster internal constructor(private val nativeCluster: NativeClust
         get() = nativeCluster.appearance.toCommon()
 
     actual fun addClusterTapListener(listener: ClusterTapListener) {
-        nativeCluster.addClusterTapListener(listener)
+        nativeCluster.addClusterTapListener(listener.toNative())
     }
 
     actual fun removeClusterTapListener(listener: ClusterTapListener) {
-        nativeCluster.removeClusterTapListener(listener)
+        nativeCluster.removeClusterTapListener(listener.toNative())
     }
 
 }

@@ -6,7 +6,7 @@ import ru.sulgik.mapkit.PointF
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKPlacemarksStyler as NativePlacemarksStyler
 
-actual class PlacemarksStyler(private val nativePlacemarkStyle: NativePlacemarksStyler) {
+actual class PlacemarksStyler internal constructor(private val nativePlacemarkStyle: NativePlacemarksStyler) {
 
     fun toNative(): NativePlacemarksStyler {
         return nativePlacemarkStyle

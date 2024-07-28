@@ -6,6 +6,8 @@ import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.geometry.Geometry
 import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.logo.Logo
+import ru.sulgik.mapkit.logo.toCommon
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKMap as NativeMap
 
@@ -80,6 +82,24 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
         get() = nativeMap.isTiltGesturesEnabled()
         set(value) {
             nativeMap.setTiltGesturesEnabled(value)
+        }
+
+    /**
+     * Enable/disable scroll gestures.
+     */
+    actual var isScrollGesturesEnabled: Boolean
+        get() = nativeMap.isScrollGesturesEnabled()
+        set(value) {
+            nativeMap.setScrollGesturesEnabled(value)
+        }
+
+    /**
+     * Enable/disable zoom gestures.
+     */
+    actual var isZoomGesturesEnabled: Boolean
+        get() = nativeMap.isZoomGesturesEnabled()
+        set(value) {
+            nativeMap.setZoomGesturesEnabled(value)
         }
 
     /**
@@ -168,8 +188,52 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
         nativeMap.moveWithCameraPosition(
             cameraPosition.toNative(),
             animation.toNative(),
-            cameraCallback
+            cameraCallback?.toNative()
         )
+    }
+
+    /**
+     * Adds camera listeners.
+     */
+    actual fun addCameraListener(cameraListener: CameraListener) {
+        nativeMap.addCameraListenerWithCameraListener(cameraListener.toNative())
+    }
+
+    /**
+     * Removes camera listeners.
+     */
+    actual fun removeCameraListener(cameraListener: CameraListener) {
+        nativeMap.removeCameraListenerWithCameraListener(cameraListener.toNative())
+    }
+
+    /**
+     * Yandex logo object.
+     */
+    actual fun getLogo(): Logo {
+        return nativeMap.logo.toCommon()
+    }
+
+    /**
+     * The base map type.
+     */
+    actual var mapType: MapType
+        get() = nativeMap.mapType.toCommon()
+        set(value) {
+            nativeMap.mapType = value.toNative()
+        }
+
+    /**
+     * Adds input listeners.
+     */
+    actual fun addInputListener(inputListener: InputListener) {
+        nativeMap.addInputListenerWithInputListener(inputListener.toNative())
+    }
+
+    /**
+     * Removes input listeners.
+     */
+    actual fun removeInputListener(inputListener: InputListener) {
+        nativeMap.removeInputListenerWithInputListener(inputListener.toNative())
     }
 
 }
