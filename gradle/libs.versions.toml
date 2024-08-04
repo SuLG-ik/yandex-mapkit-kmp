@@ -15,6 +15,7 @@ androidx-activity = "1.9.0"
 moko-resources = "0.24.1"
 lifecycle = "2.8.0"
 datetime = "0.6.0"
+collections = "0.3.7"
 
 publish = "0.29.0"
 
@@ -28,6 +29,7 @@ moko-resources-compose = { module = "dev.icerock.moko:resources-compose", versio
 lifecycle-common = { module = "org.jetbrains.androidx.lifecycle:lifecycle-common", version.ref = "lifecycle" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
+kotlinx-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collections" }
 
 [plugins]
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
