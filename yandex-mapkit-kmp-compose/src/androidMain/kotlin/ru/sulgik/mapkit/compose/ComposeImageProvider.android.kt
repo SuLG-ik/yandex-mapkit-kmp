@@ -12,6 +12,7 @@ import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.PlacemarkMapObject
@@ -69,6 +70,59 @@ public actual fun imageProvider(
     return remember(keys = keys) { composeMapObjectRenderer.toImageProvider(content) }
 }
 
+@Composable
+public actual fun clusterImageProvider(content: @Composable (Cluster) -> Unit): ClusterImageProvider {
+    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
+    return remember { ComposeClusterImageProvider(composeMapObjectRenderer, content) }
+}
+
+@Composable
+public actual fun clusterImageProvider(
+    key1: Any?,
+    content: @Composable (Cluster) -> Unit,
+): ClusterImageProvider {
+    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
+    return remember(key1 = key1) { ComposeClusterImageProvider(composeMapObjectRenderer, content) }
+}
+
+@Composable
+public actual fun clusterImageProvider(
+    key1: Any?,
+    key2: Any?,
+    content: @Composable (Cluster) -> Unit,
+): ClusterImageProvider {
+    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
+    return remember(
+        key1 = key1,
+        key2 = key2
+    ) { ComposeClusterImageProvider(composeMapObjectRenderer, content) }
+}
+
+@Composable
+public actual fun clusterImageProvider(
+    key1: Any?,
+    key2: Any?,
+    key3: Any?,
+    content: @Composable (Cluster) -> Unit,
+): ClusterImageProvider {
+    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
+    return remember(key1 = key1, key2 = key2, key3 = key3) {
+        ComposeClusterImageProvider(
+            composeMapObjectRenderer,
+            content
+        )
+    }
+}
+
+@Composable
+public actual fun clusterImageProvider(
+    vararg keys: Any?,
+    content: @Composable (Cluster) -> Unit,
+): ClusterImageProvider {
+    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
+    return remember(keys = keys) { ComposeClusterImageProvider(composeMapObjectRenderer, content) }
+}
+
 public actual fun PlacemarkMapObject.setContent(
     renderer: ComposeMapObjectRenderer,
     iconStyle: IconStyle,
@@ -76,6 +130,7 @@ public actual fun PlacemarkMapObject.setContent(
 ) {
     setIcon(renderer.toImageProvider(content), iconStyle)
 }
+
 
 @Composable
 public actual fun rememberComposeMapObjectRenderer(): ComposeMapObjectRenderer {
@@ -87,6 +142,21 @@ public actual fun rememberComposeMapObjectRenderer(): ComposeMapObjectRenderer {
             parentCompositionContext = parentCompositionContext,
         )
     }
+}
+
+private class ComposeClusterImageProvider(
+    private val renderer: ComposeMapObjectRenderer,
+    private val content: @Composable (Cluster) -> Unit
+) : ClusterImageProvider {
+    override fun toImageProvider(cluster: Cluster): ImageProvider {
+        return renderer.toImageProvider { content(cluster) }
+    }
+}
+
+public actual interface ClusterImageProvider {
+
+    public actual fun toImageProvider(cluster: Cluster): ImageProvider
+
 }
 
 public actual interface ComposeMapObjectRenderer {

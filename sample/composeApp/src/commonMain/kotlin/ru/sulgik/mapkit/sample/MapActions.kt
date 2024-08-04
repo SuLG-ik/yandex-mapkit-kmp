@@ -25,7 +25,7 @@ class MapActionsState(
     isPolygonsEnabled: Boolean = true,
     isPolylinesEnabled: Boolean = true,
     isDragEnabled: Boolean = false,
-    isComposableContentEnabled: Boolean = true,
+    isComposableContentEnabled: Boolean = false,
 ) {
     var isPlacemarksEnabled by mutableStateOf(isPlacemarksEnabled)
     var isPlacemarksClsuteringEnabled by mutableStateOf(isPlacemarksClsuteringEnabled)
@@ -33,7 +33,7 @@ class MapActionsState(
     var isPolygonsEnabled by mutableStateOf(isPolygonsEnabled)
     var isPolylinesEnabled by mutableStateOf(isPolylinesEnabled)
     var isDragEnabled by mutableStateOf(isDragEnabled)
-    var isComposableContentEnabled by mutableStateOf(isPlacemarksEnabled)
+    var isComposableContentEnabled by mutableStateOf(isComposableContentEnabled)
 
     companion object {
         val Saver: Saver<MapActionsState, Any> = listSaver(
@@ -69,7 +69,8 @@ fun rememberMapActionsState(
     isCirclesEnabled: Boolean = true,
     isPolygonsEnabled: Boolean = true,
     isPolylinesEnabled: Boolean = true,
-    isDragEnabled: Boolean = false
+    isDragEnabled: Boolean = false,
+    isComposableContentEnabled: Boolean = false,
 ): MapActionsState {
     return rememberSaveable(saver = MapActionsState.Saver) {
         MapActionsState(
@@ -78,6 +79,7 @@ fun rememberMapActionsState(
             isPolygonsEnabled = isPolygonsEnabled,
             isPolylinesEnabled = isPolylinesEnabled,
             isDragEnabled = isDragEnabled,
+            isComposableContentEnabled = isComposableContentEnabled,
         )
     }
 }

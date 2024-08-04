@@ -6,6 +6,7 @@ import kotlinx.collections.immutable.persistentListOf
 import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.ClusterListener
+import ru.sulgik.mapkit.map.ClusterTapListener
 import ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
@@ -15,7 +16,7 @@ import ru.sulgik.mapkit.map.TextStyle
 
 internal class ClusterNode(
     groups: List<ClusterGroup>,
-    info: ClusterInfo,
+    config: ClusterizingConfig,
     mapObject: ClusterizedPlacemarkCollection,
     tapListener: ((Point) -> Boolean)?,
     var clusterItemTapListener: ((ClusterItem) -> Boolean)? = null,
@@ -31,7 +32,7 @@ internal class ClusterNode(
     init {
         if (groups.isNotEmpty()) {
             groups.forEach(::addGroup)
-            mapObject.clusterPlacemarks(info.config.clusterRadius, info.config.minZoom)
+            clusterPlacemarks(config)
         }
     }
 
@@ -41,25 +42,11 @@ internal class ClusterNode(
             field = value
         }
 
-    var info: ClusterInfo = info
+    var config: ClusterizingConfig = config
         set(value) {
-            clusterPlacemarks(value.config)
+            clusterPlacemarks(value)
             field = value
         }
-
-    var nativeCluster: Cluster? = null
-        set(value) {
-            updateNativeCluster(value, info)
-            field = value
-        }
-
-    private fun updateNativeCluster(cluster: Cluster?, info: ClusterInfo) {
-        if (cluster == null) return
-        cluster.appearance.setIcon(info.icon, info.iconStyle)
-        if (info.text != null) {
-            cluster.appearance.setText(info.text, info.textStyle)
-        }
-    }
 
     private fun addGroup(group: ClusterGroup) {
         mapObject.addPlacemarks(group.placemarks.map { it.geometry }, group.icon, group.iconStyle)
@@ -75,10 +62,10 @@ internal class ClusterNode(
     private fun updateItems(groups: List<ClusterGroup>) {
         mapObject.clear()
         groups.forEach(::addGroup)
-        clusterPlacemarks(info.config)
+        clusterPlacemarks(config)
     }
 
-    private fun clusterPlacemarks(config: ClusterizingConfig) {
+    internal fun clusterPlacemarks(config: ClusterizingConfig = this.config) {
         mapObject.clusterPlacemarks(config.clusterRadius, config.minZoom)
     }
 
@@ -109,14 +96,6 @@ public data class ClusterGroup(
     val textStyle: TextStyle = TextStyle(),
 )
 
-public data class ClusterInfo(
-    val icon: ImageProvider,
-    val config: ClusterizingConfig = ClusterizingConfig(),
-    val iconStyle: IconStyle = IconStyle(),
-    val text: String? = null,
-    val textStyle: TextStyle = TextStyle(),
-)
-
 public data class ClusterizingConfig(
     val clusterRadius: Double = DefaultClusterRadius,
     val minZoom: Int = DefaultMinZoom,
@@ -126,15 +105,86 @@ public data class ClusterizingConfig(
 @Composable
 public fun Clustering(
     group: ClusterGroup,
-    info: ClusterInfo,
+    icon: ImageProvider,
+    iconStyle: IconStyle = IconStyle(),
+    config: ClusterizingConfig = ClusterizingConfig(),
     onItemTap: ((ClusterItem) -> Boolean)? = null,
-    onClusterTap: ((Point) -> Boolean)? = null,
+    onClusterTap: ((Cluster) -> Boolean)? = null,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
 ) {
     Clustering(
         groups = persistentListOf(group),
-        info = info,
+        icon = icon,
+        iconStyle = iconStyle,
+        config = config,
+        onItemTap = onItemTap,
+        onClusterTap = onClusterTap,
+        visible = visible,
+        zIndex = zIndex
+    )
+}
+
+@YandexMapComposable
+@Composable
+public fun Clustering(
+    groups: ImmutableList<ClusterGroup>,
+    icon: ImageProvider,
+    iconStyle: IconStyle = IconStyle(),
+    config: ClusterizingConfig = ClusterizingConfig(),
+    onItemTap: ((ClusterItem) -> Boolean)? = null,
+    onClusterTap: ((Cluster) -> Boolean)? = null,
+    visible: Boolean = true,
+    zIndex: Float = 0.0f,
+) {
+    val collection = LocalMapObjectCollection.current
+    MapObjectNode(
+        visible = visible,
+        onTap = null,
+        zIndex = zIndex,
+        factory = {
+            val nativeClusterTapListener = ClusterTapListener {
+                onClusterTap?.invoke(it) ?: false
+            }
+            val listener = ClusterListener {
+                it.appearance.setIcon(icon, iconStyle)
+                it.addClusterTapListener(nativeClusterTapListener)
+            }
+            ClusterNode(
+                groups = groups,
+                config = config,
+                mapObject = collection.addClusterizedPlacemarkCollection(listener),
+                tapListener = null,
+                clusterItemTapListener = onItemTap,
+            )
+        },
+        update = {
+            update(onItemTap) { this.clusterItemTapListener = onItemTap }
+            update(groups) { this.groups = groups }
+            update(config) { this.config = config }
+            update(icon) { this.clusterPlacemarks() }
+            update(iconStyle) { this.clusterPlacemarks() }
+        }
+    )
+}
+
+@YandexMapComposable
+@Composable
+public fun Clustering(
+    group: ClusterGroup,
+    iconStyle: IconStyle = IconStyle(),
+    config: ClusterizingConfig = ClusterizingConfig(),
+    onItemTap: ((ClusterItem) -> Boolean)? = null,
+    onClusterTap: ((Cluster) -> Boolean)? = null,
+    visible: Boolean = true,
+    zIndex: Float = 0.0f,
+    content: @Composable (Cluster) -> Unit,
+) {
+    Clustering(
+        groups = persistentListOf(group),
+        icon = clusterImageProvider(content),
+        iconStyle = iconStyle,
+        config = config,
         onItemTap = onItemTap,
         onClusterTap = onClusterTap,
         visible = visible,
@@ -146,37 +196,88 @@ public fun Clustering(
 @Composable
 public fun Clustering(
     groups: ImmutableList<ClusterGroup>,
-    info: ClusterInfo,
+    iconStyle: IconStyle = IconStyle(),
+    config: ClusterizingConfig = ClusterizingConfig(),
     onItemTap: ((ClusterItem) -> Boolean)? = null,
-    onClusterTap: ((Point) -> Boolean)? = null,
+    onClusterTap: ((Cluster) -> Boolean)? = null,
+    visible: Boolean = true,
+    zIndex: Float = 0.0f,
+    content: @Composable (Cluster) -> Unit,
+) {
+    Clustering(
+        groups = groups,
+        icon = clusterImageProvider(content),
+        iconStyle = iconStyle,
+        config = config,
+        onItemTap = onItemTap,
+        onClusterTap = onClusterTap,
+        visible = visible,
+        zIndex = zIndex,
+    )
+}
+
+@YandexMapComposable
+@Composable
+public fun Clustering(
+    group: ClusterGroup,
+    icon: ClusterImageProvider,
+    iconStyle: IconStyle = IconStyle(),
+    config: ClusterizingConfig = ClusterizingConfig(),
+    onItemTap: ((ClusterItem) -> Boolean)? = null,
+    onClusterTap: ((Cluster) -> Boolean)? = null,
+    visible: Boolean = true,
+    zIndex: Float = 0.0f,
+) {
+    Clustering(
+        groups = persistentListOf(group),
+        icon = icon,
+        iconStyle = iconStyle,
+        config = config,
+        onItemTap = onItemTap,
+        onClusterTap = onClusterTap,
+        visible = visible,
+        zIndex = zIndex,
+    )
+}
+
+@YandexMapComposable
+@Composable
+public fun Clustering(
+    groups: ImmutableList<ClusterGroup>,
+    icon: ClusterImageProvider,
+    iconStyle: IconStyle = IconStyle(),
+    config: ClusterizingConfig = ClusterizingConfig(),
+    onItemTap: ((ClusterItem) -> Boolean)? = null,
+    onClusterTap: ((Cluster) -> Boolean)? = null,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
         visible = visible,
-        onTap = onClusterTap,
+        onTap = null,
         zIndex = zIndex,
         factory = {
-            var cluster: Cluster? = null
-            var node: ClusterNode? = null
-            val listener = ClusterListener {
-                cluster = it
-                node?.nativeCluster = it
+            val nativeClusterTapListener = ClusterTapListener {
+                onClusterTap?.invoke(it) ?: false
             }
-            node = ClusterNode(
+            val listener = ClusterListener {
+                it.appearance.setIcon(icon.toImageProvider(it), iconStyle)
+                it.addClusterTapListener(nativeClusterTapListener)
+            }
+            ClusterNode(
                 groups = groups,
-                info = info,
+                config = config,
                 mapObject = collection.addClusterizedPlacemarkCollection(listener),
-                tapListener = onClusterTap,
+                tapListener = null,
                 clusterItemTapListener = onItemTap,
-            ).apply { nativeCluster = cluster }
-            node
+            )
         },
         update = {
             update(onItemTap) { this.clusterItemTapListener = onItemTap }
             update(groups) { this.groups = groups }
-            update(info) { this.info = info }
+            update(config) { this.config = config }
+            update(iconStyle) { this.clusterPlacemarks() }
         }
     )
 }

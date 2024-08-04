@@ -18,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
@@ -26,7 +25,6 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import ru.sulgik.mapkit.compose.Circle
 import ru.sulgik.mapkit.compose.ClusterGroup
-import ru.sulgik.mapkit.compose.ClusterInfo
 import ru.sulgik.mapkit.compose.ClusterItem
 import ru.sulgik.mapkit.compose.Clustering
 import ru.sulgik.mapkit.compose.Placemark
@@ -90,7 +88,7 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
         ) {
             if (mapActionsState.isPlacemarksEnabled) {
                 if (mapActionsState.isPlacemarksClsuteringEnabled) {
-                    PlacemarksCluster(placemarks)
+                    PlacemarksCluster(placemarks, mapActionsState.isComposableContentEnabled)
                 } else {
                     Placemarks(
                         placemarks,
@@ -118,7 +116,11 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                         Box(
                             modifier = Modifier
                                 .background(Color.LightGray, MaterialTheme.shapes.medium)
-                                .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
+                                .border(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.outline,
+                                    MaterialTheme.shapes.medium
+                                )
                                 .padding(vertical = 5.dp, horizontal = 10.dp)
                         ) {
                             Text("clicks: $clicksCount")
@@ -215,6 +217,7 @@ fun Placemarks(
 @Composable
 fun PlacemarksCluster(
     placemarks: List<Pair<Point, MapObjectUserData>>,
+    isComposableContentEnabled: Boolean,
 ) {
     val pinRedImage = imageProvider(Res.drawable.pin_red)
     val pinGreenImage = imageProvider(Res.drawable.pin_green)
@@ -233,23 +236,54 @@ fun PlacemarksCluster(
         placemarks.asSequence().filter { it.second.type == MapObjectType.YELLOW }.map {
             ClusterItem(it.first, it.second)
         }.toImmutableList()
-    Clustering(
-        groups = persistentListOf(
-            ClusterGroup(
-                placemarks = redPlacemarks,
-                icon = pinRedImage,
+    if (isComposableContentEnabled) {
+        Clustering(
+            groups = persistentListOf(
+                ClusterGroup(
+                    placemarks = redPlacemarks,
+                    icon = pinRedImage,
+                ),
+                ClusterGroup(
+                    placemarks = greenPlacemarks,
+                    icon = pinGreenImage,
+                ),
+                ClusterGroup(
+                    placemarks = yellowPlacemarks,
+                    icon = pinYellowImage,
+                ),
             ),
-            ClusterGroup(
-                placemarks = greenPlacemarks,
-                icon = pinGreenImage,
+            content = {
+                Box(
+                    modifier = Modifier
+                        .background(Color.LightGray, MaterialTheme.shapes.medium)
+                        .border(
+                            1.dp,
+                            MaterialTheme.colorScheme.outline,
+                            MaterialTheme.shapes.medium
+                        )
+                        .padding(vertical = 5.dp, horizontal = 10.dp)
+                ) {
+                    Text("${it.size}")
+                }
+            }
+        )
+    } else {
+        Clustering(
+            groups = persistentListOf(
+                ClusterGroup(
+                    placemarks = redPlacemarks,
+                    icon = pinRedImage,
+                ),
+                ClusterGroup(
+                    placemarks = greenPlacemarks,
+                    icon = pinGreenImage,
+                ),
+                ClusterGroup(
+                    placemarks = yellowPlacemarks,
+                    icon = pinYellowImage,
+                ),
             ),
-            ClusterGroup(
-                placemarks = yellowPlacemarks,
-                icon = pinYellowImage,
-            ),
-        ),
-        info = ClusterInfo(
             icon = clusterIcon,
         )
-    )
+    }
 }
