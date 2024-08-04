@@ -10,8 +10,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import ru.sulgik.mapkit.compose.Circle
+import ru.sulgik.mapkit.compose.ClusterGroup
+import ru.sulgik.mapkit.compose.ClusterInfo
+import ru.sulgik.mapkit.compose.ClusterItem
+import ru.sulgik.mapkit.compose.Clustering
 import ru.sulgik.mapkit.compose.Placemark
 import ru.sulgik.mapkit.compose.Polygon
 import ru.sulgik.mapkit.compose.Polyline
@@ -26,6 +32,7 @@ import ru.sulgik.mapkit.compose.rememberPlacemarkState
 import ru.sulgik.mapkit.compose.rememberPolygonState
 import ru.sulgik.mapkit.compose.rememberPolylineState
 import ru.sulgik.mapkit.composeapp.generated.resources.Res
+import ru.sulgik.mapkit.composeapp.generated.resources.cluster
 import ru.sulgik.mapkit.composeapp.generated.resources.pin_green
 import ru.sulgik.mapkit.composeapp.generated.resources.pin_red
 import ru.sulgik.mapkit.composeapp.generated.resources.pin_yellow
@@ -71,11 +78,15 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxSize(),
         ) {
             if (mapActionsState.isPlacemarksEnabled) {
-                Placemarks(
-                    placemarks,
-                    mapActionsState = mapActionsState,
-                    onShowMessage = showMessage,
-                )
+                if (mapActionsState.isPlacemarksClsuteringEnabled) {
+                    PlacemarksCluster(placemarks)
+                } else {
+                    Placemarks(
+                        placemarks,
+                        mapActionsState = mapActionsState,
+                        onShowMessage = showMessage,
+                    )
+                }
             }
             if (mapActionsState.isCirclesEnabled) {
                 Circles(
@@ -161,10 +172,53 @@ fun Placemarks(
             state = rememberPlacemarkState(it.first),
             icon = typeToImageMap[it.second.type]!!,
             draggable = mapActionsState.isDragEnabled,
-            onTap = if(mapActionsState.isDragEnabled) null else { point ->
+            onTap = if (mapActionsState.isDragEnabled) null else { point ->
                 onShowMessage("Tap on ${it.second.name} point $point")
                 true
             }
         )
     }
+}
+
+@YandexMapComposable
+@Composable
+fun PlacemarksCluster(
+    placemarks: List<Pair<Point, MapObjectUserData>>,
+) {
+    val pinRedImage = imageProvider(Res.drawable.pin_red)
+    val pinGreenImage = imageProvider(Res.drawable.pin_green)
+    val pinYellowImage = imageProvider(Res.drawable.pin_yellow)
+    val clusterIcon = imageProvider(Res.drawable.cluster)
+
+    val redPlacemarks = placemarks.asSequence().filter { it.second.type == MapObjectType.RED }.map {
+        ClusterItem(it.first, it.second)
+    }.toImmutableList()
+
+    val greenPlacemarks =
+        placemarks.asSequence().filter { it.second.type == MapObjectType.GREEN }.map {
+            ClusterItem(it.first, it.second)
+        }.toImmutableList()
+    val yellowPlacemarks =
+        placemarks.asSequence().filter { it.second.type == MapObjectType.YELLOW }.map {
+            ClusterItem(it.first, it.second)
+        }.toImmutableList()
+    Clustering(
+        groups = persistentListOf(
+            ClusterGroup(
+                placemarks = redPlacemarks,
+                icon = pinRedImage,
+            ),
+            ClusterGroup(
+                placemarks = greenPlacemarks,
+                icon = pinGreenImage,
+            ),
+            ClusterGroup(
+                placemarks = yellowPlacemarks,
+                icon = pinYellowImage,
+            ),
+        ),
+        info = ClusterInfo(
+            icon = clusterIcon,
+        )
+    )
 }

@@ -20,12 +20,14 @@ import androidx.compose.ui.unit.dp
 
 class MapActionsState(
     isPlacemarksEnabled: Boolean = true,
+    isPlacemarksClsuteringEnabled: Boolean = false,
     isCirclesEnabled: Boolean = true,
     isPolygonsEnabled: Boolean = true,
     isPolylinesEnabled: Boolean = true,
     isDragEnabled: Boolean = false,
 ) {
     var isPlacemarksEnabled by mutableStateOf(isPlacemarksEnabled)
+    var isPlacemarksClsuteringEnabled by mutableStateOf(isPlacemarksClsuteringEnabled)
     var isCirclesEnabled by mutableStateOf(isCirclesEnabled)
     var isPolygonsEnabled by mutableStateOf(isPolygonsEnabled)
     var isPolylinesEnabled by mutableStateOf(isPolylinesEnabled)
@@ -36,17 +38,21 @@ class MapActionsState(
             save = {
                 listOf(
                     it.isPlacemarksEnabled,
+                    it.isPlacemarksClsuteringEnabled,
                     it.isCirclesEnabled,
                     it.isPolygonsEnabled,
-                    it.isPolylinesEnabled
+                    it.isPolylinesEnabled,
+                    it.isDragEnabled,
                 )
             },
             restore = {
                 MapActionsState(
                     isPlacemarksEnabled = it[0],
-                    isCirclesEnabled = it[1],
-                    isPolygonsEnabled = it[2],
-                    isPolylinesEnabled = it[3]
+                    isPlacemarksClsuteringEnabled = it[1],
+                    isCirclesEnabled = it[2],
+                    isPolygonsEnabled = it[3],
+                    isPolylinesEnabled = it[3],
+                    isDragEnabled = it[5]
                 )
             }
         )
@@ -92,6 +98,11 @@ fun MapActions(
             onClick = { state.isPlacemarksEnabled = !state.isPlacemarksEnabled },
         ) {
             Text("Placemarks: ${if (state.isPlacemarksEnabled) "on" else "off"}")
+        }
+        OutlinedButton(
+            onClick = { state.isPlacemarksClsuteringEnabled = !state.isPlacemarksClsuteringEnabled },
+        ) {
+            Text("Placemarks clustering: ${if (state.isPlacemarksClsuteringEnabled) "on" else "off"}")
         }
         OutlinedButton(
             onClick = { state.isCirclesEnabled = !state.isCirclesEnabled },
