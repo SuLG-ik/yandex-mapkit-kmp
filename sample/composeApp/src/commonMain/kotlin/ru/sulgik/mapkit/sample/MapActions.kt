@@ -25,6 +25,7 @@ class MapActionsState(
     isPolygonsEnabled: Boolean = true,
     isPolylinesEnabled: Boolean = true,
     isDragEnabled: Boolean = false,
+    isComposableContentEnabled: Boolean = true,
 ) {
     var isPlacemarksEnabled by mutableStateOf(isPlacemarksEnabled)
     var isPlacemarksClsuteringEnabled by mutableStateOf(isPlacemarksClsuteringEnabled)
@@ -32,6 +33,7 @@ class MapActionsState(
     var isPolygonsEnabled by mutableStateOf(isPolygonsEnabled)
     var isPolylinesEnabled by mutableStateOf(isPolylinesEnabled)
     var isDragEnabled by mutableStateOf(isDragEnabled)
+    var isComposableContentEnabled by mutableStateOf(isPlacemarksEnabled)
 
     companion object {
         val Saver: Saver<MapActionsState, Any> = listSaver(
@@ -43,6 +45,7 @@ class MapActionsState(
                     it.isPolygonsEnabled,
                     it.isPolylinesEnabled,
                     it.isDragEnabled,
+                    it.isComposableContentEnabled,
                 )
             },
             restore = {
@@ -52,7 +55,8 @@ class MapActionsState(
                     isCirclesEnabled = it[2],
                     isPolygonsEnabled = it[3],
                     isPolylinesEnabled = it[3],
-                    isDragEnabled = it[5]
+                    isDragEnabled = it[5],
+                    isComposableContentEnabled = it[6],
                 )
             }
         )
@@ -100,7 +104,9 @@ fun MapActions(
             Text("Placemarks: ${if (state.isPlacemarksEnabled) "on" else "off"}")
         }
         OutlinedButton(
-            onClick = { state.isPlacemarksClsuteringEnabled = !state.isPlacemarksClsuteringEnabled },
+            onClick = {
+                state.isPlacemarksClsuteringEnabled = !state.isPlacemarksClsuteringEnabled
+            },
         ) {
             Text("Placemarks clustering: ${if (state.isPlacemarksClsuteringEnabled) "on" else "off"}")
         }
@@ -123,6 +129,11 @@ fun MapActions(
             onClick = { state.isDragEnabled = !state.isDragEnabled }
         ) {
             Text("Drag: ${if (state.isDragEnabled) "on" else "off"}")
+        }
+        OutlinedButton(
+            onClick = { state.isComposableContentEnabled = !state.isComposableContentEnabled }
+        ) {
+            Text("Composable content: ${if (state.isDragEnabled) "on" else "off"}")
         }
     }
 }

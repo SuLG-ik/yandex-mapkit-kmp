@@ -16,6 +16,8 @@ fun randomPlacemarks(): List<Pair<Point, MapObjectUserData>> {
     }
 }
 
+val composablePlacemark = Point(59.939866, 30.314352)
+
 fun randomCircles(): List<Pair<Circle, MapObjectUserData>> {
     return listOf(
         Circle(

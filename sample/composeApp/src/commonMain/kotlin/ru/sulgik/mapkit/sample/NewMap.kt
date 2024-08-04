@@ -1,15 +1,26 @@
 package ru.sulgik.mapkit.sample
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -99,6 +110,26 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
             }
             if (mapActionsState.isPolylinesEnabled) {
                 Polylines(onShowMessage = showMessage)
+            }
+            if (mapActionsState.isComposableContentEnabled) {
+                var clicksCount by remember { mutableStateOf(0) }
+                Placemark(
+                    icon = imageProvider(clicksCount) {
+                        Box(
+                            modifier = Modifier
+                                .background(Color.LightGray, MaterialTheme.shapes.medium)
+                                .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
+                                .padding(vertical = 5.dp, horizontal = 10.dp)
+                        ) {
+                            Text("clicks: $clicksCount")
+                        }
+                    },
+                    state = rememberPlacemarkState(composablePlacemark),
+                    onTap = {
+                        clicksCount++
+                        true
+                    }
+                )
             }
         }
     }

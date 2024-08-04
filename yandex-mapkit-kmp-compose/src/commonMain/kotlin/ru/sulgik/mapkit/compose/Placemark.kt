@@ -89,6 +89,29 @@ public fun Placemark(
 }
 
 @[YandexMapComposable Composable]
+public fun Placemark(
+    state: PlacemarkState,
+    iconStyle: IconStyle = IconStyle(),
+    visible: Boolean = true,
+    draggable: Boolean = false,
+    zIndex: Float = 0.0f,
+    opacity: Float = 1.0f,
+    onTap: ((Point) -> Boolean)? = null,
+    content: @Composable () -> Unit,
+) {
+    Placemark(
+        state = state,
+        icon = imageProvider(content),
+        iconStyle = iconStyle,
+        visible = visible,
+        draggable = draggable,
+        zIndex = zIndex,
+        opacity = opacity,
+        onTap = onTap,
+    )
+}
+
+@[YandexMapComposable Composable]
 public fun TitledPlacemark(
     state: PlacemarkState,
     icon: ImageProvider,
@@ -151,11 +174,12 @@ internal inline fun PlacemarkImpl(
             update(state.direction) { this.mapObject.direction = it }
             update(opacity) { this.mapObject.opacity = it }
             update(draggable) { this.mapObject.isDraggable = it }
+            update(icon) { this.mapObject.setIcon(icon, iconStyle) }
+            update(iconStyle) { this.mapObject.setIcon(icon, iconStyle) }
             update()
         }
     )
 }
-
 
 @[YandexMapComposable Composable]
 internal fun TitledPlacemarkImpl(
