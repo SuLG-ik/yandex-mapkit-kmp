@@ -1,6 +1,6 @@
 package ru.sulgik.mapkit.geometry
 
-class BoundingBox(
-    val southWest: Point,
-    val northEast: Point,
+public class BoundingBox(
+    public val southWest: Point,
+    public val northEast: Point,
 )

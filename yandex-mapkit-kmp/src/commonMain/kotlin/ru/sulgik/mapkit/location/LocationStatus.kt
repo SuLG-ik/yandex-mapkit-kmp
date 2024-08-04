@@ -1,5 +1,5 @@
 package ru.sulgik.mapkit.location
 
-enum class LocationStatus {
+public enum class LocationStatus {
     NOT_AVAILABLE, AVAILABLE, RESET
 }

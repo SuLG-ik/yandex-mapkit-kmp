@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.Color
 
-data class TextStyle(
+public data class TextStyle(
     val size: Float = 8f,
     val color: Color? = null,
     val outlineWidth: Float = 1f,
@@ -12,7 +12,7 @@ data class TextStyle(
     val offsetFromIcon: Boolean = true,
     val textOptional: Boolean = false,
 ) {
-    enum class Placement {
+    public enum class Placement {
         CENTER,
         LEFT,
         RIGHT,

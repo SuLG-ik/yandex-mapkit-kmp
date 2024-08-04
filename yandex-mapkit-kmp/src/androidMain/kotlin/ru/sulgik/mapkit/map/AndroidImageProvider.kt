@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import com.yandex.runtime.image.ImageProvider as NativeImageProvider
 
-class AndroidImageProvider internal constructor(
+public class AndroidImageProvider internal constructor(
     private val nativeImageProvider: NativeImageProvider,
 ) : ImageProvider {
     override fun toNative(): NativeImageProvider {
@@ -13,26 +13,26 @@ class AndroidImageProvider internal constructor(
     }
 }
 
-fun NativeImageProvider.toCommon(): ImageProvider {
+public fun NativeImageProvider.toCommon(): ImageProvider {
     return AndroidImageProvider(this)
 }
 
-fun Bitmap.toImageProvider(): ImageProvider {
+public fun Bitmap.toImageProvider(): ImageProvider {
     return NativeImageProvider.fromBitmap(this).toCommon()
 }
 
-fun Bitmap.toImageProvider(
+public fun Bitmap.toImageProvider(
     isCacheable: Boolean,
     id: String,
 ): ImageProvider {
     return NativeImageProvider.fromBitmap(this, isCacheable, id).toCommon()
 }
 
-fun ImageProvider.Companion.fromAsset(context: Context, assetName: String): ImageProvider {
+public fun ImageProvider.Companion.fromAsset(context: Context, assetName: String): ImageProvider {
     return NativeImageProvider.fromAsset(context, assetName).toCommon()
 }
 
-fun ImageProvider.Companion.fromAsset(
+public fun ImageProvider.Companion.fromAsset(
     context: Context,
     assetName: String,
     isCacheable: Boolean,
@@ -40,14 +40,14 @@ fun ImageProvider.Companion.fromAsset(
     return NativeImageProvider.fromAsset(context, assetName, isCacheable).toCommon()
 }
 
-fun ImageProvider.Companion.fromResource(
+public fun ImageProvider.Companion.fromResource(
     context: Context,
     @DrawableRes resourceId: Int,
 ): ImageProvider {
     return NativeImageProvider.fromResource(context, resourceId).toCommon()
 }
 
-fun ImageProvider.Companion.fromResource(
+public fun ImageProvider.Companion.fromResource(
     context: Context,
     @DrawableRes resourceId: Int,
     isCacheable: Boolean,
@@ -55,11 +55,11 @@ fun ImageProvider.Companion.fromResource(
     return NativeImageProvider.fromResource(context, resourceId, isCacheable).toCommon()
 }
 
-fun ImageProvider.Companion.fromFile(fileName: String): ImageProvider {
+public fun ImageProvider.Companion.fromFile(fileName: String): ImageProvider {
     return NativeImageProvider.fromFile(fileName).toCommon()
 }
 
-fun ImageProvider.Companion.fromFile(
+public fun ImageProvider.Companion.fromFile(
     fileName: String,
     isCacheable: Boolean,
 ): ImageProvider {

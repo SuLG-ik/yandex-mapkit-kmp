@@ -2,8 +2,8 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.PointF
 
-expect class PlacemarksStyler {
+public expect class PlacemarksStyler {
 
-    fun setScaleFunction(points: List<PointF>)
+    public fun setScaleFunction(points: List<PointF>)
 
 }

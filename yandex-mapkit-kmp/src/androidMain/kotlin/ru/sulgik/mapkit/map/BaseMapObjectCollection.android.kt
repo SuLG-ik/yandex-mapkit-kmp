@@ -4,7 +4,7 @@ import com.yandex.mapkit.map.BaseMapObjectCollection as NativeBaseMapObjectColle
 import com.yandex.mapkit.map.ClusterizedPlacemarkCollection as NativeClusterizedPlacemarkCollection1
 import com.yandex.mapkit.map.MapObjectCollection as NativeMapObjectCollection
 
-actual open class BaseMapObjectCollection internal constructor(
+public actual open class BaseMapObjectCollection internal constructor(
     private val nativeBaseMapObjectCollection: NativeBaseMapObjectCollection,
 ) : MapObject(nativeBaseMapObjectCollection) {
 
@@ -12,29 +12,29 @@ actual open class BaseMapObjectCollection internal constructor(
         return nativeBaseMapObjectCollection
     }
 
-    actual fun traverse(mapObjectVisitor: MapObjectVisitor) {
+    public actual fun traverse(mapObjectVisitor: MapObjectVisitor) {
         nativeBaseMapObjectCollection.traverse(mapObjectVisitor)
     }
 
-    actual fun remove(mapObject: MapObject) {
+    public actual fun remove(mapObject: MapObject) {
         nativeBaseMapObjectCollection.remove(mapObject.toNative())
     }
 
-    actual fun clear() {
+    public actual fun clear() {
         nativeBaseMapObjectCollection.clear()
     }
 
-    actual fun addListener(collectionListener: MapObjectCollectionListener) {
+    public actual fun addListener(collectionListener: MapObjectCollectionListener) {
         nativeBaseMapObjectCollection.addListener(collectionListener.toNative())
     }
 
-    actual fun removeListener(collectionListener: MapObjectCollectionListener) {
+    public actual fun removeListener(collectionListener: MapObjectCollectionListener) {
         nativeBaseMapObjectCollection.removeListener(collectionListener.toNative())
     }
 
 }
 
-fun NativeBaseMapObjectCollection.toCommon(): BaseMapObjectCollection {
+public fun NativeBaseMapObjectCollection.toCommon(): BaseMapObjectCollection {
     return when (this) {
         is NativeMapObjectCollection -> toCommon()
         is NativeClusterizedPlacemarkCollection1 -> toCommon()

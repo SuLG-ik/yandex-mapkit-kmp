@@ -6,7 +6,7 @@ import ru.sulgik.mapkit.geometry.toCommon
 import YandexMapKit.YMKPoint as NativePoint
 import YandexMapKit.YMKUserLocationTapListenerProtocol as NativeUserLocationTapListener
 
-actual abstract class UserLocationTapListener actual constructor() {
+public actual abstract class UserLocationTapListener actual constructor() {
 
     private val nativeListener = object : NativeUserLocationTapListener, NSObject() {
         override fun onUserLocationObjectTapWithPoint(point: NativePoint) {
@@ -14,10 +14,10 @@ actual abstract class UserLocationTapListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeUserLocationTapListener {
+    public fun toNative(): NativeUserLocationTapListener {
         return nativeListener
     }
 
-    actual abstract fun onUserLocationObjectTap(point: Point)
+    public actual abstract fun onUserLocationObjectTap(point: Point)
 
 }

@@ -6,30 +6,31 @@ import ru.sulgik.mapkit.map.toCommon
 import YandexMapKit.YMKCluster as NativeCluster
 import YandexMapKit.YMKPlacemarkMapObject as NativePlacemarkMapObject
 
-actual class Cluster internal constructor(private val nativeCluster: NativeCluster) {
+public actual class Cluster internal constructor(private val nativeCluster: NativeCluster) {
 
-    fun toNative(): NativeCluster {
+    public fun toNative(): NativeCluster {
         return nativeCluster
     }
 
-    actual val placemarks: List<PlacemarkMapObject>
+    public actual val placemarks: List<PlacemarkMapObject>
+        @Suppress("UNCHECKED_CAST")
         get() = (nativeCluster.placemarks as List<NativePlacemarkMapObject>).map { it.toCommon() }
 
-    actual val size: Int
+    public actual val size: Int
         get() = nativeCluster.size.toInt()
-    actual val appearance: PlacemarkMapObject
+    public actual val appearance: PlacemarkMapObject
         get() = nativeCluster.appearance.toCommon()
 
-    actual fun addClusterTapListener(listener: ClusterTapListener) {
+    public actual fun addClusterTapListener(listener: ClusterTapListener) {
         nativeCluster.addClusterTapListenerWithClusterTapListener(listener.toNative())
     }
 
-    actual fun removeClusterTapListener(listener: ClusterTapListener) {
+    public actual fun removeClusterTapListener(listener: ClusterTapListener) {
         nativeCluster.removeClusterTapListenerWithClusterTapListener(listener.toNative())
     }
 
 }
 
-fun NativeCluster.toCommon(): Cluster {
+public fun NativeCluster.toCommon(): Cluster {
     return Cluster(this)
 }

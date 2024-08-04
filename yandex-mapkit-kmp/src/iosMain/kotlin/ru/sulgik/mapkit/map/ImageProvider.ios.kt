@@ -2,14 +2,14 @@ package ru.sulgik.mapkit.map
 
 import platform.UIKit.UIImage
 
-actual interface ImageProvider {
+public actual interface ImageProvider {
 
-    fun toNative(): UIImage
+    public fun toNative(): UIImage
 
-    companion object
+    public companion object
 
 }
 
-fun ImageProvider.Companion.fromUIImage(uiImage: UIImage): ImageProvider {
+public fun ImageProvider.Companion.fromUIImage(uiImage: UIImage): ImageProvider {
     return UIImageImageProvider(uiImage)
 }

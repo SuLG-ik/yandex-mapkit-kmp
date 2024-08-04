@@ -7,7 +7,7 @@ import YandexMapKit.YMKMapObject as NativeMapObject
 import YandexMapKit.YMKMapObjectDragListenerProtocol as NativeMapObjectDragListener
 import YandexMapKit.YMKPoint as NativePoint
 
-actual abstract class MapObjectDragListener actual constructor() {
+public actual abstract class MapObjectDragListener actual constructor() {
     private val nativeListener = object : NativeMapObjectDragListener, NSObject() {
         override fun onMapObjectDragEndWithMapObject(mapObject: NativeMapObject) {
             onMapObjectDragEnd(mapObject.toCommon())
@@ -22,11 +22,11 @@ actual abstract class MapObjectDragListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeMapObjectDragListener {
+    public fun toNative(): NativeMapObjectDragListener {
         return nativeListener
     }
 
-    actual abstract fun onMapObjectDragStart(mapObject: MapObject)
-    actual abstract fun onMapObjectDrag(mapObject: MapObject, point: Point)
-    actual abstract fun onMapObjectDragEnd(mapObject: MapObject)
+    public actual abstract fun onMapObjectDragStart(mapObject: MapObject)
+    public actual abstract fun onMapObjectDrag(mapObject: MapObject, point: Point)
+    public actual abstract fun onMapObjectDragEnd(mapObject: MapObject)
 }

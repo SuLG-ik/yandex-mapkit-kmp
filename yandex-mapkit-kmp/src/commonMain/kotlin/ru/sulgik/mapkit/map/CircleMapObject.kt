@@ -3,16 +3,16 @@ package ru.sulgik.mapkit.map
 import ru.sulgik.mapkit.Color
 import ru.sulgik.mapkit.geometry.Circle
 
-expect class CircleMapObject: MapObject {
+public expect class CircleMapObject: MapObject {
 
-    var geometry: Circle
+    public var geometry: Circle
 
-    var strokeColor: Color
+    public var strokeColor: Color
 
-    var strokeWidth: Float
+    public var strokeWidth: Float
 
-    var fillColor: Color
+    public var fillColor: Color
 
-    var isGeodesic: Boolean
+    public var isGeodesic: Boolean
 
 }

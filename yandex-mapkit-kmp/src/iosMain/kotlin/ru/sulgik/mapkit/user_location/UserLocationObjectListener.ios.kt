@@ -7,7 +7,7 @@ import YandexMapKit.YMKObjectEvent as NativeObjectEvent
 import YandexMapKit.YMKUserLocationObjectListenerProtocol as NativeUserLocationObjectListener
 import YandexMapKit.YMKUserLocationView as NativeUserLocationView
 
-actual abstract class UserLocationObjectListener actual constructor() {
+public actual abstract class UserLocationObjectListener actual constructor() {
 
     private val nativeListener = object : NativeUserLocationObjectListener, NSObject() {
         override fun onObjectAddedWithView(view: NativeUserLocationView) {
@@ -26,13 +26,13 @@ actual abstract class UserLocationObjectListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeUserLocationObjectListener {
+    public fun toNative(): NativeUserLocationObjectListener {
         return nativeListener
     }
 
-    actual abstract fun onObjectAdded(view: UserLocationView)
-    actual abstract fun onObjectRemoved(view: UserLocationView)
-    actual abstract fun onObjectUpdated(
+    public actual abstract fun onObjectAdded(view: UserLocationView)
+    public actual abstract fun onObjectRemoved(view: UserLocationView)
+    public actual abstract fun onObjectUpdated(
         view: UserLocationView,
         event: ObjectEvent,
     )

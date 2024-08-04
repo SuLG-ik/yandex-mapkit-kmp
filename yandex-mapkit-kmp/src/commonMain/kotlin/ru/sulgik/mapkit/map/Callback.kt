@@ -1,10 +1,10 @@
 package ru.sulgik.mapkit.map
 
-expect abstract class Callback() {
-    abstract fun onTaskFinished()
+public expect abstract class Callback() {
+    public abstract fun onTaskFinished()
 }
 
-inline fun Callback(crossinline onTaskFinished: () -> Unit): Callback {
+public inline fun Callback(crossinline onTaskFinished: () -> Unit): Callback {
     return object : Callback() {
         override fun onTaskFinished() {
             onTaskFinished.invoke()

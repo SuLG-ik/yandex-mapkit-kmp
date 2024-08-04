@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKTextStyle as NativeTextStyle
 import YandexMapKit.YMKTextStylePlacement as NativeTextStylePlacement
 
-fun TextStyle.toNative(): NativeTextStyle {
+public fun TextStyle.toNative(): NativeTextStyle {
     return NativeTextStyle.textStyleWithSize(
         size = size,
         color = color?.toNative(),
@@ -18,7 +18,7 @@ fun TextStyle.toNative(): NativeTextStyle {
     )
 }
 
-fun NativeTextStyle.toCommon(): TextStyle {
+public fun NativeTextStyle.toCommon(): TextStyle {
     return TextStyle(
         size = size,
         color = color?.toCommon(),
@@ -31,12 +31,12 @@ fun NativeTextStyle.toCommon(): TextStyle {
     )
 }
 
-fun NativeTextStylePlacement.toCommon(): TextStyle.Placement {
+public fun NativeTextStylePlacement.toCommon(): TextStyle.Placement {
     return when (this) {
         NativeTextStylePlacement.YMKTextStylePlacementTopRight -> TextStyle.Placement.TOP_RIGHT
         NativeTextStylePlacement.YMKTextStylePlacementLeft -> TextStyle.Placement.LEFT
         NativeTextStylePlacement.YMKTextStylePlacementBottomRight -> TextStyle.Placement.BOTTOM_RIGHT
-        NativeTextStylePlacement.YMKTextStylePlacementTop -> TextStyle.Placement.TOP_RIGHT
+        NativeTextStylePlacement.YMKTextStylePlacementTop -> TextStyle.Placement.TOP
         NativeTextStylePlacement.YMKTextStylePlacementBottom -> TextStyle.Placement.BOTTOM
         NativeTextStylePlacement.YMKTextStylePlacementBottomLeft -> TextStyle.Placement.BOTTOM_LEFT
         NativeTextStylePlacement.YMKTextStylePlacementTopLeft -> TextStyle.Placement.TOP_LEFT
@@ -46,7 +46,7 @@ fun NativeTextStylePlacement.toCommon(): TextStyle.Placement {
     }
 }
 
-fun TextStyle.Placement.toNative(): NativeTextStylePlacement {
+public fun TextStyle.Placement.toNative(): NativeTextStylePlacement {
     return when (this) {
         TextStyle.Placement.CENTER -> NativeTextStylePlacement.YMKTextStylePlacementCenter
         TextStyle.Placement.LEFT -> NativeTextStylePlacement.YMKTextStylePlacementLeft

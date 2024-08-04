@@ -4,32 +4,32 @@ import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.geometry.Point
 
-expect class MapWindow {
+public expect class MapWindow {
 
-    val width: Int
+    public val width: Int
 
-    val height: Int
+    public val height: Int
 
-    val map: Map
+    public val map: Map
 
-    var focusRect: ScreenRect?
+    public var focusRect: ScreenRect?
 
-    var focusPoint: ScreenPoint?
+    public var focusPoint: ScreenPoint?
 
-    var gestureFocusPoint: ScreenPoint?
+    public var gestureFocusPoint: ScreenPoint?
 
-    var gestureFocusPointMode: GestureFocusPointMode
+    public var gestureFocusPointMode: GestureFocusPointMode
 
-    var pointOfView: PointOfView
+    public var pointOfView: PointOfView
 
-    var scaleFactor: Float
+    public var scaleFactor: Float
 
-    fun addSizeChangeListener(listener: SizeChangeListener)
+    public fun addSizeChangeListener(listener: SizeChangeListener)
 
-    fun removeSizeChangeListener(listener: SizeChangeListener)
+    public fun removeSizeChangeListener(listener: SizeChangeListener)
 
-    fun convertWorldToScreen(worldPoint: Point): ScreenPoint?
+    public fun convertWorldToScreen(worldPoint: Point): ScreenPoint?
 
-    fun convertScreenToWorld(screenPoint: ScreenPoint): Point?
+    public fun convertScreenToWorld(screenPoint: ScreenPoint): Point?
 
 }

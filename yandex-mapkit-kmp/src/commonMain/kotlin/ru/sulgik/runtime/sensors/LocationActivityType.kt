@@ -1,6 +1,6 @@
 package ru.sulgik.runtime.sensors
 
-enum class LocationActivityType {
+public enum class LocationActivityType {
     AUTO_DETECT,
     CAR,
     PEDESTRIAN,

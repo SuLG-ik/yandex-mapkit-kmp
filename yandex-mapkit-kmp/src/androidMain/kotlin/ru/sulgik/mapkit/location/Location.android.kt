@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.location.Location as NativeLocation
 
-fun Location.toNative(): NativeLocation {
+public fun Location.toNative(): NativeLocation {
     return NativeLocation(
         position.toNative(),
         accuracy,
@@ -18,7 +18,7 @@ fun Location.toNative(): NativeLocation {
     )
 }
 
-fun NativeLocation.toCommon(): Location {
+public fun NativeLocation.toCommon(): Location {
     return Location(
         position = position.toCommon(),
         accuracy = accuracy,

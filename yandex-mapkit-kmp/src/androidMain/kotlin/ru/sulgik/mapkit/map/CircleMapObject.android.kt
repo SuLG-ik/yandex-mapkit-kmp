@@ -4,43 +4,44 @@ import ru.sulgik.mapkit.Color
 import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.toColor
+import ru.sulgik.mapkit.toArgb
 import com.yandex.mapkit.map.CircleMapObject as NativeCircleMapObject
 
-actual class CircleMapObject internal constructor(private val nativeCircleMapObject: NativeCircleMapObject) :
+public actual class CircleMapObject internal constructor(private val nativeCircleMapObject: NativeCircleMapObject) :
     MapObject(nativeCircleMapObject) {
 
     override fun toNative(): NativeCircleMapObject {
         return nativeCircleMapObject
     }
 
-    actual var geometry: Circle
+    public actual var geometry: Circle
         get() = nativeCircleMapObject.geometry.toCommon()
         set(value) {
             nativeCircleMapObject.geometry = value.toNative()
         }
-    actual var strokeColor: Color
-        get() = nativeCircleMapObject.strokeColor.let(::Color)
+    public actual var strokeColor: Color
+        get() = nativeCircleMapObject.strokeColor.toColor()
         set(value) {
-            nativeCircleMapObject.strokeColor = value.value
+            nativeCircleMapObject.strokeColor = value.toArgb()
         }
-    actual var strokeWidth: Float
+    public actual var strokeWidth: Float
         get() = nativeCircleMapObject.strokeWidth
         set(value) {
             nativeCircleMapObject.strokeWidth = value
         }
-    actual var fillColor: Color
-        get() = nativeCircleMapObject.fillColor.let(::Color)
+    public actual var fillColor: Color
+        get() = nativeCircleMapObject.fillColor.toColor()
         set(value) {
-            nativeCircleMapObject.fillColor = value.value
+            nativeCircleMapObject.fillColor = value.toArgb()
         }
-    actual var isGeodesic: Boolean
+    public actual var isGeodesic: Boolean
         get() = nativeCircleMapObject.isGeodesic
         set(value) {
             nativeCircleMapObject.isGeodesic = value
         }
-
 }
 
-fun NativeCircleMapObject.toCommon(): CircleMapObject {
+public fun NativeCircleMapObject.toCommon(): CircleMapObject {
     return CircleMapObject(this)
 }

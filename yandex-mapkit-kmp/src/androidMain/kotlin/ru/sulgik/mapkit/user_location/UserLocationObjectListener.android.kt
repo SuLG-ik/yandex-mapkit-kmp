@@ -6,7 +6,7 @@ import com.yandex.mapkit.layers.ObjectEvent as NativeObjectEvent
 import com.yandex.mapkit.user_location.UserLocationObjectListener as NativeUserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView as NativeUserLocationView
 
-actual abstract class UserLocationObjectListener actual constructor() {
+public actual abstract class UserLocationObjectListener actual constructor() {
 
     private val nativeListener = object : NativeUserLocationObjectListener {
         override fun onObjectAdded(p0: NativeUserLocationView) {
@@ -25,11 +25,11 @@ actual abstract class UserLocationObjectListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeUserLocationObjectListener {
+    public fun toNative(): NativeUserLocationObjectListener {
         return nativeListener
     }
 
-    actual abstract fun onObjectAdded(view: UserLocationView)
-    actual abstract fun onObjectRemoved(view: UserLocationView)
-    actual abstract fun onObjectUpdated(view: UserLocationView, event: ObjectEvent)
+    public actual abstract fun onObjectAdded(view: UserLocationView)
+    public actual abstract fun onObjectRemoved(view: UserLocationView)
+    public actual abstract fun onObjectUpdated(view: UserLocationView, event: ObjectEvent)
 }

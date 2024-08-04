@@ -2,22 +2,22 @@ package ru.sulgik.mapkit.logo
 
 import YandexMapKit.YMKLogo as NativeLogo
 
-actual class Logo internal constructor(private val nativeLogo: NativeLogo){
+public actual class Logo internal constructor(private val nativeLogo: NativeLogo){
 
-    fun toNative(): NativeLogo {
+    public fun toNative(): NativeLogo {
         return nativeLogo
     }
 
-    actual fun setAlignment(alignment: Alignment) {
+    public actual fun setAlignment(alignment: Alignment) {
         nativeLogo.setAlignmentWithAlignment(alignment.toNative())
     }
 
-    actual fun setPadding(padding: Padding) {
+    public actual fun setPadding(padding: Padding) {
         nativeLogo.setPaddingWithPadding(padding.toNative())
     }
 
 }
 
-fun NativeLogo.toCommon(): Logo {
+public fun NativeLogo.toCommon(): Logo {
     return Logo(this)
 }

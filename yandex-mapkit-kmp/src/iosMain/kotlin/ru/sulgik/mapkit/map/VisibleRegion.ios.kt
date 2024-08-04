@@ -4,7 +4,7 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import YandexMapKit.YMKVisibleRegion as NativeVisibleRegion
 
-fun NativeVisibleRegion.toCommon(): VisibleRegion {
+public fun NativeVisibleRegion.toCommon(): VisibleRegion {
     return VisibleRegion(
         topLeft = topLeft.toCommon(),
         topRight = topRight.toCommon(),
@@ -13,7 +13,7 @@ fun NativeVisibleRegion.toCommon(): VisibleRegion {
     )
 }
 
-fun VisibleRegion.toNative(): NativeVisibleRegion {
+public fun VisibleRegion.toNative(): NativeVisibleRegion {
     return NativeVisibleRegion.visibleRegionWithTopLeft(
         topLeft = topLeft.toNative(),
         topRight = topRight.toNative(),

@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.map
 
 import com.yandex.mapkit.map.MapType as NativeMapType
 
-fun MapType.toNative(): NativeMapType {
+public fun MapType.toNative(): NativeMapType {
     return when (this) {
         MapType.NONE -> NativeMapType.NONE
         MapType.MAP -> NativeMapType.MAP
@@ -12,7 +12,7 @@ fun MapType.toNative(): NativeMapType {
     }
 }
 
-fun NativeMapType.toCommon(): MapType {
+public fun NativeMapType.toCommon(): MapType {
     return when (this) {
         NativeMapType.NONE -> MapType.NONE
         NativeMapType.MAP -> MapType.MAP

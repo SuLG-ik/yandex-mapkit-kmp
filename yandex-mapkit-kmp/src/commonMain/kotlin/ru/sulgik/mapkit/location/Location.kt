@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.location
 import kotlinx.datetime.Instant
 import ru.sulgik.mapkit.geometry.Point
 
-data class Location(
+public data class Location(
     val position: Point,
     val accuracy: Double?,
     val altitude: Double?,

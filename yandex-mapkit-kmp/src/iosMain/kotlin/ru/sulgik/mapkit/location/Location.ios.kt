@@ -7,7 +7,7 @@ import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNSNumber
 import YandexMapKit.YMKLocation as NativeLocation
 
-fun Location.toNative(): NativeLocation {
+public fun Location.toNative(): NativeLocation {
     return NativeLocation.locationWithPosition(
         position = position.toNative(),
         accuracy = accuracy?.toNSNumber(),
@@ -20,7 +20,7 @@ fun Location.toNative(): NativeLocation {
     )
 }
 
-fun NativeLocation.toCommon(): Location {
+public fun NativeLocation.toCommon(): Location {
     return Location(
         position = position.toCommon(),
         accuracy = accuracy?.doubleValue,

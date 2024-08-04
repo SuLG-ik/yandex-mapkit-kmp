@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.location
 
 import YandexMapKit.YMKLocationStatus as NativeLocationStatus
 
-fun LocationStatus.toNative(): NativeLocationStatus {
+public fun LocationStatus.toNative(): NativeLocationStatus {
     return when (this) {
         LocationStatus.NOT_AVAILABLE -> NativeLocationStatus.YMKLocationStatusNotAvailable
         LocationStatus.AVAILABLE -> NativeLocationStatus.YMKLocationStatusAvailable
@@ -10,7 +10,7 @@ fun LocationStatus.toNative(): NativeLocationStatus {
     }
 }
 
-fun NativeLocationStatus.toCommon(): LocationStatus {
+public fun NativeLocationStatus.toCommon(): LocationStatus {
     return when (this) {
         NativeLocationStatus.YMKLocationStatusAvailable -> LocationStatus.AVAILABLE
         NativeLocationStatus.YMKLocationStatusReset -> LocationStatus.RESET

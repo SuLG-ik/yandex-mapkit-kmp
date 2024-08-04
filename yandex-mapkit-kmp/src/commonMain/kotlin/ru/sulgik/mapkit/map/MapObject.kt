@@ -1,24 +1,26 @@
 package ru.sulgik.mapkit.map
 
-expect open class MapObject {
+public expect open class MapObject {
 
-    var isVisible: Boolean
+    public val parent: BaseMapObjectCollection
 
-    var zIndex: Float
+    public var isVisible: Boolean
 
-    var isDraggable: Boolean
+    public var zIndex: Float
 
-    var userData: Any?
+    public var isDraggable: Boolean
 
-    fun addTapListener(tapListener: MapObjectTapListener)
+    public var userData: Any?
 
-    fun removeTapListener(tapListener: MapObjectTapListener)
+    public fun addTapListener(tapListener: MapObjectTapListener)
 
-    fun setDragListener(dragListener: MapObjectDragListener?)
+    public fun removeTapListener(tapListener: MapObjectTapListener)
+
+    public fun setDragListener(dragListener: MapObjectDragListener?)
 
 }
 
-inline fun <reified T : Any> MapObject.getCastedUserData(): T? {
+public inline fun <reified T : Any> MapObject.getCastedUserData(): T? {
     val data: Any = userData ?: return null
     if (data !is T) {
         throw IllegalStateException("MapObject: userData ($data) is not able to cast to ${T::class}")

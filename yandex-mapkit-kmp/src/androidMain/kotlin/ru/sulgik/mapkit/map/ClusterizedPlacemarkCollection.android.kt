@@ -4,7 +4,7 @@ import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.map.ClusterizedPlacemarkCollection as NativeClusterizedPlacemarkCollection
 
-actual class ClusterizedPlacemarkCollection internal constructor(
+public actual class ClusterizedPlacemarkCollection internal constructor(
     private val nativeClusterizedPlacemarkCollection: NativeClusterizedPlacemarkCollection,
 ) : BaseMapObjectCollection(nativeClusterizedPlacemarkCollection) {
 
@@ -12,21 +12,21 @@ actual class ClusterizedPlacemarkCollection internal constructor(
         return nativeClusterizedPlacemarkCollection
     }
 
-    actual fun addPlacemark(): PlacemarkMapObject {
+    public actual fun addPlacemark(): PlacemarkMapObject {
         return nativeClusterizedPlacemarkCollection.addPlacemark().toCommon()
     }
 
-    actual fun addPlacemark(placemarkCreatedCallback: PlacemarkCreatedCallback): PlacemarkMapObject {
+    public actual fun addPlacemark(placemarkCreatedCallback: PlacemarkCreatedCallback): PlacemarkMapObject {
         return nativeClusterizedPlacemarkCollection.addPlacemark(placemarkCreatedCallback.toNative())
             .toCommon()
     }
 
-    actual fun addEmptyPlacemarks(points: List<Point>): List<PlacemarkMapObject> {
+    public actual fun addEmptyPlacemarks(points: List<Point>): List<PlacemarkMapObject> {
         return nativeClusterizedPlacemarkCollection.addEmptyPlacemarks(points.map(Point::toNative))
             .map { it.toCommon() }
     }
 
-    actual fun addPlacemarks(
+    public actual fun addPlacemarks(
         points: List<Point>,
         image: ImageProvider,
         style: IconStyle,
@@ -38,13 +38,13 @@ actual class ClusterizedPlacemarkCollection internal constructor(
         ).map { it.toCommon() }
     }
 
-    actual fun clusterPlacemarks(clusterRadius: Double, minZoom: Int) {
+    public actual fun clusterPlacemarks(clusterRadius: Double, minZoom: Int) {
         nativeClusterizedPlacemarkCollection.clusterPlacemarks(clusterRadius, minZoom)
     }
 
 }
 
 
-fun NativeClusterizedPlacemarkCollection.toCommon(): ClusterizedPlacemarkCollection {
+public fun NativeClusterizedPlacemarkCollection.toCommon(): ClusterizedPlacemarkCollection {
     return ClusterizedPlacemarkCollection(this)
 }

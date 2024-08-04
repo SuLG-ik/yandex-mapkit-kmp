@@ -1,11 +1,11 @@
 package ru.sulgik.mapkit.map
 
-expect abstract class MapObjectCollectionListener() {
-    abstract fun onMapObjectAdded(mapObject: MapObject)
-    abstract fun onMapObjectRemoved(mapObject: MapObject)
+public expect abstract class MapObjectCollectionListener() {
+    public abstract fun onMapObjectAdded(mapObject: MapObject)
+    public abstract fun onMapObjectRemoved(mapObject: MapObject)
 }
 
-inline fun MapObjectCollectionListener(
+public inline fun MapObjectCollectionListener(
     crossinline onMapObjectAdded: (mapObject: MapObject) -> Unit,
     crossinline onMapObjectRemoved: (mapObject: MapObject) -> Unit,
 ): MapObjectCollectionListener {

@@ -5,46 +5,50 @@ import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.Subpolyline
 
-expect class PolylineMapObject : MapObject {
+public expect class PolylineMapObject : MapObject {
 
-    var geometry: Polyline
+    public var geometry: Polyline
 
-    var strokeWidth: Float
+    public var strokeWidth: Float
 
-    var gradientLength: Float
+    public var gradientLength: Float
 
-    var outlineWidth: Float
+    public var outlineWidth: Float
 
-    var outlineColor: Color
+    public var outlineColor: Color
 
-    var isInnerOutlineEnabled: Boolean
+    public var isInnerOutlineEnabled: Boolean
 
-    var turnRadius: Float
+    public var turnRadius: Float
 
-    var dashLength: Float
+    public var dashLength: Float
 
-    var gapLength: Float
+    public var gapLength: Float
 
-    var dashOffset: Float
+    public var dashOffset: Float
 
-    fun select(selectionColor: Color, subpolyline: Subpolyline)
+    public var arcApproximationStep: Float
 
-    fun hide(subpolyline: Subpolyline)
+    public fun select(selectionColor: Color, subpolyline: Subpolyline)
 
-    fun hide(subpolylines: List<Subpolyline>)
+    public fun hide(subpolyline: Subpolyline)
 
-    fun setStrokeColors(colors: List<Color>, weights: List<Double>)
+    public fun hide(subpolylines: List<Subpolyline>)
 
-    fun setStrokeColors(colors: List<Color>)
+    public fun setStrokeColor(color: Color)
 
-    fun getStrokeColor(segmentIndex: Int): Color
+    public fun setStrokeColors(colors: List<Color>, weights: List<Double>)
 
-    fun setPaletteColor(colorIndex: Int, color: Color)
+    public fun setStrokeColors(colors: List<Color>)
 
-    fun getPaletteColor(colorIndex: Int): Color
+    public fun getStrokeColor(segmentIndex: Int): Color
 
-    fun addArrow(position: PolylinePosition, length: Float, fillColor: Color): Arrow
+    public fun setPaletteColor(colorIndex: Int, color: Color)
 
-    val arrows: List<Arrow>
+    public fun getPaletteColor(colorIndex: Int): Color
+
+    public fun addArrow(position: PolylinePosition, length: Float, fillColor: Color): Arrow
+
+    public val arrows: List<Arrow>
 
 }

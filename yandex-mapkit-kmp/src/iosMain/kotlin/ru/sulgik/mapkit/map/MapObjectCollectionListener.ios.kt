@@ -4,7 +4,7 @@ import platform.darwin.NSObject
 import YandexMapKit.YMKMapObject as NativeMapObject
 import YandexMapKit.YMKMapObjectCollectionListenerProtocol as NativeMapObjectCollectionListener
 
-actual abstract class MapObjectCollectionListener actual constructor() {
+public actual abstract class MapObjectCollectionListener actual constructor() {
 
     private val nativeListener = object : NativeMapObjectCollectionListener, NSObject() {
 
@@ -17,10 +17,10 @@ actual abstract class MapObjectCollectionListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeMapObjectCollectionListener {
+    public fun toNative(): NativeMapObjectCollectionListener {
         return nativeListener
     }
 
-    actual abstract fun onMapObjectAdded(mapObject: MapObject)
-    actual abstract fun onMapObjectRemoved(mapObject: MapObject)
+    public actual abstract fun onMapObjectAdded(mapObject: MapObject)
+    public actual abstract fun onMapObjectRemoved(mapObject: MapObject)
 }

@@ -1,15 +1,15 @@
 package ru.sulgik.mapkit.map
 
-expect open class BaseMapObjectCollection: MapObject {
+public expect open class BaseMapObjectCollection: MapObject {
 
-    fun traverse(mapObjectVisitor: MapObjectVisitor)
+    public fun traverse(mapObjectVisitor: MapObjectVisitor)
 
-    fun remove(mapObject: MapObject)
+    public fun remove(mapObject: MapObject)
 
-    fun clear()
+    public fun clear()
 
-    fun addListener(collectionListener: MapObjectCollectionListener)
+    public fun addListener(collectionListener: MapObjectCollectionListener)
 
-    fun removeListener(collectionListener: MapObjectCollectionListener)
+    public fun removeListener(collectionListener: MapObjectCollectionListener)
 
 }

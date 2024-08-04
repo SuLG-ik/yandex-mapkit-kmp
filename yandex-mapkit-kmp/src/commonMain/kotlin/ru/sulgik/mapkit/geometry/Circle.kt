@@ -1,6 +1,6 @@
 package ru.sulgik.mapkit.geometry
 
-data class Circle(
+public data class Circle(
     val center: Point,
     val radius: Float,
 )

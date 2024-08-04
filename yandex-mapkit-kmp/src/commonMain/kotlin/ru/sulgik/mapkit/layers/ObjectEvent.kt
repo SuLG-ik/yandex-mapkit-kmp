@@ -1,3 +1,3 @@
 package ru.sulgik.mapkit.layers
 
-expect open class ObjectEvent
+public expect open class ObjectEvent

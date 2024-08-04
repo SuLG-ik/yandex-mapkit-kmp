@@ -1,6 +1,6 @@
 package ru.sulgik.mapkit
 
-class ScreenRect(
-    val topLeft: ScreenPoint,
-    val bottomRight: ScreenPoint,
+public class ScreenRect(
+    public val topLeft: ScreenPoint,
+    public val bottomRight: ScreenPoint,
 )

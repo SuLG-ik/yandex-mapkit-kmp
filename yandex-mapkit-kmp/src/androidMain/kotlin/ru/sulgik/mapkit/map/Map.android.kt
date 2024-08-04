@@ -9,33 +9,33 @@ import ru.sulgik.mapkit.logo.toCommon
 import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.Map as NativeMap
 
-actual class Map internal constructor(private val nativeMap: NativeMap) {
+public actual class Map internal constructor(private val nativeMap: NativeMap) {
 
-    fun toNative(): NativeMap {
+    public fun toNative(): NativeMap {
         return nativeMap
     }
 
     /**
      * Current camera position. Target position must be within latitude [-90, 90] and longitude [-180, 180].
      */
-    actual val cameraPosition: CameraPosition
+    public actual val cameraPosition: CameraPosition
         get() = nativeMap.cameraPosition.toCommon()
 
     /**
      * The map region that is visible from the given camera position. Region IS bounded by latitude limits [-90, 90] and IS NOT bounded by longitude limits [-180, 180]. If the longitude exceeds its limits, we see the world's edge and another instance of the world beyond this edge.
      */
-    actual val visibleRegion: VisibleRegion
+    public actual val visibleRegion: VisibleRegion
         get() = nativeMap.visibleRegion.toCommon()
 
-    actual val cameraBounds: CameraBounds
+    public actual val cameraBounds: CameraBounds
         get() = nativeMap.cameraBounds.toCommon()
 
-    actual val mapObjects: MapObjectCollection = nativeMap.mapObjects.toCommon()
+    public actual val mapObjects: MapObjectCollection = nativeMap.mapObjects.toCommon()
 
     /**
      * If enabled, night mode will reduce map brightness and improve contrast.
      */
-    actual var isNightModeEnabled: Boolean
+    public actual var isNightModeEnabled: Boolean
         get() = nativeMap.isNightModeEnabled
         set(value) {
             nativeMap.isNightModeEnabled = value
@@ -46,7 +46,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
      *
      * Optional property, can be null.
      */
-    actual var poiLimit: Int?
+    public actual var poiLimit: Int?
         get() = nativeMap.poiLimit
         set(value) {
             nativeMap.poiLimit = value
@@ -57,7 +57,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
      *
      * However, a double-tap will emit a tap gesture along with a double-tap.
      */
-    actual var isFastTapEnabled: Boolean
+    public actual var isFastTapEnabled: Boolean
         get() = nativeMap.isFastTapEnabled
         set(value) {
             nativeMap.isFastTapEnabled = value
@@ -66,7 +66,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Enable/disable rotation gestures, such as rotation with two fingers.
      */
-    actual var isRotateGesturesEnabled: Boolean
+    public actual var isRotateGesturesEnabled: Boolean
         get() = nativeMap.isRotateGesturesEnabled
         set(value) {
             nativeMap.isRotateGesturesEnabled = value
@@ -75,7 +75,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Enable/disable tilt gestures, such as parallel pan with two fingers.
      */
-    actual var isTiltGesturesEnabled: Boolean
+    public actual var isTiltGesturesEnabled: Boolean
         get() = nativeMap.isTiltGesturesEnabled
         set(value) {
             nativeMap.isTiltGesturesEnabled = value
@@ -84,7 +84,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Enable/disable scroll gestures.
      */
-    actual var isScrollGesturesEnabled: Boolean
+    public actual var isScrollGesturesEnabled: Boolean
         get() = nativeMap.isScrollGesturesEnabled
         set(value) {
             nativeMap.isScrollGesturesEnabled = value
@@ -93,7 +93,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Enable/disable zoom gestures.
      */
-    actual var isZoomGesturesEnabled: Boolean
+    public actual var isZoomGesturesEnabled: Boolean
         get() = nativeMap.isZoomGesturesEnabled
         set(value) {
             nativeMap.isZoomGesturesEnabled = value
@@ -104,7 +104,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
      *
      * true - All loaded tiles start showing the "flatten out" animation; all new tiles do not start 3D animation. false - All tiles start showing the "rise up" animation.
      */
-    actual fun set2DMode(enable: Boolean) {
+    public actual fun set2DMode(enable: Boolean) {
         nativeMap.set2DMode(enable)
     }
 
@@ -113,21 +113,21 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
      *
      * Does not trigger the next frame generation.
      */
-    actual fun wipe() {
+    public actual fun wipe() {
         nativeMap.wipe()
     }
 
     /**
      * Calculates the camera position that projects the specified geometry into the current focusRect, or the full view if the focusRect is not set.
      */
-    actual fun calculateCameraPosition(geometry: Geometry): CameraPosition {
+    public actual fun calculateCameraPosition(geometry: Geometry): CameraPosition {
         return nativeMap.cameraPosition(geometry.toNative()).toCommon()
     }
 
     /**
      * Calculates the camera position that projects the specified geometry into the custom focusRect.
      */
-    actual fun calculateCameraPosition(
+    public actual fun calculateCameraPosition(
         geometry: Geometry,
         screenRect: ScreenRect,
     ): CameraPosition {
@@ -137,7 +137,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Camera position that projects the specified geometry into the custom focusRect, with custom azimuth and tilt camera parameters. If focus rect is not provided, current focus rect is used.
      */
-    actual fun calculateCameraPosition(
+    public actual fun calculateCameraPosition(
         geometry: Geometry,
         azimuth: Float,
         tilt: Float,
@@ -150,7 +150,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Calculates the map region that is visible from the given camera position. Region IS bounded by latitude limits [-90, 90] and IS NOT bounded by longitude limits [-180, 180]. If the longitude exceeds its limits, we see the world's edge and another instance of the world beyond this edge.
      */
-    actual fun calculateVisibleRegion(cameraPosition: CameraPosition): VisibleRegion {
+    public actual fun calculateVisibleRegion(cameraPosition: CameraPosition): VisibleRegion {
         return nativeMap.visibleRegion(cameraPosition.toNative()).toCommon()
     }
 
@@ -159,7 +159,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
      *
      * Can cancel a previous unfinished movement.
      */
-    actual fun move(cameraPosition: CameraPosition) {
+    public actual fun move(cameraPosition: CameraPosition) {
         nativeMap.move(cameraPosition.toNative())
     }
 
@@ -172,7 +172,7 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
      * * A camera action is cancelled (for example, as a result of a subsequent request for camera movement), passing false as an argument.
      * * A camera action finished successfully, passing true as an argument.
      */
-    actual fun move(
+    public actual fun move(
         cameraPosition: CameraPosition,
         animation: Animation,
         cameraCallback: CameraCallback?,
@@ -183,28 +183,28 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Adds camera listeners.
      */
-    actual fun addCameraListener(cameraListener: CameraListener) {
+    public actual fun addCameraListener(cameraListener: CameraListener) {
         nativeMap.addCameraListener(cameraListener.toNative())
     }
 
     /**
      * Removes camera listeners.
      */
-    actual fun removeCameraListener(cameraListener: CameraListener) {
+    public actual fun removeCameraListener(cameraListener: CameraListener) {
         nativeMap.removeCameraListener(cameraListener.toNative())
     }
 
     /**
      * Yandex logo object.
      */
-    actual fun getLogo(): Logo {
+    public actual fun getLogo(): Logo {
         return nativeMap.logo.toCommon()
     }
 
     /**
      * The base map type.
      */
-    actual var mapType: MapType
+    public actual var mapType: MapType
         get() = nativeMap.mapType.toCommon()
         set(value) {
             nativeMap.mapType = value.toNative()
@@ -213,20 +213,20 @@ actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Adds input listeners.
      */
-    actual fun addInputListener(inputListener: InputListener) {
+    public actual fun addInputListener(inputListener: InputListener) {
         nativeMap.addInputListener(inputListener.toNative())
     }
 
     /**
      * Removes input listeners.
      */
-    actual fun removeInputListener(inputListener: InputListener) {
+    public actual fun removeInputListener(inputListener: InputListener) {
         nativeMap.removeInputListener(inputListener.toNative())
     }
 
 }
 
 
-fun NativeMap.toCommon(): Map {
+public fun NativeMap.toCommon(): Map {
     return Map(this)
 }

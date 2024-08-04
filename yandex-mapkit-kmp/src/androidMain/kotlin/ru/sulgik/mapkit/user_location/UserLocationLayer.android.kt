@@ -7,16 +7,16 @@ import ru.sulgik.mapkit.map.toCommon
 import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.user_location.UserLocationLayer as NativeUserLocationLayer
 
-actual class UserLocationLayer internal constructor(private val nativeUserLocationLayer: NativeUserLocationLayer) {
+public actual class UserLocationLayer internal constructor(private val nativeUserLocationLayer: NativeUserLocationLayer) {
 
-    fun toNative(): NativeUserLocationLayer {
+    public fun toNative(): NativeUserLocationLayer {
         return nativeUserLocationLayer
     }
 
     /**
      * User location visibility.
      */
-    actual var isVisible: Boolean
+    public actual var isVisible: Boolean
         get() = nativeUserLocationLayer.isVisible
         set(value) {
             nativeUserLocationLayer.isVisible = value
@@ -25,7 +25,7 @@ actual class UserLocationLayer internal constructor(private val nativeUserLocati
     /**
      * Heading mode.
      */
-    actual var isHeadingEnabled: Boolean
+    public actual var isHeadingEnabled: Boolean
         get() = nativeUserLocationLayer.isHeadingEnabled
         set(value) {
             nativeUserLocationLayer.isHeadingEnabled = value
@@ -34,13 +34,13 @@ actual class UserLocationLayer internal constructor(private val nativeUserLocati
     /**
      * Returns true if anchor mode is set, and false otherwise.
      */
-    actual val isAnchorEnabled: Boolean
+    public actual val isAnchorEnabled: Boolean
         get() = nativeUserLocationLayer.isAnchorEnabled
 
     /**
      * Auto zoom.
      */
-    actual var isAutoZoomEnabled: Boolean
+    public actual var isAutoZoomEnabled: Boolean
         get() = nativeUserLocationLayer.isAutoZoomEnabled
         set(value) {
             nativeUserLocationLayer.isAutoZoomEnabled = value
@@ -49,13 +49,13 @@ actual class UserLocationLayer internal constructor(private val nativeUserLocati
     /**
      * Calculates the camera position that projects the current location into view.
      */
-    actual val cameraPosition: CameraPosition?
+    public actual val cameraPosition: CameraPosition?
         get() = nativeUserLocationLayer.cameraPosition()?.toCommon()
 
     /**
      * Sets the anchor to the specified position in pixels and enables Anchor mode.
      */
-    actual fun setAnchor(
+    public actual fun setAnchor(
         anchorNormal: PointF,
         anchorCourse: PointF,
     ) {
@@ -65,21 +65,21 @@ actual class UserLocationLayer internal constructor(private val nativeUserLocati
     /**
      * Resets anchor mode.
      */
-    actual fun resetAnchor() {
+    public actual fun resetAnchor() {
         nativeUserLocationLayer.resetAnchor()
     }
 
     /**
      * Sets/gets the data source.
      */
-    actual fun setSource(source: LocationViewSource?) {
+    public actual fun setSource(source: LocationViewSource?) {
         nativeUserLocationLayer.setSource(source?.toNative())
     }
 
     /**
      * Sets the data source with the global location manager
      */
-    actual fun setDefaultSource() {
+    public actual fun setDefaultSource() {
         nativeUserLocationLayer.setDefaultSource()
     }
 
@@ -90,7 +90,7 @@ actual class UserLocationLayer internal constructor(private val nativeUserLocati
      * It is your responsibility to maintain a strong reference to the target object
      * while it is attached to a class.
      */
-    actual fun setTapListener(tapListener: UserLocationTapListener?) {
+    public actual fun setTapListener(tapListener: UserLocationTapListener?) {
         nativeUserLocationLayer.setTapListener(tapListener?.toNative())
     }
 
@@ -101,11 +101,11 @@ actual class UserLocationLayer internal constructor(private val nativeUserLocati
      * It is your responsibility to maintain a strong reference to the target object
      * while it is attached to a class.
      */
-    actual fun setObjectListener(objectListener: UserLocationObjectListener?) {
+    public actual fun setObjectListener(objectListener: UserLocationObjectListener?) {
         nativeUserLocationLayer.setObjectListener(objectListener?.toNative())
     }
 }
 
-fun NativeUserLocationLayer.toCommon(): UserLocationLayer {
+public fun NativeUserLocationLayer.toCommon(): UserLocationLayer {
     return UserLocationLayer(this)
 }

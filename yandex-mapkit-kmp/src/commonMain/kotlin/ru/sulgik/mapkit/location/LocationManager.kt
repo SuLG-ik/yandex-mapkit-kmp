@@ -2,9 +2,9 @@ package ru.sulgik.mapkit.location
 
 import kotlin.time.Duration
 
-expect class LocationManager {
+public expect class LocationManager {
 
-    fun subscribeForLocationUpdates(
+    public fun subscribeForLocationUpdates(
         desiredAccuracy: Double,
         minTime: Duration,
         minDistance: Double,
@@ -13,12 +13,12 @@ expect class LocationManager {
         locationListener: LocationListener,
     )
 
-    fun requestSingleUpdate(locationListener: LocationListener)
+    public fun requestSingleUpdate(locationListener: LocationListener)
 
-    fun unsubscribe(locationListener: LocationListener)
+    public fun unsubscribe(locationListener: LocationListener)
 
-    fun suspend()
+    public fun suspend()
 
-    fun resume()
+    public fun resume()
 
 }

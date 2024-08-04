@@ -1,9 +1,13 @@
 package ru.sulgik.mapkit.geometry
 
-expect class LinearRing {
+public expect class LinearRing {
 
-    constructor(points: List<Point>)
+    public constructor(points: List<Point>)
 
-    val points: List<Point>
+    public val points: List<Point>
 
+}
+
+internal fun List<LinearRing>.linearRingsListToString(): String {
+    return "[${joinToString(", ")}]"
 }

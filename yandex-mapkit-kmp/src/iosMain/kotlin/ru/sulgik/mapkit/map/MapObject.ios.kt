@@ -7,51 +7,54 @@ import YandexMapKit.YMKPlacemarkMapObject as NativePlacemarkMapObject
 import YandexMapKit.YMKPolygonMapObject as NativePolygonMapObject
 import YandexMapKit.YMKPolylineMapObject as NativePolylineMapObject
 
-actual open class MapObject internal constructor(private val nativeMapObject: NativeMapObject) {
+public actual open class MapObject internal constructor(private val nativeMapObject: NativeMapObject) {
 
-    open fun toNative(): NativeMapObject {
+    public open fun toNative(): NativeMapObject {
         return nativeMapObject
     }
 
-    actual var isVisible: Boolean
+    public actual var isVisible: Boolean
         get() = nativeMapObject.isVisible()
         set(value) {
             nativeMapObject.setVisible(value)
         }
 
-    actual var zIndex: Float
+    public actual var zIndex: Float
         get() = nativeMapObject.zIndex()
         set(value) {
             nativeMapObject.setZIndex(value)
         }
 
-    actual var isDraggable: Boolean
+    public actual var isDraggable: Boolean
         get() = nativeMapObject.isDraggable()
         set(value) {
             nativeMapObject.setDraggable(value)
         }
 
-    actual var userData: Any?
+    public actual var userData: Any?
         get() = nativeMapObject.userData()
         set(value) {
             nativeMapObject.setUserData(value)
         }
 
-    actual fun addTapListener(tapListener: MapObjectTapListener) {
+    public actual fun addTapListener(tapListener: MapObjectTapListener) {
         nativeMapObject.addTapListenerWithTapListener(tapListener.toNative())
     }
 
-    actual fun removeTapListener(tapListener: MapObjectTapListener) {
+    public actual fun removeTapListener(tapListener: MapObjectTapListener) {
         nativeMapObject.removeTapListenerWithTapListener(tapListener.toNative())
     }
 
-    actual fun setDragListener(dragListener: MapObjectDragListener?) {
+    public actual fun setDragListener(dragListener: MapObjectDragListener?) {
         nativeMapObject.setDragListenerWithDragListener(dragListener?.toNative())
     }
 
+    public actual val parent: BaseMapObjectCollection
+        get() = nativeMapObject.parent.toCommon()
+
 }
 
-fun NativeMapObject.toCommon(): MapObject {
+public fun NativeMapObject.toCommon(): MapObject {
     return when (this) {
         is NativeBaseMapObjectCollection -> toCommon()
         is NativeCircleMapObject -> toCommon()

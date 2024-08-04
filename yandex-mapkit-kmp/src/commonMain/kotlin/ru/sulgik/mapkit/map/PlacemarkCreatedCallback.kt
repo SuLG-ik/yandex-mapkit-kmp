@@ -1,10 +1,10 @@
 package ru.sulgik.mapkit.map
 
-expect abstract class PlacemarkCreatedCallback() {
-    abstract fun onPlacemarkCreated(placemark: PlacemarkMapObject)
+public expect abstract class PlacemarkCreatedCallback() {
+    public abstract fun onPlacemarkCreated(placemark: PlacemarkMapObject)
 }
 
-inline fun PlacemarkCreatedCallback(
+public inline fun PlacemarkCreatedCallback(
     crossinline onPlacemarkCreated: (placemark: PlacemarkMapObject) -> Unit
 ): PlacemarkCreatedCallback {
     return object : PlacemarkCreatedCallback() {

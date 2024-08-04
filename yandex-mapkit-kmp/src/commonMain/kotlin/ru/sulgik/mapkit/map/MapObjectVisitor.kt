@@ -1,6 +1,6 @@
 package ru.sulgik.mapkit.map
 
-expect class MapObjectVisitor(
+public expect class MapObjectVisitor(
     onPlacemarkVisited: (placemark: PlacemarkMapObject) -> Unit,
     onPolylineVisited: (polyline: PolylineMapObject) -> Unit,
     onPolygonVisited: (polygon: PolygonMapObject) -> Unit,

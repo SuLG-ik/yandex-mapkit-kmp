@@ -5,7 +5,7 @@ import YandexMapKit.YMKAnimation as NativeAnimation
 import YandexMapKit.YMKAnimationType as NativeAnimationType
 
 
-fun NativeAnimation.toCommon(): Animation {
+public fun NativeAnimation.toCommon(): Animation {
     return Animation(type = type.toCommon(), duration = (duration * 1000).toLong().milliseconds)
 }
 
@@ -17,7 +17,7 @@ private fun NativeAnimationType.toCommon(): Animation.Type {
     }
 }
 
-fun Animation.toNative(): NativeAnimation {
+public fun Animation.toNative(): NativeAnimation {
     return NativeAnimation.animationWithType(
         type = type.toNative(),
         duration = duration.inWholeMilliseconds / 1000f

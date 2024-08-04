@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.map
 import YandexMapKit.YMKCameraUpdateReason as NativeCameraUpdateReason
 
 
-fun NativeCameraUpdateReason.toCommon(): CameraUpdateReason {
+public fun NativeCameraUpdateReason.toCommon(): CameraUpdateReason {
     return when (this) {
         NativeCameraUpdateReason.YMKCameraUpdateReasonGestures -> CameraUpdateReason.GESTURES
         NativeCameraUpdateReason.YMKCameraUpdateReasonApplication -> CameraUpdateReason.APPLICATION
@@ -11,7 +11,7 @@ fun NativeCameraUpdateReason.toCommon(): CameraUpdateReason {
     }
 }
 
-fun CameraUpdateReason.toNative(): NativeCameraUpdateReason {
+public fun CameraUpdateReason.toNative(): NativeCameraUpdateReason {
     return when (this) {
         CameraUpdateReason.GESTURES -> NativeCameraUpdateReason.YMKCameraUpdateReasonGestures
         CameraUpdateReason.APPLICATION -> NativeCameraUpdateReason.YMKCameraUpdateReasonApplication

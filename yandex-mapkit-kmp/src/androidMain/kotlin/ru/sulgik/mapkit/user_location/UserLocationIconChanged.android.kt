@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.user_location
 import ru.sulgik.mapkit.layers.ObjectEvent
 import com.yandex.mapkit.user_location.UserLocationIconChanged as NativeUserLocationIconChanged
 
-actual class UserLocationIconChanged internal constructor(
+public actual class UserLocationIconChanged internal constructor(
     private val nativeUserLocationIconChanged: NativeUserLocationIconChanged,
 ) : ObjectEvent(nativeUserLocationIconChanged) {
 
@@ -11,11 +11,11 @@ actual class UserLocationIconChanged internal constructor(
         return nativeUserLocationIconChanged
     }
 
-    actual val iconType: UserLocationIconType
+    public actual val iconType: UserLocationIconType
         get() = nativeUserLocationIconChanged.iconType.toCommon()
 
 }
 
-fun NativeUserLocationIconChanged.toCommon(): UserLocationIconChanged {
+public fun NativeUserLocationIconChanged.toCommon(): UserLocationIconChanged {
     return UserLocationIconChanged(this)
 }

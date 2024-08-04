@@ -4,7 +4,7 @@ import com.yandex.mapkit.location.Location as NativeLocation
 import com.yandex.mapkit.location.LocationListener as NativeLocationListener
 import com.yandex.mapkit.location.LocationStatus as NativeLocationStatus
 
-actual abstract class LocationListener actual constructor() {
+public actual abstract class LocationListener actual constructor() {
 
     private val nativeListener = object : NativeLocationListener {
         override fun onLocationUpdated(p0: NativeLocation) {
@@ -16,10 +16,10 @@ actual abstract class LocationListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeLocationListener {
+    public fun toNative(): NativeLocationListener {
         return nativeListener
     }
 
-    actual abstract fun onLocationUpdated(location: Location)
-    actual abstract fun onLocationStatusUpdated(locationStatus: LocationStatus)
+    public actual abstract fun onLocationUpdated(location: Location)
+    public actual abstract fun onLocationStatusUpdated(locationStatus: LocationStatus)
 }

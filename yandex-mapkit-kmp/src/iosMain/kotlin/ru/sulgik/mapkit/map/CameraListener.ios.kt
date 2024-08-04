@@ -6,7 +6,7 @@ import YandexMapKit.YMKCameraUpdateReason as NativeCameraUpdateReason
 import YandexMapKit.YMKMap as NativeMap
 import YandexMapKit.YMKMapCameraListenerProtocol as NativeCameraListener
 
-actual abstract class CameraListener actual constructor() {
+public actual abstract class CameraListener actual constructor() {
 
     private val nativeListener = object : NativeCameraListener, NSObject() {
         override fun onCameraPositionChangedWithMap(
@@ -24,12 +24,12 @@ actual abstract class CameraListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeCameraListener {
+    public fun toNative(): NativeCameraListener {
         return nativeListener
     }
 
 
-    actual abstract fun onCameraPositionChanged(
+    public actual abstract fun onCameraPositionChanged(
         map: Map,
         cameraPosition: CameraPosition,
         cameraUpdateReason: CameraUpdateReason,

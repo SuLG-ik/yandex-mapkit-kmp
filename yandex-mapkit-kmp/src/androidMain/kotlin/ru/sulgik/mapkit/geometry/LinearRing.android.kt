@@ -2,18 +2,22 @@ package ru.sulgik.mapkit.geometry
 
 import com.yandex.mapkit.geometry.LinearRing as NativeLinearRing
 
-actual class LinearRing internal constructor(private val nativeLinearRing: NativeLinearRing) {
+public actual class LinearRing internal constructor(private val nativeLinearRing: NativeLinearRing) {
 
-    fun toNative(): NativeLinearRing {
+    public fun toNative(): NativeLinearRing {
         return nativeLinearRing
     }
 
-    actual constructor(points: List<Point>) : this(NativeLinearRing(points.map { it.toNative() }))
+    override fun toString(): String {
+        return "LinearRing(points=${points.pointsListToString()})"
+    }
 
-    actual val points: List<Point> by lazy { nativeLinearRing.points.map { it.toCommon() } }
+    public actual constructor(points: List<Point>) : this(NativeLinearRing(points.map { it.toNative() }))
+
+    public actual val points: List<Point> by lazy { nativeLinearRing.points.map { it.toCommon() } }
 
 }
 
-fun NativeLinearRing.toCommon(): LinearRing {
+public fun NativeLinearRing.toCommon(): LinearRing {
     return LinearRing(this)
 }

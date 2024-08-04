@@ -1,5 +1,5 @@
 package ru.sulgik.mapkit.user_location
 
-enum class UserLocationAnchorType {
+public enum class UserLocationAnchorType {
     NORMAL, COURSE
 }

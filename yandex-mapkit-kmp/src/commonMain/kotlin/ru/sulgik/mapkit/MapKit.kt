@@ -5,58 +5,58 @@ import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.user_location.UserLocationLayer
 import ru.sulgik.runtime.sensors.LocationActivityType
 
-expect class MapKit {
+public expect class MapKit {
 
     /**
      * Returns the version of the MapKit bundle.
      */
-    val version: String
+    public val version: String
 
 
     /**
      * Resets the global location manager to a default one, that is a location manager that is created by createLocationManager() call.
      */
-    fun resetLocationManagerToDefault()
+    public fun resetLocationManagerToDefault()
 
     /**
      * Notifies MapKit when the application resumes the foreground state.
      */
-    fun onStart()
+    public fun onStart()
 
     /**
      * Notifies MapKit when the application pauses and goes to the background.
      */
-    fun onStop()
+    public fun onStop()
 
     /**
      * Sets single global location manager that is used by every module in MapKit by default.
      */
-    fun setLocationManager(locationManager: LocationManager)
+    public fun setLocationManager(locationManager: LocationManager)
 
     /**
      * Creates a manager that allows to listen for device location updates.
      */
-    fun createLocationManager(): LocationManager
+    public fun createLocationManager(): LocationManager
 
     /**
      * Creates a manager that allows to listen for device location updates, uses activityType as a hint.
      */
-    fun createLocationManager(activityType: LocationActivityType): LocationManager
+    public fun createLocationManager(activityType: LocationActivityType): LocationManager
 
     /**
      * Create layer with the user location icon.
      */
-    fun createUserLocationLayer(mapWindow: MapWindow): UserLocationLayer
+    public fun createUserLocationLayer(mapWindow: MapWindow): UserLocationLayer
 
-    companion object {
+    public companion object {
 
-        fun setLocale(locale: String?)
+        public fun setLocale(locale: String?)
 
-        fun setApiKey(apiKey: String)
+        public fun setApiKey(apiKey: String)
 
-        fun setUserId(userId: String)
+        public fun setUserId(userId: String)
 
-        fun getInstance(): MapKit
+        public fun getInstance(): MapKit
 
     }
 

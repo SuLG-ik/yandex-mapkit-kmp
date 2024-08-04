@@ -2,17 +2,17 @@ package ru.sulgik.mapkit.user_location
 
 import ru.sulgik.mapkit.layers.ObjectEvent
 
-expect abstract class UserLocationObjectListener() {
+public expect abstract class UserLocationObjectListener() {
 
-    abstract fun onObjectAdded(view: UserLocationView)
+    public abstract fun onObjectAdded(view: UserLocationView)
 
-    abstract fun onObjectRemoved(view: UserLocationView)
+    public abstract fun onObjectRemoved(view: UserLocationView)
 
-    abstract fun onObjectUpdated(view: UserLocationView, event: ObjectEvent)
+    public abstract fun onObjectUpdated(view: UserLocationView, event: ObjectEvent)
 
 }
 
-inline fun UserLocationObjectListener(
+public inline fun UserLocationObjectListener(
     crossinline onObjectAdded: (view: UserLocationView) -> Unit,
     crossinline onObjectRemoved: (view: UserLocationView) -> Unit,
     crossinline onObjectUpdated: (view: UserLocationView, event: ObjectEvent) -> Unit,

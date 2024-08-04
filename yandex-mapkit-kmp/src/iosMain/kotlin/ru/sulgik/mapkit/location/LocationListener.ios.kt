@@ -5,7 +5,7 @@ import YandexMapKit.YMKLocation as NativeLocation
 import YandexMapKit.YMKLocationDelegateProtocol as NativeLocationListener
 import YandexMapKit.YMKLocationStatus as NativeLocationStatus
 
-actual abstract class LocationListener actual constructor() {
+public actual abstract class LocationListener actual constructor() {
 
     private val nativeListener  = object : NativeLocationListener, NSObject() {
         override fun onLocationStatusUpdatedWithStatus(status: NativeLocationStatus) {
@@ -17,10 +17,10 @@ actual abstract class LocationListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeLocationListener {
+    public fun toNative(): NativeLocationListener {
         return nativeListener
     }
 
-    actual abstract fun onLocationUpdated(location: Location)
-    actual abstract fun onLocationStatusUpdated(locationStatus: LocationStatus)
+    public actual abstract fun onLocationUpdated(location: Location)
+    public actual abstract fun onLocationStatusUpdated(locationStatus: LocationStatus)
 }
