@@ -5,7 +5,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,10 +26,8 @@ import ru.sulgik.mapkit.map.PolylineMapObject
  * Other use cases may be better served syncing [PolylineState.geometry] with a data model.
  */
 @Composable
-public fun rememberPolylineState(geometry: Polyline): PolylineState {
-    return remember { PolylineState(geometry) }.also {
-        it.geometry = geometry
-    }
+public fun rememberPolylineState(geometry: Polyline, key: String? = null): PolylineState {
+    return rememberSaveable(key = key, saver = PolylineState.Saver) { PolylineState(geometry) }
 }
 
 @Immutable
