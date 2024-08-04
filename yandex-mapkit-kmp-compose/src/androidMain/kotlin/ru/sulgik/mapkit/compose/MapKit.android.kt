@@ -7,7 +7,7 @@ import com.yandex.mapkit.MapKitFactory
 import ru.sulgik.mapkit.MapKit
 
 @Composable
-actual fun rememberAndInitializeMapKit(): MapKit {
+public actual fun rememberAndInitializeMapKit(): MapKit {
     val context = LocalContext.current
     return remember {
         MapKitFactory.initialize(context)

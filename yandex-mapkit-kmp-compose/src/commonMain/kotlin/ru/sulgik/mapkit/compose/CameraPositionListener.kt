@@ -1,4 +1,4 @@
 package ru.sulgik.mapkit.compose
 
-class CameraPositionListener {
+public class CameraPositionListener {
 }

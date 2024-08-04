@@ -7,7 +7,7 @@ import kotlinx.atomicfu.locks.reentrantLock
 import kotlinx.atomicfu.locks.withLock
 import ru.sulgik.mapkit.map.MapWindow
 
-internal class MapWindowOwner {
+internal class MapWindowOwner(private val callback: ((MapWindow?) -> Unit)? = null) {
 
     private val lock = reentrantLock()
     internal var mapWindow: MapWindow? by mutableStateOf(null)
@@ -21,6 +21,7 @@ internal class MapWindowOwner {
                 error("YandexMapController may only be associated with one MapView at a time")
             }
             this.mapWindow = mapWindow
+            callback?.invoke(mapWindow)
         }
     }
 

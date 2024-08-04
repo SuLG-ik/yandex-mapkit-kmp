@@ -1,8 +1,10 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
@@ -25,6 +27,8 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
         publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
     if (supportIosTarget) {
@@ -55,13 +59,10 @@ kotlin {
                 }
             }
         }
-        androidMain.dependencies {
-        }
         commonMain.dependencies {
             api(project(":yandex-mapkit-kmp"))
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(libs.lifecycle.common)
@@ -69,7 +70,10 @@ kotlin {
         }
 
         commonTest.dependencies {
+            implementation(compose.material3)
             implementation(kotlin("test"))
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
         }
 
     }
@@ -85,6 +89,34 @@ kotlin {
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
+        val stabilityConfigurationFile =
+            layout.projectDirectory.file("compose_compiler_stability_config.conf").asFile
+        freeCompilerArgs.add("-Xexplicit-api=strict")
+        freeCompilerArgs.addAll(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=${stabilityConfigurationFile.absolutePath}"
+        )
+
+        if (findProperty("composeCompilerReports") == "true") {
+            freeCompilerArgs.addAll(
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${
+                    layout.buildDirectory.dir(
+                        "compose_compiler"
+                    ).get()
+                }",
+            )
+        }
+        if (findProperty("composeCompilerMetrics") == "true") {
+            freeCompilerArgs.addAll(
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${
+                    layout.buildDirectory.dir(
+                        "compose_compiler"
+                    ).get()
+                }",
+            )
+        }
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }
@@ -101,6 +133,7 @@ android {
 
     defaultConfig {
         minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

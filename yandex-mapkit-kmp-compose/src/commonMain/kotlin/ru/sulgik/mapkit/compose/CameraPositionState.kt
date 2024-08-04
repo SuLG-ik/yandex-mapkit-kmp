@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,10 +10,12 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.StateFactoryMarker
+import androidx.compose.runtime.staticCompositionLocalOf
 import ru.sulgik.mapkit.geometry.Latitude
 import ru.sulgik.mapkit.geometry.Longitude
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.CameraPosition
+import ru.sulgik.mapkit.map.CameraUpdateReason
 
 
 @Composable
@@ -25,11 +28,17 @@ public inline fun rememberCameraPositionState(
 
 
 @Stable
-class CameraPositionState private constructor(
+public class CameraPositionState private constructor(
     position: CameraPosition = DefaultCameraPosition,
 ) {
-    internal val mapWindowOwner = MapWindowOwner()
-    private var rawPosition by mutableStateOf(position)
+    internal val mapWindowOwner = MapWindowOwner {
+        if (it == null) {
+            isMoving = false
+        } else {
+            it.map.move(this.position)
+        }
+    }
+    internal var rawPosition by mutableStateOf(position)
 
     public var position: CameraPosition
         get() = rawPosition
@@ -43,10 +52,17 @@ class CameraPositionState private constructor(
             }
         }
 
+    public var isMoving: Boolean by mutableStateOf(false)
+        internal set
+
+
+    public var updateReason: CameraUpdateReason? by mutableStateOf(null)
+        internal set
+
     private fun cameraPositionListener() {
     }
 
-    companion object {
+    public companion object {
         private val DefaultCameraPosition = CameraPosition(
             target = Point(Latitude(0.0), Longitude(0.0)),
             zoom = 0.0f,
@@ -95,3 +111,10 @@ class CameraPositionState private constructor(
         }
     }
 }
+
+
+internal val LocalCameraPositionState = staticCompositionLocalOf { CameraPositionState() }
+
+public val currentCameraPositionState: CameraPositionState
+    @[YandexMapComposable ReadOnlyComposable Composable]
+    get() = LocalCameraPositionState.current
