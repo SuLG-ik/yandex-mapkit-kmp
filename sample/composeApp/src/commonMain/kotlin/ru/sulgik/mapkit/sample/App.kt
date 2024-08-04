@@ -11,5 +11,5 @@ fun initMapKit() {
 
 @Composable
 fun App() {
-    MapScreen(modifier = Modifier.fillMaxSize())
+    NewMapScreen(modifier = Modifier.fillMaxSize())
 }
