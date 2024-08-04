@@ -36,7 +36,7 @@ public fun rememberPlacemarkState(
 }
 
 @Immutable
-public class PlacemarkState(geometry: Point, direction: Float = 0.0f) : MapObjectState() {
+public class PlacemarkState(geometry: Point, direction: Float = 0.0f) {
 
     public var geometry: Point by mutableStateOf(geometry)
 
@@ -130,7 +130,6 @@ internal inline fun PlacemarkImpl(
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
-        state = state,
         visible = visible,
         zIndex = zIndex,
         onTap = onTap,
@@ -194,7 +193,7 @@ internal class PlacemarkNode(
     mapObject: PlacemarkMapObject,
     state: PlacemarkState,
     tapListener: ((Point) -> Boolean)?
-) : MapObjectNode<PlacemarkMapObject>(mapObject, state, tapListener) {
+) : MapObjectNode<PlacemarkMapObject>(mapObject, tapListener) {
 
 
     private var nativeDragListener: MapObjectDragListener? = MapObjectDragListener(

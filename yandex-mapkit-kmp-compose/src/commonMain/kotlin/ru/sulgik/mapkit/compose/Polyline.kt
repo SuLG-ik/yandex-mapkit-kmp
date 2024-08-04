@@ -34,7 +34,7 @@ public fun rememberPolylineState(geometry: Polyline): PolylineState {
 }
 
 @Immutable
-public class PolylineState(geometry: Polyline) : MapObjectState() {
+public class PolylineState(geometry: Polyline) {
 
     public var geometry: Polyline by mutableStateOf(geometry)
 
@@ -178,7 +178,6 @@ internal fun PolylineImpl(
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
-        state = state,
         visible = visible,
         zIndex = zIndex,
         onTap = onTap,
@@ -196,7 +195,6 @@ internal fun PolylineImpl(
             mapObject.setStrokeColor(strokeColor.toMapkitColor())
             PolylineNode(
                 mapObject = mapObject,
-                state = state,
                 tapListener = onTap,
             )
         },
@@ -218,9 +216,8 @@ internal fun PolylineImpl(
 
 internal class PolylineNode(
     mapObject: PolylineMapObject,
-    state: MapObjectState,
     tapListener: ((Point) -> Boolean)?
-) : MapObjectNode<PolylineMapObject>(mapObject, state, tapListener)
+) : MapObjectNode<PolylineMapObject>(mapObject, tapListener)
 
 private val DefaultStrokeColor = Color(0x0066FFFF)
 private const val DefaultGradientLength = 0f

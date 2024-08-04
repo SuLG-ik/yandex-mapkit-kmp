@@ -15,13 +15,11 @@ import ru.sulgik.mapkit.map.PolygonMapObject
 
 @Composable
 public fun rememberPolygonState(geometry: Polygon): PolygonState {
-    return remember { PolygonState(geometry) }.also {
-        it.geometry = geometry
-    }
+    return remember { PolygonState(geometry) }
 }
 
 @Immutable
-public class PolygonState(geometry: Polygon) : MapObjectState() {
+public class PolygonState(geometry: Polygon) {
 
     public var geometry: Polygon by mutableStateOf(geometry)
 
@@ -69,7 +67,6 @@ internal fun PolygonImpl(
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
-        state = state,
         visible = visible,
         zIndex = zIndex,
         onTap = onTap,
@@ -84,7 +81,6 @@ internal fun PolygonImpl(
             }
             PolygonNode(
                 mapObject = mapObject,
-                state = state,
                 tapListener = onTap,
             )
         },
@@ -113,9 +109,8 @@ internal fun PolygonImpl(
 
 internal class PolygonNode(
     mapObject: PolygonMapObject,
-    state: PolygonState,
     tapListener: ((Point) -> Boolean)?
-) : MapObjectNode<PolygonMapObject>(mapObject, state, tapListener)
+) : MapObjectNode<PolygonMapObject>(mapObject, tapListener)
 
 private val DefaultStrokeColor = Color(0xFF66FF00)
 private const val DefaultStrokeWidth = 5f
