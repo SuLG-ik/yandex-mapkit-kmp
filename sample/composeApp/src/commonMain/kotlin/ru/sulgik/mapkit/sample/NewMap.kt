@@ -19,7 +19,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -32,6 +35,7 @@ import ru.sulgik.mapkit.compose.Polygon
 import ru.sulgik.mapkit.compose.Polyline
 import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.YandexMapComposable
+import ru.sulgik.mapkit.compose.YandexMapsComposeExperimentalApi
 import ru.sulgik.mapkit.compose.bindToLifecycleOwner
 import ru.sulgik.mapkit.compose.imageProvider
 import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
@@ -49,13 +53,14 @@ import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.Point
 
 
+@OptIn(YandexMapsComposeExperimentalApi::class)
 @Composable
 fun NewMapScreen(modifier: Modifier = Modifier) {
     rememberAndInitializeMapKit().bindToLifecycleOwner()
     val cameraPositionState = rememberCameraPositionState { position = startPosition }
     val snackbarHostState = remember { SnackbarHostState() }
-    val placemarks = randomPlacemarks()
-    val circles = randomCircles()
+    val placemarks = remember { randomPlacemarks() }
+    val circles = remember { randomCircles() }
 
     val scope = rememberCoroutineScope()
 
@@ -66,7 +71,24 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
             snackbarHostState.showSnackbar(it, withDismissAction = true)
         }
     }
-
+    var clicksCount by remember { mutableStateOf(0) }
+    val density = LocalDensity.current
+    val contentSize =
+        with(density) { DpSize(75.dp, 10.dp + 12.sp.toDp()) }
+    val clicksImage = imageProvider(size = contentSize, clicksCount) {
+        Box(
+            modifier = Modifier
+                .background(Color.LightGray, MaterialTheme.shapes.medium)
+                .border(
+                    1.dp,
+                    MaterialTheme.colorScheme.outline,
+                    MaterialTheme.shapes.medium
+                )
+                .padding(vertical = 5.dp, horizontal = 10.dp)
+        ) {
+            Text("clicks: $clicksCount", fontSize = 12.sp)
+        }
+    }
     Scaffold(
         bottomBar = {
             MapActions(
@@ -110,22 +132,8 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                 Polylines(onShowMessage = showMessage)
             }
             if (mapActionsState.isComposableContentEnabled) {
-                var clicksCount by remember { mutableStateOf(0) }
                 Placemark(
-                    icon = imageProvider(clicksCount) {
-                        Box(
-                            modifier = Modifier
-                                .background(Color.LightGray, MaterialTheme.shapes.medium)
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.outline,
-                                    MaterialTheme.shapes.medium
-                                )
-                                .padding(vertical = 5.dp, horizontal = 10.dp)
-                        ) {
-                            Text("clicks: $clicksCount")
-                        }
-                    },
+                    icon = clicksImage,
                     state = rememberPlacemarkState(composablePlacemark),
                     onTap = {
                         clicksCount++
@@ -135,6 +143,11 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
             }
         }
     }
+}
+
+@Composable
+fun Map(modifier: Modifier = Modifier) {
+
 }
 
 @Composable
@@ -237,36 +250,36 @@ fun PlacemarksCluster(
             ClusterItem(it.first, it.second)
         }.toImmutableList()
     if (isComposableContentEnabled) {
-        Clustering(
-            groups = persistentListOf(
-                ClusterGroup(
-                    placemarks = redPlacemarks,
-                    icon = pinRedImage,
-                ),
-                ClusterGroup(
-                    placemarks = greenPlacemarks,
-                    icon = pinGreenImage,
-                ),
-                ClusterGroup(
-                    placemarks = yellowPlacemarks,
-                    icon = pinYellowImage,
-                ),
-            ),
-            content = {
-                Box(
-                    modifier = Modifier
-                        .background(Color.LightGray, MaterialTheme.shapes.medium)
-                        .border(
-                            1.dp,
-                            MaterialTheme.colorScheme.outline,
-                            MaterialTheme.shapes.medium
-                        )
-                        .padding(vertical = 5.dp, horizontal = 10.dp)
-                ) {
-                    Text("${it.size}")
-                }
-            }
-        )
+//        Clustering(
+//            groups = persistentListOf(
+//                ClusterGroup(
+//                    placemarks = redPlacemarks,
+//                    icon = pinRedImage,
+//                ),
+//                ClusterGroup(
+//                    placemarks = greenPlacemarks,
+//                    icon = pinGreenImage,
+//                ),
+//                ClusterGroup(
+//                    placemarks = yellowPlacemarks,
+//                    icon = pinYellowImage,
+//                ),
+//            ),
+//            content = {
+//                Box(
+//                    modifier = Modifier
+//                        .background(Color.LightGray, MaterialTheme.shapes.medium)
+//                        .border(
+//                            1.dp,
+//                            MaterialTheme.colorScheme.outline,
+//                            MaterialTheme.shapes.medium
+//                        )
+//                        .padding(vertical = 5.dp, horizontal = 10.dp)
+//                ) {
+//                    Text("${it.size}")
+//                }
+//            }
+//        )
     } else {
         Clustering(
             groups = persistentListOf(

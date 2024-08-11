@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit.map
 
+import YandexMapKit.YRTViewProvider
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative

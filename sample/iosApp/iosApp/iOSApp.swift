@@ -1,5 +1,6 @@
 import SwiftUI
 import ComposeApp
+import YandexMapsMobile
 
 @main
 struct iOSApp: App {

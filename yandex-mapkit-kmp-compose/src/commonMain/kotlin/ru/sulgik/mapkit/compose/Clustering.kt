@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.DpSize
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import ru.sulgik.mapkit.geometry.Cluster
@@ -168,10 +169,12 @@ public fun Clustering(
     )
 }
 
+@YandexMapsComposeExperimentalApi
 @YandexMapComposable
 @Composable
 public fun Clustering(
     group: ClusterGroup,
+    contentSize: DpSize,
     iconStyle: IconStyle = IconStyle(),
     config: ClusterizingConfig = ClusterizingConfig(),
     onItemTap: ((ClusterItem) -> Boolean)? = null,
@@ -182,7 +185,7 @@ public fun Clustering(
 ) {
     Clustering(
         groups = persistentListOf(group),
-        icon = clusterImageProvider(content),
+        icon = clusterImageProvider(contentSize, content),
         iconStyle = iconStyle,
         config = config,
         onItemTap = onItemTap,
@@ -192,10 +195,12 @@ public fun Clustering(
     )
 }
 
+@YandexMapsComposeExperimentalApi
 @YandexMapComposable
 @Composable
 public fun Clustering(
     groups: ImmutableList<ClusterGroup>,
+    contentSize: DpSize,
     iconStyle: IconStyle = IconStyle(),
     config: ClusterizingConfig = ClusterizingConfig(),
     onItemTap: ((ClusterItem) -> Boolean)? = null,
@@ -206,7 +211,7 @@ public fun Clustering(
 ) {
     Clustering(
         groups = groups,
-        icon = clusterImageProvider(content),
+        icon = clusterImageProvider(size = contentSize, content = content),
         iconStyle = iconStyle,
         config = config,
         onItemTap = onItemTap,
@@ -216,6 +221,7 @@ public fun Clustering(
     )
 }
 
+@YandexMapsComposeExperimentalApi
 @YandexMapComposable
 @Composable
 public fun Clustering(
@@ -240,6 +246,7 @@ public fun Clustering(
     )
 }
 
+@YandexMapsComposeExperimentalApi
 @YandexMapComposable
 @Composable
 public fun Clustering(
@@ -278,6 +285,7 @@ public fun Clustering(
             update(groups) { this.groups = groups }
             update(config) { this.config = config }
             update(iconStyle) { this.clusterPlacemarks() }
+            update(icon) { this.clusterPlacemarks() }
         }
     )
 }

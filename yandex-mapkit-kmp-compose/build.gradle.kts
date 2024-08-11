@@ -97,6 +97,7 @@ kotlin {
             "-P",
             "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=${stabilityConfigurationFile.absolutePath}"
         )
+        freeCompilerArgs.add("-Xopt-in=kotlin.RequiresOptIn")
 
         if (findProperty("composeCompilerReports") == "true") {
             freeCompilerArgs.addAll(

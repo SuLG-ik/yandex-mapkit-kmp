@@ -135,7 +135,7 @@ fun MapActions(
         OutlinedButton(
             onClick = { state.isComposableContentEnabled = !state.isComposableContentEnabled }
         ) {
-            Text("Composable content: ${if (state.isDragEnabled) "on" else "off"}")
+            Text("Composable content: ${if (state.isComposableContentEnabled) "on" else "off"}")
         }
     }
 }

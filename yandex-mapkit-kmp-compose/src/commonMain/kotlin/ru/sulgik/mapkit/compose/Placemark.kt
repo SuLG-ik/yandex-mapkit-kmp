@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.DpSize
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
@@ -88,9 +89,11 @@ public fun Placemark(
     )
 }
 
+@YandexMapsComposeExperimentalApi
 @[YandexMapComposable Composable]
 public fun Placemark(
     state: PlacemarkState,
+    contentSize: DpSize,
     iconStyle: IconStyle = IconStyle(),
     visible: Boolean = true,
     draggable: Boolean = false,
@@ -101,7 +104,7 @@ public fun Placemark(
 ) {
     Placemark(
         state = state,
-        icon = imageProvider(content),
+        icon = imageProvider(contentSize, content),
         iconStyle = iconStyle,
         visible = visible,
         draggable = draggable,

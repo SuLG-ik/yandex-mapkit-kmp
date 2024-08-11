@@ -12,81 +12,130 @@ import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.DpSize
 import ru.sulgik.mapkit.geometry.Cluster
-import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
-import ru.sulgik.mapkit.map.PlacemarkMapObject
 import ru.sulgik.mapkit.map.toImageProvider
 
-@Composable
-public actual fun imageProvider(content: @Composable () -> Unit): ImageProvider {
-    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
-    return remember { composeMapObjectRenderer.toImageProvider(content) }
-}
-
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun imageProvider(
+    size: DpSize,
+    content: @Composable () -> Unit
+): ImageProvider {
+    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
+    return remember(size, content) {
+        composeMapObjectRenderer.toImageProvider(
+            size = size,
+            content = content
+        )
+    }
+}
+
+@YandexMapsComposeExperimentalApi
+@Composable
+public actual fun imageProvider(
+    size: DpSize,
     key1: Any?,
     content: @Composable () -> Unit
 ): ImageProvider {
     val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
-    return remember(key1 = key1) { composeMapObjectRenderer.toImageProvider(content) }
+    return remember(size, content, key1) {
+        composeMapObjectRenderer.toImageProvider(
+            size = size,
+            content = content
+        )
+    }
 }
 
-
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun imageProvider(
+    size: DpSize,
     key1: Any?,
     key2: Any?,
     content: @Composable () -> Unit
 ): ImageProvider {
     val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
-    return remember(key1 = key1, key2 = key2) { composeMapObjectRenderer.toImageProvider(content) }
+    return remember(size, content, key1, key2) {
+        composeMapObjectRenderer.toImageProvider(
+            size = size,
+            content = content
+        )
+    }
 }
 
-
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun imageProvider(
+    size: DpSize,
     key1: Any?,
     key2: Any?,
     key3: Any?,
     content: @Composable () -> Unit
 ): ImageProvider {
     val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
-    return remember(
-        key1 = key1,
-        key2 = key2,
-        key3 = key3
-    ) { composeMapObjectRenderer.toImageProvider(content) }
+    return remember(size, content, key1, key2, key3) {
+        composeMapObjectRenderer.toImageProvider(
+            size = size,
+            content = content
+        )
+    }
 }
 
-
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun imageProvider(
+    size: DpSize,
     vararg keys: Any?,
     content: @Composable () -> Unit
 ): ImageProvider {
     val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
-    return remember(keys = keys) { composeMapObjectRenderer.toImageProvider(content) }
+    return remember(size, content, *keys) {
+        composeMapObjectRenderer.toImageProvider(
+            size = size,
+            content = content
+        )
+    }
 }
 
-@Composable
-public actual fun clusterImageProvider(content: @Composable (Cluster) -> Unit): ClusterImageProvider {
-    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
-    return remember { ComposeClusterImageProvider(composeMapObjectRenderer, content) }
-}
-
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun clusterImageProvider(
+    size: DpSize,
+    content: @Composable (Cluster) -> Unit
+): ClusterImageProvider {
+    val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
+    return remember {
+        ClusterImageProvider(
+            size = size,
+            renderer = composeMapObjectRenderer,
+            content = content
+        )
+    }
+}
+
+@YandexMapsComposeExperimentalApi
+@Composable
+public actual fun clusterImageProvider(
+    size: DpSize,
     key1: Any?,
     content: @Composable (Cluster) -> Unit,
 ): ClusterImageProvider {
     val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
-    return remember(key1 = key1) { ComposeClusterImageProvider(composeMapObjectRenderer, content) }
+    return remember(key1 = key1) {
+        ClusterImageProvider(
+            size = size,
+            renderer = composeMapObjectRenderer,
+            content = content
+        )
+    }
 }
 
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun clusterImageProvider(
+    size: DpSize,
     key1: Any?,
     key2: Any?,
     content: @Composable (Cluster) -> Unit,
@@ -95,11 +144,19 @@ public actual fun clusterImageProvider(
     return remember(
         key1 = key1,
         key2 = key2
-    ) { ComposeClusterImageProvider(composeMapObjectRenderer, content) }
+    ) {
+        ClusterImageProvider(
+            size = size,
+            renderer = composeMapObjectRenderer,
+            content = content
+        )
+    }
 }
 
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun clusterImageProvider(
+    size: DpSize,
     key1: Any?,
     key2: Any?,
     key3: Any?,
@@ -107,70 +164,63 @@ public actual fun clusterImageProvider(
 ): ClusterImageProvider {
     val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
     return remember(key1 = key1, key2 = key2, key3 = key3) {
-        ComposeClusterImageProvider(
-            composeMapObjectRenderer,
-            content
+        ClusterImageProvider(
+            size = size,
+            renderer = composeMapObjectRenderer,
+            content = content
         )
     }
 }
 
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun clusterImageProvider(
+    size: DpSize,
     vararg keys: Any?,
     content: @Composable (Cluster) -> Unit,
 ): ClusterImageProvider {
     val composeMapObjectRenderer = rememberComposeMapObjectRenderer()
-    return remember(keys = keys) { ComposeClusterImageProvider(composeMapObjectRenderer, content) }
+    return remember(keys = keys) { ClusterImageProvider(size, composeMapObjectRenderer, content) }
 }
 
-public actual fun PlacemarkMapObject.setContent(
-    renderer: ComposeMapObjectRenderer,
-    iconStyle: IconStyle,
-    content: @Composable () -> Unit,
-) {
-    setIcon(renderer.toImageProvider(content), iconStyle)
-}
-
-
+@YandexMapsComposeExperimentalApi
 @Composable
 public actual fun rememberComposeMapObjectRenderer(): ComposeMapObjectRenderer {
     val parentView = ensureContainerView()
     val parentCompositionContext = rememberCompositionContext()
     return remember {
-        AndroidComposeMapObjectRenderer(
+        ComposeMapObjectRenderer(
             parentView = parentView,
             parentCompositionContext = parentCompositionContext,
         )
     }
 }
 
-private class ComposeClusterImageProvider(
+
+@YandexMapsComposeExperimentalApi
+public actual class ClusterImageProvider internal constructor(
+    private val size: DpSize,
     private val renderer: ComposeMapObjectRenderer,
     private val content: @Composable (Cluster) -> Unit
-) : ClusterImageProvider {
-    override fun toImageProvider(cluster: Cluster): ImageProvider {
-        return renderer.toImageProvider { content(cluster) }
+) {
+
+    @YandexMapsComposeExperimentalApi
+    internal actual fun toImageProvider(cluster: Cluster): ImageProvider {
+        return renderer.toImageProvider(size) { content(cluster) }
     }
 }
 
-public actual interface ClusterImageProvider {
+@YandexMapsComposeExperimentalApi
+public actual class ComposeMapObjectRenderer internal constructor(
+    private val parentView: ViewGroup,
+    private val parentCompositionContext: CompositionContext,
+) {
 
-    public actual fun toImageProvider(cluster: Cluster): ImageProvider
-
-}
-
-public actual interface ComposeMapObjectRenderer {
-
-    public fun toImageProvider(content: @Composable () -> Unit): ImageProvider
-
-}
-
-private class AndroidComposeMapObjectRenderer(
-    val parentView: ViewGroup,
-    val parentCompositionContext: CompositionContext,
-) : ComposeMapObjectRenderer {
-
-    override fun toImageProvider(content: @Composable () -> Unit): ImageProvider {
+    @YandexMapsComposeExperimentalApi
+    internal actual fun toImageProvider(
+        size: DpSize,
+        content: @Composable () -> Unit
+    ): ImageProvider {
         return renderComposableToImageProvider(
             parent = parentView,
             compositionContext = parentCompositionContext,

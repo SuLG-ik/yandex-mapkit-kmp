@@ -1,0 +1,23 @@
+PODS:
+  - composeApp (1.0):
+    - YandexMapsMobile (= 4.6.1-lite)
+  - YandexMapsMobile (4.6.1-lite)
+
+DEPENDENCIES:
+  - composeApp (from `../composeApp`)
+
+SPEC REPOS:
+  trunk:
+    - YandexMapsMobile
+
+EXTERNAL SOURCES:
+  composeApp:
+    :path: "../composeApp"
+
+SPEC CHECKSUMS:
+  composeApp: 25a42f7e5edfb86a60e4ad8f4f1e2a4a9ab9b083
+  YandexMapsMobile: 7e20ef4db180b901c96f8107fade91d6349248a0
+
+PODFILE CHECKSUM: 501c9565884acd2f13287e4df5f64b146b918298
+
+COCOAPODS: 1.14.3
