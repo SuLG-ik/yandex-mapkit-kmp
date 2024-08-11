@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.geometry
 
 import YandexMapKit.YMKGeometry as NativeGeometry
 
-fun NativeGeometry.toCommon(): Geometry {
+public fun NativeGeometry.toCommon(): Geometry {
     return Geometry(
         point = point?.toCommon(),
         polyline = polyline?.toCommon(),
@@ -13,7 +13,7 @@ fun NativeGeometry.toCommon(): Geometry {
     )
 }
 
-fun Geometry.toNative(): NativeGeometry {
+public fun Geometry.toNative(): NativeGeometry {
     return when {
         point != null -> NativeGeometry.geometryWithPoint(point.toNative())
         polyline != null -> NativeGeometry.geometryWithPolyline(polyline.toNative())

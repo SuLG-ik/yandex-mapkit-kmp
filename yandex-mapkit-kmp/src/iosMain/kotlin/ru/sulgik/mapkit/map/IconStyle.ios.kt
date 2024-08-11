@@ -4,7 +4,7 @@ import YandexMapKit.YMKIconStyle
 import ru.sulgik.mapkit.toNSNumber
 import ru.sulgik.mapkit.toPointF
 
-fun IconStyle.toNative(): YMKIconStyle {
+public fun IconStyle.toNative(): YMKIconStyle {
     return YMKIconStyle.iconStyleWithAnchor(
         anchor = null,
         rotationType = rotationType?.ordinal?.toNSNumber(),
@@ -16,7 +16,7 @@ fun IconStyle.toNative(): YMKIconStyle {
     )
 }
 
-fun YMKIconStyle.toCommon(): IconStyle {
+public fun YMKIconStyle.toCommon(): IconStyle {
     return IconStyle(
         anchor = anchor?.toPointF(),
         rotationType = rotationType?.let { RotationType.entries[it.intValue()] },

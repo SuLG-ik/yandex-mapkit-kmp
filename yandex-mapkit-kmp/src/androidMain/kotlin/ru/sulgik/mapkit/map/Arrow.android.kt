@@ -3,43 +3,45 @@ package ru.sulgik.mapkit.map
 import ru.sulgik.mapkit.Color
 import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.toCommon
+import ru.sulgik.mapkit.toColor
+import ru.sulgik.mapkit.toArgb
 import com.yandex.mapkit.map.Arrow as NativeArrow
 
-actual class Arrow internal constructor(private val nativeArrow: NativeArrow) {
+public actual class Arrow internal constructor(private val nativeArrow: NativeArrow) {
 
-    fun toNative(): NativeArrow {
+    public fun toNative(): NativeArrow {
         return nativeArrow
     }
 
-    actual val position: PolylinePosition
+    public actual val position: PolylinePosition
         get() = nativeArrow.position.toCommon()
 
-    actual var fillColor: Color
-        get() = nativeArrow.fillColor.let(::Color)
+    public actual var fillColor: Color
+        get() = nativeArrow.fillColor.toColor()
         set(value) {
-            nativeArrow.fillColor = value.value
+            nativeArrow.fillColor = value.toArgb()
         }
-    actual var outlineColor: Color
-        get() = nativeArrow.outlineColor.let(::Color)
+    public actual var outlineColor: Color
+        get() = nativeArrow.outlineColor.toColor()
         set(value) {
-            nativeArrow.outlineColor = value.value
+            nativeArrow.outlineColor = value.toArgb()
         }
-    actual var outlineWidth: Float
+    public actual var outlineWidth: Float
         get() = nativeArrow.outlineWidth
         set(value) {
             nativeArrow.outlineWidth = value
         }
-    actual var length: Float
+    public actual var length: Float
         get() = nativeArrow.length
         set(value) {
             nativeArrow.length = value
         }
-    actual var isVisible: Boolean
+    public actual var isVisible: Boolean
         get() = nativeArrow.isVisible
         set(value) {
             nativeArrow.isVisible = value
         }
-    actual var triangleHeight: Float
+    public actual var triangleHeight: Float
         get() = nativeArrow.triangleHeight
         set(value) {
             nativeArrow.triangleHeight = value
@@ -47,6 +49,6 @@ actual class Arrow internal constructor(private val nativeArrow: NativeArrow) {
 
 }
 
-fun NativeArrow.toCommon(): Arrow {
+public fun NativeArrow.toCommon(): Arrow {
     return Arrow(this)
 }

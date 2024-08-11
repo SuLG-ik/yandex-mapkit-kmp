@@ -8,15 +8,15 @@ import ru.sulgik.mapkit.MapKit
 import ru.sulgik.mapkit.compose.utils.LifecycleEffect
 
 @Composable
-expect fun rememberAndInitializeMapKit(): MapKit
+public expect fun rememberAndInitializeMapKit(): MapKit
 
 @Composable
-fun rememberMapKit(): MapKit {
+public fun rememberMapKit(): MapKit {
     return remember { MapKit.getInstance() }
 }
 
 @Composable
-fun MapKit.bindToLifecycleOwner(lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
+public fun MapKit.bindToLifecycleOwner(lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
     LifecycleEffect(
         lifecycleOwner = lifecycleOwner,
         onStart = this::onStart,

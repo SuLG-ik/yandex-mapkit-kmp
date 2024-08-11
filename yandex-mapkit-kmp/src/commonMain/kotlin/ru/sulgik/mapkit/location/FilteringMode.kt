@@ -1,5 +1,5 @@
 package ru.sulgik.mapkit.location
 
-enum class FilteringMode {
+public enum class FilteringMode {
     ON, OFF
 }

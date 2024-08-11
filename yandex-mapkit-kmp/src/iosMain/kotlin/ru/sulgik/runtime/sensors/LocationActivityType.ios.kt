@@ -3,7 +3,7 @@ package ru.sulgik.runtime.sensors
 import YandexMapKit.YRTLocationActivityType as NativeLocationActivityType
 
 
-fun LocationActivityType.toNative(): NativeLocationActivityType {
+public fun LocationActivityType.toNative(): NativeLocationActivityType {
     return when (this) {
         LocationActivityType.AUTO_DETECT -> NativeLocationActivityType.YRTLocationActivityTypeAutoDetect
         LocationActivityType.CAR -> NativeLocationActivityType.YRTLocationActivityTypeCar
@@ -12,7 +12,7 @@ fun LocationActivityType.toNative(): NativeLocationActivityType {
     }
 }
 
-fun NativeLocationActivityType.toCommon(): LocationActivityType {
+public fun NativeLocationActivityType.toCommon(): LocationActivityType {
     return when (this) {
         NativeLocationActivityType.YRTLocationActivityTypeOther -> LocationActivityType.OTHER
         NativeLocationActivityType.YRTLocationActivityTypeCar -> LocationActivityType.CAR

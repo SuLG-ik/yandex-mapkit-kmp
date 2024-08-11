@@ -7,7 +7,7 @@ import YandexMapKit.YMKMapObject as NativeMapObject
 import YandexMapKit.YMKMapObjectTapListenerProtocol as NativeMapObjectTapListener
 import YandexMapKit.YMKPoint as NativePoint
 
-actual abstract class MapObjectTapListener actual constructor() {
+public actual abstract class MapObjectTapListener actual constructor() {
     private val nativeListener = object : NativeMapObjectTapListener, NSObject() {
         override fun onMapObjectTapWithMapObject(
             mapObject: NativeMapObject,
@@ -17,11 +17,11 @@ actual abstract class MapObjectTapListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeMapObjectTapListener {
+    public fun toNative(): NativeMapObjectTapListener {
         return nativeListener
     }
 
-    actual abstract fun onMapObjectTap(
+    public actual abstract fun onMapObjectTap(
         mapObject: MapObject,
         point: Point
     ): Boolean

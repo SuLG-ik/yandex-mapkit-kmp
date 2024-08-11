@@ -4,38 +4,38 @@ import ru.sulgik.mapkit.PointF
 import ru.sulgik.mapkit.location.LocationViewSource
 import ru.sulgik.mapkit.map.CameraPosition
 
-expect class UserLocationLayer {
+public expect class UserLocationLayer {
 
     /**
      * User location visibility.
      */
-    var isVisible: Boolean
+    public var isVisible: Boolean
 
     /**
      * Heading mode.
      */
-    var isHeadingEnabled: Boolean
+    public var isHeadingEnabled: Boolean
 
 
     /**
      * Returns true if anchor mode is set, and false otherwise.
      */
-    val isAnchorEnabled: Boolean
+    public val isAnchorEnabled: Boolean
 
     /**
      * Auto zoom.
      */
-    var isAutoZoomEnabled: Boolean
+    public var isAutoZoomEnabled: Boolean
 
     /**
      * Calculates the camera position that projects the current location into view.
      */
-    val cameraPosition: CameraPosition?
+    public val cameraPosition: CameraPosition?
 
     /**
      * Sets the anchor to the specified position in pixels and enables Anchor mode.
      */
-    fun setAnchor(
+    public fun setAnchor(
         anchorNormal: PointF,
         anchorCourse: PointF,
     )
@@ -43,17 +43,17 @@ expect class UserLocationLayer {
     /**
      * Resets anchor mode.
      */
-    fun resetAnchor()
+    public fun resetAnchor()
 
     /**
      * Sets/gets the data source.
      */
-    fun setSource(source: LocationViewSource?)
+    public fun setSource(source: LocationViewSource?)
 
     /**
      * Sets the data source with the global location manager
      */
-    fun setDefaultSource()
+    public fun setDefaultSource()
 
     /**
      * Sets/resets the tap listener.
@@ -62,7 +62,7 @@ expect class UserLocationLayer {
      * It is your responsibility to maintain a strong reference to the target object
      * while it is attached to a class.
      */
-    fun setTapListener(tapListener: UserLocationTapListener?)
+    public fun setTapListener(tapListener: UserLocationTapListener?)
 
     /**
      * Sets/resets the object listener.
@@ -71,6 +71,6 @@ expect class UserLocationLayer {
      * It is your responsibility to maintain a strong reference to the target object
      * while it is attached to a class.
      */
-    fun setObjectListener(objectListener: UserLocationObjectListener?)
+    public fun setObjectListener(objectListener: UserLocationObjectListener?)
 
 }

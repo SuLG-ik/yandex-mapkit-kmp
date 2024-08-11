@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.PointF
 
-data class IconStyle(
+public data class IconStyle(
     val anchor: PointF? = null,
     val rotationType: RotationType? = RotationType.NO_ROTATION,
     val zIndex: Float? = null,

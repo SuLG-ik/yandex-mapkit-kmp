@@ -1,9 +1,9 @@
 package ru.sulgik.mapkit.geometry
 
-expect class MultiPolygon {
+public expect class MultiPolygon {
 
-    constructor(polygons: List<Polygon>)
+    public constructor(polygons: List<Polygon>)
 
-    val polygons: List<Polygon>
+    public val polygons: List<Polygon>
 
 }

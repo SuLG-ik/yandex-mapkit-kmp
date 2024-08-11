@@ -4,7 +4,7 @@ import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.IconStyle as NativeIconStyle
 
-fun IconStyle.toNative(): NativeIconStyle {
+public fun IconStyle.toNative(): NativeIconStyle {
     return NativeIconStyle(
         /* anchor = */ anchor?.toNative(),
         /* rotationType = */ rotationType?.toNative(),
@@ -16,7 +16,7 @@ fun IconStyle.toNative(): NativeIconStyle {
     )
 }
 
-fun NativeIconStyle.toCommon(): IconStyle {
+public fun NativeIconStyle.toCommon(): IconStyle {
     return IconStyle(
         anchor = anchor?.toCommon(),
         rotationType = rotationType?.toCommon(),

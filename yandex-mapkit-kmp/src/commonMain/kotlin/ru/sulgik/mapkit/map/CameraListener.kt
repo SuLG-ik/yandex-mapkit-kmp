@@ -1,7 +1,7 @@
 package ru.sulgik.mapkit.map
 
-expect abstract class CameraListener() {
-    abstract fun onCameraPositionChanged(
+public expect abstract class CameraListener() {
+    public abstract fun onCameraPositionChanged(
         map: Map,
         cameraPosition: CameraPosition,
         cameraUpdateReason: CameraUpdateReason,
@@ -9,7 +9,7 @@ expect abstract class CameraListener() {
     )
 }
 
-inline fun CameraListener(
+public inline fun CameraListener(
     crossinline onCameraPositionChanged: (
         map: Map,
         cameraPosition: CameraPosition,

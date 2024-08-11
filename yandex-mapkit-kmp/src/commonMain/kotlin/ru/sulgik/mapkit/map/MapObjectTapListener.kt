@@ -2,11 +2,11 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.geometry.Point
 
-expect abstract class MapObjectTapListener() {
-    abstract fun onMapObjectTap(mapObject: MapObject, point: Point): Boolean
+public expect abstract class MapObjectTapListener() {
+    public abstract fun onMapObjectTap(mapObject: MapObject, point: Point): Boolean
 }
 
-inline fun MapObjectTapListener(
+public inline fun MapObjectTapListener(
     crossinline onMapObjectTap: (mapObject: MapObject, point: Point) -> Boolean
 ): MapObjectTapListener {
     return object : MapObjectTapListener() {

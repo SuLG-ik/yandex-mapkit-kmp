@@ -2,12 +2,12 @@ package ru.sulgik.mapkit.mapview
 
 import ru.sulgik.mapkit.map.MapWindow
 
-expect class MapView {
+public expect class MapView {
 
-    val mapWindow: MapWindow
+    public val mapWindow: MapWindow
 
-    fun onStart()
+    public fun onStart()
 
-    fun onStop()
+    public fun onStop()
 
 }

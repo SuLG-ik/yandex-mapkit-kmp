@@ -1,9 +1,9 @@
 package ru.sulgik.mapkit.geometry
 
-expect class Polyline {
+public expect class Polyline {
 
-    constructor(points: List<Point>)
+    public constructor(points: List<Point>)
 
-    val points: List<Point>
+    public val points: List<Point>
 
 }

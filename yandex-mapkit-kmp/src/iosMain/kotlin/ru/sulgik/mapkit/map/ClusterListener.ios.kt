@@ -6,7 +6,7 @@ import ru.sulgik.mapkit.geometry.toCommon
 import YandexMapKit.YMKCluster as NativeCluster
 import YandexMapKit.YMKClusterListenerProtocol as NativeClusterListener
 
-actual abstract class ClusterListener actual constructor() {
+public actual abstract class ClusterListener actual constructor() {
 
     private val nativeListener =
         object : NativeClusterListener, NSObject() {
@@ -15,10 +15,10 @@ actual abstract class ClusterListener actual constructor() {
             }
         }
 
-    fun toNative(): NativeClusterListener {
+    public fun toNative(): NativeClusterListener {
         return nativeListener
     }
 
-    actual abstract fun onClusterAdded(cluster: Cluster)
+    public actual abstract fun onClusterAdded(cluster: Cluster)
 
 }

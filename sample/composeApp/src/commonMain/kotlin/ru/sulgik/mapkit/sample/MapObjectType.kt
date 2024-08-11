@@ -1,12 +1,12 @@
 package ru.sulgik.mapkit.sample
 
-enum class PlacemarkType {
+enum class MapObjectType {
     YELLOW,
     GREEN,
     RED
 }
 
-data class PlacemarkUserData(
+data class MapObjectUserData(
     val name: String,
-    val type: PlacemarkType,
+    val type: MapObjectType,
 )

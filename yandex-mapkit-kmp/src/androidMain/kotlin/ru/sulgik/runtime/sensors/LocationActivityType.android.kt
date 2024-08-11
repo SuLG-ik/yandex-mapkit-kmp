@@ -2,7 +2,7 @@ package ru.sulgik.runtime.sensors
 
 import com.yandex.runtime.sensors.LocationActivityType as NativeLocationActivityType
 
-fun LocationActivityType.toNative(): NativeLocationActivityType {
+public fun LocationActivityType.toNative(): NativeLocationActivityType {
     return when (this) {
         LocationActivityType.AUTO_DETECT -> NativeLocationActivityType.AUTO_DETECT
         LocationActivityType.CAR -> NativeLocationActivityType.CAR
@@ -11,7 +11,7 @@ fun LocationActivityType.toNative(): NativeLocationActivityType {
     }
 }
 
-fun NativeLocationActivityType.toCommon(): LocationActivityType {
+public fun NativeLocationActivityType.toCommon(): LocationActivityType {
     return when (this) {
         NativeLocationActivityType.AUTO_DETECT -> LocationActivityType.AUTO_DETECT
         NativeLocationActivityType.CAR -> LocationActivityType.CAR

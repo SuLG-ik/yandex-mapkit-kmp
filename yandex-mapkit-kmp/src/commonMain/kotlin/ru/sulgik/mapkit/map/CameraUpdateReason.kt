@@ -1,5 +1,5 @@
 package ru.sulgik.mapkit.map
 
-enum class CameraUpdateReason {
+public enum class CameraUpdateReason {
     GESTURES, APPLICATION
 }

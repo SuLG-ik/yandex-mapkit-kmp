@@ -1,4 +1,4 @@
 package ru.sulgik.mapkit.map
 
-expect interface ImageProvider {
+public expect interface ImageProvider {
 }

@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.map
 
 import YandexMapKit.YMKCallback as NativeCallback
 
-actual abstract class Callback actual constructor() {
+public actual abstract class Callback actual constructor() {
 
     private val nativeCallback = object : NativeCallback {
         override fun invoke() {
@@ -10,10 +10,10 @@ actual abstract class Callback actual constructor() {
         }
     }
 
-    fun toNative(): NativeCallback {
+    public fun toNative(): NativeCallback {
         return nativeCallback
     }
 
-    actual abstract fun onTaskFinished()
+    public actual abstract fun onTaskFinished()
 
 }

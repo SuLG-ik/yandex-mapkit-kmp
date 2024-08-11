@@ -76,6 +76,7 @@ kotlin {
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
+        freeCompilerArgs.add("-Xexplicit-api=strict")
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }

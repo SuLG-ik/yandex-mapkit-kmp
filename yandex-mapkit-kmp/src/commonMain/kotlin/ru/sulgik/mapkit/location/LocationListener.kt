@@ -1,11 +1,11 @@
 package ru.sulgik.mapkit.location
 
-expect abstract class LocationListener() {
-    abstract fun onLocationUpdated(location: Location)
-    abstract fun onLocationStatusUpdated(locationStatus: LocationStatus)
+public expect abstract class LocationListener() {
+    public abstract fun onLocationUpdated(location: Location)
+    public abstract fun onLocationStatusUpdated(locationStatus: LocationStatus)
 }
 
-inline fun LocationListener(
+public inline fun LocationListener(
     crossinline onLocationUpdated: (location: Location) -> Unit,
     crossinline onLocationStatusUpdated: (locationStatus: LocationStatus) -> Unit,
 ): LocationListener {

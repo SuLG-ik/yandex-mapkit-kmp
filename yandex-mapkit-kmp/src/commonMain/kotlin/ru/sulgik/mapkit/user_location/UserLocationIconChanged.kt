@@ -2,8 +2,8 @@ package ru.sulgik.mapkit.user_location
 
 import ru.sulgik.mapkit.layers.ObjectEvent
 
-expect class UserLocationIconChanged: ObjectEvent {
+public expect class UserLocationIconChanged: ObjectEvent {
 
-    val iconType: UserLocationIconType
+    public val iconType: UserLocationIconType
 
 }

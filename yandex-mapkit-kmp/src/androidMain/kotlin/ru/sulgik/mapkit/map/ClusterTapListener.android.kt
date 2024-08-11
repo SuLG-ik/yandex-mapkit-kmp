@@ -4,16 +4,16 @@ import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.toCommon
 import com.yandex.mapkit.map.ClusterTapListener as NativeClusterTapListener
 
-actual abstract class ClusterTapListener actual constructor() {
+public actual abstract class ClusterTapListener actual constructor() {
 
     private val nativeListener = NativeClusterTapListener {
         onClusterTap(it.toCommon())
     }
 
-    fun toNative(): NativeClusterTapListener {
+    public fun toNative(): NativeClusterTapListener {
         return nativeListener
     }
 
-    actual abstract fun onClusterTap(cluster: Cluster): Boolean
+    public actual abstract fun onClusterTap(cluster: Cluster): Boolean
 
 }

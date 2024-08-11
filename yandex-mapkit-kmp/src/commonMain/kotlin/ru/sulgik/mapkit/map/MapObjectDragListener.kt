@@ -2,13 +2,13 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.geometry.Point
 
-expect abstract class MapObjectDragListener() {
-    abstract fun onMapObjectDragStart(mapObject: MapObject)
-    abstract fun onMapObjectDrag(mapObject: MapObject, point: Point)
-    abstract fun onMapObjectDragEnd(mapObject: MapObject)
+public expect abstract class MapObjectDragListener() {
+    public abstract fun onMapObjectDragStart(mapObject: MapObject)
+    public abstract fun onMapObjectDrag(mapObject: MapObject, point: Point)
+    public abstract fun onMapObjectDragEnd(mapObject: MapObject)
 }
 
-inline fun MapObjectDragListener(
+public inline fun MapObjectDragListener(
     crossinline onMapObjectDragStart: (mapObject: MapObject) -> Unit,
     crossinline onMapObjectDrag: (mapObject: MapObject, point: Point) -> Unit,
     crossinline onMapObjectDragEnd: (mapObject: MapObject) -> Unit,

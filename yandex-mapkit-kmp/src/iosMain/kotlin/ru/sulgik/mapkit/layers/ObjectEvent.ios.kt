@@ -5,15 +5,15 @@ import YandexMapKit.YMKObjectEvent as NativeObjectEvent
 import YandexMapKit.YMKUserLocationAnchorChanged as NativeUserLocationAnchorChanged
 import YandexMapKit.YMKUserLocationIconChanged as NativeUserLocationIconChanged
 
-actual open class ObjectEvent internal constructor(private val nativeObjectEvent: NativeObjectEvent) {
+public actual open class ObjectEvent internal constructor(private val nativeObjectEvent: NativeObjectEvent) {
 
-    open fun toNative(): NativeObjectEvent {
+    public open fun toNative(): NativeObjectEvent {
         return nativeObjectEvent
     }
 
 }
 
-fun NativeObjectEvent.toCommon(): ObjectEvent {
+public fun NativeObjectEvent.toCommon(): ObjectEvent {
     return when (this) {
         is NativeUserLocationAnchorChanged -> toCommon()
         is NativeUserLocationIconChanged -> toCommon()

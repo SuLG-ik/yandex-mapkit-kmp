@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.PointF
 
-class Rect(
-    val min: PointF,
-    val max: PointF,
+public class Rect(
+    public val min: PointF,
+    public val max: PointF,
 )

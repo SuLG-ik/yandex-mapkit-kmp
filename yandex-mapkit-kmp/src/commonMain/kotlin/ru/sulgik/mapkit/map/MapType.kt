@@ -1,6 +1,6 @@
 package ru.sulgik.mapkit.map
 
-enum class MapType {
+public enum class MapType {
     /**
      * Do not use any of the predefined maps.
      */

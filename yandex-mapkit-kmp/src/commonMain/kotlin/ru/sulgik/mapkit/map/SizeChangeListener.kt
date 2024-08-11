@@ -1,10 +1,10 @@
 package ru.sulgik.mapkit.map
 
-expect abstract class SizeChangeListener() {
-    abstract fun onMapWindowSizeChanged(mapWindow: MapWindow, newWidth: Int, newHeight: Int)
+public expect abstract class SizeChangeListener() {
+    public abstract fun onMapWindowSizeChanged(mapWindow: MapWindow, newWidth: Int, newHeight: Int)
 }
 
-inline fun SizeChangeListener(
+public inline fun SizeChangeListener(
    crossinline onMapWindowSizeChanged: (mapWindow: MapWindow, newWidth: Int, newHeight: Int) -> Unit,
 ): SizeChangeListener {
     return object : SizeChangeListener() {

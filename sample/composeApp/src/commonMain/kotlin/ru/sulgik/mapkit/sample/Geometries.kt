@@ -1,9 +1,34 @@
 package ru.sulgik.mapkit.sample
 
+import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.LinearRing
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.Polygon
+import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.map.CameraPosition
+
+fun randomPlacemarks(): List<Pair<Point, MapObjectUserData>> {
+    return clusterizedPoints.mapIndexed { index, point ->
+        point to MapObjectUserData(
+            type = MapObjectType.entries.random(),
+            name = "point_$index"
+        )
+    }
+}
+
+val composablePlacemark = Point(59.939866, 30.314352)
+
+fun randomCircles(): List<Pair<Circle, MapObjectUserData>> {
+    return listOf(
+        Circle(
+            Point(59.939866, 30.314352),
+            (200..600).random().toFloat()
+        ) to MapObjectUserData(
+            type = MapObjectType.entries.random(),
+            name = "circle_0"
+        )
+    )
+}
 
 val startPosition = CameraPosition(Point(59.935016, 30.328903), 15f, 0f, 0f)
 
@@ -35,6 +60,17 @@ val polygon: Polygon
         )
     }
 
+val polyline: Polyline
+    get() {
+        val points = listOf(
+            59.933475 to 30.325256,
+            59.933947 to 30.323115,
+            59.935667 to 30.324070,
+            59.935901 to 30.322370,
+            59.941026 to 30.324789,
+        ).map { (lat, lon) -> Point(lat, lon) }
+        return Polyline(points)
+    }
 
 val clusterizedPoints = listOf(
     59.935535 to 30.326926,

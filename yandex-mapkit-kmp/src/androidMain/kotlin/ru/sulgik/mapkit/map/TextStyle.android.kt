@@ -1,14 +1,15 @@
 package ru.sulgik.mapkit.map
 
-import ru.sulgik.mapkit.Color
+import ru.sulgik.mapkit.toColor
+import ru.sulgik.mapkit.toArgb
 import com.yandex.mapkit.map.TextStyle as NativeTextStyle
 
-fun TextStyle.toNative(): NativeTextStyle {
+public fun TextStyle.toNative(): NativeTextStyle {
     return NativeTextStyle(
         size,
-        color?.value,
+        color?.toArgb(),
         outlineWidth,
-        outlineColor?.value,
+        outlineColor?.toArgb(),
         placement.toNative(),
         offset,
         offsetFromIcon,
@@ -16,12 +17,12 @@ fun TextStyle.toNative(): NativeTextStyle {
     )
 }
 
-fun NativeTextStyle.toCommon(): TextStyle {
+public fun NativeTextStyle.toCommon(): TextStyle {
     return TextStyle(
         size = size,
-        color = color?.let(::Color),
+        color = color?.toColor(),
         outlineWidth = outlineWidth,
-        outlineColor = outlineColor?.let(::Color),
+        outlineColor = outlineColor?.toColor(),
         placement = placement.toCommon(),
         offset = offset,
         offsetFromIcon = offsetFromIcon,
@@ -29,8 +30,8 @@ fun NativeTextStyle.toCommon(): TextStyle {
     )
 }
 
-fun TextStyle.Placement.toNative(): NativeTextStyle.Placement {
-    return when(this) {
+public fun TextStyle.Placement.toNative(): NativeTextStyle.Placement {
+    return when (this) {
         TextStyle.Placement.CENTER -> NativeTextStyle.Placement.CENTER
         TextStyle.Placement.LEFT -> NativeTextStyle.Placement.LEFT
         TextStyle.Placement.RIGHT -> NativeTextStyle.Placement.RIGHT
@@ -42,8 +43,9 @@ fun TextStyle.Placement.toNative(): NativeTextStyle.Placement {
         TextStyle.Placement.BOTTOM_RIGHT -> NativeTextStyle.Placement.BOTTOM_RIGHT
     }
 }
-fun NativeTextStyle.Placement.toCommon(): TextStyle.Placement {
-    return when(this) {
+
+public fun NativeTextStyle.Placement.toCommon(): TextStyle.Placement {
+    return when (this) {
         NativeTextStyle.Placement.CENTER -> TextStyle.Placement.CENTER
         NativeTextStyle.Placement.LEFT -> TextStyle.Placement.LEFT
         NativeTextStyle.Placement.RIGHT -> TextStyle.Placement.RIGHT

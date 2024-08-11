@@ -3,20 +3,20 @@ package ru.sulgik.mapkit.map
 import ru.sulgik.mapkit.Color
 import ru.sulgik.mapkit.geometry.PolylinePosition
 
-expect class Arrow {
+public expect class Arrow {
 
-    val position: PolylinePosition
+    public val position: PolylinePosition
 
-    var fillColor: Color
+    public var fillColor: Color
 
-    var outlineColor: Color
+    public var outlineColor: Color
 
-    var outlineWidth: Float
+    public var outlineWidth: Float
 
-    var length: Float
+    public var length: Float
 
-    var isVisible: Boolean
+    public var isVisible: Boolean
 
-    var triangleHeight: Float
+    public var triangleHeight: Float
 
 }

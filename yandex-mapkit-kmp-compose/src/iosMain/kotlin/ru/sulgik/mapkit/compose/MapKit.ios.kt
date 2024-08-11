@@ -4,6 +4,6 @@ import androidx.compose.runtime.Composable
 import ru.sulgik.mapkit.MapKit
 
 @Composable
-actual fun rememberAndInitializeMapKit(): MapKit {
+public actual fun rememberAndInitializeMapKit(): MapKit {
     return rememberMapKit()
 }

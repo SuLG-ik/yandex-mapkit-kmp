@@ -9,7 +9,7 @@ import YandexMapKit.YMKPolygonMapObject
 import YandexMapKit.YMKPolylineMapObject
 import platform.darwin.NSObject
 
-actual class MapObjectVisitor actual constructor(
+public actual class MapObjectVisitor actual constructor(
     private val onPlacemarkVisited: (placemark: PlacemarkMapObject) -> Unit,
     private val onPolylineVisited: (polyline: PolylineMapObject) -> Unit,
     private val onPolygonVisited: (polygon: PolygonMapObject) -> Unit,

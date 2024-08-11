@@ -1,11 +1,11 @@
 package ru.sulgik.mapkit.geometry
 
-expect class Polygon {
+public expect class Polygon {
 
-    constructor(outerRing: LinearRing, innerRing: List<LinearRing>)
+    public constructor(outerRing: LinearRing, innerRing: List<LinearRing>)
 
-    val outerRing: LinearRing
+    public val outerRing: LinearRing
 
-    val innerRing: List<LinearRing>
+    public val innerRing: List<LinearRing>
 
 }

@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.map
 import YandexMapKit.YMKPlacemarkCreatedCallback as NativePlacemarkCreatedCallback
 import YandexMapKit.YMKPlacemarkMapObject as NativePlacemarkMapObject
 
-actual abstract class PlacemarkCreatedCallback actual constructor() {
+public actual abstract class PlacemarkCreatedCallback actual constructor() {
 
     private val nativeCallback = object : NativePlacemarkCreatedCallback {
         override fun invoke(p1: NativePlacemarkMapObject?) {
@@ -13,9 +13,9 @@ actual abstract class PlacemarkCreatedCallback actual constructor() {
         }
     }
 
-    fun toNative(): NativePlacemarkCreatedCallback {
+    public fun toNative(): NativePlacemarkCreatedCallback {
         return nativeCallback
     }
 
-    actual abstract fun onPlacemarkCreated(placemark: PlacemarkMapObject)
+    public actual abstract fun onPlacemarkCreated(placemark: PlacemarkMapObject)
 }

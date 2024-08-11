@@ -3,20 +3,20 @@ package ru.sulgik.mapkit.map
 import ru.sulgik.mapkit.Color
 import ru.sulgik.mapkit.geometry.Polygon
 
-expect class PolygonMapObject: MapObject {
+public expect class PolygonMapObject : MapObject {
 
-    var geometry: Polygon
+    public var geometry: Polygon
 
-    var strokeColor: Color
+    public var strokeColor: Color
 
-    var strokeWidth: Float
+    public var strokeWidth: Float
 
-    var fillColor: Color
+    public var fillColor: Color
 
-    var isGeodesic: Boolean
+    public var isGeodesic: Boolean
 
-    fun setPattern(image: ImageProvider, scale: Float)
+    public fun setPattern(image: ImageProvider, scale: Float)
 
-    fun resetPattern()
+    public fun resetPattern()
 
 }

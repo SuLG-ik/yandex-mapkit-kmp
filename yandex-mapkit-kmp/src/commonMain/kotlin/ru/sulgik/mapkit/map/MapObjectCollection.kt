@@ -4,22 +4,22 @@ import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.Polygon
 import ru.sulgik.mapkit.geometry.Polyline
 
-expect class MapObjectCollection : BaseMapObjectCollection {
+public expect class MapObjectCollection : BaseMapObjectCollection {
 
-    fun addPlacemark(): PlacemarkMapObject
+    public fun addPlacemark(): PlacemarkMapObject
 
-    fun addPlacemark(placemarkCreatedCallback: PlacemarkCreatedCallback): PlacemarkMapObject
+    public fun addPlacemark(placemarkCreatedCallback: PlacemarkCreatedCallback): PlacemarkMapObject
 
-    fun addPolyline(polyline: Polyline): PolylineMapObject
+    public fun addPolyline(polyline: Polyline): PolylineMapObject
 
-    fun addPolygon(polygon: Polygon): PolygonMapObject
+    public fun addPolygon(polygon: Polygon): PolygonMapObject
 
-    fun addCircle(circle: Circle): CircleMapObject
+    public fun addCircle(circle: Circle): CircleMapObject
 
-    fun addCollection(): MapObjectCollection
+    public fun addCollection(): MapObjectCollection
 
-    fun addClusterizedPlacemarkCollection(listener: ClusterListener): ClusterizedPlacemarkCollection
+    public fun addClusterizedPlacemarkCollection(listener: ClusterListener): ClusterizedPlacemarkCollection
 
-    val placemarksStyler: PlacemarksStyler
+    public val placemarksStyler: PlacemarksStyler
 
 }

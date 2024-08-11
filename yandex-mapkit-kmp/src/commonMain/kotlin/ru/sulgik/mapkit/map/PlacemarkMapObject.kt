@@ -2,22 +2,22 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.geometry.Point
 
-expect class PlacemarkMapObject : MapObject {
+public expect class PlacemarkMapObject : MapObject {
 
-    var geometry: Point
+    public var geometry: Point
 
-    var direction: Float
+    public var direction: Float
 
-    var opacity: Float
+    public var opacity: Float
 
-    fun setText(
+    public fun setText(
         text: String,
         style: TextStyle = TextStyle(),
     )
 
-    fun setTextStyle(style: TextStyle)
+    public fun setTextStyle(style: TextStyle)
 
-    fun setIcon(
+    public fun setIcon(
         image: ImageProvider,
         style: IconStyle = IconStyle(),
         onFinished: Callback? = null,

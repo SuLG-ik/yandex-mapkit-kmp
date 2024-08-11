@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.logo
 
 import com.yandex.mapkit.logo.HorizontalAlignment as NativeHorizontalAlignment
 
-fun HorizontalAlignment.toNative(): NativeHorizontalAlignment {
+public fun HorizontalAlignment.toNative(): NativeHorizontalAlignment {
     return when (this) {
         HorizontalAlignment.LEFT -> NativeHorizontalAlignment.LEFT
         HorizontalAlignment.CENTER -> NativeHorizontalAlignment.CENTER
@@ -10,7 +10,7 @@ fun HorizontalAlignment.toNative(): NativeHorizontalAlignment {
     }
 }
 
-fun NativeHorizontalAlignment.toCommon(): HorizontalAlignment {
+public fun NativeHorizontalAlignment.toCommon(): HorizontalAlignment {
     return when (this) {
         NativeHorizontalAlignment.LEFT -> HorizontalAlignment.LEFT
         NativeHorizontalAlignment.CENTER -> HorizontalAlignment.CENTER

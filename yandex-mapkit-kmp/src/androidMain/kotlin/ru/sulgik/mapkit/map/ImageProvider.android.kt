@@ -2,10 +2,10 @@ package ru.sulgik.mapkit.map
 
 import com.yandex.runtime.image.ImageProvider as NativeImageProvider
 
-actual interface ImageProvider {
+public actual interface ImageProvider {
 
-    fun toNative(): NativeImageProvider
+    public fun toNative(): NativeImageProvider
 
-    companion object
+    public companion object
 
 }

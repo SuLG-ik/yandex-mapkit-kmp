@@ -3,13 +3,13 @@ package ru.sulgik.mapkit.location
 import kotlin.time.Duration
 import com.yandex.mapkit.location.LocationManager as NativeLocationManager
 
-actual class LocationManager(private val nativeLocationManager: NativeLocationManager) {
+public actual class LocationManager(private val nativeLocationManager: NativeLocationManager) {
 
-    fun toNative(): NativeLocationManager {
+    public fun toNative(): NativeLocationManager {
         return nativeLocationManager
     }
 
-    actual fun subscribeForLocationUpdates(
+    public actual fun subscribeForLocationUpdates(
         desiredAccuracy: Double,
         minTime: Duration,
         minDistance: Double,
@@ -27,24 +27,24 @@ actual class LocationManager(private val nativeLocationManager: NativeLocationMa
         )
     }
 
-    actual fun suspend() {
+    public actual fun suspend() {
         nativeLocationManager.suspend()
     }
 
-    actual fun resume() {
+    public actual fun resume() {
         nativeLocationManager.resume()
     }
 
-    actual fun requestSingleUpdate(locationListener: LocationListener) {
+    public actual fun requestSingleUpdate(locationListener: LocationListener) {
         nativeLocationManager.requestSingleUpdate(locationListener.toNative())
     }
 
-    actual fun unsubscribe(locationListener: LocationListener) {
+    public actual fun unsubscribe(locationListener: LocationListener) {
         nativeLocationManager.unsubscribe(locationListener.toNative())
     }
 
 }
 
-fun NativeLocationManager.toCommon(): LocationManager {
+public fun NativeLocationManager.toCommon(): LocationManager {
     return LocationManager(this)
 }

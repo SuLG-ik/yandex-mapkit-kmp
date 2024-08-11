@@ -5,22 +5,22 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import YandexMapKit.YMKCameraBounds as NativeCameraBounds
 
-actual class CameraBounds internal constructor(private val nativeCameraBounds: NativeCameraBounds) {
+public actual class CameraBounds internal constructor(private val nativeCameraBounds: NativeCameraBounds) {
 
-    fun toNative(): NativeCameraBounds {
+    public fun toNative(): NativeCameraBounds {
         return nativeCameraBounds
     }
 
     /**
      * Minimum available zoom level considering zoom level hint provided via #setMinZoomPreference.
      */
-    actual val minZoom: Float
+    public actual val minZoom: Float
         get() = nativeCameraBounds.getMinZoom()
 
     /**
      * Maximum available zoom level considering zoom level hint provided via #setMinZoomPreference.
      */
-    actual val maxZoom: Float
+    public actual val maxZoom: Float
         get() = nativeCameraBounds.getMaxZoom()
 
     /**
@@ -28,7 +28,7 @@ actual class CameraBounds internal constructor(private val nativeCameraBounds: N
      *
      * Longitudes should be in range [-180, 180).
      */
-    actual var latLngBounds: BoundingBox?
+    public actual var latLngBounds: BoundingBox?
         get() = nativeCameraBounds.latLngBounds?.toCommon()
         set(value) {
             nativeCameraBounds.latLngBounds = value?.toNative()
@@ -37,26 +37,26 @@ actual class CameraBounds internal constructor(private val nativeCameraBounds: N
     /**
      * Reset minimum and maximum available zoom level hints.
      */
-    actual fun resetMinMaxZoomPreference() {
+    public actual fun resetMinMaxZoomPreference() {
         nativeCameraBounds.resetMinMaxZoomPreference()
     }
 
     /**
      * Set minimum available zoom level hint.
      */
-    actual fun setMinZoomPreference(zoom: Float) {
+    public actual fun setMinZoomPreference(zoom: Float) {
         nativeCameraBounds.setMinZoomPreferenceWithZoom(zoom)
     }
 
     /**
      * Set maximum available zoom level hint.
      */
-    actual fun setMaxZoomPreference(zoom: Float) {
+    public actual fun setMaxZoomPreference(zoom: Float) {
         nativeCameraBounds.setMaxZoomPreferenceWithZoom(zoom)
     }
 
 }
 
-fun NativeCameraBounds.toCommon(): CameraBounds {
+public fun NativeCameraBounds.toCommon(): CameraBounds {
     return CameraBounds(this)
 }

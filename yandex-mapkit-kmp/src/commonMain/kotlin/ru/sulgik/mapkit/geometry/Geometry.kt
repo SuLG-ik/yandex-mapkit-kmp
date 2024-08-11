@@ -1,6 +1,6 @@
 package ru.sulgik.mapkit.geometry
 
-data class Geometry constructor(
+public data class Geometry internal constructor(
     val point: Point? = null,
     val polyline: Polyline? = null,
     val polygon: Polygon? = null,
@@ -8,29 +8,53 @@ data class Geometry constructor(
     val boundingBox: BoundingBox? = null,
     val circle: Circle? = null,
 ) {
-    companion object {
-        fun fromPoint(point: Point): Geometry {
+    public companion object {
+        public fun fromPoint(point: Point): Geometry {
             return Geometry(point = point)
         }
 
-        fun fromPolyline(polyline: Polyline): Geometry {
+        public fun fromPolyline(polyline: Polyline): Geometry {
             return Geometry(polyline = polyline)
         }
 
-        fun fromPolygon(polygon: Polygon): Geometry {
+        public fun fromPolygon(polygon: Polygon): Geometry {
             return Geometry(polygon = polygon)
         }
 
-        fun fromMultipolygon(multiPolygon: MultiPolygon): Geometry {
+        public fun fromMultipolygon(multiPolygon: MultiPolygon): Geometry {
             return Geometry(multiPolygon = multiPolygon)
         }
 
-        fun fromBoundingBox(boundingBox: BoundingBox): Geometry {
+        public fun fromBoundingBox(boundingBox: BoundingBox): Geometry {
             return Geometry(boundingBox = boundingBox)
         }
 
-        fun fromCircle(circle: Circle): Geometry {
+        public fun fromCircle(circle: Circle): Geometry {
             return Geometry(circle = circle)
         }
     }
+}
+
+public fun Point.toGeometry(): Geometry {
+    return Geometry.fromPoint(this)
+}
+
+public fun Polyline.toGeometry(): Geometry {
+    return Geometry.fromPolyline(this)
+}
+
+public fun Polygon.toGeometry(): Geometry {
+    return Geometry.fromPolygon(this)
+}
+
+public fun MultiPolygon.toGeometry(): Geometry {
+    return Geometry.fromMultipolygon(this)
+}
+
+public fun BoundingBox.toGeometry(): Geometry {
+    return Geometry.fromBoundingBox(this)
+}
+
+public fun Circle.toGeometry(): Geometry {
+    return Geometry.fromCircle(this)
 }

@@ -3,16 +3,16 @@ package ru.sulgik.mapkit.geometry
 import ru.sulgik.mapkit.map.ClusterTapListener
 import ru.sulgik.mapkit.map.PlacemarkMapObject
 
-expect class Cluster {
+public expect class Cluster {
 
-    val placemarks: List<PlacemarkMapObject>
+    public val placemarks: List<PlacemarkMapObject>
 
-    val size: Int
+    public val size: Int
 
-    val appearance: PlacemarkMapObject
+    public val appearance: PlacemarkMapObject
 
-    fun addClusterTapListener(listener: ClusterTapListener)
+    public fun addClusterTapListener(listener: ClusterTapListener)
 
-    fun removeClusterTapListener(listener: ClusterTapListener)
+    public fun removeClusterTapListener(listener: ClusterTapListener)
 
 }

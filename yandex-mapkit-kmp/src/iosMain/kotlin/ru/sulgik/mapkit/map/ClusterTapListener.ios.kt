@@ -6,7 +6,7 @@ import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.toCommon
 import YandexMapKit.YMKClusterTapListenerProtocol as NativeClusterTapListener
 
-actual abstract class ClusterTapListener actual constructor() {
+public actual abstract class ClusterTapListener actual constructor() {
 
     private val nativeListener = object : NativeClusterTapListener,
         NSObject() {
@@ -15,10 +15,10 @@ actual abstract class ClusterTapListener actual constructor() {
         }
     }
 
-    fun toNative(): NativeClusterTapListener {
+    public fun toNative(): NativeClusterTapListener {
         return nativeListener
     }
 
-    actual abstract fun onClusterTap(cluster: Cluster): Boolean
+    public actual abstract fun onClusterTap(cluster: Cluster): Boolean
 
 }

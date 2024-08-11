@@ -5,15 +5,15 @@ import com.yandex.mapkit.layers.ObjectEvent as NativeObjectEvent
 import com.yandex.mapkit.user_location.UserLocationAnchorChanged as NativeUserLocationAnchorChanged
 import com.yandex.mapkit.user_location.UserLocationIconChanged as NativeUserLocationIconChanged
 
-actual open class ObjectEvent(private val nativeObjectEvent: NativeObjectEvent) {
+public actual open class ObjectEvent(private val nativeObjectEvent: NativeObjectEvent) {
 
-    open fun toNative(): NativeObjectEvent {
+    public open fun toNative(): NativeObjectEvent {
         return nativeObjectEvent
     }
 
 }
 
-fun NativeObjectEvent.toCommon(): ObjectEvent {
+public fun NativeObjectEvent.toCommon(): ObjectEvent {
     return when (this) {
         is NativeUserLocationAnchorChanged -> toCommon()
         is NativeUserLocationIconChanged -> toCommon()

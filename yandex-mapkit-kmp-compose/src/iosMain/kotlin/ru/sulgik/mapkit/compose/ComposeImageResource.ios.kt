@@ -11,12 +11,12 @@ import platform.UIKit.UIImage
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.fromUIImage
 
-actual fun ImageBitmap.toImageProvider(): ImageProvider {
+public actual fun ImageBitmap.toImageProvider(): ImageProvider {
     return ImageProvider.fromUIImage(toUIImage())
 }
 
 @OptIn(ExperimentalForeignApi::class)
-fun ImageBitmap.toUIImage(): UIImage {
+public fun ImageBitmap.toUIImage(): UIImage {
     val width = this.width
     val height = this.height
     val buffer = IntArray(width * height)
