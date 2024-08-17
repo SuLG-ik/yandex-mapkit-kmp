@@ -1,5 +1,5 @@
 package ru.sulgik.mapkit.logo
 
-public enum class HorizontalAlignment {
+public enum class LogoHorizontalAlignment {
     LEFT, CENTER, RIGHT,
 }

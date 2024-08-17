@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.sample
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +31,8 @@ import ru.sulgik.mapkit.compose.Circle
 import ru.sulgik.mapkit.compose.ClusterGroup
 import ru.sulgik.mapkit.compose.ClusterItem
 import ru.sulgik.mapkit.compose.Clustering
+import ru.sulgik.mapkit.compose.MapConfig
+import ru.sulgik.mapkit.compose.MapLogoConfig
 import ru.sulgik.mapkit.compose.Placemark
 import ru.sulgik.mapkit.compose.Polygon
 import ru.sulgik.mapkit.compose.Polyline
@@ -51,6 +54,9 @@ import ru.sulgik.mapkit.composeapp.generated.resources.pin_red
 import ru.sulgik.mapkit.composeapp.generated.resources.pin_yellow
 import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.logo.LogoAlignment
+import ru.sulgik.mapkit.logo.LogoHorizontalAlignment
+import ru.sulgik.mapkit.logo.LogoVerticalAlignment
 
 
 @OptIn(YandexMapsComposeExperimentalApi::class)
@@ -106,6 +112,15 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
     ) { _ ->
         YandexMap(
             cameraPositionState = cameraPositionState,
+            config = MapConfig(
+                isNightModeEnabled = isSystemInDarkTheme(),
+                logo = MapLogoConfig(
+                    alignment = LogoAlignment(
+                        horizontal = LogoHorizontalAlignment.LEFT,
+                        vertical = LogoVerticalAlignment.TOP,
+                    )
+                )
+            ),
             modifier = Modifier.fillMaxSize(),
         ) {
             if (mapActionsState.isPlacemarksEnabled) {

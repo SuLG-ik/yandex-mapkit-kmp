@@ -10,6 +10,7 @@ public expect class LocationManager {
         minDistance: Double,
         allowUseInBackground: Boolean,
         filteringMode: FilteringMode,
+        purpose: LocationPurpose,
         locationListener: LocationListener,
     )
 

@@ -3,7 +3,6 @@ package ru.sulgik.mapkit
 import ru.sulgik.mapkit.location.LocationManager
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.user_location.UserLocationLayer
-import ru.sulgik.runtime.sensors.LocationActivityType
 
 public expect class MapKit {
 
@@ -37,11 +36,6 @@ public expect class MapKit {
      * Creates a manager that allows to listen for device location updates.
      */
     public fun createLocationManager(): LocationManager
-
-    /**
-     * Creates a manager that allows to listen for device location updates, uses activityType as a hint.
-     */
-    public fun createLocationManager(activityType: LocationActivityType): LocationManager
 
     /**
      * Create layer with the user location icon.

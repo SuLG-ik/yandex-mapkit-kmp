@@ -1,5 +1,5 @@
 package ru.sulgik.mapkit.logo
 
-public enum class VerticalAlignment {
+public enum class LogoVerticalAlignment {
     TOP, BOTTOM
 }

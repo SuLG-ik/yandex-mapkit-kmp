@@ -1,6 +1,6 @@
 package ru.sulgik.mapkit.logo
 
-public data class Padding(
+public data class LogoPadding(
     val horizontalPadding: Int,
     val verticalPadding: Int,
 )

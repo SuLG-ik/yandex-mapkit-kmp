@@ -7,27 +7,30 @@ import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
 import ru.sulgik.mapkit.compose.CameraPositionState
+import ru.sulgik.mapkit.compose.MapConfig
+import ru.sulgik.mapkit.compose.MapLogoConfig
 import ru.sulgik.mapkit.map.CameraListener
 import ru.sulgik.mapkit.map.MapWindow
 
 @Stable
 internal class MapUpdaterState(
     cameraPositionState: CameraPositionState,
+    config: MapConfig,
 ) {
     var cameraPositionState by mutableStateOf(cameraPositionState)
+    var config by mutableStateOf(config)
 }
 
 internal class MapPropertiesNode(
     private val mapWindow: MapWindow,
     cameraPositionState: CameraPositionState,
-    var density: Density,
+    mapConfig: MapConfig,
 ) : MapNode {
 
     init {
         cameraPositionState.mapWindowOwner.setMapWindow(mapWindow)
+        updateMap(mapConfig)
     }
 
     var cameraPositionState = cameraPositionState
@@ -37,6 +40,48 @@ internal class MapPropertiesNode(
             field = value
             value.mapWindowOwner.setMapWindow(mapWindow)
         }
+
+    private fun updateLogo(value: MapLogoConfig) {
+        val logo = mapWindow.map.getLogo()
+        if (value.alignment != null) {
+            logo.setAlignment(value.alignment)
+        }
+        if (value.padding != null) {
+            logo.setPadding(value.padding)
+        }
+    }
+
+    fun updateMap(value: MapConfig) {
+        val map = mapWindow.map
+        if (value.isNightModeEnabled != null) {
+            map.isNightModeEnabled = value.isNightModeEnabled
+        }
+        if (value.poiLimit != null) {
+            map.poiLimit = value.poiLimit
+        }
+        if (value.isFastTapEnabled != null) {
+            map.isFastTapEnabled = value.isFastTapEnabled
+        }
+        if (value.isRotateGesturesEnabled != null) {
+            map.isRotateGesturesEnabled = value.isRotateGesturesEnabled
+        }
+        if (value.isTiltGesturesEnabled != null) {
+            map.isTiltGesturesEnabled = value.isTiltGesturesEnabled
+        }
+        if (value.isScrollGesturesEnabled != null) {
+            map.isScrollGesturesEnabled = value.isScrollGesturesEnabled
+        }
+        if (value.isZoomGesturesEnabled != null) {
+            map.isZoomGesturesEnabled = value.isZoomGesturesEnabled
+        }
+        if (value.mapType != null) {
+            map.mapType = value.mapType
+        }
+        if (value.use2dMode != null) {
+            map.set2DMode(value.use2dMode)
+        }
+        updateLogo(value.logo)
+    }
 
     private val cameraListener = CameraListener { _, cameraPosition, cameraUpdateReason, finished ->
         cameraPositionState.rawPosition = cameraPosition
@@ -63,17 +108,16 @@ internal class MapPropertiesNode(
 @Composable
 internal fun MapUpdater(mapUpdaterState: MapUpdaterState) = with(mapUpdaterState) {
     val mapWindow = (currentComposer.applier as MapApplier).mapWindow
-    val density = LocalDensity.current
     ComposeNode<MapPropertiesNode, MapApplier>(
         factory = {
             MapPropertiesNode(
                 mapWindow = mapWindow,
                 cameraPositionState = cameraPositionState,
-                density = density
+                mapConfig = mapUpdaterState.config
             )
         }
     ) {
-        update(density) { this.density = it }
         update(cameraPositionState) { this.cameraPositionState = it }
+        update(mapUpdaterState.config) { this.updateMap(it) }
     }
 }
