@@ -87,6 +87,7 @@ fun rememberMapActionsState(
 @Composable
 fun MapActions(
     onStartPosition: () -> Unit,
+    onUserLocation: () -> Unit,
     modifier: Modifier = Modifier,
     state: MapActionsState = rememberMapActionsState(),
 ) {
@@ -136,6 +137,11 @@ fun MapActions(
             onClick = { state.isComposableContentEnabled = !state.isComposableContentEnabled }
         ) {
             Text("Composable content: ${if (state.isComposableContentEnabled) "on" else "off"}")
+        }
+        OutlinedButton(
+            onClick = onUserLocation
+        ) {
+            Text("To user location")
         }
     }
 }

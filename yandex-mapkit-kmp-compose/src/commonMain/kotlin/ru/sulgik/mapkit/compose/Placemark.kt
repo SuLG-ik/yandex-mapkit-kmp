@@ -168,11 +168,12 @@ internal inline fun PlacemarkImpl(
             mapObject.isDraggable = draggable
             PlacemarkNode(
                 mapObject = mapObject,
-                state = state,
+                initialState = state,
                 tapListener = onTap,
             ).apply(init)
         },
         update = {
+            update(state) { this.state = state }
             update(state.geometry) { this.mapObject.geometry = it }
             update(state.direction) { this.mapObject.direction = it }
             update(opacity) { this.mapObject.opacity = it }
@@ -218,10 +219,11 @@ internal fun TitledPlacemarkImpl(
 
 internal class PlacemarkNode(
     mapObject: PlacemarkMapObject,
-    state: PlacemarkState,
+    initialState: PlacemarkState,
     tapListener: ((Point) -> Boolean)?
 ) : MapObjectNode<PlacemarkMapObject>(mapObject, tapListener) {
 
+    internal var state: PlacemarkState = initialState
 
     private var nativeDragListener: MapObjectDragListener? = MapObjectDragListener(
         onMapObjectDrag = { _, point -> state.geometry = point },

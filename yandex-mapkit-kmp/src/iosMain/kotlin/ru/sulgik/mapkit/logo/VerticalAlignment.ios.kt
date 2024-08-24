@@ -3,17 +3,17 @@ package ru.sulgik.mapkit.logo
 import YandexMapKit.YMKLogoVerticalAlignment
 import YandexMapKit.YMKLogoVerticalAlignment as NativeVerticalAlignment
 
-public fun VerticalAlignment.toNative(): NativeVerticalAlignment {
+public fun LogoVerticalAlignment.toNative(): NativeVerticalAlignment {
     return when (this) {
-        VerticalAlignment.TOP -> NativeVerticalAlignment.YMKLogoVerticalAlignmentTop
-        VerticalAlignment.BOTTOM -> NativeVerticalAlignment.YMKLogoVerticalAlignmentBottom
+        LogoVerticalAlignment.TOP -> NativeVerticalAlignment.YMKLogoVerticalAlignmentTop
+        LogoVerticalAlignment.BOTTOM -> NativeVerticalAlignment.YMKLogoVerticalAlignmentBottom
     }
 }
 
-public fun NativeVerticalAlignment.toCommon(): VerticalAlignment {
+public fun NativeVerticalAlignment.toCommon(): LogoVerticalAlignment {
     return when (this) {
-        YMKLogoVerticalAlignment.YMKLogoVerticalAlignmentTop -> VerticalAlignment.TOP
-        YMKLogoVerticalAlignment.YMKLogoVerticalAlignmentBottom -> VerticalAlignment.BOTTOM
+        YMKLogoVerticalAlignment.YMKLogoVerticalAlignmentTop -> LogoVerticalAlignment.TOP
+        YMKLogoVerticalAlignment.YMKLogoVerticalAlignmentBottom -> LogoVerticalAlignment.BOTTOM
         else -> throw IllegalArgumentException("Unknown NativeTextStylePlacement ($this)")
     }
 }

@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit.compose
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
@@ -13,32 +14,27 @@ import androidx.compose.ui.Modifier
 import kotlinx.coroutines.Job
 import ru.sulgik.mapkit.compose.composition.MapUpdaterState
 import ru.sulgik.mapkit.compose.composition.launchMapComposition
+import ru.sulgik.mapkit.compose.user_location.UserLocationConfig
+import ru.sulgik.mapkit.compose.user_location.UserLocationState
+import ru.sulgik.mapkit.compose.user_location.UserLocationUpdater
+import ru.sulgik.mapkit.compose.user_location.UserLocationUpdaterState
 import ru.sulgik.mapkit.map.Map
-
-@Composable
-public fun YandexMap(
-    controller: YandexMapController = rememberYandexMapController(),
-    modifier: Modifier = Modifier,
-) {
-    NativeYandexMap(
-        modifier = modifier,
-        update = { controller.mapWindowOwner.setMapWindow(it.mapWindow) },
-        onRelease = { controller.mapWindowOwner.setMapWindow(null) },
-    )
-}
 
 @Composable
 public fun YandexMap(
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
     modifier: Modifier = Modifier,
+    config: MapConfig = MapConfig(isNightModeEnabled = isSystemInDarkTheme()),
     content: @[Composable YandexMapComposable] () -> Unit = {},
 ) {
     val mapUpdaterState = remember {
         MapUpdaterState(
             cameraPositionState = cameraPositionState,
+            config = config,
         )
     }.also {
         it.cameraPositionState = cameraPositionState
+        it.config = config
     }
 
     val parentComposition = rememberCompositionContext()
@@ -58,6 +54,43 @@ public fun YandexMap(
                 )
             }
         }
+    )
+}
+
+@YandexMapsComposeExperimentalApi
+@Composable
+public fun YandexMap(
+    locationState: UserLocationState,
+    modifier: Modifier = Modifier,
+    cameraPositionState: CameraPositionState = rememberCameraPositionState(),
+    locationConfig: UserLocationConfig = UserLocationConfig(),
+    config: MapConfig = MapConfig(isNightModeEnabled = isSystemInDarkTheme()),
+    content: @[Composable YandexMapComposable] () -> Unit = {},
+) {
+    val userLocationUpdaterState = remember {
+        UserLocationUpdaterState(userLocation = locationConfig)
+    }.also {
+        it.userLocation = locationConfig
+    }
+    YandexMap(
+        cameraPositionState = cameraPositionState,
+        modifier = modifier,
+        config = config,
+    ) {
+        UserLocationUpdater(locationState, userLocationUpdaterState)
+        content()
+    }
+}
+
+@Composable
+public fun YandexMap(
+    controller: YandexMapController = rememberYandexMapController(),
+    modifier: Modifier = Modifier,
+) {
+    NativeYandexMap(
+        modifier = modifier,
+        update = { controller.mapWindowOwner.setMapWindow(it.mapWindow) },
+        onRelease = { controller.mapWindowOwner.setMapWindow(null) },
     )
 }
 

@@ -15,6 +15,7 @@ public actual class LocationManager(private val nativeLocationManager: NativeLoc
         minDistance: Double,
         allowUseInBackground: Boolean,
         filteringMode: FilteringMode,
+        purpose: LocationPurpose,
         locationListener: LocationListener,
     ) {
         nativeLocationManager.subscribeForLocationUpdates(
@@ -23,6 +24,7 @@ public actual class LocationManager(private val nativeLocationManager: NativeLoc
             minDistance,
             allowUseInBackground,
             filteringMode.toNative(),
+            purpose.toNative(),
             locationListener.toNative()
         )
     }

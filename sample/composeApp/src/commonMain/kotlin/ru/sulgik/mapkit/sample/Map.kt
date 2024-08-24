@@ -137,6 +137,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
                 onStartPosition = {
                     mapController.mapWindow?.map?.move(cameraPosition = startPosition)
                 },
+                onUserLocation = {},
                 modifier = Modifier.fillMaxWidth(),
             )
         },

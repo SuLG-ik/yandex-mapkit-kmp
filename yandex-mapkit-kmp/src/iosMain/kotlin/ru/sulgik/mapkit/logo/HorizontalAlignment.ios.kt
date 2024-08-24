@@ -2,19 +2,19 @@ package ru.sulgik.mapkit.logo
 
 import YandexMapKit.YMKLogoHorizontalAlignment as NativeHorizontalAlignment
 
-public fun HorizontalAlignment.toNative(): NativeHorizontalAlignment {
+public fun LogoHorizontalAlignment.toNative(): NativeHorizontalAlignment {
     return when (this) {
-        HorizontalAlignment.LEFT -> NativeHorizontalAlignment.YMKLogoHorizontalAlignmentLeft
-        HorizontalAlignment.CENTER -> NativeHorizontalAlignment.YMKLogoHorizontalAlignmentCenter
-        HorizontalAlignment.RIGHT -> NativeHorizontalAlignment.YMKLogoHorizontalAlignmentRight
+        LogoHorizontalAlignment.LEFT -> NativeHorizontalAlignment.YMKLogoHorizontalAlignmentLeft
+        LogoHorizontalAlignment.CENTER -> NativeHorizontalAlignment.YMKLogoHorizontalAlignmentCenter
+        LogoHorizontalAlignment.RIGHT -> NativeHorizontalAlignment.YMKLogoHorizontalAlignmentRight
     }
 }
 
-public fun NativeHorizontalAlignment.toCommon(): HorizontalAlignment {
+public fun NativeHorizontalAlignment.toCommon(): LogoHorizontalAlignment {
     return when (this) {
-        NativeHorizontalAlignment.YMKLogoHorizontalAlignmentLeft -> HorizontalAlignment.LEFT
-        NativeHorizontalAlignment.YMKLogoHorizontalAlignmentCenter -> HorizontalAlignment.CENTER
-        NativeHorizontalAlignment.YMKLogoHorizontalAlignmentRight -> HorizontalAlignment.RIGHT
+        NativeHorizontalAlignment.YMKLogoHorizontalAlignmentLeft -> LogoHorizontalAlignment.LEFT
+        NativeHorizontalAlignment.YMKLogoHorizontalAlignmentCenter -> LogoHorizontalAlignment.CENTER
+        NativeHorizontalAlignment.YMKLogoHorizontalAlignmentRight -> LogoHorizontalAlignment.RIGHT
         else -> throw IllegalArgumentException("Unknown NativeTextStylePlacement ($this)")
     }
 }

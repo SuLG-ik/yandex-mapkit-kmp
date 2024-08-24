@@ -2,8 +2,8 @@ package ru.sulgik.mapkit.logo
 
 public expect class Logo {
 
-    public fun setAlignment(alignment: Alignment)
+    public fun setAlignment(alignment: LogoAlignment)
 
-    public fun setPadding(padding: Padding)
+    public fun setPadding(logoPadding: LogoPadding)
 
 }

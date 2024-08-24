@@ -7,8 +7,6 @@ import ru.sulgik.mapkit.location.toCommon
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.user_location.UserLocationLayer
 import ru.sulgik.mapkit.user_location.toCommon
-import ru.sulgik.runtime.sensors.LocationActivityType
-import ru.sulgik.runtime.sensors.toNative
 import com.yandex.mapkit.MapKit as NativeMapKit
 
 public actual class MapKit internal constructor(private val nativeMapKit: NativeMapKit) {
@@ -56,13 +54,6 @@ public actual class MapKit internal constructor(private val nativeMapKit: Native
      */
     public actual fun createLocationManager(): LocationManager {
         return nativeMapKit.createLocationManager().toCommon()
-    }
-
-    /**
-     * Creates a manager that allows to listen for device location updates, uses activityType as a hint.
-     */
-    public actual fun createLocationManager(activityType: LocationActivityType): LocationManager {
-        return nativeMapKit.createLocationManager(activityType.toNative()).toCommon()
     }
 
     /**

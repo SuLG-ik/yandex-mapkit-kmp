@@ -17,7 +17,11 @@ import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.CameraPosition
 import ru.sulgik.mapkit.map.CameraUpdateReason
 
-
+/**
+ * Create and [rememberSaveable] a [CameraPositionState] using [CameraPositionState.Saver].
+ * [init] will be called when the [CameraPositionState] is first created to configure its
+ * initial state.
+ */
 @Composable
 public inline fun rememberCameraPositionState(
     key: String? = null,
@@ -26,7 +30,13 @@ public inline fun rememberCameraPositionState(
     CameraPositionState().apply(init)
 }
 
-
+/**
+ * A state object that can be hoisted to control and observe the map's camera state.
+ * A [CameraPositionState] may only be used by a single [YandexMap] composable at a time
+ * as it reflects instance state for a single view of a map.
+ *
+ * @param position the initial camera position
+ */
 @Stable
 public class CameraPositionState private constructor(
     position: CameraPosition = DefaultCameraPosition,
@@ -40,6 +50,9 @@ public class CameraPositionState private constructor(
     }
     internal var rawPosition by mutableStateOf(position)
 
+    /**
+     * Current position of the camera on the map.
+     */
     public var position: CameraPosition
         get() = rawPosition
         set(value) {
@@ -52,15 +65,18 @@ public class CameraPositionState private constructor(
             }
         }
 
+    /**
+     * Whether the camera is currently moving or not. This includes any kind of movement:
+     * panning, zooming, or rotation.
+     */
     public var isMoving: Boolean by mutableStateOf(false)
         internal set
 
-
+    /**
+     * The reason for the start of the most recent camera moment
+     */
     public var updateReason: CameraUpdateReason? by mutableStateOf(null)
         internal set
-
-    private fun cameraPositionListener() {
-    }
 
     public companion object {
         private val DefaultCameraPosition = CameraPosition(
@@ -112,9 +128,10 @@ public class CameraPositionState private constructor(
     }
 }
 
-
+/** Provides the [CameraPositionState] used by the map. */
 internal val LocalCameraPositionState = staticCompositionLocalOf { CameraPositionState() }
 
+/** The current [CameraPositionState] used by the map. */
 public val currentCameraPositionState: CameraPositionState
     @[YandexMapComposable ReadOnlyComposable Composable]
     get() = LocalCameraPositionState.current

@@ -8,12 +8,12 @@ public actual class Logo internal constructor(private val nativeLogo: NativeLogo
         return nativeLogo
     }
 
-    public actual fun setAlignment(alignment: Alignment) {
+    public actual fun setAlignment(alignment: LogoAlignment) {
         nativeLogo.setAlignmentWithAlignment(alignment.toNative())
     }
 
-    public actual fun setPadding(padding: Padding) {
-        nativeLogo.setPaddingWithPadding(padding.toNative())
+    public actual fun setPadding(logoPadding: LogoPadding) {
+        nativeLogo.setPaddingWithPadding(logoPadding.toNative())
     }
 
 }
