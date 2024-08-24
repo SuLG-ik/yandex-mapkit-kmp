@@ -15,6 +15,9 @@ import kotlinx.coroutines.Job
 import ru.sulgik.mapkit.compose.composition.MapUpdaterState
 import ru.sulgik.mapkit.compose.composition.launchMapComposition
 import ru.sulgik.mapkit.compose.user_location.UserLocationConfig
+import ru.sulgik.mapkit.compose.user_location.UserLocationState
+import ru.sulgik.mapkit.compose.user_location.UserLocationUpdater
+import ru.sulgik.mapkit.compose.user_location.UserLocationUpdaterState
 import ru.sulgik.mapkit.map.Map
 
 @Composable
@@ -52,6 +55,31 @@ public fun YandexMap(
             }
         }
     )
+}
+
+@YandexMapsComposeExperimentalApi
+@Composable
+public fun YandexMap(
+    locationState: UserLocationState,
+    modifier: Modifier = Modifier,
+    cameraPositionState: CameraPositionState = rememberCameraPositionState(),
+    locationConfig: UserLocationConfig = UserLocationConfig(),
+    config: MapConfig = MapConfig(isNightModeEnabled = isSystemInDarkTheme()),
+    content: @[Composable YandexMapComposable] () -> Unit = {},
+) {
+    val userLocationUpdaterState = remember {
+        UserLocationUpdaterState(userLocation = locationConfig)
+    }.also {
+        it.userLocation = locationConfig
+    }
+    YandexMap(
+        cameraPositionState = cameraPositionState,
+        modifier = modifier,
+        config = config,
+    ) {
+        UserLocationUpdater(locationState, userLocationUpdaterState)
+        content()
+    }
 }
 
 @Composable

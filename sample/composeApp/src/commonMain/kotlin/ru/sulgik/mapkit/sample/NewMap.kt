@@ -13,11 +13,13 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -26,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.sulgik.mapkit.compose.Circle
 import ru.sulgik.mapkit.compose.ClusterGroup
@@ -47,6 +50,8 @@ import ru.sulgik.mapkit.compose.rememberCircleState
 import ru.sulgik.mapkit.compose.rememberPlacemarkState
 import ru.sulgik.mapkit.compose.rememberPolygonState
 import ru.sulgik.mapkit.compose.rememberPolylineState
+import ru.sulgik.mapkit.compose.user_location.UserLocationConfig
+import ru.sulgik.mapkit.compose.user_location.rememberUserLocationState
 import ru.sulgik.mapkit.composeapp.generated.resources.Res
 import ru.sulgik.mapkit.composeapp.generated.resources.cluster
 import ru.sulgik.mapkit.composeapp.generated.resources.pin_green
@@ -95,12 +100,25 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
             Text("clicks: $clicksCount", fontSize = 12.sp)
         }
     }
+    var zoomFactor by remember { mutableStateOf(0f) }
+    LaunchedEffect(zoomFactor) {
+        while (zoomFactor != 0f) {
+            val position = cameraPositionState.position
+            cameraPositionState.position =
+                position.copy(zoom = position.zoom + zoomFactor)
+            delay(100)
+        }
+    }
+    val userLocationState = rememberUserLocationState()
     Scaffold(
         bottomBar = {
             MapActions(
                 state = mapActionsState,
                 onStartPosition = {
                     cameraPositionState.position = startPosition
+                },
+                onUserLocation = {
+                    userLocationState.cameraPosition?.let { cameraPositionState.position = it }
                 },
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -110,52 +128,79 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
         },
         modifier = modifier,
     ) { _ ->
-        YandexMap(
-            cameraPositionState = cameraPositionState,
-            config = MapConfig(
-                isNightModeEnabled = isSystemInDarkTheme(),
-                logo = MapLogoConfig(
-                    alignment = LogoAlignment(
-                        horizontal = LogoHorizontalAlignment.LEFT,
-                        vertical = LogoVerticalAlignment.TOP,
+        Box {
+            YandexMap(
+                cameraPositionState = cameraPositionState,
+                locationState = userLocationState,
+                locationConfig = UserLocationConfig(
+                    isVisible = true,
+                    arrow = UserLocationConfig.LocationIcon(
+                        image = imageProvider(Res.drawable.cluster),
+                    ),
+                    pin = UserLocationConfig.LocationIcon(
+                        image = imageProvider(Res.drawable.cluster),
+                    ),
+                    accuracy = UserLocationConfig.LocationAccuracy(
+                        fillColor = Color.Yellow
                     )
-                )
-            ),
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            if (mapActionsState.isPlacemarksEnabled) {
-                if (mapActionsState.isPlacemarksClsuteringEnabled) {
-                    PlacemarksCluster(placemarks, mapActionsState.isComposableContentEnabled)
-                } else {
-                    Placemarks(
-                        placemarks,
-                        mapActionsState = mapActionsState,
+                ),
+                config = MapConfig(
+                    isNightModeEnabled = isSystemInDarkTheme(),
+                    logo = MapLogoConfig(
+                        alignment = LogoAlignment(
+                            horizontal = LogoHorizontalAlignment.LEFT,
+                            vertical = LogoVerticalAlignment.TOP,
+                        )
+                    )
+                ),
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                if (mapActionsState.isPlacemarksEnabled) {
+                    if (mapActionsState.isPlacemarksClsuteringEnabled) {
+                        PlacemarksCluster(placemarks, mapActionsState.isComposableContentEnabled)
+                    } else {
+                        Placemarks(
+                            placemarks,
+                            mapActionsState = mapActionsState,
+                            onShowMessage = showMessage,
+                        )
+                    }
+                }
+                if (mapActionsState.isCirclesEnabled) {
+                    Circles(
+                        circles = circles,
                         onShowMessage = showMessage,
                     )
                 }
+                if (mapActionsState.isPolygonsEnabled) {
+                    Polygons(onShowMessage = showMessage)
+                }
+                if (mapActionsState.isPolylinesEnabled) {
+                    Polylines(onShowMessage = showMessage)
+                }
+                if (mapActionsState.isComposableContentEnabled) {
+                    Placemark(
+                        icon = clicksImage,
+                        state = rememberPlacemarkState(composablePlacemark),
+                        onTap = {
+                            clicksCount++
+                            true
+                        }
+                    )
+                }
             }
-            if (mapActionsState.isCirclesEnabled) {
-                Circles(
-                    circles = circles,
-                    onShowMessage = showMessage,
-                )
-            }
-            if (mapActionsState.isPolygonsEnabled) {
-                Polygons(onShowMessage = showMessage)
-            }
-            if (mapActionsState.isPolylinesEnabled) {
-                Polylines(onShowMessage = showMessage)
-            }
-            if (mapActionsState.isComposableContentEnabled) {
-                Placemark(
-                    icon = clicksImage,
-                    state = rememberPlacemarkState(composablePlacemark),
-                    onTap = {
-                        clicksCount++
-                        true
-                    }
-                )
-            }
+            MapControl(
+                onZoomIn = {
+                    zoomFactor = 0.25f
+                },
+                onZoomOut = {
+                    zoomFactor = -0.25f
+                },
+                onZoomStop = {
+                    zoomFactor = 0f
+                },
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
         }
     }
 }
