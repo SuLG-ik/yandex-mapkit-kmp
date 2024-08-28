@@ -1,5 +1,5 @@
 site_name: Yandex MapKit KMP
-site_url: https://github.sulgik.ru
+site_url: https://ymk-kmp.sulgik.ru
 site_author: Vladimir Nenashkin
 site_description: >-
   Kotlin Multiplatform wrapper for official Yandex MapKit SDK for iOS and Android targets with additional Compose Multiplatform support

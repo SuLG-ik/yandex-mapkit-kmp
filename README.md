@@ -66,4 +66,4 @@ cocoapods {
 
 ## Documentation
 
-Full documentation can be founded on [page](https://github.sulgik.ru)
+Full documentation can be founded on [page](https://ymk-kmp.sulgik.ru)
