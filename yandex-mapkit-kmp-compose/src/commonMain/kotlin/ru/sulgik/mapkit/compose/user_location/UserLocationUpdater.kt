@@ -157,7 +157,9 @@ internal class UserLocationNode(
 
     override fun onCleared() {
         super.onCleared()
-        onRemoved()
+        pin = null
+        arrow = null
+        accuracyCircle = null
     }
 
     override fun onRemoved() {

@@ -19,7 +19,7 @@ internal inline fun <reified T : MapObjectNode<R>, R : MapObject> MapObjectNode(
     zIndex: Float = 0.0f,
     noinline onTap: ((Point) -> Boolean)? = null,
     noinline factory: (applier: MapApplier) -> T,
-    update: @DisallowComposableCalls Updater<T>.() -> Unit
+    update: @DisallowComposableCalls Updater<T>.() -> Unit,
 ) {
     val mapApplier = currentComposer.applier as? MapApplier
         ?: error("Creating ${T::class} from not YandexMapComposable is not supported")
@@ -41,27 +41,14 @@ internal inline fun <reified T : MapObjectNode<R>, R : MapObject> MapObjectNode(
 
 internal abstract class MapObjectNode<T : MapObject>(
     val mapObject: T,
-    tapListener: ((point: Point) -> Boolean)?,
+    internal var tapListener: ((point: Point) -> Boolean)?,
 ) : MapNode {
-
-    internal var tapListener: ((point: Point) -> Boolean)? = tapListener
-        set(value) {
-            if (value == field) return
-            if (value == null) {
-                mapObject.removeTapListener(nativeTapListener)
-            } else if (field == null) {
-                mapObject.addTapListener(nativeTapListener)
-            }
-            field = value
-        }
 
     private val nativeTapListener =
         MapObjectTapListener { _, point -> tapListener?.invoke(point) ?: false }
 
     override fun onAttached() {
-        if (tapListener != null) {
-            mapObject.addTapListener(nativeTapListener)
-        }
+        mapObject.addTapListener(nativeTapListener)
     }
 
     override fun onRemoved() {
@@ -71,7 +58,6 @@ internal abstract class MapObjectNode<T : MapObject>(
 
     override fun onCleared() {
         tapListener = null
-        onRemoved()
     }
 
 }
