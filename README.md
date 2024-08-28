@@ -66,4 +66,4 @@ cocoapods {
 
 ## Documentation
 
-Full documentation can be founded on [page](https://github.sulgik.ru/yandex-mapkit-kmp)
+Full documentation can be founded on [page](https://github.sulgik.ru)
