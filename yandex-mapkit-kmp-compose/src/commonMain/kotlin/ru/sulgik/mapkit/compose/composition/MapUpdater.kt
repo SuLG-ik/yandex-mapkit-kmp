@@ -94,7 +94,6 @@ internal class MapPropertiesNode(
     }
 
     override fun onCleared() {
-        mapWindow.map.removeCameraListener(cameraListener)
         cameraPositionState.mapWindowOwner.setMapWindow(null)
     }
 
