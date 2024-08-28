@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.DpSize
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.ClusterListener
@@ -86,7 +87,7 @@ internal class ClusterNode(
 
 public data class ClusterItem(
     val geometry: Point,
-    val data: Any?
+    val data: Any? = null,
 )
 
 public data class ClusterGroup(
@@ -96,6 +97,22 @@ public data class ClusterGroup(
     val text: String? = null,
     val textStyle: TextStyle = TextStyle(),
 )
+
+public fun ClusterGroup(
+    points: List<Point>,
+    icon: ImageProvider,
+    iconStyle: IconStyle = IconStyle(),
+    text: String? = null,
+    textStyle: TextStyle = TextStyle(),
+): ClusterGroup {
+    return ClusterGroup(
+        placemarks = points.map { ClusterItem(it) }.toPersistentList(),
+        icon = icon,
+        iconStyle = iconStyle,
+        text = text,
+        textStyle = textStyle,
+    )
+}
 
 public data class ClusterizingConfig(
     val clusterRadius: Double = DefaultClusterRadius,

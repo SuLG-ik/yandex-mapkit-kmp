@@ -18,14 +18,26 @@ public fun NativeImageProvider.toCommon(): ImageProvider {
 }
 
 public fun Bitmap.toImageProvider(): ImageProvider {
-    return NativeImageProvider.fromBitmap(this).toCommon()
+    return ImageProvider.fromBitmap(this)
 }
 
 public fun Bitmap.toImageProvider(
     isCacheable: Boolean,
     id: String,
 ): ImageProvider {
-    return NativeImageProvider.fromBitmap(this, isCacheable, id).toCommon()
+    return ImageProvider.fromBitmap(bitmap = this, isCacheable = isCacheable, id = id)
+}
+
+public fun ImageProvider.Companion.fromBitmap(bitmap: Bitmap): ImageProvider {
+    return NativeImageProvider.fromBitmap(bitmap).toCommon()
+}
+
+public fun ImageProvider.Companion.fromBitmap(
+    bitmap: Bitmap,
+    isCacheable: Boolean,
+    id: String,
+): ImageProvider {
+    return NativeImageProvider.fromBitmap(bitmap, isCacheable, id).toCommon()
 }
 
 public fun ImageProvider.Companion.fromAsset(context: Context, assetName: String): ImageProvider {
