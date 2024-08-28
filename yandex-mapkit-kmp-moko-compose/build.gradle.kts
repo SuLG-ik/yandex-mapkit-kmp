@@ -14,7 +14,7 @@ plugins {
 }
 
 val supportIosTarget = project.property("skipIosTarget") != "true"
-version = libs.versions.project.version.get()
+version = extra["library_version"].toString()
 
 kotlin {
     androidTarget {
@@ -98,42 +98,44 @@ android {
 }
 
 
-mavenPublishing {
-    coordinates(group.toString(), name, version.toString())
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+if (version != "null") {
+    mavenPublishing {
+        coordinates(group.toString(), name, version.toString())
+        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-    signAllPublications()
-    configure(
-        KotlinMultiplatform(
-            javadocJar = JavadocJar.Empty(),
-            sourcesJar = true,
-            androidVariantsToPublish = listOf("release"),
+        signAllPublications()
+        configure(
+            KotlinMultiplatform(
+                javadocJar = JavadocJar.Empty(),
+                sourcesJar = true,
+                androidVariantsToPublish = listOf("release"),
+            )
         )
-    )
 
-    pom {
-        name.set("Yandex MapKit KMP SDK MOKO Compose Utils")
-        description.set("Yandex MapKit KMP SDK is a Kotlin-first SDK for Yandex MapKit. It's API is similar to the Yandex MapKit SDK but also supports multiplatform projects and compose multiplaform, enabling you to use MapKit directly from your common source targeting iOS or Android.")
-        inceptionYear.set("2024")
-        url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
-        licenses {
-            license {
-                name.set("The Apache License, Version 2.0")
-                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-            }
-        }
-        developers {
-            developer {
-                id.set("sulgik")
-                name.set("Vladimir Nenashkin")
-                url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
-            }
-        }
-        scm {
+        pom {
+            name.set("Yandex MapKit KMP SDK MOKO Compose Utils")
+            description.set("Yandex MapKit KMP SDK is a Kotlin-first SDK for Yandex MapKit. It's API is similar to the Yandex MapKit SDK but also supports multiplatform projects and compose multiplaform, enabling you to use MapKit directly from your common source targeting iOS or Android.")
+            inceptionYear.set("2024")
             url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
-            connection.set("scm:git:git://github.com/SuLG-ik/yandex-mapkit-kmp.git")
-            developerConnection.set("scm:git:ssh://git@github.com/SuLG-ik/yandex-mapkit-kmp.git")
+            licenses {
+                license {
+                    name.set("The Apache License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                }
+            }
+            developers {
+                developer {
+                    id.set("sulgik")
+                    name.set("Vladimir Nenashkin")
+                    url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
+                }
+            }
+            scm {
+                url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
+                connection.set("scm:git:git://github.com/SuLG-ik/yandex-mapkit-kmp.git")
+                developerConnection.set("scm:git:ssh://git@github.com/SuLG-ik/yandex-mapkit-kmp.git")
+            }
         }
     }
 }
