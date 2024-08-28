@@ -1,8 +1,9 @@
 name: Publish
 
 on:
-  release:
-    types: [ prereleased, released ]
+  push:
+    branches:
+      - 'release/**'
 
 env:
   ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPEUSERNAME }}
@@ -14,6 +15,13 @@ jobs:
   build:
     runs-on: macos-13
     steps:
+      - name: Extract branch name
+        run: |
+          branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          branch=${branch:8}
+          echo "value=$branch" >> $GITHUB_OUTPUT
+          echo "library_version=$branch" >> $GITHUB_ENV
+        id: version
       - uses: actions/checkout@v4
       - name: Set up JDK
         uses: actions/setup-java@v4
