@@ -1,0 +1,95 @@
+site_name: Yandex MapKit KMP
+site_url: https://github.sulgik.ru/yandex-mapkit-kmp
+site_author: Vladimir Nenashkin
+site_description: >-
+  Kotlin Multiplatform wrapper for official Yandex MapKit SDK for iOS and Android targets with additional Compose Multiplatform support
+
+repo_name: SuLG-ik/yandex-mapkit-kmp
+repo_url: https://github.com/SuLG-ik/yandex-mapkit-kmp
+edit_uri: ""
+
+copyright: Copyright &copy; 2024 Vladimir Nenashkin
+
+theme:
+  name: 'material'
+
+  # Don't include MkDocs' JavaScript
+  include_search_page: false
+  search_index_only: true
+
+  # Default values, taken from mkdocs_theme.yml
+  language: en
+  palette:
+    scheme: slate
+    primary: black
+    accent: indigo
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: logo
+
+# Plugins
+plugins:
+  - search
+
+
+# Page tree
+nav:
+  - Getting started:
+      - Overview: index.md
+      - Installation: getting-started/installation.md
+      - Quick start: getting-started/quick-start.md
+      - Licence: getting-started/licence.md
+      - Contributing: getting-started/contributing.md
+  - Wrapper:
+      - Overview: wrapper/overview.md
+      - Image resources: wrapper/image-resources.md
+  - Compose support:
+      - Overview: compose/overview.md
+      - Image resources: compose/image-resources.md
+      - Map objects: compose/mapobjects.md
+  - Sample: sample.md
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
