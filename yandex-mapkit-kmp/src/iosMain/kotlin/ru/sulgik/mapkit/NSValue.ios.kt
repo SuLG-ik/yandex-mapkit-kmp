@@ -1,15 +1,9 @@
 package ru.sulgik.mapkit
 
-import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.pointed
-import platform.CoreGraphics.CGPointMake
+import kotlinx.cinterop.useContents
 import platform.Foundation.NSValue
-import platform.Foundation.getValue
+import platform.UIKit.CGPointValue
 
 internal fun NSValue.toPointF(): PointF {
-    return memScoped {
-        val pointer = CGPointMake(0.0, 0.0).getPointer(this)
-        getValue(pointer)
-        pointer.pointed.toCommon()
-    }
+    return CGPointValue.useContents { toCommon() }
 }
