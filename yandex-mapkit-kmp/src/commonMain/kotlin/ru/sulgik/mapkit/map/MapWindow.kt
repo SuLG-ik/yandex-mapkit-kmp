@@ -24,9 +24,9 @@ public expect class MapWindow {
 
     public var scaleFactor: Float
 
-    public fun addSizeChangeListener(listener: SizeChangeListener)
+    public fun addSizeChangeListener(listener: SizeChangedListener)
 
-    public fun removeSizeChangeListener(listener: SizeChangeListener)
+    public fun removeSizeChangeListener(listener: SizeChangedListener)
 
     public fun convertWorldToScreen(worldPoint: Point): ScreenPoint?
 

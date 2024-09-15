@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.map
 
 import com.yandex.mapkit.map.SizeChangedListener as NativeSizeChangedListener
 
-public actual abstract class SizeChangeListener actual constructor() {
+public actual abstract class SizeChangedListener actual constructor() {
 
     private val nativeListener =
         NativeSizeChangedListener { mapWindow, newWidth, newHeight ->
