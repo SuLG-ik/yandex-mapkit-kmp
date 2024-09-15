@@ -78,6 +78,7 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xexplicit-api=strict")
         freeCompilerArgs.add("-Xexpect-actual-classes")
+        freeCompilerArgs.add("-Xconsistent-data-class-copy-visibility")
     }
 }
 

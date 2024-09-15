@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.interop.UIKitView
+import androidx.compose.ui.viewinterop.UIKitView
 import ru.sulgik.mapkit.mapview.MapView
 import ru.sulgik.mapkit.mapview.toCommon
 import YandexMapKit.YMKMapView as NativeMapView

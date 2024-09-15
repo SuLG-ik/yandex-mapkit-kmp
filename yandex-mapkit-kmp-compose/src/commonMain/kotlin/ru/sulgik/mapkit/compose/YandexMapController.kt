@@ -2,8 +2,8 @@ package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import ru.sulgik.mapkit.compose.utils.LifecycleEffect
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.mapview.MapView

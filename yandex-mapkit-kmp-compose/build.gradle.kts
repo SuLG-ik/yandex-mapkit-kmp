@@ -65,7 +65,8 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation(libs.lifecycle.common)
+            implementation(libs.lifecycle.compose)
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
             implementation(libs.atomicfu)
             api(libs.kotlinx.collections)
         }
