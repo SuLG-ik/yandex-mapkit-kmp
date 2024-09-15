@@ -73,6 +73,12 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
         return nativeMapWindow.screenToWorldWithScreenPoint(screenPoint.toNative())?.toCommon()
     }
 
+    /**
+     * Gets the focused region.
+     */
+    public actual val focusRegion: VisibleRegion
+        get() = nativeMapWindow.focusRegion.toCommon()
+
 }
 
 public fun NativeMapWindow.toCommon(): MapWindow {

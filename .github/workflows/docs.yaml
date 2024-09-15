@@ -16,6 +16,20 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Generate KDocs
+        run: ./gradlew dokkaHtmlMultiModule --no-configuration-cache
+
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x

@@ -50,6 +50,7 @@ nav:
       - Image resources: compose/image-resources.md
       - Map objects: compose/mapobjects.md
   - Sample: sample.md
+  - API docs: kdoc/index.html
 
 # Extensions
 markdown_extensions:

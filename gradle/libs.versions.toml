@@ -1,6 +1,6 @@
 [versions]
 android-compileSdk = "34"
-android-minSdk = "24"
+android-minSdk = "26"
 android-targetSdk = "34"
 
 buildKonfig = "0.15.1"
@@ -18,6 +18,7 @@ collections = "0.3.7"
 publish = "0.29.0"
 
 atomicfu = "0.25.0"
+dokka = "1.9.20"
 
 [libraries]
 yandex-mapkit = { module = "com.yandex.android:maps.mobile", version.ref = "yandex-mapkit" }
@@ -25,6 +26,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 moko-resources = { module = "dev.icerock.moko:resources", version.ref = "moko-resources" }
 moko-resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resources" }
 lifecycle-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlinx-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collections" }
@@ -40,3 +42,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
 atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "atomicfu" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

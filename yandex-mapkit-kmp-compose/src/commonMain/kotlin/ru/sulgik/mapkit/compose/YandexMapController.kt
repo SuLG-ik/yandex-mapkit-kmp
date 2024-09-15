@@ -27,6 +27,9 @@ public class YandexMapController internal constructor() {
 
 }
 
+/**
+ * Binds calling [MapView.onStart] and [MapView.onStop] to [LifecycleOwner] and composition
+ */
 @Composable
 internal fun MapView.bindToLifecycleOwner(lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
     LifecycleEffect(

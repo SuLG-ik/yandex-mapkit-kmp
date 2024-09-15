@@ -74,6 +74,12 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
         return nativeMapWindow.screenToWorld(screenPoint.toNative())?.toCommon()
     }
 
+    /**
+     * Gets the focused region.
+     */
+    public actual val focusRegion: VisibleRegion
+        get() = nativeMapWindow.focusRegion.toCommon()
+
 }
 
 public fun MapWindow.toCommon(): ru.sulgik.mapkit.map.MapWindow {
