@@ -4,14 +4,14 @@ android-minSdk = "24"
 android-targetSdk = "34"
 
 buildKonfig = "0.15.1"
-kotlin = "2.0.10"
-agp = "8.2.2"
+kotlin = "2.0.20"
+agp = "8.6.0"
 spotless = "7.0.0.BETA1"
-yandex-mapkit = "4.7.0-lite"
-compose-plugin = "1.6.11"
-androidx-activity = "1.9.1"
+yandex-mapkit = "4.8.0-lite"
+compose-plugin = "1.7.0-beta02"
+androidx-activity = "1.9.2"
 moko-resources = "0.24.1"
-lifecycle = "2.8.0"
+lifecycle = "2.8.2"
 datetime = "0.6.0"
 collections = "0.3.7"
 
@@ -24,7 +24,7 @@ yandex-mapkit = { module = "com.yandex.android:maps.mobile", version.ref = "yand
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 moko-resources = { module = "dev.icerock.moko:resources", version.ref = "moko-resources" }
 moko-resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resources" }
-lifecycle-common = { module = "org.jetbrains.androidx.lifecycle:lifecycle-common", version.ref = "lifecycle" }
+lifecycle-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlinx-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collections" }
