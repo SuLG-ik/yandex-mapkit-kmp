@@ -15,3 +15,4 @@ Pods/
 *yarn.lock
 *.podspec
 .kotlin
+docs/kdoc

@@ -22,11 +22,11 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
 
     public actual val map: Map = nativeMapWindow.map.toCommon()
 
-    public actual fun addSizeChangeListener(listener: SizeChangeListener) {
+    public actual fun addSizeChangeListener(listener: SizeChangedListener) {
         nativeMapWindow.addSizeChangedListener(listener.toNative())
     }
 
-    public actual fun removeSizeChangeListener(listener: SizeChangeListener) {
+    public actual fun removeSizeChangeListener(listener: SizeChangedListener) {
         nativeMapWindow.removeSizeChangedListener(listener.toNative())
     }
 
@@ -73,6 +73,12 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
     public actual fun convertScreenToWorld(screenPoint: ScreenPoint): Point? {
         return nativeMapWindow.screenToWorld(screenPoint.toNative())?.toCommon()
     }
+
+    /**
+     * Gets the focused region.
+     */
+    public actual val focusRegion: VisibleRegion
+        get() = nativeMapWindow.focusRegion.toCommon()
 
 }
 

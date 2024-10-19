@@ -65,7 +65,8 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation(libs.lifecycle.common)
+            implementation(libs.lifecycle.compose)
+            api(libs.lifecycle.runtime)
             implementation(libs.atomicfu)
             api(libs.kotlinx.collections)
         }

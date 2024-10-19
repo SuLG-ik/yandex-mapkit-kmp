@@ -5,7 +5,7 @@ import platform.darwin.NSObject
 import YandexMapKit.YMKMapSizeChangedListenerProtocol as NativeSizeChangeListener
 import YandexMapKit.YMKMapWindow as NativeMapWindow
 
-public actual abstract class SizeChangeListener actual constructor() {
+public actual abstract class SizeChangedListener actual constructor() {
     private val nativeListener = object : NativeSizeChangeListener, NSObject() {
         override fun onMapWindowSizeChangedWithMapWindow(
             mapWindow: NativeMapWindow,
