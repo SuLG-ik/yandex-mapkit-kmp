@@ -28,7 +28,7 @@ uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.8.1-li
 
 ## Installation
 
-The minimum supported Android SDK is 24 (Android 7.0).
+The minimum supported Android SDK is 26 (Android 8.0).
 
 All modules are available for use in common code, but native API available only in native code.
 
