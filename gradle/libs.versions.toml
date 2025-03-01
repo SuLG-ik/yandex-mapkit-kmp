@@ -1,22 +1,22 @@
 [versions]
-android-compileSdk = "34"
+android-compileSdk = "35"
 android-minSdk = "26"
-android-targetSdk = "34"
+android-targetSdk = "35"
 
 buildKonfig = "0.15.1"
-kotlin = "2.0.21"
+kotlin = "2.1.10"
 agp = "8.6.1"
 yandex-mapkit = "4.11.0-lite"
-compose-plugin = "1.7.0"
-androidx-activity = "1.9.3"
-moko-resources = "0.24.3"
-lifecycle = "2.8.3"
+compose-plugin = "1.7.3"
+androidx-activity = "1.10.1"
+moko-resources = "0.24.5"
+lifecycle = "2.8.4"
 datetime = "0.6.1"
 collections = "0.3.8"
 
 publish = "0.30.0"
 
-atomicfu = "0.25.0"
+atomicfu = "0.27.0"
 dokka = "1.9.20"
 
 [libraries]
