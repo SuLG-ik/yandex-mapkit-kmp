@@ -15,6 +15,7 @@ public fun Location.toNative(): NativeLocation {
         altitudeAccuracy = altitudeAccuracy?.toNSNumber(),
         heading = heading?.toNSNumber(),
         speed = speed?.toNSNumber(),
+        indoorLevelId = indoorLevelId,
         absoluteTimestamp = absoluteTimestamp.toNSDate(),
         relativeTimestamp = relativeTimestamp.toNSDate(),
     )
@@ -28,6 +29,7 @@ public fun NativeLocation.toCommon(): Location {
         altitudeAccuracy = altitudeAccuracy?.doubleValue,
         heading = heading?.doubleValue,
         speed = speed?.doubleValue,
+        indoorLevelId = indoorLevelId,
         absoluteTimestamp = absoluteTimestamp.toKotlinInstant(),
         relativeTimestamp = relativeTimestamp.toKotlinInstant(),
     )

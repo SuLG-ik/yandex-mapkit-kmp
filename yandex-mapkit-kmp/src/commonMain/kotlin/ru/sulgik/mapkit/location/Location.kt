@@ -10,6 +10,7 @@ public data class Location(
     val altitudeAccuracy: Double?,
     val heading: Double?,
     val speed: Double?,
+    val indoorLevelId: String?,
     val absoluteTimestamp: Instant,
     val relativeTimestamp: Instant,
 )
