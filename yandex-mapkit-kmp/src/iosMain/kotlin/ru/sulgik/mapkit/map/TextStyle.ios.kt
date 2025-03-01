@@ -8,9 +8,9 @@ import YandexMapKit.YMKTextStylePlacement as NativeTextStylePlacement
 public fun TextStyle.toNative(): NativeTextStyle {
     return NativeTextStyle.textStyleWithSize(
         size = size,
-        color = color?.toNative(),
+        color = color.toNative(),
         outlineWidth = outlineWidth,
-        outlineColor = outlineColor?.toNative(),
+        outlineColor = outlineColor.toNative(),
         placement = placement.toNative(),
         offset = offset,
         offsetFromIcon = offsetFromIcon,
@@ -21,9 +21,9 @@ public fun TextStyle.toNative(): NativeTextStyle {
 public fun NativeTextStyle.toCommon(): TextStyle {
     return TextStyle(
         size = size,
-        color = color?.toCommon(),
+        color = color.toCommon(),
         outlineWidth = outlineWidth,
-        outlineColor = outlineColor?.toCommon(),
+        outlineColor = outlineColor.toCommon(),
         placement = placement.toCommon(),
         offset = offset,
         offsetFromIcon = offsetFromIcon,
