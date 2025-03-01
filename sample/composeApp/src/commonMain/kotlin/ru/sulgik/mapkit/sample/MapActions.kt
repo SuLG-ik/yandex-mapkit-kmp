@@ -26,6 +26,7 @@ class MapActionsState(
     isPolylinesEnabled: Boolean = true,
     isDragEnabled: Boolean = false,
     isComposableContentEnabled: Boolean = false,
+    isCoilEnabled: Boolean = true,
 ) {
     var isPlacemarksEnabled by mutableStateOf(isPlacemarksEnabled)
     var isPlacemarksClsuteringEnabled by mutableStateOf(isPlacemarksClsuteringEnabled)
@@ -34,6 +35,7 @@ class MapActionsState(
     var isPolylinesEnabled by mutableStateOf(isPolylinesEnabled)
     var isDragEnabled by mutableStateOf(isDragEnabled)
     var isComposableContentEnabled by mutableStateOf(isComposableContentEnabled)
+    var isCoilEnabled by mutableStateOf(isCoilEnabled)
 
     companion object {
         val Saver: Saver<MapActionsState, Any> = listSaver(
@@ -46,6 +48,7 @@ class MapActionsState(
                     it.isPolylinesEnabled,
                     it.isDragEnabled,
                     it.isComposableContentEnabled,
+                    it.isCoilEnabled,
                 )
             },
             restore = {
@@ -57,6 +60,7 @@ class MapActionsState(
                     isPolylinesEnabled = it[3],
                     isDragEnabled = it[5],
                     isComposableContentEnabled = it[6],
+                    isCoilEnabled = it[7],
                 )
             }
         )
@@ -71,6 +75,7 @@ fun rememberMapActionsState(
     isPolylinesEnabled: Boolean = true,
     isDragEnabled: Boolean = false,
     isComposableContentEnabled: Boolean = false,
+    isCoilEnabled: Boolean = true,
 ): MapActionsState {
     return rememberSaveable(saver = MapActionsState.Saver) {
         MapActionsState(
@@ -80,6 +85,7 @@ fun rememberMapActionsState(
             isPolylinesEnabled = isPolylinesEnabled,
             isDragEnabled = isDragEnabled,
             isComposableContentEnabled = isComposableContentEnabled,
+            isCoilEnabled = isCoilEnabled,
         )
     }
 }
@@ -137,6 +143,11 @@ fun MapActions(
             onClick = { state.isComposableContentEnabled = !state.isComposableContentEnabled }
         ) {
             Text("Composable content: ${if (state.isComposableContentEnabled) "on" else "off"}")
+        }
+        OutlinedButton(
+            onClick = { state.isCoilEnabled = !state.isCoilEnabled }
+        ) {
+            Text("Coil: ${if (state.isCoilEnabled) "on" else "off"}")
         }
         OutlinedButton(
             onClick = onUserLocation
