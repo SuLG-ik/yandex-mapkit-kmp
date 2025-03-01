@@ -180,15 +180,15 @@ internal fun PolylineImpl(
         onTap = onTap,
         factory = {
             val mapObject = collection.addPolyline(state.geometry)
-            mapObject.strokeWidth = strokeWidth
-            mapObject.gradientLength = gradientLength
-            mapObject.outlineWidth = outlineWidth
-            mapObject.outlineColor = outlineColor.toMapkitColor()
-            mapObject.isInnerOutlineEnabled = innerOutlineEnabled
-            mapObject.turnRadius = turnRadius
-            mapObject.dashLength = dashLength
-            mapObject.gapLength = gapLength
-            mapObject.dashOffset = dashOffset
+            mapObject.style.strokeWidth = strokeWidth
+            mapObject.style.gradientLength = gradientLength
+            mapObject.style.outlineWidth = outlineWidth
+            mapObject.style.outlineColor = outlineColor.toMapkitColor()
+            mapObject.style.innerOutlineEnabled = innerOutlineEnabled
+            mapObject.style.turnRadius = turnRadius
+            mapObject.style.dashLength = dashLength
+            mapObject.style.gapLength = gapLength
+            mapObject.style.dashOffset = dashOffset
             mapObject.setStrokeColor(strokeColor.toMapkitColor())
             PolylineNode(
                 mapObject = mapObject,
