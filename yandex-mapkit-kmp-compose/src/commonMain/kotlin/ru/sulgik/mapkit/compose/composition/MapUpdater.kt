@@ -80,6 +80,9 @@ internal class MapPropertiesNode(
         if (value.use2dMode != null) {
             map.set2DMode(value.use2dMode)
         }
+        if (value.fps != null) {
+            mapWindow.setMapFps(value.fps)
+        }
         updateLogo(value.logo)
     }
 

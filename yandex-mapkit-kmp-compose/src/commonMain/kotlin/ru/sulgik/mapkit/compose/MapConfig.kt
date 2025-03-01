@@ -2,9 +2,10 @@ package ru.sulgik.mapkit.compose
 
 import ru.sulgik.mapkit.map.Map
 import ru.sulgik.mapkit.map.MapType
+import ru.sulgik.mapkit.map.MapWindow
 
 /**
- * Config for [Map] that uses default configuration
+ * Config for [Map] and [MapWindow] that uses default configuration
  */
 public data class MapConfig(
     /**
@@ -71,4 +72,13 @@ public data class MapConfig(
      * Config to control Yandex logo object with [Map.getLogo]
      */
     public val logo: MapLogoConfig = MapLogoConfig(),
+
+    /**
+     * The base map type with [MapWindow.setMapFps].
+     *
+     * Valid range: (0, 60]
+     *
+     * If null use map's default value
+     */
+    public val fps: Float? = null,
 )
