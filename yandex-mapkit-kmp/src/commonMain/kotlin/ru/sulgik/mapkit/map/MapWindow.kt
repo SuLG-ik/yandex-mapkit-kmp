@@ -114,4 +114,11 @@ public expect class MapWindow {
 
     public fun convertScreenToWorld(screenPoint: ScreenPoint): Point?
 
+    /**
+     * Allows to reduce CPU/GPU/battery usage in specific scenarios, where lower framerate is acceptable.
+     *
+     * Valid range: (0, 60]. Default: 60.
+     */
+    public fun setMapFps(fps: Float)
+
 }
