@@ -7,9 +7,9 @@ import com.yandex.mapkit.map.TextStyle as NativeTextStyle
 public fun TextStyle.toNative(): NativeTextStyle {
     return NativeTextStyle(
         size,
-        color?.toArgb(),
+        color.toArgb(),
         outlineWidth,
-        outlineColor?.toArgb(),
+        outlineColor.toArgb(),
         placement.toNative(),
         offset,
         offsetFromIcon,
@@ -20,9 +20,9 @@ public fun TextStyle.toNative(): NativeTextStyle {
 public fun NativeTextStyle.toCommon(): TextStyle {
     return TextStyle(
         size = size,
-        color = color?.toColor(),
+        color = color.toColor(),
         outlineWidth = outlineWidth,
-        outlineColor = outlineColor?.toColor(),
+        outlineColor = outlineColor.toColor(),
         placement = placement.toCommon(),
         offset = offset,
         offsetFromIcon = offsetFromIcon,

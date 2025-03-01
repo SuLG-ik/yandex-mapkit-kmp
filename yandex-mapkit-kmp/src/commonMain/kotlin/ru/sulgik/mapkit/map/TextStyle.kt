@@ -4,9 +4,9 @@ import ru.sulgik.mapkit.Color
 
 public data class TextStyle(
     val size: Float = 8f,
-    val color: Color? = null,
+    val color: Color = DEFAULT_COLOR,
     val outlineWidth: Float = 1f,
-    val outlineColor: Color? = null,
+    val outlineColor: Color = DEFAULT_OUTLINE_COLOR,
     val placement: Placement = Placement.CENTER,
     val offset: Float = 0f,
     val offsetFromIcon: Boolean = true,
@@ -22,5 +22,10 @@ public data class TextStyle(
         TOP_RIGHT,
         BOTTOM_LEFT,
         BOTTOM_RIGHT,
+    }
+
+    private companion object {
+        private val DEFAULT_COLOR = Color.fromArgb(-16777216)
+        private val DEFAULT_OUTLINE_COLOR = Color.fromArgb(-1)
     }
 }
