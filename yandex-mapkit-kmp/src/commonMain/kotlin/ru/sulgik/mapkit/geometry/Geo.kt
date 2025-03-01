@@ -9,10 +9,4 @@ public expect object Geo {
     public fun pointOnSegmentByFactor(segment: Segment, factor: Double): Point
 
     public fun course(firstPoint: Point, secondPoint: Point): Double
-
-    public fun advancePolylinePosition(
-        polyline: Polyline,
-        position: PolylinePosition,
-        distance: Double,
-    ): PolylinePosition
 }

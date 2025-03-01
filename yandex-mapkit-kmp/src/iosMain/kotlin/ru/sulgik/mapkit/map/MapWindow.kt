@@ -79,6 +79,15 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
     public actual val focusRegion: VisibleRegion
         get() = nativeMapWindow.focusRegion.toCommon()
 
+    /**
+     * Allows to reduce CPU/GPU/battery usage in specific scenarios, where lower framerate is acceptable.
+     *
+     * Valid range: (0, 60]. Default: 60.
+     */
+    public actual fun setMapFps(fps: Float) {
+        nativeMapWindow.setMaxFpsWithFps(fps)
+    }
+
 }
 
 public fun NativeMapWindow.toCommon(): MapWindow {

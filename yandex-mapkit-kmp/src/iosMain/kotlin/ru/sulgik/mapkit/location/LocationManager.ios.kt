@@ -1,6 +1,5 @@
 package ru.sulgik.mapkit.location
 
-import kotlin.time.Duration
 import YandexMapKit.YMKLocationManager as NativeLocationManager
 
 public actual class LocationManager(private val nativeLocationManager: NativeLocationManager) {
@@ -10,22 +9,12 @@ public actual class LocationManager(private val nativeLocationManager: NativeLoc
     }
 
     public actual fun subscribeForLocationUpdates(
-        desiredAccuracy: Double,
-        minTime: Duration,
-        minDistance: Double,
-        allowUseInBackground: Boolean,
-        filteringMode: FilteringMode,
-        purpose: LocationPurpose,
+        subscriptionSettings: SubscriptionSettings,
         locationListener: LocationListener,
     ) {
-        nativeLocationManager.subscribeForLocationUpdatesWithDesiredAccuracy(
-            desiredAccuracy = desiredAccuracy,
-            minTime = minTime.inWholeMilliseconds,
-            minDistance = minDistance,
-            allowUseInBackground = allowUseInBackground,
-            filteringMode = filteringMode.toNative(),
-            purpose = purpose.toNative(),
-            locationListener = locationListener.toNative(),
+        nativeLocationManager.subscribeForLocationUpdatesWithSubscriptionSettings(
+            subscriptionSettings.toNative(),
+            locationListener.toNative(),
         )
     }
 

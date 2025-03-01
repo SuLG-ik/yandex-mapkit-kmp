@@ -13,6 +13,7 @@ public fun Location.toNative(): NativeLocation {
         altitudeAccuracy,
         heading,
         speed,
+        indoorLevelId,
         absoluteTimestamp.toEpochMilliseconds(),
         relativeTimestamp.toEpochMilliseconds(),
     )
@@ -26,6 +27,7 @@ public fun NativeLocation.toCommon(): Location {
         altitudeAccuracy = altitudeAccuracy,
         heading = heading,
         speed = speed,
+        indoorLevelId = indoorLevelId,
         absoluteTimestamp = Instant.fromEpochMilliseconds(absoluteTimestamp),
         relativeTimestamp = Instant.fromEpochMilliseconds(relativeTimestamp),
     )
