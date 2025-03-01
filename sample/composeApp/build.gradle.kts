@@ -44,6 +44,10 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.darwin)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -51,6 +55,8 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.ktor)
             implementation(project(":yandex-mapkit-kmp-compose"))
             implementation(compose.components.uiToolingPreview)
         }

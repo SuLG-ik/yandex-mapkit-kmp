@@ -188,6 +188,9 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                         }
                     )
                 }
+                if (mapActionsState.isCoilEnabled) {
+                    CoilPlacemark()
+                }
             }
             MapControl(
                 onZoomIn = {

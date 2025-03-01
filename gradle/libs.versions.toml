@@ -18,6 +18,8 @@ publish = "0.30.0"
 
 atomicfu = "0.27.0"
 dokka = "1.9.20"
+ktor = "3.1.1"
+coil = "3.1.0"
 
 [libraries]
 yandex-mapkit = { module = "com.yandex.android:maps.mobile", version.ref = "yandex-mapkit" }
@@ -29,6 +31,10 @@ lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runti
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlinx-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collections" }
+ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 [plugins]
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
