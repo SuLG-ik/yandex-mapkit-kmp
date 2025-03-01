@@ -28,53 +28,77 @@ public actual class PolylineMapObject internal constructor(private val nativePol
         set(value) {
             nativePolylineMapObject.geometry = value.toNative()
         }
+
+    @Deprecated("Use style.strokeWidth instead", ReplaceWith("style.strokeWidth"))
     public actual var strokeWidth: Float
         get() = nativePolylineMapObject.strokeWidth
         set(value) {
             nativePolylineMapObject.strokeWidth = value
         }
+
+    public actual var style: LineStyle
+        get() = nativePolylineMapObject.style.toCommon()
+        set(value) {
+            nativePolylineMapObject.style = value.toNative()
+        }
+
+    @Deprecated("Use style.gradientLength instead", ReplaceWith("style.gradientLength"))
     public actual var gradientLength: Float
         get() = nativePolylineMapObject.gradientLength
         set(value) {
             nativePolylineMapObject.gradientLength = value
         }
+
+    @Deprecated("Use style.outlineWidth instead", ReplaceWith("style.outlineWidth"))
     public actual var outlineWidth: Float
         get() = nativePolylineMapObject.outlineWidth
         set(value) {
             nativePolylineMapObject.outlineWidth = value
         }
+
+    @Deprecated("Use style.outlineColor instead", ReplaceWith("style.outlineColor"))
     public actual var outlineColor: Color
         get() = nativePolylineMapObject.outlineColor.toCommon()
         set(value) {
             nativePolylineMapObject.outlineColor = value.toNative()
         }
+
+    @Deprecated("Use style.innerOutlineEnabled instead", ReplaceWith("style.innerOutlineEnabled"))
     public actual var isInnerOutlineEnabled: Boolean
         get() = nativePolylineMapObject.isInnerOutlineEnabled()
         set(value) {
             nativePolylineMapObject.setInnerOutlineEnabled(value)
         }
 
+    @Deprecated("Use style.turnRadius instead", ReplaceWith("style.turnRadius"))
     public actual var turnRadius: Float
         get() = nativePolylineMapObject.turnRadius
         set(value) {
             nativePolylineMapObject.turnRadius = value
         }
+
+    @Deprecated("Use style.dashLength instead", ReplaceWith("style.dashLength"))
     public actual var dashLength: Float
         get() = nativePolylineMapObject.dashLength
         set(value) {
             nativePolylineMapObject.dashLength = value
         }
+
+    @Deprecated("Use style.gapLength instead", ReplaceWith("style.gapLength"))
     public actual var gapLength: Float
         get() = nativePolylineMapObject.gapLength
         set(value) {
             nativePolylineMapObject.gapLength = value
         }
+
+    @Deprecated("Use style.dashOffset instead", ReplaceWith("style.dashOffset"))
     public actual var dashOffset: Float
         get() = nativePolylineMapObject.dashOffset
         set(value) {
             nativePolylineMapObject.dashOffset = value
         }
 
+    @Deprecated("Use style.arcApproximationStep instead", ReplaceWith("style.arcApproximationStep"))
     public actual var arcApproximationStep: Float
         get() = nativePolylineMapObject.arcApproximationStep
         set(value) {
