@@ -1,38 +1,22 @@
 package ru.sulgik.mapkit.geometry
 
-import YandexMapKit.YMKClosestPoint
-import YandexMapKit.YMKCourse
-import YandexMapKit.YMKDistance
-import YandexMapKit.YMKPointOnSegmentByFactor
-import YandexMapKit.YMKPolylineUtils
+import YandexMapKit.YMKGeo as NativeGeo
 
 public actual object Geo {
 
     public actual fun distance(firstPoint: Point, secondPoint: Point): Double {
-        return YMKDistance(firstPoint.toNative(), secondPoint.toNative())
+        return NativeGeo.distanceWithFirstPoint(firstPoint.toNative(), secondPoint.toNative())
     }
 
     public actual fun closestPoint(point: Point, segment: Segment): Point {
-        return YMKClosestPoint(point.toNative(), segment.toNative())!!.toCommon()
+        return NativeGeo.closestPointWithPoint(point.toNative(), segment.toNative()).toCommon()
     }
 
     public actual fun pointOnSegmentByFactor(segment: Segment, factor: Double): Point {
-        return YMKPointOnSegmentByFactor(segment.toNative(), factor)!!.toCommon()
+        return NativeGeo.pointOnSegmentByFactorWithSegment(segment.toNative(), factor).toCommon()
     }
 
     public actual fun course(firstPoint: Point, secondPoint: Point): Double {
-        return YMKCourse(firstPoint.toNative(), secondPoint.toNative())
-    }
-
-    public actual fun advancePolylinePosition(
-        polyline: Polyline,
-        position: PolylinePosition,
-        distance: Double
-    ): PolylinePosition {
-        return YMKPolylineUtils.advancePolylinePositionWithPolyline(
-            polyline = polyline.toNative(),
-            position = position.toNative(),
-            distance = distance,
-        ).toCommon()
+        return NativeGeo.courseWithFirstPoint(firstPoint.toNative(), secondPoint.toNative())
     }
 }
