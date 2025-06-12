@@ -26,9 +26,9 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
      * Heading mode.
      */
     public actual var isHeadingEnabled: Boolean
-        get() = nativeUserLocationLayer.isHeadingEnabled()
+        get() = nativeUserLocationLayer.headingEnabled
         set(value) {
-            nativeUserLocationLayer.setHeadingEnabled(value)
+            nativeUserLocationLayer.headingEnabled = value
         }
 
     /**
@@ -41,9 +41,9 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
      * Auto zoom.
      */
     public actual var isAutoZoomEnabled: Boolean
-        get() = nativeUserLocationLayer.isAutoZoomEnabled()
+        get() = nativeUserLocationLayer.autoZoomEnabled
         set(value) {
-            nativeUserLocationLayer.setAutoZoomEnabled(value)
+            nativeUserLocationLayer.autoZoomEnabled = value
         }
 
     /**

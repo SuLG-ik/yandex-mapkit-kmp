@@ -38,9 +38,9 @@ public actual class Arrow internal constructor(private val nativeArrow: NativeAr
             nativeArrow.length = value
         }
     public actual var isVisible: Boolean
-        get() = nativeArrow.isVisible()
+        get() = nativeArrow.visible
         set(value) {
-            nativeArrow.setVisible(value)
+            nativeArrow.visible = value
         }
     public actual var triangleHeight: Float
         get() = nativeArrow.triangleHeight

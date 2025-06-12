@@ -65,9 +65,9 @@ public actual class PolylineMapObject internal constructor(private val nativePol
 
     @Deprecated("Use style.innerOutlineEnabled instead", ReplaceWith("style.innerOutlineEnabled"))
     public actual var isInnerOutlineEnabled: Boolean
-        get() = nativePolylineMapObject.isInnerOutlineEnabled()
+        get() = nativePolylineMapObject.innerOutlineEnabled
         set(value) {
-            nativePolylineMapObject.setInnerOutlineEnabled(value)
+            nativePolylineMapObject.innerOutlineEnabled = value
         }
 
     @Deprecated("Use style.turnRadius instead", ReplaceWith("style.turnRadius"))

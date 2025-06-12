@@ -36,9 +36,9 @@ public actual class CircleMapObject(private val nativeCircleMapObject: NativeCir
             nativeCircleMapObject.fillColor = value.toNative()
         }
     public actual var isGeodesic: Boolean
-        get() = nativeCircleMapObject.isGeodesic()
+        get() = nativeCircleMapObject.geodesic
         set(value) {
-            nativeCircleMapObject.setGeodesic(value)
+            nativeCircleMapObject.geodesic = value
         }
 
 }
