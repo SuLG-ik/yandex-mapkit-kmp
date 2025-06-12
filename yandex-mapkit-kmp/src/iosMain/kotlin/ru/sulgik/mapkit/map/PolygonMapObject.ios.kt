@@ -35,9 +35,9 @@ public actual class PolygonMapObject internal constructor(private val nativePoly
             nativePolygonMapObject.fillColor = value.toNative()
         }
     public actual var isGeodesic: Boolean
-        get() = nativePolygonMapObject.isGeodesic()
+        get() = nativePolygonMapObject.geodesic
         set(value) {
-            nativePolygonMapObject.setGeodesic(value)
+            nativePolygonMapObject.geodesic = value
         }
 
     public actual fun setPattern(image: ImageProvider, scale: Float) {

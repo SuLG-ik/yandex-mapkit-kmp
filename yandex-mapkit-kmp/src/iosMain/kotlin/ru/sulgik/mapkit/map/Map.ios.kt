@@ -61,27 +61,27 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
      * However, a double-tap will emit a tap gesture along with a double-tap.
      */
     public actual var isFastTapEnabled: Boolean
-        get() = nativeMap.isFastTapEnabled()
+        get() = nativeMap.fastTapEnabled
         set(value) {
-            nativeMap.setFastTapEnabled(value)
+            nativeMap.fastTapEnabled = value
         }
 
     /**
      * Enable/disable rotation gestures, such as rotation with two fingers.
      */
     public actual var isRotateGesturesEnabled: Boolean
-        get() = nativeMap.isRotateGesturesEnabled()
+        get() = nativeMap.rotateGesturesEnabled
         set(value) {
-            nativeMap.setRotateGesturesEnabled(value)
+            nativeMap.rotateGesturesEnabled = value
         }
 
     /**
      * Enable/disable tilt gestures, such as parallel pan with two fingers.
      */
     public actual var isTiltGesturesEnabled: Boolean
-        get() = nativeMap.isTiltGesturesEnabled()
+        get() = nativeMap.tiltGesturesEnabled
         set(value) {
-            nativeMap.setTiltGesturesEnabled(value)
+            nativeMap.tiltGesturesEnabled = value
         }
 
     /**
@@ -97,9 +97,9 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
      * Enable/disable zoom gestures.
      */
     public actual var isZoomGesturesEnabled: Boolean
-        get() = nativeMap.isZoomGesturesEnabled()
+        get() = nativeMap.zoomGesturesEnabled
         set(value) {
-            nativeMap.setZoomGesturesEnabled(value)
+            nativeMap.zoomGesturesEnabled = value
         }
 
     /**
