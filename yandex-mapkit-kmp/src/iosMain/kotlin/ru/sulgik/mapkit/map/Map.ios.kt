@@ -236,6 +236,20 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
         nativeMap.removeInputListenerWithInputListener(inputListener.toNative())
     }
 
+    /**
+     * Sets map style.
+     */
+    public actual fun setMapStyle(style: String) {
+        nativeMap.setMapStyleWithStyle(style)
+    }
+
+    /**
+     * Sets map style.
+     */
+    public actual fun setMapStyle(id: Int, style: String) {
+        nativeMap.setMapStyleWithId(id.toLong(), style)
+    }
+
 }
 
 public fun NativeMap.toCommon(): Map {
