@@ -14,7 +14,7 @@ public expect class UserLocationLayer {
     /**
      * Heading mode.
      */
-    public var isHeadingEnabled: Boolean
+    public var isHeadingModeActive: Boolean
 
 
     /**

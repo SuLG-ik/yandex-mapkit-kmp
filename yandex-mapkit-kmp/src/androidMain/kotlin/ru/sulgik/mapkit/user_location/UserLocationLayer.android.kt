@@ -25,10 +25,10 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
     /**
      * Heading mode.
      */
-    public actual var isHeadingEnabled: Boolean
-        get() = nativeUserLocationLayer.isHeadingEnabled
+    public actual var isHeadingModeActive: Boolean
+        get() = nativeUserLocationLayer.isHeadingModeActive
         set(value) {
-            nativeUserLocationLayer.isHeadingEnabled = value
+            nativeUserLocationLayer.isHeadingModeActive = value
         }
 
     /**

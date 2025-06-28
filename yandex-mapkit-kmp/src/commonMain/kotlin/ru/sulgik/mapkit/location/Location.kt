@@ -1,8 +1,10 @@
 package ru.sulgik.mapkit.location
 
-import kotlinx.datetime.Instant
 import ru.sulgik.mapkit.geometry.Point
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 public data class Location(
     val position: Point,
     val accuracy: Double?,
