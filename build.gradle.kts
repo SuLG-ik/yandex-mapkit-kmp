@@ -27,19 +27,31 @@ private val dokkaModules = mapOf(
 )
 
 subprojects {
-    extra.set("library_version", getProperty("library_version", "null"))
+    extra.set("library_version", getProperty("library_version", "0.0.0"))
 
     group = "ru.sulgik.mapkit"
 
     if (name in dokkaModules.keys) {
         apply(plugin = "org.jetbrains.dokka")
+
+        dokka {
+            moduleName.set(dokkaModules[name])
+        }
     }
 }
 
-tasks.withType<DokkaMultiModuleTask>().configureEach {
-    moduleName.set("Yandex MapKit KMP")
-    moduleVersion.set(getProperty("library_version", "null"))
-    outputDirectory.set(file("$rootDir/docs/kdoc"))
+dependencies {
+    dokkaModules.keys.forEach {
+        dokka(project(":$it"))
+    }
+}
+
+dokka {
+    dokkaPublications.html {
+        moduleName.set("Yandex MapKit KMP")
+        moduleVersion.set(getProperty("library_version", "0.0.0"))
+        outputDirectory.set(rootDir.resolve("docs/kdoc"))
+    }
 }
 
 fun Project.getProperty(name: String, defaultValue: String): String {

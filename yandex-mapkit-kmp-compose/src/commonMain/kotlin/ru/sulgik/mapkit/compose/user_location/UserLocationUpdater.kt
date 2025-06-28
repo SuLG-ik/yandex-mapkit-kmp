@@ -14,7 +14,6 @@ import ru.sulgik.mapkit.compose.composition.MapApplier
 import ru.sulgik.mapkit.compose.composition.MapNode
 import ru.sulgik.mapkit.compose.utils.toMapkitColor
 import ru.sulgik.mapkit.location.LocationManager
-import ru.sulgik.mapkit.location.toLocationViewSource
 import ru.sulgik.mapkit.map.CircleMapObject
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.map.PlacemarkMapObject
@@ -45,7 +44,7 @@ internal class UserLocationNode(
     internal var state: UserLocationState = initialState
 
     private val userLocationLayer = mapKit.createUserLocationLayer(mapWindow).apply {
-        this.isHeadingEnabled = true
+        this.isHeadingModeActive = true
         if (source == null) {
             setDefaultSource()
         }
@@ -135,7 +134,7 @@ internal class UserLocationNode(
             userLocationLayer.isVisible = config.isVisible
         }
         if (config.isHeadingEnabled != null) {
-            userLocationLayer.isHeadingEnabled = config.isHeadingEnabled
+            userLocationLayer.isHeadingModeActive = config.isHeadingEnabled
         }
         if (config.isAutoZoomEnabled != null) {
             userLocationLayer.isAutoZoomEnabled = config.isAutoZoomEnabled

@@ -197,14 +197,14 @@ internal fun PolylineImpl(
         },
         update = {
             update(state.geometry) { this.mapObject.geometry = it }
-            update(strokeWidth) { mapObject.strokeWidth = strokeWidth }
-            update(gradientLength) { mapObject.gradientLength = gradientLength }
-            update(outlineColor) { mapObject.outlineColor = outlineColor.toMapkitColor() }
-            update(innerOutlineEnabled) { mapObject.isInnerOutlineEnabled = innerOutlineEnabled }
-            update(turnRadius) { mapObject.turnRadius = turnRadius }
-            update(dashLength) { mapObject.dashLength = dashLength }
-            update(gapLength) { mapObject.gapLength = gapLength }
-            update(dashOffset) { mapObject.dashOffset = dashOffset }
+            update(strokeWidth) { mapObject.style.strokeWidth = strokeWidth }
+            update(gradientLength) { mapObject.style.gradientLength = gradientLength }
+            update(outlineColor) { mapObject.style.outlineColor = outlineColor.toMapkitColor() }
+            update(innerOutlineEnabled) { mapObject.style.innerOutlineEnabled = innerOutlineEnabled }
+            update(turnRadius) { mapObject.style.turnRadius = turnRadius }
+            update(dashLength) { mapObject.style.dashLength = dashLength }
+            update(gapLength) { mapObject.style.gapLength = gapLength }
+            update(dashOffset) { mapObject.style.dashOffset = dashOffset }
             update(strokeColor) { mapObject.setStrokeColor(strokeColor.toMapkitColor()) }
         }
     )
