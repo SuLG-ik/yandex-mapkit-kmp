@@ -151,5 +151,15 @@ public expect class Map {
      * Removes input listeners.
      */
     public fun removeInputListener(inputListener: InputListener)
-    
+
+    /**
+     * Sets map style.
+     */
+    public fun setMapStyle(style: String)
+
+    /**
+     * Sets map style.
+     */
+    public fun setMapStyle(id: Int, style: String)
+
 }
