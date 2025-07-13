@@ -3,6 +3,7 @@ package ru.sulgik.mapkit.map
 import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.geometry.Geometry
+import ru.sulgik.mapkit.indoor.IndoorStateListener
 import ru.sulgik.mapkit.logo.Logo
 
 public expect class Map {
@@ -162,4 +163,47 @@ public expect class Map {
      */
     public fun setMapStyle(id: Int, style: String)
 
+
+    /**
+     * Enables/disables indoor plans on the map.
+     *
+     * Disabled by default.
+     */
+    public var isIndoorEnabled: Boolean
+
+    /**
+     * Subscribe to indoor state change events.
+     *
+     * The class does not retain the object in the 'indoorStateListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public fun addIndoorStateListener(listener: IndoorStateListener)
+
+    /**
+     * Unsubscribe from indoor state change events.
+     */
+    public fun removeIndoorStateListener(listener: IndoorStateListener)
+
+    /**
+     * Resets all JSON style transformations applied to the map.
+     */
+    public fun resetMapStyles()
+
+    /**
+     * Enables hd mode of displayed content
+     */
+    public var isHdModeEnabled: Boolean
+
+
+    /**
+     * Selects one of predefined map style modes optimized for particular use case(transit, driving, etc).
+     *
+     * Resets json styles set with setMapStyle. MapMode.Map by deafult.
+     */
+    public var mode: MapMode
+
+    /**
+     * Enables rich textured 3d content on basemap.
+     */
+    public var isAwesomeModelsEnabled: Boolean
 }

@@ -6,6 +6,7 @@ import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.geometry.Geometry
 import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.indoor.IndoorStateListener
 import ru.sulgik.mapkit.logo.Logo
 import ru.sulgik.mapkit.logo.toCommon
 import ru.sulgik.mapkit.toNative
@@ -249,6 +250,70 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     public actual fun setMapStyle(id: Int, style: String) {
         nativeMap.setMapStyleWithId(id.toLong(), style)
     }
+
+    /**
+     * Enables/disables indoor plans on the map.
+     *
+     * Disabled by default.
+     */
+    public actual var isIndoorEnabled: Boolean
+        get() = nativeMap.indoorEnabled
+        set(value) {
+            nativeMap.indoorEnabled = value
+        }
+
+    /**
+     * Subscribe to indoor state change events.
+     *
+     * The class does not retain the object in the 'indoorStateListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public actual fun addIndoorStateListener(listener: IndoorStateListener) {
+        nativeMap.addIndoorStateListenerWithIndoorStateListener(listener.toNative())
+    }
+
+    /**
+     * Unsubscribe from indoor state change events.
+     */
+    public actual fun removeIndoorStateListener(listener: IndoorStateListener) {
+        nativeMap.removeIndoorStateListenerWithIndoorStateListener(listener.toNative())
+    }
+
+    /**
+     * Resets all JSON style transformations applied to the map.
+     */
+    public actual fun resetMapStyles() {
+        nativeMap.resetMapStyles()
+    }
+
+    /**
+     * Enables hd mode of displayed content
+     */
+    public actual var isHdModeEnabled: Boolean
+        get() = nativeMap.hdModeEnabled
+        set(value) {
+            nativeMap.hdModeEnabled = value
+        }
+
+    /**
+     * Selects one of predefined map style modes optimized for particular use case(transit, driving, etc).
+     *
+     * Resets json styles set with setMapStyle. MapMode.Map by deafult.
+     */
+    public actual var mode: MapMode
+        get() = nativeMap.mode.toCommon()
+        set(value) {
+            nativeMap.mode = value.toNative()
+        }
+
+    /**
+     * Enables rich textured 3d content on basemap.
+     */
+    public actual var isAwesomeModelsEnabled: Boolean
+        get() = nativeMap.awesomeModelsEnabled
+        set(value) {
+            nativeMap.awesomeModelsEnabled = value
+        }
 
 }
 
