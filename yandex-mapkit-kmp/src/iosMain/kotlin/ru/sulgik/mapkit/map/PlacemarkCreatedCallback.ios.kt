@@ -5,7 +5,7 @@ import YandexMapKit.YMKPlacemarkMapObject as NativePlacemarkMapObject
 
 public actual abstract class PlacemarkCreatedCallback actual constructor() {
 
-    private val nativeCallback = object : NativePlacemarkCreatedCallback {
+    private val nativeCallback = object : (NativePlacemarkMapObject?) -> Unit {
         override fun invoke(p1: NativePlacemarkMapObject?) {
             if (p1 != null) {
                 onPlacemarkCreated(p1.toCommon())

@@ -4,7 +4,7 @@ import YandexMapKit.YMKMapCameraCallback as NativeCameraCallback
 
 public actual abstract class CameraCallback {
 
-    private val nativeCallback = object : NativeCameraCallback {
+    private val nativeCallback = object : ((Boolean) -> Unit) {
         override fun invoke(p1: Boolean) {
             onMoveFinished(p1)
         }

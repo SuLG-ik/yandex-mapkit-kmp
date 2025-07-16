@@ -5,8 +5,10 @@ import kotlinx.datetime.toNSDate
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNSNumber
+import kotlin.time.ExperimentalTime
 import YandexMapKit.YMKLocation as NativeLocation
 
+@OptIn(ExperimentalTime::class)
 public fun Location.toNative(): NativeLocation {
     return NativeLocation.locationWithPosition(
         position = position.toNative(),
@@ -20,6 +22,7 @@ public fun Location.toNative(): NativeLocation {
     )
 }
 
+@OptIn(ExperimentalTime::class)
 public fun NativeLocation.toCommon(): Location {
     return Location(
         position = position.toCommon(),
