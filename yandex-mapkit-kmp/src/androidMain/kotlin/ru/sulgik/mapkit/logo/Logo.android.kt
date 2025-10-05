@@ -16,6 +16,8 @@ public actual class Logo internal constructor(private val nativeLogo: NativeLogo
         nativeLogo.setPadding(logoPadding.toNative())
     }
 
+    public actual val isValid: Boolean
+        get() = nativeLogo.isValid
 }
 
 public fun NativeLogo.toCommon(): Logo {

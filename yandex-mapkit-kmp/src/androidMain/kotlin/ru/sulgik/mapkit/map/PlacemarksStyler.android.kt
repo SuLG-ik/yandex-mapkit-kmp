@@ -14,6 +14,8 @@ public actual class PlacemarksStyler internal constructor(private val nativePlac
         nativePlacemarksStyler.setScaleFunction(points.map { it.toNative() })
     }
 
+    public actual val isValid: Boolean
+        get() = nativePlacemarksStyler.isValid
 }
 
 public fun NativePlacemarksStyler.toCommon(): PlacemarksStyler {

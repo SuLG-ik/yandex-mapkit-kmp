@@ -6,4 +6,5 @@ public expect class Logo {
 
     public fun setPadding(logoPadding: LogoPadding)
 
+    public val isValid: Boolean
 }

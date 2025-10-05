@@ -18,6 +18,8 @@ public actual class UserLocationView internal constructor(
         get() = nativeUserLocationView.pin.toCommon()
     public actual val accuracyCircle: CircleMapObject
         get() = nativeUserLocationView.accuracyCircle.toCommon()
+    public actual val isValid: Boolean
+        get() = nativeUserLocationView.isValid()
 }
 
 public fun NativeUserLocationView.toCommon(): UserLocationView {

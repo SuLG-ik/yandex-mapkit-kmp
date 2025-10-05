@@ -73,4 +73,5 @@ public expect class UserLocationLayer {
      */
     public fun setObjectListener(objectListener: UserLocationObjectListener?)
 
+    public val isValid: Boolean
 }
