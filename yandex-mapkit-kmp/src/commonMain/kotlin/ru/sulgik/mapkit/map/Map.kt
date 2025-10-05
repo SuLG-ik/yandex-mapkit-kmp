@@ -206,4 +206,6 @@ public expect class Map {
      * Enables rich textured 3d content on basemap.
      */
     public var isAwesomeModelsEnabled: Boolean
+
+    public val isValid: Boolean
 }

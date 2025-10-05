@@ -303,6 +303,8 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
             nativeMap.isAwesomeModelsEnabled = value
         }
 
+    public actual val isValid: Boolean
+        get() = nativeMap.isValid
 }
 
 

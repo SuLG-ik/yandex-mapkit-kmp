@@ -18,6 +18,7 @@ public expect open class MapObject {
 
     public fun setDragListener(dragListener: MapObjectDragListener?)
 
+    public val isValid: Boolean
 }
 
 public inline fun <reified T : Any> MapObject.getCastedUserData(): T? {
