@@ -132,7 +132,7 @@ tasks.withType<KotlinCompilationTask<*>> {
 
 android {
     namespace = "ru.sulgik.mapkit.compose"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24

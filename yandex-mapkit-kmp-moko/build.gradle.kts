@@ -82,7 +82,7 @@ kotlin {
 
 android {
     namespace = "ru.sulgik.mapkit.moko"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
