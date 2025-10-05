@@ -104,6 +104,9 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
     public actual fun setObjectListener(objectListener: UserLocationObjectListener?) {
         nativeUserLocationLayer.setObjectListener(objectListener?.toNative())
     }
+
+    public actual val isValid: Boolean
+        get() = nativeUserLocationLayer.isValid
 }
 
 public fun NativeUserLocationLayer.toCommon(): UserLocationLayer {

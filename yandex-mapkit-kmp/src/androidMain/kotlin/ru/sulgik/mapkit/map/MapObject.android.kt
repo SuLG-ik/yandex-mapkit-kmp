@@ -49,6 +49,8 @@ public actual open class MapObject internal constructor(private val nativeMapObj
     public actual val parent: BaseMapObjectCollection
         get() = nativeMapObject.parent.toCommon()
 
+    public actual val isValid: Boolean
+        get() = nativeMapObject.isValid
 }
 
 public fun NativeMapObject.toCommon(): MapObject {

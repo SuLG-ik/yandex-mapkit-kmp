@@ -7,4 +7,5 @@ public expect class UserLocationView{
     public val arrow: PlacemarkMapObject
     public val pin: PlacemarkMapObject
     public val accuracyCircle: CircleMapObject
+    public val isValid: Boolean
 }

@@ -88,6 +88,8 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
         nativeMapWindow.setMaxFpsWithFps(fps)
     }
 
+    public actual val isValid: Boolean
+        get() = nativeMapWindow.isValid()
 }
 
 public fun NativeMapWindow.toCommon(): MapWindow {

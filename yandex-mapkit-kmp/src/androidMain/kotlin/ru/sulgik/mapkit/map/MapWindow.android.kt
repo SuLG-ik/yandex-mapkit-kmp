@@ -89,6 +89,8 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
         nativeMapWindow.setMaxFps(fps)
     }
 
+    public actual val isValid: Boolean
+        get() = nativeMapWindow.isValid
 }
 
 public fun MapWindow.toCommon(): ru.sulgik.mapkit.map.MapWindow {
