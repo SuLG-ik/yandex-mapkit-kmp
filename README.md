@@ -17,7 +17,7 @@ above official Yandex MapKit SDK**
 # Available libraries
 
 The following libraries are available. It
-uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.17.0-lite*
+uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.23.0-lite*
 
 | Module	                                        | Gradle Dependency                                                                                                                             | Description                                                                                                                                              |
 |------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
