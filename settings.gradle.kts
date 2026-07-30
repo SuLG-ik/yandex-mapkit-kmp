@@ -4,6 +4,7 @@ include(":yandex-mapkit-kmp-moko")
 include(":yandex-mapkit-kmp-moko-compose")
 include(":yandex-mapkit-kmp-compose")
 include(":sample:composeApp")
+include(":sample:androidApp")
 
 pluginManagement {
     repositories {
