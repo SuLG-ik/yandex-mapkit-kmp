@@ -8,6 +8,7 @@ import YandexMapKit.YMKPlacemarkMapObject
 import YandexMapKit.YMKPolygonMapObject
 import YandexMapKit.YMKPolylineMapObject
 import platform.darwin.NSObject
+import ru.sulgik.mapkit.NativeConvertible
 
 public actual class MapObjectVisitor actual constructor(
     private val onPlacemarkVisited: (placemark: PlacemarkMapObject) -> Unit,
@@ -18,37 +19,44 @@ public actual class MapObjectVisitor actual constructor(
     private val onCollectionVisitEnd: (collection: MapObjectCollection) -> Boolean,
     private val onClusterizedCollectionVisitStart: (collection: ClusterizedPlacemarkCollection) -> Boolean,
     private val onClusterizedCollectionVisitEnd: (collection: ClusterizedPlacemarkCollection) -> Unit,
-) : YMKMapObjectVisitorProtocol, NSObject() {
+) : NativeConvertible<YMKMapObjectVisitorProtocol> {
 
-    override fun onCircleVisitedWithCircle(circle: YMKCircleMapObject) {
-        onCircleVisited(circle.toCommon())
+    private val nativeVisitor = object : YMKMapObjectVisitorProtocol, NSObject() {
+
+        override fun onCircleVisitedWithCircle(circle: YMKCircleMapObject) {
+            onCircleVisited(circle.toCommon())
+        }
+
+        override fun onClusterizedCollectionVisitEndWithCollection(collection: YMKClusterizedPlacemarkCollection) {
+            onClusterizedCollectionVisitEnd(collection.toCommon())
+        }
+
+        override fun onClusterizedCollectionVisitStartWithCollection(collection: YMKClusterizedPlacemarkCollection): Boolean {
+            return onClusterizedCollectionVisitStart(collection.toCommon())
+        }
+
+        override fun onCollectionVisitEndWithCollection(collection: YMKMapObjectCollection) {
+            onCollectionVisitEnd(collection.toCommon())
+        }
+
+        override fun onCollectionVisitStartWithCollection(collection: YMKMapObjectCollection): Boolean {
+            return onCollectionVisitStart(collection.toCommon())
+        }
+
+        override fun onPlacemarkVisitedWithPlacemark(placemark: YMKPlacemarkMapObject) {
+            onPlacemarkVisited(placemark.toCommon())
+        }
+
+        override fun onPolygonVisitedWithPolygon(polygon: YMKPolygonMapObject) {
+            onPolygonVisited(polygon.toCommon())
+        }
+
+        override fun onPolylineVisitedWithPolyline(polyline: YMKPolylineMapObject) {
+            onPolylineVisited(polyline.toCommon())
+        }
     }
 
-    override fun onClusterizedCollectionVisitEndWithCollection(collection: YMKClusterizedPlacemarkCollection) {
-        onClusterizedCollectionVisitEnd(collection.toCommon())
-    }
-
-    override fun onClusterizedCollectionVisitStartWithCollection(collection: YMKClusterizedPlacemarkCollection): Boolean {
-        return onClusterizedCollectionVisitStart(collection.toCommon())
-    }
-
-    override fun onCollectionVisitEndWithCollection(collection: YMKMapObjectCollection) {
-        onCollectionVisitEnd(collection.toCommon())
-    }
-
-    override fun onCollectionVisitStartWithCollection(collection: YMKMapObjectCollection): Boolean {
-        return onCollectionVisitStart(collection.toCommon())
-    }
-
-    override fun onPlacemarkVisitedWithPlacemark(placemark: YMKPlacemarkMapObject) {
-        onPlacemarkVisited(placemark.toCommon())
-    }
-
-    override fun onPolygonVisitedWithPolygon(polygon: YMKPolygonMapObject) {
-        onPolygonVisited(polygon.toCommon())
-    }
-
-    override fun onPolylineVisitedWithPolyline(polyline: YMKPolylineMapObject) {
-        onPolylineVisited(polyline.toCommon())
+    override fun toNative(): YMKMapObjectVisitorProtocol {
+        return nativeVisitor
     }
 }

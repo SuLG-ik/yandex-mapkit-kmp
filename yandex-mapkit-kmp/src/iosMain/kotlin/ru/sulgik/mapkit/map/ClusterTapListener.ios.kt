@@ -2,11 +2,12 @@ package ru.sulgik.mapkit.map
 
 import YandexMapKit.YMKCluster
 import platform.darwin.NSObject
+import ru.sulgik.mapkit.NativeConvertible
 import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.toCommon
 import YandexMapKit.YMKClusterTapListenerProtocol as NativeClusterTapListener
 
-public actual abstract class ClusterTapListener actual constructor() {
+public actual abstract class ClusterTapListener actual constructor() : NativeConvertible<NativeClusterTapListener> {
 
     private val nativeListener = object : NativeClusterTapListener,
         NSObject() {
@@ -15,7 +16,7 @@ public actual abstract class ClusterTapListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeClusterTapListener {
+    override fun toNative(): NativeClusterTapListener {
         return nativeListener
     }
 

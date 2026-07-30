@@ -7,6 +7,7 @@ import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.compose.CameraPositionState
 import ru.sulgik.mapkit.compose.MapConfig
 import ru.sulgik.mapkit.compose.MapLogoConfig
@@ -93,7 +94,7 @@ internal class MapPropertiesNode(
     }
 
     override fun onAttached() {
-        mapWindow.map.addCameraListener(cameraListener)
+        mapWindow.map.addCameraListener(cameraListener.asWeakRef())
     }
 
     override fun onCleared() {
@@ -101,7 +102,7 @@ internal class MapPropertiesNode(
     }
 
     override fun onRemoved() {
-        mapWindow.map.removeCameraListener(cameraListener)
+        mapWindow.map.removeCameraListener(cameraListener.asWeakRef())
         cameraPositionState.mapWindowOwner.setMapWindow(null)
     }
 

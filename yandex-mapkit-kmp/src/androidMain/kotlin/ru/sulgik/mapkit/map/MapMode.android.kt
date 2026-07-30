@@ -10,6 +10,7 @@ public fun MapMode.toNative(): NativeMapMode {
         MapMode.ADMIN -> NativeMapMode.ADMIN
         MapMode.LEGACY_MAP -> NativeMapMode.LEGACY_MAP
         MapMode.FUTURE_MAP -> NativeMapMode.FUTURE_MAP
+        MapMode.HYBRID -> NativeMapMode.HYBRID
     }
 }
 
@@ -21,5 +22,6 @@ public fun NativeMapMode.toCommon(): MapMode {
         NativeMapMode.ADMIN -> MapMode.ADMIN
         NativeMapMode.LEGACY_MAP -> MapMode.LEGACY_MAP
         NativeMapMode.FUTURE_MAP -> MapMode.FUTURE_MAP
+        NativeMapMode.HYBRID -> MapMode.HYBRID
     }
 }

@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.user_location
 
 import ru.sulgik.mapkit.PointF
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.location.LocationViewSource
 import ru.sulgik.mapkit.map.CameraPosition
 import ru.sulgik.mapkit.map.toCommon
@@ -93,7 +94,7 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
      * It is your responsibility to maintain a strong reference to the target object
      * while it is attached to a class.
      */
-    public actual fun setTapListener(tapListener: UserLocationTapListener?) {
+    public actual fun setTapListener(tapListener: WeakRef<UserLocationTapListener>?) {
         nativeUserLocationLayer.setTapListenerWithTapListener(tapListener?.toNative())
     }
 
@@ -104,8 +105,10 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
      * It is your responsibility to maintain a strong reference to the target object
      * while it is attached to a class.
      */
-    public actual fun setObjectListener(objectListener: UserLocationObjectListener?) {
-        nativeUserLocationLayer.setObjectListenerWithObjectListener(objectListener?.toNative())
+    public actual fun setObjectListener(objectListener: WeakRef<UserLocationObjectListener>?) {
+        nativeUserLocationLayer.setObjectListenerWithObjectListener(
+            objectListener?.toNative()
+        )
     }
 
     public actual val isValid: Boolean

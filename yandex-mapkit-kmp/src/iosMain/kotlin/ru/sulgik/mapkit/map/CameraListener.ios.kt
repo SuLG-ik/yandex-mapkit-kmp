@@ -1,12 +1,13 @@
 package ru.sulgik.mapkit.map
 
 import platform.darwin.NSObject
+import ru.sulgik.mapkit.NativeConvertible
 import YandexMapKit.YMKCameraPosition as NativeCameraPosition
 import YandexMapKit.YMKCameraUpdateReason as NativeCameraUpdateReason
 import YandexMapKit.YMKMap as NativeMap
 import YandexMapKit.YMKMapCameraListenerProtocol as NativeCameraListener
 
-public actual abstract class CameraListener actual constructor() {
+public actual abstract class CameraListener actual constructor() : NativeConvertible<NativeCameraListener> {
 
     private val nativeListener = object : NativeCameraListener, NSObject() {
         override fun onCameraPositionChangedWithMap(
@@ -24,7 +25,7 @@ public actual abstract class CameraListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeCameraListener {
+    override fun toNative(): NativeCameraListener {
         return nativeListener
     }
 

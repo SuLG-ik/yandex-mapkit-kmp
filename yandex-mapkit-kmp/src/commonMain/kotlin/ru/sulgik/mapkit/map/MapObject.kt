@@ -1,5 +1,7 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.WeakRef
+
 public expect open class MapObject {
 
     public val parent: BaseMapObjectCollection
@@ -12,11 +14,11 @@ public expect open class MapObject {
 
     public var userData: Any?
 
-    public fun addTapListener(tapListener: MapObjectTapListener)
+    public fun addTapListener(tapListener: WeakRef<MapObjectTapListener>)
 
-    public fun removeTapListener(tapListener: MapObjectTapListener)
+    public fun removeTapListener(tapListener: WeakRef<MapObjectTapListener>)
 
-    public fun setDragListener(dragListener: MapObjectDragListener?)
+    public fun setDragListener(dragListener: WeakRef<MapObjectDragListener>?)
 
     public val isValid: Boolean
 }

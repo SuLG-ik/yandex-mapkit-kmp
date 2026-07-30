@@ -1,10 +1,11 @@
 package ru.sulgik.mapkit.map
 
 import platform.darwin.NSObject
+import ru.sulgik.mapkit.NativeConvertible
 import YandexMapKit.YMKMapObject as NativeMapObject
 import YandexMapKit.YMKMapObjectCollectionListenerProtocol as NativeMapObjectCollectionListener
 
-public actual abstract class MapObjectCollectionListener actual constructor() {
+public actual abstract class MapObjectCollectionListener actual constructor() : NativeConvertible<NativeMapObjectCollectionListener> {
 
     private val nativeListener = object : NativeMapObjectCollectionListener, NSObject() {
 
@@ -17,7 +18,7 @@ public actual abstract class MapObjectCollectionListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeMapObjectCollectionListener {
+    override fun toNative(): NativeMapObjectCollectionListener {
         return nativeListener
     }
 

@@ -1,11 +1,12 @@
 package ru.sulgik.mapkit.location
 
 import platform.darwin.NSObject
+import ru.sulgik.mapkit.NativeConvertible
 import YandexMapKit.YMKLocation as NativeLocation
 import YandexMapKit.YMKLocationDelegateProtocol as NativeLocationListener
 import YandexMapKit.YMKLocationStatus as NativeLocationStatus
 
-public actual abstract class LocationListener actual constructor() {
+public actual abstract class LocationListener actual constructor() : NativeConvertible<NativeLocationListener> {
 
     private val nativeListener  = object : NativeLocationListener, NSObject() {
         override fun onLocationStatusUpdatedWithStatus(status: NativeLocationStatus) {
@@ -17,7 +18,7 @@ public actual abstract class LocationListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeLocationListener {
+    override fun toNative(): NativeLocationListener {
         return nativeListener
     }
 
