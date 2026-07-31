@@ -24,7 +24,8 @@ A tap on a POI, a building or a toponym arrives as a `layers.GeoObjectTapEvent` 
 `GeoObject`. Its metadata is read through the typed accessors `selectionMetadata`,
 `inspectionMetadata` and `tags` — MapKit stores it in a dictionary keyed by native classes, which
 has no common representation, so the wrapper exposes the entries instead of the container.
-`Map.selectGeoObject` takes the selection metadata back.
+`uriMetadata` and `personalizedPoiMetadata` read the remaining metadata kinds the lite SDK
+attaches. `Map.selectGeoObject` takes the selection metadata back.
 
 `Map.setMapLoadedListener` reports `MapLoadStatistics` once the visible tiles are rendered.
 
@@ -61,6 +62,8 @@ current locale.
 
 - **Full-build API.** Search, routing, panoramas, road events and the personalization API
   (`MapKit.setAccount`, `MapKit.createOffscreenMapWindow`) do not exist in the lite build.
+- **`BaseDataSourceBuilder` and `mapkit.images`.** The types exist in the lite build but nothing
+  hands one out — `Map.addTileLayer` builds a `TileDataSourceBuilder` instead.
 - **`ViewProvider`.** MapKit can render a native `View` / `UIView` into an icon. There is no common
   shape for it; the Compose module covers the same ground with `imageProvider { }`.
 - **`ImageProvider.id` / `isCacheable`.** They exist on Android only — iOS MapKit takes a plain

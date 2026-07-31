@@ -722,6 +722,14 @@ composable и состояния.
   `tags`.
 - **`mapkit.Money`, `RequestPoint`, `RequestPointType`, `GeoObjectListener`, `GeoObjectSession`** —
   типы поисково-маршрутного API, в lite-биндингах отсутствуют.
+- **`map.BaseDataSourceBuilder` и `mapkit.images`** (`ImageUrlProvider`, `ImageDataDescriptor`,
+  `DefaultImageUrlProvider`). Типы в lite есть, но ни один публичный метод их не отдаёт: у `Map`
+  только `addTileLayer` с `TileDataSourceBuilder`. Недостижимы, как и `OffscreenMapWindow`.
+- **`mapkit.navigation`** (`JamSegment`, `JamStyle`, `JamType`, `JamTypeColor`, `RoutePosition`) —
+  приходят только вместе с маршрутами, которых в lite нет.
+- **`runtime.KeyValuePair`, `runtime.config.ExperimentData`, `runtime.annotation`,
+  `runtime.view.*`** — служебные и платформенные типы рантайма, в публичном API враппера им нечего
+  делать.
 - **`offline_cache.DownloadNotificationsListener`** — работает только вместе с
   `MapKitFactory.initializeBackgroundDownload`, который принимает internal-тип.
 - **`MapObjectCollection` как вложенный composable** и доступ к `PlacemarksStyler` из compose —
@@ -792,6 +800,15 @@ composable и состояния.
 45. `mapkit.ui.Overlay` + `MapWindow.addRasterScreenOverlay`.
 46. ~~`MapKit.createOffscreenMapWindow` + `map.OffscreenMapWindow`~~ — в lite метода нет.
 47. ~~`runtime.auth`~~ — в lite у `MapKit` нет `setAccount`, обёртка недостижима.
+
+Сверх плана обёрнуты метаданные `GeoObject`, до которых план не дошёл: `uri.Uri`,
+`uri.UriObjectMetadata` и `personalized_poi.PersonalizedPoiExtraMetadata` (+ `Entry`) —
+они реализуют `BaseMetadata`, поэтому доступны через `GeoObject.uriMetadata` и
+`GeoObject.personalizedPoiMetadata`.
+
+Из части F (compose) сознательно не сделаны `MapObjectCollection` как вложенный composable и
+доступ к `PlacemarksStyler`: это дизайн compose-API, а не покрытие MapKit. `opacity`, `zIndex`,
+`isVisible` и `userData` у объектов карты — параметры самих composable, а не поля `*State`.
 
 ### Сквозные требования к каждому этапу
 

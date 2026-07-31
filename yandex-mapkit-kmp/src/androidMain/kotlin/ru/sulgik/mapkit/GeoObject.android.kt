@@ -7,10 +7,16 @@ import ru.sulgik.mapkit.map.GeoObjectInspectionMetadata
 import ru.sulgik.mapkit.map.GeoObjectSelectionMetadata
 import ru.sulgik.mapkit.map.GeoObjectTags
 import ru.sulgik.mapkit.map.toCommon
+import ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata
+import ru.sulgik.mapkit.personalized_poi.toCommon
+import ru.sulgik.mapkit.uri.UriObjectMetadata
+import ru.sulgik.mapkit.uri.toCommon
 import com.yandex.mapkit.GeoObject as NativeGeoObject
 import com.yandex.mapkit.map.GeoObjectInspectionMetadata as NativeGeoObjectInspectionMetadata
 import com.yandex.mapkit.map.GeoObjectSelectionMetadata as NativeGeoObjectSelectionMetadata
 import com.yandex.mapkit.map.GeoObjectTags as NativeGeoObjectTags
+import com.yandex.mapkit.personalized_poi.PersonalizedPoiExtraMetadata as NativePersonalizedPoiExtraMetadata
+import com.yandex.mapkit.uri.UriObjectMetadata as NativeUriObjectMetadata
 
 /**
  * An object of the base map: a POI, a building, a toponym.
@@ -80,6 +86,22 @@ public actual class GeoObject internal constructor(private val nativeGeoObject: 
     public actual val tags: GeoObjectTags?
         get() = nativeGeoObject.metadataContainer
             .getItem(NativeGeoObjectTags::class.java)
+            ?.toCommon()
+
+    /**
+     * The links to the object, or `null` if MapKit reported none.
+     */
+    public actual val uriMetadata: UriObjectMetadata?
+        get() = nativeGeoObject.metadataContainer
+            .getItem(NativeUriObjectMetadata::class.java)
+            ?.toCommon()
+
+    /**
+     * The extra data of a personalized POI, or `null` if the object is not one.
+     */
+    public actual val personalizedPoiMetadata: PersonalizedPoiExtraMetadata?
+        get() = nativeGeoObject.metadataContainer
+            .getItem(NativePersonalizedPoiExtraMetadata::class.java)
             ?.toCommon()
 }
 

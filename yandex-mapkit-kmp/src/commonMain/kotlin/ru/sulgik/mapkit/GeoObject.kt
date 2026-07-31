@@ -5,6 +5,8 @@ import ru.sulgik.mapkit.geometry.Geometry
 import ru.sulgik.mapkit.map.GeoObjectInspectionMetadata
 import ru.sulgik.mapkit.map.GeoObjectSelectionMetadata
 import ru.sulgik.mapkit.map.GeoObjectTags
+import ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata
+import ru.sulgik.mapkit.uri.UriObjectMetadata
 
 /**
  * An object of the base map: a POI, a building, a toponym.
@@ -60,4 +62,14 @@ public expect class GeoObject {
      * The tags of the object, or `null` if MapKit reported none.
      */
     public val tags: GeoObjectTags?
+
+    /**
+     * The links to the object, or `null` if MapKit reported none.
+     */
+    public val uriMetadata: UriObjectMetadata?
+
+    /**
+     * The extra data of a personalized POI, or `null` if the object is not one.
+     */
+    public val personalizedPoiMetadata: PersonalizedPoiExtraMetadata?
 }

@@ -58,6 +58,7 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
     - `runtime` — the `Error` hierarchy including `runtime.network`, `runtime.logging`,
       `runtime.i18n`
     - `ui` — `Overlay` plus `MapWindow.addRasterScreenOverlay`
+    - `uri` — `Uri`, `UriObjectMetadata`; `personalized_poi` — `PersonalizedPoiExtraMetadata`
     - `MapKit` — `onTerminate`, `createTrafficLayer`, `storageManager`, `offlineCacheManager`,
       `createLocationSimulator`, `createDummyLocationManager`; `MapView.destroy`
 - Compose: `MapListeners` for map taps, geo object taps, indoor state, map size and the map loaded

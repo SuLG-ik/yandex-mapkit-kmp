@@ -114,6 +114,8 @@ public final class ru.sulgik.mapkit.GeoObject {
   public final ru.sulgik.mapkit.map.GeoObjectSelectionMetadata getSelectionMetadata();
   public final ru.sulgik.mapkit.map.GeoObjectInspectionMetadata getInspectionMetadata();
   public final ru.sulgik.mapkit.map.GeoObjectTags getTags();
+  public final ru.sulgik.mapkit.uri.UriObjectMetadata getUriMetadata();
+  public final ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata getPersonalizedPoiMetadata();
 }
 public final class ru.sulgik.mapkit.GeoObjectCollection {
   public ru.sulgik.mapkit.GeoObjectCollection(com.yandex.mapkit.GeoObjectCollection);
@@ -2457,6 +2459,34 @@ public final class ru.sulgik.mapkit.offline_cache.Region_androidKt {
   public static final com.yandex.mapkit.offline_cache.Region toNative(ru.sulgik.mapkit.offline_cache.Region);
   public static final ru.sulgik.mapkit.offline_cache.Region toCommon(com.yandex.mapkit.offline_cache.Region);
 }
+public final class ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata implements ru.sulgik.mapkit.map.BaseMetadata {
+  public ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata(java.util.List<ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry>);
+  public final java.util.List<ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry> getData();
+  public final java.util.List<ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry> component1();
+  public final ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata copy(java.util.List<ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry>);
+  public static ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata copy$default(ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata, java.util.List, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry implements ru.sulgik.mapkit.map.BaseMetadata {
+  public ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry(java.lang.String, java.lang.String);
+  public final java.lang.String getKey();
+  public final java.lang.String getValue();
+  public final java.lang.String component1();
+  public final java.lang.String component2();
+  public final ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry copy(java.lang.String, java.lang.String);
+  public static ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry copy$default(ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry, java.lang.String, java.lang.String, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata_androidKt {
+  public static final com.yandex.mapkit.personalized_poi.PersonalizedPoiExtraMetadata toNative(ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata);
+  public static final ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata toCommon(com.yandex.mapkit.personalized_poi.PersonalizedPoiExtraMetadata);
+  public static final com.yandex.mapkit.personalized_poi.PersonalizedPoiExtraMetadataEntry toNative(ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry);
+  public static final ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry toCommon(com.yandex.mapkit.personalized_poi.PersonalizedPoiExtraMetadataEntry);
+}
 public class ru.sulgik.mapkit.runtime.DiskCorruptError extends ru.sulgik.mapkit.runtime.LocalError {
   public ru.sulgik.mapkit.runtime.DiskCorruptError(com.yandex.runtime.DiskCorruptError);
   public com.yandex.runtime.DiskCorruptError toNative();
@@ -2808,6 +2838,34 @@ public final class ru.sulgik.mapkit.ui.Overlay {
 }
 public final class ru.sulgik.mapkit.ui.Overlay_androidKt {
   public static final ru.sulgik.mapkit.ui.Overlay toCommon(com.yandex.mapkit.ui.Overlay);
+}
+public final class ru.sulgik.mapkit.uri.Uri {
+  public ru.sulgik.mapkit.uri.Uri(java.lang.String);
+  public final java.lang.String getValue();
+  public final java.lang.String component1();
+  public final ru.sulgik.mapkit.uri.Uri copy(java.lang.String);
+  public static ru.sulgik.mapkit.uri.Uri copy$default(ru.sulgik.mapkit.uri.Uri, java.lang.String, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.uri.UriObjectMetadata implements ru.sulgik.mapkit.map.BaseMetadata {
+  public ru.sulgik.mapkit.uri.UriObjectMetadata(java.util.List<ru.sulgik.mapkit.uri.Uri>);
+  public final java.util.List<ru.sulgik.mapkit.uri.Uri> getUris();
+  public final java.util.List<ru.sulgik.mapkit.uri.Uri> component1();
+  public final ru.sulgik.mapkit.uri.UriObjectMetadata copy(java.util.List<ru.sulgik.mapkit.uri.Uri>);
+  public static ru.sulgik.mapkit.uri.UriObjectMetadata copy$default(ru.sulgik.mapkit.uri.UriObjectMetadata, java.util.List, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.uri.UriObjectMetadata_androidKt {
+  public static final com.yandex.mapkit.uri.UriObjectMetadata toNative(ru.sulgik.mapkit.uri.UriObjectMetadata);
+  public static final ru.sulgik.mapkit.uri.UriObjectMetadata toCommon(com.yandex.mapkit.uri.UriObjectMetadata);
+}
+public final class ru.sulgik.mapkit.uri.Uri_androidKt {
+  public static final com.yandex.mapkit.uri.Uri toNative(ru.sulgik.mapkit.uri.Uri);
+  public static final ru.sulgik.mapkit.uri.Uri toCommon(com.yandex.mapkit.uri.Uri);
 }
 public final class ru.sulgik.mapkit.user_location.UserLocationAnchorChanged extends ru.sulgik.mapkit.layers.ObjectEvent {
   public ru.sulgik.mapkit.user_location.UserLocationAnchorChanged(com.yandex.mapkit.user_location.UserLocationAnchorChanged);
