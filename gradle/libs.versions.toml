@@ -9,6 +9,7 @@ agp = "8.13.0"
 yandex-mapkit = "4.24.0-lite"
 compose-plugin = "1.9.0"
 androidx-activity = "1.10.1"
+androidx-compose = "1.9.0"
 moko-resources = "0.25.1"
 lifecycle = "2.9.1"
 datetime = "0.7.1"
@@ -35,6 +36,7 @@ ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-compose" }
 
 [plugins]
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }

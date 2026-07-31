@@ -78,6 +78,10 @@ kotlin {
             implementation(compose.uiTest)
         }
 
+        androidInstrumentedTest.dependencies {
+            implementation(libs.androidx.compose.ui.test.manifest)
+        }
+
     }
 
     //https://kotlinlang.org/docs/native-objc-interop.html#export-of-kdoc-comments-to-generated-objective-c-headers
@@ -135,7 +139,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {

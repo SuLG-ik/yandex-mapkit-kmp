@@ -33,28 +33,27 @@ Usage example:
 ### Composable as imageProvider
 
 !!! warning "Experimental API marked as `@YandexMapsComposeExperimentalApi`."
-    This API contains many limitations and different behaviour on platforms. Highly not recommended
-    to use, require help by community to improve rendering on iOS and API in general.
+    API is still incubating and may be changed in the future releases.
 
 Function to creating ImageProvider via composable content.
 
-In this case exists some limitations:
+Content is composed in compose-ui composition, so it inherits theme, density and other composition
+locals of the caller, and it is re-rendered on every content state change.
 
-- It does not composing content all of the time. It take a single snapshot and use it as 
-  ImageProvider.
-- Parameter size is ignored on Android. On iOS it is used as content size to take a snapshot.
-  Will be remove in the future after finding another way to render composable content to snapshot.
-- To recreate ImageProvider, content, size or keys (in other variants of this function) should be 
-  changed
+Things to keep in mind:
+
+- Image size is the size of the content measured without constraints, so content should have
+  intrinsic size. `Modifier.fillMaxSize` and other constraints-dependent modifiers do not work.
+- Rendering is asynchronous, so function returns `null` until content is rendered for the first
+  time.
+- Content is rendered inside `YandexMap` content or inside `ComposeMapObjectRendererHost`, calling
+  it in other place throws `IllegalStateException`.
 
 === "Kotlin"
     ```kotlin
     @YandexMapsComposeExperimentalApi
     @Composable
-    public expect fun imageProvider(
-        size: DpSize,
-        content: @Composable () -> Unit
-    ): ImageProvider
+    public fun imageProvider(content: @Composable () -> Unit): ImageProvider?
     ```
 
 Usage example. Content is drawn as rounding rectangle with text content of clicks count.
@@ -64,21 +63,82 @@ Usage example. Content is drawn as rounding rectangle with text content of click
     @Composable
     fun MapScreen() {
         var clicksCount by remember { mutableStateOf(0) }
-        val density = LocalDensity.current
-        val contentSize = with(density) { DpSize(75.dp, 10.dp + 12.sp.toDp()) }
-        val clicksImageProvider = imageProvider(size = contentSize, clicksCount) {
-          Box(
-              modifier = Modifier
-              .background(Color.LightGray, MaterialTheme.shapes.medium)
-              .border(
-                  1.dp,
-                  MaterialTheme.colorScheme.outline,
-                  MaterialTheme.shapes.medium
-              )
-              .padding(vertical = 5.dp, horizontal = 10.dp)
-          ) {
-                Text("clicks: $clicksCount", fontSize = 12.sp)
-          }
+        YandexMap {
+            Placemark(
+                state = rememberPlacemarkState(point),
+                onTap = {
+                    clicksCount++
+                    true
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(Color.LightGray, MaterialTheme.shapes.medium)
+                        .border(
+                            1.dp,
+                            MaterialTheme.colorScheme.outline,
+                            MaterialTheme.shapes.medium
+                        )
+                        .padding(vertical = 5.dp, horizontal = 10.dp)
+                ) {
+                    Text("clicks: $clicksCount", fontSize = 12.sp)
+                }
+            }
+        }
+    }
+    ```
+
+To render content outside of `YandexMap`, for example to create image provider once and reuse it
+for several map objects, wrap composable with `ComposeMapObjectRendererHost`.
+
+=== "Kotlin"
+    ```kotlin
+    @Composable
+    fun MapScreen() {
+        ComposeMapObjectRendererHost {
+            val pinImage = imageProvider {
+                Box(Modifier.size(20.dp).background(Color.Red, CircleShape))
+            }
+            YandexMap {
+                if (pinImage != null) {
+                    Placemark(state = rememberPlacemarkState(point), icon = pinImage)
+                }
+            }
+        }
+    }
+    ```
+
+### Composable as cluster icon
+
+Cluster icons are rendered by `clusterImageProvider`. Rendered images are cached by `ClusterInfo`,
+so content is rendered once per distinct cluster data and is reused by all clusters with the same
+data.
+
+=== "Kotlin"
+    ```kotlin
+    @YandexMapsComposeExperimentalApi
+    @Composable
+    public fun clusterImageProvider(
+        content: @Composable (ClusterInfo) -> Unit,
+    ): ClusterImageProvider
+    ```
+
+Usage example with `Clustering`, that creates provider by itself.
+
+=== "Kotlin"
+    ```kotlin
+    @Composable
+    fun MapScreen() {
+        YandexMap {
+            Clustering(groups = groups) { cluster ->
+                Box(
+                    modifier = Modifier
+                        .background(Color.LightGray, MaterialTheme.shapes.medium)
+                        .padding(vertical = 5.dp, horizontal = 10.dp)
+                ) {
+                    Text("${cluster.size}")
+                }
+            }
         }
     }
     ```
