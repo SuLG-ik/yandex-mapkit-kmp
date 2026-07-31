@@ -10,12 +10,18 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import ru.sulgik.mapkit.PointF
 import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.map.CompositeIcon
+import ru.sulgik.mapkit.map.Icon
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.MapObjectDragListener
+import ru.sulgik.mapkit.map.Model
+import ru.sulgik.mapkit.map.PlacemarkAnimation
 import ru.sulgik.mapkit.map.PlacemarkMapObject
+import ru.sulgik.mapkit.map.PlacemarkText
 import ru.sulgik.mapkit.map.TextStyle
 
 /**
@@ -37,7 +43,10 @@ public fun rememberPlacemarkState(
 }
 
 @Immutable
-public class PlacemarkState(geometry: Point, direction: Float = 0.0f) {
+public class PlacemarkState(
+    geometry: Point,
+    direction: Float = 0.0f,
+) : MapObjectState<PlacemarkMapObject>() {
 
     public var geometry: Point by mutableStateOf(geometry)
 
@@ -45,6 +54,48 @@ public class PlacemarkState(geometry: Point, direction: Float = 0.0f) {
 
     public var isDragging: Boolean by mutableStateOf(false)
         internal set
+
+    /**
+     * Sets piecewise linear scale of the placemark, depending on the zoom.
+     */
+    public fun setScaleFunction(points: List<PointF>) {
+        mapObject?.setScaleFunction(points)
+    }
+
+    /**
+     * Returns [Icon] object that can be used to set image and its style for the placemark.
+     */
+    public fun useIcon(): Icon {
+        return requireMapObject().useIcon()
+    }
+
+    /**
+     * Returns [CompositeIcon] object that can be used to set icons and their styles for the
+     * placemark.
+     */
+    public fun useCompositeIcon(): CompositeIcon {
+        return requireMapObject().useCompositeIcon()
+    }
+
+    /**
+     * Returns [Model] object that can be used to set model and its style for the placemark.
+     */
+    public fun useModel(): Model {
+        return requireMapObject().useModel()
+    }
+
+    /**
+     * Returns [PlacemarkAnimation] object that can be used to control animation of the placemark.
+     */
+    public fun useAnimation(): PlacemarkAnimation {
+        return requireMapObject().useAnimation()
+    }
+
+    /**
+     * [PlacemarkText] that can be used to set text and its style for the placemark.
+     */
+    public val text: PlacemarkText
+        get() = requireMapObject().text
 
     public companion object {
         public val Saver: Saver<PlacemarkState, Any> = listSaver(
@@ -169,6 +220,7 @@ internal inline fun PlacemarkImpl(
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
+        state = state,
         visible = visible,
         zIndex = zIndex,
         userData = userData,
@@ -182,12 +234,10 @@ internal inline fun PlacemarkImpl(
             mapObject.isDraggable = draggable
             PlacemarkNode(
                 mapObject = mapObject,
-                initialState = state,
                 tapListener = onTap,
             ).apply(init)
         },
         update = {
-            update(state) { this.state = state }
             update(state.geometry) { this.mapObject.geometry = it }
             update(state.direction) { this.mapObject.direction = it }
             update(opacity) { this.mapObject.opacity = it }
@@ -235,16 +285,13 @@ internal fun TitledPlacemarkImpl(
 
 internal class PlacemarkNode(
     mapObject: PlacemarkMapObject,
-    initialState: PlacemarkState,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<PlacemarkMapObject>(mapObject, tapListener) {
-
-    internal var state: PlacemarkState = initialState
+) : MapObjectNode<PlacemarkMapObject, PlacemarkState>(mapObject, tapListener) {
 
     private var nativeDragListener: MapObjectDragListener? = MapObjectDragListener(
-        onMapObjectDrag = { _, point -> state.geometry = point },
-        onMapObjectDragStart = { _ -> state.isDragging = true },
-        onMapObjectDragEnd = { _ -> state.isDragging = false },
+        onMapObjectDrag = { _, point -> state?.geometry = point },
+        onMapObjectDragStart = { _ -> state?.isDragging = true },
+        onMapObjectDragEnd = { _ -> state?.isDragging = false },
     )
 
     override fun onAttached() {
@@ -253,7 +300,9 @@ internal class PlacemarkNode(
     }
 
     override fun onRemoved() {
-        mapObject.setDragListener(null)
+        if (mapObject.isValid) {
+            mapObject.setDragListener(null)
+        }
         super.onRemoved()
     }
 

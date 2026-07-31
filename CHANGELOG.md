@@ -63,6 +63,15 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
       `createLocationSimulator`, `createDummyLocationManager`; `MapView.destroy`
 - Compose: `MapListeners` for map taps, geo object taps, indoor state, map size and the map loaded
   event, a `TrafficLayer` composable, and a `userData` parameter on every map object composable.
+- Compose: `MapObjectCollection` groups its content into a nested collection that can be hidden,
+  z-ordered and removed as a whole, and `MapObjectCollectionState` reaches the `PlacemarksStyler`
+  shared by the group and `traverse`.
+- Compose: `TileLayer` renders a custom tile layer and `MapObjectLayer` puts map objects on a layer
+  of their own, on top of `Map.addTileLayer` and `Map.addMapObjectLayer`.
+- Compose: `MapObjectState`, the common base of the map object states, adds
+  `setVisible(visible, animation, onFinished)` and `isValid` to all of them. `PlacemarkState` gained
+  `setScaleFunction`, `useIcon`, `useCompositeIcon`, `useModel`, `useAnimation` and `text`;
+  `PolygonState` gained `setPattern(AnimatedImageProvider, scale)` and `resetPattern`.
 - `MAPKIT_BACKLOG.md` listing MapKit 4.25–4.42 API that is not wrapped yet.
 
 ### Changed
@@ -118,6 +127,11 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   releases its resources instead of waiting for the finalizer.
 - The cluster listener is retained by `ClusterNode` instead of being a factory local, so clustering
   keeps working after the factory is collected.
+- Compose: `PolylineState` was never bound to its `PolylineMapObject`, so `select`, `hide`,
+  `setStrokeColors`, `setPaletteColor`, `addArrow` and `arrows` did nothing or threw. Every state is
+  now bound while its composable is in the composition.
+- Compose: removing a map object whose collection was removed first no longer touches an invalidated
+  MapKit object.
 - Linking an Objective-C framework no longer crashes the Kotlin 2.4 compiler with a
   `NullPointerException` in `ObjCExportCodeGenerator`. The bounds of `WeakRef<T>.toNative()` are
   spelled without an explicit `T : Any`, which is what the compiler trips over; the signature is

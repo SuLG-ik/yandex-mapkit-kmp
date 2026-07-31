@@ -25,7 +25,10 @@ internal class ClusterNode(
     tapListener: ((Point) -> Boolean)?,
     val clusterListener: ClusterListener,
     var clusterItemTapListener: ((ClusterItem) -> Boolean)? = null,
-) : MapObjectNode<ClusterizedPlacemarkCollection>(mapObject, tapListener) {
+) : MapObjectNode<ClusterizedPlacemarkCollection, MapObjectState<ClusterizedPlacemarkCollection>>(
+    mapObject,
+    tapListener,
+) {
 
     private val nativeItemTapListener = MapObjectTapListener { mapObject, point ->
         clusterItemTapListener?.let {
@@ -74,17 +77,11 @@ internal class ClusterNode(
         mapObject.clusterPlacemarks(config.clusterRadius, config.minZoom)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
-    override fun onAttached() {
-        super.onAttached()
-    }
-
     override fun onRemoved() {
-        mapObject.clear()
-        mapObject.parent.remove(mapObject)
+        if (mapObject.isValid) {
+            mapObject.clear()
+        }
+        super.onRemoved()
     }
 }
 
@@ -160,6 +157,7 @@ public fun Clustering(
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
+        state = null,
         visible = visible,
         onTap = null,
         zIndex = zIndex,
@@ -295,6 +293,7 @@ public fun Clustering(
     val collection = LocalMapObjectCollection.current
     val currentIconStyle by rememberUpdatedState(iconStyle)
     MapObjectNode(
+        state = null,
         visible = visible,
         onTap = null,
         zIndex = zIndex,

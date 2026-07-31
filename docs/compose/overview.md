@@ -102,6 +102,67 @@ callback is optional and the matching MapKit listener is attached only when it i
     }
     ```
 
+### Grouping map objects
+
+`MapObjectCollection` puts its content into a nested collection. The collection is a map object
+itself, so `visible` hides the whole group at once and `zIndex` applies to all of it; leaving the
+composition removes the group from the map.
+
+`MapObjectCollectionState` reaches what a parameter cannot express — the `PlacemarksStyler` shared
+by every placemark of the group, and `traverse`.
+
+=== "Kotlin"
+    ```kotlin
+    @Composable
+    fun MapScreen(showPois: Boolean) {
+        val poisState = rememberMapObjectCollectionState()
+        YandexMap(modifier = Modifier.fillMaxSize()) {
+            MapObjectCollection(state = poisState, visible = showPois, zIndex = 1f) {
+                pois.forEach { poi ->
+                    Placemark(state = rememberPlacemarkState(poi.point), icon = icon)
+                }
+            }
+        }
+        LaunchedEffect(Unit) {
+            poisState.setPlacemarksScaleFunction(
+                listOf(PointF(10f, 0.5f), PointF(16f, 1f)),
+            )
+        }
+    }
+    ```
+
+### Custom tile layers
+
+`TileLayer` adds a layer of your own tiles and removes it when it leaves the composition.
+`layerId` names the layer and picks its place in the render order; `createTileDataSource` is called
+once per layer.
+
+=== "Kotlin"
+    ```kotlin
+    @Composable
+    fun MapScreen() {
+        YandexMap(modifier = Modifier.fillMaxSize()) {
+            TileLayer(
+                layerId = "weather",
+                options = LayerOptions(transparent = true, nightModeAvailable = false),
+                onLayerLoaded = { println("weather tiles are on screen") },
+            ) { builder ->
+                builder.setTileUrlProvider(
+                    UrlProvider { tileId, _, _ ->
+                        "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+                    },
+                )
+                builder.setProjection(Projections.wgs84Mercator)
+                builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
+                builder.setTileFormat(TileFormat.PNG)
+            }
+        }
+    }
+    ```
+
+`MapObjectLayer` does the same for map objects: its content is added to an independent collection
+linked to the given layer instead of the default one.
+
 ### Advanced. Map effect
 
 States API useful in different cases and might be useful in most simple cases. But if necessary 

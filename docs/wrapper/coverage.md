@@ -58,6 +58,20 @@ type the failures the listeners report. `runtime.logging.Logging` subscribes to 
 stream, and `runtime.i18n.I18nManager` formats distances, durations, speeds and data sizes for the
 current locale.
 
+## Compose
+
+`yandex-mapkit-kmp-compose` renders the map objects (`Placemark`, `Polyline`, `Polygon`, `Circle`,
+`Clustering`), groups them with `MapObjectCollection` or puts them on a layer of their own with
+`MapObjectLayer`, and adds the map-wide layers — `TrafficLayer` and `TileLayer`. `MapConfig` covers
+`Map` and `MapWindow`; `MapListeners` covers the map events.
+
+Whatever a parameter cannot express lives on the state object: every `MapObjectState` animates
+visibility with `setVisible(visible, animation)`, `PlacemarkState` reaches `useIcon()`,
+`useCompositeIcon()`, `useModel()`, `useAnimation()`, `text` and `setScaleFunction()`,
+`PolylineState` selects and recolours subpolylines, `PolygonState` sets an animated pattern, and
+`MapObjectCollectionState` reaches the shared `PlacemarksStyler` and `traverse`. Anything still
+missing is one `MapEffect` away.
+
 ## Not wrapped
 
 - **Full-build API.** Search, routing, panoramas, road events and the personalization API

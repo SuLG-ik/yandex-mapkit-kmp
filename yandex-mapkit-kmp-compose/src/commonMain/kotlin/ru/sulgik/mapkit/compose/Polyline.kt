@@ -2,7 +2,6 @@ package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
@@ -31,21 +30,9 @@ public fun rememberPolylineState(geometry: Polyline, key: String? = null): Polyl
 }
 
 @Immutable
-public class PolylineState(geometry: Polyline) {
+public class PolylineState(geometry: Polyline) : MapObjectState<PolylineMapObject>() {
 
     public var geometry: Polyline by mutableStateOf(geometry)
-
-    // The marker associated with this MarkerState.
-    private val mapObjectState: MutableState<PolylineMapObject?> = mutableStateOf(null)
-    internal var mapObject: PolylineMapObject?
-        get() = mapObjectState.value
-        set(value) {
-            if (mapObjectState.value == null && value == null) return
-            if (mapObjectState.value != null && value != null) {
-                error("MarkerState may only be associated with one Marker at a time.")
-            }
-            mapObjectState.value = value
-        }
 
     public fun select(color: Color, subpolyline: Subpolyline) {
         mapObject?.select(color.toMapkitColor(), subpolyline)
@@ -68,8 +55,7 @@ public class PolylineState(geometry: Polyline) {
     }
 
     public fun getStrokeColor(segmentIndex: Int): Color {
-        return mapObject?.getStrokeColor(segmentIndex)?.toComposeColor()
-            ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
+        return requireMapObject().getStrokeColor(segmentIndex).toComposeColor()
     }
 
     public fun setPaletteColor(colorIndex: Int, color: Color) {
@@ -77,8 +63,7 @@ public class PolylineState(geometry: Polyline) {
     }
 
     public fun getPaletteColor(colorIndex: Int): Color {
-        return mapObject?.getPaletteColor(colorIndex)?.toComposeColor()
-            ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
+        return requireMapObject().getPaletteColor(colorIndex).toComposeColor()
     }
 
     public fun addArrow(
@@ -86,13 +71,11 @@ public class PolylineState(geometry: Polyline) {
         length: Float,
         fillColor: Color,
     ): Arrow {
-        return mapObject?.addArrow(position, length, fillColor.toMapkitColor())
-            ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
+        return requireMapObject().addArrow(position, length, fillColor.toMapkitColor())
     }
 
     public val arrows: List<Arrow>
-        get() = mapObject?.arrows
-            ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
+        get() = requireMapObject().arrows
 
     public companion object {
         public val Saver: Saver<PolylineState, Any> = listSaver(
@@ -176,6 +159,7 @@ internal fun PolylineImpl(
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
+        state = state,
         visible = visible,
         zIndex = zIndex,
         userData = userData,
@@ -215,7 +199,7 @@ internal fun PolylineImpl(
 internal class PolylineNode(
     mapObject: PolylineMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<PolylineMapObject>(mapObject, tapListener)
+) : MapObjectNode<PolylineMapObject, PolylineState>(mapObject, tapListener)
 
 private val DefaultStrokeColor = Color(0x0066FFFF)
 private const val DefaultGradientLength = 0f

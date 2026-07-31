@@ -632,31 +632,41 @@ composable и состояния.
 
 ---
 
-# Часть F. Compose-модуль
+# Часть F. Compose-модуль — ✅ СДЕЛАНО
 
 Обёрнуто: `YandexMap` (3 перегрузки), `Placemark`, `TitledPlacemark`, `Polyline`, `Polygon`,
 `Circle`, `Clustering` (6 перегрузок), user location, `MapEffect`, `MapControllerEffect`,
 `imageProvider { }`, `clusterImageProvider { }`, `rememberMapKit`, `bindToLifecycleOwner`.
 
-Не проброшено:
+Было не проброшено:
 
-- **`MapConfig`** — есть `isNightModeEnabled`, `poiLimit`, четыре флага жестов, `isFastTapEnabled`,
-  `mapType`, `use2dMode`, `logo`, `fps`. Нет: `mode: MapMode`, `isHdModeEnabled`,
-  `isIndoorEnabled`, `isAwesomeModelsEnabled`, `isTransparentBackgroundEnabled` (A2 бэклога),
-  `isBuildingsAboveIndoorEnabled`, JSON-стиль (`setMapStyle`/`resetMapStyles`),
-  `cameraBounds` (min/max zoom, `latLngBounds`), `focusRect`, `pointOfView`,
-  `gestureFocusPoint`/`gestureFocusPointMode`, `scaleFactor`.
-- **Слушатели карты** — нет composable/`MapConfig`-хуков для `InputListener` (тап по карте),
-  `GeoObjectTapListener`, `MapLoadedListener`, `IndoorStateListener`,
-  `MapObjectCollectionListener`, `SizeChangedListener`. Всё это сейчас доступно только через
-  `MapEffect`.
-- **Объекты карты** — нет `MapObjectCollection` как вложенного composable (группировка,
-  общий `zIndex`, `traverse`), нет доступа к `PlacemarksStyler`.
-- **Состояния** — `PlacemarkState` не даёт `opacity`, `zIndex`, `isVisible`, `userData`;
-  `CircleState`/`PolygonState` не дают ничего кроме `geometry`; `PolylineState` — единственное
-  полноценное. Метод `PolylineState.arrows()` — функция, а во враппере `val arrows` (см. A6).
-- **Жизненный цикл** — `MapView.destroy()` не вызывается при уходе `YandexMap` из композиции.
-- **Пробки/слои** — как только появятся `TrafficLayer` и tile-слои, для них нужны composable.
+- ✅ **`MapConfig`** — было: `isNightModeEnabled`, `poiLimit`, четыре флага жестов,
+  `isFastTapEnabled`, `mapType`, `use2dMode`, `logo`, `fps`. Добавлены `mode`, `mapStyle`,
+  `isHdModeEnabled`, `isIndoorEnabled`, `isAwesomeModelsEnabled`, `isTransparentBackgroundEnabled`,
+  `isBuildingsAboveIndoorEnabled`, `cameraBounds` (`MapCameraBoundsConfig`), `focusRect`,
+  `focusPoint`, `gestureFocusPoint`, `gestureFocusPointMode`, `pointOfView`, `scaleFactor`.
+- ✅ **Слушатели карты** — `MapListeners` с необязательными `onMapTap`, `onMapLongTap`,
+  `onGeoObjectTap`, `onMapLoaded`, `onActivePlanFocused`, `onActivePlanLeft`,
+  `onActiveLevelChanged`, `onMapWindowSizeChanged`; MapKit-листенер подписывается только под
+  ненулевой колбэк. `MapObjectCollectionListener` сознательно не проброшен: содержимое коллекции
+  задаёт сама композиция, и нотификации о нём дублировали бы дерево.
+- ✅ **Объекты карты** — `MapObjectCollection(state, visible, zIndex, userData, onTap) { content }`
+  создаёт вложенную коллекцию и подставляет её потомкам; `MapObjectCollectionState` даёт
+  `setPlacemarksScaleFunction` (это и есть `PlacemarksStyler`) и `traverse`.
+- ✅ **Состояния** — общая база `MapObjectState<T>` держит связь с объектом карты и даёт всем
+  состояниям `setVisible(visible, animation, onFinished)` и `isValid`. `opacity`, `zIndex`,
+  `isVisible` и `userData` остались параметрами самих composable: они декларативные, и второе
+  место для них означало бы два источника правды. `PlacemarkState` получил `setScaleFunction`,
+  `useIcon`, `useCompositeIcon`, `useModel`, `useAnimation`, `text`; `PolygonState` —
+  `setPattern(AnimatedImageProvider, scale)` и `resetPattern`; `PolylineState.arrows` стал `val`
+  (см. A6). `CircleState` остался с одной `geometry` — у `CircleMapObject` больше ничего и нет.
+  Попутно выяснилось, что `PolylineState` никогда не связывался со своим `PolylineMapObject`, и
+  весь его императивный API молча ничего не делал.
+- ✅ **Жизненный цикл** — `YandexMap` вызывает `MapView.onStop()` и `MapView.destroy()` при уходе
+  из композиции.
+- ✅ **Пробки/слои** — `TrafficLayer`, `TileLayer` (поверх `Map.addTileLayer`) и `MapObjectLayer`
+  (поверх `Map.addMapObjectLayer`). Коллекцию слоя объектов MapKit не умеет удалять — при уходе
+  из композиции она очищается, это описано в KDoc.
 
 ---
 
@@ -732,8 +742,8 @@ composable и состояния.
   делать.
 - **`offline_cache.DownloadNotificationsListener`** — работает только вместе с
   `MapKitFactory.initializeBackgroundDownload`, который принимает internal-тип.
-- **`MapObjectCollection` как вложенный composable** и доступ к `PlacemarksStyler` из compose —
-  это дизайн compose-API, а не покрытие MapKit; вынесено за рамки аудита.
+
+Compose-модуль (Часть F) закрыт отдельно, см. выше.
 
 ### ✅ Этап 2. Дыры в ядре, ничего не тянущие за собой
 
@@ -806,9 +816,9 @@ composable и состояния.
 они реализуют `BaseMetadata`, поэтому доступны через `GeoObject.uriMetadata` и
 `GeoObject.personalizedPoiMetadata`.
 
-Из части F (compose) сознательно не сделаны `MapObjectCollection` как вложенный composable и
-доступ к `PlacemarksStyler`: это дизайн compose-API, а не покрытие MapKit. `opacity`, `zIndex`,
-`isVisible` и `userData` у объектов карты — параметры самих composable, а не поля `*State`.
+Часть F (compose) закрыта следом: `MapObjectCollection`, `TileLayer`, `MapObjectLayer` и общая
+база состояний `MapObjectState`. `opacity`, `zIndex`, `isVisible` и `userData` у объектов карты
+остались параметрами самих composable, а не полями `*State`.
 
 ### Сквозные требования к каждому этапу
 

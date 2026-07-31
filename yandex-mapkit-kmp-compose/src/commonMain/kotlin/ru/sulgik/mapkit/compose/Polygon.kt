@@ -13,6 +13,7 @@ import ru.sulgik.mapkit.compose.utils.toMapkitColor
 import ru.sulgik.mapkit.geometry.LinearRing
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.Polygon
+import ru.sulgik.mapkit.map.AnimatedImageProvider
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.PolygonMapObject
 
@@ -22,9 +23,25 @@ public fun rememberPolygonState(geometry: Polygon, key: String? = null): Polygon
 }
 
 @Immutable
-public class PolygonState(geometry: Polygon) {
+public class PolygonState(geometry: Polygon) : MapObjectState<PolygonMapObject>() {
 
     public var geometry: Polygon by mutableStateOf(geometry)
+
+    /**
+     * Sets an animated pattern to fill the polygon.
+     *
+     * Use the `pattern` parameter of the composable for a static one.
+     */
+    public fun setPattern(animatedImage: AnimatedImageProvider, scale: Float) {
+        mapObject?.setPattern(animatedImage, scale)
+    }
+
+    /**
+     * Removes the pattern set with [setPattern].
+     */
+    public fun resetPattern() {
+        mapObject?.resetPattern()
+    }
 
     public companion object {
         public val Saver: Saver<PolygonState, Any> = listSaver(
@@ -140,6 +157,7 @@ internal fun PolygonImpl(
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
+        state = state,
         visible = visible,
         zIndex = zIndex,
         userData = userData,
@@ -183,7 +201,7 @@ internal fun PolygonImpl(
 internal class PolygonNode(
     mapObject: PolygonMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<PolygonMapObject>(mapObject, tapListener)
+) : MapObjectNode<PolygonMapObject, PolygonState>(mapObject, tapListener)
 
 private val DefaultStrokeColor = Color(0xFF66FF00)
 private const val DefaultStrokeWidth = 5f
