@@ -33,6 +33,7 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
 ### Removed
 
 - **Breaking.** The `iosX64` target: Compose Multiplatform no longer publishes for it.
+- **Breaking.** `SizeChangeListener`, deprecated since 0.1.1 in favour of `SizeChangedListener`.
 - The atomicfu Gradle plugin; only its locks runtime API was used.
 
 ### Fixed

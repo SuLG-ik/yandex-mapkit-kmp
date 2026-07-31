@@ -13,19 +13,3 @@ public inline fun SizeChangedListener(
         }
     }
 }
-
-@Deprecated(
-    "SizeChangeListener renamed to SizeChangedListener as in original API.",
-    replaceWith = ReplaceWith(expression = "ru.sulgik.mapkit.map.SizeChangedListener"),
-)
-public typealias SizeChangeListener = SizeChangedListener
-
-@Deprecated(
-    "SizeChangeListener renamed to SizeChangedListener as in original API.",
-    replaceWith = ReplaceWith(expression = "ru.sulgik.mapkit.map.SizeChangedListener(onMapWindowSizeChanged = onMapWindowSizeChanged)"),
-)
-public inline fun SizeChangeListener(
-    crossinline onMapWindowSizeChanged: (mapWindow: MapWindow, newWidth: Int, newHeight: Int) -> Unit,
-): SizeChangedListener {
-    return SizeChangedListener(onMapWindowSizeChanged)
-}
