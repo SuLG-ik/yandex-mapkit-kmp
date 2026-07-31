@@ -22,8 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.persistentListOf
@@ -83,23 +81,6 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
         }
     }
     var clicksCount by remember { mutableStateOf(0) }
-    val density = LocalDensity.current
-    val contentSize =
-        with(density) { DpSize(75.dp, 10.dp + 12.sp.toDp()) }
-    val clicksImage = imageProvider(size = contentSize, clicksCount) {
-        Box(
-            modifier = Modifier
-                .background(Color.LightGray, MaterialTheme.shapes.medium)
-                .border(
-                    1.dp,
-                    MaterialTheme.colorScheme.outline,
-                    MaterialTheme.shapes.medium
-                )
-                .padding(vertical = 5.dp, horizontal = 10.dp)
-        ) {
-            Text("clicks: $clicksCount", fontSize = 12.sp)
-        }
-    }
     var zoomFactor by remember { mutableStateOf(0f) }
     LaunchedEffect(zoomFactor) {
         while (zoomFactor != 0f) {
@@ -180,13 +161,25 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                 }
                 if (mapActionsState.isComposableContentEnabled) {
                     Placemark(
-                        icon = clicksImage,
                         state = rememberPlacemarkState(composablePlacemark),
                         onTap = {
                             clicksCount++
                             true
                         }
-                    )
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(Color.LightGray, MaterialTheme.shapes.medium)
+                                .border(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.outline,
+                                    MaterialTheme.shapes.medium
+                                )
+                                .padding(vertical = 5.dp, horizontal = 10.dp)
+                        ) {
+                            Text("clicks: $clicksCount", fontSize = 12.sp)
+                        }
+                    }
                 }
                 if (mapActionsState.isCoilEnabled) {
                     CoilPlacemark()
@@ -313,36 +306,36 @@ fun PlacemarksCluster(
             ClusterItem(it.first, it.second)
         }.toImmutableList()
     if (isComposableContentEnabled) {
-//        Clustering(
-//            groups = persistentListOf(
-//                ClusterGroup(
-//                    placemarks = redPlacemarks,
-//                    icon = pinRedImage,
-//                ),
-//                ClusterGroup(
-//                    placemarks = greenPlacemarks,
-//                    icon = pinGreenImage,
-//                ),
-//                ClusterGroup(
-//                    placemarks = yellowPlacemarks,
-//                    icon = pinYellowImage,
-//                ),
-//            ),
-//            content = {
-//                Box(
-//                    modifier = Modifier
-//                        .background(Color.LightGray, MaterialTheme.shapes.medium)
-//                        .border(
-//                            1.dp,
-//                            MaterialTheme.colorScheme.outline,
-//                            MaterialTheme.shapes.medium
-//                        )
-//                        .padding(vertical = 5.dp, horizontal = 10.dp)
-//                ) {
-//                    Text("${it.size}")
-//                }
-//            }
-//        )
+        Clustering(
+            groups = persistentListOf(
+                ClusterGroup(
+                    placemarks = redPlacemarks,
+                    icon = pinRedImage,
+                ),
+                ClusterGroup(
+                    placemarks = greenPlacemarks,
+                    icon = pinGreenImage,
+                ),
+                ClusterGroup(
+                    placemarks = yellowPlacemarks,
+                    icon = pinYellowImage,
+                ),
+            ),
+            content = {
+                Box(
+                    modifier = Modifier
+                        .background(Color.LightGray, MaterialTheme.shapes.medium)
+                        .border(
+                            1.dp,
+                            MaterialTheme.colorScheme.outline,
+                            MaterialTheme.shapes.medium
+                        )
+                        .padding(vertical = 5.dp, horizontal = 10.dp)
+                ) {
+                    Text("${it.size}")
+                }
+            }
+        )
     } else {
         Clustering(
             groups = persistentListOf(

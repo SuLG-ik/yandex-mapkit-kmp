@@ -158,24 +158,28 @@ else -> throw IllegalArgumentException("Unknown NativeMapType ($this)")
 - [ ] Android and iOS actuals expose the same members in the same order, both with KDoc.
 - [ ] New handle type: `internal constructor`, member `toNative()`, top-level `toCommon()`, and a
       branch in any parent `toCommon()` dispatcher.
-- [ ] New listener: single `nativeListener` field (see below), plus the inline factory in common.
+- [ ] New listener: `NativeConvertible` with a single `nativeListener` field (see below), plus the
+      inline factory in common.
+- [ ] New subscription method takes `WeakRef<Listener>` and forwards `listener.toNative()`.
 - [ ] Explicit `public`, explicit return types, block bodies with `return`, no `//` comments.
 - [ ] Docs under `docs/` and the README touched if the public surface changed.
 - [ ] `./gradlew :yandex-mapkit-kmp:compileKotlinIosSimulatorArm64
-      :yandex-mapkit-kmp:compileDebugKotlinAndroid` (or `-PskipIosTarget=true` when no CocoaPods).
+      :yandex-mapkit-kmp:compileAndroidMain` (or `-PskipIosTarget=true` when no CocoaPods).
 
 ## The listener trap worth memorising
 
 `toNative()` on a listener must return **the same instance every time**. The SDK's `removeXListener`
 compares by identity, and MapKit holds listeners weakly — building a fresh adapter per call means
-removal silently fails and the listener can be collected mid-flight. So the adapter is a field:
+removal silently fails and the listener can be collected mid-flight. So the adapter is a field, and
+the class implements `NativeConvertible<NativeX>` rather than declaring a bare `toNative()`:
 
 ```kotlin
-public actual abstract class ClusterListener actual constructor() {
+public actual abstract class ClusterListener actual constructor() :
+    NativeConvertible<NativeClusterListener> {
 
     private val nativeListener = NativeClusterListener { onClusterAdded(it.toCommon()) }
 
-    public fun toNative(): NativeClusterListener {
+    override fun toNative(): NativeClusterListener {
         return nativeListener
     }
 
@@ -185,6 +189,40 @@ public actual abstract class ClusterListener actual constructor() {
 
 On iOS the adapter additionally has to be an `NSObject` to satisfy the protocol:
 `object : NativeClusterListener, NSObject() { … }`.
+
+## Subscriptions take `WeakRef`, not the listener
+
+Because MapKit stores listeners weakly, every subscription method in the common API takes
+`WeakRef<Listener>` so the contract is visible at the call site:
+
+```kotlin
+public expect open class MapObject {
+    public fun addTapListener(tapListener: WeakRef<MapObjectTapListener>)
+    public fun removeTapListener(tapListener: WeakRef<MapObjectTapListener>)
+}
+```
+
+The caller wraps with `asWeakRef()` and keeps the strong reference itself:
+
+```kotlin
+private val tapListener = MapObjectTapListener { _, _ -> true }
+
+mapObject.addTapListener(tapListener.asWeakRef())
+```
+
+`NativeConvertible` is what lets the actuals unwrap it in one line — the conversion is already
+written per platform, so a new subscription only forwards it:
+
+```kotlin
+public actual fun addTapListener(tapListener: WeakRef<MapObjectTapListener>) {
+    nativeMapObject.addTapListener(tapListener.toNative())
+}
+```
+
+`WeakRef<T>.toNative()` returns `WeakReference<Native>` on Android and a nullable `Native?` on iOS,
+matching how each SDK expects to receive a weakly-held listener. When wrapping a **new** subscription
+method, take `WeakRef<Listener>` — passing the listener directly is the old shape and reintroduces
+the leak this API prevents.
 
 Common code also gets a lambda-friendly factory so users are not forced to subclass:
 

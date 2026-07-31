@@ -5,18 +5,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import coil3.compose.LocalPlatformContext
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import ru.sulgik.mapkit.compose.Placemark
 import ru.sulgik.mapkit.compose.YandexMapsComposeExperimentalApi
-import ru.sulgik.mapkit.compose.imageProvider
 import ru.sulgik.mapkit.compose.rememberPlacemarkState
 import ru.sulgik.mapkit.geometry.Point
 
@@ -51,9 +48,15 @@ fun CoilPlacemark(
             .build()
     )
 
-    val imageProvider = imageProvider(
-        size = DpSize(40.dp, 40.dp),
-        key1 = painter.state.collectAsState().value,
+    Placemark(
+        state = placemarkState,
+        onTap = {
+            onUserClick(user)
+            true
+        },
+        visible = true,
+        draggable = false,
+        opacity = 1f
     ) {
         Image(
             painter = painter,
@@ -64,16 +67,4 @@ fun CoilPlacemark(
             contentScale = ContentScale.Crop,
         )
     }
-
-    Placemark(
-        state = placemarkState,
-        icon = imageProvider,
-        onTap = {
-            onUserClick(user)
-            true
-        },
-        visible = true,
-        draggable = false,
-        opacity = 1f
-    )
 }

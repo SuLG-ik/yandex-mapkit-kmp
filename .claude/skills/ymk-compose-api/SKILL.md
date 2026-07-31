@@ -65,6 +65,21 @@ composition.setContent {
 Anything you add to the map must be removed in `onRemoved()`, otherwise objects survive their
 composable and stack up on the map.
 
+Nodes are also the strong reference for every listener they subscribe: subscriptions take
+`WeakRef`, so a listener that lives only inside `onAttached()` is collected and stops firing. Keep it
+in a field of the node and subscribe with `asWeakRef()`:
+
+```kotlin
+private val nativeTapListener = MapObjectTapListener { _, point -> tapListener?.invoke(point) == true }
+
+override fun onAttached() {
+    mapObject.addTapListener(nativeTapListener.asWeakRef())
+}
+```
+
+`ClusterNode` does the same for the `ClusterListener` it is constructed with (`val clusterListener`)
+— the field exists purely to keep the listener alive.
+
 ## Adding a new map object composable
 
 Follow `Circle.kt` / `Placemark.kt` — the full annotated recipe is in
@@ -127,11 +142,37 @@ is what keeps MapKit from re-uploading icons on every frame. Reading `state.geom
 
 ## Key-overload family
 
-`MapEffect`, `MapControllerEffect`, `imageProvider` and `clusterImageProvider` each ship the same
-overload ladder: `key1`, `key1+key2`, `key1+key2+key3`, `vararg keys`. It mirrors Compose's own
-`LaunchedEffect`/`remember` API so users get familiar restart semantics. When you add a new effect or
-provider, provide the whole ladder rather than a single `vararg` — `vararg` allocates and breaks the
-common no-key case.
+`MapEffect` and `MapControllerEffect` ship the same overload ladder: `key1`, `key1+key2`,
+`key1+key2+key3`, `vararg keys`. It mirrors Compose's own `LaunchedEffect`/`remember` API so users
+get familiar restart semantics. When you add a new effect, provide the whole ladder rather than a
+single `vararg` — `vararg` allocates and breaks the common no-key case.
+
+`imageProvider` and `clusterImageProvider` deliberately have **no** key ladder: their content is
+recomposed like any other composable, so a key would only be a way to get it wrong.
+
+## Composable content as a map icon
+
+`imageProvider { … }` renders composable content into an `ImageProvider`. It is one common
+implementation, no `expect`/`actual`:
+
+- `ComposeMapObjectRenderer` holds a snapshot list of slots; `ComposeMapObjectRendererHost` (and
+  `YandexMap` itself, for its own content) renders those slots in the **UI** composition.
+- Each slot draws its content into a `GraphicsLayer` via `Modifier.drawWithContent` without ever
+  drawing it to the screen, then turns the layer into an `ImageProvider` off the draw pass.
+- The host lays the content out with unbounded `Constraints` and reports a 1×1 size upward, so image
+  size is the content's intrinsic size and the host takes no space. The size must stay non-zero:
+  Android skips drawing a zero-sized node entirely and no image is ever produced.
+
+Consequences to keep in mind when touching this code:
+
+- `imageProvider` returns `ImageProvider?` — `null` until the first render lands, which is why
+  `Placemark(state) { … }` simply does not emit its node yet.
+- Content is a live composable: state changes re-render the icon, no keys involved.
+- Cluster icons go through `ClusterImageProvider`, cached by `ClusterInfo`. Its `setIcon(cluster,
+  style)` is public so callers can reuse composable icons from their own `ClusterListener`.
+- `ImageBitmap.toImageProvider(density)` is the internal, density-aware conversion; on iOS it sets
+  `UIImage.scale` so the icon matches the Android size, on Android it copies HARDWARE bitmaps to
+  `ARGB_8888` because MapKit rejects anything else.
 
 ## Checklist
 
@@ -139,11 +180,13 @@ common no-key case.
       `@YandexMapsComposeExperimentalApi`.
 - [ ] State class has a `Saver` and a `rememberXxxState(key: String? = null)` factory.
 - [ ] Node removes everything it added in `onRemoved()` and drops references in `onCleared()`.
+- [ ] Listeners are node fields, subscribed with `asWeakRef()`.
 - [ ] `update(...)` blocks cover every mutable parameter, and nothing else.
 - [ ] New wrapper types in composable signatures added to the stability config.
 - [ ] `expect`/`actual` Compose functions repeat annotations on both sides.
 - [ ] Docs updated: `docs/compose/overview.md`, `docs/compose/mapobjects.md` or
       `docs/compose/image-resources.md`.
-- [ ] `./gradlew :yandex-mapkit-kmp-compose:compileDebugKotlinAndroid
-      :yandex-mapkit-kmp-compose:compileKotlinIosSimulatorArm64` and, if states changed,
-      `:yandex-mapkit-kmp-compose:allTests`.
+- [ ] `./gradlew :yandex-mapkit-kmp-compose:compileAndroidMain
+      :yandex-mapkit-kmp-compose:compileKotlinIosSimulatorArm64` and, if states or rendering changed,
+      `:yandex-mapkit-kmp-compose:iosSimulatorArm64Test` plus
+      `:yandex-mapkit-kmp-compose:connectedAndroidDeviceTest` on a running emulator.

@@ -16,14 +16,49 @@ docs/                           mkdocs sources (wrapper/, compose/, getting-star
 
 ## Targets and native dependency
 
-Both published Kotlin modules declare `androidTarget()` plus `iosX64()`, `iosArm64()`,
-`iosSimulatorArm64()`, guarded by:
+Both published Kotlin modules declare `android { }` (the AGP KMP plugin target, not the classic
+`androidTarget()`) plus `iosArm64()` and `iosSimulatorArm64()` — there is no `iosX64()` target since
+MapKit 4.42. iOS targets are guarded by:
 
 ```kotlin
 val supportIosTarget = project.property("skipIosTarget") != "true"
 ```
 
 so `-PskipIosTarget=true` gives an Android-only build on machines without CocoaPods.
+
+The Android block carries what used to live in `android { }` at the top level, and declares both test
+compilations explicitly:
+
+```kotlin
+kotlin {
+    android {
+        namespace = "ru.sulgik.mapkit.compose"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = 26
+
+        androidResources { enable = true }
+
+        withHostTest {}
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        withDeviceTestBuilder { sourceSetTreeName = "test" }
+            .configure { instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner" }
+    }
+}
+```
+
+`withDeviceTestBuilder { sourceSetTreeName = "test" }` is what makes `commonTest` run as an
+instrumented test, so a Compose UI test written once executes on both a simulator and a device.
+
+Task names come from that plugin and differ from the classic AGP ones:
+
+| Intent | Task |
+|---|---|
+| Compile Android sources | `:module:compileAndroidMain` |
+| Compile iOS sources | `:module:compileKotlinIosSimulatorArm64` |
+| JVM unit tests | `:module:testAndroidHostTest` |
+| Instrumented / device tests | `:module:connectedAndroidDeviceTest` |
+| iOS simulator tests | `:module:iosSimulatorArm64Test` |
 
 The iOS SDK arrives through CocoaPods with a fixed package name, which is why iOS sources import
 `YandexMapKit.YMK*`:
@@ -80,9 +115,9 @@ compile mentally — they are the first thing users copy.
 These exist in the tree today. Do not treat them as patterns, and do not go on a cleanup spree either
 unless asked — just avoid reproducing them.
 
-- **Misnamed platform files**: `geometry/PolylinePosition.andoird.kt`; `location/
-  SubscriptionSettings.android.kt` and `location/UseInBackground.android.kt` live in **iosMain**;
-  `map/MapWindow.kt` in iosMain lacks the `.ios` suffix.
+- **Misnamed platform files**: `location/SubscriptionSettings.android.kt` and
+  `location/UseInBackground.android.kt` live in **iosMain**; `map/MapWindow.kt` in iosMain lacks the
+  `.ios` suffix.
 - **Name drift between common and platform files**: `logo/LogoAlignment.kt` is completed by
   `logo/Alignment.android.kt` / `Alignment.ios.kt` (same for `Padding`, `HorizontalAlignment`,
   `VerticalAlignment`).
@@ -91,10 +126,11 @@ unless asked — just avoid reproducing them.
 - **`InputListener.ios.kt`** maps `onMapLongTapWithMap` to `onMapTap` and vice versa — the two
   callbacks are swapped relative to the Android actual.
 - **`Color.ios.kt`** reads `CIColor.red` etc. without an import of `CIColor` visible in the file.
-- **minSdk drift**: modules set `minSdk = 24`, `libs.versions.toml` says `android-minSdk = "26"`, and
-  the README documents 26.
 - **Test file naming**: `ColorConvertionTest` (missing "s"), and
   `MapObjectStatesRestorationTest.kt` is entirely commented out.
+- **Backtick test names are dexing-hostile**: with `minSdk = 26` D8 rejects method names containing
+  spaces (`Space characters in SimpleName … are not allowed prior to DEX version 040`), so tests that
+  also run as device tests use camelCase names.
 
 If a task takes you into one of these files anyway, fixing the local issue is welcome — mention it in
 the commit message rather than in a code comment.

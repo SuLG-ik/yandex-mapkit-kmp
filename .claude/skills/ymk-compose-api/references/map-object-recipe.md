@@ -145,7 +145,7 @@ internal class PlacemarkNode(…) : MapObjectNode<PlacemarkMapObject>(mapObject,
 
     override fun onAttached() {
         super.onAttached()
-        mapObject.setDragListener(nativeDragListener)
+        mapObject.setDragListener(nativeDragListener?.asWeakRef())
     }
 
     override fun onRemoved() {
@@ -195,7 +195,8 @@ setters that push into MapKit, and re-cluster when the group list or config chan
   `compose_compiler_stability_config.conf`.
 - Document the composable in `docs/compose/mapobjects.md` with a `=== "Kotlin"` tab, and add it to
   the "List of supported nodes" list in that page.
-- If it needs an icon, check whether `imageProvider(resource)` covers it or an experimental
-  `imageProvider(size, content)` variant is warranted.
+- If it needs an icon, check whether `imageProvider(resource)` covers it, or whether the experimental
+  `imageProvider { … }` content variant is warranted — the latter returns `ImageProvider?`, so the
+  composable emits its node only once the icon has been rendered.
 - Consider a state-restoration test mirroring the shape kept in
   `commonTest/.../MapObjectStatesRestorationTest.kt`.
