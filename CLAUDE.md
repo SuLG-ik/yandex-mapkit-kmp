@@ -29,6 +29,13 @@ Per-target compile checks (fastest feedback when changing `expect`/`actual` pair
 ./gradlew :yandex-mapkit-kmp-compose:compileAndroidMain :yandex-mapkit-kmp-compose:compileKotlinIosSimulatorArm64
 ```
 
+Compiling for iOS only produces a klib; the Objective-C export runs when a framework is linked, and
+it has its own failure modes. Anything that changes an exported signature should also be checked with:
+
+```bash
+./gradlew libraryLinkIosFramework
+```
+
 Tests live in `yandex-mapkit-kmp-compose/src/commonTest`:
 
 ```bash

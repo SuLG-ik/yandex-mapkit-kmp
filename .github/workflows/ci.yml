@@ -98,6 +98,9 @@ jobs:
       - name: Compile both targets and run simulator tests
         run: ./gradlew libraryCompileIosArm64 libraryIosTests
 
+      - name: Link the Objective-C frameworks
+        run: ./gradlew libraryLinkIosFramework
+
       - name: Upload test reports
         if: failure()
         uses: actions/upload-artifact@v7

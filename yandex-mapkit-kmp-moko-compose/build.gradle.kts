@@ -66,6 +66,7 @@ kotlin {
             api(libs.moko.resources.compose)
             implementation(compose.runtime)
             implementation(compose.ui)
+            implementation(compose.foundation)
         }
 
         commonTest.dependencies {

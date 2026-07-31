@@ -7,7 +7,6 @@ package ru.sulgik.mapkit
  * The SDK stores such objects as `__weak` pointers, so the caller stays responsible for keeping the
  * referent alive.
  */
-public fun <T, N : Any> WeakRef<T>.toNative(): N?
-        where T : Any, T : NativeConvertible<N> {
+public fun <T : NativeConvertible<N>, N : Any> WeakRef<T>.toNative(): N? {
     return get()?.toNative()
 }
