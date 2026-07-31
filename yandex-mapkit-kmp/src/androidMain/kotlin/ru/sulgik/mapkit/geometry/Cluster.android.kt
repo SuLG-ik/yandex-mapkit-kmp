@@ -29,7 +29,6 @@ public actual class Cluster internal constructor(private val nativeCluster: Nati
     public actual fun removeClusterTapListener(listener: WeakRef<ClusterTapListener>) {
         nativeCluster.removeClusterTapListener(listener.toNative())
     }
-
 }
 
 public fun NativeCluster.toCommon(): Cluster {

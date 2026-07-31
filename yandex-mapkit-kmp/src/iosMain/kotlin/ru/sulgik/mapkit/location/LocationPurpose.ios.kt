@@ -14,7 +14,7 @@ public fun LocationPurpose.toNative(): NativeLocationPurpose {
 }
 
 public fun NativeLocationPurpose.toCommon(): LocationPurpose {
-    return when(this) {
+    return when (this) {
         NativeLocationPurpose.YMKPurposeGeneral -> LocationPurpose.GENERAL
         NativeLocationPurpose.YMKPurposeAutomotiveNavigation -> LocationPurpose.AUTOMOTIVE_NAVIGATION
         NativeLocationPurpose.YMKPurposePedestrianNavigation -> LocationPurpose.PEDESTRIAN_NAVIGATION

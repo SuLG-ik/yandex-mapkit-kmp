@@ -10,7 +10,6 @@ public actual open class ObjectEvent internal constructor(private val nativeObje
     public open fun toNative(): NativeObjectEvent {
         return nativeObjectEvent
     }
-
 }
 
 public fun NativeObjectEvent.toCommon(): ObjectEvent {
@@ -20,4 +19,3 @@ public fun NativeObjectEvent.toCommon(): ObjectEvent {
         else -> ObjectEvent(this)
     }
 }
-

@@ -11,7 +11,6 @@ public actual class MultiPolygon internal constructor(private val nativeMultiPol
     public actual constructor(polygons: List<Polygon>) : this(NativeMultiPolygon(polygons.map { it.toNative() }))
 
     public actual val polygons: List<Polygon> by lazy { nativeMultiPolygon.polygons.map { it.toCommon() } }
-
 }
 
 public fun NativeMultiPolygon.toCommon(): MultiPolygon {

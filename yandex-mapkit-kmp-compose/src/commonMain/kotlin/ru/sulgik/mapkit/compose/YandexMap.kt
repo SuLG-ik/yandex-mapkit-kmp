@@ -59,7 +59,7 @@ public fun YandexMap(
                         content = currentContent,
                     )
                 }
-            }
+            },
         )
         if (hostedRenderer == null) {
             ComposeMapObjectSlots(renderer)

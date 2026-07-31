@@ -41,7 +41,7 @@ public fun MapEffect(
 public fun MapEffect(
     key1: Any?,
     key2: Any?,
-    block: suspend CoroutineScope.(Map) -> Unit
+    block: suspend CoroutineScope.(Map) -> Unit,
 ) {
     val map = LocalMap.current
     LaunchedEffect(key1 = key1, key2 = key2) {
@@ -64,7 +64,7 @@ public fun MapEffect(
     key1: Any?,
     key2: Any?,
     key3: Any?,
-    block: suspend CoroutineScope.(Map) -> Unit
+    block: suspend CoroutineScope.(Map) -> Unit,
 ) {
     val map = LocalMap.current
     LaunchedEffect(key1 = key1, key2 = key2, key3 = key3) {
@@ -85,7 +85,7 @@ public fun MapEffect(
 @YandexMapComposable
 public fun MapEffect(
     vararg keys: Any?,
-    block: suspend CoroutineScope.(Map) -> Unit
+    block: suspend CoroutineScope.(Map) -> Unit,
 ) {
     val map = LocalMap.current
     LaunchedEffect(keys = keys) {

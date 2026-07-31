@@ -24,7 +24,7 @@ data class User(
 
 val testUser = User(
     avatar = "https://api.dicebear.com/9.x/icons/png",
-    point = Point(59.939095, 30.338655)
+    point = Point(59.939095, 30.338655),
 )
 
 @OptIn(YandexMapsComposeExperimentalApi::class)
@@ -45,7 +45,7 @@ fun CoilPlacemark(
         ImageRequest.Builder(LocalPlatformContext.current)
             .data(user.avatar)
             .allowHardware(false)
-            .build()
+            .build(),
     )
 
     Placemark(
@@ -56,7 +56,7 @@ fun CoilPlacemark(
         },
         visible = true,
         draggable = false,
-        opacity = 1f
+        opacity = 1f,
     ) {
         Image(
             painter = painter,

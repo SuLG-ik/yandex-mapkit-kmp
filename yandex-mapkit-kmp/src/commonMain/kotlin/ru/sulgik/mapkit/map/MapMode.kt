@@ -37,5 +37,5 @@ public enum class MapMode {
     /**
      * Satellite imagery with a vector map layer on top of it
      */
-    HYBRID
+    HYBRID,
 }

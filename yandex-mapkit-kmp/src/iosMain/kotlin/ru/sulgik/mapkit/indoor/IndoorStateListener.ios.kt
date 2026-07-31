@@ -7,7 +7,7 @@ import YandexMapKit.YMKIndoorStateListenerProtocol as NativeIndoorStateListenerP
 
 public actual abstract class IndoorStateListener actual constructor() : NativeConvertible<NativeIndoorStateListenerProtocol> {
 
-    private val nativeListener = object: NativeIndoorStateListenerProtocol, NSObject() {
+    private val nativeListener = object : NativeIndoorStateListenerProtocol, NSObject() {
         override fun onActiveLevelChangedWithActiveLevelId(activeLevelId: String) {
             this@IndoorStateListener.onActiveLevelChanged(activeLevelId)
         }

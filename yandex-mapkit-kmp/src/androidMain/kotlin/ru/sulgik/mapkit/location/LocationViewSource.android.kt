@@ -8,7 +8,6 @@ public actual class LocationViewSource(private val nativeLocationViewSource: Nat
     public fun toNative(): NativeLocationViewSource {
         return nativeLocationViewSource
     }
-
 }
 
 public fun NativeLocationViewSource.toCommon(): LocationViewSource {

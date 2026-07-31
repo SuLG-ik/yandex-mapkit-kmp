@@ -33,7 +33,6 @@ public actual open class BaseMapObjectCollection internal constructor(
     public actual fun removeListener(collectionListener: WeakRef<MapObjectCollectionListener>) {
         nativeBaseMapObjectCollection.removeListener(collectionListener.toNative())
     }
-
 }
 
 public fun NativeBaseMapObjectCollection.toCommon(): BaseMapObjectCollection {

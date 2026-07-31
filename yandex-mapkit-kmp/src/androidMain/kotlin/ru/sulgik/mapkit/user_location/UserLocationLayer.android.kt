@@ -104,7 +104,7 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
      */
     public actual fun setObjectListener(objectListener: WeakRef<UserLocationObjectListener>?) {
         nativeUserLocationLayer.setObjectListener(
-            objectListener?.toNative()
+            objectListener?.toNative(),
         )
     }
 

@@ -63,7 +63,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
             scope.launch {
                 snackbarHostState.showSnackbar(
                     "Clicked on cluster with ${it.size} items",
-                    withDismissAction = true
+                    withDismissAction = true,
                 )
             }
             true
@@ -85,8 +85,8 @@ fun MapScreen(modifier: Modifier = Modifier) {
         MapObjectTapListener { mapObject, point ->
             scope.launch {
                 snackbarHostState.showSnackbar(
-                    "MapObject (${mapObject.getCastedUserData<MapObjectUserData>()}) was tapped (${point})",
-                    withDismissAction = true
+                    "MapObject (${mapObject.getCastedUserData<MapObjectUserData>()}) was tapped ($point)",
+                    withDismissAction = true,
                 )
             }
             true
@@ -101,7 +101,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
         val typeToImageMap = mapOf(
             MapObjectType.YELLOW to pinYellowImage,
             MapObjectType.RED to pinRedImage,
-            MapObjectType.GREEN to pinGreenImage
+            MapObjectType.GREEN to pinGreenImage,
         )
         val cluster =
             mapWindow.map.mapObjects.addClusterizedPlacemarkCollection(clusterListener.asWeakRef())
@@ -163,7 +163,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
                 onZoomStop = {
                     zoomFactor = 0f
                 },
-                modifier = Modifier.align(Alignment.CenterEnd)
+                modifier = Modifier.align(Alignment.CenterEnd),
             )
         }
     }

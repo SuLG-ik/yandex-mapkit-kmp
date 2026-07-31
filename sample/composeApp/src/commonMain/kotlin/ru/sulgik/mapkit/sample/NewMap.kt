@@ -61,7 +61,6 @@ import ru.sulgik.mapkit.logo.LogoAlignment
 import ru.sulgik.mapkit.logo.LogoHorizontalAlignment
 import ru.sulgik.mapkit.logo.LogoVerticalAlignment
 
-
 @OptIn(YandexMapsComposeExperimentalApi::class)
 @Composable
 fun NewMapScreen(modifier: Modifier = Modifier) {
@@ -122,8 +121,8 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                         image = imageProvider(Res.drawable.cluster),
                     ),
                     accuracy = UserLocationConfig.LocationAccuracy(
-                        fillColor = Color.Yellow
-                    )
+                        fillColor = Color.Yellow,
+                    ),
                 ),
                 config = MapConfig(
                     isNightModeEnabled = isSystemInDarkTheme(),
@@ -131,8 +130,8 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                         alignment = LogoAlignment(
                             horizontal = LogoHorizontalAlignment.LEFT,
                             vertical = LogoVerticalAlignment.TOP,
-                        )
-                    )
+                        ),
+                    ),
                 ),
                 modifier = Modifier.fillMaxSize(),
             ) {
@@ -165,7 +164,7 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                         onTap = {
                             clicksCount++
                             true
-                        }
+                        },
                     ) {
                         Box(
                             modifier = Modifier
@@ -173,9 +172,9 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                                 .border(
                                     1.dp,
                                     MaterialTheme.colorScheme.outline,
-                                    MaterialTheme.shapes.medium
+                                    MaterialTheme.shapes.medium,
                                 )
-                                .padding(vertical = 5.dp, horizontal = 10.dp)
+                                .padding(vertical = 5.dp, horizontal = 10.dp),
                         ) {
                             Text("clicks: $clicksCount", fontSize = 12.sp)
                         }
@@ -195,7 +194,7 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                 onZoomStop = {
                     zoomFactor = 0f
                 },
-                modifier = Modifier.align(Alignment.CenterEnd)
+                modifier = Modifier.align(Alignment.CenterEnd),
             )
         }
     }
@@ -203,7 +202,6 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun Map(modifier: Modifier = Modifier) {
-
 }
 
 @Composable
@@ -215,7 +213,7 @@ fun Polygons(
         onTap = {
             onShowMessage("Tap on Polygon")
             true
-        }
+        },
     )
 }
 
@@ -226,7 +224,7 @@ fun Polylines(
     Polyline(
         state = rememberPolylineState(polyline),
         outlineColor = Color.DarkGray.copy(alpha = 0.4f),
-        strokeColor = Color.Gray.copy(alpha = 0.4f)
+        strokeColor = Color.Gray.copy(alpha = 0.4f),
     )
 }
 
@@ -239,7 +237,7 @@ fun Circles(
     val typeToColor = mapOf(
         MapObjectType.YELLOW to Color.Yellow.copy(alpha = 0.6f),
         MapObjectType.RED to Color.Red.copy(alpha = 0.6f),
-        MapObjectType.GREEN to Color.Green.copy(alpha = 0.6f)
+        MapObjectType.GREEN to Color.Green.copy(alpha = 0.6f),
     )
     circles.forEach {
         Circle(
@@ -249,7 +247,7 @@ fun Circles(
             onTap = { point ->
                 onShowMessage("Tap on ${it.second.name} point $point")
                 true
-            }
+            },
         )
     }
 }
@@ -267,17 +265,21 @@ fun Placemarks(
     val typeToImageMap = mapOf(
         MapObjectType.YELLOW to pinYellowImage,
         MapObjectType.RED to pinRedImage,
-        MapObjectType.GREEN to pinGreenImage
+        MapObjectType.GREEN to pinGreenImage,
     )
     placemarks.forEach {
         Placemark(
             state = rememberPlacemarkState(it.first),
             icon = typeToImageMap[it.second.type]!!,
             draggable = mapActionsState.isDragEnabled,
-            onTap = if (mapActionsState.isDragEnabled) null else { point ->
-                onShowMessage("Tap on ${it.second.name} point $point")
-                true
-            }
+            onTap = if (mapActionsState.isDragEnabled) {
+                null
+            } else {
+                { point ->
+                    onShowMessage("Tap on ${it.second.name} point $point")
+                    true
+                }
+            },
         )
     }
 }
@@ -328,13 +330,13 @@ fun PlacemarksCluster(
                         .border(
                             1.dp,
                             MaterialTheme.colorScheme.outline,
-                            MaterialTheme.shapes.medium
+                            MaterialTheme.shapes.medium,
                         )
-                        .padding(vertical = 5.dp, horizontal = 10.dp)
+                        .padding(vertical = 5.dp, horizontal = 10.dp),
                 ) {
                     Text("${it.size}")
                 }
-            }
+            },
         )
     } else {
         Clustering(

@@ -4,7 +4,7 @@ import com.yandex.mapkit.indoor.IndoorPlan as NativeIndoorPlan
 
 private class DeletingIndoorLevel(
     private val native: NativeIndoorPlan,
-): IndoorPlan {
+) : IndoorPlan {
     override val levels: List<IndoorLevel>
         get() = native.levels.map { it.toCommon() }
     override var activeLevelId: String

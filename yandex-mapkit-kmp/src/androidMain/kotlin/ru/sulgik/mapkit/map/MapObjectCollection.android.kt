@@ -1,16 +1,15 @@
 package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.WeakRef
-import java.lang.ref.WeakReference
 import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.Polygon
 import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNative
+import java.lang.ref.WeakReference
 import com.yandex.mapkit.map.MapObjectCollection as NativeMapObjectCollection
 
-public actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) :
-    BaseMapObjectCollection(nativeMapObjectCollection) {
+public actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) : BaseMapObjectCollection(nativeMapObjectCollection) {
 
     override fun toNative(): NativeMapObjectCollection {
         return nativeMapObjectCollection
@@ -51,7 +50,6 @@ public actual class MapObjectCollection internal constructor(private val nativeM
 
     public actual val placemarksStyler: PlacemarksStyler
         get() = nativeMapObjectCollection.placemarksStyler().toCommon()
-
 }
 
 public fun NativeMapObjectCollection.toCommon(): MapObjectCollection {

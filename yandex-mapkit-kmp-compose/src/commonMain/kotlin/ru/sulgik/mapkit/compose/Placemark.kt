@@ -28,7 +28,7 @@ import ru.sulgik.mapkit.map.TextStyle
 public fun rememberPlacemarkState(
     geometry: Point,
     direction: Float = 0.0f,
-    key: String? = null
+    key: String? = null,
 ): PlacemarkState {
     return rememberSaveable(
         key = key,
@@ -60,10 +60,9 @@ public class PlacemarkState(geometry: Point, direction: Float = 0.0f) {
                     geometry = Point(it[0].toDouble(), it[1].toDouble()),
                     direction = it[2].toFloat(),
                 )
-            }
+            },
         )
     }
-
 }
 
 @[YandexMapComposable Composable]
@@ -188,7 +187,7 @@ internal inline fun PlacemarkImpl(
             update(icon) { this.mapObject.setIcon(icon, iconStyle) }
             update(iconStyle) { this.mapObject.setIcon(icon, iconStyle) }
             update()
-        }
+        },
     )
 }
 
@@ -220,14 +219,14 @@ internal fun TitledPlacemarkImpl(
         update = {
             update(title) { this.mapObject.setText(title, titleStyle) }
             update(titleStyle) { this.mapObject.setTextStyle(titleStyle) }
-        }
+        },
     )
 }
 
 internal class PlacemarkNode(
     mapObject: PlacemarkMapObject,
     initialState: PlacemarkState,
-    tapListener: ((Point) -> Boolean)?
+    tapListener: ((Point) -> Boolean)?,
 ) : MapObjectNode<PlacemarkMapObject>(mapObject, tapListener) {
 
     internal var state: PlacemarkState = initialState
@@ -235,7 +234,7 @@ internal class PlacemarkNode(
     private var nativeDragListener: MapObjectDragListener? = MapObjectDragListener(
         onMapObjectDrag = { _, point -> state.geometry = point },
         onMapObjectDragStart = { _ -> state.isDragging = true },
-        onMapObjectDragEnd = { _ -> state.isDragging = false }
+        onMapObjectDragEnd = { _ -> state.isDragging = false },
     )
 
     override fun onAttached() {

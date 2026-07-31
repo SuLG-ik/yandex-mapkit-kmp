@@ -34,16 +34,14 @@ public actual class ClusterizedPlacemarkCollection internal constructor(
         return nativeClusterizedPlacemarkCollection.addPlacemarks(
             points.map(Point::toNative),
             image.toNative(),
-            style.toNative()
+            style.toNative(),
         ).map { it.toCommon() }
     }
 
     public actual fun clusterPlacemarks(clusterRadius: Double, minZoom: Int) {
         nativeClusterizedPlacemarkCollection.clusterPlacemarks(clusterRadius, minZoom)
     }
-
 }
-
 
 public fun NativeClusterizedPlacemarkCollection.toCommon(): ClusterizedPlacemarkCollection {
     return ClusterizedPlacemarkCollection(this)

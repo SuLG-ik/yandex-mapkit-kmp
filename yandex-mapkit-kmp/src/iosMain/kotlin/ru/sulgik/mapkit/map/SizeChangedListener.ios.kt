@@ -24,6 +24,6 @@ public actual abstract class SizeChangedListener actual constructor() : NativeCo
     public actual abstract fun onMapWindowSizeChanged(
         mapWindow: MapWindow,
         newWidth: Int,
-        newHeight: Int
+        newHeight: Int,
     )
 }

@@ -38,9 +38,9 @@ public class PolygonState(geometry: Polygon) {
                     geometry = Polygon(
                         outerRing = outerRing,
                         innerRing = it.restoreInnerRing(innerRingStart),
-                    )
+                    ),
                 )
-            }
+            },
         )
 
         private fun MutableList<Any>.saveInnerRing(rings: List<LinearRing>): MutableList<Any> {
@@ -72,12 +72,12 @@ public class PolygonState(geometry: Polygon) {
                 points.add(
                     Point(
                         latitude = get(start + 1 + i * 2) as Double,
-                        longitude = get(start + 1 + i * 2 + 1) as Double
-                    )
+                        longitude = get(start + 1 + i * 2 + 1) as Double,
+                    ),
                 )
             }
             return LinearRing(
-                points = points
+                points = points,
             ) to (start * 2 + size + 1)
         }
 
@@ -93,7 +93,6 @@ public class PolygonState(geometry: Polygon) {
             return rings
         }
     }
-
 }
 
 @[YandexMapComposable Composable]
@@ -173,14 +172,13 @@ internal fun PolygonImpl(
                     mapObject.resetPattern()
                 }
             }
-        }
+        },
     )
 }
 
-
 internal class PolygonNode(
     mapObject: PolygonMapObject,
-    tapListener: ((Point) -> Boolean)?
+    tapListener: ((Point) -> Boolean)?,
 ) : MapObjectNode<PolygonMapObject>(mapObject, tapListener)
 
 private val DefaultStrokeColor = Color(0xFF66FF00)

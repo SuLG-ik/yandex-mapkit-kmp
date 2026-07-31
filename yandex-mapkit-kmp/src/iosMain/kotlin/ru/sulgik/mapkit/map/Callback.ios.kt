@@ -9,5 +9,4 @@ public actual abstract class Callback actual constructor() {
     }
 
     public actual abstract fun onTaskFinished()
-
 }

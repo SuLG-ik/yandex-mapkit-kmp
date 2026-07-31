@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.WeakRef
 
-public expect open class BaseMapObjectCollection: MapObject {
+public expect open class BaseMapObjectCollection : MapObject {
 
     public fun traverse(mapObjectVisitor: WeakRef<MapObjectVisitor>)
 
@@ -13,5 +13,4 @@ public expect open class BaseMapObjectCollection: MapObject {
     public fun addListener(collectionListener: WeakRef<MapObjectCollectionListener>)
 
     public fun removeListener(collectionListener: WeakRef<MapObjectCollectionListener>)
-
 }

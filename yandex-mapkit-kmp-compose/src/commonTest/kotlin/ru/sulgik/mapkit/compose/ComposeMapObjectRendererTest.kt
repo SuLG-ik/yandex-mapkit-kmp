@@ -50,5 +50,4 @@ public class ComposeMapObjectRendererTest {
 
         waitUntil(timeoutMillis = 10_000) { image !== rendered }
     }
-
 }

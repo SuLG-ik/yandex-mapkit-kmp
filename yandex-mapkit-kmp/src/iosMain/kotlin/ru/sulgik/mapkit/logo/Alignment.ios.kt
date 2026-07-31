@@ -5,7 +5,7 @@ import YandexMapKit.YMKLogoAlignment as NativeAlignment
 public fun LogoAlignment.toNative(): NativeAlignment {
     return NativeAlignment.alignmentWithHorizontalAlignment(
         horizontalAlignment = horizontal.toNative(),
-        verticalAlignment = vertical.toNative()
+        verticalAlignment = vertical.toNative(),
     )
 }
 

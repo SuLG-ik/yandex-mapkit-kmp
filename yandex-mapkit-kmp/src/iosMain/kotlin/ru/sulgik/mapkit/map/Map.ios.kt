@@ -191,7 +191,7 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
         nativeMap.moveWithCameraPosition(
             cameraPosition.toNative(),
             animation.toNative(),
-            cameraCallback?.toNative()
+            cameraCallback?.toNative(),
         )
     }
 

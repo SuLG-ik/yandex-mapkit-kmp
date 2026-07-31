@@ -101,7 +101,7 @@ public class CameraPositionState private constructor(
          */
         public val Saver: Saver<CameraPositionState, Any> = listSaver(
             save = { it.saveToList() },
-            restore = { restoreFromList(it) }
+            restore = { restoreFromList(it) },
         )
 
         private fun CameraPositionState.saveToList(): List<Double> {
@@ -121,8 +121,8 @@ public class CameraPositionState private constructor(
                     target = Point(list[0], list[1]),
                     tilt = list[2].toFloat(),
                     zoom = list[3].toFloat(),
-                    azimuth = list[4].toFloat()
-                )
+                    azimuth = list[4].toFloat(),
+                ),
             )
         }
     }

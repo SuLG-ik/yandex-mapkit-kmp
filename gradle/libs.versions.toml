@@ -22,6 +22,9 @@ dokka = "2.2.0"
 ktor = "3.5.1"
 coil = "3.5.0"
 
+spotless = "8.9.0"
+ktlint = "1.8.0"
+
 [libraries]
 yandex-mapkit = { module = "com.yandex.android:maps.mobile", version.ref = "yandex-mapkit" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
@@ -51,3 +54,4 @@ cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotli
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
 atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "atomicfu" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

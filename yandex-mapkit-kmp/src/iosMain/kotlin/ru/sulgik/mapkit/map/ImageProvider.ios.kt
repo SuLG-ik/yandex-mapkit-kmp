@@ -7,7 +7,6 @@ public actual interface ImageProvider {
     public fun toNative(): UIImage
 
     public companion object
-
 }
 
 public fun ImageProvider.Companion.fromUIImage(uiImage: UIImage): ImageProvider {

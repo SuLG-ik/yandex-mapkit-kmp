@@ -17,7 +17,6 @@ public actual class Polyline internal constructor(private val nativePolyline: Na
     public actual val points: List<Point> by lazy {
         nativePolyline.points.map { it.toCommon() }
     }
-
 }
 
 public fun NativePolyline.toCommon(): Polyline {

@@ -55,7 +55,6 @@ public class ComposeMapObjectRenderer internal constructor() {
     internal fun detach(slot: ComposeMapObjectSlot) {
         slots.remove(slot)
     }
-
 }
 
 /**
@@ -90,7 +89,6 @@ internal class ComposeMapObjectSlot(content: @Composable () -> Unit) {
         this.image = image
         onImage?.invoke(image)
     }
-
 }
 
 @OptIn(YandexMapsComposeExperimentalApi::class)
@@ -102,7 +100,7 @@ internal val LocalComposeMapObjectRenderer: ProvidableCompositionLocal<ComposeMa
 internal fun requireComposeMapObjectRenderer(): ComposeMapObjectRenderer {
     return LocalComposeMapObjectRenderer.current ?: error(
         "No ComposeMapObjectRenderer provided. Composable content can be rendered only inside " +
-                "YandexMap content or inside ComposeMapObjectRendererHost"
+            "YandexMap content or inside ComposeMapObjectRendererHost",
     )
 }
 
@@ -127,7 +125,7 @@ private fun ComposeMapObjectSlotContent(slot: ComposeMapObjectSlot) {
                 modifier = Modifier.drawWithContent {
                     layer.record { this@drawWithContent.drawContent() }
                     records.trySend(Unit)
-                }
+                },
             ) {
                 slot.content()
             }

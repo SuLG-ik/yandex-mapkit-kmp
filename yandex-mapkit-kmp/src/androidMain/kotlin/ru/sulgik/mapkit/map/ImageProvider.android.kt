@@ -7,5 +7,4 @@ public actual interface ImageProvider {
     public fun toNative(): NativeImageProvider
 
     public companion object
-
 }

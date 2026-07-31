@@ -59,11 +59,11 @@ fun CombinedFilledTonalIconButton(
     color = color,
     shadowElevation = 4.dp,
     contentColor = contentColor,
-    interactionSource = interactionSource
+    interactionSource = interactionSource,
 ) {
     Box(
         modifier = Modifier.size(40.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         content()
     }
@@ -87,7 +87,7 @@ fun CombinedSurface(
     val absoluteElevation = LocalAbsoluteTonalElevation.current + tonalElevation
     CompositionLocalProvider(
         LocalContentColor provides contentColor,
-        LocalAbsoluteTonalElevation provides absoluteElevation
+        LocalAbsoluteTonalElevation provides absoluteElevation,
     ) {
         Box(
             modifier = modifier
@@ -95,23 +95,22 @@ fun CombinedSurface(
                 .surface(
                     shape = shape,
                     backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                        elevation = absoluteElevation
+                        elevation = absoluteElevation,
                     ),
                     border = border,
-                    shadowElevation = shadowElevation
+                    shadowElevation = shadowElevation,
                 ).tapClickable(
                     interactionSource = interactionSource,
                     onPress = onPress,
                     onPressRelease = onPressRelease,
                     indication = ripple(),
                 ),
-            propagateMinConstraints = true
+            propagateMinConstraints = true,
         ) {
             content()
         }
     }
 }
-
 
 private fun Modifier.surface(
     shape: Shape,
@@ -122,7 +121,6 @@ private fun Modifier.surface(
     .then(if (border != null) Modifier.border(border, shape) else Modifier)
     .background(color = backgroundColor, shape = shape)
     .clip(shape)
-
 
 fun Modifier.tapClickable(
     interactionSource: MutableInteractionSource,
@@ -142,7 +140,7 @@ fun Modifier.tapClickable(
         properties["role"] = role
         properties["onPress"] = onPress
         properties["onPressRelease"] = onPressRelease
-    }
+    },
 ) {
     Modifier
         .indication(interactionSource, indication)
@@ -162,7 +160,7 @@ fun Modifier.tapClickable(
                             onPressRelease()
                             interactionSource.emit(PressInteraction.Release(press))
                         }
-                    }
+                    },
                 )
             }
         }

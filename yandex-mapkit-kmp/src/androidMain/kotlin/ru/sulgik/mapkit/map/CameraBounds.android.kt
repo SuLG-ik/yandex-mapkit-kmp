@@ -56,7 +56,6 @@ public actual class CameraBounds internal constructor(
     public actual fun setMaxZoomPreference(zoom: Float) {
         nativeCameraBounds.setMaxZoomPreference(zoom)
     }
-
 }
 
 public fun NativeCameraBounds.toCommon(): CameraBounds {

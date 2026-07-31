@@ -47,7 +47,6 @@ public actual class Arrow internal constructor(private val nativeArrow: NativeAr
         set(value) {
             nativeArrow.triangleHeight = value
         }
-
 }
 
 public fun NativeArrow.toCommon(): Arrow {

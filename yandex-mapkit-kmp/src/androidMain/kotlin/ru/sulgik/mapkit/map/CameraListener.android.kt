@@ -10,7 +10,7 @@ public actual abstract class CameraListener actual constructor() : NativeConvert
             map.toCommon(),
             cameraPosition.toCommon(),
             updateReason.toCommon(),
-            finished
+            finished,
         )
     }
 
@@ -24,5 +24,4 @@ public actual abstract class CameraListener actual constructor() : NativeConvert
         cameraUpdateReason: CameraUpdateReason,
         finished: Boolean,
     )
-
 }
