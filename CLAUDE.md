@@ -39,6 +39,20 @@ Tests live in `yandex-mapkit-kmp-compose/src/commonTest`:
 ./gradlew :yandex-mapkit-kmp-compose:testAndroidHostTest --tests "ru.sulgik.mapkit.ColorConvertionTest"
 ```
 
+Formatting (Spotless with ktlint, configured in the root `build.gradle.kts`):
+
+```bash
+./gradlew spotlessApply
+```
+
+Public API of the four published modules is dumped into `<module>/api` and checked by `check`. The
+dumps are klib ones (`commonMain` + `iosMain`); the Android target of
+`com.android.kotlin.multiplatform.library` is not covered by the validator:
+
+```bash
+./gradlew updateKotlinAbi   # after an intentional API change, run on macOS so iOS targets are included
+```
+
 KDoc site and docs:
 
 ```bash
@@ -53,10 +67,15 @@ Sample app — requires `MAPKIT_API_KEY=<key>` in `local.properties`, otherwise 
 fails with an explicit message. Android: `./gradlew :sample:composeApp:installDebug`. iOS: open
 `sample/iosApp/iosApp.xcworkspace` in Xcode.
 
-There is no linter task; correctness is enforced by `-Xexplicit-api=strict` and the compiler.
+Style is enforced by `spotlessCheck`; correctness by `-Xexplicit-api=strict`, the compiler and
+`checkKotlinAbi`.
 
-Publishing runs in CI from `release/**` branches (the branch suffix becomes `library_version`);
-docs deploy from `main`. Do not publish locally.
+`main` is the only long-lived branch. Every pull request runs `.github/workflows/ci.yml`: formatting
+on ubuntu, an Android/JVM build on ubuntu, and a full build with iOS tests and the API check on
+macOS. Releases are triggered manually (`.github/workflows/release.yml`, `workflow_dispatch` with a
+version): CI verifies that `library_version`, the tag and the CHANGELOG section agree, builds and
+tests everything, publishes to Maven Central, and only then creates the tag, the GitHub release and
+deploys the docs. `RELEASING.md` describes the procedure. Do not publish locally.
 
 ## Architecture in one page
 

@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  JAVA_VERSION: '21'
+  LIBRARY_CHECKS: ':yandex-mapkit-kmp:check :yandex-mapkit-kmp-compose:check :yandex-mapkit-kmp-moko:check :yandex-mapkit-kmp-moko-compose:check'
+  IOS_DEVICE_COMPILATION: ':yandex-mapkit-kmp:compileKotlinIosArm64 :yandex-mapkit-kmp-compose:compileKotlinIosArm64 :yandex-mapkit-kmp-moko:compileKotlinIosArm64 :yandex-mapkit-kmp-moko-compose:compileKotlinIosArm64'
+
+jobs:
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v6
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Check formatting
+        run: ./gradlew spotlessCheck -PskipIosTarget=true
+
+  jvm:
+    name: Build and test (Android/JVM)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build and test
+        run: ./gradlew ${{ env.LIBRARY_CHECKS }} -PskipIosTarget=true -x checkKotlinAbi
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports-android
+          path: '**/build/reports/tests/**'
+          if-no-files-found: ignore
+
+  apple:
+    name: Build and test (iOS)
+    runs-on: macos-26
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Cache Kotlin/Native compiler
+        uses: actions/cache@v6
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: konan-${{ runner.os }}-
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods/repos
+          key: cocoapods-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: cocoapods-${{ runner.os }}-
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build, test and check public API
+        run: ./gradlew ${{ env.LIBRARY_CHECKS }} ${{ env.IOS_DEVICE_COMPILATION }}
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports-ios
+          path: '**/build/reports/tests/**'
+          if-no-files-found: ignore

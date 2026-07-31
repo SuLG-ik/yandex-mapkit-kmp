@@ -1,3 +1,7 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.abi.BinariesSource
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.dokka.ExternalDocumentationLink
 import org.jetbrains.dokka.ExternalDocumentationLinkImpl
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
@@ -15,7 +19,36 @@ plugins {
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.buildKonfig).apply(false)
     alias(libs.plugins.publish).apply(false)
+    alias(libs.plugins.spotless).apply(false)
     alias(libs.plugins.dokka)
+}
+
+private val ktlintVersion = libs.versions.ktlint.get()
+
+private val ktlintRules = mapOf(
+    "ktlint_code_style" to "intellij_idea",
+    "ktlint_standard_max-line-length" to "disabled",
+    "ktlint_standard_function-expression-body" to "disabled",
+    "ktlint_standard_package-name" to "disabled",
+    "ktlint_standard_property-naming" to "disabled",
+    "ktlint_standard_function-naming" to "disabled",
+    "ktlint_standard_filename" to "disabled",
+)
+
+allprojects {
+    apply(plugin = "com.diffplug.spotless")
+
+    extensions.configure<SpotlessExtension> {
+        kotlin {
+            target("src/**/*.kt")
+            targetExclude("**/build/**", "**/MapObjectStatesRestorationTest.kt")
+            ktlint(ktlintVersion).editorConfigOverride(ktlintRules)
+        }
+        kotlinGradle {
+            target("*.gradle.kts")
+            ktlint(ktlintVersion).editorConfigOverride(ktlintRules)
+        }
+    }
 }
 
 private val dokkaModules = mapOf(
@@ -35,6 +68,20 @@ subprojects {
 
         dokka {
             moduleName.set(dokkaModules[name])
+        }
+
+        configureAbiValidation()
+    }
+}
+
+@OptIn(ExperimentalAbiValidation::class)
+fun Project.configureAbiValidation() {
+    afterEvaluate {
+        val kotlin = extensions.findByType<KotlinProjectExtension>() ?: return@afterEvaluate
+
+        kotlin.abiValidation {
+            referenceDumpDir.set(layout.projectDirectory.dir("api"))
+            binariesSource.set(BinariesSource.MAIN_COMPILATION)
         }
     }
 }
