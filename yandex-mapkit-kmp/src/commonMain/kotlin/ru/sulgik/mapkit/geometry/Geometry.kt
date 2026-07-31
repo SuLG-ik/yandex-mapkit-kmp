@@ -21,7 +21,7 @@ public data class Geometry internal constructor(
             return Geometry(polygon = polygon)
         }
 
-        public fun fromMultipolygon(multiPolygon: MultiPolygon): Geometry {
+        public fun fromMultiPolygon(multiPolygon: MultiPolygon): Geometry {
             return Geometry(multiPolygon = multiPolygon)
         }
 
@@ -48,7 +48,7 @@ public fun Polygon.toGeometry(): Geometry {
 }
 
 public fun MultiPolygon.toGeometry(): Geometry {
-    return Geometry.fromMultipolygon(this)
+    return Geometry.fromMultiPolygon(this)
 }
 
 public fun BoundingBox.toGeometry(): Geometry {

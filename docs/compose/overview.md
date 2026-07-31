@@ -64,6 +64,44 @@ States API provides `MapConfig` type to configure `Map` object.
     }
     ```
 
+### Map events
+
+`MapListeners` subscribes to the map events for as long as it stays in the composition. Every
+callback is optional and the matching MapKit listener is attached only when it is not `null`.
+
+=== "Kotlin"
+    ```kotlin
+    @Composable
+    fun MapScreen() {
+        YandexMap(modifier = Modifier.fillMaxSize()) {
+            MapListeners(
+                onMapTap = { point -> println("tap at $point") },
+                onGeoObjectTap = { event ->
+                    val metadata = event.geoObject.selectionMetadata ?: return@MapListeners false
+                    controller.map?.selectGeoObject(metadata)
+                    true
+                },
+                onMapLoaded = { statistics -> println("loaded in ${statistics.fullyLoaded}") },
+            )
+        }
+    }
+    ```
+
+### Traffic
+
+`TrafficLayer` shows the traffic jams layer and removes it when it leaves the composition.
+
+=== "Kotlin"
+    ```kotlin
+    @Composable
+    fun MapScreen() {
+        var level by remember { mutableStateOf<TrafficLevel?>(null) }
+        YandexMap(modifier = Modifier.fillMaxSize()) {
+            TrafficLayer(onTrafficChanged = { level = it })
+        }
+    }
+    ```
+
 ### Advanced. Map effect
 
 States API useful in different cases and might be useful in most simple cases. But if necessary 

@@ -4,8 +4,15 @@ import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Geometry
+import ru.sulgik.mapkit.geometry.geo.Projection
+import ru.sulgik.mapkit.geometry.geo.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.indoor.IndoorStateListener
+import ru.sulgik.mapkit.layers.GeoObjectTapListener
+import ru.sulgik.mapkit.layers.Layer
+import ru.sulgik.mapkit.layers.LayerOptions
+import ru.sulgik.mapkit.layers.toCommon
+import ru.sulgik.mapkit.layers.toNative
 import ru.sulgik.mapkit.logo.Logo
 import ru.sulgik.mapkit.logo.toCommon
 import ru.sulgik.mapkit.toNative
@@ -320,6 +327,76 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
         set(value) {
             nativeMap.isBuildingsAboveIndoorEnabled = value
         }
+
+    /**
+     * Adds a tap listener that is used to obtain brief geo object info.
+     *
+     * The class does not retain the object in the 'tapListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public actual fun addTapListener(tapListener: WeakRef<GeoObjectTapListener>) {
+        nativeMap.addTapListener(tapListener.toNative())
+    }
+
+    /**
+     * Removes a tap listener that is used to obtain brief geo object info.
+     */
+    public actual fun removeTapListener(tapListener: WeakRef<GeoObjectTapListener>) {
+        nativeMap.removeTapListener(tapListener.toNative())
+    }
+
+    /**
+     * Selects a geo object with the specified objectId in the specified layerId.
+     */
+    public actual fun selectGeoObject(selectionMetadata: GeoObjectSelectionMetadata) {
+        nativeMap.selectGeoObject(selectionMetadata.toNative())
+    }
+
+    /**
+     * Resets the currently selected geo object.
+     */
+    public actual fun deselectGeoObject() {
+        nativeMap.deselectGeoObject()
+    }
+
+    /**
+     * Sets a map loaded listener.
+     *
+     * The class does not retain the object in the 'mapLoadedListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public actual fun setMapLoadedListener(mapLoadedListener: WeakRef<MapLoadedListener>?) {
+        nativeMap.setMapLoadedListener(mapLoadedListener?.toNative())
+    }
+
+    /**
+     * Creates a new independent map object collection linked to the specified layer ID.
+     */
+    public actual fun addMapObjectLayer(layerId: String): RootMapObjectCollection {
+        return nativeMap.addMapObjectLayer(layerId).toCommon()
+    }
+
+    /**
+     * Adds tile layer.
+     *
+     * @param createTileDataSource Called once to set up the data source of the new layer.
+     */
+    public actual fun addTileLayer(
+        layerId: String,
+        layerOptions: LayerOptions,
+        createTileDataSource: (builder: TileDataSourceBuilder) -> Unit,
+    ): Layer {
+        return nativeMap.addTileLayer(layerId, layerOptions.toNative()) { builder ->
+            createTileDataSource(builder.toCommon())
+        }.toCommon()
+    }
+
+    /**
+     * Provides map projection.
+     */
+    public actual fun projection(): Projection {
+        return nativeMap.projection().toCommon()
+    }
 
     public actual val isValid: Boolean
         get() = nativeMap.isValid

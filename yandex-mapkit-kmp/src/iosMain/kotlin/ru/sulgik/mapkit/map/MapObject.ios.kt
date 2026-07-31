@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKBaseMapObjectCollection as NativeBaseMapObjectCollection
@@ -15,11 +16,24 @@ public actual open class MapObject internal constructor(private val nativeMapObj
         return nativeMapObject
     }
 
+    /**
+     * Manages visibility of the object on the map.
+     */
     public actual var isVisible: Boolean
         get() = nativeMapObject.visible
         set(value) {
             nativeMapObject.visible = value
         }
+
+    /**
+     * Manages visibility of the object.
+     *
+     * @param animation Describes the transition between visible and not visible states.
+     * @param onFinished Called when the transition is finished.
+     */
+    public actual fun setVisible(visible: Boolean, animation: Animation, onFinished: Callback?) {
+        nativeMapObject.setVisibleWithVisible(visible, animation.toNative(), onFinished?.toNative())
+    }
 
     public actual var zIndex: Float
         get() = nativeMapObject.zIndex

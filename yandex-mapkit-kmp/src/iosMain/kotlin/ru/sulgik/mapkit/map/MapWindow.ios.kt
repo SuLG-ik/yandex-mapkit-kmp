@@ -8,9 +8,18 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
+import ru.sulgik.mapkit.ui.Overlay
+import ru.sulgik.mapkit.ui.toCommon
 import YandexMapKit.YMKMapWindow as NativeMapWindow
 
 public actual class MapWindow internal constructor(private val nativeMapWindow: NativeMapWindow) {
+
+    /**
+     * Adds raster screen overlay.
+     */
+    public actual fun addRasterScreenOverlay(): Overlay {
+        return nativeMapWindow.addRasterScreenOverlay().toCommon()
+    }
 
     public fun toNative(): NativeMapWindow {
         return nativeMapWindow

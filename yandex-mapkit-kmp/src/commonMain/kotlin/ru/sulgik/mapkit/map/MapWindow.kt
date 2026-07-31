@@ -4,8 +4,14 @@ import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.ui.Overlay
 
 public expect class MapWindow {
+
+    /**
+     * Adds raster screen overlay.
+     */
+    public fun addRasterScreenOverlay(): Overlay
 
     /**
      * Window height in physical pixels

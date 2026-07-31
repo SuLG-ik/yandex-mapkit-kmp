@@ -23,6 +23,19 @@ public actual class MapView internal constructor(private val nativeMapView: Nati
     public actual fun setNoninteractive(value: Boolean) {
         nativeMapView.setNoninteractive(value)
     }
+
+    /**
+     * Explicitly destroys MapView, releasing its native resources.
+     */
+    public actual fun destroy() {
+        nativeMapView.destroy()
+    }
+
+    /**
+     * Is debug mode enabled.
+     */
+    public val isDebugModeEnabled: Boolean
+        get() = nativeMapView.isDebugModeEnabled
 }
 
 public fun NativeMapView.toCommon(): MapView {

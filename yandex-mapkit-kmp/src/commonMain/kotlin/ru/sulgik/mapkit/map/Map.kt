@@ -4,7 +4,11 @@ import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Geometry
+import ru.sulgik.mapkit.geometry.geo.Projection
 import ru.sulgik.mapkit.indoor.IndoorStateListener
+import ru.sulgik.mapkit.layers.GeoObjectTapListener
+import ru.sulgik.mapkit.layers.Layer
+import ru.sulgik.mapkit.layers.LayerOptions
 import ru.sulgik.mapkit.logo.Logo
 
 public expect class Map {
@@ -223,6 +227,58 @@ public expect class Map {
      * indoor plan.
      */
     public var isBuildingsAboveIndoorEnabled: Boolean
+
+    /**
+     * Adds a tap listener that is used to obtain brief geo object info.
+     *
+     * The class does not retain the object in the 'tapListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public fun addTapListener(tapListener: WeakRef<GeoObjectTapListener>)
+
+    /**
+     * Removes a tap listener that is used to obtain brief geo object info.
+     */
+    public fun removeTapListener(tapListener: WeakRef<GeoObjectTapListener>)
+
+    /**
+     * Selects a geo object with the specified objectId in the specified layerId.
+     */
+    public fun selectGeoObject(selectionMetadata: GeoObjectSelectionMetadata)
+
+    /**
+     * Resets the currently selected geo object.
+     */
+    public fun deselectGeoObject()
+
+    /**
+     * Sets a map loaded listener.
+     *
+     * The class does not retain the object in the 'mapLoadedListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public fun setMapLoadedListener(mapLoadedListener: WeakRef<MapLoadedListener>?)
+
+    /**
+     * Creates a new independent map object collection linked to the specified layer ID.
+     */
+    public fun addMapObjectLayer(layerId: String): RootMapObjectCollection
+
+    /**
+     * Adds tile layer.
+     *
+     * @param createTileDataSource Called once to set up the data source of the new layer.
+     */
+    public fun addTileLayer(
+        layerId: String,
+        layerOptions: LayerOptions,
+        createTileDataSource: (builder: TileDataSourceBuilder) -> Unit,
+    ): Layer
+
+    /**
+     * Provides map projection.
+     */
+    public fun projection(): Projection
 
     public val isValid: Boolean
 }

@@ -133,7 +133,11 @@ in `androidMain` / `iosMain` — never in `commonMain`.
   `yandex-mapkit-kmp-compose/compose_compiler_stability_config.conf`.
 
 Public API changes also touch `docs/` (and `mkdocs.yml` `nav` for a new page) and the README module
-table.
+table. `docs/wrapper/coverage.md` states what is and is not wrapped; `MAPKIT_BACKLOG.md` lists the
+API deliberately left out. The wrapper targets the **lite** SDK, and the docs site describes the
+full one — before wrapping a member, check that it exists in the lite AAR
+(`javap -classpath <maps.mobile-*.aar>/classes.jar com.yandex.mapkit.MapKit`) rather than trusting
+`ymk-docs/`.
 
 ## Skills
 

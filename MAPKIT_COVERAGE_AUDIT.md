@@ -704,11 +704,30 @@ composable и состояния.
 
 Выхлоп: `updateKotlinAbi`, CHANGELOG, раздел «миграция» в docs.
 
-### Этапы 2–8 — после 1.0.0, аддитивно
+### Этапы 2–8 — ✅ СДЕЛАНО
 
-Ничего из перечисленного ниже мажора не требует и релиз 1.0.0 не блокирует.
+Изначально планировались после 1.0.0, реализованы до релиза. Всё аддитивно, мажора не требует.
 
-### Этап 2. Дыры в ядре, ничего не тянущие за собой
+Что сознательно не обёрнуто и почему:
+
+- **API полной сборки.** `MapKit.setAccount`, `MapKit.createOffscreenMapWindow`,
+  `MapKit.createRoadEventsManager`, поиск, маршрутизация, панорамы. В `4.42.0-lite` этих методов нет
+  у самого `MapKit` (проверено по `javap` над AAR), поэтому `runtime.auth`, `map.OffscreenMapWindow`
+  и `road_events` недостижимы и не обёрнуты.
+- **`ViewProvider`** (`runtime.ui_view`) и завязанные на него `Icon.setView`,
+  `PlacemarkMapObject.setView`, `Overlay.setView`, `MapWindow.addSurface`/`removeSurface`. Общей
+  формы у `android.view.View` и `UIView` нет; в compose-модуле ту же задачу решает `imageProvider { }`.
+- **`runtime.TypeDictionary`.** Контейнер метаданных `GeoObject` ключуется нативными классами.
+  Вместо него у `GeoObject` типизированные аксессоры `selectionMetadata`, `inspectionMetadata`,
+  `tags`.
+- **`mapkit.Money`, `RequestPoint`, `RequestPointType`, `GeoObjectListener`, `GeoObjectSession`** —
+  типы поисково-маршрутного API, в lite-биндингах отсутствуют.
+- **`offline_cache.DownloadNotificationsListener`** — работает только вместе с
+  `MapKitFactory.initializeBackgroundDownload`, который принимает internal-тип.
+- **`MapObjectCollection` как вложенный composable** и доступ к `PlacemarksStyler` из compose —
+  это дизайн compose-API, а не покрытие MapKit; вынесено за рамки аудита.
+
+### ✅ Этап 2. Дыры в ядре, ничего не тянущие за собой
 
 16. `MapObject.setVisible(Boolean, Animation[, Callback])`.
 17. `Map`: `isTransparentBackgroundEnabled`, `isBuildingsAboveIndoorEnabled`,
@@ -718,7 +737,7 @@ composable и состояния.
 20. `PlacemarkMapObject.setIconStyle`, `setScaleFunction`.
 21. `Geometry.fromXxx` фабрики.
 
-### Этап 3. Иконки и содержимое плейсмарка
+### ✅ Этап 3. Иконки и содержимое плейсмарка
 
 22. `map.PlacemarkPresentation`, `Icon`, `CompositeIcon`, `PlacemarkText` +
     `PlacemarkMapObject.useIcon/useCompositeIcon/getText`.
@@ -728,7 +747,7 @@ composable и состояния.
 25. `map.Model`, `ModelStyle` (+ `RenderMode`, `UnitType`) + `useModel`.
 26. Compose: параметры иконки/текста в `PlacemarkState`.
 
-### Этап 4. Geo-объекты базовой карты
+### ✅ Этап 4. Geo-объекты базовой карты
 
 27. `mapkit.GeoObject` и минимальная обвязка: `GeoObjectCollection`, `Item`, `BaseMetadata`,
     `Attribution`, `Image`, `SpannableString`, `LocalizedValue`, `Time`, `UserData`.
@@ -737,7 +756,7 @@ composable и состояния.
 30. `map.MapLoadedListener`, `MapLoadStatistics` + `Map.setMapLoadedListener`.
 31. Compose: `onGeoObjectTap`, `onMapLoaded` в `MapConfig` либо отдельными composable.
 
-### Этап 5. Пробки и хранилище — самые запрашиваемые подсистемы
+### ✅ Этап 5. Пробки и хранилище — самые запрашиваемые подсистемы
 
 32. `traffic`: `TrafficLayer`, `TrafficListener`, `TrafficLevel`, `TrafficColor` +
     `MapKit.createTrafficLayer`. Compose: `TrafficLayer()` composable.
@@ -745,7 +764,7 @@ composable и состояния.
 34. `runtime`/`runtime.network`: иерархия `Error` — нужна всем листенерам этого этапа.
 35. `offline_cache`: `OfflineCacheManager`, `Region`, `RegionState` + листенеры.
 
-### Этап 6. Слои и тайлы
+### ✅ Этап 6. Слои и тайлы
 
 36. `layers`: `Layer`, `LayerOptions`, `OverzoomMode`, `TileFormat`, `BaseDataSource`,
     `DataSource`, `TileDataSource`, `DataSourceLayer`, `DataSourceListener`,
@@ -755,7 +774,7 @@ composable и состояния.
 38. `Map.addTileLayer`, `Map.addMapObjectLayer`, `RootMapObjectCollection`,
     `ConflictResolutionMode` (A4).
 
-### Этап 7. Геолокация целиком
+### ✅ Этап 7. Геолокация целиком
 
 39. `location.LocationSettings` + `LocationSettingsFactory`, `Range`, `TimeInterval`, `ViewArea`.
 40. `location.LocationSimulator`, `SimulationSettings`, `LocationSimulatorListener` +
@@ -763,7 +782,7 @@ composable и состояния.
 41. `location.LocationError`, `LocationUnavailableError`, `DummyLocationManager`,
     `DummyLocationQuality`, `LocationManagerUtils`, `LocationViewSourceFactory`.
 
-### Этап 8. Долги и мелочи
+### ✅ Этап 8. Долги и мелочи
 
 42. `geometry`: `PolylineBuilder(+Factory)`, `SubpolylineHelper`, `BoundingBoxHelper`,
     `Direction`, `Span`; `geometry.geo`: `Projection`, `Projections`, `XYPoint`,
@@ -771,8 +790,8 @@ composable и состояния.
 43. `runtime.logging` — подписка на логи MapKit.
 44. `runtime.i18n` — единицы измерения и формат времени.
 45. `mapkit.ui.Overlay` + `MapWindow.addRasterScreenOverlay`.
-46. `MapKit.createOffscreenMapWindow` + `map.OffscreenMapWindow`.
-47. `runtime.auth` — только если появится задача про персонализацию.
+46. ~~`MapKit.createOffscreenMapWindow` + `map.OffscreenMapWindow`~~ — в lite метода нет.
+47. ~~`runtime.auth`~~ — в lite у `MapKit` нет `setAccount`, обёртка недостижима.
 
 ### Сквозные требования к каждому этапу
 

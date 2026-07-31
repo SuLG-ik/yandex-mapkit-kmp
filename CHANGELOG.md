@@ -27,6 +27,41 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   `gestureFocusPointMode`, `pointOfView`, `scaleFactor` and a `MapCameraBoundsConfig`.
 - An ABI dump of the Android target in `<module>/api/<module>.android.api`, checked by
   `libraryApiCheck`; the Kotlin ABI validator covers klib targets only.
+- The rest of the lite MapKit API. `docs/wrapper/coverage.md` maps it out; by package:
+    - `map` — `PlacemarkPresentation`, `Icon`, `CompositeIcon`, `PlacemarkText`,
+      `PlacemarkAnimation`, `Model`, `ModelStyle`, `AnimatedImage`, `AnimatedImageProvider`,
+      `Frame`, `DataProviderWithId`, `BaseMetadata`, `GeoObjectSelectionMetadata`, `GeoObjectTags`,
+      `GeoObjectInspectionMetadata`, `MapLoadStatistics`, `MapLoadedListener`,
+      `TileDataSourceBuilder`, `VisibleRegion.toPolygon()` / `getBounds()`, and the matching
+      `PlacemarkMapObject.setIconStyle` / `setScaleFunction` / `useIcon` / `useCompositeIcon` /
+      `useModel` / `useAnimation` / `text`, `PolygonMapObject.setPattern(AnimatedImageProvider)`,
+      `MapObject.setVisible(Boolean, Animation, Callback)`
+    - `Map` — `addTapListener` / `removeTapListener` for geo objects, `selectGeoObject`,
+      `deselectGeoObject`, `setMapLoadedListener`, `addMapObjectLayer`, `addTileLayer`, `projection`
+    - root — `GeoObject`, `GeoObjectCollection`, `GeoObjectCollectionItem`, `Attribution`, `Image`,
+      `SpannableString`, `LocalizedValue`, `Time`, `UserData`, `Size2u`, `TileId`, `ZoomRange`,
+      `Version`, `RawTile`
+    - `layers` — `GeoObjectTapEvent`, `GeoObjectTapListener`, `Layer`, `LayerOptions`,
+      `DataSourceLayer`, `BaseDataSource`, `DataSource`, `TileDataSource`, `DataSourceListener`,
+      `LayerLoadedListener`, `OverzoomMode`, `TileFormat`
+    - `tiles` — `TileProvider`, `UrlProvider`
+    - `traffic` — `TrafficLayer`, `TrafficListener`, `TrafficLevel`, `TrafficColor`
+    - `storage` — `StorageManager`, `StorageErrorListener`
+    - `offline_cache` — `OfflineCacheManager`, `Region`, `RegionState`, `RegionListener`,
+      `RegionListUpdatesListener`, `ErrorListener`, `DataMoveListener`, `OfflineCacheError`
+    - `location` — `LocationSettings`, `LocationError`, `Range`, `TimeInterval`, `ViewArea`,
+      `SimulationSettings`, `LocationSimulator`, `LocationSimulatorListener`, `DummyLocationManager`,
+      `DummyLocationQuality`, `LocationUnavailableError`, `lastKnownLocation()`
+    - `geometry` — `Direction`, `Span`, `PolylineBuilder`, `getBounds()`, `subpolyline()`;
+      `geometry.geo` — `Projection`, `Projections`, `XYPoint`, `PolylineIndex`, `PolylineUtils`,
+      `Priority`
+    - `runtime` — the `Error` hierarchy including `runtime.network`, `runtime.logging`,
+      `runtime.i18n`
+    - `ui` — `Overlay` plus `MapWindow.addRasterScreenOverlay`
+    - `MapKit` — `onTerminate`, `createTrafficLayer`, `storageManager`, `offlineCacheManager`,
+      `createLocationSimulator`, `createDummyLocationManager`; `MapView.destroy`
+- Compose: `MapListeners` for map taps, geo object taps, indoor state, map size and the map loaded
+  event, a `TrafficLayer` composable, and a `userData` parameter on every map object composable.
 - `MAPKIT_BACKLOG.md` listing MapKit 4.25–4.42 API that is not wrapped yet.
 
 ### Changed
@@ -55,6 +90,7 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   icons — `ComposeMapObjectRenderer`, `imageProvider`, `clusterImageProvider`, `ClusterImageProvider`
   and the `Placemark` / `Clustering` overloads that take composable content — stay experimental.
 - The `-moko` and `-moko-compose` modules compile with `-Xexplicit-api=strict`, like the other two.
+- **Breaking.** `Geometry.fromMultipolygon` is spelled `fromMultiPolygon`, as in MapKit.
 - **Breaking.** `Location.relativeTimestamp` is a `Duration` instead of an `Instant`: MapKit reports
   time passed on a steady clock, which is not a point in time.
 - **Breaking.** `MapObjectVisitor.onCollectionVisitEnd` returns `Unit` instead of `Boolean`, as in
@@ -77,6 +113,8 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
 ### Fixed
 
 - **iOS.** `InputListener` delivered a tap to `onMapLongTap` and a long tap to `onMapTap`.
+- Compose: `YandexMap` calls `MapView.destroy()` when it leaves the composition, so the native map
+  releases its resources instead of waiting for the finalizer.
 - The cluster listener is retained by `ClusterNode` instead of being a factory local, so clustering
   keeps working after the factory is collected.
 

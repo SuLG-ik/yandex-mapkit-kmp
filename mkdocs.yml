@@ -44,6 +44,7 @@ nav:
       - Contributing: getting-started/contributing.md
   - Wrapper:
       - Overview: wrapper/overview.md
+      - What is wrapped: wrapper/coverage.md
       - Image resources: wrapper/image-resources.md
   - Compose support:
       - Overview: compose/overview.md

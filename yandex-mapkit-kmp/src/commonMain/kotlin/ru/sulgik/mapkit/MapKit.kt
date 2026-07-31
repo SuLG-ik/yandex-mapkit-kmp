@@ -1,7 +1,13 @@
 package ru.sulgik.mapkit
 
+import ru.sulgik.mapkit.geometry.Polyline
+import ru.sulgik.mapkit.location.DummyLocationManager
 import ru.sulgik.mapkit.location.LocationManager
+import ru.sulgik.mapkit.location.LocationSimulator
 import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.offline_cache.OfflineCacheManager
+import ru.sulgik.mapkit.storage.StorageManager
+import ru.sulgik.mapkit.traffic.TrafficLayer
 import ru.sulgik.mapkit.user_location.UserLocationLayer
 
 public expect class MapKit {
@@ -27,6 +33,11 @@ public expect class MapKit {
     public fun onStop()
 
     /**
+     * Notifies MapKit when the application will terminate.
+     */
+    public fun onTerminate()
+
+    /**
      * Sets single global location manager that is used by every module in MapKit by default.
      */
     public fun setLocationManager(locationManager: LocationManager)
@@ -40,6 +51,31 @@ public expect class MapKit {
      * Create layer with the user location icon.
      */
     public fun createUserLocationLayer(mapWindow: MapWindow): UserLocationLayer
+
+    /**
+     * Creates a suspended [LocationSimulator] object, optionally with the given geometry.
+     */
+    public fun createLocationSimulator(geometry: Polyline? = null): LocationSimulator
+
+    /**
+     * Creates a manager that functions as a location proxy.
+     */
+    public fun createDummyLocationManager(): DummyLocationManager
+
+    /**
+     * Creates the traffic layer for the given map window.
+     */
+    public fun createTrafficLayer(mapWindow: MapWindow): TrafficLayer
+
+    /**
+     * Manages the space MapKit occupies on the device.
+     */
+    public val storageManager: StorageManager
+
+    /**
+     * Downloads and manages the offline maps.
+     */
+    public val offlineCacheManager: OfflineCacheManager
 
     /**
      * Tells if this **MapKit** is valid or not.

@@ -63,6 +63,7 @@ public fun Circle(
     geodesic: Boolean = DefaultGeodesic,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     CircleImpl(
@@ -73,6 +74,7 @@ public fun Circle(
         geodesic = geodesic,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -86,12 +88,14 @@ internal fun CircleImpl(
     geodesic: Boolean = DefaultGeodesic,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
         factory = {
             val mapObject = collection.addCircle(state.geometry)

@@ -1,12 +1,24 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.WeakRef
 
 public expect open class MapObject {
 
     public val parent: BaseMapObjectCollection
 
+    /**
+     * Manages visibility of the object on the map.
+     */
     public var isVisible: Boolean
+
+    /**
+     * Manages visibility of the object.
+     *
+     * @param animation Describes the transition between visible and not visible states.
+     * @param onFinished Called when the transition is finished.
+     */
+    public fun setVisible(visible: Boolean, animation: Animation, onFinished: Callback? = null)
 
     public var zIndex: Float
 

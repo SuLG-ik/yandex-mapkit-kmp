@@ -18,6 +18,7 @@ import ru.sulgik.mapkit.map.MapObjectTapListener
 internal inline fun <reified T : MapObjectNode<R>, R : MapObject> MapObjectNode(
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     noinline onTap: ((Point) -> Boolean)? = null,
     noinline factory: (applier: MapApplier) -> T,
     update: @DisallowComposableCalls Updater<T>.() -> Unit,
@@ -29,12 +30,14 @@ internal inline fun <reified T : MapObjectNode<R>, R : MapObject> MapObjectNode(
             val node = factory(mapApplier)
             node.mapObject.isVisible = visible
             node.mapObject.zIndex = zIndex
+            node.mapObject.userData = userData
             node
         },
         update = {
             update(onTap) { this.tapListener = it }
             update(zIndex) { this.mapObject.zIndex = it }
             update(visible) { this.mapObject.isVisible = it }
+            update(userData) { this.mapObject.userData = it }
             update()
         },
     )

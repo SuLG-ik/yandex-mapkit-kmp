@@ -106,6 +106,7 @@ public fun Polygon(
     patternScale: Float = 1f,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     PolygonImpl(
@@ -118,6 +119,7 @@ public fun Polygon(
         patternScale = patternScale,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -133,12 +135,14 @@ internal fun PolygonImpl(
     patternScale: Float = 1f,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
         factory = {
             val mapObject = collection.addPolygon(state.geometry)

@@ -25,8 +25,8 @@ public final class ru.sulgik.mapkit.compose.CameraPositionStateKt {
 }
 public final class ru.sulgik.mapkit.compose.CircleKt {
   public static final ru.sulgik.mapkit.compose.CircleState rememberCircleState(ru.sulgik.mapkit.geometry.Circle, java.lang.String, androidx.compose.runtime.Composer, int, int);
-  public static final void Circle-RakH_j8(ru.sulgik.mapkit.compose.CircleState, long, long, float, boolean, boolean, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int);
-  public static final void CircleImpl-RakH_j8(ru.sulgik.mapkit.compose.CircleState, long, long, float, boolean, boolean, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int);
+  public static final void Circle-f8fvdUg(ru.sulgik.mapkit.compose.CircleState, long, long, float, boolean, boolean, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int);
+  public static final void CircleImpl-f8fvdUg(ru.sulgik.mapkit.compose.CircleState, long, long, float, boolean, boolean, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int);
 }
 public final class ru.sulgik.mapkit.compose.CircleNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.CircleMapObject> {
   public static final int $stable;
@@ -287,6 +287,32 @@ public final class ru.sulgik.mapkit.compose.MapKitKt {
 public final class ru.sulgik.mapkit.compose.MapKit_androidKt {
   public static final ru.sulgik.mapkit.MapKit rememberAndInitializeMapKit(androidx.compose.runtime.Composer, int);
 }
+public final class ru.sulgik.mapkit.compose.MapListenersKt {
+  public static final void MapListeners(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.layers.GeoObjectTapEvent, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapLoadStatistics, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.indoor.IndoorPlan, kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>, kotlin.jvm.functions.Function1<? super java.lang.String, kotlin.Unit>, kotlin.jvm.functions.Function2<? super java.lang.Integer, ? super java.lang.Integer, kotlin.Unit>, androidx.compose.runtime.Composer, int, int);
+}
+public final class ru.sulgik.mapkit.compose.MapListenersNode implements ru.sulgik.mapkit.compose.composition.MapNode {
+  public static final int $stable;
+  public ru.sulgik.mapkit.compose.MapListenersNode(ru.sulgik.mapkit.map.MapWindow, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.layers.GeoObjectTapEvent, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapLoadStatistics, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.indoor.IndoorPlan, kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>, kotlin.jvm.functions.Function1<? super java.lang.String, kotlin.Unit>, kotlin.jvm.functions.Function2<? super java.lang.Integer, ? super java.lang.Integer, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.geometry.Point, kotlin.Unit> getOnMapTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnMapTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.geometry.Point, kotlin.Unit> getOnMapLongTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnMapLongTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.layers.GeoObjectTapEvent, java.lang.Boolean> getOnGeoObjectTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnGeoObjectTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.layers.GeoObjectTapEvent, java.lang.Boolean>);
+  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.map.MapLoadStatistics, kotlin.Unit> getOnMapLoaded$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnMapLoaded$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapLoadStatistics, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.indoor.IndoorPlan, kotlin.Unit> getOnActivePlanFocused$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnActivePlanFocused$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.indoor.IndoorPlan, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function0<kotlin.Unit> getOnActivePlanLeft$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnActivePlanLeft$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function0<kotlin.Unit>);
+  public final kotlin.jvm.functions.Function1<java.lang.String, kotlin.Unit> getOnActiveLevelChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnActiveLevelChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super java.lang.String, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function2<java.lang.Integer, java.lang.Integer, kotlin.Unit> getOnMapWindowSizeChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnMapWindowSizeChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function2<? super java.lang.Integer, ? super java.lang.Integer, kotlin.Unit>);
+  public void onAttached();
+  public void onRemoved();
+  public void onCleared();
+}
 public final class ru.sulgik.mapkit.compose.MapLogoConfig {
   public static final int $stable;
   public ru.sulgik.mapkit.compose.MapLogoConfig(ru.sulgik.mapkit.logo.LogoAlignment, ru.sulgik.mapkit.logo.LogoPadding);
@@ -303,7 +329,7 @@ public final class ru.sulgik.mapkit.compose.MapLogoConfig {
   public ru.sulgik.mapkit.compose.MapLogoConfig();
 }
 public final class ru.sulgik.mapkit.compose.MapObjectKt {
-  public static final <T extends ru.sulgik.mapkit.compose.MapObjectNode<R>, R extends ru.sulgik.mapkit.map.MapObject> void MapObjectNode(boolean, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.compose.composition.MapApplier, ? extends T>, kotlin.jvm.functions.Function1<? super androidx.compose.runtime.Updater<T>, kotlin.Unit>, androidx.compose.runtime.Composer, int, int);
+  public static final <T extends ru.sulgik.mapkit.compose.MapObjectNode<R>, R extends ru.sulgik.mapkit.map.MapObject> void MapObjectNode(boolean, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.compose.composition.MapApplier, ? extends T>, kotlin.jvm.functions.Function1<? super androidx.compose.runtime.Updater<T>, kotlin.Unit>, androidx.compose.runtime.Composer, int, int);
   public static final androidx.compose.runtime.ProvidableCompositionLocal<ru.sulgik.mapkit.map.MapObjectCollection> getLocalMapObjectCollection();
 }
 public abstract class ru.sulgik.mapkit.compose.MapObjectNode<T extends ru.sulgik.mapkit.map.MapObject> implements ru.sulgik.mapkit.compose.composition.MapNode {
@@ -330,11 +356,11 @@ public final class ru.sulgik.mapkit.compose.NativeYandexMap_androidKt {
 }
 public final class ru.sulgik.mapkit.compose.PlacemarkKt {
   public static final ru.sulgik.mapkit.compose.PlacemarkState rememberPlacemarkState(ru.sulgik.mapkit.geometry.Point, float, java.lang.String, androidx.compose.runtime.Composer, int, int);
-  public static final void Placemark(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.ImageProvider, ru.sulgik.mapkit.map.IconStyle, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, boolean, boolean, float, float, androidx.compose.runtime.Composer, int, int);
-  public static final void Placemark(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.IconStyle, boolean, boolean, float, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, kotlin.jvm.functions.Function2<? super androidx.compose.runtime.Composer, ? super java.lang.Integer, kotlin.Unit>, androidx.compose.runtime.Composer, int, int);
-  public static final void TitledPlacemark(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.ImageProvider, java.lang.String, ru.sulgik.mapkit.map.IconStyle, ru.sulgik.mapkit.map.TextStyle, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, boolean, boolean, float, float, androidx.compose.runtime.Composer, int, int);
-  public static final void PlacemarkImpl(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.ImageProvider, ru.sulgik.mapkit.map.IconStyle, boolean, boolean, float, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.compose.PlacemarkNode, kotlin.Unit>, kotlin.jvm.functions.Function1<? super androidx.compose.runtime.Updater<ru.sulgik.mapkit.compose.PlacemarkNode>, kotlin.Unit>, androidx.compose.runtime.Composer, int, int);
-  public static final void TitledPlacemarkImpl(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.ImageProvider, java.lang.String, ru.sulgik.mapkit.map.IconStyle, ru.sulgik.mapkit.map.TextStyle, boolean, boolean, float, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int);
+  public static final void Placemark(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.ImageProvider, ru.sulgik.mapkit.map.IconStyle, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, boolean, boolean, float, float, java.lang.Object, androidx.compose.runtime.Composer, int, int);
+  public static final void Placemark(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.IconStyle, boolean, boolean, float, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, kotlin.jvm.functions.Function2<? super androidx.compose.runtime.Composer, ? super java.lang.Integer, kotlin.Unit>, androidx.compose.runtime.Composer, int, int);
+  public static final void TitledPlacemark(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.ImageProvider, java.lang.String, ru.sulgik.mapkit.map.IconStyle, ru.sulgik.mapkit.map.TextStyle, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, boolean, boolean, float, float, java.lang.Object, androidx.compose.runtime.Composer, int, int, int);
+  public static final void PlacemarkImpl(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.ImageProvider, ru.sulgik.mapkit.map.IconStyle, boolean, boolean, float, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.compose.PlacemarkNode, kotlin.Unit>, kotlin.jvm.functions.Function1<? super androidx.compose.runtime.Updater<ru.sulgik.mapkit.compose.PlacemarkNode>, kotlin.Unit>, androidx.compose.runtime.Composer, int, int, int);
+  public static final void TitledPlacemarkImpl(ru.sulgik.mapkit.compose.PlacemarkState, ru.sulgik.mapkit.map.ImageProvider, java.lang.String, ru.sulgik.mapkit.map.IconStyle, ru.sulgik.mapkit.map.TextStyle, boolean, boolean, float, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int, int);
 }
 public final class ru.sulgik.mapkit.compose.PlacemarkNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.PlacemarkMapObject> {
   public static final int $stable;
@@ -363,8 +389,8 @@ public final class ru.sulgik.mapkit.compose.PlacemarkState$Companion {
 }
 public final class ru.sulgik.mapkit.compose.PolygonKt {
   public static final ru.sulgik.mapkit.compose.PolygonState rememberPolygonState(ru.sulgik.mapkit.geometry.Polygon, java.lang.String, androidx.compose.runtime.Composer, int, int);
-  public static final void Polygon-OWbAXeM(ru.sulgik.mapkit.compose.PolygonState, long, long, float, boolean, ru.sulgik.mapkit.map.ImageProvider, float, boolean, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int);
-  public static final void PolygonImpl-OWbAXeM(ru.sulgik.mapkit.compose.PolygonState, long, long, float, boolean, ru.sulgik.mapkit.map.ImageProvider, float, boolean, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int);
+  public static final void Polygon-tS0Q0Sk(ru.sulgik.mapkit.compose.PolygonState, long, long, float, boolean, ru.sulgik.mapkit.map.ImageProvider, float, boolean, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int, int);
+  public static final void PolygonImpl-tS0Q0Sk(ru.sulgik.mapkit.compose.PolygonState, long, long, float, boolean, ru.sulgik.mapkit.map.ImageProvider, float, boolean, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int, int);
 }
 public final class ru.sulgik.mapkit.compose.PolygonNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.PolygonMapObject> {
   public static final int $stable;
@@ -383,8 +409,8 @@ public final class ru.sulgik.mapkit.compose.PolygonState$Companion {
 }
 public final class ru.sulgik.mapkit.compose.PolylineKt {
   public static final ru.sulgik.mapkit.compose.PolylineState rememberPolylineState(ru.sulgik.mapkit.geometry.Polyline, java.lang.String, androidx.compose.runtime.Composer, int, int);
-  public static final void Polyline-xwFCIxM(ru.sulgik.mapkit.compose.PolylineState, long, float, float, float, long, boolean, float, float, float, float, boolean, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int, int);
-  public static final void PolylineImpl-xwFCIxM(ru.sulgik.mapkit.compose.PolylineState, long, float, float, float, long, boolean, float, float, float, float, boolean, float, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int, int);
+  public static final void Polyline-Qqhwxss(ru.sulgik.mapkit.compose.PolylineState, long, float, float, float, long, boolean, float, float, float, float, boolean, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int, int);
+  public static final void PolylineImpl-Qqhwxss(ru.sulgik.mapkit.compose.PolylineState, long, float, float, float, long, boolean, float, float, float, float, boolean, float, java.lang.Object, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, androidx.compose.runtime.Composer, int, int, int);
 }
 public final class ru.sulgik.mapkit.compose.PolylineNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.PolylineMapObject> {
   public static final int $stable;
@@ -412,6 +438,24 @@ public final class ru.sulgik.mapkit.compose.PolylineState {
 public final class ru.sulgik.mapkit.compose.PolylineState$Companion {
   public final androidx.compose.runtime.saveable.Saver<ru.sulgik.mapkit.compose.PolylineState, java.lang.Object> getSaver();
   public ru.sulgik.mapkit.compose.PolylineState$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.compose.TrafficLayerKt {
+  public static final void TrafficLayer(boolean, java.lang.String, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.traffic.TrafficLevel, kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>, androidx.compose.runtime.Composer, int, int);
+}
+public final class ru.sulgik.mapkit.compose.TrafficLayerNode implements ru.sulgik.mapkit.compose.composition.MapNode {
+  public static final int $stable;
+  public ru.sulgik.mapkit.compose.TrafficLayerNode(ru.sulgik.mapkit.traffic.TrafficLayer, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.traffic.TrafficLevel, kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>);
+  public final ru.sulgik.mapkit.traffic.TrafficLayer getLayer();
+  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.traffic.TrafficLevel, kotlin.Unit> getOnTrafficChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnTrafficChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.traffic.TrafficLevel, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function0<kotlin.Unit> getOnTrafficLoading$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnTrafficLoading$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function0<kotlin.Unit>);
+  public final kotlin.jvm.functions.Function0<kotlin.Unit> getOnTrafficExpired$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnTrafficExpired$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function0<kotlin.Unit>);
+  public final void setStyle(java.lang.String);
+  public void onAttached();
+  public void onRemoved();
+  public void onCleared();
 }
 public final class ru.sulgik.mapkit.compose.YandexMapAnchor {
   public static final int $stable;

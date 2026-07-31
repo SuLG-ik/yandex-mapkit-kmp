@@ -17,4 +17,9 @@ public expect class MapView {
     public fun onStop()
 
     public fun setNoninteractive(value: Boolean)
+
+    /**
+     * Explicitly destroys MapView, releasing its native resources.
+     */
+    public fun destroy()
 }

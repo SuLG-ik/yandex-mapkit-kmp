@@ -134,6 +134,7 @@ public fun Polyline(
     dashOffset: Float = DefaultDashOffset,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     PolylineImpl(
@@ -150,6 +151,7 @@ public fun Polyline(
         dashOffset = dashOffset,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -169,12 +171,14 @@ internal fun PolylineImpl(
     dashOffset: Float = DefaultDashOffset,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
         factory = {
             val mapObject = collection.addPolyline(state.geometry)

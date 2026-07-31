@@ -75,6 +75,7 @@ public fun Placemark(
     draggable: Boolean = false,
     zIndex: Float = 0.0f,
     opacity: Float = 1.0f,
+    userData: Any? = null,
 ) {
     PlacemarkImpl(
         state = state,
@@ -84,6 +85,7 @@ public fun Placemark(
         draggable = draggable,
         zIndex = zIndex,
         opacity = opacity,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -104,6 +106,7 @@ public fun Placemark(
     draggable: Boolean = false,
     zIndex: Float = 0.0f,
     opacity: Float = 1.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
     content: @Composable () -> Unit,
 ) {
@@ -116,6 +119,7 @@ public fun Placemark(
         draggable = draggable,
         zIndex = zIndex,
         opacity = opacity,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -132,6 +136,7 @@ public fun TitledPlacemark(
     draggable: Boolean = false,
     zIndex: Float = 0.0f,
     opacity: Float = 1.0f,
+    userData: Any? = null,
 ) {
     TitledPlacemarkImpl(
         state = state,
@@ -143,6 +148,7 @@ public fun TitledPlacemark(
         draggable = draggable,
         zIndex = zIndex,
         opacity = opacity,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -156,6 +162,7 @@ internal inline fun PlacemarkImpl(
     draggable: Boolean = false,
     zIndex: Float = 0.0f,
     opacity: Float = 1.0f,
+    userData: Any? = null,
     noinline onTap: ((Point) -> Boolean)? = null,
     crossinline init: PlacemarkNode.() -> Unit = {},
     update: @DisallowComposableCalls Updater<PlacemarkNode>.() -> Unit = {},
@@ -164,6 +171,7 @@ internal inline fun PlacemarkImpl(
     MapObjectNode(
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
         factory = {
             val mapObject = collection.addPlacemark()
@@ -202,6 +210,7 @@ internal fun TitledPlacemarkImpl(
     draggable: Boolean = false,
     zIndex: Float = 0.0f,
     opacity: Float = 1.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     PlacemarkImpl(
@@ -212,6 +221,7 @@ internal fun TitledPlacemarkImpl(
         draggable = draggable,
         zIndex = zIndex,
         opacity = opacity,
+        userData = userData,
         onTap = onTap,
         init = {
             mapObject.setText(title, titleStyle)
