@@ -3,6 +3,7 @@ package ru.sulgik.mapkit.map
 import com.yandex.mapkit.map.MapWindow
 import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
@@ -22,14 +23,13 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
 
     public actual val map: Map = nativeMapWindow.map.toCommon()
 
-    public actual fun addSizeChangeListener(listener: SizeChangedListener) {
+    public actual fun addSizeChangeListener(listener: WeakRef<SizeChangedListener>) {
         nativeMapWindow.addSizeChangedListener(listener.toNative())
     }
 
-    public actual fun removeSizeChangeListener(listener: SizeChangedListener) {
+    public actual fun removeSizeChangeListener(listener: WeakRef<SizeChangedListener>) {
         nativeMapWindow.removeSizeChangedListener(listener.toNative())
     }
-
 
     public actual var focusRect: ScreenRect?
         get() = nativeMapWindow.focusRect?.toCommon()
@@ -85,7 +85,7 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
      *
      * Valid range: (0, 60]. Default: 60.
      */
-    public actual fun setMapFps(fps: Float) {
+    public actual fun setMapFps(fps: Int) {
         nativeMapWindow.setMaxFps(fps)
     }
 

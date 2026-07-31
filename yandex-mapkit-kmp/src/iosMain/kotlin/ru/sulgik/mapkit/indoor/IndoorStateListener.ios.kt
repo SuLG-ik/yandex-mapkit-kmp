@@ -2,9 +2,10 @@ package ru.sulgik.mapkit.indoor
 
 import YandexMapKit.YMKIndoorPlan
 import platform.darwin.NSObject
+import ru.sulgik.mapkit.NativeConvertible
 import YandexMapKit.YMKIndoorStateListenerProtocol as NativeIndoorStateListenerProtocol
 
-public actual abstract class IndoorStateListener actual constructor() {
+public actual abstract class IndoorStateListener actual constructor() : NativeConvertible<NativeIndoorStateListenerProtocol> {
 
     private val nativeListener = object: NativeIndoorStateListenerProtocol, NSObject() {
         override fun onActiveLevelChangedWithActiveLevelId(activeLevelId: String) {
@@ -20,7 +21,7 @@ public actual abstract class IndoorStateListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeIndoorStateListenerProtocol {
+    override fun toNative(): NativeIndoorStateListenerProtocol {
         return nativeListener
     }
 

@@ -76,9 +76,9 @@ public data class MapConfig(
     /**
      * The base map type with [MapWindow.setMapFps].
      *
-     * Valid range: (0, 60]
+     * Valid range: [0, max display refresh rate]. 0 means max display refresh rate.
      *
      * If null use map's default value
      */
-    public val fps: Float? = null,
+    public val fps: Int? = null,
 )

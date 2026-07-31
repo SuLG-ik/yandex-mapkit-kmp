@@ -1,12 +1,13 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.NativeConvertible
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import com.yandex.mapkit.geometry.Point as NativePoint
 import com.yandex.mapkit.map.MapObject as NativeMapObject
 import com.yandex.mapkit.map.MapObjectDragListener as NativeMapObjectDragListener
 
-public actual abstract class MapObjectDragListener actual constructor() {
+public actual abstract class MapObjectDragListener actual constructor() : NativeConvertible<NativeMapObjectDragListener> {
     private val nativeListener = object : NativeMapObjectDragListener {
         override fun onMapObjectDragStart(p0: NativeMapObject) {
             onMapObjectDragStart(p0.toCommon())
@@ -21,7 +22,7 @@ public actual abstract class MapObjectDragListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeMapObjectDragListener {
+    override fun toNative(): NativeMapObjectDragListener {
         return nativeListener
     }
 

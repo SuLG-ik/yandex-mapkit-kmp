@@ -9,6 +9,7 @@ public fun LocationPurpose.toNative(): NativeLocationPurpose {
         LocationPurpose.PEDESTRIAN_NAVIGATION -> NativeLocationPurpose.YMKPurposePedestrianNavigation
         LocationPurpose.BICYCLE_NAVIGATION -> NativeLocationPurpose.YMKPurposeBicycleNavigation
         LocationPurpose.SCOOTER_NAVIGATION -> NativeLocationPurpose.YMKPurposeScooterNavigation
+        LocationPurpose.STATIC_DISPLAY_LOCATION -> NativeLocationPurpose.YMKPurposeStaticDisplayLocation
     }
 }
 
@@ -19,6 +20,7 @@ public fun NativeLocationPurpose.toCommon(): LocationPurpose {
         NativeLocationPurpose.YMKPurposePedestrianNavigation -> LocationPurpose.PEDESTRIAN_NAVIGATION
         NativeLocationPurpose.YMKPurposeBicycleNavigation -> LocationPurpose.BICYCLE_NAVIGATION
         NativeLocationPurpose.YMKPurposeScooterNavigation -> LocationPurpose.SCOOTER_NAVIGATION
+        NativeLocationPurpose.YMKPurposeStaticDisplayLocation -> LocationPurpose.STATIC_DISPLAY_LOCATION
         else -> throw IllegalArgumentException("Unknown YMKPurpose ($this)")
     }
 }

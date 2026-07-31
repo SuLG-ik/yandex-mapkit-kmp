@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.user_location
 
 import ru.sulgik.mapkit.PointF
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.location.LocationViewSource
 import ru.sulgik.mapkit.map.CameraPosition
 
@@ -15,7 +16,6 @@ public expect class UserLocationLayer {
      * Heading mode.
      */
     public var isHeadingModeActive: Boolean
-
 
     /**
      * Returns true if anchor mode is set, and false otherwise.
@@ -62,7 +62,7 @@ public expect class UserLocationLayer {
      * It is your responsibility to maintain a strong reference to the target object
      * while it is attached to a class.
      */
-    public fun setTapListener(tapListener: UserLocationTapListener?)
+    public fun setTapListener(tapListener: WeakRef<UserLocationTapListener>?)
 
     /**
      * Sets/resets the object listener.
@@ -71,7 +71,7 @@ public expect class UserLocationLayer {
      * It is your responsibility to maintain a strong reference to the target object
      * while it is attached to a class.
      */
-    public fun setObjectListener(objectListener: UserLocationObjectListener?)
+    public fun setObjectListener(objectListener: WeakRef<UserLocationObjectListener>?)
 
     public val isValid: Boolean
 }

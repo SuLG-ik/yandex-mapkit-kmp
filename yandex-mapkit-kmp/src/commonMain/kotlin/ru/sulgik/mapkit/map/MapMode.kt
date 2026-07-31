@@ -32,5 +32,10 @@ public enum class MapMode {
     /**
      * Upcoming basic map design
      */
-    FUTURE_MAP
+    FUTURE_MAP,
+
+    /**
+     * Satellite imagery with a vector map layer on top of it
+     */
+    HYBRID
 }

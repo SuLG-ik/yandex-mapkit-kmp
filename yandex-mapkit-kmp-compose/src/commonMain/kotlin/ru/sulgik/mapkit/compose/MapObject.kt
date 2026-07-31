@@ -6,6 +6,7 @@ import androidx.compose.runtime.DisallowComposableCalls
 import androidx.compose.runtime.Updater
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.currentComposer
+import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.compose.composition.MapApplier
 import ru.sulgik.mapkit.compose.composition.MapNode
 import ru.sulgik.mapkit.geometry.Point
@@ -48,11 +49,11 @@ internal abstract class MapObjectNode<T : MapObject>(
         MapObjectTapListener { _, point -> tapListener?.invoke(point) ?: false }
 
     override fun onAttached() {
-        mapObject.addTapListener(nativeTapListener)
+        mapObject.addTapListener(nativeTapListener.asWeakRef())
     }
 
     override fun onRemoved() {
-        mapObject.removeTapListener(nativeTapListener)
+        mapObject.removeTapListener(nativeTapListener.asWeakRef())
         mapObject.parent.remove(mapObject)
     }
 

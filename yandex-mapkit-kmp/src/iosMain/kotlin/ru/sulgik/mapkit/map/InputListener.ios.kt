@@ -1,13 +1,14 @@
 package ru.sulgik.mapkit.map
 
 import platform.darwin.NSObject
+import ru.sulgik.mapkit.NativeConvertible
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import YandexMapKit.YMKMap as NativeMap
 import YandexMapKit.YMKMapInputListenerProtocol as NativeInputListener
 import YandexMapKit.YMKPoint as NativePoint
 
-public actual abstract class InputListener actual constructor() {
+public actual abstract class InputListener actual constructor() : NativeConvertible<NativeInputListener> {
     private val nativeListener = object : NativeInputListener, NSObject() {
         override fun onMapLongTapWithMap(map: NativeMap, point: NativePoint) {
             onMapTap(map.toCommon(), point.toCommon())
@@ -18,7 +19,7 @@ public actual abstract class InputListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeInputListener {
+    override fun toNative(): NativeInputListener {
         return nativeListener
     }
 

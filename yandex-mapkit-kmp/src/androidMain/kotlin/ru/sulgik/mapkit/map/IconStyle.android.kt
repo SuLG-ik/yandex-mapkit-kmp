@@ -12,6 +12,7 @@ public fun IconStyle.toNative(): NativeIconStyle {
         /* flat = */ flat,
         /* visible = */ isVisible,
         /* scale = */ scale,
+        opacity,
         /* tappableArea = */ tappableArea?.toNative(),
     )
 }
@@ -24,6 +25,7 @@ public fun NativeIconStyle.toCommon(): IconStyle {
         flat = flat,
         isVisible = visible,
         scale = scale,
+        opacity = opacity,
         tappableArea = tappableArea?.toCommon()
     )
 }

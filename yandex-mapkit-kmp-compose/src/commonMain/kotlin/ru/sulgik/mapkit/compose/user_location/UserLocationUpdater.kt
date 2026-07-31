@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import ru.sulgik.mapkit.MapKit
+import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.compose.YandexMapComposable
 import ru.sulgik.mapkit.compose.YandexMapsComposeExperimentalApi
 import ru.sulgik.mapkit.compose.composition.MapApplier
@@ -26,7 +27,6 @@ internal class UserLocationUpdaterState(
 ) {
     var userLocation by mutableStateOf(userLocation)
 }
-
 
 @YandexMapsComposeExperimentalApi
 internal class UserLocationNode(
@@ -151,7 +151,7 @@ internal class UserLocationNode(
 
     override fun onAttached() {
         super.onAttached()
-        userLocationLayer.setObjectListener(userLocationObjectListener)
+        userLocationLayer.setObjectListener(userLocationObjectListener.asWeakRef())
     }
 
     override fun onCleared() {
@@ -170,7 +170,6 @@ internal class UserLocationNode(
     }
 
 }
-
 
 @[YandexMapsComposeExperimentalApi YandexMapComposable]
 @Composable

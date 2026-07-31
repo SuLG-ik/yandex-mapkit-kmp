@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.NativeConvertible
 import com.yandex.mapkit.map.MapObjectVisitor as NativeMapObjectVisitor
 
 public actual class MapObjectVisitor actual constructor(
@@ -11,7 +12,11 @@ public actual class MapObjectVisitor actual constructor(
     private val onCollectionVisitEnd: (collection: MapObjectCollection) -> Boolean,
     private val onClusterizedCollectionVisitStart: (collection: ClusterizedPlacemarkCollection) -> Boolean,
     private val onClusterizedCollectionVisitEnd: (collection: ClusterizedPlacemarkCollection) -> Unit,
-) : NativeMapObjectVisitor {
+) : NativeMapObjectVisitor, NativeConvertible<NativeMapObjectVisitor> {
+
+    override fun toNative(): NativeMapObjectVisitor {
+        return this
+    }
 
     override fun onPlacemarkVisited(p0: com.yandex.mapkit.map.PlacemarkMapObject) {
         onPlacemarkVisited(p0.toCommon())

@@ -1,12 +1,13 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.NativeConvertible
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import com.yandex.mapkit.geometry.Point as NativePoint
 import com.yandex.mapkit.map.InputListener as NativeInputListener
 import com.yandex.mapkit.map.Map as NativeMap
 
-public actual abstract class InputListener actual constructor() {
+public actual abstract class InputListener actual constructor() : NativeConvertible<NativeInputListener> {
     private val nativeListener = object : NativeInputListener {
         override fun onMapTap(p0: NativeMap, p1: NativePoint) {
             onMapTap(p0.toCommon(), p1.toCommon())
@@ -17,7 +18,7 @@ public actual abstract class InputListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeInputListener {
+    override fun toNative(): NativeInputListener {
         return nativeListener
     }
 
