@@ -15,8 +15,9 @@
 | `MapMode.HYBRID` | `ru.sulgik.mapkit.map.MapMode` |
 | `LocationPurpose.STATIC_DISPLAY_LOCATION` | `ru.sulgik.mapkit.location.LocationPurpose` |
 | `IconStyle.opacity` | `ru.sulgik.mapkit.map.IconStyle` |
-| `setMapFps(Float)` → `setMapFps(Int)` | `ru.sulgik.mapkit.map.MapWindow` |
-| Новый порядок аргументов `cameraPosition(geometry, focusRect, azimuth, tilt)` | `Map.calculateCameraPosition` |
+| `setMaxFps(Float)` → `setMaxFps(Int)` | `ru.sulgik.mapkit.map.MapWindow` |
+| Новый порядок аргументов `cameraPosition(geometry, focusRect, azimuth, tilt)` | `Map.cameraPosition` |
+| `RootMapObjectCollection`, `ConflictResolutionMode` | `ru.sulgik.mapkit.map`, `ru.sulgik.mapkit` |
 
 ---
 

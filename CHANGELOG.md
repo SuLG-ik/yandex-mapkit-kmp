@@ -17,14 +17,48 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
 
 - `WeakRef<T>` with `asWeakRef()` and `withValue()`, mirroring how MapKit 4.41 keeps listeners.
 - `IconStyle.opacity`, `MapMode.HYBRID`, `LocationPurpose.STATIC_DISPLAY_LOCATION`.
+- `RootMapObjectCollection` and `ConflictResolutionMode`, so the priority of overlapping labels in
+  the map's own object collection can be configured.
+- `Map.isTransparentBackgroundEnabled` and `Map.isBuildingsAboveIndoorEnabled`.
+- `isValid` on `MapKit`, `Arrow`, `CameraBounds`, `Cluster` and `ObjectEvent`.
+- Compose: `MapConfig` covers the rest of `Map` and `MapWindow` — `mode`, `mapStyle`,
+  `isHdModeEnabled`, `isIndoorEnabled`, `isAwesomeModelsEnabled`, `isTransparentBackgroundEnabled`,
+  `isBuildingsAboveIndoorEnabled`, `focusRect`, `focusPoint`, `gestureFocusPoint`,
+  `gestureFocusPointMode`, `pointOfView`, `scaleFactor` and a `MapCameraBoundsConfig`.
+- An ABI dump of the Android target in `<module>/api/<module>.android.api`, checked by
+  `libraryApiCheck`; the Kotlin ABI validator covers klib targets only.
 - `MAPKIT_BACKLOG.md` listing MapKit 4.25–4.42 API that is not wrapped yet.
 
 ### Changed
 
 - **Breaking.** Every listener subscription takes a `WeakRef<Listener>`: MapKit no longer retains
   listeners itself (Android holds a `WeakReference`, iOS a `__weak` pointer).
-- **Breaking.** `MapWindow.setMapFps` takes an `Int` instead of a `Float`.
-- **Breaking.** `Map.calculateCameraPosition` takes `focusRect` before `azimuth` and `tilt`.
+- **Breaking.** `Cluster` moved from `ru.sulgik.mapkit.geometry` to `ru.sulgik.mapkit.map`, matching
+  `com.yandex.mapkit.map.Cluster`.
+- **Breaking.** `Map.mapObjects` is a `RootMapObjectCollection` instead of a `MapObjectCollection`.
+- **Breaking.** Members renamed to the names MapKit itself uses, so that swapping the import prefix
+  keeps working: `MapWindow.setMapFps` → `setMaxFps`, `MapWindow.addSizeChangeListener` /
+  `removeSizeChangeListener` → `addSizeChangedListener` / `removeSizeChangedListener`,
+  `MapWindow.convertWorldToScreen` / `convertScreenToWorld` → `worldToScreen` / `screenToWorld`,
+  `Map.calculateCameraPosition` → `cameraPosition`, `Map.calculateVisibleRegion` → `visibleRegion`,
+  `Map.getLogo()` → `val logo`, `Polygon.innerRing` → `innerRings`, `LogoAlignment.horizontal` /
+  `vertical` → `horizontalAlignment` / `verticalAlignment`, `MapView.setNonInteractive` →
+  `setNoninteractive`, `PolylineState.arrows()` → `val arrows`.
+- **Breaking.** `MapWindow.setMaxFps` takes an `Int` instead of a `Float`.
+- **Breaking.** `Map.cameraPosition` is a single function whose `focusRect`, `azimuth` and `tilt`
+  are optional, as in MapKit, instead of three overloads with required arguments.
+- **Breaking.** `IndoorPlan` is a wrapper class instead of an interface, so it is no longer
+  implementable from outside the library.
+- **Breaking.** Compose: `UserLocationConfig` and the `YandexMap` overload that takes a
+  `UserLocationState` are no longer `@YandexMapsComposeExperimentalApi`, and
+  `UserLocationConfig.LocationAccuracy` holds `val`s instead of `var`s. Compose-rendered map object
+  icons — `ComposeMapObjectRenderer`, `imageProvider`, `clusterImageProvider`, `ClusterImageProvider`
+  and the `Placemark` / `Clustering` overloads that take composable content — stay experimental.
+- The `-moko` and `-moko-compose` modules compile with `-Xexplicit-api=strict`, like the other two.
+- **Breaking.** `Location.relativeTimestamp` is a `Duration` instead of an `Instant`: MapKit reports
+  time passed on a steady clock, which is not a point in time.
+- **Breaking.** `MapObjectVisitor.onCollectionVisitEnd` returns `Unit` instead of `Boolean`, as in
+  MapKit; the returned value was discarded.
 - Library modules build with `com.android.kotlin.multiplatform.library`; the sample Android app moved
   to `sample:androidApp` while `sample:composeApp` became a KMP library.
 - Toolchain: Gradle 9.6.1, AGP 9.3.1, Kotlin 2.4.10, Compose Multiplatform 1.11.1, compileSdk 37,
@@ -34,10 +68,15 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
 
 - **Breaking.** The `iosX64` target: Compose Multiplatform no longer publishes for it.
 - **Breaking.** `SizeChangeListener`, deprecated since 0.1.1 in favour of `SizeChangedListener`.
+- **Breaking.** The deprecated `PolylineMapObject` style properties (`strokeWidth`, `gradientLength`,
+  `outlineWidth`, `outlineColor`, `isInnerOutlineEnabled`, `turnRadius`, `dashLength`, `gapLength`,
+  `dashOffset`, `arcApproximationStep`), replaced by `style`.
+- **Breaking.** `location.FilteringMode`: it had no MapKit counterpart, no converters and no uses.
 - The atomicfu Gradle plugin; only its locks runtime API was used.
 
 ### Fixed
 
+- **iOS.** `InputListener` delivered a tap to `onMapLongTap` and a long tap to `onMapTap`.
 - The cluster listener is retained by `ClusterNode` instead of being a factory local, so clustering
   keeps working after the factory is collected.
 
