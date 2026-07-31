@@ -7,7 +7,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
-import ru.sulgik.mapkit.geometry.Cluster
+import ru.sulgik.mapkit.map.Cluster
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.PlacemarkMapObject

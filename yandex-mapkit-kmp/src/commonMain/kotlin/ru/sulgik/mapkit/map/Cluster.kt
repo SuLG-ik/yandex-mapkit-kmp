@@ -1,8 +1,6 @@
-package ru.sulgik.mapkit.geometry
+package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.WeakRef
-import ru.sulgik.mapkit.map.ClusterTapListener
-import ru.sulgik.mapkit.map.PlacemarkMapObject
 
 public expect class Cluster {
 
@@ -15,4 +13,9 @@ public expect class Cluster {
     public fun addClusterTapListener(listener: WeakRef<ClusterTapListener>)
 
     public fun removeClusterTapListener(listener: WeakRef<ClusterTapListener>)
+
+    /**
+     * Tells if this **Cluster** is valid or not.
+     */
+    public val isValid: Boolean
 }

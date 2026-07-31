@@ -41,6 +41,11 @@ public expect class MapKit {
      */
     public fun createUserLocationLayer(mapWindow: MapWindow): UserLocationLayer
 
+    /**
+     * Tells if this **MapKit** is valid or not.
+     */
+    public val isValid: Boolean
+
     public companion object {
 
         public fun setLocale(locale: String?)

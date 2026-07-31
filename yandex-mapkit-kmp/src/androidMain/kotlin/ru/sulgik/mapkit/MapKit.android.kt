@@ -63,6 +63,12 @@ public actual class MapKit internal constructor(private val nativeMapKit: Native
         return nativeMapKit.createUserLocationLayer(mapWindow.toNative()).toCommon()
     }
 
+    /**
+     * Tells if this **MapKit** is valid or not.
+     */
+    public actual val isValid: Boolean
+        get() = nativeMapKit.isValid
+
     public actual companion object {
 
         public fun initialize(context: Context) {

@@ -25,11 +25,11 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
     public actual val map: Map
         get() = nativeMapWindow.map.toCommon()
 
-    public actual fun addSizeChangeListener(listener: WeakRef<SizeChangedListener>) {
+    public actual fun addSizeChangedListener(listener: WeakRef<SizeChangedListener>) {
         nativeMapWindow.addSizeChangedListenerWithSizeChangedListener(listener.toNative() ?: return)
     }
 
-    public actual fun removeSizeChangeListener(listener: WeakRef<SizeChangedListener>) {
+    public actual fun removeSizeChangedListener(listener: WeakRef<SizeChangedListener>) {
         nativeMapWindow.removeSizeChangedListenerWithSizeChangedListener(listener.toNative() ?: return)
     }
 
@@ -66,11 +66,11 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
             nativeMapWindow.scaleFactor = value
         }
 
-    public actual fun convertWorldToScreen(worldPoint: Point): ScreenPoint? {
+    public actual fun worldToScreen(worldPoint: Point): ScreenPoint? {
         return nativeMapWindow.worldToScreenWithWorldPoint(worldPoint.toNative())?.toCommon()
     }
 
-    public actual fun convertScreenToWorld(screenPoint: ScreenPoint): Point? {
+    public actual fun screenToWorld(screenPoint: ScreenPoint): Point? {
         return nativeMapWindow.screenToWorldWithScreenPoint(screenPoint.toNative())?.toCommon()
     }
 
@@ -86,7 +86,7 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
      * Valid range: [0, max display refresh rate]. Default max fps depends on max display refresh
      * rate. If [fps] is 0, max fps value is set to max display refresh rate.
      */
-    public actual fun setMapFps(fps: Int) {
+    public actual fun setMaxFps(fps: Int) {
         nativeMapWindow.setMaxFpsWithFps(fps.toULong())
     }
 

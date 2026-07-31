@@ -2,9 +2,13 @@ package ru.sulgik.mapkit.location
 
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toNSDate
+import platform.Foundation.NSDate
+import platform.Foundation.dateWithTimeIntervalSince1970
+import platform.Foundation.timeIntervalSince1970
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNSNumber
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 import YandexMapKit.YMKLocation as NativeLocation
 
@@ -19,7 +23,9 @@ public fun Location.toNative(): NativeLocation {
         speed = speed?.toNSNumber(),
         indoorLevelId = indoorLevelId,
         absoluteTimestamp = absoluteTimestamp.toNSDate(),
-        relativeTimestamp = relativeTimestamp.toNSDate(),
+        relativeTimestamp = NSDate.dateWithTimeIntervalSince1970(
+            relativeTimestamp.inWholeMilliseconds / 1000.0,
+        ),
     )
 }
 
@@ -34,6 +40,6 @@ public fun NativeLocation.toCommon(): Location {
         speed = speed?.doubleValue,
         indoorLevelId = indoorLevelId,
         absoluteTimestamp = absoluteTimestamp.toKotlinInstant(),
-        relativeTimestamp = relativeTimestamp.toKotlinInstant(),
+        relativeTimestamp = relativeTimestamp.timeIntervalSince1970.seconds,
     )
 }

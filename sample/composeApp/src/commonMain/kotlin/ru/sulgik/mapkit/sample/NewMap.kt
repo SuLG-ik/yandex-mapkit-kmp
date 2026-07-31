@@ -128,8 +128,8 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                     isNightModeEnabled = isSystemInDarkTheme(),
                     logo = MapLogoConfig(
                         alignment = LogoAlignment(
-                            horizontal = LogoHorizontalAlignment.LEFT,
-                            vertical = LogoVerticalAlignment.TOP,
+                            horizontalAlignment = LogoHorizontalAlignment.LEFT,
+                            verticalAlignment = LogoVerticalAlignment.TOP,
                         ),
                     ),
                 ),

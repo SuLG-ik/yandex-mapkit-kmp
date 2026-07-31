@@ -7,8 +7,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import ru.sulgik.mapkit.asWeakRef
-import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.map.Cluster
 import ru.sulgik.mapkit.map.ClusterListener
 import ru.sulgik.mapkit.map.ClusterTapListener
 import ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection

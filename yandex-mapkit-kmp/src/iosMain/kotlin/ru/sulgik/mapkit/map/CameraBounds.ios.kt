@@ -54,6 +54,12 @@ public actual class CameraBounds internal constructor(private val nativeCameraBo
     public actual fun setMaxZoomPreference(zoom: Float) {
         nativeCameraBounds.setMaxZoomPreferenceWithZoom(zoom)
     }
+
+    /**
+     * Tells if this **CameraBounds** is valid or not.
+     */
+    public actual val isValid: Boolean
+        get() = nativeCameraBounds.isValid()
 }
 
 public fun NativeCameraBounds.toCommon(): CameraBounds {

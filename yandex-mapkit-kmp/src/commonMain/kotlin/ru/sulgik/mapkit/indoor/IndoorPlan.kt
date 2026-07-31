@@ -5,7 +5,8 @@ package ru.sulgik.mapkit.indoor
  *
  * Use activeLevelId property to select active level
  */
-public interface IndoorPlan {
+public expect class IndoorPlan {
+
     /**
      * List of all levels in indoor plan, from bottom to top.
      */

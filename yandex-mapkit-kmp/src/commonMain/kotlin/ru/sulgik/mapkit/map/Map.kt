@@ -21,7 +21,11 @@ public expect class Map {
 
     public val cameraBounds: CameraBounds
 
-    public val mapObjects: MapObjectCollection
+    /**
+     * List of map objects associated with the map. The layerId for this collection can be
+     * retrieved via LayerIds.mapObjectsLayerId
+     */
+    public val mapObjects: RootMapObjectCollection
 
     /**
      * If enabled, night mode will reduce map brightness and improve contrast.
@@ -82,29 +86,27 @@ public expect class Map {
     public fun wipe()
 
     /**
-     * Calculates the camera position that projects the specified geometry into the current focusRect, or the full view if the focusRect is not set.
+     * Calculates a camera position that projects the specified geometry into the given [focusRect],
+     * using the provided [azimuth] and [tilt] camera parameters.
+     *
+     * If [focusRect] is not provided, the current focus rect is used (or the full view if no focus
+     * rect is set).
+     *
+     * If [azimuth] is not provided, the current [cameraPosition] azimuth is used.
+     *
+     * If [tilt] is not provided, the current [cameraPosition] tilt is used.
      */
-    public fun calculateCameraPosition(geometry: Geometry): CameraPosition
-
-    /**
-     * Calculates the camera position that projects the specified geometry into the custom focusRect.
-     */
-    public fun calculateCameraPosition(geometry: Geometry, screenRect: ScreenRect): CameraPosition
+    public fun cameraPosition(
+        geometry: Geometry,
+        focusRect: ScreenRect? = null,
+        azimuth: Float? = null,
+        tilt: Float? = null,
+    ): CameraPosition
 
     /**
      * Calculates the map region that is visible from the given camera position. Region IS bounded by latitude limits [-90, 90] and IS NOT bounded by longitude limits [-180, 180]. If the longitude exceeds its limits, we see the world's edge and another instance of the world beyond this edge.
      */
-    public fun calculateVisibleRegion(cameraPosition: CameraPosition): VisibleRegion
-
-    /**
-     * Camera position that projects the specified geometry into the custom focusRect, with custom azimuth and tilt camera parameters. If focus rect is not provided, current focus rect is used.
-     */
-    public fun calculateCameraPosition(
-        geometry: Geometry,
-        azimuth: Float,
-        tilt: Float,
-        screenRect: ScreenRect,
-    ): CameraPosition
+    public fun visibleRegion(cameraPosition: CameraPosition): VisibleRegion
 
     /**
      * Immediately changes the camera position.
@@ -144,7 +146,7 @@ public expect class Map {
     /**
      * Yandex logo object.
      */
-    public fun getLogo(): Logo
+    public val logo: Logo
 
     /**
      * Adds input listeners.
@@ -210,6 +212,17 @@ public expect class Map {
      * Enables rich textured 3d content on basemap.
      */
     public var isAwesomeModelsEnabled: Boolean
+
+    /**
+     * If enabled, the map background will be fully transparent.
+     */
+    public var isTransparentBackgroundEnabled: Boolean
+
+    /**
+     * If set to true, hides the indoor plans and shows the buildings without resetting the current
+     * indoor plan.
+     */
+    public var isBuildingsAboveIndoorEnabled: Boolean
 
     public val isValid: Boolean
 }

@@ -10,7 +10,6 @@ import androidx.compose.runtime.setValue
 import ru.sulgik.mapkit.MapKit
 import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.compose.YandexMapComposable
-import ru.sulgik.mapkit.compose.YandexMapsComposeExperimentalApi
 import ru.sulgik.mapkit.compose.composition.MapApplier
 import ru.sulgik.mapkit.compose.composition.MapNode
 import ru.sulgik.mapkit.compose.utils.toMapkitColor
@@ -21,14 +20,12 @@ import ru.sulgik.mapkit.map.PlacemarkMapObject
 import ru.sulgik.mapkit.user_location.UserLocationObjectListener
 
 @Stable
-@YandexMapsComposeExperimentalApi
 internal class UserLocationUpdaterState(
     userLocation: UserLocationConfig,
 ) {
     var userLocation by mutableStateOf(userLocation)
 }
 
-@YandexMapsComposeExperimentalApi
 internal class UserLocationNode(
     mapWindow: MapWindow,
     mapKit: MapKit,
@@ -170,7 +167,7 @@ internal class UserLocationNode(
     }
 }
 
-@[YandexMapsComposeExperimentalApi YandexMapComposable]
+@YandexMapComposable
 @Composable
 internal fun UserLocationUpdater(state: UserLocationState, updater: UserLocationUpdaterState) = with(updater) {
     val mapWindow = (currentComposer.applier as MapApplier).mapWindow

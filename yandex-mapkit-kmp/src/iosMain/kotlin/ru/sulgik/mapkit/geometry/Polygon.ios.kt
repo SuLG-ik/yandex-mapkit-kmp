@@ -10,23 +10,23 @@ public actual class Polygon internal constructor(private val nativePolygon: Nati
     }
 
     override fun toString(): String {
-        return "Polygon(outerRing=$outerRing, innerRing=${innerRing.linearRingsListToString()})"
+        return "Polygon(outerRing=$outerRing, innerRings=${innerRings.linearRingsListToString()})"
     }
 
     public actual constructor(
         outerRing: LinearRing,
-        innerRing: List<LinearRing>,
+        innerRings: List<LinearRing>,
     ) : this(
         NativePolygon.polygonWithOuterRing(
             outerRing = outerRing.toNative(),
-            innerRings = innerRing.map { it.toNative() },
+            innerRings = innerRings.map { it.toNative() },
         ),
     )
 
     public actual val outerRing: LinearRing by lazy { nativePolygon.outerRing.toCommon() }
 
     @Suppress("UNCHECKED_CAST")
-    public actual val innerRing: List<LinearRing> by lazy { (nativePolygon.innerRings as List<NativeLinearRing>).map { it.toCommon() } }
+    public actual val innerRings: List<LinearRing> by lazy { (nativePolygon.innerRings as List<NativeLinearRing>).map { it.toCommon() } }
 }
 
 public fun NativePolygon.toCommon(): Polygon {

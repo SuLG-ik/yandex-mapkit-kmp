@@ -23,11 +23,11 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
 
     public actual val map: Map = nativeMapWindow.map.toCommon()
 
-    public actual fun addSizeChangeListener(listener: WeakRef<SizeChangedListener>) {
+    public actual fun addSizeChangedListener(listener: WeakRef<SizeChangedListener>) {
         nativeMapWindow.addSizeChangedListener(listener.toNative())
     }
 
-    public actual fun removeSizeChangeListener(listener: WeakRef<SizeChangedListener>) {
+    public actual fun removeSizeChangedListener(listener: WeakRef<SizeChangedListener>) {
         nativeMapWindow.removeSizeChangedListener(listener.toNative())
     }
 
@@ -66,11 +66,11 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
             nativeMapWindow.scaleFactor = scaleFactor
         }
 
-    public actual fun convertWorldToScreen(worldPoint: Point): ScreenPoint? {
+    public actual fun worldToScreen(worldPoint: Point): ScreenPoint? {
         return nativeMapWindow.worldToScreen(worldPoint.toNative())?.toCommon()
     }
 
-    public actual fun convertScreenToWorld(screenPoint: ScreenPoint): Point? {
+    public actual fun screenToWorld(screenPoint: ScreenPoint): Point? {
         return nativeMapWindow.screenToWorld(screenPoint.toNative())?.toCommon()
     }
 
@@ -85,7 +85,7 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
      *
      * Valid range: (0, 60]. Default: 60.
      */
-    public actual fun setMapFps(fps: Int) {
+    public actual fun setMaxFps(fps: Int) {
         nativeMapWindow.setMaxFps(fps)
     }
 

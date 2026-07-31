@@ -46,6 +46,12 @@ public actual class Arrow internal constructor(private val nativeArrow: NativeAr
         set(value) {
             nativeArrow.triangleHeight = value
         }
+
+    /**
+     * Tells if this **Arrow** is valid or not.
+     */
+    public actual val isValid: Boolean
+        get() = nativeArrow.isValid
 }
 
 public fun NativeArrow.toCommon(): Arrow {

@@ -35,4 +35,9 @@ public expect class CameraBounds {
      * Set maximum available zoom level hint.
      */
     public fun setMaxZoomPreference(zoom: Float)
+
+    /**
+     * Tells if this **CameraBounds** is valid or not.
+     */
+    public val isValid: Boolean
 }

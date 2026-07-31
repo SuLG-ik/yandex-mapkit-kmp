@@ -18,4 +18,9 @@ public expect class Arrow {
     public var isVisible: Boolean
 
     public var triangleHeight: Float
+
+    /**
+     * Tells if this **Arrow** is valid or not.
+     */
+    public val isValid: Boolean
 }

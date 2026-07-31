@@ -16,7 +16,7 @@ public actual class MapObjectVisitor actual constructor(
     private val onPolygonVisited: (polygon: PolygonMapObject) -> Unit,
     private val onCircleVisited: (circle: CircleMapObject) -> Unit,
     private val onCollectionVisitStart: (collection: MapObjectCollection) -> Boolean,
-    private val onCollectionVisitEnd: (collection: MapObjectCollection) -> Boolean,
+    private val onCollectionVisitEnd: (collection: MapObjectCollection) -> Unit,
     private val onClusterizedCollectionVisitStart: (collection: ClusterizedPlacemarkCollection) -> Boolean,
     private val onClusterizedCollectionVisitEnd: (collection: ClusterizedPlacemarkCollection) -> Unit,
 ) : NativeConvertible<YMKMapObjectVisitorProtocol> {

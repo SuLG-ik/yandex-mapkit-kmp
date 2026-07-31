@@ -10,6 +10,12 @@ public actual open class ObjectEvent internal constructor(private val nativeObje
     public open fun toNative(): NativeObjectEvent {
         return nativeObjectEvent
     }
+
+    /**
+     * Tells if this **ObjectEvent** is valid or not.
+     */
+    public actual val isValid: Boolean
+        get() = nativeObjectEvent.isValid()
 }
 
 public fun NativeObjectEvent.toCommon(): ObjectEvent {

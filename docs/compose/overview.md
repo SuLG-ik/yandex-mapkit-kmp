@@ -54,8 +54,8 @@ States API provides `MapConfig` type to configure `Map` object.
                 use2dMode = true,
                 logo = MapLogoConfig(
                     alignment = LogoAlignment(
-                        horizontal = LogoHorizontalAlignment.LEFT,
-                        vertical = LogoVerticalAlignment.TOP,
+                        horizontalAlignment = LogoHorizontalAlignment.LEFT,
+                        verticalAlignment = LogoVerticalAlignment.TOP,
                     ),
                 ),
             ),

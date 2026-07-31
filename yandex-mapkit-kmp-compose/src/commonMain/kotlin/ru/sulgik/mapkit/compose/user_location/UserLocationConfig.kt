@@ -2,7 +2,6 @@ package ru.sulgik.mapkit.compose.user_location
 
 import androidx.compose.ui.graphics.Color
 import ru.sulgik.mapkit.PointF
-import ru.sulgik.mapkit.compose.YandexMapsComposeExperimentalApi
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.user_location.UserLocationLayer
@@ -10,7 +9,6 @@ import ru.sulgik.mapkit.user_location.UserLocationLayer
 /**
  * Config for [UserLocationLayer]
  */
-@YandexMapsComposeExperimentalApi
 public data class UserLocationConfig(
     /**
      * User location visibility.
@@ -42,13 +40,11 @@ public data class UserLocationConfig(
     val pin: LocationIcon? = null,
     val accuracy: LocationAccuracy? = null,
 ) {
-    @YandexMapsComposeExperimentalApi
     public data class Anchor(
         public val normal: PointF,
         public val course: PointF,
     )
 
-    @YandexMapsComposeExperimentalApi
     public data class LocationIcon(
         public val image: ImageProvider,
         public val style: IconStyle = IconStyle(),
@@ -56,12 +52,11 @@ public data class UserLocationConfig(
         public val opacity: Float = 1f,
     )
 
-    @YandexMapsComposeExperimentalApi
     public data class LocationAccuracy(
-        public var strokeColor: Color = DefaultStrokeColor,
-        public var strokeWidth: Float = DefaultStrokeWidth,
-        public var fillColor: Color = DefaultFillColor,
-        public var isGeodesic: Boolean = DefaultGeodesic,
+        public val strokeColor: Color = DefaultStrokeColor,
+        public val strokeWidth: Float = DefaultStrokeWidth,
+        public val fillColor: Color = DefaultFillColor,
+        public val isGeodesic: Boolean = DefaultGeodesic,
     )
 }
 

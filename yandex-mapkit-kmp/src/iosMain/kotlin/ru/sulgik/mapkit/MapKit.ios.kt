@@ -68,6 +68,12 @@ public actual class MapKit internal constructor(private val nativeMapKit: Native
         return nativeMapKit.createUserLocationLayerWithMapWindow(mapWindow.toNative()).toCommon()
     }
 
+    /**
+     * Tells if this **MapKit** is valid or not.
+     */
+    public actual val isValid: Boolean
+        get() = nativeMapKit.isValid()
+
     public actual companion object {
         public actual fun setApiKey(apiKey: String) {
             NativeMapKit.setApiKey(apiKey)

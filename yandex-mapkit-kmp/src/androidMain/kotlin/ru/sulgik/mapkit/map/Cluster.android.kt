@@ -1,9 +1,6 @@
-package ru.sulgik.mapkit.geometry
+package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.WeakRef
-import ru.sulgik.mapkit.map.ClusterTapListener
-import ru.sulgik.mapkit.map.PlacemarkMapObject
-import ru.sulgik.mapkit.map.toCommon
 import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.Cluster as NativeCluster
 
@@ -29,6 +26,12 @@ public actual class Cluster internal constructor(private val nativeCluster: Nati
     public actual fun removeClusterTapListener(listener: WeakRef<ClusterTapListener>) {
         nativeCluster.removeClusterTapListener(listener.toNative())
     }
+
+    /**
+     * Tells if this **Cluster** is valid or not.
+     */
+    public actual val isValid: Boolean
+        get() = nativeCluster.isValid
 }
 
 public fun NativeCluster.toCommon(): Cluster {

@@ -4,14 +4,14 @@ import YandexMapKit.YMKLogoAlignment as NativeAlignment
 
 public fun LogoAlignment.toNative(): NativeAlignment {
     return NativeAlignment.alignmentWithHorizontalAlignment(
-        horizontalAlignment = horizontal.toNative(),
-        verticalAlignment = vertical.toNative(),
+        horizontalAlignment = horizontalAlignment.toNative(),
+        verticalAlignment = verticalAlignment.toNative(),
     )
 }
 
 public fun NativeAlignment.toCommon(): LogoAlignment {
     return LogoAlignment(
-        horizontal = horizontalAlignment.toCommon(),
-        vertical = verticalAlignment.toCommon(),
+        horizontalAlignment = horizontalAlignment.toCommon(),
+        verticalAlignment = verticalAlignment.toCommon(),
     )
 }

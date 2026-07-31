@@ -16,5 +16,5 @@ public expect class MapView {
      */
     public fun onStop()
 
-    public fun setNonInteractive(value: Boolean)
+    public fun setNoninteractive(value: Boolean)
 }

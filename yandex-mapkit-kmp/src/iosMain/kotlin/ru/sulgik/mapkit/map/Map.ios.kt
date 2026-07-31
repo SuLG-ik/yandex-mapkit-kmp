@@ -35,7 +35,11 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     public actual val cameraBounds: CameraBounds
         get() = nativeMap.cameraBounds.toCommon()
 
-    public actual val mapObjects: MapObjectCollection
+    /**
+     * List of map objects associated with the map. The layerId for this collection can be
+     * retrieved via LayerIds.mapObjectsLayerId
+     */
+    public actual val mapObjects: RootMapObjectCollection
         get() = nativeMap.mapObjects.toCommon()
 
     /**
@@ -124,44 +128,34 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     }
 
     /**
-     * Calculates the camera position that projects the specified geometry into the current focusRect, or the full view if the focusRect is not set.
+     * Calculates a camera position that projects the specified geometry into the given [focusRect],
+     * using the provided [azimuth] and [tilt] camera parameters.
+     *
+     * If [focusRect] is not provided, the current focus rect is used (or the full view if no focus
+     * rect is set).
+     *
+     * If [azimuth] is not provided, the current [cameraPosition] azimuth is used.
+     *
+     * If [tilt] is not provided, the current [cameraPosition] tilt is used.
      */
-    public actual fun calculateCameraPosition(geometry: Geometry): CameraPosition {
-        return nativeMap.cameraPositionWithGeometry(geometry.toNative()).toCommon()
-    }
-
-    /**
-     * Calculates the camera position that projects the specified geometry into the custom focusRect.
-     */
-    public actual fun calculateCameraPosition(
+    public actual fun cameraPosition(
         geometry: Geometry,
-        screenRect: ScreenRect,
-    ): CameraPosition {
-        return nativeMap.cameraPositionWithGeometry(geometry.toNative(), screenRect.toNative())
-            .toCommon()
-    }
-
-    /**
-     * Camera position that projects the specified geometry into the custom focusRect, with custom azimuth and tilt camera parameters. If focus rect is not provided, current focus rect is used.
-     */
-    public actual fun calculateCameraPosition(
-        geometry: Geometry,
-        azimuth: Float,
-        tilt: Float,
-        screenRect: ScreenRect,
+        focusRect: ScreenRect?,
+        azimuth: Float?,
+        tilt: Float?,
     ): CameraPosition {
         return nativeMap.cameraPositionWithGeometry(
             geometry.toNative(),
-            screenRect.toNative(),
-            azimuth.toNSNumber(),
-            tilt.toNSNumber(),
+            focusRect?.toNative(),
+            azimuth?.toNSNumber(),
+            tilt?.toNSNumber(),
         ).toCommon()
     }
 
     /**
      * Calculates the map region that is visible from the given camera position. Region IS bounded by latitude limits [-90, 90] and IS NOT bounded by longitude limits [-180, 180]. If the longitude exceeds its limits, we see the world's edge and another instance of the world beyond this edge.
      */
-    public actual fun calculateVisibleRegion(cameraPosition: CameraPosition): VisibleRegion {
+    public actual fun visibleRegion(cameraPosition: CameraPosition): VisibleRegion {
         return nativeMap.visibleRegionWithCameraPosition(cameraPosition.toNative()).toCommon()
     }
 
@@ -212,9 +206,8 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Yandex logo object.
      */
-    public actual fun getLogo(): Logo {
-        return nativeMap.logo.toCommon()
-    }
+    public actual val logo: Logo
+        get() = nativeMap.logo.toCommon()
 
     /**
      * The base map type.
@@ -315,6 +308,25 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
         get() = nativeMap.awesomeModelsEnabled
         set(value) {
             nativeMap.awesomeModelsEnabled = value
+        }
+
+    /**
+     * If enabled, the map background will be fully transparent.
+     */
+    public actual var isTransparentBackgroundEnabled: Boolean
+        get() = nativeMap.transparentBackgroundEnabled
+        set(value) {
+            nativeMap.transparentBackgroundEnabled = value
+        }
+
+    /**
+     * If set to true, hides the indoor plans and shows the buildings without resetting the current
+     * indoor plan.
+     */
+    public actual var isBuildingsAboveIndoorEnabled: Boolean
+        get() = nativeMap.buildingsAboveIndoorEnabled
+        set(value) {
+            nativeMap.buildingsAboveIndoorEnabled = value
         }
 
     public actual val isValid: Boolean

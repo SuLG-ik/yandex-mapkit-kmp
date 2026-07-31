@@ -104,16 +104,16 @@ public expect class MapWindow {
      * responsibility to maintain a strong reference to the target object while it is
      * attached to a class.
      */
-    public fun addSizeChangeListener(listener: WeakRef<SizeChangedListener>)
+    public fun addSizeChangedListener(listener: WeakRef<SizeChangedListener>)
 
     /**
      * Removes a SizeChangedListener.
      */
-    public fun removeSizeChangeListener(listener: WeakRef<SizeChangedListener>)
+    public fun removeSizeChangedListener(listener: WeakRef<SizeChangedListener>)
 
-    public fun convertWorldToScreen(worldPoint: Point): ScreenPoint?
+    public fun worldToScreen(worldPoint: Point): ScreenPoint?
 
-    public fun convertScreenToWorld(screenPoint: ScreenPoint): Point?
+    public fun screenToWorld(screenPoint: ScreenPoint): Point?
 
     /**
      * Allows to reduce CPU/GPU/battery usage in specific scenarios, where lower framerate is acceptable.
@@ -121,7 +121,7 @@ public expect class MapWindow {
      * Valid range: [0, max display refresh rate]. Default max fps depends on max display refresh
      * rate. If [fps] is 0, max fps value is set to max display refresh rate.
      */
-    public fun setMapFps(fps: Int)
+    public fun setMaxFps(fps: Int)
 
     public val isValid: Boolean
 }

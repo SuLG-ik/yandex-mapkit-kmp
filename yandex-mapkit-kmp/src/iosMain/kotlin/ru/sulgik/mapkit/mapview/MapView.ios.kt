@@ -18,7 +18,7 @@ public actual class MapView internal constructor(private val nativeMapView: Nati
 
     public actual val mapWindow: MapWindow = nativeMapView.mapWindow!!.toCommon()
 
-    public actual fun setNonInteractive(value: Boolean) {
+    public actual fun setNoninteractive(value: Boolean) {
         nativeMapView.setNoninteractive(value)
     }
 }

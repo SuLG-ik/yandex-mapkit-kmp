@@ -1,14 +1,6 @@
 package ru.sulgik.mapkit
 
 /**
- * A wrapper around the [T] object of the original Yandex MapKit SDK.
- */
-public interface NativeConvertible<T : Any> {
-
-    public fun toNative(): T
-}
-
-/**
  * Unwraps the referent into the object expected by the subscription methods of the original Yandex
  * MapKit SDK, or returns `null` if it has already been collected.
  *

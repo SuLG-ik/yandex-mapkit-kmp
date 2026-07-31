@@ -30,14 +30,14 @@ public class PolygonState(geometry: Polygon) {
         public val Saver: Saver<PolygonState, Any> = listSaver(
             save = {
                 mutableListOf<Any>().saveOuterRing(it.geometry.outerRing)
-                    .saveInnerRing(it.geometry.innerRing)
+                    .saveInnerRing(it.geometry.innerRings)
             },
             restore = {
                 val (outerRing, innerRingStart) = it.restoreLinearRing(0)
                 PolygonState(
                     geometry = Polygon(
                         outerRing = outerRing,
-                        innerRing = it.restoreInnerRing(innerRingStart),
+                        innerRings = it.restoreInnerRing(innerRingStart),
                     ),
                 )
             },

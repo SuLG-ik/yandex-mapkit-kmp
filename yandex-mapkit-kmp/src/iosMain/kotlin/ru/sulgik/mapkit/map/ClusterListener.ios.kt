@@ -2,8 +2,6 @@ package ru.sulgik.mapkit.map
 
 import platform.darwin.NSObject
 import ru.sulgik.mapkit.NativeConvertible
-import ru.sulgik.mapkit.geometry.Cluster
-import ru.sulgik.mapkit.geometry.toCommon
 import YandexMapKit.YMKCluster as NativeCluster
 import YandexMapKit.YMKClusterListenerProtocol as NativeClusterListener
 

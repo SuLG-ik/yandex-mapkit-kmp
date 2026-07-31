@@ -90,10 +90,9 @@ public class PolylineState(geometry: Polyline) {
             ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
     }
 
-    public fun arrows(): List<Arrow> {
-        return mapObject?.arrows
+    public val arrows: List<Arrow>
+        get() = mapObject?.arrows
             ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
-    }
 
     public companion object {
         public val Saver: Saver<PolylineState, Any> = listSaver(
