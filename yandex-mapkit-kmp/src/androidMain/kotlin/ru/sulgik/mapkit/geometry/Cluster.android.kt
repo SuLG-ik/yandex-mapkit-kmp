@@ -1,8 +1,10 @@
 package ru.sulgik.mapkit.geometry
 
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.map.ClusterTapListener
 import ru.sulgik.mapkit.map.PlacemarkMapObject
 import ru.sulgik.mapkit.map.toCommon
+import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.Cluster as NativeCluster
 
 public actual class Cluster internal constructor(private val nativeCluster: NativeCluster) {
@@ -20,16 +22,15 @@ public actual class Cluster internal constructor(private val nativeCluster: Nati
     public actual val appearance: PlacemarkMapObject
         get() = nativeCluster.appearance.toCommon()
 
-    public actual fun addClusterTapListener(listener: ClusterTapListener) {
+    public actual fun addClusterTapListener(listener: WeakRef<ClusterTapListener>) {
         nativeCluster.addClusterTapListener(listener.toNative())
     }
 
-    public actual fun removeClusterTapListener(listener: ClusterTapListener) {
+    public actual fun removeClusterTapListener(listener: WeakRef<ClusterTapListener>) {
         nativeCluster.removeClusterTapListener(listener.toNative())
     }
 
 }
-
 
 public fun NativeCluster.toCommon(): Cluster {
     return Cluster(this)

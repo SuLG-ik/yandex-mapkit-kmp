@@ -9,6 +9,7 @@ public fun LocationPurpose.toNative(): NativeLocationPurpose {
         LocationPurpose.PEDESTRIAN_NAVIGATION -> NativeLocationPurpose.PEDESTRIAN_NAVIGATION
         LocationPurpose.BICYCLE_NAVIGATION -> NativeLocationPurpose.BICYCLE_NAVIGATION
         LocationPurpose.SCOOTER_NAVIGATION -> NativeLocationPurpose.SCOOTER_NAVIGATION
+        LocationPurpose.STATIC_DISPLAY_LOCATION -> NativeLocationPurpose.STATIC_DISPLAY_LOCATION
     }
 }
 
@@ -19,5 +20,6 @@ public fun NativeLocationPurpose.toCommon(): LocationPurpose {
         NativeLocationPurpose.PEDESTRIAN_NAVIGATION -> LocationPurpose.PEDESTRIAN_NAVIGATION
         NativeLocationPurpose.BICYCLE_NAVIGATION -> LocationPurpose.BICYCLE_NAVIGATION
         NativeLocationPurpose.SCOOTER_NAVIGATION -> LocationPurpose.SCOOTER_NAVIGATION
+        NativeLocationPurpose.STATIC_DISPLAY_LOCATION -> LocationPurpose.STATIC_DISPLAY_LOCATION
     }
 }

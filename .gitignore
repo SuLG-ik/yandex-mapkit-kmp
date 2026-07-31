@@ -16,3 +16,4 @@ Pods/
 *.podspec
 .kotlin
 docs/kdoc
+.claude/worktrees/

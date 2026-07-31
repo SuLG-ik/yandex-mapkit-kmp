@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Geometry
 import ru.sulgik.mapkit.indoor.IndoorStateListener
 import ru.sulgik.mapkit.logo.Logo
@@ -105,7 +106,6 @@ public expect class Map {
         screenRect: ScreenRect,
     ): CameraPosition
 
-
     /**
      * Immediately changes the camera position.
      *
@@ -130,13 +130,16 @@ public expect class Map {
 
     /**
      * Adds camera listeners.
+     *
+     * The class does not retain the object in the 'cameraListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
-    public fun addCameraListener(cameraListener: CameraListener)
+    public fun addCameraListener(cameraListener: WeakRef<CameraListener>)
 
     /**
      * Removes camera listeners.
      */
-    public fun removeCameraListener(cameraListener: CameraListener)
+    public fun removeCameraListener(cameraListener: WeakRef<CameraListener>)
 
     /**
      * Yandex logo object.
@@ -145,13 +148,16 @@ public expect class Map {
 
     /**
      * Adds input listeners.
+     *
+     * The class does not retain the object in the 'inputListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
-    public fun addInputListener(inputListener: InputListener)
+    public fun addInputListener(inputListener: WeakRef<InputListener>)
 
     /**
      * Removes input listeners.
      */
-    public fun removeInputListener(inputListener: InputListener)
+    public fun removeInputListener(inputListener: WeakRef<InputListener>)
 
     /**
      * Sets map style.
@@ -162,7 +168,6 @@ public expect class Map {
      * Sets map style.
      */
     public fun setMapStyle(id: Int, style: String)
-
 
     /**
      * Enables/disables indoor plans on the map.
@@ -177,12 +182,12 @@ public expect class Map {
      * The class does not retain the object in the 'indoorStateListener' parameter.
      * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
-    public fun addIndoorStateListener(listener: IndoorStateListener)
+    public fun addIndoorStateListener(listener: WeakRef<IndoorStateListener>)
 
     /**
      * Unsubscribe from indoor state change events.
      */
-    public fun removeIndoorStateListener(listener: IndoorStateListener)
+    public fun removeIndoorStateListener(listener: WeakRef<IndoorStateListener>)
 
     /**
      * Resets all JSON style transformations applied to the map.
@@ -193,7 +198,6 @@ public expect class Map {
      * Enables hd mode of displayed content
      */
     public var isHdModeEnabled: Boolean
-
 
     /**
      * Selects one of predefined map style modes optimized for particular use case(transit, driving, etc).

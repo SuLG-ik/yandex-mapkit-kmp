@@ -1,12 +1,12 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
-import com.vanniktech.maven.publish.SonatypeHost
+import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.multiplatform)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.publish)
 }
@@ -15,16 +15,21 @@ val supportIosTarget = project.property("skipIosTarget") != "true"
 version = extra["library_version"].toString()
 
 kotlin {
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+    android {
+        namespace = "ru.sulgik.mapkit.moko"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = 26
+
+        compilations.configureEach {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_11)
+                }
+            }
         }
-        publishLibraryVariants("release")
     }
 
     if (supportIosTarget) {
-        iosX64()
         iosArm64()
         iosSimulatorArm64()
 
@@ -80,30 +85,17 @@ kotlin {
     }
 }
 
-android {
-    namespace = "ru.sulgik.mapkit.moko"
-    compileSdk = 36
-
-    defaultConfig {
-        minSdk = 26
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
 
 if (version != "null") {
     mavenPublishing {
         coordinates(group.toString(), name, version.toString())
-        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+        publishToMavenCentral()
 
         signAllPublications()
         configure(
             KotlinMultiplatform(
                 javadocJar = JavadocJar.Empty(),
-                sourcesJar = true,
-                androidVariantsToPublish = listOf("release"),
+                sourcesJar = SourcesJar.Sources(),
             )
         )
 

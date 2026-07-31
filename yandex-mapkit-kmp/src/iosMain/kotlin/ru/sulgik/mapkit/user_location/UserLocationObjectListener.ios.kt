@@ -1,13 +1,14 @@
 package ru.sulgik.mapkit.user_location
 
 import platform.darwin.NSObject
+import ru.sulgik.mapkit.NativeConvertible
 import ru.sulgik.mapkit.layers.ObjectEvent
 import ru.sulgik.mapkit.layers.toCommon
 import YandexMapKit.YMKObjectEvent as NativeObjectEvent
 import YandexMapKit.YMKUserLocationObjectListenerProtocol as NativeUserLocationObjectListener
 import YandexMapKit.YMKUserLocationView as NativeUserLocationView
 
-public actual abstract class UserLocationObjectListener actual constructor() {
+public actual abstract class UserLocationObjectListener actual constructor() : NativeConvertible<NativeUserLocationObjectListener> {
 
     private val nativeListener = object : NativeUserLocationObjectListener, NSObject() {
         override fun onObjectAddedWithView(view: NativeUserLocationView) {
@@ -26,7 +27,7 @@ public actual abstract class UserLocationObjectListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeUserLocationObjectListener {
+    override fun toNative(): NativeUserLocationObjectListener {
         return nativeListener
     }
 

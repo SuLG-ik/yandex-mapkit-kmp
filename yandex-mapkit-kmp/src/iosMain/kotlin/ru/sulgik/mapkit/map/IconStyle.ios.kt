@@ -12,6 +12,7 @@ public fun IconStyle.toNative(): YMKIconStyle {
         flat = flat?.toNSNumber(),
         visible = isVisible?.toNSNumber(),
         scale = scale?.toNSNumber(),
+        opacity = opacity,
         tappableArea = null,
     )
 }
@@ -24,5 +25,6 @@ public fun YMKIconStyle.toCommon(): IconStyle {
         flat = flat?.boolValue,
         isVisible = visible?.boolValue,
         scale = scale?.floatValue,
+        opacity = opacity,
     )
 }

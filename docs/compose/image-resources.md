@@ -143,6 +143,28 @@ Usage example with `Clustering`, that creates provider by itself.
     }
     ```
 
+`ClusterImageProvider.setIcon` is public, so composable icons can be used from a custom
+`ClusterListener` too, for example with `MapEffect` and imperative MapKit code. Icon is set as soon
+as content is rendered and updated on every content state change.
+
+=== "Kotlin"
+    ```kotlin
+    @Composable
+    fun MapScreen() {
+        YandexMap {
+            val clusterIcon = clusterImageProvider { cluster ->
+                ClusterIcon(size = cluster.size)
+            }
+            val clusterListener = remember(clusterIcon) {
+                ClusterListener { cluster -> clusterIcon.setIcon(cluster) }
+            }
+            MapEffect(clusterListener) { map ->
+                map.mapObjects.addClusterizedPlacemarkCollection(clusterListener.asWeakRef())
+            }
+        }
+    }
+    ```
+
 ## Moko-resources compose
 
 !!! info "Requires `yandex-mapkit-kmp-moko-compose`"

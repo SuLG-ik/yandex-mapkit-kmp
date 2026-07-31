@@ -1,5 +1,7 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.WeakRef
+import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.BaseMapObjectCollection as NativeBaseMapObjectCollection
 import com.yandex.mapkit.map.ClusterizedPlacemarkCollection as NativeClusterizedPlacemarkCollection1
 import com.yandex.mapkit.map.MapObjectCollection as NativeMapObjectCollection
@@ -12,8 +14,8 @@ public actual open class BaseMapObjectCollection internal constructor(
         return nativeBaseMapObjectCollection
     }
 
-    public actual fun traverse(mapObjectVisitor: MapObjectVisitor) {
-        nativeBaseMapObjectCollection.traverse(mapObjectVisitor)
+    public actual fun traverse(mapObjectVisitor: WeakRef<MapObjectVisitor>) {
+        nativeBaseMapObjectCollection.traverse(mapObjectVisitor.toNative())
     }
 
     public actual fun remove(mapObject: MapObject) {
@@ -24,11 +26,11 @@ public actual open class BaseMapObjectCollection internal constructor(
         nativeBaseMapObjectCollection.clear()
     }
 
-    public actual fun addListener(collectionListener: MapObjectCollectionListener) {
+    public actual fun addListener(collectionListener: WeakRef<MapObjectCollectionListener>) {
         nativeBaseMapObjectCollection.addListener(collectionListener.toNative())
     }
 
-    public actual fun removeListener(collectionListener: MapObjectCollectionListener) {
+    public actual fun removeListener(collectionListener: WeakRef<MapObjectCollectionListener>) {
         nativeBaseMapObjectCollection.removeListener(collectionListener.toNative())
     }
 

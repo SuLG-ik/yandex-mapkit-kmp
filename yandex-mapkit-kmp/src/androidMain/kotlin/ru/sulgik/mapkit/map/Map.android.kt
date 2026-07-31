@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Geometry
 import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.indoor.IndoorStateListener
@@ -144,7 +145,7 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
         tilt: Float,
         screenRect: ScreenRect,
     ): CameraPosition {
-        return nativeMap.cameraPosition(geometry.toNative(), azimuth, tilt, screenRect.toNative())
+        return nativeMap.cameraPosition(geometry.toNative(), screenRect.toNative(), azimuth, tilt)
             .toCommon()
     }
 
@@ -184,14 +185,14 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Adds camera listeners.
      */
-    public actual fun addCameraListener(cameraListener: CameraListener) {
+    public actual fun addCameraListener(cameraListener: WeakRef<CameraListener>) {
         nativeMap.addCameraListener(cameraListener.toNative())
     }
 
     /**
      * Removes camera listeners.
      */
-    public actual fun removeCameraListener(cameraListener: CameraListener) {
+    public actual fun removeCameraListener(cameraListener: WeakRef<CameraListener>) {
         nativeMap.removeCameraListener(cameraListener.toNative())
     }
 
@@ -214,14 +215,14 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Adds input listeners.
      */
-    public actual fun addInputListener(inputListener: InputListener) {
+    public actual fun addInputListener(inputListener: WeakRef<InputListener>) {
         nativeMap.addInputListener(inputListener.toNative())
     }
 
     /**
      * Removes input listeners.
      */
-    public actual fun removeInputListener(inputListener: InputListener) {
+    public actual fun removeInputListener(inputListener: WeakRef<InputListener>) {
         nativeMap.removeInputListener(inputListener.toNative())
     }
 
@@ -256,14 +257,14 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
      * The class does not retain the object in the 'indoorStateListener' parameter.
      * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
-    public actual fun addIndoorStateListener(listener: IndoorStateListener) {
+    public actual fun addIndoorStateListener(listener: WeakRef<IndoorStateListener>) {
         nativeMap.addIndoorStateListener(listener.toNative())
     }
 
     /**
      * Unsubscribe from indoor state change events.
      */
-    public actual fun removeIndoorStateListener(listener: IndoorStateListener) {
+    public actual fun removeIndoorStateListener(listener: WeakRef<IndoorStateListener>) {
         nativeMap.removeIndoorStateListener(listener.toNative())
     }
 
@@ -306,7 +307,6 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     public actual val isValid: Boolean
         get() = nativeMap.isValid
 }
-
 
 public fun NativeMap.toCommon(): Map {
     return Map(this)

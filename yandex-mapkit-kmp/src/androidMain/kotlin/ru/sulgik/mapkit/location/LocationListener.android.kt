@@ -1,10 +1,11 @@
 package ru.sulgik.mapkit.location
 
+import ru.sulgik.mapkit.NativeConvertible
 import com.yandex.mapkit.location.Location as NativeLocation
 import com.yandex.mapkit.location.LocationListener as NativeLocationListener
 import com.yandex.mapkit.location.LocationStatus as NativeLocationStatus
 
-public actual abstract class LocationListener actual constructor() {
+public actual abstract class LocationListener actual constructor() : NativeConvertible<NativeLocationListener> {
 
     private val nativeListener = object : NativeLocationListener {
         override fun onLocationUpdated(p0: NativeLocation) {
@@ -16,7 +17,7 @@ public actual abstract class LocationListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeLocationListener {
+    override fun toNative(): NativeLocationListener {
         return nativeListener
     }
 

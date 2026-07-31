@@ -98,7 +98,17 @@ public class ClusterImageProvider internal constructor(
             slots.forEach { (info, slot) -> slot.content = { value(info) } }
         }
 
-    internal fun setIcon(cluster: Cluster, style: IconStyle) {
+    /**
+     * Sets icon rendered from composable content to [cluster] appearance.
+     *
+     * Rendering is asynchronous, so cluster keeps an empty icon until content is rendered, and
+     * icon is set as soon as it is ready. Icon is updated on every content state change.
+     *
+     * Can be called from custom [ru.sulgik.mapkit.map.ClusterListener] to reuse composable
+     * rendering with imperative MapKit code.
+     */
+    @YandexMapsComposeExperimentalApi
+    public fun setIcon(cluster: Cluster, style: IconStyle = IconStyle()) {
         val info = ClusterInfo(size = cluster.size)
         val appearance = cluster.appearance
         val rendered = clusters.getOrPut(info) { mutableListOf() }

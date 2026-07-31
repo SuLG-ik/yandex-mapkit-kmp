@@ -1,9 +1,10 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.NativeConvertible
 import com.yandex.mapkit.map.MapObject as NativeMapObject
 import com.yandex.mapkit.map.MapObjectCollectionListener as NativeMapObjectCollectionListener
 
-public actual abstract class MapObjectCollectionListener actual constructor() {
+public actual abstract class MapObjectCollectionListener actual constructor() : NativeConvertible<NativeMapObjectCollectionListener> {
     private val nativeListener = object : NativeMapObjectCollectionListener {
         override fun onMapObjectAdded(p0: NativeMapObject) {
             onMapObjectAdded(p0.toCommon())
@@ -14,7 +15,7 @@ public actual abstract class MapObjectCollectionListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeMapObjectCollectionListener {
+    override fun toNative(): NativeMapObjectCollectionListener {
         return nativeListener
     }
 
