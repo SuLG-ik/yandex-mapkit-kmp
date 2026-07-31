@@ -7,6 +7,7 @@ public data class Animation(
     val duration: Duration,
 ) {
     public enum class Type {
-        SMOOTH, LINEAR
+        SMOOTH,
+        LINEAR,
     }
 }

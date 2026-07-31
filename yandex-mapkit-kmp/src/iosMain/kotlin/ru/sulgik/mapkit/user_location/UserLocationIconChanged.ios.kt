@@ -13,7 +13,6 @@ public actual class UserLocationIconChanged internal constructor(
 
     public actual val iconType: UserLocationIconType
         get() = nativeUserLocationIconChanged.iconType.toCommon()
-
 }
 
 public fun NativeUserLocationIconChanged.toCommon(): UserLocationIconChanged {

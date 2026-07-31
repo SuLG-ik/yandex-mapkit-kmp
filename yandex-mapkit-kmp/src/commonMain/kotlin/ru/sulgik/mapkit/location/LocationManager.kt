@@ -16,5 +16,4 @@ public expect class LocationManager {
     public fun suspend()
 
     public fun resume()
-
 }

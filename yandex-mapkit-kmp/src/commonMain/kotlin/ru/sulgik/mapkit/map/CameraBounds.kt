@@ -35,5 +35,4 @@ public expect class CameraBounds {
      * Set maximum available zoom level hint.
      */
     public fun setMaxZoomPreference(zoom: Float)
-
 }

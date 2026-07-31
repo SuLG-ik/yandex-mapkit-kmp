@@ -6,8 +6,7 @@ import YandexMapKit.YMKBaseMapObjectCollection as NativeBaseMapObjectCollection
 import YandexMapKit.YMKClusterizedPlacemarkCollection as NativeClusterizedPlacemarkCollection
 import YandexMapKit.YMKMapObjectCollection as NativeMapObjectCollection
 
-public actual open class BaseMapObjectCollection internal constructor(private val nativeBaseMapObjectCollection: NativeBaseMapObjectCollection) :
-    MapObject(nativeBaseMapObjectCollection) {
+public actual open class BaseMapObjectCollection internal constructor(private val nativeBaseMapObjectCollection: NativeBaseMapObjectCollection) : MapObject(nativeBaseMapObjectCollection) {
 
     override fun toNative(): NativeBaseMapObjectCollection {
         return nativeBaseMapObjectCollection
@@ -32,7 +31,6 @@ public actual open class BaseMapObjectCollection internal constructor(private va
     public actual fun removeListener(collectionListener: WeakRef<MapObjectCollectionListener>) {
         nativeBaseMapObjectCollection.removeListenerWithCollectionListener(collectionListener.toNative() ?: return)
     }
-
 }
 
 public fun NativeBaseMapObjectCollection.toCommon(): BaseMapObjectCollection {

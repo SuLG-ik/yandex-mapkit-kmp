@@ -7,7 +7,7 @@ public expect abstract class MapObjectTapListener() {
 }
 
 public inline fun MapObjectTapListener(
-    crossinline onMapObjectTap: (mapObject: MapObject, point: Point) -> Boolean
+    crossinline onMapObjectTap: (mapObject: MapObject, point: Point) -> Boolean,
 ): MapObjectTapListener {
     return object : MapObjectTapListener() {
         override fun onMapObjectTap(mapObject: MapObject, point: Point): Boolean {

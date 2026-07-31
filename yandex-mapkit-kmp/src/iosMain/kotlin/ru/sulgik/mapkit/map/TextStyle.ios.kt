@@ -14,7 +14,7 @@ public fun TextStyle.toNative(): NativeTextStyle {
         placement = placement.toNative(),
         offset = offset,
         offsetFromIcon = offsetFromIcon,
-        textOptional = textOptional
+        textOptional = textOptional,
     )
 }
 

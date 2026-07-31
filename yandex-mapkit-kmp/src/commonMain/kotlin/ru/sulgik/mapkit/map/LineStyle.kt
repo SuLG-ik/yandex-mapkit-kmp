@@ -12,7 +12,7 @@ public expect class LineStyle public constructor(
     arcApproximationStep: Float = 12.0F,
     dashLength: Float = 0.0F,
     gapLength: Float = 0.0F,
-    dashOffset: Float = 0.0F
+    dashOffset: Float = 0.0F,
 ) {
     public var strokeWidth: Float
     public var gradientLength: Float
@@ -24,5 +24,4 @@ public expect class LineStyle public constructor(
     public var dashLength: Float
     public var gapLength: Float
     public var dashOffset: Float
-
 }

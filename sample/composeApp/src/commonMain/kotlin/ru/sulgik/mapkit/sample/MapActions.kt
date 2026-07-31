@@ -17,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-
 class MapActionsState(
     isPlacemarksEnabled: Boolean = true,
     isPlacemarksClsuteringEnabled: Boolean = false,
@@ -62,7 +61,7 @@ class MapActionsState(
                     isComposableContentEnabled = it[6],
                     isCoilEnabled = it[7],
                 )
-            }
+            },
         )
     }
 }
@@ -100,7 +99,7 @@ fun MapActions(
     Row(
         modifier = modifier.horizontalScroll(rememberScrollState())
             .padding(horizontal = 10.dp, vertical = 20.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         OutlinedButton(
             onClick = onStartPosition,
@@ -135,22 +134,22 @@ fun MapActions(
             Text("Polylines: ${if (state.isPolylinesEnabled) "on" else "off"}")
         }
         OutlinedButton(
-            onClick = { state.isDragEnabled = !state.isDragEnabled }
+            onClick = { state.isDragEnabled = !state.isDragEnabled },
         ) {
             Text("Drag: ${if (state.isDragEnabled) "on" else "off"}")
         }
         OutlinedButton(
-            onClick = { state.isComposableContentEnabled = !state.isComposableContentEnabled }
+            onClick = { state.isComposableContentEnabled = !state.isComposableContentEnabled },
         ) {
             Text("Composable content: ${if (state.isComposableContentEnabled) "on" else "off"}")
         }
         OutlinedButton(
-            onClick = { state.isCoilEnabled = !state.isCoilEnabled }
+            onClick = { state.isCoilEnabled = !state.isCoilEnabled },
         ) {
             Text("Coil: ${if (state.isCoilEnabled) "on" else "off"}")
         }
         OutlinedButton(
-            onClick = onUserLocation
+            onClick = onUserLocation,
         ) {
             Text("To user location")
         }

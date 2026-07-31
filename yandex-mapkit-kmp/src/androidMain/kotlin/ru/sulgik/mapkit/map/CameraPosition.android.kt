@@ -4,7 +4,6 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.map.CameraPosition as NativeCameraPosition
 
-
 public fun CameraPosition.toNative(): NativeCameraPosition {
     return NativeCameraPosition(target.toNative(), zoom, azimuth, tilt)
 }

@@ -2,7 +2,6 @@ package ru.sulgik.mapkit.logo
 
 import com.yandex.mapkit.logo.VerticalAlignment as NativeVerticalAlignment
 
-
 public fun LogoVerticalAlignment.toNative(): NativeVerticalAlignment {
     return when (this) {
         LogoVerticalAlignment.TOP -> NativeVerticalAlignment.TOP

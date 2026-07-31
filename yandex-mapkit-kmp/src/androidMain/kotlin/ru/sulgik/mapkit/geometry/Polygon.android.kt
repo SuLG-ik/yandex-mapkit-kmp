@@ -19,7 +19,6 @@ public actual class Polygon internal constructor(private val nativePolygon: Nati
 
     public actual val outerRing: LinearRing by lazy { nativePolygon.outerRing.toCommon() }
     public actual val innerRing: List<LinearRing> by lazy { nativePolygon.innerRings.map { it.toCommon() } }
-
 }
 
 public fun NativePolygon.toCommon(): Polygon {

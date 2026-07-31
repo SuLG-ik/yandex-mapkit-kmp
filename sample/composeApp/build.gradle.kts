@@ -79,7 +79,7 @@ buildkonfig {
             FieldSpec.Type.STRING,
             "MAPKIT_API_KEY",
             getMapkitApiKey(),
-            const = true
+            const = true,
         )
     }
 }

@@ -5,7 +5,6 @@ import ru.sulgik.mapkit.geometry.Cluster
 public expect abstract class ClusterTapListener() {
 
     public abstract fun onClusterTap(cluster: Cluster): Boolean
-
 }
 
 public inline fun ClusterTapListener(crossinline onClusterTap: (cluster: Cluster) -> Boolean): ClusterTapListener {

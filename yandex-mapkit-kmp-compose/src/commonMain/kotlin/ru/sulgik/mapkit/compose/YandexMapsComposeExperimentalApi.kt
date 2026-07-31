@@ -7,6 +7,6 @@ package ru.sulgik.mapkit.compose
 @Retention(value = AnnotationRetention.BINARY)
 @RequiresOptIn(
     level = RequiresOptIn.Level.WARNING,
-    message = "Targets marked by this annotation may contain breaking changes in the future as their design is still incubating."
+    message = "Targets marked by this annotation may contain breaking changes in the future as their design is still incubating.",
 )
 public annotation class YandexMapsComposeExperimentalApi

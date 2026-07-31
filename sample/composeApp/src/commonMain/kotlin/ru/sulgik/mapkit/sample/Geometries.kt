@@ -11,7 +11,7 @@ fun randomPlacemarks(): List<Pair<Point, MapObjectUserData>> {
     return clusterizedPoints.mapIndexed { index, point ->
         point to MapObjectUserData(
             type = MapObjectType.entries.random(),
-            name = "point_$index"
+            name = "point_$index",
         )
     }
 }
@@ -22,11 +22,11 @@ fun randomCircles(): List<Pair<Circle, MapObjectUserData>> {
     return listOf(
         Circle(
             Point(59.939866, 30.314352),
-            (200..600).random().toFloat()
+            (200..600).random().toFloat(),
         ) to MapObjectUserData(
             type = MapObjectType.entries.random(),
-            name = "circle_0"
-        )
+            name = "circle_0",
+        ),
     )
 }
 
@@ -56,7 +56,7 @@ val polygon: Polygon
 
         return Polygon(
             ring,
-            listOf(innerRing)
+            listOf(innerRing),
         )
     }
 

@@ -8,5 +8,4 @@ import ru.sulgik.mapkit.map.MapWindow
 internal class YandexMapAnchor {
 
     private var mapWindowAnchor: MapWindow? by mutableStateOf(null)
-
 }

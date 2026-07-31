@@ -7,5 +7,4 @@ public expect class Polygon {
     public val outerRing: LinearRing
 
     public val innerRing: List<LinearRing>
-
 }

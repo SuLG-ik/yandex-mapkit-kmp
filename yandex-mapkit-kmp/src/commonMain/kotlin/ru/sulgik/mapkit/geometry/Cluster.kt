@@ -15,5 +15,4 @@ public expect class Cluster {
     public fun addClusterTapListener(listener: WeakRef<ClusterTapListener>)
 
     public fun removeClusterTapListener(listener: WeakRef<ClusterTapListener>)
-
 }

@@ -18,5 +18,4 @@ public expect class Arrow {
     public var isVisible: Boolean
 
     public var triangleHeight: Float
-
 }

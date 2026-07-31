@@ -142,7 +142,7 @@ public fun Clustering(
         onItemTap = onItemTap,
         onClusterTap = onClusterTap,
         visible = visible,
-        zIndex = zIndex
+        zIndex = zIndex,
     )
 }
 
@@ -186,7 +186,7 @@ public fun Clustering(
             update(config) { this.config = config }
             update(icon) { this.clusterPlacemarks() }
             update(iconStyle) { this.clusterPlacemarks() }
-        }
+        },
     )
 }
 
@@ -321,7 +321,7 @@ public fun Clustering(
             update(config) { this.config = config }
             update(iconStyle) { this.clusterPlacemarks() }
             update(icon) { this.clusterPlacemarks() }
-        }
+        },
     )
 }
 

@@ -14,5 +14,4 @@ public actual abstract class ClusterListener actual constructor() : NativeConver
     }
 
     public actual abstract fun onClusterAdded(cluster: Cluster)
-
 }

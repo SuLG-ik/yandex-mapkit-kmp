@@ -4,7 +4,6 @@ import androidx.compose.runtime.AbstractApplier
 import androidx.compose.runtime.Composition
 import ru.sulgik.mapkit.map.MapWindow
 
-
 internal interface MapNode {
     fun onAttached() {}
     fun onRemoved() {}
@@ -44,5 +43,4 @@ internal class MapApplier(
         }
         decorations.remove(index, count)
     }
-
 }

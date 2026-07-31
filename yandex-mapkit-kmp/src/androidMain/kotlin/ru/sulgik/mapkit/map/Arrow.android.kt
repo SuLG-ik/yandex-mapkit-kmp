@@ -3,8 +3,8 @@ package ru.sulgik.mapkit.map
 import ru.sulgik.mapkit.Color
 import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.toCommon
-import ru.sulgik.mapkit.toColor
 import ru.sulgik.mapkit.toArgb
+import ru.sulgik.mapkit.toColor
 import com.yandex.mapkit.map.Arrow as NativeArrow
 
 public actual class Arrow internal constructor(private val nativeArrow: NativeArrow) {
@@ -46,7 +46,6 @@ public actual class Arrow internal constructor(private val nativeArrow: NativeAr
         set(value) {
             nativeArrow.triangleHeight = value
         }
-
 }
 
 public fun NativeArrow.toCommon(): Arrow {

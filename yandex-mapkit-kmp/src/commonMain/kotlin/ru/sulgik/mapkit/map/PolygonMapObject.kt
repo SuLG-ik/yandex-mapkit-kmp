@@ -18,5 +18,4 @@ public expect class PolygonMapObject : MapObject {
     public fun setPattern(image: ImageProvider, scale: Float)
 
     public fun resetPattern()
-
 }

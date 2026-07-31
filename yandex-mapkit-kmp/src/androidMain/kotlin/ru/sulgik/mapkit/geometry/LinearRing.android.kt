@@ -15,7 +15,6 @@ public actual class LinearRing internal constructor(private val nativeLinearRing
     public actual constructor(points: List<Point>) : this(NativeLinearRing(points.map { it.toNative() }))
 
     public actual val points: List<Point> by lazy { nativeLinearRing.points.map { it.toCommon() } }
-
 }
 
 public fun NativeLinearRing.toCommon(): LinearRing {

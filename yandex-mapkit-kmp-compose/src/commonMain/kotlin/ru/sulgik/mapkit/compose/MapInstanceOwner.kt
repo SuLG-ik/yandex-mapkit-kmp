@@ -30,5 +30,4 @@ internal class MapWindowOwner(private val callback: ((MapWindow?) -> Unit)? = nu
             block(mapWindow)
         }
     }
-
 }

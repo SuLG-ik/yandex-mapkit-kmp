@@ -96,10 +96,9 @@ kotlin {
         getByName("androidDeviceTest").dependencies {
             implementation(libs.androidx.compose.ui.test.manifest)
         }
-
     }
 
-    //https://kotlinlang.org/docs/native-objc-interop.html#export-of-kdoc-comments-to-generated-objective-c-headers
+    // https://kotlinlang.org/docs/native-objc-interop.html#export-of-kdoc-comments-to-generated-objective-c-headers
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         compilations["main"].compileTaskProvider {
             compilerOptions {
@@ -115,7 +114,7 @@ kotlin {
         freeCompilerArgs.add("-Xexplicit-api=strict")
         freeCompilerArgs.addAll(
             "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=${stabilityConfigurationFile.absolutePath}"
+            "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=${stabilityConfigurationFile.absolutePath}",
         )
         freeCompilerArgs.add("-Xopt-in=kotlin.RequiresOptIn")
 
@@ -124,7 +123,7 @@ kotlin {
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${
                     layout.buildDirectory.dir(
-                        "compose_compiler"
+                        "compose_compiler",
                     ).get()
                 }",
             )
@@ -134,7 +133,7 @@ kotlin {
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${
                     layout.buildDirectory.dir(
-                        "compose_compiler"
+                        "compose_compiler",
                     ).get()
                 }",
             )
@@ -143,13 +142,9 @@ kotlin {
     }
 }
 
-
 tasks.withType<KotlinCompilationTask<*>> {
     compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.cinterop.ExperimentalForeignApi")
 }
-
-
-
 
 if (version != "null") {
     mavenPublishing {
@@ -161,7 +156,7 @@ if (version != "null") {
             KotlinMultiplatform(
                 javadocJar = JavadocJar.Empty(),
                 sourcesJar = SourcesJar.Sources(),
-            )
+            ),
         )
 
         pom {

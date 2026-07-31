@@ -9,5 +9,4 @@ class MainApplication : Application() {
         super.onCreate()
         initMapKit()
     }
-
 }

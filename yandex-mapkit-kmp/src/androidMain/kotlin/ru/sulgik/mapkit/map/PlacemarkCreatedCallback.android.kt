@@ -12,5 +12,4 @@ public actual abstract class PlacemarkCreatedCallback actual constructor() {
     }
 
     public actual abstract fun onPlacemarkCreated(placemark: PlacemarkMapObject)
-
 }

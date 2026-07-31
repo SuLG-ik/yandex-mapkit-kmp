@@ -14,13 +14,12 @@ public actual class Polyline internal constructor(private val nativePolyline: Na
     }
 
     public actual constructor(points: List<Point>) : this(
-        NativePolyline.polylineWithPoints(points.map(Point::toNative))
+        NativePolyline.polylineWithPoints(points.map(Point::toNative)),
     )
 
     public actual val points: List<Point>
         @Suppress("UNCHECKED_CAST")
         get() = (nativePolyline.points as List<NativePoint>).map { it.toCommon() }
-
 }
 
 public fun NativePolyline.toCommon(): Polyline {

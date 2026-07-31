@@ -69,7 +69,7 @@ public actual class LineStyle internal constructor(
         arcApproximationStep: Float,
         dashLength: Float,
         gapLength: Float,
-        dashOffset: Float
+        dashOffset: Float,
     ) : this(
         NativeLineStyle(
             strokeWidth,
@@ -81,8 +81,8 @@ public actual class LineStyle internal constructor(
             arcApproximationStep,
             dashLength,
             gapLength,
-            dashOffset
-        )
+            dashOffset,
+        ),
     )
 
     public fun toNative(): NativeLineStyle {

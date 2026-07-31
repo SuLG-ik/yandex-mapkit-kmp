@@ -62,7 +62,7 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
     ) {
         nativeUserLocationLayer.setAnchorWithAnchorNormal(
             anchorNormal.toNative(),
-            anchorCourse.toNative()
+            anchorCourse.toNative(),
         )
     }
 
@@ -107,7 +107,7 @@ public actual class UserLocationLayer internal constructor(private val nativeUse
      */
     public actual fun setObjectListener(objectListener: WeakRef<UserLocationObjectListener>?) {
         nativeUserLocationLayer.setObjectListenerWithObjectListener(
-            objectListener?.toNative()
+            objectListener?.toNative(),
         )
     }
 

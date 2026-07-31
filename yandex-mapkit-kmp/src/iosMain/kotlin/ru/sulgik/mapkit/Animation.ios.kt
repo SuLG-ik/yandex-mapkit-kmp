@@ -4,7 +4,6 @@ import kotlin.time.Duration.Companion.milliseconds
 import YandexMapKit.YMKAnimation as NativeAnimation
 import YandexMapKit.YMKAnimationType as NativeAnimationType
 
-
 public fun NativeAnimation.toCommon(): Animation {
     return Animation(type = type.toCommon(), duration = (duration * 1000).toLong().milliseconds)
 }
@@ -20,7 +19,7 @@ private fun NativeAnimationType.toCommon(): Animation.Type {
 public fun Animation.toNative(): NativeAnimation {
     return NativeAnimation.animationWithType(
         type = type.toNative(),
-        duration = duration.inWholeMilliseconds / 1000f
+        duration = duration.inWholeMilliseconds / 1000f,
     )
 }
 

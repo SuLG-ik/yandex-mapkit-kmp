@@ -24,7 +24,6 @@ public class YandexMapController internal constructor() {
 
     internal val mapWindowOwner = MapWindowOwner()
     public val mapWindow: MapWindow? get() = mapWindowOwner.mapWindow
-
 }
 
 /**

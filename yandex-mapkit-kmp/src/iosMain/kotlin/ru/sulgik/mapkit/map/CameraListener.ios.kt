@@ -20,7 +20,7 @@ public actual abstract class CameraListener actual constructor() : NativeConvert
                 map.toCommon(),
                 cameraPosition.toCommon(),
                 cameraUpdateReason.toCommon(),
-                finished
+                finished,
             )
         }
     }
@@ -28,7 +28,6 @@ public actual abstract class CameraListener actual constructor() : NativeConvert
     override fun toNative(): NativeCameraListener {
         return nativeListener
     }
-
 
     public actual abstract fun onCameraPositionChanged(
         map: Map,

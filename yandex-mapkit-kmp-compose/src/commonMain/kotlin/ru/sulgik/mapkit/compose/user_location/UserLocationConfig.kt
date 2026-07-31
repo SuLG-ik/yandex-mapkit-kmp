@@ -53,7 +53,7 @@ public data class UserLocationConfig(
         public val image: ImageProvider,
         public val style: IconStyle = IconStyle(),
         public val direction: Float? = null,
-        public val opacity: Float = 1f
+        public val opacity: Float = 1f,
     )
 
     @YandexMapsComposeExperimentalApi
@@ -64,7 +64,6 @@ public data class UserLocationConfig(
         public var isGeodesic: Boolean = DefaultGeodesic,
     )
 }
-
 
 private val DefaultStrokeColor = Color(0xFF66FF00)
 private const val DefaultStrokeWidth = 5f

@@ -31,5 +31,4 @@ public class ColorConvertionTest {
         public val BlackComposeColor: Color = Color(0xFF000000)
         public val BlackMapkitColor: MapkitColor = MapkitColor.fromArgb(0xFF000000.toInt())
     }
-
 }

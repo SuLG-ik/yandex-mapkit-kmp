@@ -19,6 +19,5 @@ public inline fun InputListener(
         override fun onMapLongTap(map: Map, point: Point) {
             onMapLongTap.invoke(map, point)
         }
-
     }
 }

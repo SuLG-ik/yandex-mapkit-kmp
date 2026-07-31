@@ -16,8 +16,7 @@ import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKPolylineMapObject as NativePolylineMapObject
 
-public actual class PolylineMapObject internal constructor(private val nativePolylineMapObject: NativePolylineMapObject) :
-    MapObject(nativePolylineMapObject) {
+public actual class PolylineMapObject internal constructor(private val nativePolylineMapObject: NativePolylineMapObject) : MapObject(nativePolylineMapObject) {
 
     override fun toNative(): NativePolylineMapObject {
         return nativePolylineMapObject
@@ -151,7 +150,7 @@ public actual class PolylineMapObject internal constructor(private val nativePol
     public actual fun setPaletteColor(colorIndex: Int, color: Color) {
         return nativePolylineMapObject.setPaletteColorWithColorIndex(
             colorIndex.toULong(),
-            color.toNative()
+            color.toNative(),
         )
     }
 
@@ -168,14 +167,13 @@ public actual class PolylineMapObject internal constructor(private val nativePol
         return nativePolylineMapObject.addArrowWithPosition(
             position.toNative(),
             length,
-            fillColor.toNative()
+            fillColor.toNative(),
         ).toCommon()
     }
 
     public actual val arrows: List<Arrow>
         @Suppress("UNCHECKED_CAST")
         get() = (nativePolylineMapObject.arrows() as List<YMKArrow>).map { it.toCommon() }
-
 }
 
 public fun NativePolylineMapObject.toCommon(): PolylineMapObject {

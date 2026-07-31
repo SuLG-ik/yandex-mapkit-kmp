@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.logo
 
 import com.yandex.mapkit.logo.Alignment as NativeAlignment
 
-public fun LogoAlignment.toNative() : NativeAlignment {
+public fun LogoAlignment.toNative(): NativeAlignment {
     return NativeAlignment(horizontal.toNative(), vertical.toNative())
 }
 

@@ -11,7 +11,6 @@ public actual class MapView internal constructor(private val nativeMapView: Nati
     }
 
     public actual fun onStart() {
-
     }
 
     public actual fun onStop() {
@@ -22,7 +21,6 @@ public actual class MapView internal constructor(private val nativeMapView: Nati
     public actual fun setNonInteractive(value: Boolean) {
         nativeMapView.setNoninteractive(value)
     }
-
 }
 
 public fun NativeMapView.toCommon(): MapView {
