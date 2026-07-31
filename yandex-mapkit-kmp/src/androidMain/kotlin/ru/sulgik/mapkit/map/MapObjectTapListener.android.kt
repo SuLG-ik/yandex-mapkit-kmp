@@ -17,6 +17,6 @@ public actual abstract class MapObjectTapListener actual constructor() : NativeC
 
     public actual abstract fun onMapObjectTap(
         mapObject: MapObject,
-        point: Point
+        point: Point,
     ): Boolean
 }

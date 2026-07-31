@@ -12,7 +12,7 @@ public actual abstract class MapObjectTapListener actual constructor() : NativeC
     private val nativeListener = object : NativeMapObjectTapListener, NSObject() {
         override fun onMapObjectTapWithMapObject(
             mapObject: NativeMapObject,
-            point: NativePoint
+            point: NativePoint,
         ): Boolean {
             return onMapObjectTap(mapObject.toCommon(), point.toCommon())
         }
@@ -24,6 +24,6 @@ public actual abstract class MapObjectTapListener actual constructor() : NativeC
 
     public actual abstract fun onMapObjectTap(
         mapObject: MapObject,
-        point: Point
+        point: Point,
     ): Boolean
 }

@@ -18,5 +18,4 @@ public class UserLocationState(initialCameraPosition: CameraPosition? = null) {
 
     public var cameraPosition: CameraPosition? by mutableStateOf(initialCameraPosition)
         internal set
-
 }

@@ -20,5 +20,4 @@ public actual abstract class UserLocationTapListener actual constructor() : Nati
     }
 
     public actual abstract fun onUserLocationObjectTap(point: Point)
-
 }

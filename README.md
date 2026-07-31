@@ -1,5 +1,6 @@
 # Yandex MapKit KMP SDK
 
+[![CI](https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/ci.yml/badge.svg)](https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/ci.yml)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-v1.11.1-blue)](https://github.com/JetBrains/compose-multiplatform)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.sulgik.mapkit/yandex-mapkit-kmp?color=blue)](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp)

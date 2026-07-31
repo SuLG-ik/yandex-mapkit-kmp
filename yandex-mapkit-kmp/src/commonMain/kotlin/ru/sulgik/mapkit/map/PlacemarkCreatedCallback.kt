@@ -5,7 +5,7 @@ public expect abstract class PlacemarkCreatedCallback() {
 }
 
 public inline fun PlacemarkCreatedCallback(
-    crossinline onPlacemarkCreated: (placemark: PlacemarkMapObject) -> Unit
+    crossinline onPlacemarkCreated: (placemark: PlacemarkMapObject) -> Unit,
 ): PlacemarkCreatedCallback {
     return object : PlacemarkCreatedCallback() {
         override fun onPlacemarkCreated(placemark: PlacemarkMapObject) {

@@ -36,7 +36,7 @@ internal inline fun <reified T : MapObjectNode<R>, R : MapObject> MapObjectNode(
             update(zIndex) { this.mapObject.zIndex = it }
             update(visible) { this.mapObject.isVisible = it }
             update()
-        }
+        },
     )
 }
 
@@ -60,7 +60,6 @@ internal abstract class MapObjectNode<T : MapObject>(
     override fun onCleared() {
         tapListener = null
     }
-
 }
 
 internal val LocalMapObjectCollection =

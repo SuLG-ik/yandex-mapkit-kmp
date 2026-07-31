@@ -84,7 +84,7 @@ public class PolylineState(geometry: Polyline) {
     public fun addArrow(
         position: PolylinePosition,
         length: Float,
-        fillColor: Color
+        fillColor: Color,
     ): Arrow {
         return mapObject?.addArrow(position, length, fillColor.toMapkitColor())
             ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
@@ -113,12 +113,11 @@ public class PolylineState(geometry: Polyline) {
                 PolylineState(
                     geometry = Polyline(
                         points = points,
-                    )
+                    ),
                 )
-            }
+            },
         )
     }
-
 }
 
 @[YandexMapComposable Composable]
@@ -206,14 +205,13 @@ internal fun PolylineImpl(
             update(gapLength) { mapObject.style.gapLength = gapLength }
             update(dashOffset) { mapObject.style.dashOffset = dashOffset }
             update(strokeColor) { mapObject.setStrokeColor(strokeColor.toMapkitColor()) }
-        }
+        },
     )
 }
 
-
 internal class PolylineNode(
     mapObject: PolylineMapObject,
-    tapListener: ((Point) -> Boolean)?
+    tapListener: ((Point) -> Boolean)?,
 ) : MapObjectNode<PolylineMapObject>(mapObject, tapListener)
 
 private val DefaultStrokeColor = Color(0x0066FFFF)

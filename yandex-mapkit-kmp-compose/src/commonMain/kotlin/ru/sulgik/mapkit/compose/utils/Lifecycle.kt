@@ -3,13 +3,13 @@ package ru.sulgik.mapkit.compose.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 
-private class ComposeLifecycleObserver() : LifecycleEventObserver {
+private class ComposeLifecycleObserver : LifecycleEventObserver {
 
     var onCreate: () -> Unit = {}
     var onStart: () -> Unit = {}
@@ -29,7 +29,6 @@ private class ComposeLifecycleObserver() : LifecycleEventObserver {
             else -> {}
         }
     }
-
 }
 
 @Composable

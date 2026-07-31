@@ -22,5 +22,4 @@ public expect class PlacemarkMapObject : MapObject {
         style: IconStyle = IconStyle(),
         onFinished: Callback? = null,
     )
-
 }

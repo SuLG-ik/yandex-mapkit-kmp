@@ -33,6 +33,6 @@ internal actual fun NativeYandexMap(
         modifier = modifier,
         properties = UIKitInteropProperties(
             interactionMode = UIKitInteropInteractionMode.NonCooperative,
-        )
+        ),
     )
 }

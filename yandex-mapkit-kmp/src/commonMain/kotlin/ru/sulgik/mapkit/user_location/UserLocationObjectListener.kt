@@ -9,7 +9,6 @@ public expect abstract class UserLocationObjectListener() {
     public abstract fun onObjectRemoved(view: UserLocationView)
 
     public abstract fun onObjectUpdated(view: UserLocationView, event: ObjectEvent)
-
 }
 
 public inline fun UserLocationObjectListener(
@@ -29,6 +28,5 @@ public inline fun UserLocationObjectListener(
         override fun onObjectUpdated(view: UserLocationView, event: ObjectEvent) {
             onObjectUpdated.invoke(view, event)
         }
-
     }
 }

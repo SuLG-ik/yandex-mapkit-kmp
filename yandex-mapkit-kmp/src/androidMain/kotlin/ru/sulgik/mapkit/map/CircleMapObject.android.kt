@@ -4,12 +4,11 @@ import ru.sulgik.mapkit.Color
 import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
-import ru.sulgik.mapkit.toColor
 import ru.sulgik.mapkit.toArgb
+import ru.sulgik.mapkit.toColor
 import com.yandex.mapkit.map.CircleMapObject as NativeCircleMapObject
 
-public actual class CircleMapObject internal constructor(private val nativeCircleMapObject: NativeCircleMapObject) :
-    MapObject(nativeCircleMapObject) {
+public actual class CircleMapObject internal constructor(private val nativeCircleMapObject: NativeCircleMapObject) : MapObject(nativeCircleMapObject) {
 
     override fun toNative(): NativeCircleMapObject {
         return nativeCircleMapObject

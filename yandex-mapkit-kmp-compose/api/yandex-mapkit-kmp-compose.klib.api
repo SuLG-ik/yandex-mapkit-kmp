@@ -1,0 +1,438 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <ru.sulgik.mapkit:yandex-mapkit-kmp-compose>
+open annotation class ru.sulgik.mapkit.compose/YandexMapComposable : kotlin/Annotation { // ru.sulgik.mapkit.compose/YandexMapComposable|null[0]
+    constructor <init>() // ru.sulgik.mapkit.compose/YandexMapComposable.<init>|<init>(){}[0]
+}
+
+open annotation class ru.sulgik.mapkit.compose/YandexMapsComposeExperimentalApi : kotlin/Annotation { // ru.sulgik.mapkit.compose/YandexMapsComposeExperimentalApi|null[0]
+    constructor <init>() // ru.sulgik.mapkit.compose/YandexMapsComposeExperimentalApi.<init>|<init>(){}[0]
+}
+
+final class ru.sulgik.mapkit.compose.user_location/UserLocationConfig { // ru.sulgik.mapkit.compose.user_location/UserLocationConfig|null[0]
+    constructor <init>(kotlin/Boolean? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor? = ..., ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon? = ..., ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon? = ..., ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy? = ...) // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.<init>|<init>(kotlin.Boolean?;kotlin.Boolean?;kotlin.Boolean?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig.Anchor?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig.LocationIcon?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig.LocationIcon?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig.LocationAccuracy?){}[0]
+
+    final val accuracy // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.accuracy|{}accuracy[0]
+        final fun <get-accuracy>(): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.accuracy.<get-accuracy>|<get-accuracy>(){}[0]
+    final val anchor // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.anchor|{}anchor[0]
+        final fun <get-anchor>(): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.anchor.<get-anchor>|<get-anchor>(){}[0]
+    final val arrow // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.arrow|{}arrow[0]
+        final fun <get-arrow>(): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.arrow.<get-arrow>|<get-arrow>(){}[0]
+    final val isAutoZoomEnabled // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.isAutoZoomEnabled|{}isAutoZoomEnabled[0]
+        final fun <get-isAutoZoomEnabled>(): kotlin/Boolean? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.isAutoZoomEnabled.<get-isAutoZoomEnabled>|<get-isAutoZoomEnabled>(){}[0]
+    final val isHeadingEnabled // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.isHeadingEnabled|{}isHeadingEnabled[0]
+        final fun <get-isHeadingEnabled>(): kotlin/Boolean? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.isHeadingEnabled.<get-isHeadingEnabled>|<get-isHeadingEnabled>(){}[0]
+    final val isVisible // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.isVisible|{}isVisible[0]
+        final fun <get-isVisible>(): kotlin/Boolean? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.isVisible.<get-isVisible>|<get-isVisible>(){}[0]
+    final val pin // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.pin|{}pin[0]
+        final fun <get-pin>(): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.pin.<get-pin>|<get-pin>(){}[0]
+
+    final fun component1(): kotlin/Boolean? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.component1|component1(){}[0]
+    final fun component2(): kotlin/Boolean? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.component2|component2(){}[0]
+    final fun component3(): kotlin/Boolean? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.component3|component3(){}[0]
+    final fun component4(): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.component4|component4(){}[0]
+    final fun component5(): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.component5|component5(){}[0]
+    final fun component6(): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.component6|component6(){}[0]
+    final fun component7(): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.component7|component7(){}[0]
+    final fun copy(kotlin/Boolean? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor? = ..., ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon? = ..., ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon? = ..., ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy? = ...): ru.sulgik.mapkit.compose.user_location/UserLocationConfig // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.copy|copy(kotlin.Boolean?;kotlin.Boolean?;kotlin.Boolean?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig.Anchor?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig.LocationIcon?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig.LocationIcon?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig.LocationAccuracy?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.toString|toString(){}[0]
+
+    final class Anchor { // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor|null[0]
+        constructor <init>(ru.sulgik.mapkit/PointF, ru.sulgik.mapkit/PointF) // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.<init>|<init>(ru.sulgik.mapkit.PointF;ru.sulgik.mapkit.PointF){}[0]
+
+        final val course // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.course|{}course[0]
+            final fun <get-course>(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.course.<get-course>|<get-course>(){}[0]
+        final val normal // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.normal|{}normal[0]
+            final fun <get-normal>(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.normal.<get-normal>|<get-normal>(){}[0]
+
+        final fun component1(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.component1|component1(){}[0]
+        final fun component2(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.component2|component2(){}[0]
+        final fun copy(ru.sulgik.mapkit/PointF = ..., ru.sulgik.mapkit/PointF = ...): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.copy|copy(ru.sulgik.mapkit.PointF;ru.sulgik.mapkit.PointF){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.Anchor.toString|toString(){}[0]
+    }
+
+    final class LocationAccuracy { // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy|null[0]
+        constructor <init>(androidx.compose.ui.graphics/Color = ..., kotlin/Float = ..., androidx.compose.ui.graphics/Color = ..., kotlin/Boolean = ...) // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.<init>|<init>(androidx.compose.ui.graphics.Color;kotlin.Float;androidx.compose.ui.graphics.Color;kotlin.Boolean){}[0]
+
+        final var fillColor // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.fillColor|{}fillColor[0]
+            final fun <get-fillColor>(): androidx.compose.ui.graphics/Color // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.fillColor.<get-fillColor>|<get-fillColor>(){}[0]
+            final fun <set-fillColor>(androidx.compose.ui.graphics/Color) // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.fillColor.<set-fillColor>|<set-fillColor>(androidx.compose.ui.graphics.Color){}[0]
+        final var isGeodesic // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.isGeodesic|{}isGeodesic[0]
+            final fun <get-isGeodesic>(): kotlin/Boolean // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.isGeodesic.<get-isGeodesic>|<get-isGeodesic>(){}[0]
+            final fun <set-isGeodesic>(kotlin/Boolean) // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.isGeodesic.<set-isGeodesic>|<set-isGeodesic>(kotlin.Boolean){}[0]
+        final var strokeColor // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.strokeColor|{}strokeColor[0]
+            final fun <get-strokeColor>(): androidx.compose.ui.graphics/Color // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.strokeColor.<get-strokeColor>|<get-strokeColor>(){}[0]
+            final fun <set-strokeColor>(androidx.compose.ui.graphics/Color) // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.strokeColor.<set-strokeColor>|<set-strokeColor>(androidx.compose.ui.graphics.Color){}[0]
+        final var strokeWidth // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.strokeWidth|{}strokeWidth[0]
+            final fun <get-strokeWidth>(): kotlin/Float // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.strokeWidth.<get-strokeWidth>|<get-strokeWidth>(){}[0]
+            final fun <set-strokeWidth>(kotlin/Float) // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.strokeWidth.<set-strokeWidth>|<set-strokeWidth>(kotlin.Float){}[0]
+
+        final fun component1(): androidx.compose.ui.graphics/Color // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.component1|component1(){}[0]
+        final fun component2(): kotlin/Float // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.component2|component2(){}[0]
+        final fun component3(): androidx.compose.ui.graphics/Color // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.component3|component3(){}[0]
+        final fun component4(): kotlin/Boolean // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.component4|component4(){}[0]
+        final fun copy(androidx.compose.ui.graphics/Color = ..., kotlin/Float = ..., androidx.compose.ui.graphics/Color = ..., kotlin/Boolean = ...): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.copy|copy(androidx.compose.ui.graphics.Color;kotlin.Float;androidx.compose.ui.graphics.Color;kotlin.Boolean){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationAccuracy.toString|toString(){}[0]
+    }
+
+    final class LocationIcon { // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon|null[0]
+        constructor <init>(ru.sulgik.mapkit.map/ImageProvider, ru.sulgik.mapkit.map/IconStyle = ..., kotlin/Float? = ..., kotlin/Float = ...) // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.<init>|<init>(ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.map.IconStyle;kotlin.Float?;kotlin.Float){}[0]
+
+        final val direction // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.direction|{}direction[0]
+            final fun <get-direction>(): kotlin/Float? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.direction.<get-direction>|<get-direction>(){}[0]
+        final val image // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.image|{}image[0]
+            final fun <get-image>(): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.image.<get-image>|<get-image>(){}[0]
+        final val opacity // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.opacity|{}opacity[0]
+            final fun <get-opacity>(): kotlin/Float // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.opacity.<get-opacity>|<get-opacity>(){}[0]
+        final val style // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.style|{}style[0]
+            final fun <get-style>(): ru.sulgik.mapkit.map/IconStyle // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.style.<get-style>|<get-style>(){}[0]
+
+        final fun component1(): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.component1|component1(){}[0]
+        final fun component2(): ru.sulgik.mapkit.map/IconStyle // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.component2|component2(){}[0]
+        final fun component3(): kotlin/Float? // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.component3|component3(){}[0]
+        final fun component4(): kotlin/Float // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.component4|component4(){}[0]
+        final fun copy(ru.sulgik.mapkit.map/ImageProvider = ..., ru.sulgik.mapkit.map/IconStyle = ..., kotlin/Float? = ..., kotlin/Float = ...): ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.copy|copy(ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.map.IconStyle;kotlin.Float?;kotlin.Float){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // ru.sulgik.mapkit.compose.user_location/UserLocationConfig.LocationIcon.toString|toString(){}[0]
+    }
+}
+
+final class ru.sulgik.mapkit.compose.user_location/UserLocationState { // ru.sulgik.mapkit.compose.user_location/UserLocationState|null[0]
+    constructor <init>(ru.sulgik.mapkit.map/CameraPosition? = ...) // ru.sulgik.mapkit.compose.user_location/UserLocationState.<init>|<init>(ru.sulgik.mapkit.map.CameraPosition?){}[0]
+
+    final var cameraPosition // ru.sulgik.mapkit.compose.user_location/UserLocationState.cameraPosition|{}cameraPosition[0]
+        final fun <get-cameraPosition>(): ru.sulgik.mapkit.map/CameraPosition? // ru.sulgik.mapkit.compose.user_location/UserLocationState.cameraPosition.<get-cameraPosition>|<get-cameraPosition>(){}[0]
+}
+
+final class ru.sulgik.mapkit.compose/CameraPositionState { // ru.sulgik.mapkit.compose/CameraPositionState|null[0]
+    final var isMoving // ru.sulgik.mapkit.compose/CameraPositionState.isMoving|{}isMoving[0]
+        final fun <get-isMoving>(): kotlin/Boolean // ru.sulgik.mapkit.compose/CameraPositionState.isMoving.<get-isMoving>|<get-isMoving>(){}[0]
+    final var position // ru.sulgik.mapkit.compose/CameraPositionState.position|{}position[0]
+        final fun <get-position>(): ru.sulgik.mapkit.map/CameraPosition // ru.sulgik.mapkit.compose/CameraPositionState.position.<get-position>|<get-position>(){}[0]
+        final fun <set-position>(ru.sulgik.mapkit.map/CameraPosition) // ru.sulgik.mapkit.compose/CameraPositionState.position.<set-position>|<set-position>(ru.sulgik.mapkit.map.CameraPosition){}[0]
+    final var updateReason // ru.sulgik.mapkit.compose/CameraPositionState.updateReason|{}updateReason[0]
+        final fun <get-updateReason>(): ru.sulgik.mapkit.map/CameraUpdateReason? // ru.sulgik.mapkit.compose/CameraPositionState.updateReason.<get-updateReason>|<get-updateReason>(){}[0]
+
+    final object Companion { // ru.sulgik.mapkit.compose/CameraPositionState.Companion|null[0]
+        final val Saver // ru.sulgik.mapkit.compose/CameraPositionState.Companion.Saver|{}Saver[0]
+            final fun <get-Saver>(): androidx.compose.runtime.saveable/Saver<ru.sulgik.mapkit.compose/CameraPositionState, kotlin/Any> // ru.sulgik.mapkit.compose/CameraPositionState.Companion.Saver.<get-Saver>|<get-Saver>(){}[0]
+
+        final fun invoke(ru.sulgik.mapkit.map/CameraPosition = ...): ru.sulgik.mapkit.compose/CameraPositionState // ru.sulgik.mapkit.compose/CameraPositionState.Companion.invoke|invoke(ru.sulgik.mapkit.map.CameraPosition){}[0]
+    }
+}
+
+final class ru.sulgik.mapkit.compose/CircleState { // ru.sulgik.mapkit.compose/CircleState|null[0]
+    constructor <init>(ru.sulgik.mapkit.geometry/Circle) // ru.sulgik.mapkit.compose/CircleState.<init>|<init>(ru.sulgik.mapkit.geometry.Circle){}[0]
+
+    final var geometry // ru.sulgik.mapkit.compose/CircleState.geometry|{}geometry[0]
+        final fun <get-geometry>(): ru.sulgik.mapkit.geometry/Circle // ru.sulgik.mapkit.compose/CircleState.geometry.<get-geometry>|<get-geometry>(){}[0]
+        final fun <set-geometry>(ru.sulgik.mapkit.geometry/Circle) // ru.sulgik.mapkit.compose/CircleState.geometry.<set-geometry>|<set-geometry>(ru.sulgik.mapkit.geometry.Circle){}[0]
+
+    final object Companion { // ru.sulgik.mapkit.compose/CircleState.Companion|null[0]
+        final val Saver // ru.sulgik.mapkit.compose/CircleState.Companion.Saver|{}Saver[0]
+            final fun <get-Saver>(): androidx.compose.runtime.saveable/Saver<ru.sulgik.mapkit.compose/CircleState, kotlin/Any> // ru.sulgik.mapkit.compose/CircleState.Companion.Saver.<get-Saver>|<get-Saver>(){}[0]
+    }
+}
+
+final class ru.sulgik.mapkit.compose/ClusterGroup { // ru.sulgik.mapkit.compose/ClusterGroup|null[0]
+    constructor <init>(kotlinx.collections.immutable/ImmutableList<ru.sulgik.mapkit.compose/ClusterItem>, ru.sulgik.mapkit.map/ImageProvider, ru.sulgik.mapkit.map/IconStyle = ..., kotlin/String? = ..., ru.sulgik.mapkit.map/TextStyle = ...) // ru.sulgik.mapkit.compose/ClusterGroup.<init>|<init>(kotlinx.collections.immutable.ImmutableList<ru.sulgik.mapkit.compose.ClusterItem>;ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.map.IconStyle;kotlin.String?;ru.sulgik.mapkit.map.TextStyle){}[0]
+
+    final val icon // ru.sulgik.mapkit.compose/ClusterGroup.icon|{}icon[0]
+        final fun <get-icon>(): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.compose/ClusterGroup.icon.<get-icon>|<get-icon>(){}[0]
+    final val iconStyle // ru.sulgik.mapkit.compose/ClusterGroup.iconStyle|{}iconStyle[0]
+        final fun <get-iconStyle>(): ru.sulgik.mapkit.map/IconStyle // ru.sulgik.mapkit.compose/ClusterGroup.iconStyle.<get-iconStyle>|<get-iconStyle>(){}[0]
+    final val placemarks // ru.sulgik.mapkit.compose/ClusterGroup.placemarks|{}placemarks[0]
+        final fun <get-placemarks>(): kotlinx.collections.immutable/ImmutableList<ru.sulgik.mapkit.compose/ClusterItem> // ru.sulgik.mapkit.compose/ClusterGroup.placemarks.<get-placemarks>|<get-placemarks>(){}[0]
+    final val text // ru.sulgik.mapkit.compose/ClusterGroup.text|{}text[0]
+        final fun <get-text>(): kotlin/String? // ru.sulgik.mapkit.compose/ClusterGroup.text.<get-text>|<get-text>(){}[0]
+    final val textStyle // ru.sulgik.mapkit.compose/ClusterGroup.textStyle|{}textStyle[0]
+        final fun <get-textStyle>(): ru.sulgik.mapkit.map/TextStyle // ru.sulgik.mapkit.compose/ClusterGroup.textStyle.<get-textStyle>|<get-textStyle>(){}[0]
+
+    final fun component1(): kotlinx.collections.immutable/ImmutableList<ru.sulgik.mapkit.compose/ClusterItem> // ru.sulgik.mapkit.compose/ClusterGroup.component1|component1(){}[0]
+    final fun component2(): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.compose/ClusterGroup.component2|component2(){}[0]
+    final fun component3(): ru.sulgik.mapkit.map/IconStyle // ru.sulgik.mapkit.compose/ClusterGroup.component3|component3(){}[0]
+    final fun component4(): kotlin/String? // ru.sulgik.mapkit.compose/ClusterGroup.component4|component4(){}[0]
+    final fun component5(): ru.sulgik.mapkit.map/TextStyle // ru.sulgik.mapkit.compose/ClusterGroup.component5|component5(){}[0]
+    final fun copy(kotlinx.collections.immutable/ImmutableList<ru.sulgik.mapkit.compose/ClusterItem> = ..., ru.sulgik.mapkit.map/ImageProvider = ..., ru.sulgik.mapkit.map/IconStyle = ..., kotlin/String? = ..., ru.sulgik.mapkit.map/TextStyle = ...): ru.sulgik.mapkit.compose/ClusterGroup // ru.sulgik.mapkit.compose/ClusterGroup.copy|copy(kotlinx.collections.immutable.ImmutableList<ru.sulgik.mapkit.compose.ClusterItem>;ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.map.IconStyle;kotlin.String?;ru.sulgik.mapkit.map.TextStyle){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose/ClusterGroup.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose/ClusterGroup.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.compose/ClusterGroup.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.compose/ClusterImageProvider { // ru.sulgik.mapkit.compose/ClusterImageProvider|null[0]
+    final fun setIcon(ru.sulgik.mapkit.geometry/Cluster, ru.sulgik.mapkit.map/IconStyle = ...) // ru.sulgik.mapkit.compose/ClusterImageProvider.setIcon|setIcon(ru.sulgik.mapkit.geometry.Cluster;ru.sulgik.mapkit.map.IconStyle){}[0]
+}
+
+final class ru.sulgik.mapkit.compose/ClusterInfo { // ru.sulgik.mapkit.compose/ClusterInfo|null[0]
+    constructor <init>(kotlin/Int) // ru.sulgik.mapkit.compose/ClusterInfo.<init>|<init>(kotlin.Int){}[0]
+
+    final val size // ru.sulgik.mapkit.compose/ClusterInfo.size|{}size[0]
+        final fun <get-size>(): kotlin/Int // ru.sulgik.mapkit.compose/ClusterInfo.size.<get-size>|<get-size>(){}[0]
+
+    final fun component1(): kotlin/Int // ru.sulgik.mapkit.compose/ClusterInfo.component1|component1(){}[0]
+    final fun copy(kotlin/Int = ...): ru.sulgik.mapkit.compose/ClusterInfo // ru.sulgik.mapkit.compose/ClusterInfo.copy|copy(kotlin.Int){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose/ClusterInfo.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose/ClusterInfo.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.compose/ClusterInfo.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.compose/ClusterItem { // ru.sulgik.mapkit.compose/ClusterItem|null[0]
+    constructor <init>(ru.sulgik.mapkit.geometry/Point, kotlin/Any? = ...) // ru.sulgik.mapkit.compose/ClusterItem.<init>|<init>(ru.sulgik.mapkit.geometry.Point;kotlin.Any?){}[0]
+
+    final val data // ru.sulgik.mapkit.compose/ClusterItem.data|{}data[0]
+        final fun <get-data>(): kotlin/Any? // ru.sulgik.mapkit.compose/ClusterItem.data.<get-data>|<get-data>(){}[0]
+    final val geometry // ru.sulgik.mapkit.compose/ClusterItem.geometry|{}geometry[0]
+        final fun <get-geometry>(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit.compose/ClusterItem.geometry.<get-geometry>|<get-geometry>(){}[0]
+
+    final fun component1(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit.compose/ClusterItem.component1|component1(){}[0]
+    final fun component2(): kotlin/Any? // ru.sulgik.mapkit.compose/ClusterItem.component2|component2(){}[0]
+    final fun copy(ru.sulgik.mapkit.geometry/Point = ..., kotlin/Any? = ...): ru.sulgik.mapkit.compose/ClusterItem // ru.sulgik.mapkit.compose/ClusterItem.copy|copy(ru.sulgik.mapkit.geometry.Point;kotlin.Any?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose/ClusterItem.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose/ClusterItem.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.compose/ClusterItem.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.compose/ClusterizingConfig { // ru.sulgik.mapkit.compose/ClusterizingConfig|null[0]
+    constructor <init>(kotlin/Double = ..., kotlin/Int = ...) // ru.sulgik.mapkit.compose/ClusterizingConfig.<init>|<init>(kotlin.Double;kotlin.Int){}[0]
+
+    final val clusterRadius // ru.sulgik.mapkit.compose/ClusterizingConfig.clusterRadius|{}clusterRadius[0]
+        final fun <get-clusterRadius>(): kotlin/Double // ru.sulgik.mapkit.compose/ClusterizingConfig.clusterRadius.<get-clusterRadius>|<get-clusterRadius>(){}[0]
+    final val minZoom // ru.sulgik.mapkit.compose/ClusterizingConfig.minZoom|{}minZoom[0]
+        final fun <get-minZoom>(): kotlin/Int // ru.sulgik.mapkit.compose/ClusterizingConfig.minZoom.<get-minZoom>|<get-minZoom>(){}[0]
+
+    final fun component1(): kotlin/Double // ru.sulgik.mapkit.compose/ClusterizingConfig.component1|component1(){}[0]
+    final fun component2(): kotlin/Int // ru.sulgik.mapkit.compose/ClusterizingConfig.component2|component2(){}[0]
+    final fun copy(kotlin/Double = ..., kotlin/Int = ...): ru.sulgik.mapkit.compose/ClusterizingConfig // ru.sulgik.mapkit.compose/ClusterizingConfig.copy|copy(kotlin.Double;kotlin.Int){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose/ClusterizingConfig.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose/ClusterizingConfig.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.compose/ClusterizingConfig.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.compose/ComposeMapObjectRenderer // ru.sulgik.mapkit.compose/ComposeMapObjectRenderer|null[0]
+
+final class ru.sulgik.mapkit.compose/MapConfig { // ru.sulgik.mapkit.compose/MapConfig|null[0]
+    constructor <init>(kotlin/Boolean? = ..., kotlin/Int? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., ru.sulgik.mapkit.map/MapType? = ..., kotlin/Boolean? = ..., ru.sulgik.mapkit.compose/MapLogoConfig = ..., kotlin/Int? = ...) // ru.sulgik.mapkit.compose/MapConfig.<init>|<init>(kotlin.Boolean?;kotlin.Int?;kotlin.Boolean?;kotlin.Boolean?;kotlin.Boolean?;kotlin.Boolean?;kotlin.Boolean?;ru.sulgik.mapkit.map.MapType?;kotlin.Boolean?;ru.sulgik.mapkit.compose.MapLogoConfig;kotlin.Int?){}[0]
+
+    final val fps // ru.sulgik.mapkit.compose/MapConfig.fps|{}fps[0]
+        final fun <get-fps>(): kotlin/Int? // ru.sulgik.mapkit.compose/MapConfig.fps.<get-fps>|<get-fps>(){}[0]
+    final val isFastTapEnabled // ru.sulgik.mapkit.compose/MapConfig.isFastTapEnabled|{}isFastTapEnabled[0]
+        final fun <get-isFastTapEnabled>(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.isFastTapEnabled.<get-isFastTapEnabled>|<get-isFastTapEnabled>(){}[0]
+    final val isNightModeEnabled // ru.sulgik.mapkit.compose/MapConfig.isNightModeEnabled|{}isNightModeEnabled[0]
+        final fun <get-isNightModeEnabled>(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.isNightModeEnabled.<get-isNightModeEnabled>|<get-isNightModeEnabled>(){}[0]
+    final val isRotateGesturesEnabled // ru.sulgik.mapkit.compose/MapConfig.isRotateGesturesEnabled|{}isRotateGesturesEnabled[0]
+        final fun <get-isRotateGesturesEnabled>(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.isRotateGesturesEnabled.<get-isRotateGesturesEnabled>|<get-isRotateGesturesEnabled>(){}[0]
+    final val isScrollGesturesEnabled // ru.sulgik.mapkit.compose/MapConfig.isScrollGesturesEnabled|{}isScrollGesturesEnabled[0]
+        final fun <get-isScrollGesturesEnabled>(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.isScrollGesturesEnabled.<get-isScrollGesturesEnabled>|<get-isScrollGesturesEnabled>(){}[0]
+    final val isTiltGesturesEnabled // ru.sulgik.mapkit.compose/MapConfig.isTiltGesturesEnabled|{}isTiltGesturesEnabled[0]
+        final fun <get-isTiltGesturesEnabled>(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.isTiltGesturesEnabled.<get-isTiltGesturesEnabled>|<get-isTiltGesturesEnabled>(){}[0]
+    final val isZoomGesturesEnabled // ru.sulgik.mapkit.compose/MapConfig.isZoomGesturesEnabled|{}isZoomGesturesEnabled[0]
+        final fun <get-isZoomGesturesEnabled>(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.isZoomGesturesEnabled.<get-isZoomGesturesEnabled>|<get-isZoomGesturesEnabled>(){}[0]
+    final val logo // ru.sulgik.mapkit.compose/MapConfig.logo|{}logo[0]
+        final fun <get-logo>(): ru.sulgik.mapkit.compose/MapLogoConfig // ru.sulgik.mapkit.compose/MapConfig.logo.<get-logo>|<get-logo>(){}[0]
+    final val mapType // ru.sulgik.mapkit.compose/MapConfig.mapType|{}mapType[0]
+        final fun <get-mapType>(): ru.sulgik.mapkit.map/MapType? // ru.sulgik.mapkit.compose/MapConfig.mapType.<get-mapType>|<get-mapType>(){}[0]
+    final val poiLimit // ru.sulgik.mapkit.compose/MapConfig.poiLimit|{}poiLimit[0]
+        final fun <get-poiLimit>(): kotlin/Int? // ru.sulgik.mapkit.compose/MapConfig.poiLimit.<get-poiLimit>|<get-poiLimit>(){}[0]
+    final val use2dMode // ru.sulgik.mapkit.compose/MapConfig.use2dMode|{}use2dMode[0]
+        final fun <get-use2dMode>(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.use2dMode.<get-use2dMode>|<get-use2dMode>(){}[0]
+
+    final fun component1(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.component1|component1(){}[0]
+    final fun component10(): ru.sulgik.mapkit.compose/MapLogoConfig // ru.sulgik.mapkit.compose/MapConfig.component10|component10(){}[0]
+    final fun component11(): kotlin/Int? // ru.sulgik.mapkit.compose/MapConfig.component11|component11(){}[0]
+    final fun component2(): kotlin/Int? // ru.sulgik.mapkit.compose/MapConfig.component2|component2(){}[0]
+    final fun component3(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.component3|component3(){}[0]
+    final fun component4(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.component4|component4(){}[0]
+    final fun component5(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.component5|component5(){}[0]
+    final fun component6(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.component6|component6(){}[0]
+    final fun component7(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.component7|component7(){}[0]
+    final fun component8(): ru.sulgik.mapkit.map/MapType? // ru.sulgik.mapkit.compose/MapConfig.component8|component8(){}[0]
+    final fun component9(): kotlin/Boolean? // ru.sulgik.mapkit.compose/MapConfig.component9|component9(){}[0]
+    final fun copy(kotlin/Boolean? = ..., kotlin/Int? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ..., ru.sulgik.mapkit.map/MapType? = ..., kotlin/Boolean? = ..., ru.sulgik.mapkit.compose/MapLogoConfig = ..., kotlin/Int? = ...): ru.sulgik.mapkit.compose/MapConfig // ru.sulgik.mapkit.compose/MapConfig.copy|copy(kotlin.Boolean?;kotlin.Int?;kotlin.Boolean?;kotlin.Boolean?;kotlin.Boolean?;kotlin.Boolean?;kotlin.Boolean?;ru.sulgik.mapkit.map.MapType?;kotlin.Boolean?;ru.sulgik.mapkit.compose.MapLogoConfig;kotlin.Int?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose/MapConfig.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose/MapConfig.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.compose/MapConfig.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.compose/MapLogoConfig { // ru.sulgik.mapkit.compose/MapLogoConfig|null[0]
+    constructor <init>(ru.sulgik.mapkit.logo/LogoAlignment? = ..., ru.sulgik.mapkit.logo/LogoPadding? = ...) // ru.sulgik.mapkit.compose/MapLogoConfig.<init>|<init>(ru.sulgik.mapkit.logo.LogoAlignment?;ru.sulgik.mapkit.logo.LogoPadding?){}[0]
+
+    final val alignment // ru.sulgik.mapkit.compose/MapLogoConfig.alignment|{}alignment[0]
+        final fun <get-alignment>(): ru.sulgik.mapkit.logo/LogoAlignment? // ru.sulgik.mapkit.compose/MapLogoConfig.alignment.<get-alignment>|<get-alignment>(){}[0]
+    final val padding // ru.sulgik.mapkit.compose/MapLogoConfig.padding|{}padding[0]
+        final fun <get-padding>(): ru.sulgik.mapkit.logo/LogoPadding? // ru.sulgik.mapkit.compose/MapLogoConfig.padding.<get-padding>|<get-padding>(){}[0]
+
+    final fun component1(): ru.sulgik.mapkit.logo/LogoAlignment? // ru.sulgik.mapkit.compose/MapLogoConfig.component1|component1(){}[0]
+    final fun component2(): ru.sulgik.mapkit.logo/LogoPadding? // ru.sulgik.mapkit.compose/MapLogoConfig.component2|component2(){}[0]
+    final fun copy(ru.sulgik.mapkit.logo/LogoAlignment? = ..., ru.sulgik.mapkit.logo/LogoPadding? = ...): ru.sulgik.mapkit.compose/MapLogoConfig // ru.sulgik.mapkit.compose/MapLogoConfig.copy|copy(ru.sulgik.mapkit.logo.LogoAlignment?;ru.sulgik.mapkit.logo.LogoPadding?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.compose/MapLogoConfig.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.compose/MapLogoConfig.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.compose/MapLogoConfig.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.compose/PlacemarkState { // ru.sulgik.mapkit.compose/PlacemarkState|null[0]
+    constructor <init>(ru.sulgik.mapkit.geometry/Point, kotlin/Float = ...) // ru.sulgik.mapkit.compose/PlacemarkState.<init>|<init>(ru.sulgik.mapkit.geometry.Point;kotlin.Float){}[0]
+
+    final var direction // ru.sulgik.mapkit.compose/PlacemarkState.direction|{}direction[0]
+        final fun <get-direction>(): kotlin/Float // ru.sulgik.mapkit.compose/PlacemarkState.direction.<get-direction>|<get-direction>(){}[0]
+        final fun <set-direction>(kotlin/Float) // ru.sulgik.mapkit.compose/PlacemarkState.direction.<set-direction>|<set-direction>(kotlin.Float){}[0]
+    final var geometry // ru.sulgik.mapkit.compose/PlacemarkState.geometry|{}geometry[0]
+        final fun <get-geometry>(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit.compose/PlacemarkState.geometry.<get-geometry>|<get-geometry>(){}[0]
+        final fun <set-geometry>(ru.sulgik.mapkit.geometry/Point) // ru.sulgik.mapkit.compose/PlacemarkState.geometry.<set-geometry>|<set-geometry>(ru.sulgik.mapkit.geometry.Point){}[0]
+    final var isDragging // ru.sulgik.mapkit.compose/PlacemarkState.isDragging|{}isDragging[0]
+        final fun <get-isDragging>(): kotlin/Boolean // ru.sulgik.mapkit.compose/PlacemarkState.isDragging.<get-isDragging>|<get-isDragging>(){}[0]
+
+    final object Companion { // ru.sulgik.mapkit.compose/PlacemarkState.Companion|null[0]
+        final val Saver // ru.sulgik.mapkit.compose/PlacemarkState.Companion.Saver|{}Saver[0]
+            final fun <get-Saver>(): androidx.compose.runtime.saveable/Saver<ru.sulgik.mapkit.compose/PlacemarkState, kotlin/Any> // ru.sulgik.mapkit.compose/PlacemarkState.Companion.Saver.<get-Saver>|<get-Saver>(){}[0]
+    }
+}
+
+final class ru.sulgik.mapkit.compose/PolygonState { // ru.sulgik.mapkit.compose/PolygonState|null[0]
+    constructor <init>(ru.sulgik.mapkit.geometry/Polygon) // ru.sulgik.mapkit.compose/PolygonState.<init>|<init>(ru.sulgik.mapkit.geometry.Polygon){}[0]
+
+    final var geometry // ru.sulgik.mapkit.compose/PolygonState.geometry|{}geometry[0]
+        final fun <get-geometry>(): ru.sulgik.mapkit.geometry/Polygon // ru.sulgik.mapkit.compose/PolygonState.geometry.<get-geometry>|<get-geometry>(){}[0]
+        final fun <set-geometry>(ru.sulgik.mapkit.geometry/Polygon) // ru.sulgik.mapkit.compose/PolygonState.geometry.<set-geometry>|<set-geometry>(ru.sulgik.mapkit.geometry.Polygon){}[0]
+
+    final object Companion { // ru.sulgik.mapkit.compose/PolygonState.Companion|null[0]
+        final val Saver // ru.sulgik.mapkit.compose/PolygonState.Companion.Saver|{}Saver[0]
+            final fun <get-Saver>(): androidx.compose.runtime.saveable/Saver<ru.sulgik.mapkit.compose/PolygonState, kotlin/Any> // ru.sulgik.mapkit.compose/PolygonState.Companion.Saver.<get-Saver>|<get-Saver>(){}[0]
+    }
+}
+
+final class ru.sulgik.mapkit.compose/PolylineState { // ru.sulgik.mapkit.compose/PolylineState|null[0]
+    constructor <init>(ru.sulgik.mapkit.geometry/Polyline) // ru.sulgik.mapkit.compose/PolylineState.<init>|<init>(ru.sulgik.mapkit.geometry.Polyline){}[0]
+
+    final var geometry // ru.sulgik.mapkit.compose/PolylineState.geometry|{}geometry[0]
+        final fun <get-geometry>(): ru.sulgik.mapkit.geometry/Polyline // ru.sulgik.mapkit.compose/PolylineState.geometry.<get-geometry>|<get-geometry>(){}[0]
+        final fun <set-geometry>(ru.sulgik.mapkit.geometry/Polyline) // ru.sulgik.mapkit.compose/PolylineState.geometry.<set-geometry>|<set-geometry>(ru.sulgik.mapkit.geometry.Polyline){}[0]
+
+    final fun addArrow(ru.sulgik.mapkit.geometry/PolylinePosition, kotlin/Float, androidx.compose.ui.graphics/Color): ru.sulgik.mapkit.map/Arrow // ru.sulgik.mapkit.compose/PolylineState.addArrow|addArrow(ru.sulgik.mapkit.geometry.PolylinePosition;kotlin.Float;androidx.compose.ui.graphics.Color){}[0]
+    final fun arrows(): kotlin.collections/List<ru.sulgik.mapkit.map/Arrow> // ru.sulgik.mapkit.compose/PolylineState.arrows|arrows(){}[0]
+    final fun getPaletteColor(kotlin/Int): androidx.compose.ui.graphics/Color // ru.sulgik.mapkit.compose/PolylineState.getPaletteColor|getPaletteColor(kotlin.Int){}[0]
+    final fun getStrokeColor(kotlin/Int): androidx.compose.ui.graphics/Color // ru.sulgik.mapkit.compose/PolylineState.getStrokeColor|getStrokeColor(kotlin.Int){}[0]
+    final fun hide(kotlin.collections/List<ru.sulgik.mapkit.geometry/Subpolyline>) // ru.sulgik.mapkit.compose/PolylineState.hide|hide(kotlin.collections.List<ru.sulgik.mapkit.geometry.Subpolyline>){}[0]
+    final fun hide(ru.sulgik.mapkit.geometry/Subpolyline) // ru.sulgik.mapkit.compose/PolylineState.hide|hide(ru.sulgik.mapkit.geometry.Subpolyline){}[0]
+    final fun select(androidx.compose.ui.graphics/Color, ru.sulgik.mapkit.geometry/Subpolyline) // ru.sulgik.mapkit.compose/PolylineState.select|select(androidx.compose.ui.graphics.Color;ru.sulgik.mapkit.geometry.Subpolyline){}[0]
+    final fun setPaletteColor(kotlin/Int, androidx.compose.ui.graphics/Color) // ru.sulgik.mapkit.compose/PolylineState.setPaletteColor|setPaletteColor(kotlin.Int;androidx.compose.ui.graphics.Color){}[0]
+    final fun setStrokeColors(kotlin.collections/List<androidx.compose.ui.graphics/Color>) // ru.sulgik.mapkit.compose/PolylineState.setStrokeColors|setStrokeColors(kotlin.collections.List<androidx.compose.ui.graphics.Color>){}[0]
+    final fun setStrokeColors(kotlin.collections/List<androidx.compose.ui.graphics/Color>, kotlin.collections/List<kotlin/Double>) // ru.sulgik.mapkit.compose/PolylineState.setStrokeColors|setStrokeColors(kotlin.collections.List<androidx.compose.ui.graphics.Color>;kotlin.collections.List<kotlin.Double>){}[0]
+
+    final object Companion { // ru.sulgik.mapkit.compose/PolylineState.Companion|null[0]
+        final val Saver // ru.sulgik.mapkit.compose/PolylineState.Companion.Saver|{}Saver[0]
+            final fun <get-Saver>(): androidx.compose.runtime.saveable/Saver<ru.sulgik.mapkit.compose/PolylineState, kotlin/Any> // ru.sulgik.mapkit.compose/PolylineState.Companion.Saver.<get-Saver>|<get-Saver>(){}[0]
+    }
+}
+
+final class ru.sulgik.mapkit.compose/YandexMapController { // ru.sulgik.mapkit.compose/YandexMapController|null[0]
+    final val mapWindow // ru.sulgik.mapkit.compose/YandexMapController.mapWindow|{}mapWindow[0]
+        final fun <get-mapWindow>(): ru.sulgik.mapkit.map/MapWindow? // ru.sulgik.mapkit.compose/YandexMapController.mapWindow.<get-mapWindow>|<get-mapWindow>(){}[0]
+}
+
+final val ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig$stableprop // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig$stableprop|#static{}ru_sulgik_mapkit_compose_user_location_UserLocationConfig$stableprop[0]
+final val ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_Anchor$stableprop // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_Anchor$stableprop|#static{}ru_sulgik_mapkit_compose_user_location_UserLocationConfig_Anchor$stableprop[0]
+final val ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationAccuracy$stableprop // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationAccuracy$stableprop|#static{}ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationAccuracy$stableprop[0]
+final val ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationIcon$stableprop // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationIcon$stableprop|#static{}ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationIcon$stableprop[0]
+final val ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationState$stableprop // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationState$stableprop|#static{}ru_sulgik_mapkit_compose_user_location_UserLocationState$stableprop[0]
+final val ru.sulgik.mapkit.compose/currentCameraPositionState // ru.sulgik.mapkit.compose/currentCameraPositionState|{}currentCameraPositionState[0]
+    final fun <get-currentCameraPositionState>(androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.compose/CameraPositionState // ru.sulgik.mapkit.compose/currentCameraPositionState.<get-currentCameraPositionState>|<get-currentCameraPositionState>(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_CameraPositionState$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_CameraPositionState$stableprop|#static{}ru_sulgik_mapkit_compose_CameraPositionState$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_CircleState$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_CircleState$stableprop|#static{}ru_sulgik_mapkit_compose_CircleState$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterGroup$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterGroup$stableprop|#static{}ru_sulgik_mapkit_compose_ClusterGroup$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterImageProvider$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterImageProvider$stableprop|#static{}ru_sulgik_mapkit_compose_ClusterImageProvider$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterInfo$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterInfo$stableprop|#static{}ru_sulgik_mapkit_compose_ClusterInfo$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterItem$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterItem$stableprop|#static{}ru_sulgik_mapkit_compose_ClusterItem$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterizingConfig$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterizingConfig$stableprop|#static{}ru_sulgik_mapkit_compose_ClusterizingConfig$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ComposeMapObjectRenderer$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ComposeMapObjectRenderer$stableprop|#static{}ru_sulgik_mapkit_compose_ComposeMapObjectRenderer$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_MapConfig$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_MapConfig$stableprop|#static{}ru_sulgik_mapkit_compose_MapConfig$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_MapLogoConfig$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_MapLogoConfig$stableprop|#static{}ru_sulgik_mapkit_compose_MapLogoConfig$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PlacemarkState$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PlacemarkState$stableprop|#static{}ru_sulgik_mapkit_compose_PlacemarkState$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PolygonState$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PolygonState$stableprop|#static{}ru_sulgik_mapkit_compose_PolygonState$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PolylineState$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PolylineState$stableprop|#static{}ru_sulgik_mapkit_compose_PolylineState$stableprop[0]
+final val ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_YandexMapController$stableprop // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_YandexMapController$stableprop|#static{}ru_sulgik_mapkit_compose_YandexMapController$stableprop[0]
+final val ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_array$stableprop // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_array$stableprop|#static{}ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_array$stableprop[0]
+final val ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_drawable$stableprop // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_drawable$stableprop|#static{}ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_drawable$stableprop[0]
+final val ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_font$stableprop // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_font$stableprop|#static{}ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_font$stableprop[0]
+final val ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_plurals$stableprop // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_plurals$stableprop|#static{}ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_plurals$stableprop[0]
+final val ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_string$stableprop // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_string$stableprop|#static{}ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_string$stableprop[0]
+
+final fun (androidx.compose.ui.graphics/Color).ru.sulgik.mapkit.compose.utils/toMapkitColor(): ru.sulgik.mapkit/Color // ru.sulgik.mapkit.compose.utils/toMapkitColor|toMapkitColor@androidx.compose.ui.graphics.Color(){}[0]
+final fun (androidx.compose.ui.graphics/ImageBitmap).ru.sulgik.mapkit.compose/toImageProvider(): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.compose/toImageProvider|toImageProvider@androidx.compose.ui.graphics.ImageBitmap(){}[0]
+final fun (org.jetbrains.skia/Bitmap).ru.sulgik.mapkit.compose/toUIImage(kotlin/Double = ...): platform.UIKit/UIImage // ru.sulgik.mapkit.compose/toUIImage|toUIImage@org.jetbrains.skia.Bitmap(kotlin.Double){}[0]
+final fun (ru.sulgik.mapkit/Color).ru.sulgik.mapkit.compose.utils/toComposeColor(): androidx.compose.ui.graphics/Color // ru.sulgik.mapkit.compose.utils/toComposeColor|toComposeColor@ru.sulgik.mapkit.Color(){}[0]
+final fun (ru.sulgik.mapkit/MapKit).ru.sulgik.mapkit.compose/bindToLifecycleOwner(androidx.lifecycle/LifecycleOwner?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/bindToLifecycleOwner|bindToLifecycleOwner@ru.sulgik.mapkit.MapKit(androidx.lifecycle.LifecycleOwner?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose.user_location/rememberUserLocationState(androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.compose.user_location/UserLocationState // ru.sulgik.mapkit.compose.user_location/rememberUserLocationState|rememberUserLocationState(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig$stableprop_getter|ru_sulgik_mapkit_compose_user_location_UserLocationConfig$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_Anchor$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_Anchor$stableprop_getter|ru_sulgik_mapkit_compose_user_location_UserLocationConfig_Anchor$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationAccuracy$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationAccuracy$stableprop_getter|ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationAccuracy$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationIcon$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationIcon$stableprop_getter|ru_sulgik_mapkit_compose_user_location_UserLocationConfig_LocationIcon$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationState$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose.user_location/ru_sulgik_mapkit_compose_user_location_UserLocationState$stableprop_getter|ru_sulgik_mapkit_compose_user_location_UserLocationState$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/Circle(ru.sulgik.mapkit.compose/CircleState, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, kotlin/Float, kotlin/Boolean, kotlin/Boolean, kotlin/Float, kotlin/Function1<ru.sulgik.mapkit.geometry/Point, kotlin/Boolean>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Circle|Circle(ru.sulgik.mapkit.compose.CircleState;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;kotlin.Float;kotlin.Boolean;kotlin.Boolean;kotlin.Float;kotlin.Function1<ru.sulgik.mapkit.geometry.Point,kotlin.Boolean>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/ClusterGroup(kotlin.collections/List<ru.sulgik.mapkit.geometry/Point>, ru.sulgik.mapkit.map/ImageProvider, ru.sulgik.mapkit.map/IconStyle = ..., kotlin/String? = ..., ru.sulgik.mapkit.map/TextStyle = ...): ru.sulgik.mapkit.compose/ClusterGroup // ru.sulgik.mapkit.compose/ClusterGroup|ClusterGroup(kotlin.collections.List<ru.sulgik.mapkit.geometry.Point>;ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.map.IconStyle;kotlin.String?;ru.sulgik.mapkit.map.TextStyle){}[0]
+final fun ru.sulgik.mapkit.compose/Clustering(kotlinx.collections.immutable/ImmutableList<ru.sulgik.mapkit.compose/ClusterGroup>, ru.sulgik.mapkit.compose/ClusterImageProvider, ru.sulgik.mapkit.map/IconStyle?, ru.sulgik.mapkit.compose/ClusterizingConfig?, kotlin/Function1<ru.sulgik.mapkit.compose/ClusterItem, kotlin/Boolean>?, kotlin/Function1<ru.sulgik.mapkit.geometry/Cluster, kotlin/Boolean>?, kotlin/Boolean, kotlin/Float, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Clustering|Clustering(kotlinx.collections.immutable.ImmutableList<ru.sulgik.mapkit.compose.ClusterGroup>;ru.sulgik.mapkit.compose.ClusterImageProvider;ru.sulgik.mapkit.map.IconStyle?;ru.sulgik.mapkit.compose.ClusterizingConfig?;kotlin.Function1<ru.sulgik.mapkit.compose.ClusterItem,kotlin.Boolean>?;kotlin.Function1<ru.sulgik.mapkit.geometry.Cluster,kotlin.Boolean>?;kotlin.Boolean;kotlin.Float;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Clustering(kotlinx.collections.immutable/ImmutableList<ru.sulgik.mapkit.compose/ClusterGroup>, ru.sulgik.mapkit.map/IconStyle?, ru.sulgik.mapkit.compose/ClusterizingConfig?, kotlin/Function1<ru.sulgik.mapkit.compose/ClusterItem, kotlin/Boolean>?, kotlin/Function1<ru.sulgik.mapkit.geometry/Cluster, kotlin/Boolean>?, kotlin/Boolean, kotlin/Float, kotlin/Function3<ru.sulgik.mapkit.compose/ClusterInfo, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Clustering|Clustering(kotlinx.collections.immutable.ImmutableList<ru.sulgik.mapkit.compose.ClusterGroup>;ru.sulgik.mapkit.map.IconStyle?;ru.sulgik.mapkit.compose.ClusterizingConfig?;kotlin.Function1<ru.sulgik.mapkit.compose.ClusterItem,kotlin.Boolean>?;kotlin.Function1<ru.sulgik.mapkit.geometry.Cluster,kotlin.Boolean>?;kotlin.Boolean;kotlin.Float;kotlin.Function3<ru.sulgik.mapkit.compose.ClusterInfo,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Clustering(kotlinx.collections.immutable/ImmutableList<ru.sulgik.mapkit.compose/ClusterGroup>, ru.sulgik.mapkit.map/ImageProvider, ru.sulgik.mapkit.map/IconStyle?, ru.sulgik.mapkit.compose/ClusterizingConfig?, kotlin/Function1<ru.sulgik.mapkit.compose/ClusterItem, kotlin/Boolean>?, kotlin/Function1<ru.sulgik.mapkit.geometry/Cluster, kotlin/Boolean>?, kotlin/Boolean, kotlin/Float, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Clustering|Clustering(kotlinx.collections.immutable.ImmutableList<ru.sulgik.mapkit.compose.ClusterGroup>;ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.map.IconStyle?;ru.sulgik.mapkit.compose.ClusterizingConfig?;kotlin.Function1<ru.sulgik.mapkit.compose.ClusterItem,kotlin.Boolean>?;kotlin.Function1<ru.sulgik.mapkit.geometry.Cluster,kotlin.Boolean>?;kotlin.Boolean;kotlin.Float;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Clustering(ru.sulgik.mapkit.compose/ClusterGroup, ru.sulgik.mapkit.compose/ClusterImageProvider, ru.sulgik.mapkit.map/IconStyle?, ru.sulgik.mapkit.compose/ClusterizingConfig?, kotlin/Function1<ru.sulgik.mapkit.compose/ClusterItem, kotlin/Boolean>?, kotlin/Function1<ru.sulgik.mapkit.geometry/Cluster, kotlin/Boolean>?, kotlin/Boolean, kotlin/Float, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Clustering|Clustering(ru.sulgik.mapkit.compose.ClusterGroup;ru.sulgik.mapkit.compose.ClusterImageProvider;ru.sulgik.mapkit.map.IconStyle?;ru.sulgik.mapkit.compose.ClusterizingConfig?;kotlin.Function1<ru.sulgik.mapkit.compose.ClusterItem,kotlin.Boolean>?;kotlin.Function1<ru.sulgik.mapkit.geometry.Cluster,kotlin.Boolean>?;kotlin.Boolean;kotlin.Float;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Clustering(ru.sulgik.mapkit.compose/ClusterGroup, ru.sulgik.mapkit.map/IconStyle?, ru.sulgik.mapkit.compose/ClusterizingConfig?, kotlin/Function1<ru.sulgik.mapkit.compose/ClusterItem, kotlin/Boolean>?, kotlin/Function1<ru.sulgik.mapkit.geometry/Cluster, kotlin/Boolean>?, kotlin/Boolean, kotlin/Float, kotlin/Function3<ru.sulgik.mapkit.compose/ClusterInfo, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Clustering|Clustering(ru.sulgik.mapkit.compose.ClusterGroup;ru.sulgik.mapkit.map.IconStyle?;ru.sulgik.mapkit.compose.ClusterizingConfig?;kotlin.Function1<ru.sulgik.mapkit.compose.ClusterItem,kotlin.Boolean>?;kotlin.Function1<ru.sulgik.mapkit.geometry.Cluster,kotlin.Boolean>?;kotlin.Boolean;kotlin.Float;kotlin.Function3<ru.sulgik.mapkit.compose.ClusterInfo,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Clustering(ru.sulgik.mapkit.compose/ClusterGroup, ru.sulgik.mapkit.map/ImageProvider, ru.sulgik.mapkit.map/IconStyle?, ru.sulgik.mapkit.compose/ClusterizingConfig?, kotlin/Function1<ru.sulgik.mapkit.compose/ClusterItem, kotlin/Boolean>?, kotlin/Function1<ru.sulgik.mapkit.geometry/Cluster, kotlin/Boolean>?, kotlin/Boolean, kotlin/Float, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Clustering|Clustering(ru.sulgik.mapkit.compose.ClusterGroup;ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.map.IconStyle?;ru.sulgik.mapkit.compose.ClusterizingConfig?;kotlin.Function1<ru.sulgik.mapkit.compose.ClusterItem,kotlin.Boolean>?;kotlin.Function1<ru.sulgik.mapkit.geometry.Cluster,kotlin.Boolean>?;kotlin.Boolean;kotlin.Float;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/ComposeMapObjectRendererHost(ru.sulgik.mapkit.compose/ComposeMapObjectRenderer?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/ComposeMapObjectRendererHost|ComposeMapObjectRendererHost(ru.sulgik.mapkit.compose.ComposeMapObjectRenderer?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapControllerEffect(ru.sulgik.mapkit.compose/YandexMapController, kotlin/Any?, kotlin/Any?, kotlin/Any?, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>?, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/MapControllerEffect|MapControllerEffect(ru.sulgik.mapkit.compose.YandexMapController;kotlin.Any?;kotlin.Any?;kotlin.Any?;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>?;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapControllerEffect(ru.sulgik.mapkit.compose/YandexMapController, kotlin/Any?, kotlin/Any?, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>?, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/MapControllerEffect|MapControllerEffect(ru.sulgik.mapkit.compose.YandexMapController;kotlin.Any?;kotlin.Any?;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>?;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapControllerEffect(ru.sulgik.mapkit.compose/YandexMapController, kotlin/Any?, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>?, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/MapControllerEffect|MapControllerEffect(ru.sulgik.mapkit.compose.YandexMapController;kotlin.Any?;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>?;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapControllerEffect(ru.sulgik.mapkit.compose/YandexMapController, kotlin/Array<out kotlin/Any?>..., kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>?, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/MapControllerEffect|MapControllerEffect(ru.sulgik.mapkit.compose.YandexMapController;kotlin.Array<out|kotlin.Any?>...;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>?;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapControllerEffect(ru.sulgik.mapkit.compose/YandexMapController, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>?, kotlin/Function1<ru.sulgik.mapkit.map/MapWindow, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/MapControllerEffect|MapControllerEffect(ru.sulgik.mapkit.compose.YandexMapController;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>?;kotlin.Function1<ru.sulgik.mapkit.map.MapWindow,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapEffect(kotlin/Any?, kotlin.coroutines/SuspendFunction2<kotlinx.coroutines/CoroutineScope, ru.sulgik.mapkit.map/Map, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // ru.sulgik.mapkit.compose/MapEffect|MapEffect(kotlin.Any?;kotlin.coroutines.SuspendFunction2<kotlinx.coroutines.CoroutineScope,ru.sulgik.mapkit.map.Map,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapEffect(kotlin/Any?, kotlin/Any?, kotlin.coroutines/SuspendFunction2<kotlinx.coroutines/CoroutineScope, ru.sulgik.mapkit.map/Map, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // ru.sulgik.mapkit.compose/MapEffect|MapEffect(kotlin.Any?;kotlin.Any?;kotlin.coroutines.SuspendFunction2<kotlinx.coroutines.CoroutineScope,ru.sulgik.mapkit.map.Map,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapEffect(kotlin/Any?, kotlin/Any?, kotlin/Any?, kotlin.coroutines/SuspendFunction2<kotlinx.coroutines/CoroutineScope, ru.sulgik.mapkit.map/Map, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // ru.sulgik.mapkit.compose/MapEffect|MapEffect(kotlin.Any?;kotlin.Any?;kotlin.Any?;kotlin.coroutines.SuspendFunction2<kotlinx.coroutines.CoroutineScope,ru.sulgik.mapkit.map.Map,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/MapEffect(kotlin/Array<out kotlin/Any?>..., kotlin.coroutines/SuspendFunction2<kotlinx.coroutines/CoroutineScope, ru.sulgik.mapkit.map/Map, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // ru.sulgik.mapkit.compose/MapEffect|MapEffect(kotlin.Array<out|kotlin.Any?>...;kotlin.coroutines.SuspendFunction2<kotlinx.coroutines.CoroutineScope,ru.sulgik.mapkit.map.Map,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Placemark(ru.sulgik.mapkit.compose/PlacemarkState, ru.sulgik.mapkit.map/IconStyle?, kotlin/Boolean, kotlin/Boolean, kotlin/Float, kotlin/Float, kotlin/Function1<ru.sulgik.mapkit.geometry/Point, kotlin/Boolean>?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Placemark|Placemark(ru.sulgik.mapkit.compose.PlacemarkState;ru.sulgik.mapkit.map.IconStyle?;kotlin.Boolean;kotlin.Boolean;kotlin.Float;kotlin.Float;kotlin.Function1<ru.sulgik.mapkit.geometry.Point,kotlin.Boolean>?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Placemark(ru.sulgik.mapkit.compose/PlacemarkState, ru.sulgik.mapkit.map/ImageProvider, ru.sulgik.mapkit.map/IconStyle?, kotlin/Function1<ru.sulgik.mapkit.geometry/Point, kotlin/Boolean>?, kotlin/Boolean, kotlin/Boolean, kotlin/Float, kotlin/Float, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Placemark|Placemark(ru.sulgik.mapkit.compose.PlacemarkState;ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.map.IconStyle?;kotlin.Function1<ru.sulgik.mapkit.geometry.Point,kotlin.Boolean>?;kotlin.Boolean;kotlin.Boolean;kotlin.Float;kotlin.Float;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Polygon(ru.sulgik.mapkit.compose/PolygonState, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, kotlin/Float, kotlin/Boolean, ru.sulgik.mapkit.map/ImageProvider?, kotlin/Float, kotlin/Boolean, kotlin/Float, kotlin/Function1<ru.sulgik.mapkit.geometry/Point, kotlin/Boolean>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Polygon|Polygon(ru.sulgik.mapkit.compose.PolygonState;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;kotlin.Float;kotlin.Boolean;ru.sulgik.mapkit.map.ImageProvider?;kotlin.Float;kotlin.Boolean;kotlin.Float;kotlin.Function1<ru.sulgik.mapkit.geometry.Point,kotlin.Boolean>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/Polyline(ru.sulgik.mapkit.compose/PolylineState, androidx.compose.ui.graphics/Color, kotlin/Float, kotlin/Float, kotlin/Float, androidx.compose.ui.graphics/Color, kotlin/Boolean, kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Boolean, kotlin/Float, kotlin/Function1<ru.sulgik.mapkit.geometry/Point, kotlin/Boolean>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/Polyline|Polyline(ru.sulgik.mapkit.compose.PolylineState;androidx.compose.ui.graphics.Color;kotlin.Float;kotlin.Float;kotlin.Float;androidx.compose.ui.graphics.Color;kotlin.Boolean;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Boolean;kotlin.Float;kotlin.Function1<ru.sulgik.mapkit.geometry.Point,kotlin.Boolean>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/TitledPlacemark(ru.sulgik.mapkit.compose/PlacemarkState, ru.sulgik.mapkit.map/ImageProvider, kotlin/String, ru.sulgik.mapkit.map/IconStyle?, ru.sulgik.mapkit.map/TextStyle?, kotlin/Function1<ru.sulgik.mapkit.geometry/Point, kotlin/Boolean>?, kotlin/Boolean, kotlin/Boolean, kotlin/Float, kotlin/Float, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/TitledPlacemark|TitledPlacemark(ru.sulgik.mapkit.compose.PlacemarkState;ru.sulgik.mapkit.map.ImageProvider;kotlin.String;ru.sulgik.mapkit.map.IconStyle?;ru.sulgik.mapkit.map.TextStyle?;kotlin.Function1<ru.sulgik.mapkit.geometry.Point,kotlin.Boolean>?;kotlin.Boolean;kotlin.Boolean;kotlin.Float;kotlin.Float;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/YandexMap(ru.sulgik.mapkit.compose.user_location/UserLocationState, androidx.compose.ui/Modifier?, ru.sulgik.mapkit.compose/CameraPositionState?, ru.sulgik.mapkit.compose.user_location/UserLocationConfig?, ru.sulgik.mapkit.compose/MapConfig?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/YandexMap|YandexMap(ru.sulgik.mapkit.compose.user_location.UserLocationState;androidx.compose.ui.Modifier?;ru.sulgik.mapkit.compose.CameraPositionState?;ru.sulgik.mapkit.compose.user_location.UserLocationConfig?;ru.sulgik.mapkit.compose.MapConfig?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/YandexMap(ru.sulgik.mapkit.compose/CameraPositionState?, androidx.compose.ui/Modifier?, ru.sulgik.mapkit.compose/MapConfig?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/YandexMap|YandexMap(ru.sulgik.mapkit.compose.CameraPositionState?;androidx.compose.ui.Modifier?;ru.sulgik.mapkit.compose.MapConfig?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/YandexMap(ru.sulgik.mapkit.compose/YandexMapController?, androidx.compose.ui/Modifier?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ru.sulgik.mapkit.compose/YandexMap|YandexMap(ru.sulgik.mapkit.compose.YandexMapController?;androidx.compose.ui.Modifier?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/clusterImageProvider(kotlin/Function3<ru.sulgik.mapkit.compose/ClusterInfo, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.compose/ClusterImageProvider // ru.sulgik.mapkit.compose/clusterImageProvider|clusterImageProvider(kotlin.Function3<ru.sulgik.mapkit.compose.ClusterInfo,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/imageProvider(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.map/ImageProvider? // ru.sulgik.mapkit.compose/imageProvider|imageProvider(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/imageProvider(org.jetbrains.compose.resources/DrawableResource, androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.compose/imageProvider|imageProvider(org.jetbrains.compose.resources.DrawableResource;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/rememberAndInitializeMapKit(androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit/MapKit // ru.sulgik.mapkit.compose/rememberAndInitializeMapKit|rememberAndInitializeMapKit(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/rememberCircleState(ru.sulgik.mapkit.geometry/Circle, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): ru.sulgik.mapkit.compose/CircleState // ru.sulgik.mapkit.compose/rememberCircleState|rememberCircleState(ru.sulgik.mapkit.geometry.Circle;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/rememberComposeMapObjectRenderer(androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.compose/ComposeMapObjectRenderer // ru.sulgik.mapkit.compose/rememberComposeMapObjectRenderer|rememberComposeMapObjectRenderer(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/rememberMapKit(androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit/MapKit // ru.sulgik.mapkit.compose/rememberMapKit|rememberMapKit(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/rememberPlacemarkState(ru.sulgik.mapkit.geometry/Point, kotlin/Float, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): ru.sulgik.mapkit.compose/PlacemarkState // ru.sulgik.mapkit.compose/rememberPlacemarkState|rememberPlacemarkState(ru.sulgik.mapkit.geometry.Point;kotlin.Float;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/rememberPolygonState(ru.sulgik.mapkit.geometry/Polygon, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): ru.sulgik.mapkit.compose/PolygonState // ru.sulgik.mapkit.compose/rememberPolygonState|rememberPolygonState(ru.sulgik.mapkit.geometry.Polygon;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/rememberPolylineState(ru.sulgik.mapkit.geometry/Polyline, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): ru.sulgik.mapkit.compose/PolylineState // ru.sulgik.mapkit.compose/rememberPolylineState|rememberPolylineState(ru.sulgik.mapkit.geometry.Polyline;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/rememberYandexMapController(androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.compose/YandexMapController // ru.sulgik.mapkit.compose/rememberYandexMapController|rememberYandexMapController(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_CameraPositionState$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_CameraPositionState$stableprop_getter|ru_sulgik_mapkit_compose_CameraPositionState$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_CircleState$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_CircleState$stableprop_getter|ru_sulgik_mapkit_compose_CircleState$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterGroup$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterGroup$stableprop_getter|ru_sulgik_mapkit_compose_ClusterGroup$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterImageProvider$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterImageProvider$stableprop_getter|ru_sulgik_mapkit_compose_ClusterImageProvider$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterInfo$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterInfo$stableprop_getter|ru_sulgik_mapkit_compose_ClusterInfo$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterItem$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterItem$stableprop_getter|ru_sulgik_mapkit_compose_ClusterItem$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterizingConfig$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ClusterizingConfig$stableprop_getter|ru_sulgik_mapkit_compose_ClusterizingConfig$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ComposeMapObjectRenderer$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_ComposeMapObjectRenderer$stableprop_getter|ru_sulgik_mapkit_compose_ComposeMapObjectRenderer$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_MapConfig$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_MapConfig$stableprop_getter|ru_sulgik_mapkit_compose_MapConfig$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_MapLogoConfig$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_MapLogoConfig$stableprop_getter|ru_sulgik_mapkit_compose_MapLogoConfig$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PlacemarkState$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PlacemarkState$stableprop_getter|ru_sulgik_mapkit_compose_PlacemarkState$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PolygonState$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PolygonState$stableprop_getter|ru_sulgik_mapkit_compose_PolygonState$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PolylineState$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_PolylineState$stableprop_getter|ru_sulgik_mapkit_compose_PolylineState$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_YandexMapController$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.compose/ru_sulgik_mapkit_compose_YandexMapController$stableprop_getter|ru_sulgik_mapkit_compose_YandexMapController$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_array$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_array$stableprop_getter|ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_array$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_drawable$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_drawable$stableprop_getter|ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_drawable$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_font$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_font$stableprop_getter|ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_font$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_plurals$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_plurals$stableprop_getter|ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_plurals$stableprop_getter(){}[0]
+final fun ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_string$stableprop_getter(): kotlin/Int // ru.sulgik.mapkit.yandex_mapkit_kmp_compose.generated.resources/ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_string$stableprop_getter|ru_sulgik_mapkit_yandex_mapkit_kmp_compose_generated_resources_Res_string$stableprop_getter(){}[0]
+final inline fun ru.sulgik.mapkit.compose/rememberCameraPositionState(kotlin/String?, crossinline kotlin/Function1<ru.sulgik.mapkit.compose/CameraPositionState, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): ru.sulgik.mapkit.compose/CameraPositionState // ru.sulgik.mapkit.compose/rememberCameraPositionState|rememberCameraPositionState(kotlin.String?;kotlin.Function1<ru.sulgik.mapkit.compose.CameraPositionState,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]

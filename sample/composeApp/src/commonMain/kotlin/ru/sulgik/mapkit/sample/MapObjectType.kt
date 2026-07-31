@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.sample
 enum class MapObjectType {
     YELLOW,
     GREEN,
-    RED
+    RED,
 }
 
 data class MapObjectUserData(

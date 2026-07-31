@@ -9,7 +9,7 @@ public fun VisibleRegion.toNative(): NativeVisibleRegion {
         topLeft.toNative(),
         topRight.toNative(),
         bottomLeft.toNative(),
-        bottomRight.toNative()
+        bottomRight.toNative(),
     )
 }
 
@@ -18,6 +18,6 @@ public fun NativeVisibleRegion.toCommon(): VisibleRegion {
         topLeft = topLeft.toCommon(),
         topRight = topRight.toCommon(),
         bottomLeft = bottomLeft.toCommon(),
-        bottomRight = bottomRight.toCommon()
+        bottomRight = bottomRight.toCommon(),
     )
 }

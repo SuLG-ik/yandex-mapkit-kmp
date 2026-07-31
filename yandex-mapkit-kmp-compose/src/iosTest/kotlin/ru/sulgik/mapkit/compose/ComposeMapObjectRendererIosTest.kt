@@ -60,5 +60,4 @@ public class ComposeMapObjectRendererIosTest {
         contentWidth = 40.dp
         waitUntil { assertNotNull(image).toNative().size.useContents { width } == 40.0 }
     }
-
 }

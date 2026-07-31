@@ -13,7 +13,6 @@ public actual class UserLocationAnchorChanged internal constructor(
 
     public actual val anchorType: UserLocationAnchorType
         get() = nativeUserLocationAnchorChanged.anchorType.toCommon()
-
 }
 
 public fun NativeUserLocationAnchorChanged.toCommon(): UserLocationAnchorChanged {

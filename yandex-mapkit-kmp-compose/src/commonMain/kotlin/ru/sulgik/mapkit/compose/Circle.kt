@@ -47,12 +47,11 @@ public class CircleState(geometry: Circle) {
                     geometry = Circle(
                         center = Point(it[0].toDouble(), it[1].toDouble()),
                         radius = it[2].toFloat(),
-                    )
+                    ),
                 )
-            }
+            },
         )
     }
-
 }
 
 @[YandexMapComposable Composable]
@@ -111,14 +110,13 @@ internal fun CircleImpl(
             update(strokeWidth) { mapObject.strokeWidth = strokeWidth }
             update(color) { mapObject.fillColor = color.toMapkitColor() }
             update(geodesic) { mapObject.isGeodesic = geodesic }
-        }
+        },
     )
 }
 
-
 internal class CircleNode(
     mapObject: CircleMapObject,
-    tapListener: ((Point) -> Boolean)?
+    tapListener: ((Point) -> Boolean)?,
 ) : MapObjectNode<CircleMapObject>(mapObject, tapListener)
 
 private val DefaultStrokeColor = Color(0xFF66FF00)

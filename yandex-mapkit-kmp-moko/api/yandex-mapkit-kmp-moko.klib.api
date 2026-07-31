@@ -1,0 +1,19 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <ru.sulgik.mapkit:yandex-mapkit-kmp-moko>
+abstract interface ru.sulgik.mapkit.moko/MOKOImageLoader { // ru.sulgik.mapkit.moko/MOKOImageLoader|null[0]
+    abstract fun fromResource(dev.icerock.moko.resources/ImageResource): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.moko/MOKOImageLoader.fromResource|fromResource(dev.icerock.moko.resources.ImageResource){}[0]
+    abstract fun fromResource(dev.icerock.moko.resources/ImageResource, kotlin/Boolean): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.moko/MOKOImageLoader.fromResource|fromResource(dev.icerock.moko.resources.ImageResource;kotlin.Boolean){}[0]
+}
+
+final class ru.sulgik.mapkit.moko/IOSMOKOImageLoader : ru.sulgik.mapkit.moko/MOKOImageLoader { // ru.sulgik.mapkit.moko/IOSMOKOImageLoader|null[0]
+    constructor <init>() // ru.sulgik.mapkit.moko/IOSMOKOImageLoader.<init>|<init>(){}[0]
+
+    final fun fromResource(dev.icerock.moko.resources/ImageResource): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.moko/IOSMOKOImageLoader.fromResource|fromResource(dev.icerock.moko.resources.ImageResource){}[0]
+    final fun fromResource(dev.icerock.moko.resources/ImageResource, kotlin/Boolean): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.moko/IOSMOKOImageLoader.fromResource|fromResource(dev.icerock.moko.resources.ImageResource;kotlin.Boolean){}[0]
+}

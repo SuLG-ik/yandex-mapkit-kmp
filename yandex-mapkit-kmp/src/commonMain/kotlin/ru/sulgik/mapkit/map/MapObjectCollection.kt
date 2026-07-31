@@ -22,5 +22,4 @@ public expect class MapObjectCollection : BaseMapObjectCollection {
     public fun addClusterizedPlacemarkCollection(listener: WeakRef<ClusterListener>): ClusterizedPlacemarkCollection
 
     public val placemarksStyler: PlacemarksStyler
-
 }

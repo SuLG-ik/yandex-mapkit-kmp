@@ -5,8 +5,7 @@ import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.map.PlacemarkMapObject as NativePlacemarkMapObject
 
-public actual class PlacemarkMapObject internal constructor(private val nativePlacemarkMapObject: NativePlacemarkMapObject) :
-    MapObject(nativePlacemarkMapObject) {
+public actual class PlacemarkMapObject internal constructor(private val nativePlacemarkMapObject: NativePlacemarkMapObject) : MapObject(nativePlacemarkMapObject) {
 
     override fun toNative(): NativePlacemarkMapObject {
         return nativePlacemarkMapObject
@@ -41,14 +40,16 @@ public actual class PlacemarkMapObject internal constructor(private val nativePl
         style: IconStyle,
         onFinished: Callback?,
     ) {
-        if (onFinished != null) nativePlacemarkMapObject.setIcon(
-            image.toNative(),
-            style.toNative(),
-            onFinished.toNative(),
-        )
-        else nativePlacemarkMapObject.setIcon(image.toNative(), style.toNative())
+        if (onFinished != null) {
+            nativePlacemarkMapObject.setIcon(
+                image.toNative(),
+                style.toNative(),
+                onFinished.toNative(),
+            )
+        } else {
+            nativePlacemarkMapObject.setIcon(image.toNative(), style.toNative())
+        }
     }
-
 }
 
 public fun NativePlacemarkMapObject.toCommon(): PlacemarkMapObject {

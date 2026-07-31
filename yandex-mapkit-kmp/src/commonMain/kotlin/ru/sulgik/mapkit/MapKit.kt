@@ -11,7 +11,6 @@ public expect class MapKit {
      */
     public val version: String
 
-
     /**
      * Resets the global location manager to a default one, that is a location manager that is created by createLocationManager() call.
      */
@@ -51,7 +50,5 @@ public expect class MapKit {
         public fun setUserId(userId: String)
 
         public fun getInstance(): MapKit
-
     }
-
 }

@@ -21,5 +21,4 @@ public actual abstract class ClusterTapListener actual constructor() : NativeCon
     }
 
     public actual abstract fun onClusterTap(cluster: Cluster): Boolean
-
 }

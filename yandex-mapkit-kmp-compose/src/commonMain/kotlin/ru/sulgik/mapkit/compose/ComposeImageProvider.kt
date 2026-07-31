@@ -149,5 +149,4 @@ public class ClusterImageProvider internal constructor(
     private companion object {
         private val EmptyImage: ImageProvider by lazy { ImageBitmap(1, 1).toImageProvider() }
     }
-
 }

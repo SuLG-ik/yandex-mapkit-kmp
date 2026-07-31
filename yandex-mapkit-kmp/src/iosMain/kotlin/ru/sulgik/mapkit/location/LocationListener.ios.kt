@@ -8,7 +8,7 @@ import YandexMapKit.YMKLocationStatus as NativeLocationStatus
 
 public actual abstract class LocationListener actual constructor() : NativeConvertible<NativeLocationListener> {
 
-    private val nativeListener  = object : NativeLocationListener, NSObject() {
+    private val nativeListener = object : NativeLocationListener, NSObject() {
         override fun onLocationStatusUpdatedWithStatus(status: NativeLocationStatus) {
             onLocationStatusUpdated(status.toCommon())
         }

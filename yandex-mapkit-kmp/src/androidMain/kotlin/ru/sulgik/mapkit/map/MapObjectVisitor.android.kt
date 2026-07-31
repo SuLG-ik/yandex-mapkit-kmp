@@ -12,7 +12,8 @@ public actual class MapObjectVisitor actual constructor(
     private val onCollectionVisitEnd: (collection: MapObjectCollection) -> Boolean,
     private val onClusterizedCollectionVisitStart: (collection: ClusterizedPlacemarkCollection) -> Boolean,
     private val onClusterizedCollectionVisitEnd: (collection: ClusterizedPlacemarkCollection) -> Unit,
-) : NativeMapObjectVisitor, NativeConvertible<NativeMapObjectVisitor> {
+) : NativeMapObjectVisitor,
+    NativeConvertible<NativeMapObjectVisitor> {
 
     override fun toNative(): NativeMapObjectVisitor {
         return this

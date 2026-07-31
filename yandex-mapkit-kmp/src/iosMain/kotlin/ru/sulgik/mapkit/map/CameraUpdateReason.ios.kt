@@ -2,7 +2,6 @@ package ru.sulgik.mapkit.map
 
 import YandexMapKit.YMKCameraUpdateReason as NativeCameraUpdateReason
 
-
 public fun NativeCameraUpdateReason.toCommon(): CameraUpdateReason {
     return when (this) {
         NativeCameraUpdateReason.YMKCameraUpdateReasonGestures -> CameraUpdateReason.GESTURES

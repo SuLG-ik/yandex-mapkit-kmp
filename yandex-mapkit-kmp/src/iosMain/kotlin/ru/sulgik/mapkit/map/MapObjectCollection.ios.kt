@@ -8,8 +8,7 @@ import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKMapObjectCollection as NativeMapObjectCollection
 
-public actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) :
-    BaseMapObjectCollection(nativeMapObjectCollection) {
+public actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) : BaseMapObjectCollection(nativeMapObjectCollection) {
 
     override fun toNative(): NativeMapObjectCollection {
         return nativeMapObjectCollection
@@ -21,7 +20,7 @@ public actual class MapObjectCollection internal constructor(private val nativeM
 
     public actual fun addPlacemark(placemarkCreatedCallback: PlacemarkCreatedCallback): PlacemarkMapObject {
         return nativeMapObjectCollection.addPlacemarkWithPlacemarkCreatedCallback(
-            placemarkCreatedCallback.toNative()
+            placemarkCreatedCallback.toNative(),
         ).toCommon()
     }
 
@@ -52,7 +51,6 @@ public actual class MapObjectCollection internal constructor(private val nativeM
 
     public actual val placemarksStyler: PlacemarksStyler
         get() = nativeMapObjectCollection.placemarksStyler().toCommon()
-
 }
 
 public fun NativeMapObjectCollection.toCommon(): MapObjectCollection {

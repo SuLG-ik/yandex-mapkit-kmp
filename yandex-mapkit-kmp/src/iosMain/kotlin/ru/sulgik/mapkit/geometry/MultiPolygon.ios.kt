@@ -10,14 +10,13 @@ public actual class MultiPolygon internal constructor(private val nativeMultiPol
     }
 
     public actual constructor(polygons: List<Polygon>) : this(
-        NativeMultiPolygon.multiPolygonWithPolygons(polygons.map(Polygon::toNative))
+        NativeMultiPolygon.multiPolygonWithPolygons(polygons.map(Polygon::toNative)),
     )
 
     public actual val polygons: List<Polygon> by lazy {
         @Suppress("UNCHECKED_CAST")
         (nativeMultiPolygon.polygons as List<YMKPolygon>).map(YMKPolygon::toCommon)
     }
-
 }
 
 public fun NativeMultiPolygon.toCommon(): MultiPolygon {

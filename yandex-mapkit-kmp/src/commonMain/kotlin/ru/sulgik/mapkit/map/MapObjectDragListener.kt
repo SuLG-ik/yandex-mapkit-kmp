@@ -25,6 +25,5 @@ public inline fun MapObjectDragListener(
         override fun onMapObjectDragEnd(mapObject: MapObject) {
             onMapObjectDragEnd.invoke(mapObject)
         }
-
     }
 }

@@ -6,14 +6,21 @@ import com.yandex.mapkit.map.IconStyle as NativeIconStyle
 
 public fun IconStyle.toNative(): NativeIconStyle {
     return NativeIconStyle(
-        /* anchor = */ anchor?.toNative(),
-        /* rotationType = */ rotationType?.toNative(),
-        /* zIndex = */ zIndex,
-        /* flat = */ flat,
-        /* visible = */ isVisible,
-        /* scale = */ scale,
+        /* anchor = */
+        anchor?.toNative(),
+        /* rotationType = */
+        rotationType?.toNative(),
+        /* zIndex = */
+        zIndex,
+        /* flat = */
+        flat,
+        /* visible = */
+        isVisible,
+        /* scale = */
+        scale,
         opacity,
-        /* tappableArea = */ tappableArea?.toNative(),
+        /* tappableArea = */
+        tappableArea?.toNative(),
     )
 }
 
@@ -26,6 +33,6 @@ public fun NativeIconStyle.toCommon(): IconStyle {
         isVisible = visible,
         scale = scale,
         opacity = opacity,
-        tappableArea = tappableArea?.toCommon()
+        tappableArea = tappableArea?.toCommon(),
     )
 }

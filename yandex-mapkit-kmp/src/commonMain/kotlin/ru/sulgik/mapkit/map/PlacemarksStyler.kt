@@ -6,5 +6,4 @@ public expect class PlacemarksStyler {
 
     public fun setScaleFunction(points: List<PointF>)
     public val isValid: Boolean
-
 }

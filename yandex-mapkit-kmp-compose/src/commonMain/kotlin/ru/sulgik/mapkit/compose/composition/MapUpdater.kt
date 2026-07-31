@@ -105,7 +105,6 @@ internal class MapPropertiesNode(
         mapWindow.map.removeCameraListener(cameraListener.asWeakRef())
         cameraPositionState.mapWindowOwner.setMapWindow(null)
     }
-
 }
 
 @Composable
@@ -116,9 +115,9 @@ internal fun MapUpdater(mapUpdaterState: MapUpdaterState) = with(mapUpdaterState
             MapPropertiesNode(
                 mapWindow = mapWindow,
                 cameraPositionState = cameraPositionState,
-                mapConfig = mapUpdaterState.config
+                mapConfig = mapUpdaterState.config,
             )
-        }
+        },
     ) {
         update(cameraPositionState) { this.cameraPositionState = it }
         update(mapUpdaterState.config) { this.updateMap(it) }

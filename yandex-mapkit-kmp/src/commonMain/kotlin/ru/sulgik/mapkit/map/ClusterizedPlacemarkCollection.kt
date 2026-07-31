@@ -17,5 +17,4 @@ public expect class ClusterizedPlacemarkCollection : BaseMapObjectCollection {
     ): List<PlacemarkMapObject>
 
     public fun clusterPlacemarks(clusterRadius: Double, minZoom: Int)
-
 }

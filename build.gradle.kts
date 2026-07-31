@@ -1,7 +1,11 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.dokka.ExternalDocumentationLink
 import org.jetbrains.dokka.ExternalDocumentationLinkImpl
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.GradleExternalDocumentationLinkBuilder
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.abi.BinariesSource
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import java.net.URL
 import java.util.Properties
 
@@ -15,7 +19,36 @@ plugins {
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.buildKonfig).apply(false)
     alias(libs.plugins.publish).apply(false)
+    alias(libs.plugins.spotless).apply(false)
     alias(libs.plugins.dokka)
+}
+
+private val ktlintVersion = libs.versions.ktlint.get()
+
+private val ktlintRules = mapOf(
+    "ktlint_code_style" to "intellij_idea",
+    "ktlint_standard_max-line-length" to "disabled",
+    "ktlint_standard_function-expression-body" to "disabled",
+    "ktlint_standard_package-name" to "disabled",
+    "ktlint_standard_property-naming" to "disabled",
+    "ktlint_standard_function-naming" to "disabled",
+    "ktlint_standard_filename" to "disabled",
+)
+
+allprojects {
+    apply(plugin = "com.diffplug.spotless")
+
+    extensions.configure<SpotlessExtension> {
+        kotlin {
+            target("src/**/*.kt")
+            targetExclude("**/build/**", "**/MapObjectStatesRestorationTest.kt")
+            ktlint(ktlintVersion).editorConfigOverride(ktlintRules)
+        }
+        kotlinGradle {
+            target("*.gradle.kts")
+            ktlint(ktlintVersion).editorConfigOverride(ktlintRules)
+        }
+    }
 }
 
 private val dokkaModules = mapOf(
@@ -23,6 +56,62 @@ private val dokkaModules = mapOf(
     "yandex-mapkit-kmp-compose" to "Yandex MapKit KMP SDK Compose Utils",
     "yandex-mapkit-kmp-moko" to "Yandex MapKit KMP SDK MOKO Utils",
     "yandex-mapkit-kmp-moko-compose" to "Yandex MapKit KMP SDK MOKO Compose Utils",
+)
+
+private val libraryProjects = dokkaModules.keys.map { ":$it" }
+
+fun libraryTasksNamed(taskName: String): List<TaskCollection<Task>> {
+    return libraryProjects.map { path -> project(path).tasks.matching { it.name == taskName } }
+}
+
+fun registerLibraryTask(name: String, taskName: String, taskGroup: String, taskDescription: String) {
+    tasks.register(name) {
+        group = taskGroup
+        description = taskDescription
+        dependsOn(libraryTasksNamed(taskName))
+    }
+}
+
+registerLibraryTask(
+    name = "libraryAssemble",
+    taskName = "assemble",
+    taskGroup = "build",
+    taskDescription = "Assembles the published modules.",
+)
+
+registerLibraryTask(
+    name = "libraryCompileIosArm64",
+    taskName = "compileKotlinIosArm64",
+    taskGroup = "build",
+    taskDescription = "Compiles the published modules for the iOS device target.",
+)
+
+registerLibraryTask(
+    name = "libraryTests",
+    taskName = "allTests",
+    taskGroup = "verification",
+    taskDescription = "Runs the tests of the published modules on every enabled target.",
+)
+
+registerLibraryTask(
+    name = "libraryIosTests",
+    taskName = "iosSimulatorArm64Test",
+    taskGroup = "verification",
+    taskDescription = "Runs the tests of the published modules on the iOS simulator.",
+)
+
+registerLibraryTask(
+    name = "libraryApiCheck",
+    taskName = "checkKotlinAbi",
+    taskGroup = "verification",
+    taskDescription = "Checks the public API of the published modules against the dumps in api/.",
+)
+
+registerLibraryTask(
+    name = "libraryApiDump",
+    taskName = "updateKotlinAbi",
+    taskGroup = "verification",
+    taskDescription = "Rewrites the public API dumps of the published modules.",
 )
 
 subprojects {
@@ -35,6 +124,20 @@ subprojects {
 
         dokka {
             moduleName.set(dokkaModules[name])
+        }
+
+        configureAbiValidation()
+    }
+}
+
+@OptIn(ExperimentalAbiValidation::class)
+fun Project.configureAbiValidation() {
+    afterEvaluate {
+        val kotlin = extensions.findByType<KotlinProjectExtension>() ?: return@afterEvaluate
+
+        kotlin.abiValidation {
+            referenceDumpDir.set(layout.projectDirectory.dir("api"))
+            binariesSource.set(BinariesSource.MAIN_COMPILATION)
         }
     }
 }

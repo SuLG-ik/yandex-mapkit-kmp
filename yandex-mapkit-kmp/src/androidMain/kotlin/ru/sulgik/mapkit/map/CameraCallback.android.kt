@@ -11,5 +11,4 @@ public actual abstract class CameraCallback {
     }
 
     public actual abstract fun onMoveFinished(completed: Boolean)
-
 }

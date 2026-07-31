@@ -1,7 +1,7 @@
 package ru.sulgik.mapkit.map
 
-import ru.sulgik.mapkit.toColor
 import ru.sulgik.mapkit.toArgb
+import ru.sulgik.mapkit.toColor
 import com.yandex.mapkit.map.TextStyle as NativeTextStyle
 
 public fun TextStyle.toNative(): NativeTextStyle {
@@ -13,7 +13,7 @@ public fun TextStyle.toNative(): NativeTextStyle {
         placement.toNative(),
         offset,
         offsetFromIcon,
-        textOptional
+        textOptional,
     )
 }
 

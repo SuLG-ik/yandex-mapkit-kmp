@@ -35,7 +35,6 @@ public actual class LocationManager(private val nativeLocationManager: NativeLoc
     public actual fun unsubscribe(locationListener: WeakRef<LocationListener>) {
         nativeLocationManager.unsubscribeWithLocationListener(locationListener.toNative() ?: return)
     }
-
 }
 
 public fun NativeLocationManager.toCommon(): LocationManager {

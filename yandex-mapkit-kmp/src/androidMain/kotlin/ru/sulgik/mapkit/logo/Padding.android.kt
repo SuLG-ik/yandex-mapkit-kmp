@@ -9,6 +9,6 @@ public fun LogoPadding.toNative(): NativePadding {
 public fun NativePadding.toCommon(): LogoPadding {
     return LogoPadding(
         horizontalPadding = horizontalPadding,
-        verticalPadding = verticalPadding
+        verticalPadding = verticalPadding,
     )
 }

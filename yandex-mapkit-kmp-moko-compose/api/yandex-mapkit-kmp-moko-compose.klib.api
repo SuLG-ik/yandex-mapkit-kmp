@@ -1,0 +1,9 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose>
+final fun ru.sulgik.mapkit.moko.compose/rememberMOKOImageLoader(androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.moko/MOKOImageLoader // ru.sulgik.mapkit.moko.compose/rememberMOKOImageLoader|rememberMOKOImageLoader(androidx.compose.runtime.Composer?;kotlin.Int){}[0]

@@ -13,5 +13,4 @@ class IOSMOKOImageLoader : MOKOImageLoader {
     override fun fromResource(imageResource: ImageResource, isCacheable: Boolean): ImageProvider {
         return ImageProvider.fromUIImage(imageResource.toUIImage()!!)
     }
-
 }

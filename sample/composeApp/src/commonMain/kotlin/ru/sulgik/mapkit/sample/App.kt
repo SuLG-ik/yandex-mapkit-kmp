@@ -22,12 +22,13 @@ fun initMapKit() {
 enum class NavItem {
     SELECTION,
     OLD_API,
-    NEW_API_OBJECTS;
+    NEW_API_OBJECTS,
+    ;
 
     companion object {
         val Saver: Saver<NavItem, Int> = Saver(
             save = { it.ordinal },
-            restore = { NavItem.entries[it] }
+            restore = { NavItem.entries[it] },
         )
     }
 }
@@ -42,7 +43,7 @@ fun App() {
 fun NavHost(
     navItem: NavItem,
     onNavigate: (NavItem) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     when (navItem) {
         NavItem.SELECTION -> Selection(onNavigate, modifier)
@@ -54,7 +55,7 @@ fun NavHost(
 @Composable
 fun Selection(
     onNavigate: (NavItem) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
@@ -64,14 +65,14 @@ fun Selection(
         OutlinedButton(
             onClick = {
                 onNavigate(NavItem.OLD_API)
-            }
+            },
         ) {
             Text("Old api objects")
         }
         OutlinedButton(
             onClick = {
                 onNavigate(NavItem.NEW_API_OBJECTS)
-            }
+            },
         ) {
             Text("New api objects")
         }

@@ -124,5 +124,4 @@ public expect class MapWindow {
     public fun setMapFps(fps: Int)
 
     public val isValid: Boolean
-
 }

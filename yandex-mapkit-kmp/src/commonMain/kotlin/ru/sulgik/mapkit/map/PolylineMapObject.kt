@@ -62,5 +62,4 @@ public expect class PolylineMapObject : MapObject {
     public fun addArrow(position: PolylinePosition, length: Float, fillColor: Color): Arrow
 
     public val arrows: List<Arrow>
-
 }

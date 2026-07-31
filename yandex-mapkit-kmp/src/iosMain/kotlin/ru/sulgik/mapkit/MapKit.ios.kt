@@ -18,7 +18,6 @@ public actual class MapKit internal constructor(private val nativeMapKit: Native
 
     public fun toNative(): NativeMapKit {
         return nativeMapKit
-
     }
 
     /**

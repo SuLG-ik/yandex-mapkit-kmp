@@ -3,12 +3,11 @@ package ru.sulgik.mapkit.map
 import ru.sulgik.mapkit.Color
 import ru.sulgik.mapkit.geometry.Polygon
 import ru.sulgik.mapkit.geometry.toCommon
-import ru.sulgik.mapkit.toColor
 import ru.sulgik.mapkit.toArgb
+import ru.sulgik.mapkit.toColor
 import com.yandex.mapkit.map.PolygonMapObject as NativePolygonMapObject
 
-public actual class PolygonMapObject internal constructor(private val nativePolygonMapObject: NativePolygonMapObject) :
-    MapObject(nativePolygonMapObject) {
+public actual class PolygonMapObject internal constructor(private val nativePolygonMapObject: NativePolygonMapObject) : MapObject(nativePolygonMapObject) {
     override fun toNative(): NativePolygonMapObject {
         return nativePolygonMapObject
     }
@@ -46,7 +45,6 @@ public actual class PolygonMapObject internal constructor(private val nativePoly
     public actual fun resetPattern() {
         nativePolygonMapObject.resetPattern()
     }
-
 }
 
 public fun NativePolygonMapObject.toCommon(): PolygonMapObject {

@@ -8,5 +8,4 @@ interface MOKOImageLoader {
     fun fromResource(imageResource: ImageResource): ImageProvider
 
     fun fromResource(imageResource: ImageResource, isCacheable: Boolean): ImageProvider
-
 }

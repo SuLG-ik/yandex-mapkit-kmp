@@ -168,25 +168,23 @@ internal class UserLocationNode(
         arrow = null
         accuracyCircle = null
     }
-
 }
 
 @[YandexMapsComposeExperimentalApi YandexMapComposable]
 @Composable
-internal fun UserLocationUpdater(state: UserLocationState, updater: UserLocationUpdaterState) =
-    with(updater) {
-        val mapWindow = (currentComposer.applier as MapApplier).mapWindow
-        ComposeNode<UserLocationNode, MapApplier>(
-            factory = {
-                UserLocationNode(
-                    mapWindow = mapWindow,
-                    mapKit = MapKit.getInstance(),
-                    initialState = state,
-                    userLocation = userLocation,
-                )
-            }
-        ) {
-            update(state) { this.state = state }
-            update(userLocation) { this.userLocation = it }
-        }
+internal fun UserLocationUpdater(state: UserLocationState, updater: UserLocationUpdaterState) = with(updater) {
+    val mapWindow = (currentComposer.applier as MapApplier).mapWindow
+    ComposeNode<UserLocationNode, MapApplier>(
+        factory = {
+            UserLocationNode(
+                mapWindow = mapWindow,
+                mapKit = MapKit.getInstance(),
+                initialState = state,
+                userLocation = userLocation,
+            )
+        },
+    ) {
+        update(state) { this.state = state }
+        update(userLocation) { this.userLocation = it }
     }
+}
