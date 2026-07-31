@@ -10,7 +10,6 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.DpSize
 import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.IconStyle
@@ -90,11 +89,17 @@ public fun Placemark(
     )
 }
 
+/**
+ * Placemark with icon rendered from composable [content].
+ *
+ * Placemark is not added to the map until [content] is rendered for the first time.
+ *
+ * @see imageProvider
+ */
 @YandexMapsComposeExperimentalApi
 @[YandexMapComposable Composable]
 public fun Placemark(
     state: PlacemarkState,
-    contentSize: DpSize,
     iconStyle: IconStyle = IconStyle(),
     visible: Boolean = true,
     draggable: Boolean = false,
@@ -103,9 +108,10 @@ public fun Placemark(
     onTap: ((Point) -> Boolean)? = null,
     content: @Composable () -> Unit,
 ) {
+    val icon = imageProvider(content) ?: return
     Placemark(
         state = state,
-        icon = imageProvider(contentSize, content),
+        icon = icon,
         iconStyle = iconStyle,
         visible = visible,
         draggable = draggable,

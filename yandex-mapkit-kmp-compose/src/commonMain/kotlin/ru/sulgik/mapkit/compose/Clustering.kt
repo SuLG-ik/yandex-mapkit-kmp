@@ -1,7 +1,8 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.DpSize
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
@@ -189,23 +190,29 @@ public fun Clustering(
     )
 }
 
+/**
+ * Clustering with cluster icons rendered from composable [content].
+ *
+ * Clusters are shown without icon until [content] is rendered for the first time.
+ *
+ * @see clusterImageProvider
+ */
 @YandexMapsComposeExperimentalApi
 @YandexMapComposable
 @Composable
 public fun Clustering(
     group: ClusterGroup,
-    contentSize: DpSize,
     iconStyle: IconStyle = IconStyle(),
     config: ClusterizingConfig = ClusterizingConfig(),
     onItemTap: ((ClusterItem) -> Boolean)? = null,
     onClusterTap: ((Cluster) -> Boolean)? = null,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
-    content: @Composable (Cluster) -> Unit,
+    content: @Composable (ClusterInfo) -> Unit,
 ) {
     Clustering(
         groups = persistentListOf(group),
-        icon = clusterImageProvider(contentSize, content),
+        icon = clusterImageProvider(content),
         iconStyle = iconStyle,
         config = config,
         onItemTap = onItemTap,
@@ -215,23 +222,29 @@ public fun Clustering(
     )
 }
 
+/**
+ * Clustering with cluster icons rendered from composable [content].
+ *
+ * Clusters are shown without icon until [content] is rendered for the first time.
+ *
+ * @see clusterImageProvider
+ */
 @YandexMapsComposeExperimentalApi
 @YandexMapComposable
 @Composable
 public fun Clustering(
     groups: ImmutableList<ClusterGroup>,
-    contentSize: DpSize,
     iconStyle: IconStyle = IconStyle(),
     config: ClusterizingConfig = ClusterizingConfig(),
     onItemTap: ((ClusterItem) -> Boolean)? = null,
     onClusterTap: ((Cluster) -> Boolean)? = null,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
-    content: @Composable (Cluster) -> Unit,
+    content: @Composable (ClusterInfo) -> Unit,
 ) {
     Clustering(
         groups = groups,
-        icon = clusterImageProvider(size = contentSize, content = content),
+        icon = clusterImageProvider(content),
         iconStyle = iconStyle,
         config = config,
         onItemTap = onItemTap,
@@ -280,6 +293,7 @@ public fun Clustering(
     zIndex: Float = 0.0f,
 ) {
     val collection = LocalMapObjectCollection.current
+    val currentIconStyle by rememberUpdatedState(iconStyle)
     MapObjectNode(
         visible = visible,
         onTap = null,
@@ -289,7 +303,7 @@ public fun Clustering(
                 onClusterTap?.invoke(it) ?: false
             }
             val listener = ClusterListener {
-                it.appearance.setIcon(icon.toImageProvider(it), iconStyle)
+                icon.setIcon(it, currentIconStyle)
                 it.addClusterTapListener(nativeClusterTapListener.asWeakRef())
             }
             ClusterNode(

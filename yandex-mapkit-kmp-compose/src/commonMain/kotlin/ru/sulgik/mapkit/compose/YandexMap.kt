@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.compose
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +21,7 @@ import ru.sulgik.mapkit.compose.user_location.UserLocationUpdater
 import ru.sulgik.mapkit.compose.user_location.UserLocationUpdaterState
 import ru.sulgik.mapkit.map.Map
 
+@OptIn(YandexMapsComposeExperimentalApi::class)
 @Composable
 public fun YandexMap(
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
@@ -37,24 +39,32 @@ public fun YandexMap(
         it.config = config
     }
 
-    val parentComposition = rememberCompositionContext()
-    val currentContent by rememberUpdatedState(content)
-    var subcompositionJob by remember { mutableStateOf<Job?>(null) }
-    val parentCompositionScope = rememberCoroutineScope()
+    val hostedRenderer = LocalComposeMapObjectRenderer.current
+    val renderer = hostedRenderer ?: rememberComposeMapObjectRenderer()
 
-    NativeYandexMap(
-        modifier = modifier,
-        update = { mapView ->
-            if (subcompositionJob == null) {
-                subcompositionJob = parentCompositionScope.launchMapComposition(
-                    parentComposition = parentComposition,
-                    mapView = mapView,
-                    mapUpdaterState = mapUpdaterState,
-                    content = currentContent,
-                )
+    CompositionLocalProvider(LocalComposeMapObjectRenderer provides renderer) {
+        val parentComposition = rememberCompositionContext()
+        val currentContent by rememberUpdatedState(content)
+        var subcompositionJob by remember { mutableStateOf<Job?>(null) }
+        val parentCompositionScope = rememberCoroutineScope()
+
+        NativeYandexMap(
+            modifier = modifier,
+            update = { mapView ->
+                if (subcompositionJob == null) {
+                    subcompositionJob = parentCompositionScope.launchMapComposition(
+                        parentComposition = parentComposition,
+                        mapView = mapView,
+                        mapUpdaterState = mapUpdaterState,
+                        content = currentContent,
+                    )
+                }
             }
+        )
+        if (hostedRenderer == null) {
+            ComposeMapObjectSlots(renderer)
         }
-    )
+    }
 }
 
 @YandexMapsComposeExperimentalApi

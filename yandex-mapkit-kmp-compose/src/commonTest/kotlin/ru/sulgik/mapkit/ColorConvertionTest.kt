@@ -10,14 +10,14 @@ import ru.sulgik.mapkit.Color as MapkitColor
 public class ColorConvertionTest {
 
     @Test
-    public fun `mapkit color to compose color should convert correct`() {
+    public fun mapkitColorConvertsToComposeColor() {
         assertEquals(DefaultMapkitColor.toComposeColor(), DefaultComposeColor)
         assertEquals(WhiteMapkitColor.toComposeColor(), WhiteComposeColor)
         assertEquals(BlackMapkitColor.toComposeColor(), BlackComposeColor)
     }
 
     @Test
-    public fun `compose color to mapkit color should convert correct`() {
+    public fun composeColorConvertsToMapkitColor() {
         assertEquals(DefaultComposeColor.toMapkitColor(), DefaultMapkitColor)
         assertEquals(WhiteComposeColor.toMapkitColor(), WhiteMapkitColor)
         assertEquals(BlackComposeColor.toMapkitColor(), BlackMapkitColor)

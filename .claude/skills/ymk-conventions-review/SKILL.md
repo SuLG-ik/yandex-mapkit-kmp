@@ -51,8 +51,8 @@ find . -path '*/iosMain/*' -name '*.android.kt' -o -path '*/androidMain/*' -name
 ```
 
 Expected survivors of the first command are only platform-only types with no common counterpart
-(`AndroidImageProvider.kt`, `UIImageImageProvider.kt`) plus the known-bad `map/MapWindow.kt` and
-`PolylinePosition.andoird.kt`. Anything new showing up there is a mistake.
+(`AndroidImageProvider.kt`, `UIImageImageProvider.kt`) plus the known-bad `map/MapWindow.kt`.
+Anything new showing up there is a mistake.
 
 The second command should return only the two known-misplaced `location/*.android.kt` files in
 `iosMain`. A new hit means a file was created in the wrong source set — it will compile (the suffix
@@ -84,14 +84,19 @@ diff <(grep -o 'actual [a-z]* [a-zA-Z]*' */src/androidMain/**/Foo.android.kt) \
 
 The single highest-value check in this repo:
 
-- `toNative()` on a listener returns a **stored field**, not a freshly built adapter.
+- The listener class implements `NativeConvertible<NativeX>`, and `toNative()` returns a **stored
+  field**, not a freshly built adapter.
 - The iOS adapter extends `NSObject` alongside the `*Protocol`.
 - Native callback names are wired to the matching common method — read them side by side. Precedent
   for why: `InputListener.ios.kt` currently maps `onMapTapWithMap` to `onMapLongTap` and vice versa.
 - Common code offers an `inline` factory taking lambdas, so users are not forced to subclass.
+- Subscription methods take `WeakRef<Listener>` and forward `listener.toNative()`; call sites wrap
+  with `asWeakRef()` **and** keep the listener in a field of whatever owns the subscription
+  (`MapObjectNode.nativeTapListener`, `MapUpdater.cameraListener`, `ClusterNode.clusterListener`).
 
 Consequence of getting the first one wrong: `removeXListener` compares by identity, so removal
-silently no-ops and MapKit's weak references can collect the listener mid-session.
+silently no-ops. Consequence of getting the last one wrong: nothing crashes and nothing logs — the
+listener is collected and the subscription just never fires again.
 
 ## 5. Enum and nullability handling
 
@@ -138,11 +143,11 @@ silently no-ops and MapKit's weak references can collect the listener mid-sessio
 Nothing counts as reviewed until it builds on both platforms:
 
 ```bash
-./gradlew :yandex-mapkit-kmp:compileDebugKotlinAndroid :yandex-mapkit-kmp:compileKotlinIosSimulatorArm64
+./gradlew :yandex-mapkit-kmp:compileAndroidMain :yandex-mapkit-kmp:compileKotlinIosSimulatorArm64
 ```
 
 ```bash
-./gradlew :yandex-mapkit-kmp-compose:compileDebugKotlinAndroid :yandex-mapkit-kmp-compose:compileKotlinIosSimulatorArm64
+./gradlew :yandex-mapkit-kmp-compose:compileAndroidMain :yandex-mapkit-kmp-compose:compileKotlinIosSimulatorArm64
 ```
 
 Without CocoaPods available, `-PskipIosTarget=true` builds Android only — say so explicitly in the

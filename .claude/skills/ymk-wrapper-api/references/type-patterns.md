@@ -167,10 +167,13 @@ public inline fun InputListener(
 The `expect abstract class X()` needs the explicit empty constructor, and every `actual` repeats it
 as `actual constructor()`.
 
-**`androidMain`** — the adapter is a stored field, and native payloads are converted on the way in:
+**`androidMain`** — the adapter is a stored field, the class implements `NativeConvertible`, and
+native payloads are converted on the way in:
 
 ```kotlin
-public actual abstract class InputListener actual constructor() {
+public actual abstract class InputListener actual constructor() :
+    NativeConvertible<NativeInputListener> {
+
     private val nativeListener = object : NativeInputListener {
         override fun onMapTap(p0: NativeMap, p1: NativePoint) {
             onMapTap(p0.toCommon(), p1.toCommon())
@@ -181,7 +184,7 @@ public actual abstract class InputListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeInputListener {
+    override fun toNative(): NativeInputListener {
         return nativeListener
     }
 
@@ -190,6 +193,9 @@ public actual abstract class InputListener actual constructor() {
     public actual abstract fun onMapLongTap(map: Map, point: Point)
 }
 ```
+
+`NativeConvertible` is not decoration: it is what makes `WeakRef<InputListener>.toNative()` resolve,
+and every subscription in the wrapper takes that `WeakRef` rather than the listener itself.
 
 **`iosMain`** — same, but the adapter must extend `NSObject` to implement a `*Protocol`, and the
 native method names carry their `WithX` suffixes:

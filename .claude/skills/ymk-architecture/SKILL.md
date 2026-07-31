@@ -79,8 +79,8 @@ The `.android.kt` / `.ios.kt` suffix is mandatory for platform files that comple
 declaration. Platform-only types that have no common counterpart drop the suffix, because there is
 nothing to disambiguate: `map/AndroidImageProvider.kt`, `map/UIImageImageProvider.kt`.
 
-A handful of existing files break this (`geometry/PolylinePosition.andoird.kt`, `location/
-SubscriptionSettings.android.kt` sitting in **iosMain**, `map/MapWindow.kt` in iosMain, `logo/
+A handful of existing files break this (`location/SubscriptionSettings.android.kt` and
+`location/UseInBackground.android.kt` sitting in **iosMain**, `map/MapWindow.kt` in iosMain, `logo/
 Alignment.android.kt` holding `LogoAlignment` converters). They are historical typos — never copy
 them, and prefer the correct name when you touch such a file for other reasons.
 
@@ -130,7 +130,21 @@ Three shapes cover the whole wrapper. Pick by asking *"does this thing hold nati
    constructor(private val nativeX: NativeX)` per platform, with `toNative()` as a member and
    `NativeX.toCommon()` as a top-level function.
 3. **Listener / callback** — `expect abstract class X()` plus an inline `X(crossinline …)` factory
-   in common, and an `actual` holding a single `nativeListener` field.
+   in common, and an `actual` implementing `NativeConvertible<NativeX>` around a single
+   `nativeListener` field. Subscriptions take `WeakRef<X>`, never the listener itself.
+
+MapKit does not retain listeners, so every subscription method in this wrapper takes
+`WeakRef<Listener>` and the caller keeps the strong reference:
+
+```kotlin
+private val tapListener = MapObjectTapListener { _, _ -> true }
+
+mapObject.addTapListener(tapListener.asWeakRef())
+```
+
+A listener that is only referenced by the subscription is collected immediately and the subscription
+silently stops firing — storing it in a field of the node, state or screen that owns it is part of
+the pattern, not an optimization.
 
 Full templates with the reasoning behind each line: **use the `ymk-wrapper-api` skill**.
 Adding a Compose composable, state or map node: **use the `ymk-compose-api` skill**.
@@ -159,6 +173,9 @@ Read [references/kotlin-style.md](references/kotlin-style.md) for the full list.
   (`!!! info`, `!!! warning`).
 - iOS targets can be skipped locally with the `skipIosTarget` property; CI publishes from
   `release/**` branches and deploys docs from `main`.
+- Android modules use the AGP KMP plugin (`com.android.kotlin.multiplatform.library`), so the Android
+  config lives in `kotlin { android { … } }` and the task names differ from AGP's classic ones:
+  `compileAndroidMain`, `testAndroidHostTest`, `connectedAndroidDeviceTest`.
 
 Details on modules, Gradle wiring and known inconsistencies:
 [references/module-map.md](references/module-map.md).

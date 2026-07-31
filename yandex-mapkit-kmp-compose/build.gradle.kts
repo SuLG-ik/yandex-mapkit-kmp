@@ -23,7 +23,7 @@ kotlin {
     android {
         namespace = "ru.sulgik.mapkit.compose"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
-        minSdk = 24
+        minSdk = 26
 
         androidResources {
             enable = true
@@ -91,6 +91,10 @@ kotlin {
             implementation(kotlin("test"))
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
+        }
+
+        getByName("androidDeviceTest").dependencies {
+            implementation(libs.androidx.compose.ui.test.manifest)
         }
 
     }

@@ -20,7 +20,7 @@ kotlin {
     android {
         namespace = "ru.sulgik.mapkit.moko.compose"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
-        minSdk = 24
+        minSdk = 26
 
         compilations.configureEach {
             compileTaskProvider.configure {

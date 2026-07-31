@@ -22,11 +22,11 @@ sentence — it usually explains it.
 Per-target compile checks (fastest feedback when changing `expect`/`actual` pairs — always run both):
 
 ```bash
-./gradlew :yandex-mapkit-kmp:compileDebugKotlinAndroid :yandex-mapkit-kmp:compileKotlinIosSimulatorArm64
+./gradlew :yandex-mapkit-kmp:compileAndroidMain :yandex-mapkit-kmp:compileKotlinIosSimulatorArm64
 ```
 
 ```bash
-./gradlew :yandex-mapkit-kmp-compose:compileDebugKotlinAndroid :yandex-mapkit-kmp-compose:compileKotlinIosSimulatorArm64
+./gradlew :yandex-mapkit-kmp-compose:compileAndroidMain :yandex-mapkit-kmp-compose:compileKotlinIosSimulatorArm64
 ```
 
 Tests live in `yandex-mapkit-kmp-compose/src/commonTest`:
@@ -36,7 +36,7 @@ Tests live in `yandex-mapkit-kmp-compose/src/commonTest`:
 ```
 
 ```bash
-./gradlew :yandex-mapkit-kmp-compose:testDebugUnitTest --tests "ru.sulgik.mapkit.ColorConvertionTest"
+./gradlew :yandex-mapkit-kmp-compose:testAndroidHostTest --tests "ru.sulgik.mapkit.ColorConvertionTest"
 ```
 
 KDoc site and docs:
@@ -91,8 +91,10 @@ in `androidMain` / `iosMain` — never in `commonMain`.
   on the actuals); everything else should be readable without prose.
 - Explicit `public` and explicit return types; block bodies with `return`, expression bodies only for
   property getters.
-- A listener's `toNative()` must return the same stored instance every time — MapKit removes
-  listeners by identity and holds them weakly.
+- A listener implements `NativeConvertible<NativeX>` and its `toNative()` must return the same stored
+  instance every time — MapKit removes listeners by identity.
+- Subscriptions take `WeakRef<Listener>`: wrap with `asWeakRef()` at the call site and keep the
+  listener in a field of whatever owns the subscription, or it is collected and stops firing.
 - Adding a `MapObject` subtype means adding its branch to the `when` in `MapObject.toCommon()` on
   both platforms, otherwise objects silently arrive as the base wrapper.
 - iOS enum `toCommon()` needs `else -> throw IllegalArgumentException("Unknown NativeX ($this)")`;
@@ -117,5 +119,5 @@ code rather than inferring patterns from a single file:
 | `ymk-conventions-review` | Auditing a diff before opening a PR |
 
 The skills also record known deviations already present in the tree (misnamed platform files,
-swapped callbacks in `InputListener.ios.kt`, `minSdk` drift between modules and the README) — treat
-those as bugs to avoid copying, not as precedent.
+swapped callbacks in `InputListener.ios.kt`, commented-out tests) — treat those as bugs to avoid
+copying, not as precedent.
