@@ -2,7 +2,7 @@
 
 Yandex MapKit KMP provides a number of modules, they are all published to Maven Central Repository.
 
-!!! info "Uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.24.0-lite*"
+!!! info "Uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.42.0-lite*"
 
 | Module	                                                                                               | Gradle Dependency                                                                                                                            | Description                                                                                                                                              |
 |-------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
