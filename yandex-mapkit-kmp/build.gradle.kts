@@ -3,6 +3,7 @@ import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -13,6 +14,12 @@ plugins {
 
 val supportIosTarget = project.property("skipIosTarget") != "true"
 version = extra["library_version"].toString()
+
+val yandexMapsMobileFrameworks = listOf(
+    "CoreLocation",
+    "SystemConfiguration",
+    "NetworkExtension",
+)
 
 kotlin {
     android {
@@ -26,6 +33,15 @@ kotlin {
                     jvmTarget.set(JvmTarget.JVM_11)
                 }
             }
+        }
+
+        withHostTest {}
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }.configure {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
 
@@ -67,6 +83,10 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
+
+        getByName("androidDeviceTest").dependencies {
+            implementation("androidx.test:runner:1.7.0")
+        }
     }
 
     // https://kotlinlang.org/docs/native-objc-interop.html#export-of-kdoc-comments-to-generated-objective-c-headers
@@ -75,6 +95,10 @@ kotlin {
             compilerOptions {
                 freeCompilerArgs.add("-Xexport-kdoc")
             }
+        }
+
+        binaries.withType<TestExecutable>().configureEach {
+            yandexMapsMobileFrameworks.forEach { linkerOpts("-framework", it) }
         }
     }
 

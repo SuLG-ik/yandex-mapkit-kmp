@@ -568,6 +568,13 @@ final class ru.sulgik.mapkit.geometry/BoundingBox { // ru.sulgik.mapkit.geometry
         final fun <get-northEast>(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit.geometry/BoundingBox.northEast.<get-northEast>|<get-northEast>(){}[0]
     final val southWest // ru.sulgik.mapkit.geometry/BoundingBox.southWest|{}southWest[0]
         final fun <get-southWest>(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit.geometry/BoundingBox.southWest.<get-southWest>|<get-southWest>(){}[0]
+
+    final fun component1(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit.geometry/BoundingBox.component1|component1(){}[0]
+    final fun component2(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit.geometry/BoundingBox.component2|component2(){}[0]
+    final fun copy(ru.sulgik.mapkit.geometry/Point = ..., ru.sulgik.mapkit.geometry/Point = ...): ru.sulgik.mapkit.geometry/BoundingBox // ru.sulgik.mapkit.geometry/BoundingBox.copy|copy(ru.sulgik.mapkit.geometry.Point;ru.sulgik.mapkit.geometry.Point){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry/BoundingBox.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry/BoundingBox.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.geometry/BoundingBox.toString|toString(){}[0]
 }
 
 final class ru.sulgik.mapkit.geometry/Circle { // ru.sulgik.mapkit.geometry/Circle|null[0]
@@ -1768,6 +1775,13 @@ final class ru.sulgik.mapkit.map/Rect { // ru.sulgik.mapkit.map/Rect|null[0]
         final fun <get-max>(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit.map/Rect.max.<get-max>|<get-max>(){}[0]
     final val min // ru.sulgik.mapkit.map/Rect.min|{}min[0]
         final fun <get-min>(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit.map/Rect.min.<get-min>|<get-min>(){}[0]
+
+    final fun component1(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit.map/Rect.component1|component1(){}[0]
+    final fun component2(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit.map/Rect.component2|component2(){}[0]
+    final fun copy(ru.sulgik.mapkit/PointF = ..., ru.sulgik.mapkit/PointF = ...): ru.sulgik.mapkit.map/Rect // ru.sulgik.mapkit.map/Rect.copy|copy(ru.sulgik.mapkit.PointF;ru.sulgik.mapkit.PointF){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/Rect.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/Rect.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.map/Rect.toString|toString(){}[0]
 }
 
 final class ru.sulgik.mapkit.map/RootMapObjectCollection : ru.sulgik.mapkit.map/MapObjectCollection { // ru.sulgik.mapkit.map/RootMapObjectCollection|null[0]
@@ -2521,6 +2535,13 @@ final class ru.sulgik.mapkit/ScreenRect { // ru.sulgik.mapkit/ScreenRect|null[0]
         final fun <get-bottomRight>(): ru.sulgik.mapkit/ScreenPoint // ru.sulgik.mapkit/ScreenRect.bottomRight.<get-bottomRight>|<get-bottomRight>(){}[0]
     final val topLeft // ru.sulgik.mapkit/ScreenRect.topLeft|{}topLeft[0]
         final fun <get-topLeft>(): ru.sulgik.mapkit/ScreenPoint // ru.sulgik.mapkit/ScreenRect.topLeft.<get-topLeft>|<get-topLeft>(){}[0]
+
+    final fun component1(): ru.sulgik.mapkit/ScreenPoint // ru.sulgik.mapkit/ScreenRect.component1|component1(){}[0]
+    final fun component2(): ru.sulgik.mapkit/ScreenPoint // ru.sulgik.mapkit/ScreenRect.component2|component2(){}[0]
+    final fun copy(ru.sulgik.mapkit/ScreenPoint = ..., ru.sulgik.mapkit/ScreenPoint = ...): ru.sulgik.mapkit/ScreenRect // ru.sulgik.mapkit/ScreenRect.copy|copy(ru.sulgik.mapkit.ScreenPoint;ru.sulgik.mapkit.ScreenPoint){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit/ScreenRect.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit/ScreenRect.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit/ScreenRect.toString|toString(){}[0]
 }
 
 final class ru.sulgik.mapkit/Size2u { // ru.sulgik.mapkit/Size2u|null[0]
@@ -2959,6 +2980,7 @@ final fun (YandexMapKit/YMKRawTileState).ru.sulgik.mapkit/toCommon(): ru.sulgik.
 final fun (YandexMapKit/YMKRawTileUseCache).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/RawTile.UseCache // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKRawTileUseCache(){}[0]
 final fun (YandexMapKit/YMKRect).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/Rect // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKRect(){}[0]
 final fun (YandexMapKit/YMKRootMapObjectCollection).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/RootMapObjectCollection // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKRootMapObjectCollection(){}[0]
+final fun (YandexMapKit/YMKRotationType).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/RotationType // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKRotationType(){}[0]
 final fun (YandexMapKit/YMKScreenPoint).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/ScreenPoint // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKScreenPoint(){}[0]
 final fun (YandexMapKit/YMKScreenRect).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/ScreenRect // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKScreenRect(){}[0]
 final fun (YandexMapKit/YMKSegment).ru.sulgik.mapkit.geometry/toCommon(): ru.sulgik.mapkit.geometry/Segment // ru.sulgik.mapkit.geometry/toCommon|toCommon@YandexMapKit.YMKSegment(){}[0]
@@ -3090,6 +3112,7 @@ final fun (ru.sulgik.mapkit.map/ModelStyle.RenderMode).ru.sulgik.mapkit.map/toNa
 final fun (ru.sulgik.mapkit.map/ModelStyle.UnitType).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKModelStyleUnitType // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.ModelStyle.UnitType(){}[0]
 final fun (ru.sulgik.mapkit.map/PointOfView).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKPointOfView // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.PointOfView(){}[0]
 final fun (ru.sulgik.mapkit.map/Rect).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKRect // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.Rect(){}[0]
+final fun (ru.sulgik.mapkit.map/RotationType).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKRotationType // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.RotationType(){}[0]
 final fun (ru.sulgik.mapkit.map/TextStyle).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKTextStyle // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.TextStyle(){}[0]
 final fun (ru.sulgik.mapkit.map/TextStyle.Placement).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKTextStylePlacement // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.TextStyle.Placement(){}[0]
 final fun (ru.sulgik.mapkit.map/VisibleRegion).ru.sulgik.mapkit.map/getBounds(): ru.sulgik.mapkit.geometry/BoundingBox // ru.sulgik.mapkit.map/getBounds|getBounds@ru.sulgik.mapkit.map.VisibleRegion(){}[0]

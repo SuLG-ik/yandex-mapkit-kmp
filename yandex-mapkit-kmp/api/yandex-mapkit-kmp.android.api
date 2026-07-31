@@ -304,6 +304,13 @@ public final class ru.sulgik.mapkit.ScreenRect {
   public ru.sulgik.mapkit.ScreenRect(ru.sulgik.mapkit.ScreenPoint, ru.sulgik.mapkit.ScreenPoint);
   public final ru.sulgik.mapkit.ScreenPoint getTopLeft();
   public final ru.sulgik.mapkit.ScreenPoint getBottomRight();
+  public final ru.sulgik.mapkit.ScreenPoint component1();
+  public final ru.sulgik.mapkit.ScreenPoint component2();
+  public final ru.sulgik.mapkit.ScreenRect copy(ru.sulgik.mapkit.ScreenPoint, ru.sulgik.mapkit.ScreenPoint);
+  public static ru.sulgik.mapkit.ScreenRect copy$default(ru.sulgik.mapkit.ScreenRect, ru.sulgik.mapkit.ScreenPoint, ru.sulgik.mapkit.ScreenPoint, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
 }
 public final class ru.sulgik.mapkit.ScreenRect_androidKt {
   public static final com.yandex.mapkit.ScreenRect toNative(ru.sulgik.mapkit.ScreenRect);
@@ -447,6 +454,13 @@ public final class ru.sulgik.mapkit.geometry.BoundingBox {
   public ru.sulgik.mapkit.geometry.BoundingBox(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
   public final ru.sulgik.mapkit.geometry.Point getSouthWest();
   public final ru.sulgik.mapkit.geometry.Point getNorthEast();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final ru.sulgik.mapkit.geometry.Point component2();
+  public final ru.sulgik.mapkit.geometry.BoundingBox copy(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
+  public static ru.sulgik.mapkit.geometry.BoundingBox copy$default(ru.sulgik.mapkit.geometry.BoundingBox, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
 }
 public final class ru.sulgik.mapkit.geometry.BoundingBoxHelper_androidKt {
   public static final ru.sulgik.mapkit.geometry.BoundingBox getBounds(ru.sulgik.mapkit.geometry.BoundingBox);
@@ -2198,6 +2212,13 @@ public final class ru.sulgik.mapkit.map.Rect {
   public ru.sulgik.mapkit.map.Rect(ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.PointF);
   public final ru.sulgik.mapkit.PointF getMin();
   public final ru.sulgik.mapkit.PointF getMax();
+  public final ru.sulgik.mapkit.PointF component1();
+  public final ru.sulgik.mapkit.PointF component2();
+  public final ru.sulgik.mapkit.map.Rect copy(ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.PointF);
+  public static ru.sulgik.mapkit.map.Rect copy$default(ru.sulgik.mapkit.map.Rect, ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.PointF, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
 }
 public final class ru.sulgik.mapkit.map.Rect_androidKt {
   public static final com.yandex.mapkit.map.Rect toNative(ru.sulgik.mapkit.map.Rect);

@@ -14,6 +14,6 @@ public fun NativeVerticalAlignment.toCommon(): LogoVerticalAlignment {
     return when (this) {
         YMKLogoVerticalAlignment.YMKLogoVerticalAlignmentTop -> LogoVerticalAlignment.TOP
         YMKLogoVerticalAlignment.YMKLogoVerticalAlignmentBottom -> LogoVerticalAlignment.BOTTOM
-        else -> throw IllegalArgumentException("Unknown NativeTextStylePlacement ($this)")
+        else -> throw IllegalArgumentException("Unknown NativeVerticalAlignment ($this)")
     }
 }

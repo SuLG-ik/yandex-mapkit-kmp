@@ -15,6 +15,6 @@ public fun NativeHorizontalAlignment.toCommon(): LogoHorizontalAlignment {
         NativeHorizontalAlignment.YMKLogoHorizontalAlignmentLeft -> LogoHorizontalAlignment.LEFT
         NativeHorizontalAlignment.YMKLogoHorizontalAlignmentCenter -> LogoHorizontalAlignment.CENTER
         NativeHorizontalAlignment.YMKLogoHorizontalAlignmentRight -> LogoHorizontalAlignment.RIGHT
-        else -> throw IllegalArgumentException("Unknown NativeTextStylePlacement ($this)")
+        else -> throw IllegalArgumentException("Unknown NativeHorizontalAlignment ($this)")
     }
 }

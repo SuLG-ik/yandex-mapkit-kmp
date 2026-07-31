@@ -72,7 +72,7 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
     public actual var scaleFactor: Float
         get() = nativeMapWindow.scaleFactor
         set(value) {
-            nativeMapWindow.scaleFactor = scaleFactor
+            nativeMapWindow.scaleFactor = value
         }
 
     public actual fun worldToScreen(worldPoint: Point): ScreenPoint? {

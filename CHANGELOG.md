@@ -101,6 +101,9 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   and the `Placemark` / `Clustering` overloads that take composable content — stay experimental.
 - The `-moko` and `-moko-compose` modules compile with `-Xexplicit-api=strict`, like the other two.
 - **Breaking.** `Geometry.fromMultipolygon` is spelled `fromMultiPolygon`, as in MapKit.
+- **Breaking.** `BoundingBox`, `ScreenRect` and `map.Rect` are `data class`es, like every other value
+  type of the wrapper. They compared by identity, which among other things made an unchanged
+  `MapConfig` holding a `focusRect` look different on every recomposition.
 - **Breaking.** `Location.relativeTimestamp` is a `Duration` instead of an `Instant`: MapKit reports
   time passed on a steady clock, which is not a point in time.
 - **Breaking.** `MapObjectVisitor.onCollectionVisitEnd` returns `Unit` instead of `Boolean`, as in
@@ -135,6 +138,20 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
 - Compose: `PolygonState.Saver` computed the wrong offset past a restored ring, so restoring any
   polygon threw a `ClassCastException` — a `rememberPolygonState` did not survive a configuration
   change.
+- **iOS.** `UIColor.toCommon()` read the channels through `CIColor`, which Objective-C refuses for a
+  colour built by `Color.toNative()`: reading a colour back from the map raised
+  `-CIColor not defined for the UIColor UIExtendedSRGBColorSpace`. It goes through
+  `getRed(red:green:blue:alpha:)` now.
+- **iOS.** `IconStyle.toNative()` hardcoded `anchor` and `tappableArea` to `null` and
+  `toCommon()` never read `tappableArea` back, so both were silently dropped while Android carried
+  them. `rotationType` went through `ordinal`, tying the declaration order of the common enum to the
+  native raw values; it has proper converters now.
+- **iOS.** `LayerIds.mapLayerId` returned `mapObjectsLayerId()`, so two different layer ids were the
+  same string.
+- **iOS.** The `StorageManager` size callbacks dropped the native error, making a failure
+  indistinguishable from an empty result.
+- **Android.** The `MapWindow.scaleFactor` setter assigned its own getter instead of the new value,
+  so writing it did nothing.
 - Linking an Objective-C framework no longer crashes the Kotlin 2.4 compiler with a
   `NullPointerException` in `ObjCExportCodeGenerator`. The bounds of `WeakRef<T>.toNative()` are
   spelled without an explicit `T : Any`, which is what the compiler trips over; the signature is
