@@ -3,9 +3,12 @@ import org.jetbrains.dokka.ExternalDocumentationLink
 import org.jetbrains.dokka.ExternalDocumentationLinkImpl
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.GradleExternalDocumentationLinkBuilder
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.abi.BinariesSource
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
+import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import java.net.URL
 import java.util.Properties
 
@@ -101,6 +104,13 @@ registerLibraryTask(
 )
 
 registerLibraryTask(
+    name = "libraryLinkIosFramework",
+    taskName = "linkPodDebugFrameworkIosArm64",
+    taskGroup = "build",
+    taskDescription = "Links the Objective-C frameworks of the published modules for the iOS device target.",
+)
+
+registerLibraryTask(
     name = "libraryApiCheck",
     taskName = "checkKotlinAbi",
     taskGroup = "verification",
@@ -127,6 +137,25 @@ subprojects {
         }
 
         configureAbiValidation()
+        configureYandexMapsMobileLinking()
+    }
+}
+
+private val yandexMapsMobileFrameworks = listOf(
+    "CoreLocation",
+    "SystemConfiguration",
+    "NetworkExtension",
+)
+
+fun Project.configureYandexMapsMobileLinking() {
+    afterEvaluate {
+        val kotlin = extensions.findByType<KotlinMultiplatformExtension>() ?: return@afterEvaluate
+
+        kotlin.targets.withType<KotlinNativeTarget>().configureEach {
+            binaries.withType<Framework>().configureEach {
+                yandexMapsMobileFrameworks.forEach { linkerOpts("-framework", it) }
+            }
+        }
     }
 }
 

@@ -17,7 +17,6 @@ public interface NativeConvertible<T : Any> {
  * If the referent has already been collected, the returned reference is empty as well, so the
  * subscription it is passed to never fires.
  */
-public fun <T, N : Any> WeakRef<T>.toNative(): WeakReference<N>
-        where T : Any, T : NativeConvertible<N> {
+public fun <T : NativeConvertible<N>, N : Any> WeakRef<T>.toNative(): WeakReference<N> {
     return WeakReference<N>(get()?.toNative())
 }
