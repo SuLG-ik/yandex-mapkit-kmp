@@ -59,20 +59,37 @@ emulator job. That emulator job runs on pushes to `main` and again before every 
 
 ## Public API
 
-The four published modules keep a dump of their public API in `<module>/api`. Any change to a public
-declaration makes `checkKotlinAbi` fail until the dump is refreshed:
+The four published modules keep two dumps of their public API in `<module>/api`. Any change to a
+public declaration makes `libraryApiCheck` fail until both are refreshed:
 
 ```
-./gradlew updateKotlinAbi
+./gradlew libraryApiDump
 ```
 
 Run it on macOS — a dump generated without the iOS targets is incomplete — and commit the result
 together with the change. Reviewing that diff is the easiest way to see whether a pull request
 changes the API on purpose.
 
-The dumps are klib ones, covering `commonMain` and `iosMain`. Declarations that exist only in
-`androidMain` are not part of them: the Kotlin ABI validator does not pick up the Android target of
-`com.android.kotlin.multiplatform.library`.
+`<module>.klib.api` is the Kotlin ABI validator's klib dump and covers `commonMain` and `iosMain`.
+The validator does not pick up the Android target of `com.android.kotlin.multiplatform.library`, so
+`<module>.android.api` is produced separately by `dumpAndroidAbi`: it runs `javap -public` over the
+classes of the Android main compilation and is what guards `androidMain`-only declarations such as
+`MapKit.initialize(Context)` and the `ImageProvider` factories. Being a `javap` dump it is sensitive
+to the JDK it was generated with — use the same JDK version as CI.
+
+## Compatibility
+
+Within `1.x` the modules guarantee **source** compatibility, not binary compatibility.
+
+The wrapper follows MapKit, and MapKit adds fields to its structures and constants to its enums in
+minor releases. The wrapper mirrors those structures as `data class`es, so a new field changes
+`componentN` and `copy$default`, and a new enum constant makes an exhaustive `when` over it stop
+compiling. Both are binary-breaking, and refusing them would mean freezing the wrapper on the MapKit
+version 1.0.0 shipped with.
+
+In practice this means: recompile against the version you depend on, do not mix wrapper versions in
+one dependency graph, and expect a `when` over a wrapper enum to need a new branch after an update.
+Renames, removals and signature changes are still reserved for a major release.
 
 ## Releases
 

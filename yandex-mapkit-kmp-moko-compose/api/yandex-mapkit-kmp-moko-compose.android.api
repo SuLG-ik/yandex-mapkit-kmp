@@ -1,0 +1,3 @@
+public final class ru.sulgik.mapkit.moko.compose.Moko_androidKt {
+  public static final ru.sulgik.mapkit.moko.MOKOImageLoader rememberMOKOImageLoader(androidx.compose.runtime.Composer, int);
+}

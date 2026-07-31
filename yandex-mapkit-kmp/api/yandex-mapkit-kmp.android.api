@@ -1,0 +1,1374 @@
+public final class ru.sulgik.mapkit.Animation {
+  public final ru.sulgik.mapkit.Animation$Type getType();
+  public final long getDuration-UwyO8pc();
+  public final ru.sulgik.mapkit.Animation$Type component1();
+  public final long component2-UwyO8pc();
+  public final ru.sulgik.mapkit.Animation copy-HG0u8IE(ru.sulgik.mapkit.Animation$Type, long);
+  public static ru.sulgik.mapkit.Animation copy-HG0u8IE$default(ru.sulgik.mapkit.Animation, ru.sulgik.mapkit.Animation$Type, long, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.Animation(ru.sulgik.mapkit.Animation$Type, long, kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.Animation$Type extends java.lang.Enum<ru.sulgik.mapkit.Animation$Type> {
+  public static final ru.sulgik.mapkit.Animation$Type SMOOTH;
+  public static final ru.sulgik.mapkit.Animation$Type LINEAR;
+  public static ru.sulgik.mapkit.Animation$Type[] values();
+  public static ru.sulgik.mapkit.Animation$Type valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.Animation$Type> getEntries();
+}
+public final class ru.sulgik.mapkit.Animation_androidKt {
+  public static final com.yandex.mapkit.Animation toNative(ru.sulgik.mapkit.Animation);
+  public static final ru.sulgik.mapkit.Animation toCommon(com.yandex.mapkit.Animation);
+  public static final com.yandex.mapkit.Animation$Type toNative(ru.sulgik.mapkit.Animation$Type);
+  public static final ru.sulgik.mapkit.Animation$Type toCommon(com.yandex.mapkit.Animation$Type);
+}
+public final class ru.sulgik.mapkit.Color {
+  public static final ru.sulgik.mapkit.Color$Companion Companion;
+  public static java.lang.String toString-impl(int);
+  public java.lang.String toString();
+  public static int hashCode-impl(int);
+  public int hashCode();
+  public static boolean equals-impl(int, java.lang.Object);
+  public boolean equals(java.lang.Object);
+  public static final ru.sulgik.mapkit.Color box-impl(int);
+  public final int unbox-impl();
+  public static final boolean equals-impl0(int, int);
+}
+public final class ru.sulgik.mapkit.Color$Companion {
+  public final int fromArgb-r4VzaI8(int);
+  public ru.sulgik.mapkit.Color$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.ColorKt {
+  public static final int toArgb-FXrWlec(int);
+  public static final int toColor(int);
+}
+public final class ru.sulgik.mapkit.ConflictResolutionMode extends java.lang.Enum<ru.sulgik.mapkit.ConflictResolutionMode> {
+  public static final ru.sulgik.mapkit.ConflictResolutionMode MINOR;
+  public static final ru.sulgik.mapkit.ConflictResolutionMode EQUAL;
+  public static final ru.sulgik.mapkit.ConflictResolutionMode MAJOR;
+  public static final ru.sulgik.mapkit.ConflictResolutionMode IGNORE;
+  public static ru.sulgik.mapkit.ConflictResolutionMode[] values();
+  public static ru.sulgik.mapkit.ConflictResolutionMode valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.ConflictResolutionMode> getEntries();
+}
+public final class ru.sulgik.mapkit.ConflictResolutionMode_androidKt {
+  public static final com.yandex.mapkit.ConflictResolutionMode toNative(ru.sulgik.mapkit.ConflictResolutionMode);
+  public static final ru.sulgik.mapkit.ConflictResolutionMode toCommon(com.yandex.mapkit.ConflictResolutionMode);
+}
+public final class ru.sulgik.mapkit.MapKit {
+  public static final ru.sulgik.mapkit.MapKit$Companion Companion;
+  public ru.sulgik.mapkit.MapKit(com.yandex.mapkit.MapKit);
+  public final com.yandex.mapkit.MapKit toNative();
+  public final java.lang.String getVersion();
+  public final void resetLocationManagerToDefault();
+  public final void onStart();
+  public final void onStop();
+  public final void setLocationManager(ru.sulgik.mapkit.location.LocationManager);
+  public final ru.sulgik.mapkit.location.LocationManager createLocationManager();
+  public final ru.sulgik.mapkit.user_location.UserLocationLayer createUserLocationLayer(ru.sulgik.mapkit.map.MapWindow);
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.MapKit$Companion {
+  public final void initialize(android.content.Context);
+  public final void setApiKey(java.lang.String);
+  public final ru.sulgik.mapkit.MapKit getInstance();
+  public final void setLocale(java.lang.String);
+  public final void setUserId(java.lang.String);
+  public ru.sulgik.mapkit.MapKit$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.MapKit_androidKt {
+  public static final ru.sulgik.mapkit.MapKit toCommon(com.yandex.mapkit.MapKit);
+}
+public interface ru.sulgik.mapkit.NativeConvertible<T> {
+  public abstract T toNative();
+}
+public final class ru.sulgik.mapkit.NativeConvertible_androidKt {
+  public static final <T extends ru.sulgik.mapkit.NativeConvertible<N>, N> java.lang.ref.WeakReference<N> toNative(ru.sulgik.mapkit.WeakRef<T>);
+}
+public final class ru.sulgik.mapkit.PointF {
+  public ru.sulgik.mapkit.PointF(float, float);
+  public final float getX();
+  public final float getY();
+  public final float component1();
+  public final float component2();
+  public final ru.sulgik.mapkit.PointF copy(float, float);
+  public static ru.sulgik.mapkit.PointF copy$default(ru.sulgik.mapkit.PointF, float, float, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.PointF_androidKt {
+  public static final android.graphics.PointF toNative(ru.sulgik.mapkit.PointF);
+  public static final ru.sulgik.mapkit.PointF toCommon(android.graphics.PointF);
+}
+public final class ru.sulgik.mapkit.ScreenPoint {
+  public ru.sulgik.mapkit.ScreenPoint(float, float);
+  public final float getX();
+  public final float getY();
+  public final float component1();
+  public final float component2();
+  public final ru.sulgik.mapkit.ScreenPoint copy(float, float);
+  public static ru.sulgik.mapkit.ScreenPoint copy$default(ru.sulgik.mapkit.ScreenPoint, float, float, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.ScreenPoint_androidKt {
+  public static final com.yandex.mapkit.ScreenPoint toNative(ru.sulgik.mapkit.ScreenPoint);
+  public static final ru.sulgik.mapkit.ScreenPoint toCommon(com.yandex.mapkit.ScreenPoint);
+}
+public final class ru.sulgik.mapkit.ScreenRect {
+  public ru.sulgik.mapkit.ScreenRect(ru.sulgik.mapkit.ScreenPoint, ru.sulgik.mapkit.ScreenPoint);
+  public final ru.sulgik.mapkit.ScreenPoint getTopLeft();
+  public final ru.sulgik.mapkit.ScreenPoint getBottomRight();
+}
+public final class ru.sulgik.mapkit.ScreenRect_androidKt {
+  public static final com.yandex.mapkit.ScreenRect toNative(ru.sulgik.mapkit.ScreenRect);
+  public static final ru.sulgik.mapkit.ScreenRect toCommon(com.yandex.mapkit.ScreenRect);
+}
+public final class ru.sulgik.mapkit.WeakRef<T> {
+  public ru.sulgik.mapkit.WeakRef(T);
+  public final T get();
+}
+public final class ru.sulgik.mapkit.WeakRefKt {
+  public static final <T> ru.sulgik.mapkit.WeakRef<T> asWeakRef(T);
+  public static final <T, R> R withValue(ru.sulgik.mapkit.WeakRef<T>, kotlin.jvm.functions.Function1<? super T, ? extends R>);
+}
+public final class ru.sulgik.mapkit.geometry.BoundingBox {
+  public ru.sulgik.mapkit.geometry.BoundingBox(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
+  public final ru.sulgik.mapkit.geometry.Point getSouthWest();
+  public final ru.sulgik.mapkit.geometry.Point getNorthEast();
+}
+public final class ru.sulgik.mapkit.geometry.BoundingBox_androidKt {
+  public static final com.yandex.mapkit.geometry.BoundingBox toNative(ru.sulgik.mapkit.geometry.BoundingBox);
+  public static final ru.sulgik.mapkit.geometry.BoundingBox toCommon(com.yandex.mapkit.geometry.BoundingBox);
+}
+public final class ru.sulgik.mapkit.geometry.Circle {
+  public ru.sulgik.mapkit.geometry.Circle(ru.sulgik.mapkit.geometry.Point, float);
+  public final ru.sulgik.mapkit.geometry.Point getCenter();
+  public final float getRadius();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final float component2();
+  public final ru.sulgik.mapkit.geometry.Circle copy(ru.sulgik.mapkit.geometry.Point, float);
+  public static ru.sulgik.mapkit.geometry.Circle copy$default(ru.sulgik.mapkit.geometry.Circle, ru.sulgik.mapkit.geometry.Point, float, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.geometry.Circle_androidKt {
+  public static final com.yandex.mapkit.geometry.Circle toNative(ru.sulgik.mapkit.geometry.Circle);
+  public static final ru.sulgik.mapkit.geometry.Circle toCommon(com.yandex.mapkit.geometry.Circle);
+}
+public final class ru.sulgik.mapkit.geometry.Geo {
+  public static final ru.sulgik.mapkit.geometry.Geo INSTANCE;
+  public final double distance(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
+  public final ru.sulgik.mapkit.geometry.Point closestPoint(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Segment);
+  public final ru.sulgik.mapkit.geometry.Point pointOnSegmentByFactor(ru.sulgik.mapkit.geometry.Segment, double);
+  public final double course(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
+}
+public final class ru.sulgik.mapkit.geometry.Geometry {
+  public static final ru.sulgik.mapkit.geometry.Geometry$Companion Companion;
+  public ru.sulgik.mapkit.geometry.Geometry(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Polyline, ru.sulgik.mapkit.geometry.Polygon, ru.sulgik.mapkit.geometry.MultiPolygon, ru.sulgik.mapkit.geometry.BoundingBox, ru.sulgik.mapkit.geometry.Circle);
+  public ru.sulgik.mapkit.geometry.Geometry(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Polyline, ru.sulgik.mapkit.geometry.Polygon, ru.sulgik.mapkit.geometry.MultiPolygon, ru.sulgik.mapkit.geometry.BoundingBox, ru.sulgik.mapkit.geometry.Circle, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final ru.sulgik.mapkit.geometry.Point getPoint();
+  public final ru.sulgik.mapkit.geometry.Polyline getPolyline();
+  public final ru.sulgik.mapkit.geometry.Polygon getPolygon();
+  public final ru.sulgik.mapkit.geometry.MultiPolygon getMultiPolygon();
+  public final ru.sulgik.mapkit.geometry.BoundingBox getBoundingBox();
+  public final ru.sulgik.mapkit.geometry.Circle getCircle();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final ru.sulgik.mapkit.geometry.Polyline component2();
+  public final ru.sulgik.mapkit.geometry.Polygon component3();
+  public final ru.sulgik.mapkit.geometry.MultiPolygon component4();
+  public final ru.sulgik.mapkit.geometry.BoundingBox component5();
+  public final ru.sulgik.mapkit.geometry.Circle component6();
+  public final ru.sulgik.mapkit.geometry.Geometry copy$ru_sulgik_mapkit_yandex_mapkit_kmp(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Polyline, ru.sulgik.mapkit.geometry.Polygon, ru.sulgik.mapkit.geometry.MultiPolygon, ru.sulgik.mapkit.geometry.BoundingBox, ru.sulgik.mapkit.geometry.Circle);
+  public static ru.sulgik.mapkit.geometry.Geometry copy$ru_sulgik_mapkit_yandex_mapkit_kmp$default(ru.sulgik.mapkit.geometry.Geometry, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Polyline, ru.sulgik.mapkit.geometry.Polygon, ru.sulgik.mapkit.geometry.MultiPolygon, ru.sulgik.mapkit.geometry.BoundingBox, ru.sulgik.mapkit.geometry.Circle, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.geometry.Geometry();
+}
+public final class ru.sulgik.mapkit.geometry.Geometry$Companion {
+  public final ru.sulgik.mapkit.geometry.Geometry fromPoint(ru.sulgik.mapkit.geometry.Point);
+  public final ru.sulgik.mapkit.geometry.Geometry fromPolyline(ru.sulgik.mapkit.geometry.Polyline);
+  public final ru.sulgik.mapkit.geometry.Geometry fromPolygon(ru.sulgik.mapkit.geometry.Polygon);
+  public final ru.sulgik.mapkit.geometry.Geometry fromMultipolygon(ru.sulgik.mapkit.geometry.MultiPolygon);
+  public final ru.sulgik.mapkit.geometry.Geometry fromBoundingBox(ru.sulgik.mapkit.geometry.BoundingBox);
+  public final ru.sulgik.mapkit.geometry.Geometry fromCircle(ru.sulgik.mapkit.geometry.Circle);
+  public ru.sulgik.mapkit.geometry.Geometry$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.geometry.GeometryKt {
+  public static final ru.sulgik.mapkit.geometry.Geometry toGeometry(ru.sulgik.mapkit.geometry.Point);
+  public static final ru.sulgik.mapkit.geometry.Geometry toGeometry(ru.sulgik.mapkit.geometry.Polyline);
+  public static final ru.sulgik.mapkit.geometry.Geometry toGeometry(ru.sulgik.mapkit.geometry.Polygon);
+  public static final ru.sulgik.mapkit.geometry.Geometry toGeometry(ru.sulgik.mapkit.geometry.MultiPolygon);
+  public static final ru.sulgik.mapkit.geometry.Geometry toGeometry(ru.sulgik.mapkit.geometry.BoundingBox);
+  public static final ru.sulgik.mapkit.geometry.Geometry toGeometry(ru.sulgik.mapkit.geometry.Circle);
+}
+public final class ru.sulgik.mapkit.geometry.Geometry_androidKt {
+  public static final ru.sulgik.mapkit.geometry.Geometry toCommon(com.yandex.mapkit.geometry.Geometry);
+  public static final com.yandex.mapkit.geometry.Geometry toNative(ru.sulgik.mapkit.geometry.Geometry);
+}
+public final class ru.sulgik.mapkit.geometry.Latitude implements java.lang.Comparable<ru.sulgik.mapkit.geometry.Latitude> {
+  public final double getValue();
+  public static int compareTo-SxZZqSA(double, double);
+  public int compareTo-SxZZqSA(double);
+  public static java.lang.String toString-impl(double);
+  public java.lang.String toString();
+  public static int hashCode-impl(double);
+  public int hashCode();
+  public static boolean equals-impl(double, java.lang.Object);
+  public boolean equals(java.lang.Object);
+  public static double constructor-impl(double);
+  public static final ru.sulgik.mapkit.geometry.Latitude box-impl(double);
+  public final double unbox-impl();
+  public static final boolean equals-impl0(double, double);
+  public int compareTo(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.geometry.LinearRing {
+  public ru.sulgik.mapkit.geometry.LinearRing(com.yandex.mapkit.geometry.LinearRing);
+  public final com.yandex.mapkit.geometry.LinearRing toNative();
+  public java.lang.String toString();
+  public ru.sulgik.mapkit.geometry.LinearRing(java.util.List<ru.sulgik.mapkit.geometry.Point>);
+  public final java.util.List<ru.sulgik.mapkit.geometry.Point> getPoints();
+}
+public final class ru.sulgik.mapkit.geometry.LinearRingKt {
+  public static final java.lang.String linearRingsListToString(java.util.List<ru.sulgik.mapkit.geometry.LinearRing>);
+}
+public final class ru.sulgik.mapkit.geometry.LinearRing_androidKt {
+  public static final ru.sulgik.mapkit.geometry.LinearRing toCommon(com.yandex.mapkit.geometry.LinearRing);
+}
+public final class ru.sulgik.mapkit.geometry.Longitude implements java.lang.Comparable<ru.sulgik.mapkit.geometry.Longitude> {
+  public final double getValue();
+  public static int compareTo-XqBWmaU(double, double);
+  public int compareTo-XqBWmaU(double);
+  public static java.lang.String toString-impl(double);
+  public java.lang.String toString();
+  public static int hashCode-impl(double);
+  public int hashCode();
+  public static boolean equals-impl(double, java.lang.Object);
+  public boolean equals(java.lang.Object);
+  public static double constructor-impl(double);
+  public static final ru.sulgik.mapkit.geometry.Longitude box-impl(double);
+  public final double unbox-impl();
+  public static final boolean equals-impl0(double, double);
+  public int compareTo(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.geometry.MultiPolygon {
+  public ru.sulgik.mapkit.geometry.MultiPolygon(com.yandex.mapkit.geometry.MultiPolygon);
+  public final com.yandex.mapkit.geometry.MultiPolygon toNative();
+  public ru.sulgik.mapkit.geometry.MultiPolygon(java.util.List<ru.sulgik.mapkit.geometry.Polygon>);
+  public final java.util.List<ru.sulgik.mapkit.geometry.Polygon> getPolygons();
+}
+public final class ru.sulgik.mapkit.geometry.MultiPolygon_androidKt {
+  public static final ru.sulgik.mapkit.geometry.MultiPolygon toCommon(com.yandex.mapkit.geometry.MultiPolygon);
+}
+public final class ru.sulgik.mapkit.geometry.Point {
+  public final double getLatitude-Twy7Omg();
+  public final double getLongitude-Cc_MRnQ();
+  public final double component1-Twy7Omg();
+  public final double component2-Cc_MRnQ();
+  public final ru.sulgik.mapkit.geometry.Point copy-NsEEIQM(double, double);
+  public static ru.sulgik.mapkit.geometry.Point copy-NsEEIQM$default(ru.sulgik.mapkit.geometry.Point, double, double, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.geometry.Point(double, double, kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.geometry.PointKt {
+  public static final ru.sulgik.mapkit.geometry.Point Point(double, double);
+  public static final java.lang.String pointsListToString(java.util.List<ru.sulgik.mapkit.geometry.Point>);
+}
+public final class ru.sulgik.mapkit.geometry.Point_androidKt {
+  public static final com.yandex.mapkit.geometry.Point toNative(ru.sulgik.mapkit.geometry.Point);
+  public static final ru.sulgik.mapkit.geometry.Point toCommon(com.yandex.mapkit.geometry.Point);
+}
+public final class ru.sulgik.mapkit.geometry.Polygon {
+  public ru.sulgik.mapkit.geometry.Polygon(com.yandex.mapkit.geometry.Polygon);
+  public final com.yandex.mapkit.geometry.Polygon toNative();
+  public java.lang.String toString();
+  public ru.sulgik.mapkit.geometry.Polygon(ru.sulgik.mapkit.geometry.LinearRing, java.util.List<ru.sulgik.mapkit.geometry.LinearRing>);
+  public final ru.sulgik.mapkit.geometry.LinearRing getOuterRing();
+  public final java.util.List<ru.sulgik.mapkit.geometry.LinearRing> getInnerRings();
+}
+public final class ru.sulgik.mapkit.geometry.Polygon_androidKt {
+  public static final ru.sulgik.mapkit.geometry.Polygon toCommon(com.yandex.mapkit.geometry.Polygon);
+}
+public final class ru.sulgik.mapkit.geometry.Polyline {
+  public ru.sulgik.mapkit.geometry.Polyline(com.yandex.mapkit.geometry.Polyline);
+  public final com.yandex.mapkit.geometry.Polyline toNative();
+  public java.lang.String toString();
+  public ru.sulgik.mapkit.geometry.Polyline(java.util.List<ru.sulgik.mapkit.geometry.Point>);
+  public final java.util.List<ru.sulgik.mapkit.geometry.Point> getPoints();
+}
+public final class ru.sulgik.mapkit.geometry.PolylinePosition {
+  public ru.sulgik.mapkit.geometry.PolylinePosition(int, double);
+  public final int getSegmentIndex();
+  public final double getSegmentPosition();
+  public final int component1();
+  public final double component2();
+  public final ru.sulgik.mapkit.geometry.PolylinePosition copy(int, double);
+  public static ru.sulgik.mapkit.geometry.PolylinePosition copy$default(ru.sulgik.mapkit.geometry.PolylinePosition, int, double, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.geometry.PolylinePosition_androidKt {
+  public static final com.yandex.mapkit.geometry.PolylinePosition toNative(ru.sulgik.mapkit.geometry.PolylinePosition);
+  public static final ru.sulgik.mapkit.geometry.PolylinePosition toCommon(com.yandex.mapkit.geometry.PolylinePosition);
+}
+public final class ru.sulgik.mapkit.geometry.Polyline_androidKt {
+  public static final ru.sulgik.mapkit.geometry.Polyline toCommon(com.yandex.mapkit.geometry.Polyline);
+}
+public final class ru.sulgik.mapkit.geometry.Segment {
+  public ru.sulgik.mapkit.geometry.Segment(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
+  public final ru.sulgik.mapkit.geometry.Point getStartPoint();
+  public final ru.sulgik.mapkit.geometry.Point getEndPoint();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final ru.sulgik.mapkit.geometry.Point component2();
+  public final ru.sulgik.mapkit.geometry.Segment copy(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
+  public static ru.sulgik.mapkit.geometry.Segment copy$default(ru.sulgik.mapkit.geometry.Segment, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.geometry.Segment_androidKt {
+  public static final com.yandex.mapkit.geometry.Segment toNative(ru.sulgik.mapkit.geometry.Segment);
+  public static final ru.sulgik.mapkit.geometry.Segment toCommon(com.yandex.mapkit.geometry.Segment);
+}
+public final class ru.sulgik.mapkit.geometry.Subpolyline {
+  public ru.sulgik.mapkit.geometry.Subpolyline(ru.sulgik.mapkit.geometry.PolylinePosition, ru.sulgik.mapkit.geometry.PolylinePosition);
+  public final ru.sulgik.mapkit.geometry.PolylinePosition getBegin();
+  public final ru.sulgik.mapkit.geometry.PolylinePosition getEnd();
+  public final ru.sulgik.mapkit.geometry.PolylinePosition component1();
+  public final ru.sulgik.mapkit.geometry.PolylinePosition component2();
+  public final ru.sulgik.mapkit.geometry.Subpolyline copy(ru.sulgik.mapkit.geometry.PolylinePosition, ru.sulgik.mapkit.geometry.PolylinePosition);
+  public static ru.sulgik.mapkit.geometry.Subpolyline copy$default(ru.sulgik.mapkit.geometry.Subpolyline, ru.sulgik.mapkit.geometry.PolylinePosition, ru.sulgik.mapkit.geometry.PolylinePosition, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.geometry.Subpolyline_androidKt {
+  public static final com.yandex.mapkit.geometry.Subpolyline toNative(ru.sulgik.mapkit.geometry.Subpolyline);
+  public static final ru.sulgik.mapkit.geometry.Subpolyline toCommon(com.yandex.mapkit.geometry.Subpolyline);
+}
+public final class ru.sulgik.mapkit.indoor.IndoorLevel {
+  public ru.sulgik.mapkit.indoor.IndoorLevel(java.lang.String, java.lang.String, boolean);
+  public final java.lang.String getId();
+  public final java.lang.String getName();
+  public final boolean isUnderground();
+  public final java.lang.String component1();
+  public final java.lang.String component2();
+  public final boolean component3();
+  public final ru.sulgik.mapkit.indoor.IndoorLevel copy(java.lang.String, java.lang.String, boolean);
+  public static ru.sulgik.mapkit.indoor.IndoorLevel copy$default(ru.sulgik.mapkit.indoor.IndoorLevel, java.lang.String, java.lang.String, boolean, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.indoor.IndoorLevel_androidKt {
+  public static final com.yandex.mapkit.indoor.IndoorLevel toNative(ru.sulgik.mapkit.indoor.IndoorLevel);
+  public static final ru.sulgik.mapkit.indoor.IndoorLevel toCommon(com.yandex.mapkit.indoor.IndoorLevel);
+}
+public final class ru.sulgik.mapkit.indoor.IndoorPlan {
+  public ru.sulgik.mapkit.indoor.IndoorPlan(com.yandex.mapkit.indoor.IndoorPlan);
+  public final com.yandex.mapkit.indoor.IndoorPlan toNative();
+  public final java.util.List<ru.sulgik.mapkit.indoor.IndoorLevel> getLevels();
+  public final java.lang.String getActiveLevelId();
+  public final void setActiveLevelId(java.lang.String);
+}
+public final class ru.sulgik.mapkit.indoor.IndoorPlan_androidKt {
+  public static final ru.sulgik.mapkit.indoor.IndoorPlan toCommon(com.yandex.mapkit.indoor.IndoorPlan);
+}
+public abstract class ru.sulgik.mapkit.indoor.IndoorStateListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.indoor.IndoorStateListener> {
+  public ru.sulgik.mapkit.indoor.IndoorStateListener();
+  public com.yandex.mapkit.indoor.IndoorStateListener toNative();
+  public abstract void onActivePlanFocused(ru.sulgik.mapkit.indoor.IndoorPlan);
+  public abstract void onActivePlanLeft();
+  public abstract void onActiveLevelChanged(java.lang.String);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.indoor.IndoorStateListenerKt {
+  public static final ru.sulgik.mapkit.indoor.IndoorStateListener IndoorStateListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.indoor.IndoorPlan, kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>, kotlin.jvm.functions.Function1<? super java.lang.String, kotlin.Unit>);
+}
+public class ru.sulgik.mapkit.layers.ObjectEvent {
+  public ru.sulgik.mapkit.layers.ObjectEvent(com.yandex.mapkit.layers.ObjectEvent);
+  public com.yandex.mapkit.layers.ObjectEvent toNative();
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.layers.ObjectEvent_androidKt {
+  public static final ru.sulgik.mapkit.layers.ObjectEvent toCommon(com.yandex.mapkit.layers.ObjectEvent);
+}
+public final class ru.sulgik.mapkit.location.Location {
+  public final ru.sulgik.mapkit.geometry.Point getPosition();
+  public final java.lang.Double getAccuracy();
+  public final java.lang.Double getAltitude();
+  public final java.lang.Double getAltitudeAccuracy();
+  public final java.lang.Double getHeading();
+  public final java.lang.Double getSpeed();
+  public final java.lang.String getIndoorLevelId();
+  public final kotlin.time.Instant getAbsoluteTimestamp();
+  public final long getRelativeTimestamp-UwyO8pc();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final java.lang.Double component2();
+  public final java.lang.Double component3();
+  public final java.lang.Double component4();
+  public final java.lang.Double component5();
+  public final java.lang.Double component6();
+  public final java.lang.String component7();
+  public final kotlin.time.Instant component8();
+  public final long component9-UwyO8pc();
+  public final ru.sulgik.mapkit.location.Location copy-oluzAQE(ru.sulgik.mapkit.geometry.Point, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.String, kotlin.time.Instant, long);
+  public static ru.sulgik.mapkit.location.Location copy-oluzAQE$default(ru.sulgik.mapkit.location.Location, ru.sulgik.mapkit.geometry.Point, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.String, kotlin.time.Instant, long, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.location.Location(ru.sulgik.mapkit.geometry.Point, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.String, kotlin.time.Instant, long, kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public abstract class ru.sulgik.mapkit.location.LocationListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.location.LocationListener> {
+  public ru.sulgik.mapkit.location.LocationListener();
+  public com.yandex.mapkit.location.LocationListener toNative();
+  public abstract void onLocationUpdated(ru.sulgik.mapkit.location.Location);
+  public abstract void onLocationStatusUpdated(ru.sulgik.mapkit.location.LocationStatus);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.location.LocationListenerKt {
+  public static final ru.sulgik.mapkit.location.LocationListener LocationListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.location.Location, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.location.LocationStatus, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.location.LocationManager {
+  public ru.sulgik.mapkit.location.LocationManager(com.yandex.mapkit.location.LocationManager);
+  public final com.yandex.mapkit.location.LocationManager toNative();
+  public final void subscribeForLocationUpdates(ru.sulgik.mapkit.location.SubscriptionSettings, ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationListener>);
+  public final void suspend();
+  public final void resume();
+  public final void requestSingleUpdate(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationListener>);
+  public final void unsubscribe(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationListener>);
+}
+public final class ru.sulgik.mapkit.location.LocationManager_androidKt {
+  public static final ru.sulgik.mapkit.location.LocationManager toCommon(com.yandex.mapkit.location.LocationManager);
+}
+public final class ru.sulgik.mapkit.location.LocationPurpose extends java.lang.Enum<ru.sulgik.mapkit.location.LocationPurpose> {
+  public static final ru.sulgik.mapkit.location.LocationPurpose GENERAL;
+  public static final ru.sulgik.mapkit.location.LocationPurpose AUTOMOTIVE_NAVIGATION;
+  public static final ru.sulgik.mapkit.location.LocationPurpose PEDESTRIAN_NAVIGATION;
+  public static final ru.sulgik.mapkit.location.LocationPurpose BICYCLE_NAVIGATION;
+  public static final ru.sulgik.mapkit.location.LocationPurpose SCOOTER_NAVIGATION;
+  public static final ru.sulgik.mapkit.location.LocationPurpose STATIC_DISPLAY_LOCATION;
+  public static ru.sulgik.mapkit.location.LocationPurpose[] values();
+  public static ru.sulgik.mapkit.location.LocationPurpose valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.location.LocationPurpose> getEntries();
+}
+public final class ru.sulgik.mapkit.location.LocationPurpose_androidKt {
+  public static final com.yandex.mapkit.location.Purpose toNative(ru.sulgik.mapkit.location.LocationPurpose);
+  public static final ru.sulgik.mapkit.location.LocationPurpose toCommon(com.yandex.mapkit.location.Purpose);
+}
+public final class ru.sulgik.mapkit.location.LocationStatus extends java.lang.Enum<ru.sulgik.mapkit.location.LocationStatus> {
+  public static final ru.sulgik.mapkit.location.LocationStatus NOT_AVAILABLE;
+  public static final ru.sulgik.mapkit.location.LocationStatus AVAILABLE;
+  public static final ru.sulgik.mapkit.location.LocationStatus RESET;
+  public static ru.sulgik.mapkit.location.LocationStatus[] values();
+  public static ru.sulgik.mapkit.location.LocationStatus valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.location.LocationStatus> getEntries();
+}
+public final class ru.sulgik.mapkit.location.LocationStatus_androidKt {
+  public static final com.yandex.mapkit.location.LocationStatus toNative(ru.sulgik.mapkit.location.LocationStatus);
+  public static final ru.sulgik.mapkit.location.LocationStatus toCommon(com.yandex.mapkit.location.LocationStatus);
+}
+public final class ru.sulgik.mapkit.location.LocationViewSource {
+  public ru.sulgik.mapkit.location.LocationViewSource(com.yandex.mapkit.location.LocationViewSource);
+  public final com.yandex.mapkit.location.LocationViewSource toNative();
+}
+public final class ru.sulgik.mapkit.location.LocationViewSource_androidKt {
+  public static final ru.sulgik.mapkit.location.LocationViewSource toCommon(com.yandex.mapkit.location.LocationViewSource);
+  public static final ru.sulgik.mapkit.location.LocationViewSource toLocationViewSource(ru.sulgik.mapkit.location.LocationManager);
+}
+public final class ru.sulgik.mapkit.location.Location_androidKt {
+  public static final com.yandex.mapkit.location.Location toNative(ru.sulgik.mapkit.location.Location);
+  public static final ru.sulgik.mapkit.location.Location toCommon(com.yandex.mapkit.location.Location);
+}
+public final class ru.sulgik.mapkit.location.SubscriptionSettings {
+  public ru.sulgik.mapkit.location.SubscriptionSettings(ru.sulgik.mapkit.location.UseInBackground, ru.sulgik.mapkit.location.LocationPurpose);
+  public final ru.sulgik.mapkit.location.UseInBackground getUseInBackground();
+  public final ru.sulgik.mapkit.location.LocationPurpose getPurpose();
+  public final ru.sulgik.mapkit.location.UseInBackground component1();
+  public final ru.sulgik.mapkit.location.LocationPurpose component2();
+  public final ru.sulgik.mapkit.location.SubscriptionSettings copy(ru.sulgik.mapkit.location.UseInBackground, ru.sulgik.mapkit.location.LocationPurpose);
+  public static ru.sulgik.mapkit.location.SubscriptionSettings copy$default(ru.sulgik.mapkit.location.SubscriptionSettings, ru.sulgik.mapkit.location.UseInBackground, ru.sulgik.mapkit.location.LocationPurpose, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.location.SubscriptionSettings_androidKt {
+  public static final com.yandex.mapkit.location.SubscriptionSettings toNative(ru.sulgik.mapkit.location.SubscriptionSettings);
+  public static final ru.sulgik.mapkit.location.SubscriptionSettings toCommon(com.yandex.mapkit.location.SubscriptionSettings);
+}
+public final class ru.sulgik.mapkit.location.UseInBackground extends java.lang.Enum<ru.sulgik.mapkit.location.UseInBackground> {
+  public static final ru.sulgik.mapkit.location.UseInBackground ALLOW;
+  public static final ru.sulgik.mapkit.location.UseInBackground DISALLOW;
+  public static ru.sulgik.mapkit.location.UseInBackground[] values();
+  public static ru.sulgik.mapkit.location.UseInBackground valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.location.UseInBackground> getEntries();
+}
+public final class ru.sulgik.mapkit.location.UseInBackground_androidKt {
+  public static final com.yandex.mapkit.location.UseInBackground toNative(ru.sulgik.mapkit.location.UseInBackground);
+  public static final ru.sulgik.mapkit.location.UseInBackground toCommon(com.yandex.mapkit.location.UseInBackground);
+}
+public final class ru.sulgik.mapkit.logo.Logo {
+  public ru.sulgik.mapkit.logo.Logo(com.yandex.mapkit.logo.Logo);
+  public final com.yandex.mapkit.logo.Logo toNative();
+  public final void setAlignment(ru.sulgik.mapkit.logo.LogoAlignment);
+  public final void setPadding(ru.sulgik.mapkit.logo.LogoPadding);
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.logo.LogoAlignment {
+  public ru.sulgik.mapkit.logo.LogoAlignment(ru.sulgik.mapkit.logo.LogoHorizontalAlignment, ru.sulgik.mapkit.logo.LogoVerticalAlignment);
+  public final ru.sulgik.mapkit.logo.LogoHorizontalAlignment getHorizontalAlignment();
+  public final ru.sulgik.mapkit.logo.LogoVerticalAlignment getVerticalAlignment();
+  public final ru.sulgik.mapkit.logo.LogoHorizontalAlignment component1();
+  public final ru.sulgik.mapkit.logo.LogoVerticalAlignment component2();
+  public final ru.sulgik.mapkit.logo.LogoAlignment copy(ru.sulgik.mapkit.logo.LogoHorizontalAlignment, ru.sulgik.mapkit.logo.LogoVerticalAlignment);
+  public static ru.sulgik.mapkit.logo.LogoAlignment copy$default(ru.sulgik.mapkit.logo.LogoAlignment, ru.sulgik.mapkit.logo.LogoHorizontalAlignment, ru.sulgik.mapkit.logo.LogoVerticalAlignment, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.logo.LogoAlignment_androidKt {
+  public static final com.yandex.mapkit.logo.Alignment toNative(ru.sulgik.mapkit.logo.LogoAlignment);
+  public static final ru.sulgik.mapkit.logo.LogoAlignment toCommon(com.yandex.mapkit.logo.Alignment);
+}
+public final class ru.sulgik.mapkit.logo.LogoHorizontalAlignment extends java.lang.Enum<ru.sulgik.mapkit.logo.LogoHorizontalAlignment> {
+  public static final ru.sulgik.mapkit.logo.LogoHorizontalAlignment LEFT;
+  public static final ru.sulgik.mapkit.logo.LogoHorizontalAlignment CENTER;
+  public static final ru.sulgik.mapkit.logo.LogoHorizontalAlignment RIGHT;
+  public static ru.sulgik.mapkit.logo.LogoHorizontalAlignment[] values();
+  public static ru.sulgik.mapkit.logo.LogoHorizontalAlignment valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.logo.LogoHorizontalAlignment> getEntries();
+}
+public final class ru.sulgik.mapkit.logo.LogoHorizontalAlignment_androidKt {
+  public static final com.yandex.mapkit.logo.HorizontalAlignment toNative(ru.sulgik.mapkit.logo.LogoHorizontalAlignment);
+  public static final ru.sulgik.mapkit.logo.LogoHorizontalAlignment toCommon(com.yandex.mapkit.logo.HorizontalAlignment);
+}
+public final class ru.sulgik.mapkit.logo.LogoPadding {
+  public ru.sulgik.mapkit.logo.LogoPadding(int, int);
+  public final int getHorizontalPadding();
+  public final int getVerticalPadding();
+  public final int component1();
+  public final int component2();
+  public final ru.sulgik.mapkit.logo.LogoPadding copy(int, int);
+  public static ru.sulgik.mapkit.logo.LogoPadding copy$default(ru.sulgik.mapkit.logo.LogoPadding, int, int, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.logo.LogoPadding_androidKt {
+  public static final com.yandex.mapkit.logo.Padding toNative(ru.sulgik.mapkit.logo.LogoPadding);
+  public static final ru.sulgik.mapkit.logo.LogoPadding toCommon(com.yandex.mapkit.logo.Padding);
+}
+public final class ru.sulgik.mapkit.logo.LogoVerticalAlignment extends java.lang.Enum<ru.sulgik.mapkit.logo.LogoVerticalAlignment> {
+  public static final ru.sulgik.mapkit.logo.LogoVerticalAlignment TOP;
+  public static final ru.sulgik.mapkit.logo.LogoVerticalAlignment BOTTOM;
+  public static ru.sulgik.mapkit.logo.LogoVerticalAlignment[] values();
+  public static ru.sulgik.mapkit.logo.LogoVerticalAlignment valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.logo.LogoVerticalAlignment> getEntries();
+}
+public final class ru.sulgik.mapkit.logo.LogoVerticalAlignment_androidKt {
+  public static final com.yandex.mapkit.logo.VerticalAlignment toNative(ru.sulgik.mapkit.logo.LogoVerticalAlignment);
+  public static final ru.sulgik.mapkit.logo.LogoVerticalAlignment toCommon(com.yandex.mapkit.logo.VerticalAlignment);
+}
+public final class ru.sulgik.mapkit.logo.Logo_androidKt {
+  public static final ru.sulgik.mapkit.logo.Logo toCommon(com.yandex.mapkit.logo.Logo);
+}
+public final class ru.sulgik.mapkit.map.AndroidImageProvider implements ru.sulgik.mapkit.map.ImageProvider {
+  public ru.sulgik.mapkit.map.AndroidImageProvider(com.yandex.runtime.image.ImageProvider);
+  public com.yandex.runtime.image.ImageProvider toNative();
+}
+public final class ru.sulgik.mapkit.map.AndroidImageProviderKt {
+  public static final ru.sulgik.mapkit.map.ImageProvider toCommon(com.yandex.runtime.image.ImageProvider);
+  public static final ru.sulgik.mapkit.map.ImageProvider toImageProvider(android.graphics.Bitmap);
+  public static final ru.sulgik.mapkit.map.ImageProvider toImageProvider(android.graphics.Bitmap, boolean, java.lang.String);
+  public static final ru.sulgik.mapkit.map.ImageProvider fromBitmap(ru.sulgik.mapkit.map.ImageProvider$Companion, android.graphics.Bitmap);
+  public static final ru.sulgik.mapkit.map.ImageProvider fromBitmap(ru.sulgik.mapkit.map.ImageProvider$Companion, android.graphics.Bitmap, boolean, java.lang.String);
+  public static final ru.sulgik.mapkit.map.ImageProvider fromAsset(ru.sulgik.mapkit.map.ImageProvider$Companion, android.content.Context, java.lang.String);
+  public static final ru.sulgik.mapkit.map.ImageProvider fromAsset(ru.sulgik.mapkit.map.ImageProvider$Companion, android.content.Context, java.lang.String, boolean);
+  public static final ru.sulgik.mapkit.map.ImageProvider fromResource(ru.sulgik.mapkit.map.ImageProvider$Companion, android.content.Context, int);
+  public static final ru.sulgik.mapkit.map.ImageProvider fromResource(ru.sulgik.mapkit.map.ImageProvider$Companion, android.content.Context, int, boolean);
+  public static final ru.sulgik.mapkit.map.ImageProvider fromFile(ru.sulgik.mapkit.map.ImageProvider$Companion, java.lang.String);
+  public static final ru.sulgik.mapkit.map.ImageProvider fromFile(ru.sulgik.mapkit.map.ImageProvider$Companion, java.lang.String, boolean);
+}
+public final class ru.sulgik.mapkit.map.Arrow {
+  public ru.sulgik.mapkit.map.Arrow(com.yandex.mapkit.map.Arrow);
+  public final com.yandex.mapkit.map.Arrow toNative();
+  public final ru.sulgik.mapkit.geometry.PolylinePosition getPosition();
+  public final int getFillColor-ETeQKmY();
+  public final void setFillColor-FXrWlec(int);
+  public final int getOutlineColor-ETeQKmY();
+  public final void setOutlineColor-FXrWlec(int);
+  public final float getOutlineWidth();
+  public final void setOutlineWidth(float);
+  public final float getLength();
+  public final void setLength(float);
+  public final boolean isVisible();
+  public final void setVisible(boolean);
+  public final float getTriangleHeight();
+  public final void setTriangleHeight(float);
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.map.Arrow_androidKt {
+  public static final ru.sulgik.mapkit.map.Arrow toCommon(com.yandex.mapkit.map.Arrow);
+}
+public class ru.sulgik.mapkit.map.BaseMapObjectCollection extends ru.sulgik.mapkit.map.MapObject {
+  public ru.sulgik.mapkit.map.BaseMapObjectCollection(com.yandex.mapkit.map.BaseMapObjectCollection);
+  public com.yandex.mapkit.map.BaseMapObjectCollection toNative();
+  public final void traverse(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectVisitor>);
+  public final void remove(ru.sulgik.mapkit.map.MapObject);
+  public final void clear();
+  public final void addListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectCollectionListener>);
+  public final void removeListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectCollectionListener>);
+  public com.yandex.mapkit.map.MapObject toNative();
+}
+public final class ru.sulgik.mapkit.map.BaseMapObjectCollection_androidKt {
+  public static final ru.sulgik.mapkit.map.BaseMapObjectCollection toCommon(com.yandex.mapkit.map.BaseMapObjectCollection);
+}
+public abstract class ru.sulgik.mapkit.map.Callback {
+  public ru.sulgik.mapkit.map.Callback();
+  public final com.yandex.mapkit.map.Callback toNative();
+  public abstract void onTaskFinished();
+}
+public final class ru.sulgik.mapkit.map.CallbackKt {
+  public static final ru.sulgik.mapkit.map.Callback Callback(kotlin.jvm.functions.Function0<kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.map.CameraBounds {
+  public ru.sulgik.mapkit.map.CameraBounds(com.yandex.mapkit.map.CameraBounds);
+  public final com.yandex.mapkit.map.CameraBounds toNative();
+  public final float getMinZoom();
+  public final float getMaxZoom();
+  public final ru.sulgik.mapkit.geometry.BoundingBox getLatLngBounds();
+  public final void setLatLngBounds(ru.sulgik.mapkit.geometry.BoundingBox);
+  public final void resetMinMaxZoomPreference();
+  public final void setMinZoomPreference(float);
+  public final void setMaxZoomPreference(float);
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.map.CameraBounds_androidKt {
+  public static final ru.sulgik.mapkit.map.CameraBounds toCommon(com.yandex.mapkit.map.CameraBounds);
+}
+public abstract class ru.sulgik.mapkit.map.CameraCallback {
+  public ru.sulgik.mapkit.map.CameraCallback();
+  public final com.yandex.mapkit.map.Map$CameraCallback toNative();
+  public abstract void onMoveFinished(boolean);
+}
+public final class ru.sulgik.mapkit.map.CameraCallbackKt {
+  public static final ru.sulgik.mapkit.map.CameraCallback CameraCallback(kotlin.jvm.functions.Function1<? super java.lang.Boolean, kotlin.Unit>);
+}
+public abstract class ru.sulgik.mapkit.map.CameraListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.CameraListener> {
+  public ru.sulgik.mapkit.map.CameraListener();
+  public com.yandex.mapkit.map.CameraListener toNative();
+  public abstract void onCameraPositionChanged(ru.sulgik.mapkit.map.Map, ru.sulgik.mapkit.map.CameraPosition, ru.sulgik.mapkit.map.CameraUpdateReason, boolean);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.CameraListenerKt {
+  public static final ru.sulgik.mapkit.map.CameraListener CameraListener(kotlin.jvm.functions.Function4<? super ru.sulgik.mapkit.map.Map, ? super ru.sulgik.mapkit.map.CameraPosition, ? super ru.sulgik.mapkit.map.CameraUpdateReason, ? super java.lang.Boolean, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.map.CameraPosition {
+  public ru.sulgik.mapkit.map.CameraPosition(ru.sulgik.mapkit.geometry.Point, float, float, float);
+  public final ru.sulgik.mapkit.geometry.Point getTarget();
+  public final float getZoom();
+  public final float getAzimuth();
+  public final float getTilt();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final float component2();
+  public final float component3();
+  public final float component4();
+  public final ru.sulgik.mapkit.map.CameraPosition copy(ru.sulgik.mapkit.geometry.Point, float, float, float);
+  public static ru.sulgik.mapkit.map.CameraPosition copy$default(ru.sulgik.mapkit.map.CameraPosition, ru.sulgik.mapkit.geometry.Point, float, float, float, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.map.CameraPosition_androidKt {
+  public static final com.yandex.mapkit.map.CameraPosition toNative(ru.sulgik.mapkit.map.CameraPosition);
+  public static final ru.sulgik.mapkit.map.CameraPosition toCommon(com.yandex.mapkit.map.CameraPosition);
+}
+public final class ru.sulgik.mapkit.map.CameraUpdateReason extends java.lang.Enum<ru.sulgik.mapkit.map.CameraUpdateReason> {
+  public static final ru.sulgik.mapkit.map.CameraUpdateReason GESTURES;
+  public static final ru.sulgik.mapkit.map.CameraUpdateReason APPLICATION;
+  public static ru.sulgik.mapkit.map.CameraUpdateReason[] values();
+  public static ru.sulgik.mapkit.map.CameraUpdateReason valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.map.CameraUpdateReason> getEntries();
+}
+public final class ru.sulgik.mapkit.map.CameraUpdateReason_androidKt {
+  public static final ru.sulgik.mapkit.map.CameraUpdateReason toCommon(com.yandex.mapkit.map.CameraUpdateReason);
+  public static final com.yandex.mapkit.map.CameraUpdateReason toNative(ru.sulgik.mapkit.map.CameraUpdateReason);
+}
+public final class ru.sulgik.mapkit.map.CircleMapObject extends ru.sulgik.mapkit.map.MapObject {
+  public ru.sulgik.mapkit.map.CircleMapObject(com.yandex.mapkit.map.CircleMapObject);
+  public com.yandex.mapkit.map.CircleMapObject toNative();
+  public final ru.sulgik.mapkit.geometry.Circle getGeometry();
+  public final void setGeometry(ru.sulgik.mapkit.geometry.Circle);
+  public final int getStrokeColor-ETeQKmY();
+  public final void setStrokeColor-FXrWlec(int);
+  public final float getStrokeWidth();
+  public final void setStrokeWidth(float);
+  public final int getFillColor-ETeQKmY();
+  public final void setFillColor-FXrWlec(int);
+  public final boolean isGeodesic();
+  public final void setGeodesic(boolean);
+  public com.yandex.mapkit.map.MapObject toNative();
+}
+public final class ru.sulgik.mapkit.map.CircleMapObject_androidKt {
+  public static final ru.sulgik.mapkit.map.CircleMapObject toCommon(com.yandex.mapkit.map.CircleMapObject);
+}
+public final class ru.sulgik.mapkit.map.Cluster {
+  public ru.sulgik.mapkit.map.Cluster(com.yandex.mapkit.map.Cluster);
+  public final com.yandex.mapkit.map.Cluster toNative();
+  public final java.util.List<ru.sulgik.mapkit.map.PlacemarkMapObject> getPlacemarks();
+  public final int getSize();
+  public final ru.sulgik.mapkit.map.PlacemarkMapObject getAppearance();
+  public final void addClusterTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.ClusterTapListener>);
+  public final void removeClusterTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.ClusterTapListener>);
+  public final boolean isValid();
+}
+public abstract class ru.sulgik.mapkit.map.ClusterListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.ClusterListener> {
+  public ru.sulgik.mapkit.map.ClusterListener();
+  public com.yandex.mapkit.map.ClusterListener toNative();
+  public abstract void onClusterAdded(ru.sulgik.mapkit.map.Cluster);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.ClusterListenerKt {
+  public static final ru.sulgik.mapkit.map.ClusterListener ClusterListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.Cluster, kotlin.Unit>);
+}
+public abstract class ru.sulgik.mapkit.map.ClusterTapListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.ClusterTapListener> {
+  public ru.sulgik.mapkit.map.ClusterTapListener();
+  public com.yandex.mapkit.map.ClusterTapListener toNative();
+  public abstract boolean onClusterTap(ru.sulgik.mapkit.map.Cluster);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.ClusterTapListenerKt {
+  public static final ru.sulgik.mapkit.map.ClusterTapListener ClusterTapListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.Cluster, java.lang.Boolean>);
+}
+public final class ru.sulgik.mapkit.map.Cluster_androidKt {
+  public static final ru.sulgik.mapkit.map.Cluster toCommon(com.yandex.mapkit.map.Cluster);
+}
+public final class ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection extends ru.sulgik.mapkit.map.BaseMapObjectCollection {
+  public ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection(com.yandex.mapkit.map.ClusterizedPlacemarkCollection);
+  public com.yandex.mapkit.map.ClusterizedPlacemarkCollection toNative();
+  public final ru.sulgik.mapkit.map.PlacemarkMapObject addPlacemark();
+  public final ru.sulgik.mapkit.map.PlacemarkMapObject addPlacemark(ru.sulgik.mapkit.map.PlacemarkCreatedCallback);
+  public final java.util.List<ru.sulgik.mapkit.map.PlacemarkMapObject> addEmptyPlacemarks(java.util.List<ru.sulgik.mapkit.geometry.Point>);
+  public final java.util.List<ru.sulgik.mapkit.map.PlacemarkMapObject> addPlacemarks(java.util.List<ru.sulgik.mapkit.geometry.Point>, ru.sulgik.mapkit.map.ImageProvider, ru.sulgik.mapkit.map.IconStyle);
+  public final void clusterPlacemarks(double, int);
+  public com.yandex.mapkit.map.BaseMapObjectCollection toNative();
+  public com.yandex.mapkit.map.MapObject toNative();
+}
+public final class ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection_androidKt {
+  public static final ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection toCommon(com.yandex.mapkit.map.ClusterizedPlacemarkCollection);
+}
+public final class ru.sulgik.mapkit.map.GestureFocusPointMode extends java.lang.Enum<ru.sulgik.mapkit.map.GestureFocusPointMode> {
+  public static final ru.sulgik.mapkit.map.GestureFocusPointMode AFFECTS_TAP_GESTURES;
+  public static final ru.sulgik.mapkit.map.GestureFocusPointMode AFFECTS_ALL_GESTURES;
+  public static ru.sulgik.mapkit.map.GestureFocusPointMode[] values();
+  public static ru.sulgik.mapkit.map.GestureFocusPointMode valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.map.GestureFocusPointMode> getEntries();
+}
+public final class ru.sulgik.mapkit.map.GestureFocusPointMode_androidKt {
+  public static final com.yandex.mapkit.map.GestureFocusPointMode toNative(ru.sulgik.mapkit.map.GestureFocusPointMode);
+  public static final ru.sulgik.mapkit.map.GestureFocusPointMode toCommon(com.yandex.mapkit.map.GestureFocusPointMode);
+}
+public final class ru.sulgik.mapkit.map.IconStyle {
+  public ru.sulgik.mapkit.map.IconStyle(ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.map.RotationType, java.lang.Float, java.lang.Boolean, java.lang.Boolean, java.lang.Float, float, ru.sulgik.mapkit.map.Rect);
+  public ru.sulgik.mapkit.map.IconStyle(ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.map.RotationType, java.lang.Float, java.lang.Boolean, java.lang.Boolean, java.lang.Float, float, ru.sulgik.mapkit.map.Rect, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final ru.sulgik.mapkit.PointF getAnchor();
+  public final ru.sulgik.mapkit.map.RotationType getRotationType();
+  public final java.lang.Float getZIndex();
+  public final java.lang.Boolean getFlat();
+  public final java.lang.Boolean isVisible();
+  public final java.lang.Float getScale();
+  public final float getOpacity();
+  public final ru.sulgik.mapkit.map.Rect getTappableArea();
+  public final ru.sulgik.mapkit.PointF component1();
+  public final ru.sulgik.mapkit.map.RotationType component2();
+  public final java.lang.Float component3();
+  public final java.lang.Boolean component4();
+  public final java.lang.Boolean component5();
+  public final java.lang.Float component6();
+  public final float component7();
+  public final ru.sulgik.mapkit.map.Rect component8();
+  public final ru.sulgik.mapkit.map.IconStyle copy(ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.map.RotationType, java.lang.Float, java.lang.Boolean, java.lang.Boolean, java.lang.Float, float, ru.sulgik.mapkit.map.Rect);
+  public static ru.sulgik.mapkit.map.IconStyle copy$default(ru.sulgik.mapkit.map.IconStyle, ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.map.RotationType, java.lang.Float, java.lang.Boolean, java.lang.Boolean, java.lang.Float, float, ru.sulgik.mapkit.map.Rect, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.map.IconStyle();
+}
+public final class ru.sulgik.mapkit.map.IconStyle_androidKt {
+  public static final com.yandex.mapkit.map.IconStyle toNative(ru.sulgik.mapkit.map.IconStyle);
+  public static final ru.sulgik.mapkit.map.IconStyle toCommon(com.yandex.mapkit.map.IconStyle);
+}
+public interface ru.sulgik.mapkit.map.ImageProvider {
+  public static final ru.sulgik.mapkit.map.ImageProvider$Companion Companion;
+  public abstract com.yandex.runtime.image.ImageProvider toNative();
+}
+public final class ru.sulgik.mapkit.map.ImageProvider$Companion {
+}
+public abstract class ru.sulgik.mapkit.map.InputListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.InputListener> {
+  public ru.sulgik.mapkit.map.InputListener();
+  public com.yandex.mapkit.map.InputListener toNative();
+  public abstract void onMapTap(ru.sulgik.mapkit.map.Map, ru.sulgik.mapkit.geometry.Point);
+  public abstract void onMapLongTap(ru.sulgik.mapkit.map.Map, ru.sulgik.mapkit.geometry.Point);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.InputListenerKt {
+  public static final ru.sulgik.mapkit.map.InputListener InputListener(kotlin.jvm.functions.Function2<? super ru.sulgik.mapkit.map.Map, ? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>, kotlin.jvm.functions.Function2<? super ru.sulgik.mapkit.map.Map, ? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.map.LayerIds {
+  public static final ru.sulgik.mapkit.map.LayerIds INSTANCE;
+  public final java.lang.String getMapLayerId();
+  public final java.lang.String getJamsLayerId();
+  public final java.lang.String getPersonalizedPoiLayerId();
+  public final java.lang.String getTransportLayerId();
+  public final java.lang.String getSearchPinsLayerId();
+  public final java.lang.String getAdvertPinsLayerId();
+  public final java.lang.String getBuildingsLayerId();
+  public final java.lang.String getMapObjectsLayerId();
+  public final java.lang.String getRouteMapObjectsLayerId();
+  public final java.lang.String getUserLocationLayerId();
+  public final java.lang.String getDrivingNavigationBaseLayerId();
+  public final java.lang.String getDrivingNavigationRoutePinsLayerId();
+  public final java.lang.String getDrivingNavigationBalloonsLayerId();
+  public final java.lang.String getDrivingNavigationUserPlacemarkLayerId();
+  public final java.lang.String getRoadEventsLayerId();
+}
+public final class ru.sulgik.mapkit.map.LineStyle {
+  public ru.sulgik.mapkit.map.LineStyle(com.yandex.mapkit.map.LineStyle);
+  public final float getStrokeWidth();
+  public final void setStrokeWidth(float);
+  public final float getGradientLength();
+  public final void setGradientLength(float);
+  public final int getOutlineColor-ETeQKmY();
+  public final void setOutlineColor-FXrWlec(int);
+  public final float getOutlineWidth();
+  public final void setOutlineWidth(float);
+  public final boolean getInnerOutlineEnabled();
+  public final void setInnerOutlineEnabled(boolean);
+  public final float getTurnRadius();
+  public final void setTurnRadius(float);
+  public final float getArcApproximationStep();
+  public final void setArcApproximationStep(float);
+  public final float getDashLength();
+  public final void setDashLength(float);
+  public final float getGapLength();
+  public final void setGapLength(float);
+  public final float getDashOffset();
+  public final void setDashOffset(float);
+  public ru.sulgik.mapkit.map.LineStyle(float, float, int, float, boolean, float, float, float, float, float, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final com.yandex.mapkit.map.LineStyle toNative();
+  public ru.sulgik.mapkit.map.LineStyle(float, float, int, float, boolean, float, float, float, float, float, kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.map.LineStyle_androidKt {
+  public static final ru.sulgik.mapkit.map.LineStyle toCommon(com.yandex.mapkit.map.LineStyle);
+}
+public final class ru.sulgik.mapkit.map.Map {
+  public ru.sulgik.mapkit.map.Map(com.yandex.mapkit.map.Map);
+  public final com.yandex.mapkit.map.Map toNative();
+  public final ru.sulgik.mapkit.map.CameraPosition getCameraPosition();
+  public final ru.sulgik.mapkit.map.VisibleRegion getVisibleRegion();
+  public final ru.sulgik.mapkit.map.CameraBounds getCameraBounds();
+  public final ru.sulgik.mapkit.map.RootMapObjectCollection getMapObjects();
+  public final boolean isNightModeEnabled();
+  public final void setNightModeEnabled(boolean);
+  public final java.lang.Integer getPoiLimit();
+  public final void setPoiLimit(java.lang.Integer);
+  public final boolean isFastTapEnabled();
+  public final void setFastTapEnabled(boolean);
+  public final boolean isRotateGesturesEnabled();
+  public final void setRotateGesturesEnabled(boolean);
+  public final boolean isTiltGesturesEnabled();
+  public final void setTiltGesturesEnabled(boolean);
+  public final boolean isScrollGesturesEnabled();
+  public final void setScrollGesturesEnabled(boolean);
+  public final boolean isZoomGesturesEnabled();
+  public final void setZoomGesturesEnabled(boolean);
+  public final void set2DMode(boolean);
+  public final void wipe();
+  public final ru.sulgik.mapkit.map.CameraPosition cameraPosition(ru.sulgik.mapkit.geometry.Geometry, ru.sulgik.mapkit.ScreenRect, java.lang.Float, java.lang.Float);
+  public static ru.sulgik.mapkit.map.CameraPosition cameraPosition$default(ru.sulgik.mapkit.map.Map, ru.sulgik.mapkit.geometry.Geometry, ru.sulgik.mapkit.ScreenRect, java.lang.Float, java.lang.Float, int, java.lang.Object);
+  public final ru.sulgik.mapkit.map.VisibleRegion visibleRegion(ru.sulgik.mapkit.map.CameraPosition);
+  public final void move(ru.sulgik.mapkit.map.CameraPosition);
+  public final void move(ru.sulgik.mapkit.map.CameraPosition, ru.sulgik.mapkit.Animation, ru.sulgik.mapkit.map.CameraCallback);
+  public static void move$default(ru.sulgik.mapkit.map.Map, ru.sulgik.mapkit.map.CameraPosition, ru.sulgik.mapkit.Animation, ru.sulgik.mapkit.map.CameraCallback, int, java.lang.Object);
+  public final void addCameraListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.CameraListener>);
+  public final void removeCameraListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.CameraListener>);
+  public final ru.sulgik.mapkit.logo.Logo getLogo();
+  public final ru.sulgik.mapkit.map.MapType getMapType();
+  public final void setMapType(ru.sulgik.mapkit.map.MapType);
+  public final void addInputListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.InputListener>);
+  public final void removeInputListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.InputListener>);
+  public final void setMapStyle(java.lang.String);
+  public final void setMapStyle(int, java.lang.String);
+  public final boolean isIndoorEnabled();
+  public final void setIndoorEnabled(boolean);
+  public final void addIndoorStateListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.indoor.IndoorStateListener>);
+  public final void removeIndoorStateListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.indoor.IndoorStateListener>);
+  public final void resetMapStyles();
+  public final boolean isHdModeEnabled();
+  public final void setHdModeEnabled(boolean);
+  public final ru.sulgik.mapkit.map.MapMode getMode();
+  public final void setMode(ru.sulgik.mapkit.map.MapMode);
+  public final boolean isAwesomeModelsEnabled();
+  public final void setAwesomeModelsEnabled(boolean);
+  public final boolean isTransparentBackgroundEnabled();
+  public final void setTransparentBackgroundEnabled(boolean);
+  public final boolean isBuildingsAboveIndoorEnabled();
+  public final void setBuildingsAboveIndoorEnabled(boolean);
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.map.MapMode extends java.lang.Enum<ru.sulgik.mapkit.map.MapMode> {
+  public static final ru.sulgik.mapkit.map.MapMode MAP;
+  public static final ru.sulgik.mapkit.map.MapMode TRANSIT;
+  public static final ru.sulgik.mapkit.map.MapMode DRIVING;
+  public static final ru.sulgik.mapkit.map.MapMode ADMIN;
+  public static final ru.sulgik.mapkit.map.MapMode LEGACY_MAP;
+  public static final ru.sulgik.mapkit.map.MapMode FUTURE_MAP;
+  public static final ru.sulgik.mapkit.map.MapMode HYBRID;
+  public static ru.sulgik.mapkit.map.MapMode[] values();
+  public static ru.sulgik.mapkit.map.MapMode valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.map.MapMode> getEntries();
+}
+public final class ru.sulgik.mapkit.map.MapMode_androidKt {
+  public static final com.yandex.mapkit.map.MapMode toNative(ru.sulgik.mapkit.map.MapMode);
+  public static final ru.sulgik.mapkit.map.MapMode toCommon(com.yandex.mapkit.map.MapMode);
+}
+public class ru.sulgik.mapkit.map.MapObject {
+  public ru.sulgik.mapkit.map.MapObject(com.yandex.mapkit.map.MapObject);
+  public com.yandex.mapkit.map.MapObject toNative();
+  public final boolean isVisible();
+  public final void setVisible(boolean);
+  public final float getZIndex();
+  public final void setZIndex(float);
+  public final boolean isDraggable();
+  public final void setDraggable(boolean);
+  public final java.lang.Object getUserData();
+  public final void setUserData(java.lang.Object);
+  public final void addTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectTapListener>);
+  public final void removeTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectTapListener>);
+  public final void setDragListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectDragListener>);
+  public final ru.sulgik.mapkit.map.BaseMapObjectCollection getParent();
+  public final boolean isValid();
+}
+public class ru.sulgik.mapkit.map.MapObjectCollection extends ru.sulgik.mapkit.map.BaseMapObjectCollection {
+  public ru.sulgik.mapkit.map.MapObjectCollection(com.yandex.mapkit.map.MapObjectCollection);
+  public com.yandex.mapkit.map.MapObjectCollection toNative();
+  public final ru.sulgik.mapkit.map.PlacemarkMapObject addPlacemark();
+  public final ru.sulgik.mapkit.map.PlacemarkMapObject addPlacemark(ru.sulgik.mapkit.map.PlacemarkCreatedCallback);
+  public final ru.sulgik.mapkit.map.PolylineMapObject addPolyline(ru.sulgik.mapkit.geometry.Polyline);
+  public final ru.sulgik.mapkit.map.PolygonMapObject addPolygon(ru.sulgik.mapkit.geometry.Polygon);
+  public final ru.sulgik.mapkit.map.CircleMapObject addCircle(ru.sulgik.mapkit.geometry.Circle);
+  public final ru.sulgik.mapkit.map.MapObjectCollection addCollection();
+  public final ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection addClusterizedPlacemarkCollection(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.ClusterListener>);
+  public final ru.sulgik.mapkit.map.PlacemarksStyler getPlacemarksStyler();
+  public com.yandex.mapkit.map.BaseMapObjectCollection toNative();
+  public com.yandex.mapkit.map.MapObject toNative();
+}
+public abstract class ru.sulgik.mapkit.map.MapObjectCollectionListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.MapObjectCollectionListener> {
+  public ru.sulgik.mapkit.map.MapObjectCollectionListener();
+  public com.yandex.mapkit.map.MapObjectCollectionListener toNative();
+  public abstract void onMapObjectAdded(ru.sulgik.mapkit.map.MapObject);
+  public abstract void onMapObjectRemoved(ru.sulgik.mapkit.map.MapObject);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.MapObjectCollectionListenerKt {
+  public static final ru.sulgik.mapkit.map.MapObjectCollectionListener MapObjectCollectionListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapObject, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.map.MapObjectCollection_androidKt {
+  public static final ru.sulgik.mapkit.map.MapObjectCollection toCommon(com.yandex.mapkit.map.MapObjectCollection);
+}
+public abstract class ru.sulgik.mapkit.map.MapObjectDragListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.MapObjectDragListener> {
+  public ru.sulgik.mapkit.map.MapObjectDragListener();
+  public com.yandex.mapkit.map.MapObjectDragListener toNative();
+  public abstract void onMapObjectDragStart(ru.sulgik.mapkit.map.MapObject);
+  public abstract void onMapObjectDrag(ru.sulgik.mapkit.map.MapObject, ru.sulgik.mapkit.geometry.Point);
+  public abstract void onMapObjectDragEnd(ru.sulgik.mapkit.map.MapObject);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.MapObjectDragListenerKt {
+  public static final ru.sulgik.mapkit.map.MapObjectDragListener MapObjectDragListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapObject, kotlin.Unit>, kotlin.jvm.functions.Function2<? super ru.sulgik.mapkit.map.MapObject, ? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapObject, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.map.MapObjectKt {
+  public static final <T> T getCastedUserData(ru.sulgik.mapkit.map.MapObject);
+}
+public abstract class ru.sulgik.mapkit.map.MapObjectTapListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.MapObjectTapListener> {
+  public ru.sulgik.mapkit.map.MapObjectTapListener();
+  public com.yandex.mapkit.map.MapObjectTapListener toNative();
+  public abstract boolean onMapObjectTap(ru.sulgik.mapkit.map.MapObject, ru.sulgik.mapkit.geometry.Point);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.MapObjectTapListenerKt {
+  public static final ru.sulgik.mapkit.map.MapObjectTapListener MapObjectTapListener(kotlin.jvm.functions.Function2<? super ru.sulgik.mapkit.map.MapObject, ? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
+}
+public final class ru.sulgik.mapkit.map.MapObjectVisitor implements com.yandex.mapkit.map.MapObjectVisitor, ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.MapObjectVisitor> {
+  public ru.sulgik.mapkit.map.MapObjectVisitor(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.PlacemarkMapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.PolylineMapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.PolygonMapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.CircleMapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapObjectCollection, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapObjectCollection, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection, kotlin.Unit>);
+  public com.yandex.mapkit.map.MapObjectVisitor toNative();
+  public void onPlacemarkVisited(com.yandex.mapkit.map.PlacemarkMapObject);
+  public void onPolylineVisited(com.yandex.mapkit.map.PolylineMapObject);
+  public void onPolygonVisited(com.yandex.mapkit.map.PolygonMapObject);
+  public void onCircleVisited(com.yandex.mapkit.map.CircleMapObject);
+  public boolean onCollectionVisitStart(com.yandex.mapkit.map.MapObjectCollection);
+  public void onCollectionVisitEnd(com.yandex.mapkit.map.MapObjectCollection);
+  public boolean onClusterizedCollectionVisitStart(com.yandex.mapkit.map.ClusterizedPlacemarkCollection);
+  public void onClusterizedCollectionVisitEnd(com.yandex.mapkit.map.ClusterizedPlacemarkCollection);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.MapObject_androidKt {
+  public static final ru.sulgik.mapkit.map.MapObject toCommon(com.yandex.mapkit.map.MapObject);
+}
+public final class ru.sulgik.mapkit.map.MapType extends java.lang.Enum<ru.sulgik.mapkit.map.MapType> {
+  public static final ru.sulgik.mapkit.map.MapType NONE;
+  public static final ru.sulgik.mapkit.map.MapType MAP;
+  public static final ru.sulgik.mapkit.map.MapType SATELLITE;
+  public static final ru.sulgik.mapkit.map.MapType HYBRID;
+  public static final ru.sulgik.mapkit.map.MapType VECTOR_MAP;
+  public static ru.sulgik.mapkit.map.MapType[] values();
+  public static ru.sulgik.mapkit.map.MapType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.map.MapType> getEntries();
+}
+public final class ru.sulgik.mapkit.map.MapType_androidKt {
+  public static final com.yandex.mapkit.map.MapType toNative(ru.sulgik.mapkit.map.MapType);
+  public static final ru.sulgik.mapkit.map.MapType toCommon(com.yandex.mapkit.map.MapType);
+}
+public final class ru.sulgik.mapkit.map.MapWindow {
+  public ru.sulgik.mapkit.map.MapWindow(com.yandex.mapkit.map.MapWindow);
+  public final com.yandex.mapkit.map.MapWindow toNative();
+  public final int getWidth();
+  public final int getHeight();
+  public final ru.sulgik.mapkit.map.Map getMap();
+  public final void addSizeChangedListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.SizeChangedListener>);
+  public final void removeSizeChangedListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.SizeChangedListener>);
+  public final ru.sulgik.mapkit.ScreenRect getFocusRect();
+  public final void setFocusRect(ru.sulgik.mapkit.ScreenRect);
+  public final ru.sulgik.mapkit.ScreenPoint getFocusPoint();
+  public final void setFocusPoint(ru.sulgik.mapkit.ScreenPoint);
+  public final ru.sulgik.mapkit.ScreenPoint getGestureFocusPoint();
+  public final void setGestureFocusPoint(ru.sulgik.mapkit.ScreenPoint);
+  public final ru.sulgik.mapkit.map.GestureFocusPointMode getGestureFocusPointMode();
+  public final void setGestureFocusPointMode(ru.sulgik.mapkit.map.GestureFocusPointMode);
+  public final ru.sulgik.mapkit.map.PointOfView getPointOfView();
+  public final void setPointOfView(ru.sulgik.mapkit.map.PointOfView);
+  public final float getScaleFactor();
+  public final void setScaleFactor(float);
+  public final ru.sulgik.mapkit.ScreenPoint worldToScreen(ru.sulgik.mapkit.geometry.Point);
+  public final ru.sulgik.mapkit.geometry.Point screenToWorld(ru.sulgik.mapkit.ScreenPoint);
+  public final ru.sulgik.mapkit.map.VisibleRegion getFocusRegion();
+  public final void setMaxFps(int);
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.map.MapWindow_androidKt {
+  public static final ru.sulgik.mapkit.map.MapWindow toCommon(com.yandex.mapkit.map.MapWindow);
+}
+public final class ru.sulgik.mapkit.map.Map_androidKt {
+  public static final ru.sulgik.mapkit.map.Map toCommon(com.yandex.mapkit.map.Map);
+}
+public abstract class ru.sulgik.mapkit.map.PlacemarkCreatedCallback {
+  public ru.sulgik.mapkit.map.PlacemarkCreatedCallback();
+  public final com.yandex.mapkit.map.PlacemarkCreatedCallback toNative();
+  public abstract void onPlacemarkCreated(ru.sulgik.mapkit.map.PlacemarkMapObject);
+}
+public final class ru.sulgik.mapkit.map.PlacemarkCreatedCallbackKt {
+  public static final ru.sulgik.mapkit.map.PlacemarkCreatedCallback PlacemarkCreatedCallback(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.PlacemarkMapObject, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.map.PlacemarkMapObject extends ru.sulgik.mapkit.map.MapObject {
+  public ru.sulgik.mapkit.map.PlacemarkMapObject(com.yandex.mapkit.map.PlacemarkMapObject);
+  public com.yandex.mapkit.map.PlacemarkMapObject toNative();
+  public final ru.sulgik.mapkit.geometry.Point getGeometry();
+  public final void setGeometry(ru.sulgik.mapkit.geometry.Point);
+  public final float getDirection();
+  public final void setDirection(float);
+  public final float getOpacity();
+  public final void setOpacity(float);
+  public final void setText(java.lang.String, ru.sulgik.mapkit.map.TextStyle);
+  public static void setText$default(ru.sulgik.mapkit.map.PlacemarkMapObject, java.lang.String, ru.sulgik.mapkit.map.TextStyle, int, java.lang.Object);
+  public final void setTextStyle(ru.sulgik.mapkit.map.TextStyle);
+  public final void setIcon(ru.sulgik.mapkit.map.ImageProvider, ru.sulgik.mapkit.map.IconStyle, ru.sulgik.mapkit.map.Callback);
+  public static void setIcon$default(ru.sulgik.mapkit.map.PlacemarkMapObject, ru.sulgik.mapkit.map.ImageProvider, ru.sulgik.mapkit.map.IconStyle, ru.sulgik.mapkit.map.Callback, int, java.lang.Object);
+  public com.yandex.mapkit.map.MapObject toNative();
+}
+public final class ru.sulgik.mapkit.map.PlacemarkMapObject_androidKt {
+  public static final ru.sulgik.mapkit.map.PlacemarkMapObject toCommon(com.yandex.mapkit.map.PlacemarkMapObject);
+}
+public final class ru.sulgik.mapkit.map.PlacemarksStyler {
+  public ru.sulgik.mapkit.map.PlacemarksStyler(com.yandex.mapkit.map.PlacemarksStyler);
+  public final com.yandex.mapkit.map.PlacemarksStyler toNative();
+  public final void setScaleFunction(java.util.List<ru.sulgik.mapkit.PointF>);
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.map.PlacemarksStyler_androidKt {
+  public static final ru.sulgik.mapkit.map.PlacemarksStyler toCommon(com.yandex.mapkit.map.PlacemarksStyler);
+}
+public final class ru.sulgik.mapkit.map.PointOfView extends java.lang.Enum<ru.sulgik.mapkit.map.PointOfView> {
+  public static final ru.sulgik.mapkit.map.PointOfView SCREEN_CENTER;
+  public static final ru.sulgik.mapkit.map.PointOfView ADAPT_TO_FOCUS_POINT_HORIZONTALLY;
+  public static ru.sulgik.mapkit.map.PointOfView[] values();
+  public static ru.sulgik.mapkit.map.PointOfView valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.map.PointOfView> getEntries();
+}
+public final class ru.sulgik.mapkit.map.PointOfView_androidKt {
+  public static final com.yandex.mapkit.map.PointOfView toNative(ru.sulgik.mapkit.map.PointOfView);
+  public static final ru.sulgik.mapkit.map.PointOfView toCommon(com.yandex.mapkit.map.PointOfView);
+}
+public final class ru.sulgik.mapkit.map.PolygonMapObject extends ru.sulgik.mapkit.map.MapObject {
+  public ru.sulgik.mapkit.map.PolygonMapObject(com.yandex.mapkit.map.PolygonMapObject);
+  public com.yandex.mapkit.map.PolygonMapObject toNative();
+  public final ru.sulgik.mapkit.geometry.Polygon getGeometry();
+  public final void setGeometry(ru.sulgik.mapkit.geometry.Polygon);
+  public final int getStrokeColor-ETeQKmY();
+  public final void setStrokeColor-FXrWlec(int);
+  public final float getStrokeWidth();
+  public final void setStrokeWidth(float);
+  public final int getFillColor-ETeQKmY();
+  public final void setFillColor-FXrWlec(int);
+  public final boolean isGeodesic();
+  public final void setGeodesic(boolean);
+  public final void setPattern(ru.sulgik.mapkit.map.ImageProvider, float);
+  public final void resetPattern();
+  public com.yandex.mapkit.map.MapObject toNative();
+}
+public final class ru.sulgik.mapkit.map.PolygonMapObject_androidKt {
+  public static final ru.sulgik.mapkit.map.PolygonMapObject toCommon(com.yandex.mapkit.map.PolygonMapObject);
+}
+public final class ru.sulgik.mapkit.map.PolylineMapObject extends ru.sulgik.mapkit.map.MapObject {
+  public ru.sulgik.mapkit.map.PolylineMapObject(com.yandex.mapkit.map.PolylineMapObject);
+  public com.yandex.mapkit.map.PolylineMapObject toNative();
+  public final ru.sulgik.mapkit.geometry.Polyline getGeometry();
+  public final void setGeometry(ru.sulgik.mapkit.geometry.Polyline);
+  public final ru.sulgik.mapkit.map.LineStyle getStyle();
+  public final void setStyle(ru.sulgik.mapkit.map.LineStyle);
+  public final void select-BiqP8v8(int, ru.sulgik.mapkit.geometry.Subpolyline);
+  public final void hide(ru.sulgik.mapkit.geometry.Subpolyline);
+  public final void hide(java.util.List<ru.sulgik.mapkit.geometry.Subpolyline>);
+  public final void setStrokeColors(java.util.List<ru.sulgik.mapkit.Color>, java.util.List<java.lang.Double>);
+  public final void setStrokeColors(java.util.List<ru.sulgik.mapkit.Color>);
+  public final void setStrokeColor-FXrWlec(int);
+  public final int getStrokeColor-r4VzaI8(int);
+  public final void setPaletteColor-TeI54Kw(int, int);
+  public final int getPaletteColor-r4VzaI8(int);
+  public final ru.sulgik.mapkit.map.Arrow addArrow-PIVsv5I(ru.sulgik.mapkit.geometry.PolylinePosition, float, int);
+  public final java.util.List<ru.sulgik.mapkit.map.Arrow> getArrows();
+  public com.yandex.mapkit.map.MapObject toNative();
+}
+public final class ru.sulgik.mapkit.map.PolylineMapObject_androidKt {
+  public static final ru.sulgik.mapkit.map.PolylineMapObject toCommon(com.yandex.mapkit.map.PolylineMapObject);
+}
+public final class ru.sulgik.mapkit.map.Rect {
+  public ru.sulgik.mapkit.map.Rect(ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.PointF);
+  public final ru.sulgik.mapkit.PointF getMin();
+  public final ru.sulgik.mapkit.PointF getMax();
+}
+public final class ru.sulgik.mapkit.map.Rect_androidKt {
+  public static final com.yandex.mapkit.map.Rect toNative(ru.sulgik.mapkit.map.Rect);
+  public static final ru.sulgik.mapkit.map.Rect toCommon(com.yandex.mapkit.map.Rect);
+}
+public final class ru.sulgik.mapkit.map.RootMapObjectCollection extends ru.sulgik.mapkit.map.MapObjectCollection {
+  public ru.sulgik.mapkit.map.RootMapObjectCollection(com.yandex.mapkit.map.RootMapObjectCollection);
+  public com.yandex.mapkit.map.RootMapObjectCollection toNative();
+  public final ru.sulgik.mapkit.ConflictResolutionMode getConflictResolutionMode();
+  public final void setConflictResolutionMode(ru.sulgik.mapkit.ConflictResolutionMode);
+  public com.yandex.mapkit.map.MapObjectCollection toNative();
+  public com.yandex.mapkit.map.BaseMapObjectCollection toNative();
+  public com.yandex.mapkit.map.MapObject toNative();
+}
+public final class ru.sulgik.mapkit.map.RootMapObjectCollection_androidKt {
+  public static final ru.sulgik.mapkit.map.RootMapObjectCollection toCommon(com.yandex.mapkit.map.RootMapObjectCollection);
+}
+public final class ru.sulgik.mapkit.map.RotationType extends java.lang.Enum<ru.sulgik.mapkit.map.RotationType> {
+  public static final ru.sulgik.mapkit.map.RotationType NO_ROTATION;
+  public static final ru.sulgik.mapkit.map.RotationType ROTATE;
+  public static ru.sulgik.mapkit.map.RotationType[] values();
+  public static ru.sulgik.mapkit.map.RotationType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.map.RotationType> getEntries();
+}
+public final class ru.sulgik.mapkit.map.RotationType_androidKt {
+  public static final com.yandex.mapkit.map.RotationType toNative(ru.sulgik.mapkit.map.RotationType);
+  public static final ru.sulgik.mapkit.map.RotationType toCommon(com.yandex.mapkit.map.RotationType);
+}
+public abstract class ru.sulgik.mapkit.map.SizeChangedListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.SizeChangedListener> {
+  public ru.sulgik.mapkit.map.SizeChangedListener();
+  public com.yandex.mapkit.map.SizeChangedListener toNative();
+  public abstract void onMapWindowSizeChanged(ru.sulgik.mapkit.map.MapWindow, int, int);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.map.SizeChangedListenerKt {
+  public static final ru.sulgik.mapkit.map.SizeChangedListener SizeChangedListener(kotlin.jvm.functions.Function3<? super ru.sulgik.mapkit.map.MapWindow, ? super java.lang.Integer, ? super java.lang.Integer, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.map.TextStyle {
+  public ru.sulgik.mapkit.map.TextStyle(float, int, float, int, ru.sulgik.mapkit.map.TextStyle$Placement, float, boolean, boolean, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final float getSize();
+  public final int getColor-ETeQKmY();
+  public final float getOutlineWidth();
+  public final int getOutlineColor-ETeQKmY();
+  public final ru.sulgik.mapkit.map.TextStyle$Placement getPlacement();
+  public final float getOffset();
+  public final boolean getOffsetFromIcon();
+  public final boolean getTextOptional();
+  public final float component1();
+  public final int component2-ETeQKmY();
+  public final float component3();
+  public final int component4-ETeQKmY();
+  public final ru.sulgik.mapkit.map.TextStyle$Placement component5();
+  public final float component6();
+  public final boolean component7();
+  public final boolean component8();
+  public final ru.sulgik.mapkit.map.TextStyle copy-UP55ips(float, int, float, int, ru.sulgik.mapkit.map.TextStyle$Placement, float, boolean, boolean);
+  public static ru.sulgik.mapkit.map.TextStyle copy-UP55ips$default(ru.sulgik.mapkit.map.TextStyle, float, int, float, int, ru.sulgik.mapkit.map.TextStyle$Placement, float, boolean, boolean, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.map.TextStyle(float, int, float, int, ru.sulgik.mapkit.map.TextStyle$Placement, float, boolean, boolean, kotlin.jvm.internal.DefaultConstructorMarker);
+}
+final class ru.sulgik.mapkit.map.TextStyle$Companion {
+  public ru.sulgik.mapkit.map.TextStyle$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.map.TextStyle$Placement extends java.lang.Enum<ru.sulgik.mapkit.map.TextStyle$Placement> {
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement CENTER;
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement LEFT;
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement RIGHT;
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement TOP;
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement BOTTOM;
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement TOP_LEFT;
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement TOP_RIGHT;
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement BOTTOM_LEFT;
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement BOTTOM_RIGHT;
+  public static ru.sulgik.mapkit.map.TextStyle$Placement[] values();
+  public static ru.sulgik.mapkit.map.TextStyle$Placement valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.map.TextStyle$Placement> getEntries();
+}
+public final class ru.sulgik.mapkit.map.TextStyle_androidKt {
+  public static final com.yandex.mapkit.map.TextStyle toNative(ru.sulgik.mapkit.map.TextStyle);
+  public static final ru.sulgik.mapkit.map.TextStyle toCommon(com.yandex.mapkit.map.TextStyle);
+  public static final com.yandex.mapkit.map.TextStyle$Placement toNative(ru.sulgik.mapkit.map.TextStyle$Placement);
+  public static final ru.sulgik.mapkit.map.TextStyle$Placement toCommon(com.yandex.mapkit.map.TextStyle$Placement);
+}
+public final class ru.sulgik.mapkit.map.VisibleRegion {
+  public ru.sulgik.mapkit.map.VisibleRegion(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
+  public final ru.sulgik.mapkit.geometry.Point getTopLeft();
+  public final ru.sulgik.mapkit.geometry.Point getTopRight();
+  public final ru.sulgik.mapkit.geometry.Point getBottomLeft();
+  public final ru.sulgik.mapkit.geometry.Point getBottomRight();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final ru.sulgik.mapkit.geometry.Point component2();
+  public final ru.sulgik.mapkit.geometry.Point component3();
+  public final ru.sulgik.mapkit.geometry.Point component4();
+  public final ru.sulgik.mapkit.map.VisibleRegion copy(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
+  public static ru.sulgik.mapkit.map.VisibleRegion copy$default(ru.sulgik.mapkit.map.VisibleRegion, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.map.VisibleRegion_androidKt {
+  public static final com.yandex.mapkit.map.VisibleRegion toNative(ru.sulgik.mapkit.map.VisibleRegion);
+  public static final ru.sulgik.mapkit.map.VisibleRegion toCommon(com.yandex.mapkit.map.VisibleRegion);
+}
+public final class ru.sulgik.mapkit.mapview.MapView {
+  public ru.sulgik.mapkit.mapview.MapView(com.yandex.mapkit.mapview.MapView);
+  public final com.yandex.mapkit.mapview.MapView toNative();
+  public final void onStart();
+  public final void onStop();
+  public final ru.sulgik.mapkit.map.MapWindow getMapWindow();
+  public final void setNoninteractive(boolean);
+}
+public final class ru.sulgik.mapkit.mapview.MapView_androidKt {
+  public static final ru.sulgik.mapkit.mapview.MapView toCommon(com.yandex.mapkit.mapview.MapView);
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationAnchorChanged extends ru.sulgik.mapkit.layers.ObjectEvent {
+  public ru.sulgik.mapkit.user_location.UserLocationAnchorChanged(com.yandex.mapkit.user_location.UserLocationAnchorChanged);
+  public com.yandex.mapkit.user_location.UserLocationAnchorChanged toNative();
+  public final ru.sulgik.mapkit.user_location.UserLocationAnchorType getAnchorType();
+  public com.yandex.mapkit.layers.ObjectEvent toNative();
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationAnchorChanged_androidKt {
+  public static final ru.sulgik.mapkit.user_location.UserLocationAnchorChanged toCommon(com.yandex.mapkit.user_location.UserLocationAnchorChanged);
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationAnchorType extends java.lang.Enum<ru.sulgik.mapkit.user_location.UserLocationAnchorType> {
+  public static final ru.sulgik.mapkit.user_location.UserLocationAnchorType NORMAL;
+  public static final ru.sulgik.mapkit.user_location.UserLocationAnchorType COURSE;
+  public static ru.sulgik.mapkit.user_location.UserLocationAnchorType[] values();
+  public static ru.sulgik.mapkit.user_location.UserLocationAnchorType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.user_location.UserLocationAnchorType> getEntries();
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationAnchorType_androidKt {
+  public static final com.yandex.mapkit.user_location.UserLocationAnchorType toNative(ru.sulgik.mapkit.user_location.UserLocationAnchorType);
+  public static final ru.sulgik.mapkit.user_location.UserLocationAnchorType toCommon(com.yandex.mapkit.user_location.UserLocationAnchorType);
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationIconChanged extends ru.sulgik.mapkit.layers.ObjectEvent {
+  public ru.sulgik.mapkit.user_location.UserLocationIconChanged(com.yandex.mapkit.user_location.UserLocationIconChanged);
+  public com.yandex.mapkit.user_location.UserLocationIconChanged toNative();
+  public final ru.sulgik.mapkit.user_location.UserLocationIconType getIconType();
+  public com.yandex.mapkit.layers.ObjectEvent toNative();
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationIconChanged_androidKt {
+  public static final ru.sulgik.mapkit.user_location.UserLocationIconChanged toCommon(com.yandex.mapkit.user_location.UserLocationIconChanged);
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationIconType extends java.lang.Enum<ru.sulgik.mapkit.user_location.UserLocationIconType> {
+  public static final ru.sulgik.mapkit.user_location.UserLocationIconType ARROW;
+  public static final ru.sulgik.mapkit.user_location.UserLocationIconType PIN;
+  public static ru.sulgik.mapkit.user_location.UserLocationIconType[] values();
+  public static ru.sulgik.mapkit.user_location.UserLocationIconType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.user_location.UserLocationIconType> getEntries();
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationIconType_androidKt {
+  public static final com.yandex.mapkit.user_location.UserLocationIconType toNative(ru.sulgik.mapkit.user_location.UserLocationIconType);
+  public static final ru.sulgik.mapkit.user_location.UserLocationIconType toCommon(com.yandex.mapkit.user_location.UserLocationIconType);
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationLayer {
+  public ru.sulgik.mapkit.user_location.UserLocationLayer(com.yandex.mapkit.user_location.UserLocationLayer);
+  public final com.yandex.mapkit.user_location.UserLocationLayer toNative();
+  public final boolean isVisible();
+  public final void setVisible(boolean);
+  public final boolean isHeadingModeActive();
+  public final void setHeadingModeActive(boolean);
+  public final boolean isAnchorEnabled();
+  public final boolean isAutoZoomEnabled();
+  public final void setAutoZoomEnabled(boolean);
+  public final ru.sulgik.mapkit.map.CameraPosition getCameraPosition();
+  public final void setAnchor(ru.sulgik.mapkit.PointF, ru.sulgik.mapkit.PointF);
+  public final void resetAnchor();
+  public final void setSource(ru.sulgik.mapkit.location.LocationViewSource);
+  public final void setDefaultSource();
+  public final void setTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.user_location.UserLocationTapListener>);
+  public final void setObjectListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.user_location.UserLocationObjectListener>);
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationLayer_androidKt {
+  public static final ru.sulgik.mapkit.user_location.UserLocationLayer toCommon(com.yandex.mapkit.user_location.UserLocationLayer);
+}
+public abstract class ru.sulgik.mapkit.user_location.UserLocationObjectListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.user_location.UserLocationObjectListener> {
+  public ru.sulgik.mapkit.user_location.UserLocationObjectListener();
+  public com.yandex.mapkit.user_location.UserLocationObjectListener toNative();
+  public abstract void onObjectAdded(ru.sulgik.mapkit.user_location.UserLocationView);
+  public abstract void onObjectRemoved(ru.sulgik.mapkit.user_location.UserLocationView);
+  public abstract void onObjectUpdated(ru.sulgik.mapkit.user_location.UserLocationView, ru.sulgik.mapkit.layers.ObjectEvent);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationObjectListenerKt {
+  public static final ru.sulgik.mapkit.user_location.UserLocationObjectListener UserLocationObjectListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.user_location.UserLocationView, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.user_location.UserLocationView, kotlin.Unit>, kotlin.jvm.functions.Function2<? super ru.sulgik.mapkit.user_location.UserLocationView, ? super ru.sulgik.mapkit.layers.ObjectEvent, kotlin.Unit>);
+}
+public abstract class ru.sulgik.mapkit.user_location.UserLocationTapListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.user_location.UserLocationTapListener> {
+  public ru.sulgik.mapkit.user_location.UserLocationTapListener();
+  public com.yandex.mapkit.user_location.UserLocationTapListener toNative();
+  public abstract void onUserLocationObjectTap(ru.sulgik.mapkit.geometry.Point);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationTapListenerKt {
+  public static final ru.sulgik.mapkit.user_location.UserLocationTapListener UserLocationTapListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationView {
+  public ru.sulgik.mapkit.user_location.UserLocationView(com.yandex.mapkit.user_location.UserLocationView);
+  public final com.yandex.mapkit.user_location.UserLocationView toNative();
+  public final ru.sulgik.mapkit.map.PlacemarkMapObject getArrow();
+  public final ru.sulgik.mapkit.map.PlacemarkMapObject getPin();
+  public final ru.sulgik.mapkit.map.CircleMapObject getAccuracyCircle();
+  public final boolean isValid();
+}
+public final class ru.sulgik.mapkit.user_location.UserLocationView_androidKt {
+  public static final ru.sulgik.mapkit.user_location.UserLocationView toCommon(com.yandex.mapkit.user_location.UserLocationView);
+}

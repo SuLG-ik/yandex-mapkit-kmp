@@ -4,7 +4,7 @@ import dev.icerock.moko.resources.ImageResource
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.fromUIImage
 
-class IOSMOKOImageLoader : MOKOImageLoader {
+public class IOSMOKOImageLoader : MOKOImageLoader {
 
     override fun fromResource(imageResource: ImageResource): ImageProvider {
         return ImageProvider.fromUIImage(imageResource.toUIImage()!!)

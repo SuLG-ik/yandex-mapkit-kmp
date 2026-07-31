@@ -45,12 +45,14 @@ Formatting (Spotless with ktlint, configured in the root `build.gradle.kts`):
 ./gradlew spotlessApply
 ```
 
-Public API of the four published modules is dumped into `<module>/api` and checked by `check`. The
-dumps are klib ones (`commonMain` + `iosMain`); the Android target of
-`com.android.kotlin.multiplatform.library` is not covered by the validator:
+Public API of the four published modules is dumped into `<module>/api` and checked by
+`libraryApiCheck`. There are two dumps per module: `<module>.klib.api` from the Kotlin ABI validator
+(`commonMain` + `iosMain`) and `<module>.android.api` from the `dumpAndroidAbi` task in the root
+`build.gradle.kts`, which runs `javap -public` over the Android main compilation because the
+validator does not cover the target of `com.android.kotlin.multiplatform.library`:
 
 ```bash
-./gradlew updateKotlinAbi   # after an intentional API change, run on macOS so iOS targets are included
+./gradlew libraryApiDump   # after an intentional API change, run on macOS so iOS targets are included
 ```
 
 KDoc site and docs:
@@ -68,7 +70,11 @@ fails with an explicit message. Android: `./gradlew :sample:composeApp:installDe
 `sample/iosApp/iosApp.xcworkspace` in Xcode.
 
 Style is enforced by `spotlessCheck`; correctness by `-Xexplicit-api=strict`, the compiler and
-`checkKotlinAbi`.
+`libraryApiCheck`.
+
+Within `1.x` the modules promise source compatibility, not binary compatibility — MapKit grows its
+structures and enums, and the wrapper mirrors them as `data class`es and `enum class`es. README and
+`docs/getting-started/contributing.md` state this; keep them in sync when the policy changes.
 
 `main` is the only long-lived branch. Every pull request runs `.github/workflows/ci.yml` — `lint`,
 `test-android`, `test-ios` and `api-check` in parallel, driven by the `library*` aggregate tasks
@@ -92,8 +98,7 @@ Four published modules plus a sample:
 - `yandex-mapkit-kmp-compose` — Compose Multiplatform rendering. Runs a **second composition** whose
   applier is `MapApplier` and whose nodes are map objects, so `@YandexMapComposable` content cannot
   contain UI composables.
-- `yandex-mapkit-kmp-moko` / `-moko-compose` — moko-resources images as `ImageProvider`. These two
-  do **not** enable explicit API; match whichever module you are editing.
+- `yandex-mapkit-kmp-moko` / `-moko-compose` — moko-resources images as `ImageProvider`.
 
 Every type falls into one of three shapes:
 

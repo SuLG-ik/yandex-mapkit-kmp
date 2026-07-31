@@ -68,6 +68,19 @@ cocoapods {
 }
 ```
 
+## Compatibility
+
+Within `1.x` the modules guarantee **source** compatibility, not binary compatibility.
+
+The wrapper follows MapKit, and MapKit adds fields to its structures and constants to its enums in
+minor releases. Those structures are `data class`es here, so a new field changes `componentN` and
+`copy$default`, and a new enum constant makes an exhaustive `when` over it stop compiling. Both are
+binary-breaking, and refusing them would mean freezing the wrapper on one MapKit version.
+
+So: recompile against the version you depend on, do not mix wrapper versions in a single dependency
+graph, and expect a `when` over a wrapper enum to need a new branch after an update. Renames,
+removals and signature changes are reserved for a major release.
+
 ## Documentation
 
 Full documentation on [page](https://sulg-ik.github.io/yandex-mapkit-kmp/)

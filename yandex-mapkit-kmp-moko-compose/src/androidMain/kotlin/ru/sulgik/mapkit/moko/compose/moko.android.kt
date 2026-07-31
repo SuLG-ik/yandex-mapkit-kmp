@@ -7,7 +7,7 @@ import ru.sulgik.mapkit.moko.AndroidMOKOImageLoader
 import ru.sulgik.mapkit.moko.MOKOImageLoader
 
 @Composable
-actual fun rememberMOKOImageLoader(): MOKOImageLoader {
+public actual fun rememberMOKOImageLoader(): MOKOImageLoader {
     val context = LocalContext.current
     return remember(context) { AndroidMOKOImageLoader(context) }
 }
