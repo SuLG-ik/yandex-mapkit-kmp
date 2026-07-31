@@ -132,6 +132,9 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   now bound while its composable is in the composition.
 - Compose: removing a map object whose collection was removed first no longer touches an invalidated
   MapKit object.
+- Compose: `PolygonState.Saver` computed the wrong offset past a restored ring, so restoring any
+  polygon threw a `ClassCastException` — a `rememberPolygonState` did not survive a configuration
+  change.
 - Linking an Objective-C framework no longer crashes the Kotlin 2.4 compiler with a
   `NullPointerException` in `ObjCExportCodeGenerator`. The bounds of `WeakRef<T>.toNative()` are
   spelled without an explicit `T : Any`, which is what the compiler trips over; the signature is

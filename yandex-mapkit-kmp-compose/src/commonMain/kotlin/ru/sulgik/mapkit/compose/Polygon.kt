@@ -62,7 +62,7 @@ public class PolygonState(geometry: Polygon) : MapObjectState<PolygonMapObject>(
 
         private fun MutableList<Any>.saveInnerRing(rings: List<LinearRing>): MutableList<Any> {
             add(rings.size)
-            rings.map {
+            rings.forEach {
                 saveLinearRing(it)
             }
             return this
@@ -95,13 +95,13 @@ public class PolygonState(geometry: Polygon) : MapObjectState<PolygonMapObject>(
             }
             return LinearRing(
                 points = points,
-            ) to (start * 2 + size + 1)
+            ) to (start + 1 + size * 2)
         }
 
         private fun List<Any>.restoreInnerRing(start: Int): List<LinearRing> {
             val size = get(start) as Int
             var offset = start + 1
-            var rings = mutableListOf<LinearRing>()
+            val rings = mutableListOf<LinearRing>()
             for (i in 0 until size) {
                 val (ring, nextStart) = restoreLinearRing(offset)
                 offset = nextStart

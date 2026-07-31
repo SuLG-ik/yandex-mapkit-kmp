@@ -47,7 +47,7 @@ allprojects {
     extensions.configure<SpotlessExtension> {
         kotlin {
             target("src/**/*.kt")
-            targetExclude("**/build/**", "**/MapObjectStatesRestorationTest.kt")
+            targetExclude("**/build/**")
             ktlint(ktlintVersion).editorConfigOverride(ktlintRules)
         }
         kotlinGradle {
