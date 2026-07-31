@@ -11,6 +11,7 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.DpSize
+import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
@@ -233,7 +234,7 @@ internal class PlacemarkNode(
 
     override fun onAttached() {
         super.onAttached()
-        mapObject.setDragListener(nativeDragListener)
+        mapObject.setDragListener(nativeDragListener?.asWeakRef())
     }
 
     override fun onRemoved() {

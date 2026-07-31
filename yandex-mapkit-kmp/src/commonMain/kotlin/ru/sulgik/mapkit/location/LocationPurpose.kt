@@ -6,5 +6,6 @@ public enum class LocationPurpose {
     PEDESTRIAN_NAVIGATION,
     BICYCLE_NAVIGATION,
     SCOOTER_NAVIGATION,
+    STATIC_DISPLAY_LOCATION,
     ;
 }

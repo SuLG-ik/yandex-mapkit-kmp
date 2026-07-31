@@ -1,15 +1,16 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.NativeConvertible
 import com.yandex.mapkit.map.SizeChangedListener as NativeSizeChangedListener
 
-public actual abstract class SizeChangedListener actual constructor() {
+public actual abstract class SizeChangedListener actual constructor() : NativeConvertible<NativeSizeChangedListener> {
 
     private val nativeListener =
         NativeSizeChangedListener { mapWindow, newWidth, newHeight ->
             onMapWindowSizeChanged(mapWindow.toCommon(), newWidth, newHeight)
         }
 
-    public fun toNative(): NativeSizeChangedListener {
+    override fun toNative(): NativeSizeChangedListener {
         return nativeListener
     }
 

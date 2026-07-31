@@ -1,5 +1,7 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.WeakRef
+import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.BaseMapObjectCollection as NativeBaseMapObjectCollection
 import com.yandex.mapkit.map.CircleMapObject as NativeCircleMapObject
 import com.yandex.mapkit.map.MapObject as NativeMapObject
@@ -34,15 +36,15 @@ public actual open class MapObject internal constructor(private val nativeMapObj
             nativeMapObject.userData = value
         }
 
-    public actual fun addTapListener(tapListener: MapObjectTapListener) {
+    public actual fun addTapListener(tapListener: WeakRef<MapObjectTapListener>) {
         nativeMapObject.addTapListener(tapListener.toNative())
     }
 
-    public actual fun removeTapListener(tapListener: MapObjectTapListener) {
+    public actual fun removeTapListener(tapListener: WeakRef<MapObjectTapListener>) {
         nativeMapObject.removeTapListener(tapListener.toNative())
     }
 
-    public actual fun setDragListener(dragListener: MapObjectDragListener?) {
+    public actual fun setDragListener(dragListener: WeakRef<MapObjectDragListener>?) {
         nativeMapObject.setDragListener(dragListener?.toNative())
     }
 

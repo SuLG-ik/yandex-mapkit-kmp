@@ -1,7 +1,7 @@
 # Yandex MapKit KMP SDK
 
-[![Kotlin](https://img.shields.io/badge/kotlin-2.2.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
-[![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-v1.9.0-blue)](https://github.com/JetBrains/compose-multiplatform)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-v1.11.1-blue)](https://github.com/JetBrains/compose-multiplatform)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.sulgik.mapkit/yandex-mapkit-kmp?color=blue)](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp)
 [![License](https://img.shields.io/badge/License-Apache/2.0-blue.svg)](https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/LICENSE)
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat&color=blue)
@@ -17,7 +17,7 @@ above official Yandex MapKit SDK**
 # Available libraries
 
 The following libraries are available. It
-uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.24.0-lite*
+uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.42.0-lite*
 
 | Module	                                        | Gradle Dependency                                                                                                                             | Description                                                                                                                                              |
 |------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -29,6 +29,9 @@ uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.24.0-l
 ## Installation
 
 The minimum supported Android SDK is 26 (Android 8.0).
+
+Supported iOS targets are `iosArm64` and `iosSimulatorArm64`. The `iosX64` target was dropped
+because Compose Multiplatform no longer publishes for it.
 
 All modules are available for use in common code, but native API available only in native code.
 

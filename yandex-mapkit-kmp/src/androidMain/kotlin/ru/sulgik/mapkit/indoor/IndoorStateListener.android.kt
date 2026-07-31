@@ -1,9 +1,10 @@
 package ru.sulgik.mapkit.indoor
 
+import ru.sulgik.mapkit.NativeConvertible
 import com.yandex.mapkit.indoor.IndoorPlan as NativeIndoorPlan
 import com.yandex.mapkit.indoor.IndoorStateListener as NativeIndoorStateListener
 
-public actual abstract class IndoorStateListener actual constructor() {
+public actual abstract class IndoorStateListener actual constructor() : NativeConvertible<NativeIndoorStateListener> {
 
     private val nativeListener = object : NativeIndoorStateListener {
         override fun onActivePlanFocused(p0: NativeIndoorPlan) {
@@ -19,7 +20,7 @@ public actual abstract class IndoorStateListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeIndoorStateListener {
+    override fun toNative(): NativeIndoorStateListener {
         return nativeListener
     }
 

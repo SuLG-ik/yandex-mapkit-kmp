@@ -1,9 +1,9 @@
 package ru.sulgik.mapkit.map
 
-import com.yandex.mapkit.map.CameraListener
+import ru.sulgik.mapkit.NativeConvertible
 import com.yandex.mapkit.map.CameraListener as NativeCameraListener
 
-public actual abstract class CameraListener actual constructor() {
+public actual abstract class CameraListener actual constructor() : NativeConvertible<NativeCameraListener> {
 
     private val nativeListener = NativeCameraListener { map, cameraPosition, updateReason, finished ->
         onCameraPositionChanged(
@@ -14,7 +14,7 @@ public actual abstract class CameraListener actual constructor() {
         )
     }
 
-    public fun toNative(): CameraListener {
+    override fun toNative(): NativeCameraListener {
         return nativeListener
     }
 

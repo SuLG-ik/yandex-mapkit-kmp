@@ -1,12 +1,13 @@
 package ru.sulgik.mapkit.user_location
 
+import ru.sulgik.mapkit.NativeConvertible
 import ru.sulgik.mapkit.layers.ObjectEvent
 import ru.sulgik.mapkit.layers.toCommon
 import com.yandex.mapkit.layers.ObjectEvent as NativeObjectEvent
 import com.yandex.mapkit.user_location.UserLocationObjectListener as NativeUserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView as NativeUserLocationView
 
-public actual abstract class UserLocationObjectListener actual constructor() {
+public actual abstract class UserLocationObjectListener actual constructor() : NativeConvertible<NativeUserLocationObjectListener> {
 
     private val nativeListener = object : NativeUserLocationObjectListener {
         override fun onObjectAdded(p0: NativeUserLocationView) {
@@ -25,7 +26,7 @@ public actual abstract class UserLocationObjectListener actual constructor() {
         }
     }
 
-    public fun toNative(): NativeUserLocationObjectListener {
+    override fun toNative(): NativeUserLocationObjectListener {
         return nativeListener
     }
 

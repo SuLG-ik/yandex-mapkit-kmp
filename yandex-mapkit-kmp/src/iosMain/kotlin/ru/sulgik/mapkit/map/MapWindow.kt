@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
@@ -24,12 +25,12 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
     public actual val map: Map
         get() = nativeMapWindow.map.toCommon()
 
-    public actual fun addSizeChangeListener(listener: SizeChangedListener) {
-        nativeMapWindow.addSizeChangedListenerWithSizeChangedListener(listener.toNative())
+    public actual fun addSizeChangeListener(listener: WeakRef<SizeChangedListener>) {
+        nativeMapWindow.addSizeChangedListenerWithSizeChangedListener(listener.toNative() ?: return)
     }
 
-    public actual fun removeSizeChangeListener(listener: SizeChangedListener) {
-        nativeMapWindow.removeSizeChangedListenerWithSizeChangedListener(listener.toNative())
+    public actual fun removeSizeChangeListener(listener: WeakRef<SizeChangedListener>) {
+        nativeMapWindow.removeSizeChangedListenerWithSizeChangedListener(listener.toNative() ?: return)
     }
 
     public actual var focusRect: ScreenRect?
@@ -82,10 +83,11 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
     /**
      * Allows to reduce CPU/GPU/battery usage in specific scenarios, where lower framerate is acceptable.
      *
-     * Valid range: (0, 60]. Default: 60.
+     * Valid range: [0, max display refresh rate]. Default max fps depends on max display refresh
+     * rate. If [fps] is 0, max fps value is set to max display refresh rate.
      */
-    public actual fun setMapFps(fps: Float) {
-        nativeMapWindow.setMaxFpsWithFps(fps)
+    public actual fun setMapFps(fps: Int) {
+        nativeMapWindow.setMaxFpsWithFps(fps.toULong())
     }
 
     public actual val isValid: Boolean

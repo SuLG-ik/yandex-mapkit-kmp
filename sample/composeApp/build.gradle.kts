@@ -1,11 +1,10 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.multiplatform)
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.compose.plugin)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.cocoapods)
@@ -13,14 +12,24 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+    android {
+        namespace = "ru.sulgik.mapkit.sample"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        androidResources {
+            enable = true
+        }
+
+        compilations.configureEach {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_11)
+                }
+            }
         }
     }
 
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 
@@ -57,46 +66,11 @@ kotlin {
             implementation(compose.components.resources)
             implementation(libs.coil.compose)
             implementation(libs.coil.ktor)
-            implementation(project(":yandex-mapkit-kmp-compose"))
+            api(project(":yandex-mapkit-kmp-compose"))
             implementation(compose.components.uiToolingPreview)
         }
     }
 }
-
-android {
-    namespace = "ru.sulgik.ymk.sample"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
-    defaultConfig {
-        applicationId = "ru.sulgik.ymk.sample"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    buildFeatures {
-        compose = true
-    }
-}
-
 
 buildkonfig {
     packageName = "ru.sulgik.mapkit.sample"

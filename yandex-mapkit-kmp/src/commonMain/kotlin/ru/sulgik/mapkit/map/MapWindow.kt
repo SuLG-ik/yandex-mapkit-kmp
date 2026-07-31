@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.map
 
 import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Point
 
 public expect class MapWindow {
@@ -103,12 +104,12 @@ public expect class MapWindow {
      * responsibility to maintain a strong reference to the target object while it is
      * attached to a class.
      */
-    public fun addSizeChangeListener(listener: SizeChangedListener)
+    public fun addSizeChangeListener(listener: WeakRef<SizeChangedListener>)
 
     /**
      * Removes a SizeChangedListener.
      */
-    public fun removeSizeChangeListener(listener: SizeChangedListener)
+    public fun removeSizeChangeListener(listener: WeakRef<SizeChangedListener>)
 
     public fun convertWorldToScreen(worldPoint: Point): ScreenPoint?
 
@@ -117,9 +118,10 @@ public expect class MapWindow {
     /**
      * Allows to reduce CPU/GPU/battery usage in specific scenarios, where lower framerate is acceptable.
      *
-     * Valid range: (0, 60]. Default: 60.
+     * Valid range: [0, max display refresh rate]. Default max fps depends on max display refresh
+     * rate. If [fps] is 0, max fps value is set to max display refresh rate.
      */
-    public fun setMapFps(fps: Float)
+    public fun setMapFps(fps: Int)
 
     public val isValid: Boolean
 

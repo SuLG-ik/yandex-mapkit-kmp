@@ -9,5 +9,6 @@ public data class IconStyle(
     val flat: Boolean? = false,
     val isVisible: Boolean? = true,
     val scale: Float? = 1f,
+    val opacity: Float = 1f,
     val tappableArea: Rect? = null,
 )

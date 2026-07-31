@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.sulgik.mapkit.Animation
+import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.compose.MapControllerEffect
 import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.bindToLifecycleOwner
@@ -41,7 +42,6 @@ import ru.sulgik.mapkit.map.MapObjectTapListener
 import ru.sulgik.mapkit.map.getCastedUserData
 import ru.sulgik.mapkit.sample.ui.CombinedFilledTonalIconButton
 import kotlin.time.Duration.Companion.milliseconds
-
 
 @Composable
 fun MapScreen(modifier: Modifier = Modifier) {
@@ -77,7 +77,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
             cluster.appearance.setIcon(clusterImage)
             cluster.appearance.zIndex = 100f
 
-            cluster.addClusterTapListener(clusterTapListener)
+            cluster.addClusterTapListener(clusterTapListener.asWeakRef())
         }
     }
 
@@ -104,14 +104,14 @@ fun MapScreen(modifier: Modifier = Modifier) {
             MapObjectType.GREEN to pinGreenImage
         )
         val cluster =
-            mapWindow.map.mapObjects.addClusterizedPlacemarkCollection(clusterListener)
+            mapWindow.map.mapObjects.addClusterizedPlacemarkCollection(clusterListener.asWeakRef())
 
         placemarks.forEach { (point, data) ->
             cluster.addPlacemark().apply {
                 geometry = point
                 setIcon(typeToImageMap[data.type]!!)
                 userData = data
-                addTapListener(mapObjectTapListener)
+                addTapListener(mapObjectTapListener.asWeakRef())
             }
         }
         cluster.clusterPlacemarks(60.0, 15)

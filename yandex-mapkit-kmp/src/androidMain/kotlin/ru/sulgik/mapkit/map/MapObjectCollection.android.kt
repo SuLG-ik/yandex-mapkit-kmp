@@ -1,9 +1,12 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.WeakRef
+import java.lang.ref.WeakReference
 import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.Polygon
 import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.MapObjectCollection as NativeMapObjectCollection
 
 public actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) :
@@ -37,8 +40,12 @@ public actual class MapObjectCollection internal constructor(private val nativeM
         return nativeMapObjectCollection.addCollection().toCommon()
     }
 
-    public actual fun addClusterizedPlacemarkCollection(listener: ClusterListener): ClusterizedPlacemarkCollection {
-        return nativeMapObjectCollection.addClusterizedPlacemarkCollection(listener.toNative())
+    public actual fun addClusterizedPlacemarkCollection(listener: WeakRef<ClusterListener>): ClusterizedPlacemarkCollection {
+        val clusterListener = requireNotNull(listener.get()) {
+            "ClusterListener has already been collected, it must be strongly referenced by the caller"
+        }
+        return nativeMapObjectCollection
+            .addClusterizedPlacemarkCollection(WeakReference(clusterListener.toNative()))
             .toCommon()
     }
 

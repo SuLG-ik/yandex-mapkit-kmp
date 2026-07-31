@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.Polygon
 import ru.sulgik.mapkit.geometry.Polyline
@@ -18,7 +19,7 @@ public expect class MapObjectCollection : BaseMapObjectCollection {
 
     public fun addCollection(): MapObjectCollection
 
-    public fun addClusterizedPlacemarkCollection(listener: ClusterListener): ClusterizedPlacemarkCollection
+    public fun addClusterizedPlacemarkCollection(listener: WeakRef<ClusterListener>): ClusterizedPlacemarkCollection
 
     public val placemarksStyler: PlacemarksStyler
 

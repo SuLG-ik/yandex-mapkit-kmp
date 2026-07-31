@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.DpSize
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.ClusterListener
@@ -21,6 +22,7 @@ internal class ClusterNode(
     config: ClusterizingConfig,
     mapObject: ClusterizedPlacemarkCollection,
     tapListener: ((Point) -> Boolean)?,
+    val clusterListener: ClusterListener,
     var clusterItemTapListener: ((ClusterItem) -> Boolean)? = null,
 ) : MapObjectNode<ClusterizedPlacemarkCollection>(mapObject, tapListener) {
 
@@ -57,7 +59,7 @@ internal class ClusterNode(
                 if (group.text != null) {
                     it.setText(group.text, group.textStyle)
                 }
-                it.addTapListener(nativeItemTapListener)
+                it.addTapListener(nativeItemTapListener.asWeakRef())
             }
     }
 
@@ -166,13 +168,14 @@ public fun Clustering(
             }
             val listener = ClusterListener {
                 it.appearance.setIcon(icon, iconStyle)
-                it.addClusterTapListener(nativeClusterTapListener)
+                it.addClusterTapListener(nativeClusterTapListener.asWeakRef())
             }
             ClusterNode(
                 groups = groups,
                 config = config,
-                mapObject = collection.addClusterizedPlacemarkCollection(listener),
+                mapObject = collection.addClusterizedPlacemarkCollection(listener.asWeakRef()),
                 tapListener = null,
+                clusterListener = listener,
                 clusterItemTapListener = onItemTap,
             )
         },
@@ -287,13 +290,14 @@ public fun Clustering(
             }
             val listener = ClusterListener {
                 it.appearance.setIcon(icon.toImageProvider(it), iconStyle)
-                it.addClusterTapListener(nativeClusterTapListener)
+                it.addClusterTapListener(nativeClusterTapListener.asWeakRef())
             }
             ClusterNode(
                 groups = groups,
                 config = config,
-                mapObject = collection.addClusterizedPlacemarkCollection(listener),
+                mapObject = collection.addClusterizedPlacemarkCollection(listener.asWeakRef()),
                 tapListener = null,
+                clusterListener = listener,
                 clusterItemTapListener = onItemTap,
             )
         },

@@ -1,5 +1,7 @@
 package ru.sulgik.mapkit.location
 
+import ru.sulgik.mapkit.WeakRef
+import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKLocationManager as NativeLocationManager
 
 public actual class LocationManager(private val nativeLocationManager: NativeLocationManager) {
@@ -10,11 +12,11 @@ public actual class LocationManager(private val nativeLocationManager: NativeLoc
 
     public actual fun subscribeForLocationUpdates(
         subscriptionSettings: SubscriptionSettings,
-        locationListener: LocationListener,
+        locationListener: WeakRef<LocationListener>,
     ) {
         nativeLocationManager.subscribeForLocationUpdatesWithSubscriptionSettings(
             subscriptionSettings.toNative(),
-            locationListener.toNative(),
+            locationListener.toNative() ?: return,
         )
     }
 
@@ -26,12 +28,12 @@ public actual class LocationManager(private val nativeLocationManager: NativeLoc
         nativeLocationManager.resume()
     }
 
-    public actual fun requestSingleUpdate(locationListener: LocationListener) {
-        nativeLocationManager.requestSingleUpdateWithLocationListener(locationListener.toNative())
+    public actual fun requestSingleUpdate(locationListener: WeakRef<LocationListener>) {
+        nativeLocationManager.requestSingleUpdateWithLocationListener(locationListener.toNative() ?: return)
     }
 
-    public actual fun unsubscribe(locationListener: LocationListener) {
-        nativeLocationManager.unsubscribeWithLocationListener(locationListener.toNative())
+    public actual fun unsubscribe(locationListener: WeakRef<LocationListener>) {
+        nativeLocationManager.unsubscribeWithLocationListener(locationListener.toNative() ?: return)
     }
 
 }
