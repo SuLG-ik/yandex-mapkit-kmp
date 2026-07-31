@@ -70,12 +70,17 @@ fails with an explicit message. Android: `./gradlew :sample:composeApp:installDe
 Style is enforced by `spotlessCheck`; correctness by `-Xexplicit-api=strict`, the compiler and
 `checkKotlinAbi`.
 
-`main` is the only long-lived branch. Every pull request runs `.github/workflows/ci.yml`: formatting
-on ubuntu, an Android/JVM build on ubuntu, and a full build with iOS tests and the API check on
-macOS. Releases are triggered manually (`.github/workflows/release.yml`, `workflow_dispatch` with a
-version): CI verifies that `library_version`, the tag and the CHANGELOG section agree, builds and
-tests everything, publishes to Maven Central, and only then creates the tag, the GitHub release and
-deploys the docs. `RELEASING.md` describes the procedure. Do not publish locally.
+`main` is the only long-lived branch. Every pull request runs `.github/workflows/ci.yml` — `lint`,
+`test-android`, `test-ios` and `api-check` in parallel, driven by the `library*` aggregate tasks
+registered in the root `build.gradle.kts`. Instrumented tests run on an emulator only on pushes to
+`main` and before a release, because Compose rendering tests need a real frame and are excluded from
+the Android host run.
+
+Releases are triggered manually (`.github/workflows/release.yml`, `workflow_dispatch` with a
+version): CI verifies that `library_version`, the tag and the CHANGELOG section agree, runs the
+emulator tests, builds and tests everything, publishes to Maven Central, and only then creates the
+tag, the GitHub release and deploys the docs. `RELEASING.md` describes the procedure. Do not publish
+locally.
 
 ## Architecture in one page
 

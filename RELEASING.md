@@ -29,8 +29,9 @@ The workflow refuses to start when
 - the tag `vX.Y.Z` already exists,
 - `CHANGELOG.md` has no `## [X.Y.Z]` section.
 
-Then, on `macos-26`, it runs `spotlessCheck` and a full `build` of the four published modules —
-Android and iOS compilation, unit tests, `checkKotlinAbi` — and only afterwards:
+Then it runs the instrumented tests on an emulator, and after that, on `macos-26`, `spotlessCheck`
+plus `libraryCompileIosArm64 libraryTests libraryApiCheck` — iOS compilation, unit tests and the
+public API check. Only afterwards:
 
 1. `./gradlew publishAndReleaseToMavenCentral`,
 2. `git tag -a vX.Y.Z` and push,

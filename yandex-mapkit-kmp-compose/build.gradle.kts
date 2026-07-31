@@ -146,6 +146,13 @@ tasks.withType<KotlinCompilationTask<*>> {
     compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.cinterop.ExperimentalForeignApi")
 }
 
+tasks.withType<Test>().configureEach {
+    filter {
+        excludeTestsMatching("ru.sulgik.mapkit.compose.ComposeMapObjectRendererTest")
+        isFailOnNoMatchingTests = false
+    }
+}
+
 if (version != "null") {
     mavenPublishing {
         coordinates(group.toString(), name, version.toString())

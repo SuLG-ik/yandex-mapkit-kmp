@@ -23,26 +23,39 @@ already landed on `main`.
 
 ## Checks
 
-Every pull request runs three jobs, and you can reproduce all of them locally:
+Every pull request runs four jobs in parallel — `lint`, `test-android`, `test-ios` and `api-check` —
+and you can reproduce all of them locally:
 
 === "Formatting"
     ```
     ./gradlew spotlessApply
     ```
 
-=== "Android and JVM"
+=== "Android"
     ```
-    ./gradlew :yandex-mapkit-kmp:check :yandex-mapkit-kmp-compose:check :yandex-mapkit-kmp-moko:check :yandex-mapkit-kmp-moko-compose:check -PskipIosTarget=true -x checkKotlinAbi
-    ```
-
-=== "iOS and public API"
-    ```
-    ./gradlew :yandex-mapkit-kmp:check :yandex-mapkit-kmp-compose:check :yandex-mapkit-kmp-moko:check :yandex-mapkit-kmp-moko-compose:check :yandex-mapkit-kmp:compileKotlinIosArm64 :yandex-mapkit-kmp-compose:compileKotlinIosArm64 :yandex-mapkit-kmp-moko:compileKotlinIosArm64 :yandex-mapkit-kmp-moko-compose:compileKotlinIosArm64
+    ./gradlew libraryAssemble libraryTests -PskipIosTarget=true
     ```
 
-The last command needs Cocoapods: it compiles both iOS targets, runs `iosSimulatorArm64Test` and
-checks the public API against the dumps. The Android job skips `checkKotlinAbi` because a dump made
-without the iOS targets is incomplete.
+=== "iOS"
+    ```
+    ./gradlew libraryCompileIosArm64 libraryIosTests
+    ```
+
+=== "Public API"
+    ```
+    ./gradlew libraryApiCheck
+    ```
+
+The `library*` tasks fan out over the four published modules. The iOS ones need Cocoapods, and so
+does `libraryApiCheck` — the dumps cover the iOS targets, so it only runs on macOS.
+
+Compose rendering tests wait for a real frame (`GraphicsLayer` → `ImageBitmap`), which the JVM does
+not produce, so they are excluded from the Android host run and covered by the iOS simulator plus an
+emulator job. That emulator job runs on pushes to `main` and again before every release:
+
+```
+./gradlew :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest
+```
 
 ## Public API
 

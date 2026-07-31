@@ -58,6 +58,62 @@ private val dokkaModules = mapOf(
     "yandex-mapkit-kmp-moko-compose" to "Yandex MapKit KMP SDK MOKO Compose Utils",
 )
 
+private val libraryProjects = dokkaModules.keys.map { ":$it" }
+
+fun libraryTasksNamed(taskName: String): List<TaskCollection<Task>> {
+    return libraryProjects.map { path -> project(path).tasks.matching { it.name == taskName } }
+}
+
+fun registerLibraryTask(name: String, taskName: String, taskGroup: String, taskDescription: String) {
+    tasks.register(name) {
+        group = taskGroup
+        description = taskDescription
+        dependsOn(libraryTasksNamed(taskName))
+    }
+}
+
+registerLibraryTask(
+    name = "libraryAssemble",
+    taskName = "assemble",
+    taskGroup = "build",
+    taskDescription = "Assembles the published modules.",
+)
+
+registerLibraryTask(
+    name = "libraryCompileIosArm64",
+    taskName = "compileKotlinIosArm64",
+    taskGroup = "build",
+    taskDescription = "Compiles the published modules for the iOS device target.",
+)
+
+registerLibraryTask(
+    name = "libraryTests",
+    taskName = "allTests",
+    taskGroup = "verification",
+    taskDescription = "Runs the tests of the published modules on every enabled target.",
+)
+
+registerLibraryTask(
+    name = "libraryIosTests",
+    taskName = "iosSimulatorArm64Test",
+    taskGroup = "verification",
+    taskDescription = "Runs the tests of the published modules on the iOS simulator.",
+)
+
+registerLibraryTask(
+    name = "libraryApiCheck",
+    taskName = "checkKotlinAbi",
+    taskGroup = "verification",
+    taskDescription = "Checks the public API of the published modules against the dumps in api/.",
+)
+
+registerLibraryTask(
+    name = "libraryApiDump",
+    taskName = "updateKotlinAbi",
+    taskGroup = "verification",
+    taskDescription = "Rewrites the public API dumps of the published modules.",
+)
+
 subprojects {
     extra.set("library_version", getProperty("library_version", "0.0.0"))
 
