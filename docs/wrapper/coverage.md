@@ -1,14 +1,19 @@
 # What is wrapped
 
-The wrapper targets the **lite** build of MapKit (`4.42.0-lite`). Everything the lite SDK exposes on
-both Android and iOS is available from common code; the sections below are a map of where to look.
+The wrapper targets the **lite** build of MapKit (`{{ mapkit_version }}`). Everything the lite SDK
+exposes on both Android and iOS is available from common code; this page is a map of where to look.
+
+!!! warning "The official docs describe the full SDK"
+    [yandex.ru/dev/mapkit](https://yandex.ru/dev/mapkit/doc/ru/) documents the full build. A type
+    documented there is not necessarily in the lite artifact — the "Not wrapped" section below lists
+    what that removes.
 
 ## Map and map objects
 
 `ru.sulgik.mapkit.map` mirrors `com.yandex.mapkit.map`: `Map`, `MapWindow`, `CameraPosition`,
-`VisibleRegion`, the `MapObject` hierarchy (`PlacemarkMapObject`, `PolylineMapObject`,
-`PolygonMapObject`, `CircleMapObject`, `MapObjectCollection`, `RootMapObjectCollection`,
-`ClusterizedPlacemarkCollection`) and every listener MapKit calls back on.
+`VisibleRegion`, `CameraBounds`, the `MapObject` hierarchy (`PlacemarkMapObject`,
+`PolylineMapObject`, `PolygonMapObject`, `CircleMapObject`, `MapObjectCollection`,
+`RootMapObjectCollection`, `ClusterizedPlacemarkCollection`) and every listener MapKit calls back on.
 
 A placemark can be driven either through the shortcut methods (`setIcon`, `setText`,
 `setScaleFunction`) or through the presentation objects — `useIcon()`, `useCompositeIcon()`,
@@ -17,6 +22,8 @@ A placemark can be driven either through the shortcut methods (`setIcon`, `setTe
 
 Animated icons and polygon patterns take an `AnimatedImageProvider`, which is built either from raw
 data (`fromByteArray`, `fromFile`) or frame by frame with `AnimatedImage` and `Frame`.
+
+→ [Map and camera](map.md), [Map objects](mapobjects.md)
 
 ## Base map objects
 
@@ -29,6 +36,8 @@ attaches. `Map.selectGeoObject` takes the selection metadata back.
 
 `Map.setMapLoadedListener` reports `MapLoadStatistics` once the visible tiles are rendered.
 
+→ [Base map objects](geoobjects.md)
+
 ## Layers and tiles
 
 `Map.addTileLayer` creates a custom tile layer: the `TileDataSourceBuilder` handed to it takes a
@@ -37,12 +46,16 @@ the `TileFormat`. The resulting `layers.Layer` gives access to its `DataSourceLa
 visibility, JSON styles and the `LayerLoadedListener` / `DataSourceListener` subscriptions.
 `Map.addMapObjectLayer` does the same for a collection of map objects.
 
+→ [Layers and tiles](layers.md)
+
 ## Traffic, storage and offline maps
 
 `MapKit.createTrafficLayer` returns a `traffic.TrafficLayer` with its `TrafficListener` and
 `TrafficLevel`. `MapKit.storageManager` computes and caps the space MapKit occupies;
 `MapKit.offlineCacheManager` downloads regions, reports their `RegionState` and progress, and moves
 the cache to another folder.
+
+→ [Layers and tiles](layers.md#traffic), [Offline maps and storage](offline.md)
 
 ## Geolocation
 
@@ -81,12 +94,16 @@ the application pushes in with `setLocation`:
     dummy.setLocation(location, DummyLocationQuality.HIGH)
     ```
 
+→ [Geolocation](location.md)
+
 ## Runtime
 
 `runtime.Error` and its subtypes (`LocalError`, `DiskFullError`, `NetworkError`, `RemoteError`, …)
 type the failures the listeners report. `runtime.logging.Logging` subscribes to the MapKit log
 stream, and `runtime.i18n.I18nManager` formats distances, durations, speeds and data sizes for the
 current locale.
+
+→ [Runtime](runtime.md)
 
 ## Compose
 
@@ -102,6 +119,8 @@ visibility with `setVisible(visible, animation)`, `PlacemarkState` reaches `useI
 `PolygonState` sets an animated pattern, and `MapObjectCollectionState` reaches the shared
 `PlacemarksStyler` and `traverse`. Anything still missing is one `MapEffect` away.
 
+→ [Compose overview](../compose/overview.md)
+
 ## Not wrapped
 
 - **Full-build API.** Search, routing, panoramas, road events and the personalization API
@@ -112,3 +131,7 @@ visibility with `setVisible(visible, animation)`, `PlacemarkState` reaches `useI
   shape for it; the Compose module covers the same ground with `imageProvider { }`.
 - **`ImageProvider.id` / `isCacheable`.** They exist on Android only — iOS MapKit takes a plain
   `UIImage` — so they stay parameters of the Android factories.
+
+Anything on this list is still reachable through `toNative()` from a platform source set.
+[`MAPKIT_BACKLOG.md`](https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/MAPKIT_BACKLOG.md)
+tracks what was deliberately left out.

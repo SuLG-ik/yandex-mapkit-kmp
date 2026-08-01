@@ -81,6 +81,13 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   `setScaleFunction`, `useIcon`, `useCompositeIcon`, `useModel`, `useAnimation` and `text`;
   `PolygonState` gained `setPattern(AnimatedImageProvider, scale)` and `resetPattern`.
 - `MAPKIT_BACKLOG.md` listing MapKit 4.25–4.42 API that is not wrapped yet.
+- The documentation site is bilingual: English keeps the existing URLs, Russian is served under
+  `/ru/`. Nine pages are new — migration from MapKit, the map and the camera, map objects, base map
+  objects, geolocation, layers and tiles, offline maps and storage, runtime — and every page carries
+  runnable examples instead of prose.
+- Versions in the documentation are substituted at build time from `gradle.properties` and the
+  version catalog by `docs_hooks/versions.py`, and the ones in `README.md` are rewritten by
+  `updateDocumentedVersions` and guarded by `checkDocumentedVersions` in the `lint` job.
 
 ### Changed
 

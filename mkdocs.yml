@@ -13,10 +13,6 @@ copyright: Copyright &copy; 2025 Vladimir Nenashkin
 theme:
   name: 'material'
 
-  # Don't include MkDocs' JavaScript
-  include_search_page: false
-  search_index_only: true
-
   # Default values, taken from mkdocs_theme.yml
   language: en
   palette:
@@ -28,11 +24,62 @@ theme:
     code: Roboto Mono
   icon:
     logo: logo
+  features:
+    - content.code.copy
+    - content.tabs.link
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - toc.follow
+
+# Versions come from gradle.properties and gradle/libs.versions.toml
+hooks:
+  - docs_hooks/versions.py
+
+watch:
+  - gradle.properties
+  - gradle/libs.versions.toml
+
+exclude_docs: |
+  requirements.txt
 
 # Plugins
 plugins:
-  - search
-
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          name: English
+          default: true
+          build: true
+        - locale: ru
+          name: Русский
+          build: true
+          nav_translations:
+            Getting started: Начало работы
+            Overview: Обзор
+            Installation: Установка
+            Quick start: Быстрый старт
+            Migration from MapKit: Миграция с MapKit
+            Contributing: Разработка
+            Licence: Лицензия
+            Wrapper: Обёртка
+            What is wrapped: Что обёрнуто
+            Map and camera: Карта и камера
+            Map objects: Объекты карты
+            Base map objects: Объекты базовой карты
+            Geolocation: Геолокация
+            Layers and tiles: Слои и тайлы
+            Offline maps and storage: Офлайн-карты и хранилище
+            Runtime: Runtime
+            Image resources: Изображения
+            Compose support: Поддержка Compose
+            Sample: Пример приложения
+            API docs: Справочник API
+  - search:
+      lang:
+        - en
+        - ru
 
 # Page tree
 nav:
@@ -40,16 +87,24 @@ nav:
       - Overview: index.md
       - Installation: getting-started/installation.md
       - Quick start: getting-started/quick-start.md
-      - Licence: getting-started/licence.md
+      - Migration from MapKit: getting-started/migration.md
       - Contributing: getting-started/contributing.md
+      - Licence: getting-started/licence.md
   - Wrapper:
       - Overview: wrapper/overview.md
       - What is wrapped: wrapper/coverage.md
+      - Map and camera: wrapper/map.md
+      - Map objects: wrapper/mapobjects.md
+      - Base map objects: wrapper/geoobjects.md
+      - Geolocation: wrapper/location.md
+      - Layers and tiles: wrapper/layers.md
+      - Offline maps and storage: wrapper/offline.md
+      - Runtime: wrapper/runtime.md
       - Image resources: wrapper/image-resources.md
   - Compose support:
       - Overview: compose/overview.md
-      - Image resources: compose/image-resources.md
       - Map objects: compose/mapobjects.md
+      - Image resources: compose/image-resources.md
   - Sample: sample.md
   - API docs: kdoc/index.html
 
@@ -64,6 +119,7 @@ markdown_extensions:
   - md_in_html
   - toc:
       permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.betterem:
@@ -79,8 +135,8 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.magiclink:
       repo_url_shorthand: true
-      user: squidfunk
-      repo: mkdocs-material
+      user: SuLG-ik
+      repo: yandex-mapkit-kmp
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.snippets:

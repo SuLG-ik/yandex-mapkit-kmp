@@ -127,6 +127,90 @@ tasks.register("libraryApiDump") {
     dependsOn(libraryTasksNamed("updateAndroidAbi"))
 }
 
+private val documentedVersions = provider {
+    mapOf(
+        "library" to getProperty("library_version", "0.0.0"),
+        "mapkit" to libs.versions.yandex.mapkit.get(),
+        "kotlin" to libs.versions.kotlin.get(),
+        "compose" to libs.versions.compose.plugin.get(),
+    )
+}
+
+private val versionedDocuments = files("README.md")
+
+tasks.register<DocumentedVersionsUpdateTask>("updateDocumentedVersions") {
+    group = "documentation"
+    description = "Rewrites the versions mentioned in README.md from gradle.properties and the version catalog."
+    versions.set(documentedVersions)
+    documents.from(versionedDocuments)
+}
+
+tasks.register<DocumentedVersionsCheckTask>("checkDocumentedVersions") {
+    group = "verification"
+    description = "Checks that the versions mentioned in README.md are current."
+    versions.set(documentedVersions)
+    documents.from(versionedDocuments)
+    updateTaskPath.set("updateDocumentedVersions")
+}
+
+abstract class DocumentedVersionsTask : DefaultTask() {
+
+    @get:Input
+    abstract val versions: MapProperty<String, String>
+
+    protected fun withCurrentVersions(text: String): String {
+        val values = versions.get()
+        return text
+            .replace(Regex("""(badge/kotlin-)[^-]+(-blue)"""), "$1${values.getValue("kotlin")}$2")
+            .replace(
+                Regex("""(badge/Compose%20Multiplatform-v)[^-]+(-blue)"""),
+                "$1${values.getValue("compose")}$2",
+            )
+            .replace(Regex("""\*[0-9][0-9.]*-lite\*"""), "*${values.getValue("mapkit")}*")
+            .replace(
+                Regex("""(ru\.sulgik\.mapkit:[a-z0-9-]+:)[0-9][0-9A-Za-z.\-]*"""),
+                "$1${values.getValue("library")}",
+            )
+    }
+}
+
+abstract class DocumentedVersionsUpdateTask : DocumentedVersionsTask() {
+
+    @get:OutputFiles
+    abstract val documents: ConfigurableFileCollection
+
+    @TaskAction
+    fun update() {
+        documents.files.forEach { document ->
+            val text = document.readText()
+            val updated = withCurrentVersions(text)
+            if (updated != text) {
+                document.writeText(updated)
+            }
+        }
+    }
+}
+
+abstract class DocumentedVersionsCheckTask : DocumentedVersionsTask() {
+
+    @get:InputFiles
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val documents: ConfigurableFileCollection
+
+    @get:Input
+    abstract val updateTaskPath: Property<String>
+
+    @TaskAction
+    fun check() {
+        val stale = documents.files.filter { withCurrentVersions(it.readText()) != it.readText() }
+        if (stale.isNotEmpty()) {
+            throw GradleException(
+                "Stale versions in ${stale.joinToString { it.name }}, run ${updateTaskPath.get()}",
+            )
+        }
+    }
+}
+
 subprojects {
     extra.set("library_version", getProperty("library_version", "0.0.0"))
 

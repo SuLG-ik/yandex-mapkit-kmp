@@ -36,6 +36,9 @@ jobs:
       - name: Check formatting
         run: ./gradlew spotlessCheck -PskipIosTarget=true
 
+      - name: Check documented versions
+        run: ./gradlew checkDocumentedVersions -PskipIosTarget=true
+
   test-android:
     name: Tests (Android)
     runs-on: ubuntu-latest

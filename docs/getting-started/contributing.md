@@ -3,12 +3,12 @@
 ## Required
 
 - macOS
-- Cocoapods
-- Android studio
+- CocoaPods
+- Android Studio
 
 ## Sample
 
-To run sample you should provide your API key using `local.properties`
+The sample needs your API key in `local.properties`:
 
 === "local.properties"
     ```
@@ -76,6 +76,62 @@ The validator does not pick up the Android target of `com.android.kotlin.multipl
 classes of the Android main compilation and is what guards `androidMain`-only declarations such as
 `MapKit.initialize(Context)` and the `ImageProvider` factories. Being a `javap` dump it is sensitive
 to the JDK it was generated with — use the same JDK version as CI.
+
+## Documentation
+
+The site is MkDocs Material. It is built from `docs/` and deployed by CI together with the KDoc that
+Dokka renders into `docs/kdoc`.
+
+```bash
+pip install -r docs/requirements.txt
+```
+
+```bash
+mkdocs serve
+```
+
+```bash
+./gradlew :dokkaGenerate
+```
+
+### Two languages
+
+Every page exists twice, in the [suffix layout](https://ultrabug.github.io/mkdocs-static-i18n/) of
+`mkdocs-static-i18n`: `wrapper/overview.md` is English and `wrapper/overview.ru.md` is Russian.
+English is the default language and keeps the bare URLs; Russian is served under `/ru/`.
+
+A page without its `.ru.md` twin falls back to the English text rather than 404ing, so a new page can
+land in one language and be translated later — but a pull request that adds one should add both.
+Section titles in the `nav` are translated in `mkdocs.yml` under `nav_translations`; a new nav entry
+needs its line there too.
+
+### Versions are substituted, not typed
+
+Never write a version number into a page. `docs_hooks/versions.py` reads `gradle.properties` and
+`gradle/libs.versions.toml` at build time and replaces these placeholders:
+
+| Placeholder | Source |
+|---|---|
+| `\{{ version }}` | `library_version` in `gradle.properties` |
+| `\{{ mapkit_version }}` | `yandex-mapkit` in the version catalog |
+| `\{{ kotlin_version }}` | `kotlin` in the version catalog |
+| `\{{ compose_version }}` | `compose-plugin` in the version catalog |
+| `\{{ min_sdk }}` | `android-minSdk` in the version catalog |
+
+An unknown placeholder is left alone, so `\{{ something }}` in a code sample survives untouched; a
+known one can be escaped with a leading backslash, which is how this table is written.
+
+The README is not built by MkDocs, so its versions are kept in sync by Gradle instead:
+
+```bash
+./gradlew updateDocumentedVersions
+```
+
+```bash
+./gradlew checkDocumentedVersions
+```
+
+The check runs in the `lint` job, so a bumped `library_version` with a stale README fails CI.
 
 ## Compatibility
 

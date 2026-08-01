@@ -37,10 +37,10 @@ because Compose Multiplatform no longer publishes for it.
 All modules are available for use in common code, but native API available only in native code.
 
 On iOS the
-official [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/ios/generated/getting_started) in
-not linked as a transtive dependency. Therefore, any project using this SDK needs to link the same
+official [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/ios/generated/getting_started) is
+not linked as a transitive dependency. Therefore, any project using this SDK needs to link the same
 Yandex MapKit SDK as well. This can be done through your preferred installation
-method ([Cocoapods](https://kotlinlang.org/docs/native-cocoapods.html)/[SPM](https://kotlinlang.org/docs/native-spm.html#project-configuration-options)).
+method ([CocoaPods](https://kotlinlang.org/docs/native-cocoapods.html)/[SPM](https://kotlinlang.org/docs/native-spm.html#project-configuration-options)).
 
 ```kotlin
 kotlin {
@@ -60,14 +60,6 @@ kotlin {
 }
 ```
 
-```kotlin
-cocoapods {
-    pod("YandexMapsMobile") {
-        version = "<version>"
-    }
-}
-```
-
 ## Compatibility
 
 Within `1.x` the modules guarantee **source** compatibility, not binary compatibility.
@@ -83,4 +75,6 @@ removals and signature changes are reserved for a major release.
 
 ## Documentation
 
-Full documentation on [page](https://sulg-ik.github.io/yandex-mapkit-kmp/)
+Full documentation is at [ymk-kmp.sulgik.ru](https://ymk-kmp.sulgik.ru), in
+[English](https://ymk-kmp.sulgik.ru) and [Russian](https://ymk-kmp.sulgik.ru/ru/), with the KDoc
+under [/kdoc](https://ymk-kmp.sulgik.ru/kdoc/).

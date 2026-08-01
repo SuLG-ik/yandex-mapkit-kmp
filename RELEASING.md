@@ -10,8 +10,12 @@ Open a PR that contains only the release bookkeeping:
 - bump `library_version` in [gradle.properties](gradle.properties);
 - move the `Unreleased` entries of [CHANGELOG.md](CHANGELOG.md) into a `## [X.Y.Z] - YYYY-MM-DD`
   section and add the compare link at the bottom of the file;
-- update the version in the module table of [README.md](README.md) and, when the MapKit version
-  changed, its number there and in [docs](docs/getting-started/installation.md).
+- run `./gradlew updateDocumentedVersions` and commit the [README.md](README.md) it rewrites.
+
+The documentation site needs no edit: `docs_hooks/versions.py` substitutes `library_version` and the
+version catalog into the pages while MkDocs builds them, and the site is deployed after the version
+is already bumped. `checkDocumentedVersions` runs in the `lint` job and fails if the README was not
+regenerated.
 
 The usual CI checks run on that PR. Merge it once they are green.
 

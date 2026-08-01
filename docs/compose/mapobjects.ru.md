@@ -1,28 +1,29 @@
-# Map objects
+# Объекты карты
 
-## States API
+## API состояний
 
-The `content` of `YandexMap()` is a composition of its own, with map objects as nodes. Its
-composables are marked `@YandexMapComposable`, and Compose UI composables cannot be placed there.
+`content` у `YandexMap()` — это отдельная композиция, узлы которой являются объектами карты. Её
+composable-функции помечены `@YandexMapComposable`, и composable-функции Compose UI туда поставить
+нельзя.
 
-| Composable | Draws |
+| Composable | Что рисует |
 |---|---|
-| `Placemark` | a point with an icon |
-| `TitledPlacemark` | a placemark with a text label |
-| `Polyline` | a line |
-| `Polygon` | a filled area |
-| `Circle` | a circle with a radius in metres |
-| `Clustering` | placemarks grouped into clusters |
-| `MapObjectCollection` | a nested group |
-| `MapObjectLayer` | a group on a separate layer |
-| `TileLayer`, `TrafficLayer` | map-wide layers |
-| `MapListeners` | map events |
+| `Placemark` | точку с иконкой |
+| `TitledPlacemark` | метку с текстовой подписью |
+| `Polyline` | линию |
+| `Polygon` | залитую область |
+| `Circle` | окружность с радиусом в метрах |
+| `Clustering` | метки, сгруппированные в кластеры |
+| `MapObjectCollection` | вложенную группу |
+| `MapObjectLayer` | группу на отдельном слое |
+| `TileLayer`, `TrafficLayer` | слои карты |
+| `MapListeners` | события карты |
 
-Every object composable takes a state object created with `rememberXxxState()`. Geometry lives on
-the state, not in a parameter, so moving an object is a state write and does not recompose the
-subtree.
+Каждая composable-функция объекта принимает объект состояния, созданный через `rememberXxxState()`.
+Геометрия живёт в состоянии, а не в параметре, поэтому перемещение объекта — это запись в состояние,
+которая не рекомпонует поддерево.
 
-### Placemark
+### Метка
 
 ```kotlin
 val placemarkGeometry = Point(55.751225, 37.629540)
@@ -49,21 +50,21 @@ fun MapScreen() {
 }
 ```
 
-`imageProvider(Res.drawable.pin_red)` builds the icon from a Compose Multiplatform resource — see
-[Image resources](image-resources.md).
+`imageProvider(Res.drawable.pin_red)` собирает иконку из ресурса Compose Multiplatform — см.
+[Изображения](image-resources.md).
 
-`TitledPlacemark` adds a label:
+`TitledPlacemark` добавляет подпись:
 
 ```kotlin
 TitledPlacemark(
     state = rememberPlacemarkState(placemarkGeometry),
     icon = imageProvider(Res.drawable.pin_red),
-    title = "Red Square",
+    title = "Красная площадь",
     titleStyle = TextStyle(size = 10f, placement = TextStyle.Placement.BOTTOM, offset = 4f),
 )
 ```
 
-### Circle
+### Окружность
 
 ```kotlin
 Circle(
@@ -76,7 +77,7 @@ Circle(
 )
 ```
 
-### Polyline
+### Ломаная
 
 ```kotlin
 Polyline(
@@ -91,7 +92,7 @@ Polyline(
 )
 ```
 
-### Polygon
+### Полигон
 
 ```kotlin
 Polygon(
@@ -107,13 +108,13 @@ Polygon(
 )
 ```
 
-## What the state adds
+## Что добавляет состояние
 
-The state object is where everything a parameter cannot express lives. It is bound to the map object
-while the composable is in the composition, so these calls belong in an effect or an event handler,
-not in the composition itself.
+Объект состояния — место для всего, что нельзя выразить параметром. Он связан с объектом карты, пока
+composable находится в композиции, поэтому такие вызовы делают в эффекте или обработчике события, а
+не в самой композиции.
 
-### Any object
+### Любой объект
 
 ```kotlin
 mapObjectState.setVisible(
@@ -124,9 +125,9 @@ mapObjectState.setVisible(
 mapObjectState.isValid
 ```
 
-### Placemark
+### Метка
 
-`PlacemarkState` reaches the presentation objects and the scale function:
+`PlacemarkState` достаёт объекты представления и функцию масштаба:
 
 ```kotlin
 val placemarkState = rememberPlacemarkState(point)
@@ -134,11 +135,11 @@ val placemarkState = rememberPlacemarkState(point)
 LaunchedEffect(Unit) {
     placemarkState.setScaleFunction(listOf(PointF(10f, 0.5f), PointF(16f, 1f)))
     placemarkState.useCompositeIcon().setIcon("badge", badgeImage, IconStyle(zIndex = 1f))
-    placemarkState.text.text = "Red Square"
+    placemarkState.text.text = "Красная площадь"
 }
 ```
 
-`geometry`, `direction` and `isDragging` are observable properties of the state:
+`geometry`, `direction` и `isDragging` — наблюдаемые свойства состояния:
 
 ```kotlin
 val placemarkState = rememberPlacemarkState(point)
@@ -150,15 +151,15 @@ if (placemarkState.isDragging) {
 }
 ```
 
-### Polyline segment colours
+### Цвета сегментов ломаной
 
-A polyline is coloured through a palette. `setPaletteColor(colorIndex, color)` defines the colour
-stored under an index, and `setStrokeColors(paletteIndices)` assigns one of those indexes to every
-segment — a polyline of _n_ points has _n − 1_ segments. By default every segment uses palette index
-0, which is what the `strokeColor` parameter sets.
+Ломаная красится через палитру. `setPaletteColor(colorIndex, color)` задаёт цвет под индексом, а
+`setStrokeColors(paletteIndices)` раздаёт эти индексы сегментам — у ломаной из _n_ точек _n − 1_
+сегментов. По умолчанию все сегменты используют нулевой индекс палитры, который и задаёт параметр
+`strokeColor`.
 
-`getStrokeColor(segmentIndex)` returns the **palette index** of a segment, not its colour; resolve it
-with `getPaletteColor(colorIndex)`.
+`getStrokeColor(segmentIndex)` возвращает **индекс палитры** сегмента, а не его цвет; разрешите его
+через `getPaletteColor(colorIndex)`.
 
 ```kotlin
 polylineState.setPaletteColor(0, Color.Red)
@@ -167,7 +168,7 @@ polylineState.setPaletteColor(2, Color.Blue)
 polylineState.setStrokeColors(listOf(0, 1, 2))
 ```
 
-`PolylineState` also selects and hides parts of the line, and adds arrows:
+`PolylineState` также выделяет и прячет участки линии и добавляет стрелки:
 
 ```kotlin
 polylineState.select(Color.Blue, subpolyline)
@@ -180,14 +181,14 @@ polylineState.addArrow(
 )
 ```
 
-### Polygon pattern
+### Заливка полигона
 
 ```kotlin
 polygonState.setPattern(animatedHatch, scale = 1f)
 polygonState.resetPattern()
 ```
 
-### Collections
+### Коллекции
 
 ```kotlin
 collectionState.setPlacemarksScaleFunction(listOf(PointF(10f, 0.5f), PointF(16f, 1f)))
@@ -195,12 +196,12 @@ collectionState.setPlacemarksScaleFunction(listOf(PointF(10f, 0.5f), PointF(16f,
 collectionState.traverse(visitor)
 ```
 
-## Clustering
+## Кластеризация
 
-`Clustering` builds a `ClusterizedPlacemarkCollection` and reclusters when its groups change. Each
-`ClusterGroup` has its own placemark icon; the cluster icon is shared.
+`Clustering` собирает `ClusterizedPlacemarkCollection` и перекластеризует, когда меняются группы. У
+каждой `ClusterGroup` своя иконка метки; иконка кластера — общая.
 
-=== "Single group"
+=== "Одна группа"
 
     ```kotlin
     @Composable
@@ -224,7 +225,7 @@ collectionState.traverse(visitor)
     }
     ```
 
-=== "Multiple groups"
+=== "Несколько групп"
 
     ```kotlin
     Clustering(
@@ -237,7 +238,7 @@ collectionState.traverse(visitor)
     )
     ```
 
-=== "With data per item"
+=== "С данными на элемент"
 
     ```kotlin
     Clustering(
@@ -255,18 +256,18 @@ collectionState.traverse(visitor)
     )
     ```
 
-`groups` is an `ImmutableList` on purpose: Compose can then skip recomposition when the list has not
-changed, and reclustering is expensive.
+`groups` — это `ImmutableList` намеренно: так Compose может пропустить рекомпозицию, когда список не
+менялся, а перекластеризация дорогая.
 
-Cluster icons can also be composable content — see
-[Image resources](image-resources.md#composable-as-cluster-icon).
+Иконки кластеров тоже могут быть composable-содержимым — см.
+[Изображения](image-resources.md#composable-как-иконка-кластера).
 
-## Controller API
+## API контроллера
 
-With the controller overload there is no composition of map objects: `MapControllerEffect` gives you
-the `MapWindow` once it exists, and you use the wrapper API directly.
+С перегрузкой-контроллером композиции объектов карты нет: `MapControllerEffect` отдаёт `MapWindow`,
+как только тот появится, а дальше вы работаете напрямую через API обёртки.
 
-=== "Placemark"
+=== "Метка"
 
     ```kotlin
     @Composable
@@ -286,7 +287,7 @@ the `MapWindow` once it exists, and you use the wrapper API directly.
     }
     ```
 
-=== "Circle"
+=== "Окружность"
 
     ```kotlin
     MapControllerEffect(mapController) { mapWindow ->
@@ -294,7 +295,7 @@ the `MapWindow` once it exists, and you use the wrapper API directly.
     }
     ```
 
-=== "Polyline"
+=== "Ломаная"
 
     ```kotlin
     MapControllerEffect(mapController) { mapWindow ->
@@ -302,7 +303,7 @@ the `MapWindow` once it exists, and you use the wrapper API directly.
     }
     ```
 
-=== "Polygon"
+=== "Полигон"
 
     ```kotlin
     MapControllerEffect(mapController) { mapWindow ->
@@ -310,7 +311,7 @@ the `MapWindow` once it exists, and you use the wrapper API directly.
     }
     ```
 
-Clustering is the same as in the wrapper, listeners included:
+Кластеризация делается так же, как в обёртке, вместе со слушателями:
 
 ```kotlin
 @Composable
@@ -349,6 +350,7 @@ fun MapScreen() {
 }
 ```
 
-!!! warning "`remember` the listeners"
-    Subscriptions are weak. A listener created inline in a composition is collected on the next
-    recomposition and stops firing — `remember` it, or keep it in whatever owns the screen.
+!!! warning "Слушателей нужно `remember`"
+    Подписки слабые. Слушатель, созданный по месту в композиции, будет собран на следующей
+    рекомпозиции и перестанет срабатывать — оберните его в `remember` или держите там, кому
+    принадлежит экран.
