@@ -7,8 +7,9 @@ import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKMapObjectCollection as NativeMapObjectCollection
+import YandexMapKit.YMKRootMapObjectCollection as NativeRootMapObjectCollection
 
-public actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) : BaseMapObjectCollection(nativeMapObjectCollection) {
+public actual open class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) : BaseMapObjectCollection(nativeMapObjectCollection) {
 
     override fun toNative(): NativeMapObjectCollection {
         return nativeMapObjectCollection
@@ -54,5 +55,8 @@ public actual class MapObjectCollection internal constructor(private val nativeM
 }
 
 public fun NativeMapObjectCollection.toCommon(): MapObjectCollection {
-    return MapObjectCollection(this)
+    return when (this) {
+        is NativeRootMapObjectCollection -> toCommon()
+        else -> MapObjectCollection(this)
+    }
 }

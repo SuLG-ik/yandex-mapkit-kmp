@@ -67,7 +67,6 @@ public fun YandexMap(
     }
 }
 
-@YandexMapsComposeExperimentalApi
 @Composable
 public fun YandexMap(
     locationState: UserLocationState,

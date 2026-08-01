@@ -1,86 +1,158 @@
 # Image resources
 
-Placemarks and clusters require image to draw it on map. MapKit use `ImageProvider` to providing
-image to Map
+Placemarks, clusters and polygon patterns need an image, and MapKit takes it as an `ImageProvider`.
+In common code `ImageProvider` is an opaque interface: `commonMain` has no `Bitmap` and no
+`UIImage`, so the provider is built on the platform side or by one of the resource modules.
 
-## Wrapper-only usage
+| Where the image comes from | What to use |
+|---|---|
+| Android resources, assets, files, a `Bitmap` | the `androidMain` factories below |
+| A `UIImage` | `ImageProvider.fromUIImage` |
+| Compose Multiplatform resources | [`imageProvider(Res.drawable.x)`](../compose/image-resources.md) |
+| Composable content | [`imageProvider { }`](../compose/image-resources.md#composable-as-imageprovider) |
+| moko-resources | [`MOKOImageLoader`](#moko-resources) |
 
-Library wrap `ImageProvider` as empty interface for common source. But in platform-specific source
-set there are some methods for converting native image containers like `Bitmap`, drawable resource,
-assets or `UIImage` to ImageProvider.
+## From platform code
 
-You should organize logic for creating `ImageProvider`s in platform-specific source and passing 
-them to common code
-
-**Android source**
-
-=== "Drawable"
-    ```kotlin
-    val clusterImageProvider = ImageProvider.fromResource(context, R.drawable.ic_cluster)
-    ```
-
-=== "Bitmap"
-    ```kotlin
-    val clusterImageProvider = clusterBitmap.toImageProvider()
-    val cluster2ImageProvider = ImageProvider.fromBitmap(bitmap)
-    ```
-
-=== "Asset"
-    ```kotlin
-    val clusterImageProvider = ImageProvider.fromAsset(context, "cluster_asset")
-    ```
-
-=== "File"
-    ```kotlin
-    val clusterImageProvider = ImageProvider.fromFile(context, "cluster_filename")
-    ```
-
-!!! info "MapKit has images caching feature and wrapper support it too"
-
-**IOS source**
-
-=== "UIImage"
-    ```kotlin
-    val clusterImageProvider = ImageProvider.fromUIImage(uiimage)
-    ```
-
-## Moko-resources
-
-!!! info "Requires `andex-mapkit-kmp-moko`"
-
-`yandex-mapkit-kmp-moko` module add supporting for using image resources generated
-via [moko-resources](https://github.com/icerockdev/moko-resources) as ImageProvider.
-
-Add `MOKOImageLoader` and platform-specific implementations (`AndroidMOKOImageLoader`
-and `IOSMOKOImageLoader`). Require additional configuration to provide implementations.
-
-You should create instances of `MOKOImageLoader` in platform-specific code and provide it to your 
-common part using direct parameter passing or DI. 
-
-Android implementation require `Context` instance, but ios does not require it. On iOS you can 
-create function function with no `MOKOImageLoader` parameter passing and call it from your map 
-control logic entry point.
+Build the providers where the platform types are available and pass them into common code.
 
 === "Android"
+
+    ```kotlin
+    val fromDrawable = ImageProvider.fromResource(context, R.drawable.ic_cluster)
+    val fromAsset = ImageProvider.fromAsset(context, "cluster.png")
+    val fromFile = ImageProvider.fromFile("/path/to/cluster.png")
+    val fromBitmap = ImageProvider.fromBitmap(bitmap)
+
+    val alsoFromBitmap = bitmap.toImageProvider()
+    ```
+
+    Every factory has an overload taking MapKit's caching parameters. `fromBitmap` needs an `id`
+    too, because a bitmap has no natural one:
+
+    ```kotlin
+    val cached = ImageProvider.fromResource(
+        context = context,
+        resourceId = R.drawable.ic_cluster,
+        isCacheable = true,
+    )
+
+    val cachedBitmap = ImageProvider.fromBitmap(
+        bitmap = bitmap,
+        isCacheable = true,
+        id = "cluster-24",
+    )
+    ```
+
+    !!! info "Caching is worth turning on"
+        MapKit caches an image by its id and reuses the decoded copy for every placemark that shares
+        it — the difference is visible with hundreds of markers.
+
+=== "iOS"
+
+    ```kotlin
+    val provider = ImageProvider.fromUIImage(uiImage)
+    ```
+
+    iOS MapKit takes a plain `UIImage`, so there is no id and no caching parameter — the
+    Android-only ones stay in `androidMain`.
+
+Handing them over:
+
+=== "Kotlin (commonMain)"
+
+    ```kotlin
+    class MapIcons(
+        val pin: ImageProvider,
+        val cluster: ImageProvider,
+    )
+
+    fun setupMap(map: Map, icons: MapIcons) {
+        map.mapObjects.addPlacemark().apply {
+            geometry = Point(55.751225, 37.629540)
+            setIcon(icons.pin)
+        }
+    }
+    ```
+
+=== "Kotlin (androidMain)"
+
+    ```kotlin
+    fun mapIcons(context: Context): MapIcons {
+        return MapIcons(
+            pin = ImageProvider.fromResource(context, R.drawable.pin),
+            cluster = ImageProvider.fromResource(context, R.drawable.cluster),
+        )
+    }
+    ```
+
+=== "Kotlin (iosMain)"
+
+    ```kotlin
+    fun mapIcons(): MapIcons {
+        return MapIcons(
+            pin = ImageProvider.fromUIImage(UIImage.imageNamed("pin")!!),
+            cluster = ImageProvider.fromUIImage(UIImage.imageNamed("cluster")!!),
+        )
+    }
+    ```
+
+## Animated images
+
+`AnimatedImageProvider` feeds animated placemark icons and animated polygon patterns. Unlike
+`ImageProvider`, it can be built entirely from common code:
+
+```kotlin
+val fromData = AnimatedImageProvider.fromByteArray(bytes)
+val fromFile = AnimatedImageProvider.fromFile(path)
+
+val built = AnimatedImageProvider.fromAnimatedImage(
+    AnimatedImage(loopCount = 0).apply {
+        addFrame(frameOne, 100.milliseconds)
+        addFrame(frameTwo, 100.milliseconds)
+    },
+)
+```
+
+The frames are `ImageProvider`s, so they still come from the platform side. `loopCount = 0` loops
+forever. Android additionally has `AnimatedImageProvider.fromResource(context, id)` and
+`fromAsset(context, name)`.
+
+## moko-resources
+
+!!! info "Requires `yandex-mapkit-kmp-moko`"
+
+`MOKOImageLoader` turns a moko `ImageResource` into an `ImageProvider`. The Android implementation
+needs a `Context`, the iOS one does not, so the loader itself is created on the platform side and
+passed into common code.
+
+=== "Kotlin (commonMain)"
+
+    ```kotlin
+    fun setupMap(map: Map, imageLoader: MOKOImageLoader) {
+        val cluster = imageLoader.fromResource(MR.images.cluster)
+        val pin = imageLoader.fromResource(MR.images.pin, isCacheable = true)
+    }
+    ```
+
+=== "Kotlin (androidMain)"
+
     ```kotlin
     class MainActivity : ComponentActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            val map: Map = /* ... */
-            val mokoImageLoader: MOKOImageLoader = AndroidMOKOImageLoader(context)
-            setupMap(map, mokoImageLoader)
-            /* ... */
+            setupMap(map, AndroidMOKOImageLoader(this))
         }
+    }
     ```
-=== "iOS"
+
+=== "Kotlin (iosMain)"
+
     ```kotlin
     fun setupMap(map: Map) {
         setupMap(map, IOSMOKOImageLoader())
     }
     ```
-=== "common"
-    ```kotlin
-    fun setupMap(map: Map, mokoImageLoader: MOKOImageLoader) {
-        val clusterImageProvider = mokoImageLoader.fromResource(MR.images.cluster)
-    }
-    ```
+
+In a composable context `yandex-mapkit-kmp-moko-compose` removes the platform step entirely — see
+[Image resources in Compose](../compose/image-resources.md#moko-resources-in-compose).

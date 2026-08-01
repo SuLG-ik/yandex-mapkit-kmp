@@ -2,7 +2,6 @@ package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
@@ -31,21 +30,9 @@ public fun rememberPolylineState(geometry: Polyline, key: String? = null): Polyl
 }
 
 @Immutable
-public class PolylineState(geometry: Polyline) {
+public class PolylineState(geometry: Polyline) : MapObjectState<PolylineMapObject>() {
 
     public var geometry: Polyline by mutableStateOf(geometry)
-
-    // The marker associated with this MarkerState.
-    private val mapObjectState: MutableState<PolylineMapObject?> = mutableStateOf(null)
-    internal var mapObject: PolylineMapObject?
-        get() = mapObjectState.value
-        set(value) {
-            if (mapObjectState.value == null && value == null) return
-            if (mapObjectState.value != null && value != null) {
-                error("MarkerState may only be associated with one Marker at a time.")
-            }
-            mapObjectState.value = value
-        }
 
     public fun select(color: Color, subpolyline: Subpolyline) {
         mapObject?.select(color.toMapkitColor(), subpolyline)
@@ -59,26 +46,56 @@ public class PolylineState(geometry: Polyline) {
         mapObject?.hide(subpolylines)
     }
 
-    public fun setStrokeColors(colors: List<Color>, weights: List<Double>) {
-        mapObject?.setStrokeColors(colors.map { it.toMapkitColor() }, weights)
+    /**
+     * Sets indexes of colors in palette for line segments.
+     *
+     * A polyline is colored through a palette: [setPaletteColor] defines the color stored under an
+     * index, and this method assigns one of those indexes to every segment. By default, all segments
+     * use palette index 0.
+     *
+     * [weights] are used for generalization of colors.
+     */
+    public fun setStrokeColors(paletteIndices: List<Int>, weights: List<Double>) {
+        mapObject?.setStrokeColors(paletteIndices, weights)
     }
 
-    public fun setStrokeColors(colors: List<Color>) {
-        mapObject?.setStrokeColors(colors.map { it.toMapkitColor() })
+    /**
+     * Sets indexes of colors in palette for line segments.
+     *
+     * A polyline is colored through a palette: [setPaletteColor] defines the color stored under an
+     * index, and this method assigns one of those indexes to every segment. By default, all segments
+     * use palette index 0.
+     *
+     * All the weights are equal to 1.
+     */
+    public fun setStrokeColors(paletteIndices: List<Int>) {
+        mapObject?.setStrokeColors(paletteIndices)
     }
 
-    public fun getStrokeColor(segmentIndex: Int): Color {
-        return mapObject?.getStrokeColor(segmentIndex)?.toComposeColor()
-            ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
+    /**
+     * Returns the palette index used by segment with the specified index.
+     *
+     * The returned value is an index into the palette, not a color; resolve it with
+     * [getPaletteColor].
+     */
+    public fun getStrokeColor(segmentIndex: Int): Int {
+        return requireMapObject().getStrokeColor(segmentIndex)
     }
 
+    /**
+     * Sets color in RGBA mode for [colorIndex].
+     *
+     * If the color is not provided for some index, the default value 0x0066FFFF is used.
+     */
     public fun setPaletteColor(colorIndex: Int, color: Color) {
         mapObject?.setPaletteColor(colorIndex, color.toMapkitColor())
     }
 
+    /**
+     * Returns the palette color for the specified index.
+     */
     public fun getPaletteColor(colorIndex: Int): Color {
-        return mapObject?.getPaletteColor(colorIndex)?.toComposeColor()
-            ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
+        return requireMapObject().getPaletteColor(colorIndex).toComposeColor()
     }
 
     public fun addArrow(
@@ -86,14 +103,11 @@ public class PolylineState(geometry: Polyline) {
         length: Float,
         fillColor: Color,
     ): Arrow {
-        return mapObject?.addArrow(position, length, fillColor.toMapkitColor())
-            ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
+        return requireMapObject().addArrow(position, length, fillColor.toMapkitColor())
     }
 
-    public fun arrows(): List<Arrow> {
-        return mapObject?.arrows
-            ?: throw IllegalStateException("PolylineMapObject is not attached to PolylineState")
-    }
+    public val arrows: List<Arrow>
+        get() = requireMapObject().arrows
 
     public companion object {
         public val Saver: Saver<PolylineState, Any> = listSaver(
@@ -135,6 +149,7 @@ public fun Polyline(
     dashOffset: Float = DefaultDashOffset,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     PolylineImpl(
@@ -151,6 +166,7 @@ public fun Polyline(
         dashOffset = dashOffset,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -170,12 +186,15 @@ internal fun PolylineImpl(
     dashOffset: Float = DefaultDashOffset,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
+        state = state,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
         factory = {
             val mapObject = collection.addPolyline(state.geometry)
@@ -192,12 +211,14 @@ internal fun PolylineImpl(
             PolylineNode(
                 mapObject = mapObject,
                 tapListener = onTap,
+                state = state,
             )
         },
         update = {
             update(state.geometry) { this.mapObject.geometry = it }
             update(strokeWidth) { mapObject.style.strokeWidth = strokeWidth }
             update(gradientLength) { mapObject.style.gradientLength = gradientLength }
+            update(outlineWidth) { mapObject.style.outlineWidth = outlineWidth }
             update(outlineColor) { mapObject.style.outlineColor = outlineColor.toMapkitColor() }
             update(innerOutlineEnabled) { mapObject.style.innerOutlineEnabled = innerOutlineEnabled }
             update(turnRadius) { mapObject.style.turnRadius = turnRadius }
@@ -212,7 +233,8 @@ internal fun PolylineImpl(
 internal class PolylineNode(
     mapObject: PolylineMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<PolylineMapObject>(mapObject, tapListener)
+    state: PolylineState?,
+) : MapObjectNode<PolylineMapObject, PolylineState>(mapObject, tapListener, state)
 
 private val DefaultStrokeColor = Color(0x0066FFFF)
 private const val DefaultGradientLength = 0f
@@ -223,5 +245,3 @@ private val DefaultOutlineColor = Color(0x00000000)
 private const val DefaultDashLength = 0f
 private const val DefaultDashOffset = 0f
 private const val DefaultGapLength = 0f
-private val DefaultFillColor = Color(0x0066FF99)
-private const val DefaultGeodesic = false

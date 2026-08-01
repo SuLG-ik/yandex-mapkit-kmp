@@ -6,8 +6,15 @@ import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Geometry
+import ru.sulgik.mapkit.geometry.geo.Projection
+import ru.sulgik.mapkit.geometry.geo.toCommon
 import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.indoor.IndoorStateListener
+import ru.sulgik.mapkit.layers.GeoObjectTapListener
+import ru.sulgik.mapkit.layers.Layer
+import ru.sulgik.mapkit.layers.LayerOptions
+import ru.sulgik.mapkit.layers.toCommon
+import ru.sulgik.mapkit.layers.toNative
 import ru.sulgik.mapkit.logo.Logo
 import ru.sulgik.mapkit.logo.toCommon
 import ru.sulgik.mapkit.toNSNumber
@@ -35,7 +42,11 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     public actual val cameraBounds: CameraBounds
         get() = nativeMap.cameraBounds.toCommon()
 
-    public actual val mapObjects: MapObjectCollection
+    /**
+     * List of map objects associated with the map. The layerId for this collection can be
+     * retrieved via LayerIds.mapObjectsLayerId
+     */
+    public actual val mapObjects: RootMapObjectCollection
         get() = nativeMap.mapObjects.toCommon()
 
     /**
@@ -124,44 +135,34 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     }
 
     /**
-     * Calculates the camera position that projects the specified geometry into the current focusRect, or the full view if the focusRect is not set.
+     * Calculates a camera position that projects the specified geometry into the given [focusRect],
+     * using the provided [azimuth] and [tilt] camera parameters.
+     *
+     * If [focusRect] is not provided, the current focus rect is used (or the full view if no focus
+     * rect is set).
+     *
+     * If [azimuth] is not provided, the current [cameraPosition] azimuth is used.
+     *
+     * If [tilt] is not provided, the current [cameraPosition] tilt is used.
      */
-    public actual fun calculateCameraPosition(geometry: Geometry): CameraPosition {
-        return nativeMap.cameraPositionWithGeometry(geometry.toNative()).toCommon()
-    }
-
-    /**
-     * Calculates the camera position that projects the specified geometry into the custom focusRect.
-     */
-    public actual fun calculateCameraPosition(
+    public actual fun cameraPosition(
         geometry: Geometry,
-        screenRect: ScreenRect,
-    ): CameraPosition {
-        return nativeMap.cameraPositionWithGeometry(geometry.toNative(), screenRect.toNative())
-            .toCommon()
-    }
-
-    /**
-     * Camera position that projects the specified geometry into the custom focusRect, with custom azimuth and tilt camera parameters. If focus rect is not provided, current focus rect is used.
-     */
-    public actual fun calculateCameraPosition(
-        geometry: Geometry,
-        azimuth: Float,
-        tilt: Float,
-        screenRect: ScreenRect,
+        focusRect: ScreenRect?,
+        azimuth: Float?,
+        tilt: Float?,
     ): CameraPosition {
         return nativeMap.cameraPositionWithGeometry(
             geometry.toNative(),
-            screenRect.toNative(),
-            azimuth.toNSNumber(),
-            tilt.toNSNumber(),
+            focusRect?.toNative(),
+            azimuth?.toNSNumber(),
+            tilt?.toNSNumber(),
         ).toCommon()
     }
 
     /**
      * Calculates the map region that is visible from the given camera position. Region IS bounded by latitude limits [-90, 90] and IS NOT bounded by longitude limits [-180, 180]. If the longitude exceeds its limits, we see the world's edge and another instance of the world beyond this edge.
      */
-    public actual fun calculateVisibleRegion(cameraPosition: CameraPosition): VisibleRegion {
+    public actual fun visibleRegion(cameraPosition: CameraPosition): VisibleRegion {
         return nativeMap.visibleRegionWithCameraPosition(cameraPosition.toNative()).toCommon()
     }
 
@@ -212,9 +213,8 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Yandex logo object.
      */
-    public actual fun getLogo(): Logo {
-        return nativeMap.logo.toCommon()
-    }
+    public actual val logo: Logo
+        get() = nativeMap.logo.toCommon()
 
     /**
      * The base map type.
@@ -317,8 +317,114 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
             nativeMap.awesomeModelsEnabled = value
         }
 
+    /**
+     * If enabled, the map background will be fully transparent.
+     */
+    public actual var isTransparentBackgroundEnabled: Boolean
+        get() = nativeMap.transparentBackgroundEnabled
+        set(value) {
+            nativeMap.transparentBackgroundEnabled = value
+        }
+
+    /**
+     * If set to true, hides the indoor plans and shows the buildings without resetting the current
+     * indoor plan.
+     */
+    public actual var isBuildingsAboveIndoorEnabled: Boolean
+        get() = nativeMap.buildingsAboveIndoorEnabled
+        set(value) {
+            nativeMap.buildingsAboveIndoorEnabled = value
+        }
+
+    /**
+     * Adds a tap listener that is used to obtain brief geo object info.
+     *
+     * The class does not retain the object in the 'tapListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public actual fun addTapListener(tapListener: WeakRef<GeoObjectTapListener>) {
+        nativeMap.addTapListenerWithTapListener(tapListener.toNative() ?: return)
+    }
+
+    /**
+     * Removes a tap listener that is used to obtain brief geo object info.
+     */
+    public actual fun removeTapListener(tapListener: WeakRef<GeoObjectTapListener>) {
+        nativeMap.removeTapListenerWithTapListener(tapListener.toNative() ?: return)
+    }
+
+    /**
+     * Selects a geo object with the specified objectId in the specified layerId.
+     */
+    public actual fun selectGeoObject(selectionMetadata: GeoObjectSelectionMetadata) {
+        nativeMap.selectGeoObjectWithSelectionMetaData(selectionMetadata.toNative())
+    }
+
+    /**
+     * Resets the currently selected geo object.
+     */
+    public actual fun deselectGeoObject() {
+        nativeMap.deselectGeoObject()
+    }
+
+    /**
+     * Sets a map loaded listener.
+     *
+     * The class does not retain the object in the 'mapLoadedListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public actual fun setMapLoadedListener(mapLoadedListener: WeakRef<MapLoadedListener>?) {
+        nativeMap.setMapLoadedListenerWithMapLoadedListener(mapLoadedListener?.toNative())
+    }
+
+    /**
+     * Creates a new independent map object collection linked to the specified layer ID.
+     */
+    public actual fun addMapObjectLayer(layerId: String): RootMapObjectCollection {
+        return nativeMap.addMapObjectLayerWithLayerId(layerId).toCommon()
+    }
+
+    /**
+     * Adds tile layer.
+     *
+     * @param createTileDataSource Called once to set up the data source of the new layer.
+     */
+    public actual fun addTileLayer(
+        layerId: String,
+        layerOptions: LayerOptions,
+        createTileDataSource: (builder: TileDataSourceBuilder) -> Unit,
+    ): Layer {
+        return nativeMap.addTileLayerWithLayerId(layerId, layerOptions.toNative()) { builder ->
+            createTileDataSource(builder?.toCommon() ?: return@addTileLayerWithLayerId)
+        }.toCommon()
+    }
+
+    /**
+     * Provides map projection.
+     */
+    public actual fun projection(): Projection {
+        return nativeMap.projection().toCommon()
+    }
+
     public actual val isValid: Boolean
         get() = nativeMap.isValid()
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Map) return false
+        if (this::class != other::class) return false
+        return nativeMap == other.nativeMap
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeMap.hashCode()
+    }
 }
 
 public fun NativeMap.toCommon(): Map {

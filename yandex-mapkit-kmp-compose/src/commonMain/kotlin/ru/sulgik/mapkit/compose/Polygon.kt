@@ -13,6 +13,7 @@ import ru.sulgik.mapkit.compose.utils.toMapkitColor
 import ru.sulgik.mapkit.geometry.LinearRing
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.Polygon
+import ru.sulgik.mapkit.map.AnimatedImageProvider
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.PolygonMapObject
 
@@ -22,22 +23,38 @@ public fun rememberPolygonState(geometry: Polygon, key: String? = null): Polygon
 }
 
 @Immutable
-public class PolygonState(geometry: Polygon) {
+public class PolygonState(geometry: Polygon) : MapObjectState<PolygonMapObject>() {
 
     public var geometry: Polygon by mutableStateOf(geometry)
+
+    /**
+     * Sets an animated pattern to fill the polygon.
+     *
+     * Use the `pattern` parameter of the composable for a static one.
+     */
+    public fun setPattern(animatedImage: AnimatedImageProvider, scale: Float) {
+        mapObject?.setPattern(animatedImage, scale)
+    }
+
+    /**
+     * Removes the pattern set with [setPattern].
+     */
+    public fun resetPattern() {
+        mapObject?.resetPattern()
+    }
 
     public companion object {
         public val Saver: Saver<PolygonState, Any> = listSaver(
             save = {
                 mutableListOf<Any>().saveOuterRing(it.geometry.outerRing)
-                    .saveInnerRing(it.geometry.innerRing)
+                    .saveInnerRing(it.geometry.innerRings)
             },
             restore = {
                 val (outerRing, innerRingStart) = it.restoreLinearRing(0)
                 PolygonState(
                     geometry = Polygon(
                         outerRing = outerRing,
-                        innerRing = it.restoreInnerRing(innerRingStart),
+                        innerRings = it.restoreInnerRing(innerRingStart),
                     ),
                 )
             },
@@ -45,7 +62,7 @@ public class PolygonState(geometry: Polygon) {
 
         private fun MutableList<Any>.saveInnerRing(rings: List<LinearRing>): MutableList<Any> {
             add(rings.size)
-            rings.map {
+            rings.forEach {
                 saveLinearRing(it)
             }
             return this
@@ -78,13 +95,13 @@ public class PolygonState(geometry: Polygon) {
             }
             return LinearRing(
                 points = points,
-            ) to (start * 2 + size + 1)
+            ) to (start + 1 + size * 2)
         }
 
         private fun List<Any>.restoreInnerRing(start: Int): List<LinearRing> {
             val size = get(start) as Int
             var offset = start + 1
-            var rings = mutableListOf<LinearRing>()
+            val rings = mutableListOf<LinearRing>()
             for (i in 0 until size) {
                 val (ring, nextStart) = restoreLinearRing(offset)
                 offset = nextStart
@@ -106,6 +123,7 @@ public fun Polygon(
     patternScale: Float = 1f,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     PolygonImpl(
@@ -118,6 +136,7 @@ public fun Polygon(
         patternScale = patternScale,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -133,12 +152,15 @@ internal fun PolygonImpl(
     patternScale: Float = 1f,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
+        state = state,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
         factory = {
             val mapObject = collection.addPolygon(state.geometry)
@@ -152,6 +174,7 @@ internal fun PolygonImpl(
             PolygonNode(
                 mapObject = mapObject,
                 tapListener = onTap,
+                state = state,
             )
         },
         update = {
@@ -179,7 +202,8 @@ internal fun PolygonImpl(
 internal class PolygonNode(
     mapObject: PolygonMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<PolygonMapObject>(mapObject, tapListener)
+    state: PolygonState?,
+) : MapObjectNode<PolygonMapObject, PolygonState>(mapObject, tapListener, state)
 
 private val DefaultStrokeColor = Color(0xFF66FF00)
 private const val DefaultStrokeWidth = 5f

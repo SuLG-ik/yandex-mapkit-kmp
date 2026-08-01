@@ -4,4 +4,4 @@ import androidx.compose.runtime.Composable
 import ru.sulgik.mapkit.moko.MOKOImageLoader
 
 @Composable
-expect fun rememberMOKOImageLoader(): MOKOImageLoader
+public expect fun rememberMOKOImageLoader(): MOKOImageLoader

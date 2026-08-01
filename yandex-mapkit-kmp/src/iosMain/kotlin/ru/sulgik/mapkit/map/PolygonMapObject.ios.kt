@@ -39,10 +39,23 @@ public actual class PolygonMapObject internal constructor(private val nativePoly
             nativePolygonMapObject.geodesic = value
         }
 
+    /**
+     * Sets pattern to fill polygon.
+     */
     public actual fun setPattern(image: ImageProvider, scale: Float) {
         nativePolygonMapObject.setPatternWithImage(image.toNative(), scale)
     }
 
+    /**
+     * Sets animated pattern to fill polygon.
+     */
+    public actual fun setPattern(animatedImage: AnimatedImageProvider, scale: Float) {
+        nativePolygonMapObject.setPatternWithAnimatedImage(animatedImage.toNative(), scale)
+    }
+
+    /**
+     * Removes pattern.
+     */
     public actual fun resetPattern() {
         nativePolygonMapObject.resetPattern()
     }

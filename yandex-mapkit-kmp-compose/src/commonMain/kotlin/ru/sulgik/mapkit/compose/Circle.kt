@@ -29,7 +29,7 @@ public fun rememberCircleState(geometry: Circle, key: String? = null): CircleSta
 }
 
 @Immutable
-public class CircleState(geometry: Circle) {
+public class CircleState(geometry: Circle) : MapObjectState<CircleMapObject>() {
 
     public var geometry: Circle by mutableStateOf(geometry)
 
@@ -63,6 +63,7 @@ public fun Circle(
     geodesic: Boolean = DefaultGeodesic,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     CircleImpl(
@@ -73,6 +74,7 @@ public fun Circle(
         geodesic = geodesic,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
     )
 }
@@ -86,12 +88,15 @@ internal fun CircleImpl(
     geodesic: Boolean = DefaultGeodesic,
     visible: Boolean = true,
     zIndex: Float = 0.0f,
+    userData: Any? = null,
     onTap: ((Point) -> Boolean)? = null,
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
+        state = state,
         visible = visible,
         zIndex = zIndex,
+        userData = userData,
         onTap = onTap,
         factory = {
             val mapObject = collection.addCircle(state.geometry)
@@ -102,6 +107,7 @@ internal fun CircleImpl(
             CircleNode(
                 mapObject = mapObject,
                 tapListener = onTap,
+                state = state,
             )
         },
         update = {
@@ -117,7 +123,8 @@ internal fun CircleImpl(
 internal class CircleNode(
     mapObject: CircleMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<CircleMapObject>(mapObject, tapListener)
+    state: CircleState?,
+) : MapObjectNode<CircleMapObject, CircleState>(mapObject, tapListener, state)
 
 private val DefaultStrokeColor = Color(0xFF66FF00)
 private const val DefaultStrokeWidth = 5f

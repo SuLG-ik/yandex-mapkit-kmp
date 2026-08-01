@@ -81,7 +81,7 @@ jobs:
           api-level: 30
           arch: x86_64
           target: aosp_atd
-          script: ./gradlew :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
+          script: ./gradlew :yandex-mapkit-kmp:connectedAndroidDeviceTest :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
 
   release:
     name: Publish ${{ inputs.version }}

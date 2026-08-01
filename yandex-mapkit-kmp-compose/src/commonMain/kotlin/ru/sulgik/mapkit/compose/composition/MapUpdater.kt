@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.compose.CameraPositionState
+import ru.sulgik.mapkit.compose.MapCameraBoundsConfig
 import ru.sulgik.mapkit.compose.MapConfig
 import ru.sulgik.mapkit.compose.MapLogoConfig
 import ru.sulgik.mapkit.map.CameraListener
@@ -43,12 +44,25 @@ internal class MapPropertiesNode(
         }
 
     private fun updateLogo(value: MapLogoConfig) {
-        val logo = mapWindow.map.getLogo()
+        val logo = mapWindow.map.logo
         if (value.alignment != null) {
             logo.setAlignment(value.alignment)
         }
         if (value.padding != null) {
             logo.setPadding(value.padding)
+        }
+    }
+
+    private fun updateCameraBounds(value: MapCameraBoundsConfig) {
+        val cameraBounds = mapWindow.map.cameraBounds
+        if (value.minZoomPreference != null) {
+            cameraBounds.setMinZoomPreference(value.minZoomPreference)
+        }
+        if (value.maxZoomPreference != null) {
+            cameraBounds.setMaxZoomPreference(value.maxZoomPreference)
+        }
+        if (value.latLngBounds != null) {
+            cameraBounds.latLngBounds = value.latLngBounds
         }
     }
 
@@ -78,12 +92,52 @@ internal class MapPropertiesNode(
         if (value.mapType != null) {
             map.mapType = value.mapType
         }
+        if (value.mode != null) {
+            map.mode = value.mode
+        }
+        if (value.mapStyle != null) {
+            map.setMapStyle(value.mapStyle)
+        }
+        if (value.isHdModeEnabled != null) {
+            map.isHdModeEnabled = value.isHdModeEnabled
+        }
+        if (value.isIndoorEnabled != null) {
+            map.isIndoorEnabled = value.isIndoorEnabled
+        }
+        if (value.isAwesomeModelsEnabled != null) {
+            map.isAwesomeModelsEnabled = value.isAwesomeModelsEnabled
+        }
+        if (value.isTransparentBackgroundEnabled != null) {
+            map.isTransparentBackgroundEnabled = value.isTransparentBackgroundEnabled
+        }
+        if (value.isBuildingsAboveIndoorEnabled != null) {
+            map.isBuildingsAboveIndoorEnabled = value.isBuildingsAboveIndoorEnabled
+        }
         if (value.use2dMode != null) {
             map.set2DMode(value.use2dMode)
         }
         if (value.fps != null) {
-            mapWindow.setMapFps(value.fps)
+            mapWindow.setMaxFps(value.fps)
         }
+        if (value.focusRect != null) {
+            mapWindow.focusRect = value.focusRect
+        }
+        if (value.focusPoint != null) {
+            mapWindow.focusPoint = value.focusPoint
+        }
+        if (value.gestureFocusPoint != null) {
+            mapWindow.gestureFocusPoint = value.gestureFocusPoint
+        }
+        if (value.gestureFocusPointMode != null) {
+            mapWindow.gestureFocusPointMode = value.gestureFocusPointMode
+        }
+        if (value.pointOfView != null) {
+            mapWindow.pointOfView = value.pointOfView
+        }
+        if (value.scaleFactor != null) {
+            mapWindow.scaleFactor = value.scaleFactor
+        }
+        updateCameraBounds(value.cameraBounds)
         updateLogo(value.logo)
     }
 

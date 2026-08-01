@@ -4,7 +4,11 @@ import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Geometry
+import ru.sulgik.mapkit.geometry.geo.Projection
 import ru.sulgik.mapkit.indoor.IndoorStateListener
+import ru.sulgik.mapkit.layers.GeoObjectTapListener
+import ru.sulgik.mapkit.layers.Layer
+import ru.sulgik.mapkit.layers.LayerOptions
 import ru.sulgik.mapkit.logo.Logo
 
 public expect class Map {
@@ -21,7 +25,11 @@ public expect class Map {
 
     public val cameraBounds: CameraBounds
 
-    public val mapObjects: MapObjectCollection
+    /**
+     * List of map objects associated with the map. The layerId for this collection can be
+     * retrieved via LayerIds.mapObjectsLayerId
+     */
+    public val mapObjects: RootMapObjectCollection
 
     /**
      * If enabled, night mode will reduce map brightness and improve contrast.
@@ -82,29 +90,27 @@ public expect class Map {
     public fun wipe()
 
     /**
-     * Calculates the camera position that projects the specified geometry into the current focusRect, or the full view if the focusRect is not set.
+     * Calculates a camera position that projects the specified geometry into the given [focusRect],
+     * using the provided [azimuth] and [tilt] camera parameters.
+     *
+     * If [focusRect] is not provided, the current focus rect is used (or the full view if no focus
+     * rect is set).
+     *
+     * If [azimuth] is not provided, the current [cameraPosition] azimuth is used.
+     *
+     * If [tilt] is not provided, the current [cameraPosition] tilt is used.
      */
-    public fun calculateCameraPosition(geometry: Geometry): CameraPosition
-
-    /**
-     * Calculates the camera position that projects the specified geometry into the custom focusRect.
-     */
-    public fun calculateCameraPosition(geometry: Geometry, screenRect: ScreenRect): CameraPosition
+    public fun cameraPosition(
+        geometry: Geometry,
+        focusRect: ScreenRect? = null,
+        azimuth: Float? = null,
+        tilt: Float? = null,
+    ): CameraPosition
 
     /**
      * Calculates the map region that is visible from the given camera position. Region IS bounded by latitude limits [-90, 90] and IS NOT bounded by longitude limits [-180, 180]. If the longitude exceeds its limits, we see the world's edge and another instance of the world beyond this edge.
      */
-    public fun calculateVisibleRegion(cameraPosition: CameraPosition): VisibleRegion
-
-    /**
-     * Camera position that projects the specified geometry into the custom focusRect, with custom azimuth and tilt camera parameters. If focus rect is not provided, current focus rect is used.
-     */
-    public fun calculateCameraPosition(
-        geometry: Geometry,
-        azimuth: Float,
-        tilt: Float,
-        screenRect: ScreenRect,
-    ): CameraPosition
+    public fun visibleRegion(cameraPosition: CameraPosition): VisibleRegion
 
     /**
      * Immediately changes the camera position.
@@ -144,7 +150,7 @@ public expect class Map {
     /**
      * Yandex logo object.
      */
-    public fun getLogo(): Logo
+    public val logo: Logo
 
     /**
      * Adds input listeners.
@@ -211,5 +217,78 @@ public expect class Map {
      */
     public var isAwesomeModelsEnabled: Boolean
 
+    /**
+     * If enabled, the map background will be fully transparent.
+     */
+    public var isTransparentBackgroundEnabled: Boolean
+
+    /**
+     * If set to true, hides the indoor plans and shows the buildings without resetting the current
+     * indoor plan.
+     */
+    public var isBuildingsAboveIndoorEnabled: Boolean
+
+    /**
+     * Adds a tap listener that is used to obtain brief geo object info.
+     *
+     * The class does not retain the object in the 'tapListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public fun addTapListener(tapListener: WeakRef<GeoObjectTapListener>)
+
+    /**
+     * Removes a tap listener that is used to obtain brief geo object info.
+     */
+    public fun removeTapListener(tapListener: WeakRef<GeoObjectTapListener>)
+
+    /**
+     * Selects a geo object with the specified objectId in the specified layerId.
+     */
+    public fun selectGeoObject(selectionMetadata: GeoObjectSelectionMetadata)
+
+    /**
+     * Resets the currently selected geo object.
+     */
+    public fun deselectGeoObject()
+
+    /**
+     * Sets a map loaded listener.
+     *
+     * The class does not retain the object in the 'mapLoadedListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
+    public fun setMapLoadedListener(mapLoadedListener: WeakRef<MapLoadedListener>?)
+
+    /**
+     * Creates a new independent map object collection linked to the specified layer ID.
+     */
+    public fun addMapObjectLayer(layerId: String): RootMapObjectCollection
+
+    /**
+     * Adds tile layer.
+     *
+     * @param createTileDataSource Called once to set up the data source of the new layer.
+     */
+    public fun addTileLayer(
+        layerId: String,
+        layerOptions: LayerOptions,
+        createTileDataSource: (builder: TileDataSourceBuilder) -> Unit,
+    ): Layer
+
+    /**
+     * Provides map projection.
+     */
+    public fun projection(): Projection
+
     public val isValid: Boolean
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    override fun equals(other: Any?): Boolean
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    override fun hashCode(): Int
 }

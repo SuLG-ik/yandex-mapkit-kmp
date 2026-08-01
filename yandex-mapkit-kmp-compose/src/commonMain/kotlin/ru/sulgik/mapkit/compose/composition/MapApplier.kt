@@ -3,6 +3,7 @@ package ru.sulgik.mapkit.compose.composition
 import androidx.compose.runtime.AbstractApplier
 import androidx.compose.runtime.Composition
 import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.map.RootMapObjectCollection
 
 internal interface MapNode {
     fun onAttached() {}
@@ -18,6 +19,15 @@ internal class MapApplier(
 
     private val mapObjects = mapWindow.map.mapObjects
     private val decorations = mutableListOf<MapNode>()
+    private val objectLayers = mutableMapOf<String, RootMapObjectCollection>()
+
+    /**
+     * MapKit links one collection to a layer id and has no way to unlink it, so asking twice for
+     * the same id throws. The collection is created once and reused for as long as the map lives.
+     */
+    fun mapObjectLayer(layerId: String): RootMapObjectCollection {
+        return objectLayers.getOrPut(layerId) { mapWindow.map.addMapObjectLayer(layerId) }
+    }
 
     override fun insertBottomUp(index: Int, instance: MapNode) {
         decorations.add(index, instance)

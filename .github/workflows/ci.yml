@@ -36,6 +36,9 @@ jobs:
       - name: Check formatting
         run: ./gradlew spotlessCheck -PskipIosTarget=true
 
+      - name: Check documented versions
+        run: ./gradlew checkDocumentedVersions -PskipIosTarget=true
+
   test-android:
     name: Tests (Android)
     runs-on: ubuntu-latest
@@ -138,7 +141,7 @@ jobs:
           api-level: 30
           arch: x86_64
           target: aosp_atd
-          script: ./gradlew :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
+          script: ./gradlew :yandex-mapkit-kmp:connectedAndroidDeviceTest :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
 
       - name: Upload test reports
         if: failure()

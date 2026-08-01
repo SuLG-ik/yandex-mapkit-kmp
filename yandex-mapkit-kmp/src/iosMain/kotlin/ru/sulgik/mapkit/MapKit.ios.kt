@@ -7,9 +7,19 @@ import YandexMapKit.setLocale
 import YandexMapKit.setUserId
 import YandexMapKit.sharedInstance
 import kotlinx.cinterop.ExperimentalForeignApi
+import ru.sulgik.mapkit.geometry.Polyline
+import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.location.DummyLocationManager
 import ru.sulgik.mapkit.location.LocationManager
+import ru.sulgik.mapkit.location.LocationSimulator
 import ru.sulgik.mapkit.location.toCommon
 import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.offline_cache.OfflineCacheManager
+import ru.sulgik.mapkit.offline_cache.toCommon
+import ru.sulgik.mapkit.storage.StorageManager
+import ru.sulgik.mapkit.storage.toCommon
+import ru.sulgik.mapkit.traffic.TrafficLayer
+import ru.sulgik.mapkit.traffic.toCommon
 import ru.sulgik.mapkit.user_location.UserLocationLayer
 import ru.sulgik.mapkit.user_location.toCommon
 import YandexMapKit.YMKMapKit as NativeMapKit
@@ -48,6 +58,13 @@ public actual class MapKit internal constructor(private val nativeMapKit: Native
     }
 
     /**
+     * Notifies MapKit when the application will terminate.
+     */
+    public actual fun onTerminate() {
+        nativeMapKit.onTerminate()
+    }
+
+    /**
      * Sets single global location manager that is used by every module in MapKit by default.
      */
     public actual fun setLocationManager(locationManager: LocationManager) {
@@ -68,6 +85,49 @@ public actual class MapKit internal constructor(private val nativeMapKit: Native
         return nativeMapKit.createUserLocationLayerWithMapWindow(mapWindow.toNative()).toCommon()
     }
 
+    /**
+     * Creates a suspended [LocationSimulator] object, optionally with the given geometry.
+     */
+    public actual fun createLocationSimulator(geometry: Polyline?): LocationSimulator {
+        return if (geometry != null) {
+            nativeMapKit.createLocationSimulatorWithGeometry(geometry.toNative())
+        } else {
+            nativeMapKit.createLocationSimulator()
+        }.toCommon()
+    }
+
+    /**
+     * Creates a manager that functions as a location proxy.
+     */
+    public actual fun createDummyLocationManager(): DummyLocationManager {
+        return nativeMapKit.createDummyLocationManager().toCommon()
+    }
+
+    /**
+     * Creates the traffic layer for the given map window.
+     */
+    public actual fun createTrafficLayer(mapWindow: MapWindow): TrafficLayer {
+        return nativeMapKit.createTrafficLayerWithMapWindow(mapWindow.toNative()).toCommon()
+    }
+
+    /**
+     * Manages the space MapKit occupies on the device.
+     */
+    public actual val storageManager: StorageManager
+        get() = nativeMapKit.storageManager.toCommon()
+
+    /**
+     * Downloads and manages the offline maps.
+     */
+    public actual val offlineCacheManager: OfflineCacheManager
+        get() = nativeMapKit.offlineCacheManager.toCommon()
+
+    /**
+     * Tells if this **MapKit** is valid or not.
+     */
+    public actual val isValid: Boolean
+        get() = nativeMapKit.isValid()
+
     public actual companion object {
         public actual fun setApiKey(apiKey: String) {
             NativeMapKit.setApiKey(apiKey)
@@ -84,6 +144,23 @@ public actual class MapKit internal constructor(private val nativeMapKit: Native
         public actual fun setUserId(userId: String) {
             NativeMapKit.setUserId(userId)
         }
+    }
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is MapKit) return false
+        if (this::class != other::class) return false
+        return nativeMapKit == other.nativeMapKit
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeMapKit.hashCode()
     }
 }
 

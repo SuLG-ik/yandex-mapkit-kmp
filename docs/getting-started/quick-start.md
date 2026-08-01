@@ -1,102 +1,95 @@
 # Quick start
 
-## Setup API key
+## 1. Set the API key
 
-Add initializing MapKit with API key in common module. Follow 
-[official documentation]((https://yandex.ru/dev/mapkit/doc/ru/android/generated/getting_started#key)) 
-to get API key.
+The key is set once, before anything else touches MapKit. Get it from the
+[official documentation](https://yandex.ru/dev/mapkit/doc/ru/android/generated/getting_started#key).
 
-=== "Kotlin"
+=== "Kotlin (commonMain)"
+
     ```kotlin
-    // In common module
     fun initMapKit() {
         MapKit.setApiKey("<API_KEY>")
     }
     ```
-!!! info "Suggestion"
-    You can use [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) to provide API key during app
-    building.
 
-And call this function from entry point of your platform.
+!!! tip "Keeping the key out of the sources"
+    [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) generates it into common code at build
+    time; this is what the [sample](../sample.md) does.
 
-**Android sources**
+Call it from the entry point of each platform.
 
-=== "Kotlin"
+=== "Android"
+
     ```kotlin
-    class MyApplication : Application {
+    class MyApplication : Application() {
         override fun onCreate() {
             super.onCreate()
             initMapKit()
         }
     }
     ```
-or other entry point,
-see [Android MapKit official documentation](https://yandex.ru/dev/mapkit/doc/ru/android/generated/getting_started)
 
-**IOS sources**
+=== "iOS"
 
-=== "Swift"
     ```swift
     @main
     struct iOSApp: App {
         init() {
             AppKt.doInitMapKit()
         }
-        // Your code here   
+
+        var body: some Scene {
+            WindowGroup { ContentView() }
+        }
     }
     ```
-or other entry point,
-see [iOS MapKit official documentation](https://yandex.ru/dev/mapkit/doc/ru/ios/generated/getting_started)
 
-## Initialization
+Any other entry point works too — see the official
+[Android](https://yandex.ru/dev/mapkit/doc/ru/android/generated/getting_started) and
+[iOS](https://yandex.ru/dev/mapkit/doc/ru/ios/generated/getting_started) guides.
 
-MapKit, by and large, must be initialized via native library loading and lifecycle binding. There
-three ways to initialize. You can mix methods, but be careful to not repeat completed actions.
+## 2. Initialize MapKit
 
-### 1. In native android sources
+On Android MapKit needs a `Context` and has to be told when the application comes to the foreground;
+on iOS neither is required. There are three ways to arrange that, and they can be mixed as long as
+nothing is done twice.
 
-Call `MapKit.initialize(Context)` in your activity in android module and bind lifecycle. 
-Additional configuration for iOS is not required.
+### From Android sources
 
-=== "Kotlin"
+`MapKit.initialize(Context)` exists in `androidMain` only. The lifecycle calls go with it.
+
+=== "Kotlin (androidMain)"
+
     ```kotlin
     class MainActivity : ComponentActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             MapKit.initialize(this)
-            /* ... */
         }
-    
+
         override fun onStart() {
             super.onStart()
             MapKit.getInstance().onStart()
         }
-    
+
         override fun onStop() {
             super.onStop()
             MapKit.getInstance().onStop()
         }
-    
     }
     ```
 
-### 2. In common code
+### From common code, with Compose
 
 !!! info "Requires `yandex-mapkit-kmp-compose`"
 
-Call 'rememberAndInitializeMapKit()' and call `MapKit.bindToLifecycleOwner()` in your compose
-screen.
-
-!!! danger "Important"
-    `MapKit.rememberAndInitializeMapKit()` is difficult operation,
-    use `MapKit.rememberMapKit()` if you
-    already initialize MapKit via other method or early
-    
-    call `MapKit.bindToLifecycleOwner()` in composition context, which disposing means to stop
-    MapKit*
-    **
+`rememberAndInitializeMapKit()` does the Android-only initialization and returns the instance;
+`bindToLifecycleOwner()` calls `onStart()` and `onStop()` for you, and `onStop()` again when the
+composable leaves the composition.
 
 === "Kotlin"
+
     ```kotlin
     @Composable
     fun MapScreen() {
@@ -105,34 +98,148 @@ screen.
     }
     ```
 
+!!! warning "Initialize once"
+    `rememberAndInitializeMapKit()` initializes MapKit on the first composition. If something
+    already did that — `MapKit.initialize(Context)` in an `Activity`, for example — use
+    `rememberMapKit()` instead, which only returns the instance.
 
-### 3. In common code
+    Note also that disposing the composition that owns `bindToLifecycleOwner()` stops MapKit.
 
-All supported native types have extension functions (`<NativeType>.toCommon(): <CommonType>`), use
-it to pass exists native MapView to common code like: 
-`MapWindow.toCommon()`/`YMKMapWindow.toCommon()`, `Map.toCommon()`/`YMKMap.toCommon()` and
-etc. Follow [official documentation](https://yandex.ru/dev/mapkit/doc/ru/) to setup native view.
+### Around a view you already have
 
-Also there are methods to convert `<CommonType>` to `<NativeType>` that available in 
-platform-specific source code (`<CommonType>.toNative(): <NativeType>`):
-`MapWindow.toNative()`, `Map.toNative()` and etc.
+Every wrapped native type has a `toCommon()` extension in the platform source set, so a `MapView`
+created the way the official SDK does it can be handed to common code:
+`MapView.toCommon()` / `YMKMapView.toCommon()`, `MapWindow.toCommon()` / `YMKMapWindow.toCommon()`,
+`Map.toCommon()` / `YMKMap.toCommon()`. The opposite direction is `toNative()`, also platform-only.
 
-## Add map using Compose Multiplatform
+This is the path described in [Wrapper overview](../wrapper/overview.md).
 
-!!! info "Requires `yandex-mapkit-kmp-compose`"
+## 3. Show a map
 
-There are two compose API to control `Map`. Most simple and useful in most cases, but with 
-less performance using composable composition and states:
+=== "Compose Multiplatform"
 
-=== "Kotlin"
     ```kotlin
+    private val moscow = CameraPosition(
+        target = Point(55.751225, 37.629540),
+        zoom = 15f,
+        azimuth = 0f,
+        tilt = 0f,
+    )
+
     @Composable
     fun MapScreen() {
-        rememberAndInitializeMapKit().bindToLifecycleOwner() // if is not called earlier
-        val cameraPositionState = rememberCameraPositionState { position = startPosition }
+        rememberAndInitializeMapKit().bindToLifecycleOwner()
+        val cameraPositionState = rememberCameraPositionState { position = moscow }
         YandexMap(
             cameraPositionState = cameraPositionState,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
     ```
+
+=== "Platform views"
+
+    In `commonMain`:
+
+    ```kotlin
+    fun setupMap(map: Map) {
+        map.move(
+            CameraPosition(Point(55.751225, 37.629540), zoom = 15f, azimuth = 0f, tilt = 0f),
+        )
+    }
+    ```
+
+    In `androidMain`:
+
+    ```kotlin
+    class MainActivity : ComponentActivity() {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            MapKit.initialize(this)
+            setContentView(R.layout.activity_main)
+            val mapView = findViewById<com.yandex.mapkit.mapview.MapView>(R.id.map)
+            setupMap(mapView.mapWindow.map.toCommon())
+        }
+    }
+    ```
+
+## 4. Add a placemark
+
+=== "Compose Multiplatform"
+
+    ```kotlin
+    @Composable
+    fun MapScreen() {
+        rememberAndInitializeMapKit().bindToLifecycleOwner()
+        val cameraPositionState = rememberCameraPositionState { position = moscow }
+        YandexMap(
+            cameraPositionState = cameraPositionState,
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            Placemark(
+                state = rememberPlacemarkState(Point(55.751225, 37.629540)),
+                icon = imageProvider(Res.drawable.pin_red),
+                onTap = { point ->
+                    println("tapped at $point")
+                    true
+                },
+            )
+        }
+    }
+    ```
+
+=== "Wrapper"
+
+    ```kotlin
+    fun setupMap(map: Map, icon: ImageProvider) {
+        map.mapObjects.addPlacemark().apply {
+            geometry = Point(55.751225, 37.629540)
+            setIcon(icon)
+        }
+    }
+    ```
+
+    `ImageProvider` is built in platform code — see [Image resources](../wrapper/image-resources.md).
+
+## 5. React to events
+
+Listeners are not retained by MapKit, so every subscription in this wrapper takes a
+`WeakRef<Listener>` and the caller keeps the strong reference.
+
+=== "Compose Multiplatform"
+
+    ```kotlin
+    YandexMap(modifier = Modifier.fillMaxSize()) {
+        MapListeners(
+            onMapTap = { point -> println("tap at $point") },
+            onMapLoaded = { statistics -> println("loaded in ${statistics.fullyLoaded}") },
+        )
+    }
+    ```
+
+=== "Wrapper"
+
+    ```kotlin
+    class MapController(private val map: Map) {
+
+        private val inputListener = InputListener(
+            onMapTap = { _, point -> println("tap at $point") },
+            onMapLongTap = { _, point -> println("long tap at $point") },
+        )
+
+        init {
+            map.addInputListener(inputListener.asWeakRef())
+        }
+    }
+    ```
+
+    Storing `inputListener` in a field is part of the pattern: a listener referenced only by the
+    subscription is collected, and the subscription silently stops firing. See
+    [Wrapper overview](../wrapper/overview.md#listeners-and-weakref).
+
+## Where to go next
+
+- [Migration from MapKit](migration.md) — porting existing Android map code.
+- [Map and camera](../wrapper/map.md) — the camera, gestures, styles, screen coordinates.
+- [Map objects](../wrapper/mapobjects.md) — placemarks, geometry, clustering.
+- [Compose overview](../compose/overview.md) — the composable API in full.

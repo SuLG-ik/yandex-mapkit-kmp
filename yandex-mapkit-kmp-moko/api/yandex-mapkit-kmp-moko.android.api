@@ -1,0 +1,9 @@
+public final class ru.sulgik.mapkit.moko.AndroidMOKOImageLoader implements ru.sulgik.mapkit.moko.MOKOImageLoader {
+  public ru.sulgik.mapkit.moko.AndroidMOKOImageLoader(android.content.Context);
+  public ru.sulgik.mapkit.map.ImageProvider fromResource(dev.icerock.moko.resources.ImageResource);
+  public ru.sulgik.mapkit.map.ImageProvider fromResource(dev.icerock.moko.resources.ImageResource, boolean);
+}
+public interface ru.sulgik.mapkit.moko.MOKOImageLoader {
+  public abstract ru.sulgik.mapkit.map.ImageProvider fromResource(dev.icerock.moko.resources.ImageResource);
+  public abstract ru.sulgik.mapkit.map.ImageProvider fromResource(dev.icerock.moko.resources.ImageResource, boolean);
+}

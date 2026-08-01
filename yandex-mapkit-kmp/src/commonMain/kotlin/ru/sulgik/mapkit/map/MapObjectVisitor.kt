@@ -6,7 +6,7 @@ public expect class MapObjectVisitor(
     onPolygonVisited: (polygon: PolygonMapObject) -> Unit,
     onCircleVisited: (circle: CircleMapObject) -> Unit,
     onCollectionVisitStart: (collection: MapObjectCollection) -> Boolean,
-    onCollectionVisitEnd: (collection: MapObjectCollection) -> Boolean,
+    onCollectionVisitEnd: (collection: MapObjectCollection) -> Unit,
     onClusterizedCollectionVisitStart: (collection: ClusterizedPlacemarkCollection) -> Boolean,
     onClusterizedCollectionVisitEnd: (collection: ClusterizedPlacemarkCollection) -> Unit,
 )

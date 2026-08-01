@@ -1,113 +1,145 @@
 # Installation
 
-Yandex MapKit KMP provides a number of modules, they are all published to Maven Central Repository.
+All modules are published to Maven Central under the `ru.sulgik.mapkit` group.
 
-!!! info "Uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.24.0-lite*"
+!!! info "Built against [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) `{{ mapkit_version }}`"
+    The wrapper targets the **lite** build. Your project links MapKit itself, so use the same
+    version there.
 
-| Module	                                                                                               | Gradle Dependency                                                                                                                            | Description                                                                                                                                              |
-|-------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Wrapper](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp)                   | [`ru.sulgik.mapkit:yandex-mapkit-kmp:0.4.1`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp)                           | Features of original Yandex MapKit SDK                                                                                                                   |
-| [Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-compose)           | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:0.4.1`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose)           | Component to draw map and [compose-resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html) usage as map images |
-| [Moko](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-moko)                 | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko:0.4.1`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko)                 | Use [moko-resources](https://github.com/icerockdev/moko-resources) as image provider. Requires native initialization                                     |
-| [Moko Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-moko-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:0.4.1`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko-compose) | Use [moko-resources](https://github.com/icerockdev/moko-resources) as image provider in composable context. Not require native initialization            |
+| Module | Gradle dependency | Description |
+|---|:---|:---|
+| [Wrapper](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp) | [`ru.sulgik.mapkit:yandex-mapkit-kmp:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp) | The MapKit API in common code |
+| [Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose) | Rendering the map with Compose Multiplatform, plus [compose-resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html) as map images |
+| [Moko](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-moko) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko) | [moko-resources](https://github.com/icerockdev/moko-resources) as `ImageProvider`. Needs platform-side initialization |
+| [Moko Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-moko-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko-compose) | The same in a composable context, with no platform-side initialization |
 
-## Wrapper. The main module
+## Requirements
 
-`yandex-mapkit-kmp` module is wrapper for YandexMapKit compose that provides official Yandex MapKit
-features to common sources.
+- **Android** — minimum SDK {{ min_sdk }}.
+- **iOS** — `iosArm64` and `iosSimulatorArm64`. `iosX64` was dropped, because Compose Multiplatform
+  no longer publishes for it.
+- **Kotlin** {{ kotlin_version }}, **Compose Multiplatform** {{ compose_version }} for the Compose
+  modules.
+- An [API key](https://yandex.ru/dev/mapkit/doc/ru/android/generated/getting_started#key) from
+  Yandex.
 
-It provides KMP Api for:
+## Linking MapKit itself
 
-- `MapKit`, `MapView`, `MapWindow`, `Map`, `MapObject`s, `Geometry`s, `Logo`, `CameraPosition` and etc
-- `LocationManager` and `UserLocationLayer`
-- Different event listeners and callbacks
-- Common `ImageProvider`
+MapKit is **not** a transitive dependency of these modules — you add it yourself, with the version
+above.
 
-This module can be implemented as library for common sources set.
+=== "Android"
 
-=== "Kotlin"
-    ``` kotlin
+    The Gradle dependency is enough; add it to the Android source set of the module that links your
+    application.
+
+    ```kotlin
+    kotlin {
+        sourceSets {
+            androidMain.dependencies {
+                implementation("com.yandex.android:maps.mobile:{{ mapkit_version }}")
+            }
+        }
+    }
+    ```
+
+=== "iOS (CocoaPods)"
+
+    ```kotlin
     kotlin {
         cocoapods {
             pod("YandexMapsMobile") {
-              version = "<mapkit-version>"
-            }
-        }
-        sourceSets {
-            commonMain.dependencies {
-                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp:<version>")
+                version = "{{ mapkit_version }}"
             }
         }
     }
     ```
 
-!!! warning
-    On iOS the
-    official [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/ios/generated/getting_started) in
-    not linked as a transitive dependency. Therefore, any project using this SDK needs to link the same
-    Yandex MapKit SDK as well. This can be done through your preferred installation
-    method ([Cocoapods](https://kotlinlang.org/docs/native-cocoapods.html)/[SPM](https://kotlinlang.org/docs/native-spm.html#project-configuration-options)).
+=== "iOS (SPM)"
 
-## Compose. MapView as composable content
+    Add `YandexMapsMobile` to the Xcode project the usual way and expose it to Kotlin through
+    [SPM interop](https://kotlinlang.org/docs/native-spm.html#project-configuration-options).
 
-`yandex-mapkit-kmp-compose` module that add support for using mapkit with Compose Multiplatform 
-and Compose Multiplatform Resources.
+!!! warning "iOS needs the link on your side"
+    Klibs cannot carry the native framework, so a project that does not link
+    [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/ios/generated/getting_started) itself
+    fails at link time, not at compile time.
 
-Some supported features:
+## The main module
 
-- `YandexMap` to draw `MapView` in composable context
-- `Placemark`, `Circle`, `Polygon`, `Polyline` and rjelated states.
-- `CameraPositionState` to control camera position
-- Composable content as `ImageProvider` 
-- `MapEffect` to access common `Map` instance used inside `YandexMap`.
-- etc.
+`yandex-mapkit-kmp` is the wrapper: MapKit's own API, reachable from `commonMain`. It draws nothing
+by itself — see [Wrapper overview](../wrapper/overview.md) for how a platform `MapView` reaches
+common code.
 
 === "Kotlin"
-    ``` kotlin
+
+    ```kotlin
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose:<version>")
+                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp:{{ version }}")
             }
         }
     }
     ```
 
-## Moko. Converter for moko-resources to ImageProvider
+## Compose Multiplatform
 
-`yandex-mapkit-kmp-moko` module that add support for using image resources generated 
-via [moko-resources](https://github.com/icerockdev/moko-resources) as ImageProvider.
+`yandex-mapkit-kmp-compose` draws the map as a composable and manages map objects through a
+composition of their own: `YandexMap`, `Placemark`, `Polyline`, `Polygon`, `Circle`, `Clustering`,
+`MapObjectCollection`, `TileLayer`, `MapObjectLayer`, `TrafficLayer`, `MapListeners`,
+`CameraPositionState` and `MapEffect`.
 
-Add `MOKOImageLoader` and platform-specific implementations (`AndroidMOKOImageLoader` 
-and `IOSMOKOImageLoader`). Require additional configuration to provide implementations.
+!!! info "It already brings the wrapper"
+    The module depends on `yandex-mapkit-kmp` as an `api` dependency, so a separate declaration is
+    only needed when you want to pin its version explicitly.
 
 === "Kotlin"
-    ``` kotlin
+
+    ```kotlin
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-moko:<version>")
+                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose:{{ version }}")
             }
         }
     }
     ```
 
-## Moko Compose. Converter for moko-resources to ImageProvider with compose supporting
+## moko-resources
 
-`yandex-mapkit-kmp-moko-compose` module that add supporting for using image resources generated 
-via [moko-resources](https://github.com/icerockdev/moko-resources) as ImageProvider 
-with compose multiplatform integration.
-
-Add `rememberMOKOImageLoader()` that provides platform-specific implementations for 
-`MOKOImageLoader`. Does not require additional configuration.
+`yandex-mapkit-kmp-moko` turns images generated by
+[moko-resources](https://github.com/icerockdev/moko-resources) into an `ImageProvider`. It adds
+`MOKOImageLoader` with the platform implementations `AndroidMOKOImageLoader` (needs a `Context`) and
+`IOSMOKOImageLoader`, which you create on the platform side and pass into common code.
 
 === "Kotlin"
-    ``` kotlin
+
+    ```kotlin
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:<version>")
+                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-moko:{{ version }}")
             }
         }
     }
     ```
+
+## moko-resources in Compose
+
+`yandex-mapkit-kmp-moko-compose` adds `rememberMOKOImageLoader()`, which builds the platform
+implementation for you, so nothing has to be passed down from the platform side.
+
+=== "Kotlin"
+
+    ```kotlin
+    kotlin {
+        sourceSets {
+            commonMain.dependencies {
+                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:{{ version }}")
+            }
+        }
+    }
+    ```
+
+Both moko modules are described on [Image resources](../wrapper/image-resources.md).

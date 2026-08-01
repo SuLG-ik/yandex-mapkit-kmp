@@ -24,6 +24,7 @@ internal actual fun NativeYandexMap(
         onRelease = {
             onRelease(mapView)
             mapView.onStop()
+            mapView.destroy()
         },
         update = {
             update(mapView)

@@ -15,7 +15,18 @@ public expect class PolygonMapObject : MapObject {
 
     public var isGeodesic: Boolean
 
+    /**
+     * Sets pattern to fill polygon.
+     */
     public fun setPattern(image: ImageProvider, scale: Float)
 
+    /**
+     * Sets animated pattern to fill polygon.
+     */
+    public fun setPattern(animatedImage: AnimatedImageProvider, scale: Float)
+
+    /**
+     * Removes pattern.
+     */
     public fun resetPattern()
 }

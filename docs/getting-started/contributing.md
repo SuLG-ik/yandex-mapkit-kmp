@@ -3,12 +3,12 @@
 ## Required
 
 - macOS
-- Cocoapods
-- Android studio
+- CocoaPods
+- Android Studio
 
 ## Sample
 
-To run sample you should provide your API key using `local.properties`
+The sample needs your API key in `local.properties`:
 
 === "local.properties"
     ```
@@ -59,20 +59,93 @@ emulator job. That emulator job runs on pushes to `main` and again before every 
 
 ## Public API
 
-The four published modules keep a dump of their public API in `<module>/api`. Any change to a public
-declaration makes `checkKotlinAbi` fail until the dump is refreshed:
+The four published modules keep two dumps of their public API in `<module>/api`. Any change to a
+public declaration makes `libraryApiCheck` fail until both are refreshed:
 
 ```
-./gradlew updateKotlinAbi
+./gradlew libraryApiDump
 ```
 
 Run it on macOS — a dump generated without the iOS targets is incomplete — and commit the result
 together with the change. Reviewing that diff is the easiest way to see whether a pull request
 changes the API on purpose.
 
-The dumps are klib ones, covering `commonMain` and `iosMain`. Declarations that exist only in
-`androidMain` are not part of them: the Kotlin ABI validator does not pick up the Android target of
-`com.android.kotlin.multiplatform.library`.
+`<module>.klib.api` is the Kotlin ABI validator's klib dump and covers `commonMain` and `iosMain`.
+The validator does not pick up the Android target of `com.android.kotlin.multiplatform.library`, so
+`<module>.android.api` is produced separately by `dumpAndroidAbi`: it runs `javap -public` over the
+classes of the Android main compilation and is what guards `androidMain`-only declarations such as
+`MapKit.initialize(Context)` and the `ImageProvider` factories. Being a `javap` dump it is sensitive
+to the JDK it was generated with — use the same JDK version as CI.
+
+## Documentation
+
+The site is MkDocs Material. It is built from `docs/` and deployed by CI together with the KDoc that
+Dokka renders into `docs/kdoc`.
+
+```bash
+pip install -r docs/requirements.txt
+```
+
+```bash
+mkdocs serve
+```
+
+```bash
+./gradlew :dokkaGenerate
+```
+
+### Two languages
+
+Every page exists twice, in the [suffix layout](https://ultrabug.github.io/mkdocs-static-i18n/) of
+`mkdocs-static-i18n`: `wrapper/overview.md` is English and `wrapper/overview.ru.md` is Russian.
+English is the default language and keeps the bare URLs; Russian is served under `/ru/`.
+
+A page without its `.ru.md` twin falls back to the English text rather than 404ing, so a new page can
+land in one language and be translated later — but a pull request that adds one should add both.
+Section titles in the `nav` are translated in `mkdocs.yml` under `nav_translations`; a new nav entry
+needs its line there too.
+
+### Versions are substituted, not typed
+
+Never write a version number into a page. `docs_hooks/versions.py` reads `gradle.properties` and
+`gradle/libs.versions.toml` at build time and replaces these placeholders:
+
+| Placeholder | Source |
+|---|---|
+| `\{{ version }}` | `library_version` in `gradle.properties` |
+| `\{{ mapkit_version }}` | `yandex-mapkit` in the version catalog |
+| `\{{ kotlin_version }}` | `kotlin` in the version catalog |
+| `\{{ compose_version }}` | `compose-plugin` in the version catalog |
+| `\{{ min_sdk }}` | `android-minSdk` in the version catalog |
+
+An unknown placeholder is left alone, so `\{{ something }}` in a code sample survives untouched; a
+known one can be escaped with a leading backslash, which is how this table is written.
+
+The README is not built by MkDocs, so its versions are kept in sync by Gradle instead:
+
+```bash
+./gradlew updateDocumentedVersions
+```
+
+```bash
+./gradlew checkDocumentedVersions
+```
+
+The check runs in the `lint` job, so a bumped `library_version` with a stale README fails CI.
+
+## Compatibility
+
+Within `1.x` the modules guarantee **source** compatibility, not binary compatibility.
+
+The wrapper follows MapKit, and MapKit adds fields to its structures and constants to its enums in
+minor releases. The wrapper mirrors those structures as `data class`es, so a new field changes
+`componentN` and `copy$default`, and a new enum constant makes an exhaustive `when` over it stop
+compiling. Both are binary-breaking, and refusing them would mean freezing the wrapper on the MapKit
+version 1.0.0 shipped with.
+
+In practice this means: recompile against the version you depend on, do not mix wrapper versions in
+one dependency graph, and expect a `when` over a wrapper enum to need a new branch after an update.
+Renames, removals and signature changes are still reserved for a major release.
 
 ## Releases
 

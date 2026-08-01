@@ -6,7 +6,7 @@ import ru.sulgik.mapkit.logo.LogoPadding
 import ru.sulgik.mapkit.map.Map
 
 /**
- * Config to control Yandex logo object with [Map.getLogo]
+ * Config to control Yandex logo object with [Map.logo]
  */
 public data class MapLogoConfig(
     /**

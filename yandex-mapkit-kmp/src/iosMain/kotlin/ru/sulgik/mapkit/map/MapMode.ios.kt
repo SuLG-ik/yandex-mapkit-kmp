@@ -23,6 +23,6 @@ public fun NativeMapMode.toCommon(): MapMode {
         NativeMapMode.YMKMapModeLegacyMap -> MapMode.LEGACY_MAP
         NativeMapMode.YMKMapModeFutureMap -> MapMode.FUTURE_MAP
         NativeMapMode.YMKMapModeHybrid -> MapMode.HYBRID
-        else -> throw IllegalArgumentException("Unknown map mode: $this")
+        else -> throw IllegalArgumentException("Unknown NativeMapMode ($this)")
     }
 }

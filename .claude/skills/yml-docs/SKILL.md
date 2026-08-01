@@ -81,6 +81,12 @@ grep -rl ']([^)]*DrivingRouter\.md' ymk-docs
 
 `> [!WARNING] Важно / This feature is available in the NaviKit SDK version` и аналогичная пометка про Full-версию — существенны: такой API недоступен в lite-сборке. Проект использует lite (`gradle/libs.versions.toml`), поэтому при выборе API проверяй эту пометку.
 
+Пометки хватает не всегда: справочник описывает полную сборку, и часть членов без всяких пометок в lite отсутствует (`MapKit.setAccount`, `createOffscreenMapWindow`, `createRoadEventsManager`). Перед тем как обернуть член, сверяйся с самим AAR:
+
+```bash
+javap -classpath <(unzip -p ~/.gradle/caches/modules-2/files-2.1/com.yandex.android/maps.mobile/*-lite/*/maps.mobile-*-lite.aar classes.jar) com.yandex.mapkit.MapKit
+```
+
 Страницы обычно небольшие, но несколько крупных (`Objective-C/YMKSpeakerPhraseToken.md`, `com/yandex/mapkit/annotations/SpeakerPhraseToken.md`, `com/yandex/mapkit/map/Map.md`) читай по частям и ориентируйся по `grep -n '^### '`.
 
 ## Чего ожидать
