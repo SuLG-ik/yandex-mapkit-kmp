@@ -1,0 +1,317 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>MapLoadStatistics</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
+                    Yandex MapKit KMP
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">1.0.0-beta01
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/commonMain">common</button>
+                <button class="platform-tag platform-selector native-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/iosMain">ios</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/androidMain" data-filter=":yandex-mapkit-kmp/androidMain">
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/commonMain" data-filter=":yandex-mapkit-kmp/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/iosMain" data-filter=":yandex-mapkit-kmp/iosMain">
+                                <span class="checkbox--icon"></span>
+                                ios
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    Yandex MapKit KMP
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="Yandex MapKit SDK KMP::ru.sulgik.mapkit.map/MapLoadStatistics///PointingToDeclaration//24238352">
+  <div class="breadcrumbs"><a href="../../index.html">Yandex MapKit SDK KMP</a><span class="delimiter">/</span><a href="../index.html">ru.sulgik.mapkit.map</a><span class="delimiter">/</span><span class="current">MapLoadStatistics</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Map</span><wbr><span>Load</span><wbr><span><span>Statistics</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">MapLoadStatistics</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>curZoomGeometryLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>curZoomPlacemarksLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>curZoomLabelsLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>delayedGeometryLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>curZoomModelsLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>fullyLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>fullyAppeared<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>renderObjectCount<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>tileMemoryUsage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><p class="paragraph">How long it took the map to render everything that is visible.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="tableheader">Constructors</h2>
+        <div class="table"><a data-name="-1002210755%2FConstructors%2F24238352" anchor-label="MapLoadStatistics" id="-1002210755%2FConstructors%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-map-load-statistics.html"><span>Map</span><wbr><span>Load</span><wbr><span><span>Statistics</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1002210755%2FConstructors%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">curZoomGeometryLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter ">curZoomPlacemarksLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter ">curZoomLabelsLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter ">delayedGeometryLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter ">curZoomModelsLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter ">fullyLoaded<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter ">fullyAppeared<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter ">renderObjectCount<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">tileMemoryUsage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="434888256%2FProperties%2F24238352" anchor-label="curZoomGeometryLoaded" id="434888256%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cur-zoom-geometry-loaded.html"><span>cur</span><wbr><span>Zoom</span><wbr><span>Geometry</span><wbr><span><span>Loaded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="434888256%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="cur-zoom-geometry-loaded.html">curZoomGeometryLoaded</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1030816877%2FProperties%2F24238352" anchor-label="curZoomLabelsLoaded" id="-1030816877%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cur-zoom-labels-loaded.html"><span>cur</span><wbr><span>Zoom</span><wbr><span>Labels</span><wbr><span><span>Loaded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1030816877%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="cur-zoom-labels-loaded.html">curZoomLabelsLoaded</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-10656824%2FProperties%2F24238352" anchor-label="curZoomModelsLoaded" id="-10656824%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cur-zoom-models-loaded.html"><span>cur</span><wbr><span>Zoom</span><wbr><span>Models</span><wbr><span><span>Loaded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-10656824%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="cur-zoom-models-loaded.html">curZoomModelsLoaded</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a></div><div class="brief "><p class="paragraph">The time it took to load models.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1630972941%2FProperties%2F24238352" anchor-label="curZoomPlacemarksLoaded" id="-1630972941%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cur-zoom-placemarks-loaded.html"><span>cur</span><wbr><span>Zoom</span><wbr><span>Placemarks</span><wbr><span><span>Loaded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1630972941%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="cur-zoom-placemarks-loaded.html">curZoomPlacemarksLoaded</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1740914639%2FProperties%2F24238352" anchor-label="delayedGeometryLoaded" id="-1740914639%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="delayed-geometry-loaded.html"><span>delayed</span><wbr><span>Geometry</span><wbr><span><span>Loaded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1740914639%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="delayed-geometry-loaded.html">delayedGeometryLoaded</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a></div><div class="brief "><p class="paragraph">The time it took to load delayed geometry.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-763604212%2FProperties%2F24238352" anchor-label="fullyAppeared" id="-763604212%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fully-appeared.html"><span>fully</span><wbr><span><span>Appeared</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-763604212%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="fully-appeared.html">fullyAppeared</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a></div><div class="brief "><p class="paragraph">The time it took for all map objects to appear.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1950751269%2FProperties%2F24238352" anchor-label="fullyLoaded" id="-1950751269%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fully-loaded.html"><span>fully</span><wbr><span><span>Loaded</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1950751269%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="fully-loaded.html">fullyLoaded</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a></div><div class="brief "><p class="paragraph">The time it took to load all map objects.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-897091248%2FProperties%2F24238352" anchor-label="renderObjectCount" id="-897091248%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="render-object-count.html"><span>render</span><wbr><span>Object</span><wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-897091248%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="render-object-count.html">renderObjectCount</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1467108248%2FProperties%2F24238352" anchor-label="tileMemoryUsage" id="1467108248%2FProperties%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="tile-memory-usage.html"><span>tile</span><wbr><span>Memory</span><wbr><span><span>Usage</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1467108248%2FProperties%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="tile-memory-usage.html">tileMemoryUsage</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Tile memory usage in bytes.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="264487938%2FFunctions%2F-1238938674" anchor-label="toNative" id="264487938%2FFunctions%2F-1238938674" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../../yandex-mapkit-kmp/ru.sulgik.mapkit.map/[ios]to-native.html"><span>to</span><wbr><span><span>Native</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="264487938%2FFunctions%2F-1238938674"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">MapLoadStatistics</a><span class="token punctuation">.</span><a href="../[android]to-native.html"><span class="token function">toNative</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.yandex.mapkit.map/MapLoadStatistics///PointingToDeclaration/">MapLoadStatistics</span></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html#-2005003729%2FMain%2F-1983225140">MapLoadStatistics</a><span class="token punctuation">.</span><a href="../[ios]to-native.html"><span class="token function">toNative</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span>ERROR CLASS: Symbol not found for NativeMapLoadStatistics</div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

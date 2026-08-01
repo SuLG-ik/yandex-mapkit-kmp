@@ -1,0 +1,1826 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Kotlin Multiplatform wrapper for official Yandex MapKit SDK for iOS and Android targets with additional Compose Multiplatform support">
+      
+      
+        <meta name="author" content="Vladimir Nenashkin">
+      
+      
+        <link rel="canonical" href="https://ymk-kmp.sulgik.ru/compose/mapobjects/">
+      
+      
+        <link rel="prev" href="../overview/">
+      
+      
+        <link rel="next" href="../image-resources/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+          <link rel="alternate" href="../../ru/compose/mapobjects/" hreflang="ru">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Map objects - Yandex MapKit KMP</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#map-objects" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Yandex MapKit KMP" class="md-header__button md-logo" aria-label="Yandex MapKit KMP" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yandex MapKit KMP
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Map objects
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ru/compose/mapobjects/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SuLG-ik/yandex-mapkit-kmp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SuLG-ik/yandex-mapkit-kmp
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Yandex MapKit KMP" class="md-nav__button md-logo" aria-label="Yandex MapKit KMP" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    Yandex MapKit KMP
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SuLG-ik/yandex-mapkit-kmp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SuLG-ik/yandex-mapkit-kmp
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration from MapKit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wrapper
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Wrapper
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/coverage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is wrapped
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map and camera
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/mapobjects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/geoobjects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base map objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/location/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geolocation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layers and tiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline maps and storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wrapper/image-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compose support
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Compose support
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map objects
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#states-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        States API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="States API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#placemark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placemark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Circle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polyline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polyline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polygon
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-state-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the state adds
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the state adds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#any-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Any object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#placemark_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placemark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polyline-segment-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polyline segment colours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polygon-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polygon pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Collections
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clustering
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#controller-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controller API
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sample/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sample
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kdoc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#states-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        States API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="States API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#placemark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placemark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#circle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Circle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polyline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polyline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polygon
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-state-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the state adds
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the state adds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#any-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Any object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#placemark_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placemark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polyline-segment-colours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polyline segment colours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polygon-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polygon pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Collections
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clustering
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#controller-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controller API
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="map-objects">Map objects<a class="headerlink" href="#map-objects" title="Permanent link">&para;</a></h1>
+<h2 id="states-api">States API<a class="headerlink" href="#states-api" title="Permanent link">&para;</a></h2>
+<p>The <code>content</code> of <code>YandexMap()</code> is a composition of its own, with map objects as nodes. Its
+composables are marked <code>@YandexMapComposable</code>, and Compose UI composables cannot be placed there.</p>
+<table>
+<thead>
+<tr>
+<th>Composable</th>
+<th>Draws</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Placemark</code></td>
+<td>a point with an icon</td>
+</tr>
+<tr>
+<td><code>TitledPlacemark</code></td>
+<td>a placemark with a text label</td>
+</tr>
+<tr>
+<td><code>Polyline</code></td>
+<td>a line</td>
+</tr>
+<tr>
+<td><code>Polygon</code></td>
+<td>a filled area</td>
+</tr>
+<tr>
+<td><code>Circle</code></td>
+<td>a circle with a radius in metres</td>
+</tr>
+<tr>
+<td><code>Clustering</code></td>
+<td>placemarks grouped into clusters</td>
+</tr>
+<tr>
+<td><code>MapObjectCollection</code></td>
+<td>a nested group</td>
+</tr>
+<tr>
+<td><code>MapObjectLayer</code></td>
+<td>a group on a separate layer</td>
+</tr>
+<tr>
+<td><code>TileLayer</code>, <code>TrafficLayer</code></td>
+<td>map-wide layers</td>
+</tr>
+<tr>
+<td><code>MapListeners</code></td>
+<td>map events</td>
+</tr>
+</tbody>
+</table>
+<p>Every object composable takes a state object created with <code>rememberXxxState()</code>. Geometry lives on
+the state, not in a parameter, so moving an object is a state write and does not recompose the
+subtree.</p>
+<h3 id="placemark">Placemark<a class="headerlink" href="#placemark" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">placemarkGeometry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="m">55.751225</span><span class="p">,</span><span class="w"> </span><span class="m">37.629540</span><span class="p">)</span>
+
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">MapScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">cameraPositionState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberCameraPositionState</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">startPosition</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">YandexMap</span><span class="p">(</span>
+<span class="w">        </span><span class="n">cameraPositionState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraPositionState</span><span class="p">,</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Placemark</span><span class="p">(</span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberPlacemarkState</span><span class="p">(</span><span class="n">placemarkGeometry</span><span class="p">),</span>
+<span class="w">            </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imageProvider</span><span class="p">(</span><span class="n">Res</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">pin_red</span><span class="p">),</span>
+<span class="w">            </span><span class="n">iconStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IconStyle</span><span class="p">(</span><span class="n">anchor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PointF</span><span class="p">(</span><span class="m">0.5f</span><span class="p">,</span><span class="w"> </span><span class="m">1f</span><span class="p">),</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2f</span><span class="p">),</span>
+<span class="w">            </span><span class="n">onTap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<span class="w">            </span><span class="n">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="n">draggable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="n">zIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1f</span><span class="p">,</span>
+<span class="w">            </span><span class="n">opacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1f</span><span class="p">,</span>
+<span class="w">            </span><span class="n">userData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">poi</span><span class="p">,</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>imageProvider(Res.drawable.pin_red)</code> builds the icon from a Compose Multiplatform resource — see
+<a href="../image-resources/">Image resources</a>.</p>
+<p><code>TitledPlacemark</code> adds a label:</p>
+<div class="highlight"><pre><span></span><code><span class="n">TitledPlacemark</span><span class="p">(</span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberPlacemarkState</span><span class="p">(</span><span class="n">placemarkGeometry</span><span class="p">),</span>
+<span class="w">    </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imageProvider</span><span class="p">(</span><span class="n">Res</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">pin_red</span><span class="p">),</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Red Square&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">titleStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TextStyle</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10f</span><span class="p">,</span><span class="w"> </span><span class="n">placement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TextStyle</span><span class="p">.</span><span class="na">Placement</span><span class="p">.</span><span class="na">BOTTOM</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4f</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="circle">Circle<a class="headerlink" href="#circle" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">Circle</span><span class="p">(</span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberCircleState</span><span class="p">(</span><span class="n">Circle</span><span class="p">(</span><span class="n">center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">point</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">500f</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Red</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2f</span><span class="p">),</span>
+<span class="w">    </span><span class="n">strokeColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Red</span><span class="p">,</span>
+<span class="w">    </span><span class="n">strokeWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">geodesic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="n">onTap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="polyline">Polyline<a class="headerlink" href="#polyline" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">Polyline</span><span class="p">(</span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberPolylineState</span><span class="p">(</span><span class="n">Polyline</span><span class="p">(</span><span class="n">points</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">strokeColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Green</span><span class="p">,</span>
+<span class="w">    </span><span class="n">strokeWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">outlineColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">DarkGray</span><span class="p">,</span>
+<span class="w">    </span><span class="n">outlineWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">dashLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">gapLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">turnRadius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10f</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="polygon">Polygon<a class="headerlink" href="#polygon" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">Polygon</span><span class="p">(</span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberPolygonState</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Polygon</span><span class="p">(</span><span class="n">outerRing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LinearRing</span><span class="p">(</span><span class="n">outerPoints</span><span class="p">),</span><span class="w"> </span><span class="n">innerRings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span><span class="n">LinearRing</span><span class="p">(</span><span class="n">hole</span><span class="p">))),</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Blue</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2f</span><span class="p">),</span>
+<span class="w">    </span><span class="n">strokeColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Blue</span><span class="p">,</span>
+<span class="w">    </span><span class="n">strokeWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">geodesic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imageProvider</span><span class="p">(</span><span class="n">Res</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">hatch</span><span class="p">),</span>
+<span class="w">    </span><span class="n">patternScale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1f</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="what-the-state-adds">What the state adds<a class="headerlink" href="#what-the-state-adds" title="Permanent link">&para;</a></h2>
+<p>The state object is where everything a parameter cannot express lives. It is bound to the map object
+while the composable is in the composition, so these calls belong in an effect or an event handler,
+not in the composition itself.</p>
+<h3 id="any-object">Any object<a class="headerlink" href="#any-object" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mapObjectState</span><span class="p">.</span><span class="na">setVisible</span><span class="p">(</span>
+<span class="w">    </span><span class="n">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="n">animation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Animation</span><span class="p">(</span><span class="n">Animation</span><span class="p">.</span><span class="na">Type</span><span class="p">.</span><span class="na">SMOOTH</span><span class="p">,</span><span class="w"> </span><span class="m">300.</span><span class="n">milliseconds</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">mapObjectState</span><span class="p">.</span><span class="na">isValid</span>
+</code></pre></div>
+<h3 id="placemark_1">Placemark<a class="headerlink" href="#placemark_1" title="Permanent link">&para;</a></h3>
+<p><code>PlacemarkState</code> reaches the presentation objects and the scale function:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">placemarkState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberPlacemarkState</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+<span class="n">LaunchedEffect</span><span class="p">(</span><span class="kt">Unit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">placemarkState</span><span class="p">.</span><span class="na">setScaleFunction</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span><span class="n">PointF</span><span class="p">(</span><span class="m">10f</span><span class="p">,</span><span class="w"> </span><span class="m">0.5f</span><span class="p">),</span><span class="w"> </span><span class="n">PointF</span><span class="p">(</span><span class="m">16f</span><span class="p">,</span><span class="w"> </span><span class="m">1f</span><span class="p">)))</span>
+<span class="w">    </span><span class="n">placemarkState</span><span class="p">.</span><span class="na">useCompositeIcon</span><span class="p">().</span><span class="na">setIcon</span><span class="p">(</span><span class="s">&quot;badge&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">badgeImage</span><span class="p">,</span><span class="w"> </span><span class="n">IconStyle</span><span class="p">(</span><span class="n">zIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1f</span><span class="p">))</span>
+<span class="w">    </span><span class="n">placemarkState</span><span class="p">.</span><span class="na">text</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Red Square&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>geometry</code>, <code>direction</code> and <code>isDragging</code> are observable properties of the state:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">placemarkState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberPlacemarkState</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+<span class="n">Placemark</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">placemarkState</span><span class="p">,</span><span class="w"> </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">icon</span><span class="p">,</span><span class="w"> </span><span class="n">draggable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">placemarkState</span><span class="p">.</span><span class="na">isDragging</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Text</span><span class="p">(</span><span class="s">&quot;Dragging from </span><span class="si">${</span><span class="n">placemarkState</span><span class="p">.</span><span class="na">geometry</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="polyline-segment-colours">Polyline segment colours<a class="headerlink" href="#polyline-segment-colours" title="Permanent link">&para;</a></h3>
+<p>A polyline is coloured through a palette. <code>setPaletteColor(colorIndex, color)</code> defines the colour
+stored under an index, and <code>setStrokeColors(paletteIndices)</code> assigns one of those indexes to every
+segment — a polyline of <em>n</em> points has <em>n − 1</em> segments. By default every segment uses palette index
+0, which is what the <code>strokeColor</code> parameter sets.</p>
+<p><code>getStrokeColor(segmentIndex)</code> returns the <strong>palette index</strong> of a segment, not its colour; resolve it
+with <code>getPaletteColor(colorIndex)</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">polylineState</span><span class="p">.</span><span class="na">setPaletteColor</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Red</span><span class="p">)</span>
+<span class="n">polylineState</span><span class="p">.</span><span class="na">setPaletteColor</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Green</span><span class="p">)</span>
+<span class="n">polylineState</span><span class="p">.</span><span class="na">setPaletteColor</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Blue</span><span class="p">)</span>
+<span class="n">polylineState</span><span class="p">.</span><span class="na">setStrokeColors</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span>
+</code></pre></div>
+<p><code>PolylineState</code> also selects and hides parts of the line, and adds arrows:</p>
+<div class="highlight"><pre><span></span><code><span class="n">polylineState</span><span class="p">.</span><span class="na">select</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">Blue</span><span class="p">,</span><span class="w"> </span><span class="n">subpolyline</span><span class="p">)</span>
+<span class="n">polylineState</span><span class="p">.</span><span class="na">hide</span><span class="p">(</span><span class="n">subpolyline</span><span class="p">)</span>
+
+<span class="n">polylineState</span><span class="p">.</span><span class="na">addArrow</span><span class="p">(</span>
+<span class="w">    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PolylinePosition</span><span class="p">(</span><span class="n">segmentIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">segmentPosition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">),</span>
+<span class="w">    </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fillColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Black</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="polygon-pattern">Polygon pattern<a class="headerlink" href="#polygon-pattern" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">polygonState</span><span class="p">.</span><span class="na">setPattern</span><span class="p">(</span><span class="n">animatedHatch</span><span class="p">,</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1f</span><span class="p">)</span>
+<span class="n">polygonState</span><span class="p">.</span><span class="na">resetPattern</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="collections">Collections<a class="headerlink" href="#collections" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">collectionState</span><span class="p">.</span><span class="na">setPlacemarksScaleFunction</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span><span class="n">PointF</span><span class="p">(</span><span class="m">10f</span><span class="p">,</span><span class="w"> </span><span class="m">0.5f</span><span class="p">),</span><span class="w"> </span><span class="n">PointF</span><span class="p">(</span><span class="m">16f</span><span class="p">,</span><span class="w"> </span><span class="m">1f</span><span class="p">)))</span>
+
+<span class="n">collectionState</span><span class="p">.</span><span class="na">traverse</span><span class="p">(</span><span class="n">visitor</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="clustering">Clustering<a class="headerlink" href="#clustering" title="Permanent link">&para;</a></h2>
+<p><code>Clustering</code> builds a <code>ClusterizedPlacemarkCollection</code> and reclusters when its groups change. Each
+<code>ClusterGroup</code> has its own placemark icon; the cluster icon is shared.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Single group</label><label for="__tabbed_1_2">Multiple groups</label><label for="__tabbed_1_3">With data per item</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">MapScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">cameraPositionState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberCameraPositionState</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">startPosition</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">pinRed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imageProvider</span><span class="p">(</span><span class="n">Res</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">pin_red</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">clusterIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imageProvider</span><span class="p">(</span><span class="n">Res</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">cluster</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">YandexMap</span><span class="p">(</span>
+<span class="w">        </span><span class="n">cameraPositionState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cameraPositionState</span><span class="p">,</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Clustering</span><span class="p">(</span>
+<span class="w">            </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ClusterGroup</span><span class="p">(</span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">redPoints</span><span class="p">,</span><span class="w"> </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pinRed</span><span class="p">),</span>
+<span class="w">            </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clusterIcon</span><span class="p">,</span>
+<span class="w">            </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ClusterizingConfig</span><span class="p">(</span><span class="n">clusterRadius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">60.0</span><span class="p">,</span><span class="w"> </span><span class="n">minZoom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">),</span>
+<span class="w">            </span><span class="n">onItemTap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<span class="w">            </span><span class="n">onClusterTap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cluster</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">Clustering</span><span class="p">(</span>
+<span class="w">    </span><span class="n">groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">persistentListOf</span><span class="p">(</span>
+<span class="w">        </span><span class="n">ClusterGroup</span><span class="p">(</span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">redPoints</span><span class="p">,</span><span class="w"> </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pinRed</span><span class="p">),</span>
+<span class="w">        </span><span class="n">ClusterGroup</span><span class="p">(</span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greenPoints</span><span class="p">,</span><span class="w"> </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pinGreen</span><span class="p">),</span>
+<span class="w">        </span><span class="n">ClusterGroup</span><span class="p">(</span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yellowPoints</span><span class="p">,</span><span class="w"> </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pinYellow</span><span class="p">),</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clusterIcon</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">Clustering</span><span class="p">(</span>
+<span class="w">    </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ClusterGroup</span><span class="p">(</span>
+<span class="w">        </span><span class="n">placemarks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pois</span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ClusterItem</span><span class="p">(</span><span class="n">geometry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">point</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">)</span><span class="w"> </span><span class="p">}.</span><span class="na">toPersistentList</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pinRed</span><span class="p">,</span>
+<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;POI&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clusterIcon</span><span class="p">,</span>
+<span class="w">    </span><span class="n">onItemTap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">poi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="na">data</span><span class="w"> </span><span class="k">as?</span><span class="w"> </span><span class="n">Poi</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">return</span><span class="nd">@Clustering</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">        </span><span class="n">open</span><span class="p">(</span><span class="n">poi</span><span class="p">)</span>
+<span class="w">        </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><code>groups</code> is an <code>ImmutableList</code> on purpose: Compose can then skip recomposition when the list has not
+changed, and reclustering is expensive.</p>
+<p>Cluster icons can also be composable content — see
+<a href="../image-resources/#composable-as-cluster-icon">Image resources</a>.</p>
+<h2 id="controller-api">Controller API<a class="headerlink" href="#controller-api" title="Permanent link">&para;</a></h2>
+<p>With the controller overload there is no composition of map objects: <code>MapControllerEffect</code> gives you
+the <code>MapWindow</code> once it exists, and you use the wrapper API directly.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Placemark</label><label for="__tabbed_2_2">Circle</label><label for="__tabbed_2_3">Polyline</label><label for="__tabbed_2_4">Polygon</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">MapScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">mapController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberYandexMapController</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">pinGreen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imageProvider</span><span class="p">(</span><span class="n">Res</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">pin_green</span><span class="p">)</span>
+<span class="w">    </span><span class="n">MapControllerEffect</span><span class="p">(</span><span class="n">mapController</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mapWindow</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">map</span><span class="p">.</span><span class="na">mapObjects</span><span class="p">.</span><span class="na">addPlacemark</span><span class="p">().</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">geometry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">placemarkGeometry</span>
+<span class="w">            </span><span class="n">setIcon</span><span class="p">(</span><span class="n">pinGreen</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">YandexMap</span><span class="p">(</span>
+<span class="w">        </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapController</span><span class="p">,</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">MapControllerEffect</span><span class="p">(</span><span class="n">mapController</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mapWindow</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">map</span><span class="p">.</span><span class="na">mapObjects</span><span class="p">.</span><span class="na">addCircle</span><span class="p">(</span><span class="n">circleGeometry</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">MapControllerEffect</span><span class="p">(</span><span class="n">mapController</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mapWindow</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">map</span><span class="p">.</span><span class="na">mapObjects</span><span class="p">.</span><span class="na">addPolyline</span><span class="p">(</span><span class="n">polylineGeometry</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">MapControllerEffect</span><span class="p">(</span><span class="n">mapController</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mapWindow</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">map</span><span class="p">.</span><span class="na">mapObjects</span><span class="p">.</span><span class="na">addPolygon</span><span class="p">(</span><span class="n">polygonGeometry</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Clustering is the same as in the wrapper, listeners included:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">MapScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">mapController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberYandexMapController</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">clusterIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imageProvider</span><span class="p">(</span><span class="n">Res</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">cluster</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">pinRed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imageProvider</span><span class="p">(</span><span class="n">Res</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">pin_red</span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">clusterTapListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ClusterTapListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">itemTapListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">MapObjectTapListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">clusterListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remember</span><span class="p">(</span><span class="n">clusterIcon</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ClusterListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cluster</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">            </span><span class="n">cluster</span><span class="p">.</span><span class="na">appearance</span><span class="p">.</span><span class="na">setIcon</span><span class="p">(</span><span class="n">clusterIcon</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cluster</span><span class="p">.</span><span class="na">appearance</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">&quot;</span><span class="si">${</span><span class="n">cluster</span><span class="p">.</span><span class="na">size</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">cluster</span><span class="p">.</span><span class="na">addClusterTapListener</span><span class="p">(</span><span class="n">clusterTapListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">MapControllerEffect</span><span class="p">(</span><span class="n">mapController</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mapWindow</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">collection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">map</span><span class="p">.</span><span class="na">mapObjects</span>
+<span class="w">            </span><span class="p">.</span><span class="na">addClusterizedPlacemarkCollection</span><span class="p">(</span><span class="n">clusterListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">        </span><span class="n">points</span><span class="p">.</span><span class="na">forEach</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">            </span><span class="n">collection</span><span class="p">.</span><span class="na">addPlacemark</span><span class="p">().</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">geometry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">point</span>
+<span class="w">                </span><span class="n">setIcon</span><span class="p">(</span><span class="n">pinRed</span><span class="p">)</span>
+<span class="w">                </span><span class="n">addTapListener</span><span class="p">(</span><span class="n">itemTapListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">collection</span><span class="p">.</span><span class="na">clusterPlacemarks</span><span class="p">(</span><span class="n">clusterRadius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">60.0</span><span class="p">,</span><span class="w"> </span><span class="n">minZoom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">YandexMap</span><span class="p">(</span>
+<span class="w">        </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapController</span><span class="p">,</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title"><code>remember</code> the listeners</p>
+<p>Subscriptions are weak. A listener created inline in a composition is collected on the next
+recomposition and stops firing — <code>remember</code> it, or keep it in whatever owns the screen.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Vladimir Nenashkin
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.tabs.link", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "1.0.0-beta01"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

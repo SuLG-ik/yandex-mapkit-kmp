@@ -1,0 +1,235 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:ru.sulgik.mapkit.geometry.geo//toNative/ru.sulgik.mapkit.geometry.geo.Priority#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry.geo/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry.geo//toNative/ru.sulgik.mapkit.geometry.geo.XYPoint#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry.geo/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry.geo/PolylineIndex/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry.geo/-polyline-index/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry.geo/Projection/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry.geo/-projection/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.BoundingBox#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.Circle#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.Direction#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.Geometry#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.Point#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.PolylinePosition#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.Segment#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.Span#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry//toNative/ru.sulgik.mapkit.geometry.Subpolyline#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry/LinearRing/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-linear-ring/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry/LinearRing/toString/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-linear-ring/[ios]to-string.html
+$dokka.location:ru.sulgik.mapkit.geometry/MultiPolygon/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-multi-polygon/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry/MultiPolygon/toString/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-multi-polygon/[ios]to-string.html
+$dokka.location:ru.sulgik.mapkit.geometry/Polygon/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-polygon/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry/Polygon/toString/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-polygon/[ios]to-string.html
+$dokka.location:ru.sulgik.mapkit.geometry/Polyline/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-polyline/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.geometry/Polyline/toString/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-polyline/[ios]to-string.html
+$dokka.location:ru.sulgik.mapkit.geometry/PolylineBuilder/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.geometry/-polyline-builder/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.indoor//toNative/ru.sulgik.mapkit.indoor.IndoorLevel#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.indoor/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.indoor/IndoorPlan/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.indoor/-indoor-plan/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.indoor/IndoorStateListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.indoor/-indoor-state-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers//toNative/ru.sulgik.mapkit.layers.LayerOptions#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers//toNative/ru.sulgik.mapkit.layers.OverzoomMode#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers//toNative/ru.sulgik.mapkit.layers.TileFormat#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/BaseDataSource/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-base-data-source/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/DataSource/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-data-source/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/DataSourceLayer/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-data-source-layer/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/DataSourceListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-data-source-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/GeoObjectTapEvent/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-geo-object-tap-event/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/GeoObjectTapListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-geo-object-tap-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/Layer/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-layer/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/LayerLoadedListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-layer-loaded-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/ObjectEvent/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-object-event/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.layers/TileDataSource/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.layers/-tile-data-source/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.DummyLocationQuality#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.Location#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.LocationError#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.LocationPurpose#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.LocationSettings#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.LocationStatus#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.Range#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.SimulationSettings#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.SubscriptionSettings#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.TimeInterval#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.UseInBackground#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location//toNative/ru.sulgik.mapkit.location.ViewArea#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location/DummyLocationManager/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/-dummy-location-manager/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location/LocationListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/-location-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location/LocationManager/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/-location-manager/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location/LocationSimulator/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/-location-simulator/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location/LocationSimulatorListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/-location-simulator-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location/LocationUnavailableError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/-location-unavailable-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.location/LocationViewSource/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.location/-location-view-source/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.logo//toNative/ru.sulgik.mapkit.logo.LogoAlignment#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.logo/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.logo//toNative/ru.sulgik.mapkit.logo.LogoHorizontalAlignment#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.logo/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.logo//toNative/ru.sulgik.mapkit.logo.LogoPadding#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.logo/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.logo//toNative/ru.sulgik.mapkit.logo.LogoVerticalAlignment#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.logo/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.logo/Logo/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.logo/-logo/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.CameraPosition#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.CameraUpdateReason#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.Frame#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.GeoObjectInspectionMetadata#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.GeoObjectInspectionMetadata.ObjectType#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.GeoObjectSelectionMetadata#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.GeoObjectTags#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.GestureFocusPointMode#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.IconStyle#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.LineStyle#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.MapLoadStatistics#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.MapMode#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.MapType#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.ModelStyle#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.ModelStyle.RenderMode#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.ModelStyle.UnitType#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.PointOfView#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.Rect#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.RotationType#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.TextStyle#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.TextStyle.Placement#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map//toNative/ru.sulgik.mapkit.map.VisibleRegion#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/AnimatedImage/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-animated-image/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/AnimatedImageProvider/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-animated-image-provider/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/Arrow/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-arrow/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/BaseMapObjectCollection/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-base-map-object-collection/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/Callback/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-callback/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/CameraBounds/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-camera-bounds/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/CameraCallback/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-camera-callback/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/CameraListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-camera-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/CircleMapObject/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-circle-map-object/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/Cluster/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-cluster/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/ClusterListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-cluster-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/ClusterTapListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-cluster-tap-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/ClusterizedPlacemarkCollection/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-clusterized-placemark-collection/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/CompositeIcon/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-composite-icon/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/DataProviderWithId/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-data-provider-with-id/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/Icon/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-icon/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/ImageProvider.Companion///PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-image-provider/[ios]-companion/index.html
+$dokka.location:ru.sulgik.mapkit.map/ImageProvider/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-image-provider/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/InputListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-input-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/Map/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/MapLoadedListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map-loaded-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/MapObject/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map-object/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/MapObjectCollection/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map-object-collection/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/MapObjectCollectionListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map-object-collection-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/MapObjectDragListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map-object-drag-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/MapObjectTapListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map-object-tap-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/MapObjectVisitor/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map-object-visitor/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/MapWindow/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-map-window/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/Model/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-model/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/PlacemarkAnimation/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-placemark-animation/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/PlacemarkCreatedCallback/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-placemark-created-callback/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/PlacemarkMapObject/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-placemark-map-object/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/PlacemarkPresentation/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-placemark-presentation/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/PlacemarkText/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-placemark-text/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/PlacemarksStyler/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-placemarks-styler/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/PolygonMapObject/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-polygon-map-object/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/PolylineMapObject/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-polyline-map-object/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/RootMapObjectCollection/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-root-map-object-collection/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/SizeChangedListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-size-changed-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.map/TileDataSourceBuilder/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.map/-tile-data-source-builder/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.mapview/MapView/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.mapview/-map-view/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.offline_cache//toNative/ru.sulgik.mapkit.offline_cache.Region#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.offline_cache/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.offline_cache//toNative/ru.sulgik.mapkit.offline_cache.RegionState#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.offline_cache/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.offline_cache/DataMoveListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.offline_cache/-data-move-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.offline_cache/ErrorListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.offline_cache/-error-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.offline_cache/OfflineCacheError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.offline_cache/-offline-cache-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.offline_cache/OfflineCacheManager/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.offline_cache/-offline-cache-manager/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.offline_cache/RegionListUpdatesListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.offline_cache/-region-list-updates-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.offline_cache/RegionListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.offline_cache/-region-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.personalized_poi//toNative/ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.personalized_poi/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.personalized_poi//toNative/ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata.Entry#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.personalized_poi/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.i18n//toNative/ru.sulgik.mapkit.runtime.i18n.CanonicalUnit#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.i18n/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.i18n//toNative/ru.sulgik.mapkit.runtime.i18n.I18nPrefs#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.i18n/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.i18n//toNative/ru.sulgik.mapkit.runtime.i18n.SystemOfMeasurement#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.i18n/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.i18n//toNative/ru.sulgik.mapkit.runtime.i18n.TimeFormat#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.i18n/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.i18n/I18nManager/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.i18n/-i18n-manager/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.logging//toNative/ru.sulgik.mapkit.runtime.logging.LogMessage#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.logging/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.logging//toNative/ru.sulgik.mapkit.runtime.logging.LogMessage.LogLevel#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.logging/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.logging/LogListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.logging/-log-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.logging/Logging/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.logging/-logging/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.network/BadRequestError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.network/-bad-request-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.network/ForbiddenError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.network/-forbidden-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.network/NetworkError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.network/-network-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.network/NotFoundError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.network/-not-found-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.network/RemoteError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.network/-remote-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.network/RequestEntityTooLargeError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.network/-request-entity-too-large-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime.network/UnauthorizedError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime.network/-unauthorized-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime/DiskCorruptError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime/-disk-corrupt-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime/DiskFullError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime/-disk-full-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime/DiskWriteAccessError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime/-disk-write-access-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime/Error/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime/-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.runtime/LocalError/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.runtime/-local-error/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.storage/StorageErrorListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.storage/-storage-error-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.storage/StorageManager/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.storage/-storage-manager/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.tiles/TileProvider/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.tiles/-tile-provider/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.tiles/UrlProvider/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.tiles/-url-provider/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.traffic//toNative/ru.sulgik.mapkit.traffic.TrafficColor#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.traffic/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.traffic//toNative/ru.sulgik.mapkit.traffic.TrafficLevel#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.traffic/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.traffic/TrafficLayer/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.traffic/-traffic-layer/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.traffic/TrafficListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.traffic/-traffic-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.ui/Overlay/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.ui/-overlay/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.uri//toNative/ru.sulgik.mapkit.uri.Uri#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.uri/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.uri//toNative/ru.sulgik.mapkit.uri.UriObjectMetadata#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.uri/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.user_location//toNative/ru.sulgik.mapkit.user_location.UserLocationAnchorType#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.user_location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.user_location//toNative/ru.sulgik.mapkit.user_location.UserLocationIconType#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.user_location/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.user_location/UserLocationAnchorChanged/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.user_location/-user-location-anchor-changed/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.user_location/UserLocationIconChanged/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.user_location/-user-location-icon-changed/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.user_location/UserLocationLayer/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.user_location/-user-location-layer/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.user_location/UserLocationObjectListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.user_location/-user-location-object-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.user_location/UserLocationTapListener/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.user_location/-user-location-tap-listener/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit.user_location/UserLocationView/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit.user_location/-user-location-view/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Animation#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Animation.Type#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Attribution#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Attribution.Author#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Attribution.Link#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.ConflictResolutionMode#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Image#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Image.ImageSize#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.LocalizedValue#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.PointF#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.RawTile#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.RawTile.State#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.RawTile.UseCache#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.ScreenPoint#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.ScreenRect#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Size2u#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.SpannableString#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.SpannableString.Span#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.TileId#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Time#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.UserData#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.Version#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.WeakRef[TypeParam(bounds=[ru.sulgik.mapkit.NativeConvertible[TypeParam(bounds=[kotlin.Any])]])]#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit//toNative/ru.sulgik.mapkit.ZoomRange#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit/GeoObject/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/-geo-object/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit/GeoObjectCollection/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/-geo-object-collection/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit/GeoObjectCollectionItem/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/-geo-object-collection-item/[ios]to-native.html
+$dokka.location:ru.sulgik.mapkit/MapKit/toNative/#/PointingToDeclaration/Yandex MapKit SDK KMP/ru.sulgik.mapkit/-map-kit/[ios]to-native.html
+module:Yandex MapKit SDK KMP
+ru.sulgik.mapkit
+ru.sulgik.mapkit.geometry
+ru.sulgik.mapkit.geometry.geo
+ru.sulgik.mapkit.indoor
+ru.sulgik.mapkit.layers
+ru.sulgik.mapkit.location
+ru.sulgik.mapkit.logo
+ru.sulgik.mapkit.map
+ru.sulgik.mapkit.mapview
+ru.sulgik.mapkit.offline_cache
+ru.sulgik.mapkit.personalized_poi
+ru.sulgik.mapkit.runtime
+ru.sulgik.mapkit.runtime.i18n
+ru.sulgik.mapkit.runtime.logging
+ru.sulgik.mapkit.runtime.network
+ru.sulgik.mapkit.storage
+ru.sulgik.mapkit.tiles
+ru.sulgik.mapkit.traffic
+ru.sulgik.mapkit.ui
+ru.sulgik.mapkit.uri
+ru.sulgik.mapkit.user_location
+module:Yandex MapKit KMP SDK Compose Utils
+ru.sulgik.mapkit.compose
+ru.sulgik.mapkit.compose.user_location
+ru.sulgik.mapkit.compose.utils
+module:Yandex MapKit KMP SDK MOKO Utils
+ru.sulgik.mapkit.moko
+module:Yandex MapKit KMP SDK MOKO Compose Utils
+ru.sulgik.mapkit.moko.compose

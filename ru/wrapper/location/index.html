@@ -1,0 +1,1686 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Kotlin Multiplatform wrapper for official Yandex MapKit SDK for iOS and Android targets with additional Compose Multiplatform support">
+      
+      
+        <meta name="author" content="Vladimir Nenashkin">
+      
+      
+        <link rel="canonical" href="https://ymk-kmp.sulgik.ru/ru/wrapper/location/">
+      
+      
+        <link rel="prev" href="../geoobjects/">
+      
+      
+        <link rel="next" href="../layers/">
+      
+      
+        
+          <link rel="alternate" href="../../../wrapper/location/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="ru">
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Геолокация - Yandex MapKit KMP</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#геолокация" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../../" title="Yandex MapKit KMP" class="md-header__button md-logo" aria-label="Yandex MapKit KMP" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yandex MapKit KMP
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Геолокация
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Выберите язык">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../wrapper/location/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SuLG-ik/yandex-mapkit-kmp" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SuLG-ik/yandex-mapkit-kmp
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../" title="Yandex MapKit KMP" class="md-nav__button md-logo" aria-label="Yandex MapKit KMP" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    Yandex MapKit KMP
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SuLG-ik/yandex-mapkit-kmp" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SuLG-ik/yandex-mapkit-kmp
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Начало работы
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Начало работы
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Установка
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Быстрый старт
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Миграция с MapKit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Разработка
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лицензия
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обёртка
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Обёртка
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../coverage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Что обёрнуто
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Карта и камера
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mapobjects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Объекты карты
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geoobjects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Объекты базовой карты
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Геолокация
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Геолокация
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#подписка-на-позиции" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подписка на позиции
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Подписка на позиции">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#что-несёт-позиция" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Что несёт позиция
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#рисование-пользователя-на-карте" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Рисование пользователя на карте
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Рисование пользователя на карте">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#якорь" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Якорь
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#другой-источник-для-слоя" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Другой источник для слоя
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#симуляция-маршрута" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Симуляция маршрута
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Симуляция маршрута">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#что-задаёт-locationsettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Что задаёт LocationSettings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#задание-позиций-вручную" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Задание позиций вручную
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#подмена-глобального-менеджера" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подмена глобального менеджера
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#в-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        В Compose
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Слои и тайлы
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Офлайн-карты и хранилище
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Изображения
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Поддержка Compose
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Поддержка Compose
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compose/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compose/mapobjects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Объекты карты
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compose/image-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Изображения
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sample/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Пример приложения
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kdoc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Справочник API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#подписка-на-позиции" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подписка на позиции
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Подписка на позиции">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#что-несёт-позиция" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Что несёт позиция
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#рисование-пользователя-на-карте" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Рисование пользователя на карте
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Рисование пользователя на карте">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#якорь" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Якорь
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#другой-источник-для-слоя" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Другой источник для слоя
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#симуляция-маршрута" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Симуляция маршрута
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Симуляция маршрута">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#что-задаёт-locationsettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Что задаёт LocationSettings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#задание-позиций-вручную" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Задание позиций вручную
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#подмена-глобального-менеджера" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подмена глобального менеджера
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#в-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        В Compose
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="геолокация">Геолокация<a class="headerlink" href="#геолокация" title="Permanent link">&para;</a></h1>
+<p><code>MapKit</code> отдаёт три вида источника местоположения и один слой карты, который рисует результат.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Что это</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createLocationManager()</code></td>
+<td>собственное позиционирование устройства</td>
+</tr>
+<tr>
+<td><code>createLocationSimulator(polyline)</code></td>
+<td>проигрывает маршрут</td>
+</tr>
+<tr>
+<td><code>createDummyLocationManager()</code></td>
+<td>позиции, которые задаёт ваш код</td>
+</tr>
+<tr>
+<td><code>createUserLocationLayer(mapWindow)</code></td>
+<td>стрелка, пин и круг точности на карте</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Разрешения запрашиваете вы</p>
+<p>Обёртка не запрашивает разрешения на геолокацию — сделайте это платформенным способом до
+подписки, иначе менеджер сообщит <code>LocationStatus.NOT_AVAILABLE</code>.</p>
+</div>
+<h2 id="подписка-на-позиции">Подписка на позиции<a class="headerlink" href="#подписка-на-позиции" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">LocationController</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">mapKit</span><span class="p">:</span><span class="w"> </span><span class="n">MapKit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">locationManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapKit</span><span class="p">.</span><span class="na">createLocationManager</span><span class="p">()</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">locationListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocationListener</span><span class="p">(</span>
+<span class="w">        </span><span class="n">onLocationUpdated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">show</span><span class="p">(</span><span class="n">location</span><span class="p">.</span><span class="na">position</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">onLocationStatusUpdated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">LocationStatus</span><span class="p">.</span><span class="na">NOT_AVAILABLE</span><span class="p">)</span><span class="w"> </span><span class="n">showUnavailable</span><span class="p">()</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">locationManager</span><span class="p">.</span><span class="na">subscribeForLocationUpdates</span><span class="p">(</span>
+<span class="w">            </span><span class="n">subscriptionSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SubscriptionSettings</span><span class="p">(</span>
+<span class="w">                </span><span class="n">useInBackground</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UseInBackground</span><span class="p">.</span><span class="na">DISALLOW</span><span class="p">,</span>
+<span class="w">                </span><span class="n">purpose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocationPurpose</span><span class="p">.</span><span class="na">GENERAL</span><span class="p">,</span>
+<span class="w">            </span><span class="p">),</span>
+<span class="w">            </span><span class="n">locationListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">locationListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">(),</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">locationManager</span><span class="p">.</span><span class="na">unsubscribe</span><span class="p">(</span><span class="n">locationListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>purpose</code> сообщает MapKit, для чего нужна позиция — <code>GENERAL</code>, <code>AUTOMOTIVE_NAVIGATION</code>,
+<code>PEDESTRIAN_NAVIGATION</code>, <code>BICYCLE_NAVIGATION</code>, <code>SCOOTER_NAVIGATION</code>, <code>STATIC_DISPLAY_LOCATION</code>, — а
+<code>useInBackground</code> определяет, можно ли продолжать работу, когда приложение в фоне.</p>
+<p>Одна позиция вместо потока:</p>
+<div class="highlight"><pre><span></span><code><span class="n">locationManager</span><span class="p">.</span><span class="na">requestSingleUpdate</span><span class="p">(</span><span class="n">locationListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+</code></pre></div>
+<p><code>suspend()</code> и <code>resume()</code> приостанавливают и продолжают подписки, не снимая их.</p>
+<h3 id="что-несёт-позиция">Что несёт позиция<a class="headerlink" href="#что-несёт-позиция" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Location</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">position</span><span class="p">:</span><span class="w"> </span><span class="n">Point</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">accuracy</span><span class="p">:</span><span class="w"> </span><span class="kt">Double?</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">altitude</span><span class="p">:</span><span class="w"> </span><span class="kt">Double?</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">altitudeAccuracy</span><span class="p">:</span><span class="w"> </span><span class="kt">Double?</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">heading</span><span class="p">:</span><span class="w"> </span><span class="kt">Double?</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">speed</span><span class="p">:</span><span class="w"> </span><span class="kt">Double?</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">indoorLevelId</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">absoluteTimestamp</span><span class="p">:</span><span class="w"> </span><span class="n">Instant</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">relativeTimestamp</span><span class="p">:</span><span class="w"> </span><span class="n">Duration</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Всё, чего MapKit может не знать, — nullable. <code>absoluteTimestamp</code> — календарное время,
+<code>relativeTimestamp</code> — монотонное время с момента загрузки устройства, именно по нему сравнивают
+позиции.</p>
+<p>Последняя позиция, которую получил MapKit, без всякой подписки:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">last</span><span class="p">:</span><span class="w"> </span><span class="n">Location? </span><span class="o">=</span><span class="w"> </span><span class="n">lastKnownLocation</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="рисование-пользователя-на-карте">Рисование пользователя на карте<a class="headerlink" href="#рисование-пользователя-на-карте" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">UserLocationController</span><span class="p">(</span><span class="n">mapKit</span><span class="p">:</span><span class="w"> </span><span class="n">MapKit</span><span class="p">,</span><span class="w"> </span><span class="n">mapWindow</span><span class="p">:</span><span class="w"> </span><span class="n">MapWindow</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapKit</span><span class="p">.</span><span class="na">createUserLocationLayer</span><span class="p">(</span><span class="n">mapWindow</span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">tapListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserLocationTapListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">openDetails</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">objectListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserLocationObjectListener</span><span class="p">(</span>
+<span class="w">        </span><span class="n">onObjectAdded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">            </span><span class="n">view</span><span class="p">.</span><span class="na">pin</span><span class="p">.</span><span class="na">setIcon</span><span class="p">(</span><span class="n">pinImage</span><span class="p">)</span>
+<span class="w">            </span><span class="n">view</span><span class="p">.</span><span class="na">arrow</span><span class="p">.</span><span class="na">setIcon</span><span class="p">(</span><span class="n">arrowImage</span><span class="p">)</span>
+<span class="w">            </span><span class="n">view</span><span class="p">.</span><span class="na">accuracyCircle</span><span class="p">.</span><span class="na">fillColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">fromArgb</span><span class="p">(</span><span class="m">0</span><span class="n">x334CAF50</span><span class="p">)</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="n">onObjectRemoved</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">onObjectUpdated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">layer</span><span class="p">.</span><span class="na">isVisible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="n">layer</span><span class="p">.</span><span class="na">isHeadingModeActive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="n">layer</span><span class="p">.</span><span class="na">setTapListener</span><span class="p">(</span><span class="n">tapListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">        </span><span class="n">layer</span><span class="p">.</span><span class="na">setObjectListener</span><span class="p">(</span><span class="n">objectListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>UserLocationView</code> — это три объекта карты: <code>arrow</code>, <code>pin</code> и <code>accuracyCircle</code>, — поэтому к ним
+применимо всё со страницы <a href="../mapobjects/">Объекты карты</a>. <code>onObjectAdded</code> — место, где их
+стилизуют; MapKit создаёт их лениво, после первой позиции.</p>
+<h3 id="якорь">Якорь<a class="headerlink" href="#якорь" title="Permanent link">&para;</a></h3>
+<p>Режим якоря удерживает маркер пользователя в фиксированной точке экрана и двигает карту под ним —
+так выглядит навигация. Задаются два якоря: один для обычного состояния, второй — когда карта
+следует за курсом.</p>
+<div class="highlight"><pre><span></span><code><span class="n">layer</span><span class="p">.</span><span class="na">setAnchor</span><span class="p">(</span>
+<span class="w">    </span><span class="n">anchorNormal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PointF</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.5f</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.5f</span><span class="p">),</span>
+<span class="w">    </span><span class="n">anchorCourse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PointF</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.5f</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.75f</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">layer</span><span class="p">.</span><span class="na">isAutoZoomEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</code></pre></div>
+<p><code>resetAnchor()</code> выходит из режима; <code>isAnchorEnabled</code> говорит, включён ли он. Любое движение камеры
+пользователем его выключает, так что взводите заново, когда он снова нужен.</p>
+<p><code>layer.cameraPosition</code> — позиция, в которую слой сдвинул бы камеру, или <code>null</code>, пока позиции нет.</p>
+<h3 id="другой-источник-для-слоя">Другой источник для слоя<a class="headerlink" href="#другой-источник-для-слоя" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">layer</span><span class="p">.</span><span class="na">setSource</span><span class="p">(</span><span class="n">simulator</span><span class="p">.</span><span class="na">asLocationManager</span><span class="p">().</span><span class="na">toLocationViewSource</span><span class="p">())</span>
+<span class="n">layer</span><span class="p">.</span><span class="na">setDefaultSource</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="симуляция-маршрута">Симуляция маршрута<a class="headerlink" href="#симуляция-маршрута" title="Permanent link">&para;</a></h2>
+<p>Симулятор проигрывает <code>Polyline</code> — для демо, для скриншотов и для тестов, которые не должны зависеть
+от того, где находится устройство.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Polyline</span><span class="p">(</span><span class="n">routePoints</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">simulator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapKit</span><span class="p">.</span><span class="na">createLocationSimulator</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="nv">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span>
+<span class="w">    </span><span class="n">SimulationSettings</span><span class="p">(</span>
+<span class="w">        </span><span class="n">geometry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">route</span><span class="p">,</span>
+<span class="w">        </span><span class="n">locationSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocationSettings</span><span class="p">(</span>
+<span class="w">            </span><span class="n">provideSpeed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20.0</span><span class="p">,</span>
+<span class="w">            </span><span class="n">provideAccuracy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="n">accuracy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Range</span><span class="p">(</span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.0</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.0</span><span class="p">),</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">simulator</span><span class="p">.</span><span class="na">asLocationManager</span><span class="p">().</span><span class="na">resume</span><span class="p">()</span>
+<span class="n">simulator</span><span class="p">.</span><span class="na">startSimulation</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Симулятор создаётся приостановленным</p>
+<p>MapKit наследует <code>LocationSimulator</code> от <code>LocationManager</code>, и <code>startSimulation</code> его <strong>не</strong>
+возобновляет. Без <code>asLocationManager().resume()</code> симуляция идёт, <code>isActive</code> остаётся <code>false</code>, и
+до подписчиков ничего не доходит.</p>
+</div>
+<p><code>asLocationManager()</code> — это то, что открывает <code>subscribeForLocationUpdates</code>, <code>requestSingleUpdate</code>,
+<code>unsubscribe</code>, <code>suspend</code> и <code>resume</code>: Kotlin не может выразить наследование MapKit сразу на двух
+платформах, поэтому связь записана как преобразование. Результат — обычный <code>LocationManager</code>, так
+что его можно передать и в <code>MapKit.setLocationManager()</code>, и в <code>toLocationViewSource()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">simulatorListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocationSimulatorListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;route finished&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="n">simulator</span><span class="p">.</span><span class="na">subscribeForSimulatorEvents</span><span class="p">(</span><span class="n">simulatorListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="nv">progress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">simulator</span><span class="p">.</span><span class="na">polylinePosition</span><span class="p">()</span>
+
+<span class="n">simulator</span><span class="p">.</span><span class="na">stopSimulation</span><span class="p">()</span>
+</code></pre></div>
+<p><code>polylinePosition()</code> — то, где на маршруте сейчас находится симуляция.</p>
+<div class="admonition info">
+<p class="admonition-title"><code>speed</code> у симулятора устарел</p>
+<p>MapKit перенёс это поле в <code>LocationSettings</code>. <code>startSimulation</code> целиком заменяет <code>settings</code>,
+поэтому значение, присвоенное <code>simulator.speed</code> заранее, будет затёрто; задавайте
+<code>LocationSettings.speed</code> вместе с <code>provideSpeed = true</code> в каждом <code>SimulationSettings</code>.</p>
+</div>
+<h3 id="что-задаёт-locationsettings">Что задаёт <code>LocationSettings</code><a class="headerlink" href="#что-задаёт-locationsettings" title="Permanent link">&para;</a></h3>
+<p>Каждый флаг <code>provideX</code> решает, будет ли поле сообщаться вообще, а соседнее значение — что именно
+сообщать:</p>
+<div class="highlight"><pre><span></span><code><span class="n">LocationSettings</span><span class="p">(</span>
+<span class="w">    </span><span class="n">provideAccuracy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="n">accuracy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Range</span><span class="p">(</span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.0</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.0</span><span class="p">),</span>
+<span class="w">    </span><span class="n">provideSpeed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20.0</span><span class="p">,</span>
+<span class="w">    </span><span class="n">provideHeading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="n">headingError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Range</span><span class="p">(</span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.0</span><span class="p">),</span>
+<span class="w">    </span><span class="n">locationTimeInterval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TimeInterval</span><span class="p">(</span><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.</span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.</span><span class="n">seconds</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><code>LocationSettings.fineSettings()</code> и <code>LocationSettings.coarseSettings()</code> — готовые наборы от MapKit.</p>
+<h2 id="задание-позиций-вручную">Задание позиций вручную<a class="headerlink" href="#задание-позиций-вручную" title="Permanent link">&para;</a></h2>
+<p><code>DummyLocationManager</code> сообщает ровно то, что вы ему дали — полезно в тестах и для проигрывания
+записанного трека в своём темпе.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapKit</span><span class="p">.</span><span class="na">createDummyLocationManager</span><span class="p">()</span>
+
+<span class="n">dummy</span><span class="p">.</span><span class="na">asLocationManager</span><span class="p">().</span><span class="na">subscribeForLocationUpdates</span><span class="p">(</span>
+<span class="w">    </span><span class="n">subscriptionSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SubscriptionSettings</span><span class="p">(</span><span class="n">UseInBackground</span><span class="p">.</span><span class="na">DISALLOW</span><span class="p">,</span><span class="w"> </span><span class="n">LocationPurpose</span><span class="p">.</span><span class="na">GENERAL</span><span class="p">),</span>
+<span class="w">    </span><span class="n">locationListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">locationListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">(),</span>
+<span class="p">)</span>
+
+<span class="n">dummy</span><span class="p">.</span><span class="na">setLocation</span><span class="p">(</span>
+<span class="w">    </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Location</span><span class="p">(</span>
+<span class="w">        </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="m">55.751225</span><span class="p">,</span><span class="w"> </span><span class="m">37.629540</span><span class="p">),</span>
+<span class="w">        </span><span class="n">accuracy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.0</span><span class="p">,</span>
+<span class="w">        </span><span class="n">altitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="n">altitudeAccuracy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="n">heading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span>
+<span class="w">        </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span>
+<span class="w">        </span><span class="n">indoorLevelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="n">absoluteTimestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Clock</span><span class="p">.</span><span class="na">System</span><span class="p">.</span><span class="na">now</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">relativeTimestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.</span><span class="n">seconds</span><span class="p">,</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="n">quality</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DummyLocationQuality</span><span class="p">.</span><span class="na">HIGH</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Как и у симулятора, подписочные члены открывает <code>asLocationManager()</code>.</p>
+<h2 id="подмена-глобального-менеджера">Подмена глобального менеджера<a class="headerlink" href="#подмена-глобального-менеджера" title="Permanent link">&para;</a></h2>
+<p><code>MapKit.setLocationManager()</code> заставляет все части MapKit — включая <code>UserLocationLayer</code> —
+пользоваться вашим источником вместо устройства:</p>
+<div class="highlight"><pre><span></span><code><span class="n">mapKit</span><span class="p">.</span><span class="na">setLocationManager</span><span class="p">(</span><span class="n">simulator</span><span class="p">.</span><span class="na">asLocationManager</span><span class="p">())</span>
+
+<span class="n">mapKit</span><span class="p">.</span><span class="na">resetLocationManagerToDefault</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="в-compose">В Compose<a class="headerlink" href="#в-compose" title="Permanent link">&para;</a></h2>
+<p>У <code>YandexMap</code> есть перегрузка, которая сама владеет слоем, так что создавать ничего не нужно:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">MapScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">locationState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberUserLocationState</span><span class="p">()</span>
+<span class="w">    </span><span class="n">YandexMap</span><span class="p">(</span>
+<span class="w">        </span><span class="n">locationState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">locationState</span><span class="p">,</span>
+<span class="w">        </span><span class="n">locationConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserLocationConfig</span><span class="p">(</span>
+<span class="w">            </span><span class="n">isVisible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="n">isHeadingEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="n">isAutoZoomEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="n">pin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserLocationConfig</span><span class="p">.</span><span class="na">LocationIcon</span><span class="p">(</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pinImage</span><span class="p">),</span>
+<span class="w">            </span><span class="n">arrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserLocationConfig</span><span class="p">.</span><span class="na">LocationIcon</span><span class="p">(</span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrowImage</span><span class="p">),</span>
+<span class="w">            </span><span class="n">accuracy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserLocationConfig</span><span class="p">.</span><span class="na">LocationAccuracy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">fillColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">x334CAF50</span><span class="p">),</span>
+<span class="w">            </span><span class="p">),</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>locationState.cameraPosition</code> следует за <code>UserLocationLayer.cameraPosition</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Vladimir Nenashkin
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.tabs.link", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": "1.0.0-beta01"}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

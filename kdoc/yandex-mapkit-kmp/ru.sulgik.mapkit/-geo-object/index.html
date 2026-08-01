@@ -1,0 +1,386 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>GeoObject</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
+                    Yandex MapKit KMP
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">1.0.0-beta01
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/commonMain">common</button>
+                <button class="platform-tag platform-selector native-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/iosMain">ios</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/androidMain" data-filter=":yandex-mapkit-kmp/androidMain">
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/commonMain" data-filter=":yandex-mapkit-kmp/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/iosMain" data-filter=":yandex-mapkit-kmp/iosMain">
+                                <span class="checkbox--icon"></span>
+                                ios
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    Yandex MapKit KMP
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="Yandex MapKit SDK KMP::ru.sulgik.mapkit/GeoObject///PointingToDeclaration//271964422">
+  <div class="breadcrumbs"><a href="../../index.html">Yandex MapKit SDK KMP</a><span class="delimiter">/</span><a href="../index.html">ru.sulgik.mapkit</a><span class="delimiter">/</span><span class="current">GeoObject</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Geo</span><wbr><span><span>Object</span></span></h1>
+    <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+      <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="index.html">GeoObject</a></div><p class="paragraph">An object of the base map: a POI, a building, a toponym.</p><p class="paragraph">This is a wrapper class rather than a value type because MapKit keeps the object's metadata in a dictionary keyed by native types, which has no common representation; the metadata is read through the typed accessors below.</p></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">class </span><a href="index.html">GeoObject</a></div><p class="paragraph">An object of the base map: a POI, a building, a toponym.</p><p class="paragraph">This is a wrapper class rather than a value type because MapKit keeps the object's metadata in a dictionary keyed by native types, which has no common representation; the metadata is read through the typed accessors below.</p></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="index.html">GeoObject</a></div><p class="paragraph">An object of the base map: a POI, a building, a toponym.</p><p class="paragraph">This is a wrapper class rather than a value type because MapKit keeps the object's metadata in a dictionary keyed by native types, which has no common representation; the metadata is read through the typed accessors below.</p></div>    </div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="2067485051%2FProperties%2F271964422" anchor-label="aref" id="2067485051%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="aref.html"><span><span>aref</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2067485051%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="aref.html">aref</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The name of the internet resource.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="aref.html">aref</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The name of the internet resource.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="aref.html">aref</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The name of the internet resource.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="693256208%2FProperties%2F271964422" anchor-label="attributionMap" id="693256208%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="attribution-map.html"><span>attribution</span><wbr><span><span>Map</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="693256208%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="attribution-map.html">attributionMap</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="../-attribution/index.html">Attribution</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The attribution of information to a specific author.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="attribution-map.html">attributionMap</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="../-attribution/index.html">Attribution</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The attribution of information to a specific author.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="attribution-map.html">attributionMap</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="../-attribution/index.html#-1880168701%2FMain%2F-1983225140">Attribution</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The attribution of information to a specific author.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1166582790%2FProperties%2F271964422" anchor-label="boundingBox" id="1166582790%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bounding-box.html"><span>bounding</span><wbr><span><span>Box</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1166582790%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="bounding-box.html">boundingBox</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.geometry/-bounding-box/index.html">BoundingBox</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">A rectangular box around the object.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="bounding-box.html">boundingBox</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.geometry/-bounding-box/index.html">BoundingBox</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">A rectangular box around the object.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="bounding-box.html">boundingBox</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.geometry/-bounding-box/index.html#-1203426473%2FMain%2F-1983225140">BoundingBox</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">A rectangular box around the object.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2043730052%2FProperties%2F271964422" anchor-label="descriptionText" id="2043730052%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="description-text.html"><span>description</span><wbr><span><span>Text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2043730052%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="description-text.html">descriptionText</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The description of the object.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="description-text.html">descriptionText</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The description of the object.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="description-text.html">descriptionText</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The description of the object.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1368141211%2FProperties%2F271964422" anchor-label="geometry" id="1368141211%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="geometry.html"><span><span>geometry</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1368141211%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="geometry.html">geometry</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../ru.sulgik.mapkit.geometry/-geometry/index.html">Geometry</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The object's geometry.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="geometry.html">geometry</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../ru.sulgik.mapkit.geometry/-geometry/index.html">Geometry</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The object's geometry.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="geometry.html">geometry</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../ru.sulgik.mapkit.geometry/-geometry/index.html#-1714454446%2FMain%2F-1983225140">Geometry</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The object's geometry.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1371081110%2FProperties%2F271964422" anchor-label="inspectionMetadata" id="-1371081110%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="inspection-metadata.html"><span>inspection</span><wbr><span><span>Metadata</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1371081110%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="inspection-metadata.html">inspectionMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-inspection-metadata/index.html">GeoObjectInspectionMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The geometry kind of the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="inspection-metadata.html">inspectionMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-inspection-metadata/index.html">GeoObjectInspectionMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The geometry kind of the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="inspection-metadata.html">inspectionMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-inspection-metadata/index.html#-791511423%2FMain%2F-1983225140">GeoObjectInspectionMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The geometry kind of the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1595384226%2FProperties%2F271964422" anchor-label="name" id="1595384226%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="name.html"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1595384226%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="name.html">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Object name.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="name.html">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Object name.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="name.html">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Object name.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1526989276%2FProperties%2F271964422" anchor-label="personalizedPoiMetadata" id="-1526989276%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="personalized-poi-metadata.html"><span>personalized</span><wbr><span>Poi</span><wbr><span><span>Metadata</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1526989276%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="personalized-poi-metadata.html">personalizedPoiMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.personalized_poi/-personalized-poi-extra-metadata/index.html">PersonalizedPoiExtraMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The extra data of a personalized POI, or <code class="lang-kotlin">null</code> if the object is not one.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="personalized-poi-metadata.html">personalizedPoiMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.personalized_poi/-personalized-poi-extra-metadata/index.html">PersonalizedPoiExtraMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The extra data of a personalized POI, or <code class="lang-kotlin">null</code> if the object is not one.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="personalized-poi-metadata.html">personalizedPoiMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.personalized_poi/-personalized-poi-extra-metadata/index.html#-471667800%2FMain%2F-1983225140">PersonalizedPoiExtraMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The extra data of a personalized POI, or <code class="lang-kotlin">null</code> if the object is not one.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-774078670%2FProperties%2F271964422" anchor-label="selectionMetadata" id="-774078670%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="selection-metadata.html"><span>selection</span><wbr><span><span>Metadata</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-774078670%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="selection-metadata.html">selectionMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-selection-metadata/index.html">GeoObjectSelectionMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Identifies the object so that it can be passed to <a href="../../ru.sulgik.mapkit.map/-map/select-geo-object.html">ru.sulgik.mapkit.map.Map.selectGeoObject</a>, or <code class="lang-kotlin">null</code> if the object cannot be selected.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="selection-metadata.html">selectionMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-selection-metadata/index.html">GeoObjectSelectionMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Identifies the object so that it can be passed to <a href="../../ru.sulgik.mapkit.map/-map/select-geo-object.html">ru.sulgik.mapkit.map.Map.selectGeoObject</a>, or <code class="lang-kotlin">null</code> if the object cannot be selected.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="selection-metadata.html">selectionMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-selection-metadata/index.html#1375968163%2FMain%2F-1983225140">GeoObjectSelectionMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Identifies the object so that it can be passed to <a href="../../ru.sulgik.mapkit.map/-map/select-geo-object.html">ru.sulgik.mapkit.map.Map.selectGeoObject</a>, or <code class="lang-kotlin">null</code> if the object cannot be selected.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="418587604%2FProperties%2F271964422" anchor-label="tags" id="418587604%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="tags.html"><span><span>tags</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="418587604%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="tags.html">tags</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-tags/index.html">GeoObjectTags</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The tags of the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="tags.html">tags</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-tags/index.html">GeoObjectTags</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The tags of the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="tags.html">tags</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.map/-geo-object-tags/index.html#-1107561173%2FMain%2F-1983225140">GeoObjectTags</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The tags of the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="189979474%2FProperties%2F271964422" anchor-label="uriMetadata" id="189979474%2FProperties%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="uri-metadata.html"><span>uri</span><wbr><span><span>Metadata</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="189979474%2FProperties%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="uri-metadata.html">uriMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.uri/-uri-object-metadata/index.html">UriObjectMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The links to the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="uri-metadata.html">uriMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.uri/-uri-object-metadata/index.html">UriObjectMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The links to the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">val </span><a href="uri-metadata.html">uriMetadata</a><span class="token operator">: </span><a href="../../ru.sulgik.mapkit.uri/-uri-object-metadata/index.html#212854986%2FMain%2F-1983225140">UriObjectMetadata</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The links to the object, or <code class="lang-kotlin">null</code> if MapKit reported none.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="-701697964%2FFunctions%2F271964422" anchor-label="equals" id="-701697964%2FFunctions%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="equals.html"><span><span>equals</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-701697964%2FFunctions%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="equals.html"><span class="token function">equals</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">other<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Two handles are equal when they have the same type and wrap the same native object.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="equals.html"><span class="token function">equals</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">other<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Two handles are equal when they have the same type and wrap the same native object.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="equals.html"><span class="token function">equals</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">other<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Two handles are equal when they have the same type and wrap the same native object.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2033464814%2FFunctions%2F271964422" anchor-label="hashCode" id="-2033464814%2FFunctions%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="hash-code.html"><span>hash</span><wbr><span><span>Code</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2033464814%2FFunctions%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="hash-code.html"><span class="token function">hashCode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">The hash code of the wrapped native object, consistent with <a href="equals.html">equals</a>.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="hash-code.html"><span class="token function">hashCode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">The hash code of the wrapped native object, consistent with <a href="equals.html">equals</a>.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="hash-code.html"><span class="token function">hashCode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">The hash code of the wrapped native object, consistent with <a href="equals.html">equals</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="541471643%2FFunctions%2F-1238938674" anchor-label="toNative" id="541471643%2FFunctions%2F-1238938674" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../../yandex-mapkit-kmp/ru.sulgik.mapkit/-geo-object/[ios]to-native.html"><span>to</span><wbr><span><span>Native</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="541471643%2FFunctions%2F-1238938674"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="[android]to-native.html"><span class="token function">toNative</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.yandex.mapkit/GeoObject///PointingToDeclaration/">GeoObject</span></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="[ios]to-native.html"><span class="token function">toNative</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span>ERROR CLASS: Symbol not found for NativeGeoObject</div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

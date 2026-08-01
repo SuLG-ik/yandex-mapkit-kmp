@@ -1,0 +1,1802 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Kotlin Multiplatform wrapper for official Yandex MapKit SDK for iOS and Android targets with additional Compose Multiplatform support">
+      
+      
+        <meta name="author" content="Vladimir Nenashkin">
+      
+      
+        <link rel="canonical" href="https://ymk-kmp.sulgik.ru/wrapper/map/">
+      
+      
+        <link rel="prev" href="../coverage/">
+      
+      
+        <link rel="next" href="../mapobjects/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+          <link rel="alternate" href="../../ru/wrapper/map/" hreflang="ru">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Map and camera - Yandex MapKit KMP</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#map-and-camera" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Yandex MapKit KMP" class="md-header__button md-logo" aria-label="Yandex MapKit KMP" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yandex MapKit KMP
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Map and camera
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../ru/wrapper/map/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SuLG-ik/yandex-mapkit-kmp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SuLG-ik/yandex-mapkit-kmp
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Yandex MapKit KMP" class="md-nav__button md-logo" aria-label="Yandex MapKit KMP" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    Yandex MapKit KMP
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SuLG-ik/yandex-mapkit-kmp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SuLG-ik/yandex-mapkit-kmp
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration from MapKit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/licence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Licence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wrapper
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Wrapper
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../coverage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is wrapped
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map and camera
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map and camera
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#moving-the-camera" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moving the camera
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving the camera">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fitting-a-geometry-into-the-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fitting a geometry into the view
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bounding-the-camera" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bounding the camera
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#following-the-camera" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Following the camera
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-visible-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The visible region
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#screen-and-world-coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Screen and world coordinates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#focus-and-point-of-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Focus and point of view
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestures-and-appearance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestures and appearance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#map-styles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Map styles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taps-on-the-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Taps on the map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waiting-for-the-map-to-be-drawn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waiting for the map to be drawn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indoor-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indoor plans
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-yandex-logo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Yandex logo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overlays
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geometry-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geometry helpers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frame-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frame rate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clearing-the-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clearing the map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mapobjects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geoobjects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base map objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../location/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geolocation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layers and tiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline maps and storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compose support
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Compose support
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compose/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compose/mapobjects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compose/image-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sample/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sample
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kdoc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#moving-the-camera" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Moving the camera
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving the camera">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fitting-a-geometry-into-the-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fitting a geometry into the view
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bounding-the-camera" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bounding the camera
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#following-the-camera" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Following the camera
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-visible-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The visible region
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#screen-and-world-coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Screen and world coordinates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#focus-and-point-of-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Focus and point of view
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestures-and-appearance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestures and appearance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#map-styles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Map styles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taps-on-the-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Taps on the map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waiting-for-the-map-to-be-drawn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waiting for the map to be drawn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indoor-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indoor plans
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-yandex-logo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Yandex logo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overlays
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geometry-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geometry helpers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frame-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frame rate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clearing-the-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clearing the map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="map-and-camera">Map and camera<a class="headerlink" href="#map-and-camera" title="Permanent link">&para;</a></h1>
+<p><code>MapWindow</code> is the surface, <code>Map</code> is what you drive. <code>mapView.mapWindow.map</code> on the platform side,
+<code>mapWindow.map</code> once it reaches common code.</p>
+<h2 id="moving-the-camera">Moving the camera<a class="headerlink" href="#moving-the-camera" title="Permanent link">&para;</a></h2>
+<p><code>CameraPosition</code> is a value type: a target, a zoom, an azimuth and a tilt.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">moscow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CameraPosition</span><span class="p">(</span>
+<span class="w">    </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="m">55.751225</span><span class="p">,</span><span class="w"> </span><span class="m">37.629540</span><span class="p">),</span>
+<span class="w">    </span><span class="n">zoom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">azimuth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">tilt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0f</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">map</span><span class="p">.</span><span class="na">move</span><span class="p">(</span><span class="n">moscow</span><span class="p">)</span>
+</code></pre></div>
+<p>With an <code>Animation</code>, and a <code>CameraCallback</code> that reports whether the movement finished or was
+cancelled by a later one:</p>
+<div class="highlight"><pre><span></span><code><span class="n">map</span><span class="p">.</span><span class="na">move</span><span class="p">(</span>
+<span class="w">    </span><span class="n">cameraPosition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moscow</span><span class="p">,</span>
+<span class="w">    </span><span class="n">animation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Animation</span><span class="p">(</span><span class="n">Animation</span><span class="p">.</span><span class="na">Type</span><span class="p">.</span><span class="na">SMOOTH</span><span class="p">,</span><span class="w"> </span><span class="m">1.</span><span class="n">seconds</span><span class="p">),</span>
+<span class="w">    </span><span class="n">cameraCallback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CameraCallback</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">completed</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">completed</span><span class="p">)</span><span class="w"> </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;arrived&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Durations are <code>kotlin.time.Duration</code></p>
+<p>MapKit takes seconds as a <code>Float</code>; the wrapper takes <code>1.seconds</code>, <code>300.milliseconds</code> and
+converts.</p>
+</div>
+<h3 id="fitting-a-geometry-into-the-view">Fitting a geometry into the view<a class="headerlink" href="#fitting-a-geometry-into-the-view" title="Permanent link">&para;</a></h3>
+<p><code>cameraPosition(geometry)</code> computes the position that projects a geometry into the focus rect,
+without moving anything:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Polyline</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+<span class="n">map</span><span class="p">.</span><span class="na">move</span><span class="p">(</span>
+<span class="w">    </span><span class="n">map</span><span class="p">.</span><span class="na">cameraPosition</span><span class="p">(</span><span class="n">route</span><span class="p">.</span><span class="na">toGeometry</span><span class="p">()),</span>
+<span class="w">    </span><span class="n">Animation</span><span class="p">(</span><span class="n">Animation</span><span class="p">.</span><span class="na">Type</span><span class="p">.</span><span class="na">SMOOTH</span><span class="p">,</span><span class="w"> </span><span class="m">500.</span><span class="n">milliseconds</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><code>focusRect</code>, <code>azimuth</code> and <code>tilt</code> are optional and default to what the map currently uses:</p>
+<div class="highlight"><pre><span></span><code><span class="n">map</span><span class="p">.</span><span class="na">cameraPosition</span><span class="p">(</span>
+<span class="w">    </span><span class="n">geometry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boundingBox</span><span class="p">.</span><span class="na">toGeometry</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">focusRect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ScreenRect</span><span class="p">(</span><span class="n">ScreenPoint</span><span class="p">(</span><span class="m">0f</span><span class="p">,</span><span class="w"> </span><span class="m">0f</span><span class="p">),</span><span class="w"> </span><span class="n">ScreenPoint</span><span class="p">(</span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.6f</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">azimuth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0f</span><span class="p">,</span>
+<span class="w">    </span><span class="n">tilt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0f</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Every geometry type converts with <code>toGeometry()</code> — <code>Point</code>, <code>Polyline</code>, <code>Polygon</code>, <code>MultiPolygon</code>,
+<code>BoundingBox</code>, <code>Circle</code>.</p>
+<h3 id="bounding-the-camera">Bounding the camera<a class="headerlink" href="#bounding-the-camera" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">map</span><span class="p">.</span><span class="na">cameraBounds</span><span class="p">.</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">setMinZoomPreference</span><span class="p">(</span><span class="m">10f</span><span class="p">)</span>
+<span class="w">    </span><span class="n">setMaxZoomPreference</span><span class="p">(</span><span class="m">18f</span><span class="p">)</span>
+<span class="w">    </span><span class="n">latLngBounds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BoundingBox</span><span class="p">(</span>
+<span class="w">        </span><span class="n">southWest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="m">55.55</span><span class="p">,</span><span class="w"> </span><span class="m">37.35</span><span class="p">),</span>
+<span class="w">        </span><span class="n">northEast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="m">55.95</span><span class="p">,</span><span class="w"> </span><span class="m">37.85</span><span class="p">),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>resetMinMaxZoomPreference()</code> gives the limits back to MapKit.</p>
+<h3 id="following-the-camera">Following the camera<a class="headerlink" href="#following-the-camera" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MapController</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">map</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">cameraListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CameraListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="p">,</span><span class="w"> </span><span class="n">finished</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">finished</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">reason</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">CameraUpdateReason</span><span class="p">.</span><span class="na">GESTURES</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">reload</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="na">target</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">map</span><span class="p">.</span><span class="na">addCameraListener</span><span class="p">(</span><span class="n">cameraListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>CameraUpdateReason</code> distinguishes <code>GESTURES</code> from <code>APPLICATION</code>. The listener must be held in a
+field — see <a href="../overview/#listeners-and-weakref">Listeners and <code>WeakRef</code></a>.</p>
+<h2 id="the-visible-region">The visible region<a class="headerlink" href="#the-visible-region" title="Permanent link">&para;</a></h2>
+<p><code>visibleRegion</code> is the four corners of what is on screen; <code>visibleRegion(cameraPosition)</code> computes
+them for a position the camera has not reached yet.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">region</span><span class="p">:</span><span class="w"> </span><span class="n">VisibleRegion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">visibleRegion</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="nv">bounds</span><span class="p">:</span><span class="w"> </span><span class="n">BoundingBox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="na">getBounds</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">geometry</span><span class="p">:</span><span class="w"> </span><span class="n">Geometry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="na">toPolygon</span><span class="p">()</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="nv">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pois</span><span class="p">.</span><span class="na">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">poi</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="n">poi</span><span class="p">.</span><span class="na">latitude</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">bounds</span><span class="p">.</span><span class="na">southWest</span><span class="p">.</span><span class="na">latitude</span><span class="p">..</span><span class="na">bounds</span><span class="p">.</span><span class="na">northEast</span><span class="p">.</span><span class="na">latitude</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">        </span><span class="n">poi</span><span class="p">.</span><span class="na">longitude</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">bounds</span><span class="p">.</span><span class="na">southWest</span><span class="p">.</span><span class="na">longitude</span><span class="p">..</span><span class="na">bounds</span><span class="p">.</span><span class="na">northEast</span><span class="p">.</span><span class="na">longitude</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>Latitude</code> and <code>Longitude</code> are <code>Comparable</code> value classes, which is what makes the range check
+above compile.</p>
+<p><code>getBounds()</code> also exists on <code>Point</code>, <code>Polyline</code>, <code>LinearRing</code>, <code>Polygon</code>, <code>BoundingBox</code> and on a
+pair of bounding boxes, which is how you grow a box over a set of objects.</p>
+<h2 id="screen-and-world-coordinates">Screen and world coordinates<a class="headerlink" href="#screen-and-world-coordinates" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">screenPoint</span><span class="p">:</span><span class="w"> </span><span class="n">ScreenPoint? </span><span class="o">=</span><span class="w"> </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">worldToScreen</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="m">55.751225</span><span class="p">,</span><span class="w"> </span><span class="m">37.629540</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">worldPoint</span><span class="p">:</span><span class="w"> </span><span class="n">Point? </span><span class="o">=</span><span class="w"> </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">screenToWorld</span><span class="p">(</span><span class="n">ScreenPoint</span><span class="p">(</span><span class="m">100f</span><span class="p">,</span><span class="w"> </span><span class="m">200f</span><span class="p">))</span>
+</code></pre></div>
+<p>Both return <code>null</code> when the point cannot be projected — behind the horizon, or outside the window.</p>
+<p><code>mapWindow.width</code> and <code>mapWindow.height</code> are the size in physical pixels, and
+<code>addSizeChangedListener</code> reports changes:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">sizeChangedListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SizeChangedListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$</span><span class="n">width</span><span class="s"> x </span><span class="si">$</span><span class="n">height</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">mapWindow</span><span class="p">.</span><span class="na">addSizeChangedListener</span><span class="p">(</span><span class="n">sizeChangedListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+</code></pre></div>
+<h2 id="focus-and-point-of-view">Focus and point of view<a class="headerlink" href="#focus-and-point-of-view" title="Permanent link">&para;</a></h2>
+<p><code>focusRect</code> narrows the part of the window the camera reasons about — useful when a bottom sheet
+covers the lower half of the map, so that "centred" means centred in what is still visible.</p>
+<div class="highlight"><pre><span></span><code><span class="n">mapWindow</span><span class="p">.</span><span class="na">focusRect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ScreenRect</span><span class="p">(</span>
+<span class="w">    </span><span class="n">topLeft</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ScreenPoint</span><span class="p">(</span><span class="m">0f</span><span class="p">,</span><span class="w"> </span><span class="m">0f</span><span class="p">),</span>
+<span class="w">    </span><span class="n">bottomRight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ScreenPoint</span><span class="p">(</span><span class="n">mapWindow</span><span class="p">.</span><span class="na">width</span><span class="p">.</span><span class="na">toFloat</span><span class="p">(),</span><span class="w"> </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.6f</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><code>focusPoint</code> moves the point the camera rotates and zooms around, <code>gestureFocusPoint</code> does the same
+for gestures only, and <code>gestureFocusPointMode</code> decides whether it applies always or only during a
+gesture. <code>focusRegion</code> is the visible region of the focus rect.</p>
+<p><code>pointOfView</code> switches between <code>SCREEN_CENTER</code> and <code>ADAPT_TO_FOCUS_POINT_HORIZONTALLY</code>.</p>
+<p><code>scaleFactor</code> scales the map content — labels, icons, line widths — against the screen density.</p>
+<h2 id="gestures-and-appearance">Gestures and appearance<a class="headerlink" href="#gestures-and-appearance" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">map</span><span class="p">.</span><span class="na">isRotateGesturesEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="n">map</span><span class="p">.</span><span class="na">isTiltGesturesEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="n">map</span><span class="p">.</span><span class="na">isScrollGesturesEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="n">map</span><span class="p">.</span><span class="na">isZoomGesturesEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+
+<span class="n">map</span><span class="p">.</span><span class="na">isFastTapEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="n">map</span><span class="p">.</span><span class="na">isNightModeEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isDarkTheme</span>
+<span class="n">map</span><span class="p">.</span><span class="na">poiLimit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>
+<span class="n">map</span><span class="p">.</span><span class="na">mapType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MapType</span><span class="p">.</span><span class="na">VECTOR_MAP</span>
+<span class="n">map</span><span class="p">.</span><span class="na">set2DMode</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+</code></pre></div>
+<p><code>mapType</code> selects <code>NONE</code>, <code>MAP</code>, <code>SATELLITE</code>, <code>HYBRID</code> or <code>VECTOR_MAP</code>. <code>mode</code> selects the map's
+purpose — <code>MAP</code>, <code>TRANSIT</code>, <code>DRIVING</code>, <code>ADMIN</code>, <code>LEGACY_MAP</code>, <code>FUTURE_MAP</code>, <code>HYBRID</code> — and changes
+what the base map emphasises.</p>
+<p><code>isHdModeEnabled</code>, <code>isAwesomeModelsEnabled</code>, <code>isTransparentBackgroundEnabled</code> and
+<code>isBuildingsAboveIndoorEnabled</code> are the remaining rendering switches. <code>poiLimit = null</code> gives the
+limit back to MapKit.</p>
+<h2 id="map-styles">Map styles<a class="headerlink" href="#map-styles" title="Permanent link">&para;</a></h2>
+<p>A JSON style transformation, in the format described by
+<a href="https://yandex.ru/dev/mapkit/doc/ru/android/generated/style">the official documentation</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">setMapStyle</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;[{&quot;tags&quot;: {&quot;any&quot;: [&quot;building&quot;]}, &quot;stylers&quot;: {&quot;visibility&quot;: &quot;off&quot;}}]&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Several styles can coexist under different ids, and <code>resetMapStyles()</code> drops them all:</p>
+<div class="highlight"><pre><span></span><code><span class="n">map</span><span class="p">.</span><span class="na">setMapStyle</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hideBuildings</span><span class="p">)</span>
+<span class="n">map</span><span class="p">.</span><span class="na">setMapStyle</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dimRoads</span><span class="p">)</span>
+<span class="n">map</span><span class="p">.</span><span class="na">resetMapStyles</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="taps-on-the-map">Taps on the map<a class="headerlink" href="#taps-on-the-map" title="Permanent link">&para;</a></h2>
+<p><code>InputListener</code> reports taps that hit the map itself rather than an object on it.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MapController</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">map</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">inputListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">InputListener</span><span class="p">(</span>
+<span class="w">        </span><span class="n">onMapTap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">addPlacemark</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">onMapLongTap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">openMenu</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">map</span><span class="p">.</span><span class="na">addInputListener</span><span class="p">(</span><span class="n">inputListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A tap on a POI, a building or a toponym goes to <code>GeoObjectTapListener</code> first — see
+<a href="../geoobjects/">Base map objects</a>.</p>
+<h2 id="waiting-for-the-map-to-be-drawn">Waiting for the map to be drawn<a class="headerlink" href="#waiting-for-the-map-to-be-drawn" title="Permanent link">&para;</a></h2>
+<p><code>MapLoadedListener</code> fires once the visible tiles are rendered, with the timings and the object count:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">mapLoadedListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MapLoadedListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">statistics</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;fully loaded in </span><span class="si">${</span><span class="n">statistics</span><span class="p">.</span><span class="na">fullyLoaded</span><span class="si">}</span><span class="s">, </span><span class="si">${</span><span class="n">statistics</span><span class="p">.</span><span class="na">renderObjectCount</span><span class="si">}</span><span class="s"> objects&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">map</span><span class="p">.</span><span class="na">setMapLoadedListener</span><span class="p">(</span><span class="n">mapLoadedListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+</code></pre></div>
+<p>Pass <code>null</code> to stop listening.</p>
+<h2 id="indoor-plans">Indoor plans<a class="headerlink" href="#indoor-plans" title="Permanent link">&para;</a></h2>
+<p>When the camera is over a building with an indoor plan, MapKit reports it and lets you switch
+levels:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">IndoorController</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">map</span><span class="p">:</span><span class="w"> </span><span class="n">Map</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">plan</span><span class="p">:</span><span class="w"> </span><span class="n">IndoorPlan? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">indoorStateListener</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IndoorStateListener</span><span class="p">(</span>
+<span class="w">        </span><span class="n">onActivePlanFocused</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">plan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">onActivePlanLeft</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">plan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">onActiveLevelChanged</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">levelId</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;level </span><span class="si">$</span><span class="n">levelId</span><span class="s">&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">map</span><span class="p">.</span><span class="na">isIndoorEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="n">map</span><span class="p">.</span><span class="na">addIndoorStateListener</span><span class="p">(</span><span class="n">indoorStateListener</span><span class="p">.</span><span class="na">asWeakRef</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">selectLevel</span><span class="p">(</span><span class="n">levelId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">plan</span><span class="o">?.</span><span class="na">activeLevelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">levelId</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>IndoorPlan.levels</code> lists the <code>IndoorLevel</code>s of the current plan.</p>
+<h2 id="the-yandex-logo">The Yandex logo<a class="headerlink" href="#the-yandex-logo" title="Permanent link">&para;</a></h2>
+<p>MapKit requires the logo to stay visible; it can only be moved.</p>
+<div class="highlight"><pre><span></span><code><span class="n">map</span><span class="p">.</span><span class="na">logo</span><span class="p">.</span><span class="na">setAlignment</span><span class="p">(</span>
+<span class="w">    </span><span class="n">LogoAlignment</span><span class="p">(</span>
+<span class="w">        </span><span class="n">horizontalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LogoHorizontalAlignment</span><span class="p">.</span><span class="na">LEFT</span><span class="p">,</span>
+<span class="w">        </span><span class="n">verticalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LogoVerticalAlignment</span><span class="p">.</span><span class="na">BOTTOM</span><span class="p">,</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">map</span><span class="p">.</span><span class="na">logo</span><span class="p">.</span><span class="na">setPadding</span><span class="p">(</span><span class="n">LogoPadding</span><span class="p">(</span><span class="n">horizontalPadding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="n">verticalPadding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="overlays">Overlays<a class="headerlink" href="#overlays" title="Permanent link">&para;</a></h2>
+<p><code>addRasterScreenOverlay()</code> puts a raster image on top of the map in screen coordinates — a legend, a
+compass, a weather scale:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">overlay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapWindow</span><span class="p">.</span><span class="na">addRasterScreenOverlay</span><span class="p">()</span>
+<span class="n">overlay</span><span class="p">.</span><span class="na">setImage</span><span class="p">(</span><span class="n">legendImage</span><span class="p">,</span><span class="w"> </span><span class="n">ScreenRect</span><span class="p">(</span><span class="n">ScreenPoint</span><span class="p">(</span><span class="m">16f</span><span class="p">,</span><span class="w"> </span><span class="m">16f</span><span class="p">),</span><span class="w"> </span><span class="n">ScreenPoint</span><span class="p">(</span><span class="m">216f</span><span class="p">,</span><span class="w"> </span><span class="m">96f</span><span class="p">)))</span>
+
+<span class="n">overlay</span><span class="p">.</span><span class="na">remove</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="geometry-helpers">Geometry helpers<a class="headerlink" href="#geometry-helpers" title="Permanent link">&para;</a></h2>
+<p><code>Geo</code> covers the calculations MapKit exposes:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">metres</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Geo</span><span class="p">.</span><span class="na">distance</span><span class="p">(</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">bearing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Geo</span><span class="p">.</span><span class="na">course</span><span class="p">(</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="p">)</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">nearest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Geo</span><span class="p">.</span><span class="na">closestPoint</span><span class="p">(</span><span class="n">point</span><span class="p">,</span><span class="w"> </span><span class="n">Segment</span><span class="p">(</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="p">))</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">midpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Geo</span><span class="p">.</span><span class="na">pointOnSegmentByFactor</span><span class="p">(</span><span class="n">Segment</span><span class="p">(</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="p">),</span><span class="w"> </span><span class="n">factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
+</code></pre></div>
+<p><code>PolylineUtils</code> and <code>SubpolylineHelper</code> work on polylines and their positions, <code>Projection</code> (from
+<code>map.projection()</code>) converts between world and <code>XYPoint</code> tile coordinates.</p>
+<h2 id="frame-rate">Frame rate<a class="headerlink" href="#frame-rate" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mapWindow</span><span class="p">.</span><span class="na">setMaxFps</span><span class="p">(</span><span class="m">30</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="clearing-the-map">Clearing the map<a class="headerlink" href="#clearing-the-map" title="Permanent link">&para;</a></h2>
+<p><code>map.wipe()</code> removes everything MapKit has drawn and cached for this map. It is a heavy operation
+that is meant for the moment a map is being torn down, not for hiding objects — use
+<code>mapObjects.clear()</code> for that.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Vladimir Nenashkin
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.tabs.link", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "1.0.0-beta01"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

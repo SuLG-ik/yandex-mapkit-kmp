@@ -1,0 +1,388 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ru.sulgik.mapkit.offline_cache</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../index.html" tabindex="1">
+                    Yandex MapKit KMP
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">1.0.0-beta01
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/commonMain">common</button>
+                <button class="platform-tag platform-selector native-like" data-active="" aria-pressed="true" data-filter=":yandex-mapkit-kmp/iosMain">ios</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/androidMain" data-filter=":yandex-mapkit-kmp/androidMain">
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/commonMain" data-filter=":yandex-mapkit-kmp/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":yandex-mapkit-kmp/iosMain" data-filter=":yandex-mapkit-kmp/iosMain">
+                                <span class="checkbox--icon"></span>
+                                ios
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    Yandex MapKit KMP
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageids="Yandex MapKit SDK KMP::ru.sulgik.mapkit.offline_cache////PointingToDeclaration//271964422">
+  <div class="breadcrumbs"><a href="../index.html">Yandex MapKit SDK KMP</a><span class="delimiter">/</span><span class="current">ru.sulgik.mapkit.offline_cache</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="91559177%2FClasslikes%2F271964422" anchor-label="DataMoveListener" id="91559177%2FClasslikes%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-data-move-listener/index.html"><span>Data</span><wbr><span>Move</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="91559177%2FClasslikes%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-data-move-listener/index.html">DataMoveListener</a> : <a href="../ru.sulgik.mapkit/-native-convertible/index.html">NativeConvertible</a><span class="token operator">&lt;</span><span data-unresolved-link="com.yandex.mapkit.offline_cache/DataMoveListener///PointingToDeclaration/">DataMoveListener</span><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Notifies about the progress of moving the offline cache to another folder.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-data-move-listener/index.html">DataMoveListener</a></div><div class="brief "><p class="paragraph">Notifies about the progress of moving the offline cache to another folder.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-data-move-listener/index.html">DataMoveListener</a> : <a href="../../yandex-mapkit-kmp/ru.sulgik.mapkit/-native-convertible/index.html">NativeConvertible</a><span class="token operator">&lt;</span>ERROR CLASS: Symbol not found for NativeDataMoveListener<span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Notifies about the progress of moving the offline cache to another folder.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1886025678%2FClasslikes%2F271964422" anchor-label="ErrorListener" id="1886025678%2FClasslikes%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-error-listener/index.html"><span>Error</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1886025678%2FClasslikes%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-error-listener/index.html">ErrorListener</a> : <a href="../ru.sulgik.mapkit/-native-convertible/index.html">NativeConvertible</a><span class="token operator">&lt;</span><span data-unresolved-link="com.yandex.mapkit.offline_cache/OfflineCacheManager.ErrorListener///PointingToDeclaration/">OfflineCacheManager.ErrorListener</span><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Notifies about the failures of the offline cache.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-error-listener/index.html">ErrorListener</a></div><div class="brief "><p class="paragraph">Notifies about the failures of the offline cache.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-error-listener/index.html">ErrorListener</a> : <a href="../../yandex-mapkit-kmp/ru.sulgik.mapkit/-native-convertible/index.html">NativeConvertible</a><span class="token operator">&lt;</span>ERROR CLASS: Symbol not found for NativeErrorListener<span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Notifies about the failures of the offline cache.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-571498271%2FClasslikes%2F271964422" anchor-label="OfflineCacheError" id="-571498271%2FClasslikes%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-offline-cache-error/index.html"><span>Offline</span><wbr><span>Cache</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-571498271%2FClasslikes%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="-offline-cache-error/index.html">OfflineCacheError</a></div><div class="brief "><p class="paragraph">A failure reported by the offline cache.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">class </span><a href="-offline-cache-error/index.html">OfflineCacheError</a></div><div class="brief "><p class="paragraph">A failure reported by the offline cache.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="-offline-cache-error/index.html">OfflineCacheError</a></div><div class="brief "><p class="paragraph">A failure reported by the offline cache.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1584756516%2FClasslikes%2F271964422" anchor-label="OfflineCacheManager" id="-1584756516%2FClasslikes%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-offline-cache-manager/index.html"><span>Offline</span><wbr><span>Cache</span><wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1584756516%2FClasslikes%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="-offline-cache-manager/index.html">OfflineCacheManager</a></div><div class="brief "><p class="paragraph">Downloads and manages the offline maps.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">class </span><a href="-offline-cache-manager/index.html">OfflineCacheManager</a></div><div class="brief "><p class="paragraph">Downloads and manages the offline maps.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">class </span><a href="-offline-cache-manager/index.html">OfflineCacheManager</a></div><div class="brief "><p class="paragraph">Downloads and manages the offline maps.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2035877148%2FClasslikes%2F24238352" anchor-label="Region" id="-2035877148%2FClasslikes%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-region/index.html"><span><span>Region</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2035877148%2FClasslikes%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-region/index.html">Region</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>country<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>center<span class="token operator">: </span><a href="../ru.sulgik.mapkit.geometry/-point/index.html">Point</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>size<span class="token operator">: </span><a href="../ru.sulgik.mapkit/-localized-value/index.html">LocalizedValue</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>releaseTime<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-instant/index.html">Instant</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>parentId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">A region of the map that can be downloaded for offline use.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1369750128%2FClasslikes%2F271964422" anchor-label="RegionListener" id="-1369750128%2FClasslikes%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-region-listener/index.html"><span>Region</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1369750128%2FClasslikes%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-region-listener/index.html">RegionListener</a> : <a href="../ru.sulgik.mapkit/-native-convertible/index.html">NativeConvertible</a><span class="token operator">&lt;</span><span data-unresolved-link="com.yandex.mapkit.offline_cache/RegionListener///PointingToDeclaration/">RegionListener</span><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Notifies about the download state of the offline regions.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-region-listener/index.html">RegionListener</a></div><div class="brief "><p class="paragraph">Notifies about the download state of the offline regions.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-region-listener/index.html">RegionListener</a> : <a href="../../yandex-mapkit-kmp/ru.sulgik.mapkit/-native-convertible/index.html">NativeConvertible</a><span class="token operator">&lt;</span>ERROR CLASS: Symbol not found for NativeRegionListener<span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Notifies about the download state of the offline regions.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1969055842%2FClasslikes%2F271964422" anchor-label="RegionListUpdatesListener" id="-1969055842%2FClasslikes%2F271964422" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/commonMain,:yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-region-list-updates-listener/index.html"><span>Region</span><wbr><span>List</span><wbr><span>Updates</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1969055842%2FClasslikes%2F271964422"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain" data-toggle=":yandex-mapkit-kmp/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-region-list-updates-listener/index.html">RegionListUpdatesListener</a> : <a href="../ru.sulgik.mapkit/-native-convertible/index.html">NativeConvertible</a><span class="token operator">&lt;</span><span data-unresolved-link="com.yandex.mapkit.offline_cache/RegionListUpdatesListener///PointingToDeclaration/">RegionListUpdatesListener</span><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Notifies when the list of offline regions is updated.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-region-list-updates-listener/index.html">RegionListUpdatesListener</a></div><div class="brief "><p class="paragraph">Notifies when the list of offline regions is updated.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-region-list-updates-listener/index.html">RegionListUpdatesListener</a> : <a href="../../yandex-mapkit-kmp/ru.sulgik.mapkit/-native-convertible/index.html">NativeConvertible</a><span class="token operator">&lt;</span>ERROR CLASS: Symbol not found for NativeRegionListUpdatesListener<span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Notifies when the list of offline regions is updated.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1640236557%2FClasslikes%2F24238352" anchor-label="RegionState" id="1640236557%2FClasslikes%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-region-state/index.html"><span>Region</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1640236557%2FClasslikes%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-region-state/index.html">RegionState</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-region-state/index.html">RegionState</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">The download state of an offline region.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="-1644384513%2FFunctions%2F24238352" anchor-label="DataMoveListener" id="-1644384513%2FFunctions%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-data-move-listener.html"><span>Data</span><wbr><span>Move</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1644384513%2FFunctions%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="-data-move-listener.html"><span class="token function">DataMoveListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">crossinline </span>onDataMoveCompleted<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>onDataMoveError<span class="token operator">: </span><span class="token punctuation">(</span>error<span class="token operator">: </span><a href="-offline-cache-error/index.html">OfflineCacheError</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>onDataMoveProgress<span class="token operator">: </span><span class="token punctuation">(</span>percent<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-data-move-listener/index.html">DataMoveListener</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-904503559%2FFunctions%2F24238352" anchor-label="ErrorListener" id="-904503559%2FFunctions%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-error-listener.html"><span>Error</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-904503559%2FFunctions%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="-error-listener.html"><span class="token function">ErrorListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">crossinline </span>onError<span class="token operator">: </span><span class="token punctuation">(</span>error<span class="token operator">: </span><a href="-offline-cache-error/index.html">OfflineCacheError</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>onRegionError<span class="token operator">: </span><span class="token punctuation">(</span>error<span class="token operator">: </span><a href="-offline-cache-error/index.html">OfflineCacheError</a><span class="token punctuation">, </span>regionId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{ _, _ -&gt; }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-error-listener/index.html">ErrorListener</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1112583904%2FFunctions%2F24238352" anchor-label="RegionListener" id="-1112583904%2FFunctions%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-region-listener.html"><span>Region</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1112583904%2FFunctions%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="-region-listener.html"><span class="token function">RegionListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">crossinline </span>onRegionStateChanged<span class="token operator">: </span><span class="token punctuation">(</span>regionId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>onRegionProgress<span class="token operator">: </span><span class="token punctuation">(</span>regionId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-region-listener/index.html">RegionListener</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-481223393%2FFunctions%2F24238352" anchor-label="RegionListUpdatesListener" id="-481223393%2FFunctions%2F24238352" data-filterable-set=":yandex-mapkit-kmp/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":yandex-mapkit-kmp/commonMain" data-filterable-set=":yandex-mapkit-kmp/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-region-list-updates-listener.html"><span>Region</span><wbr><span>List</span><wbr><span>Updates</span><wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-481223393%2FFunctions%2F24238352"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="-region-list-updates-listener.html"><span class="token function">RegionListUpdatesListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">crossinline </span>onListUpdated<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-region-list-updates-listener/index.html">RegionListUpdatesListener</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-66900681%2FFunctions%2F-1238938674" anchor-label="toCommon" id="-66900681%2FFunctions%2F-1238938674" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-common.html"><span>to</span><wbr><span><span>Common</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-66900681%2FFunctions%2F-1238938674"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.yandex.mapkit.offline_cache/OfflineCacheManager///PointingToDeclaration/">OfflineCacheManager</span><span class="token punctuation">.</span><a href="to-common.html"><span class="token function">toCommon</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-offline-cache-manager/index.html">OfflineCacheManager</a></div><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.yandex.mapkit.offline_cache/Region///PointingToDeclaration/">Region</span><span class="token punctuation">.</span><a href="to-common.html"><span class="token function">toCommon</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-region/index.html">Region</a></div><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.yandex.mapkit.offline_cache/RegionState///PointingToDeclaration/">RegionState</span><span class="token punctuation">.</span><a href="to-common.html"><span class="token function">toCommon</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-region-state/index.html">RegionState</a></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">fun </span>ERROR CLASS: Symbol not found for NativeOfflineCacheManager<span class="token punctuation">.</span><a href="to-common.html"><span class="token function">toCommon</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-offline-cache-manager/index.html">OfflineCacheManager</a></div><div class="symbol monospace"><span class="token keyword">fun </span>ERROR CLASS: Symbol not found for NativeRegion<span class="token punctuation">.</span><a href="to-common.html"><span class="token function">toCommon</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-region/index.html#-2035877148%2FMain%2F-1983225140">Region</a></div><div class="symbol monospace"><span class="token keyword">fun </span>ERROR CLASS: Symbol not found for NativeRegionState<span class="token punctuation">.</span><a href="to-common.html"><span class="token function">toCommon</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-region-state/index.html#1640236557%2FMain%2F-1983225140">RegionState</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1408768141%2FFunctions%2F-1238938674" anchor-label="toNative" id="-1408768141%2FFunctions%2F-1238938674" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../yandex-mapkit-kmp/ru.sulgik.mapkit.offline_cache/[ios]to-native.html"><span>to</span><wbr><span><span>Native</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1408768141%2FFunctions%2F-1238938674"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-region/index.html">Region</a><span class="token punctuation">.</span><a href="[android]to-native.html"><span class="token function">toNative</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.yandex.mapkit.offline_cache/Region///PointingToDeclaration/">Region</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="-region-state/index.html">RegionState</a><span class="token punctuation">.</span><a href="[android]to-native.html"><span class="token function">toNative</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.yandex.mapkit.offline_cache/RegionState///PointingToDeclaration/">RegionState</span></div></div><div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="-region/index.html#-2035877148%2FMain%2F-1983225140">Region</a><span class="token punctuation">.</span><a href="[ios]to-native.html"><span class="token function">toNative</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span>ERROR CLASS: Symbol not found for NativeRegion</div><div class="symbol monospace"><span class="token keyword">fun </span><a href="-region-state/index.html#1640236557%2FMain%2F-1983225140">RegionState</a><span class="token punctuation">.</span><a href="[ios]to-native.html"><span class="token function">toNative</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span>ERROR CLASS: Symbol not found for NativeRegionState</div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1535763179%2FFunctions%2F-1238938674" anchor-label="toOfflineCacheError" id="1535763179%2FFunctions%2F-1238938674" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/androidMain,:yandex-mapkit-kmp/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-offline-cache-error.html"><span>to</span><wbr><span>Offline</span><wbr><span>Cache</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1535763179%2FFunctions%2F-1238938674"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/androidMain" data-filterable-set=":yandex-mapkit-kmp/androidMain" data-active="" data-toggle=":yandex-mapkit-kmp/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":yandex-mapkit-kmp/iosMain" data-filterable-set=":yandex-mapkit-kmp/iosMain" data-toggle=":yandex-mapkit-kmp/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":yandex-mapkit-kmp/androidMain"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="com.yandex.runtime/Error///PointingToDeclaration/">Error</span><span class="token punctuation">.</span><a href="to-offline-cache-error.html"><span class="token function">toOfflineCacheError</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-offline-cache-error/index.html">OfflineCacheError</a></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":yandex-mapkit-kmp/iosMain"><div class="symbol monospace"><span class="token keyword">fun </span>ERROR CLASS: Symbol not found for NSError<span class="token punctuation">.</span><a href="to-offline-cache-error.html"><span class="token function">toOfflineCacheError</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-offline-cache-error/index.html">OfflineCacheError</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
