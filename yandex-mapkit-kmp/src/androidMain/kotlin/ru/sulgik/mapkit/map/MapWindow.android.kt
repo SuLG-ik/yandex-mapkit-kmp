@@ -1,6 +1,5 @@
 package ru.sulgik.mapkit.map
 
-import com.yandex.mapkit.map.MapWindow
 import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.WeakRef
@@ -11,8 +10,9 @@ import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import ru.sulgik.mapkit.ui.Overlay
 import ru.sulgik.mapkit.ui.toCommon
+import com.yandex.mapkit.map.MapWindow as NativeMapWindow
 
-public actual class MapWindow internal constructor(private val nativeMapWindow: MapWindow) {
+public actual class MapWindow internal constructor(private val nativeMapWindow: NativeMapWindow) {
 
     /**
      * Adds raster screen overlay.
@@ -21,7 +21,7 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
         return nativeMapWindow.addRasterScreenOverlay().toCommon()
     }
 
-    public fun toNative(): MapWindow {
+    public fun toNative(): NativeMapWindow {
         return nativeMapWindow
     }
 
@@ -100,8 +100,25 @@ public actual class MapWindow internal constructor(private val nativeMapWindow: 
 
     public actual val isValid: Boolean
         get() = nativeMapWindow.isValid
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is MapWindow) return false
+        if (this::class != other::class) return false
+        return nativeMapWindow == other.nativeMapWindow
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeMapWindow.hashCode()
+    }
 }
 
-public fun MapWindow.toCommon(): ru.sulgik.mapkit.map.MapWindow {
+public fun NativeMapWindow.toCommon(): MapWindow {
     return MapWindow(this)
 }

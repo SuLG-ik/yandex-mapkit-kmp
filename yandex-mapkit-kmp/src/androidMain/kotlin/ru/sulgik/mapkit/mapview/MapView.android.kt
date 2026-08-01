@@ -36,6 +36,23 @@ public actual class MapView internal constructor(private val nativeMapView: Nati
      */
     public val isDebugModeEnabled: Boolean
         get() = nativeMapView.isDebugModeEnabled
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is MapView) return false
+        if (this::class != other::class) return false
+        return nativeMapView == other.nativeMapView
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeMapView.hashCode()
+    }
 }
 
 public fun NativeMapView.toCommon(): MapView {

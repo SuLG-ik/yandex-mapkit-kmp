@@ -29,6 +29,23 @@ public actual open class PlacemarkPresentation internal constructor(
      */
     public actual val isValid: Boolean
         get() = nativePlacemarkPresentation.isValid
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is PlacemarkPresentation) return false
+        if (this::class != other::class) return false
+        return nativePlacemarkPresentation == other.nativePlacemarkPresentation
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativePlacemarkPresentation.hashCode()
+    }
 }
 
 public fun NativePlacemarkPresentation.toCommon(): PlacemarkPresentation {

@@ -72,4 +72,14 @@ public expect class GeoObject {
      * The extra data of a personalized POI, or `null` if the object is not one.
      */
     public val personalizedPoiMetadata: PersonalizedPoiExtraMetadata?
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    override fun equals(other: Any?): Boolean
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    override fun hashCode(): Int
 }

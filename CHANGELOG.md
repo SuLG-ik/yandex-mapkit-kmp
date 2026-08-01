@@ -112,6 +112,12 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   time passed on a steady clock, which is not a point in time.
 - **Breaking.** `MapObjectVisitor.onCollectionVisitEnd` returns `Unit` instead of `Boolean`, as in
   MapKit; the returned value was discarded.
+- Handle types — the wrappers around a live MapKit object, from `Map` and the `MapObject` hierarchy
+  to the presentation objects, the managers, the layers and the `Error` hierarchy — compare by the
+  object behind them: two handles are equal when they have the same type and wrap the same native
+  object, and `hashCode()` is the wrapped object's. Every `toCommon()` builds a fresh wrapper, so
+  the placemark a tap listener handed over could not be compared to the one that was added, nor be
+  found with `contains` or used as a `Map` key.
 - Library modules build with `com.android.kotlin.multiplatform.library`; the sample Android app moved
   to `sample:androidApp` while `sample:composeApp` became a KMP library.
 - Toolchain: Gradle 9.6.1, AGP 9.3.1, Kotlin 2.4.10, Compose Multiplatform 1.11.1, compileSdk 37,

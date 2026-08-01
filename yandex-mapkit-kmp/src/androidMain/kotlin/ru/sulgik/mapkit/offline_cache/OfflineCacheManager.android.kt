@@ -153,6 +153,23 @@ public actual class OfflineCacheManager internal constructor(
      */
     public actual val isValid: Boolean
         get() = nativeOfflineCacheManager.isValid
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is OfflineCacheManager) return false
+        if (this::class != other::class) return false
+        return nativeOfflineCacheManager == other.nativeOfflineCacheManager
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeOfflineCacheManager.hashCode()
+    }
 }
 
 public fun NativeOfflineCacheManager.toCommon(): OfflineCacheManager {

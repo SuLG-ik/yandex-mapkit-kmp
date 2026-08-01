@@ -533,6 +533,8 @@ final class <#A: kotlin/Any> ru.sulgik.mapkit/WeakRef { // ru.sulgik.mapkit/Weak
 final class ru.sulgik.mapkit.geometry.geo/PolylineIndex { // ru.sulgik.mapkit.geometry.geo/PolylineIndex|null[0]
     final fun closestPolylinePosition(ru.sulgik.mapkit.geometry/Point, ru.sulgik.mapkit.geometry.geo/Priority, kotlin/Double): ru.sulgik.mapkit.geometry/PolylinePosition? // ru.sulgik.mapkit.geometry.geo/PolylineIndex.closestPolylinePosition|closestPolylinePosition(ru.sulgik.mapkit.geometry.Point;ru.sulgik.mapkit.geometry.geo.Priority;kotlin.Double){}[0]
     final fun closestPolylinePosition(ru.sulgik.mapkit.geometry/Point, ru.sulgik.mapkit.geometry/PolylinePosition, ru.sulgik.mapkit.geometry/PolylinePosition, kotlin/Double): ru.sulgik.mapkit.geometry/PolylinePosition? // ru.sulgik.mapkit.geometry.geo/PolylineIndex.closestPolylinePosition|closestPolylinePosition(ru.sulgik.mapkit.geometry.Point;ru.sulgik.mapkit.geometry.PolylinePosition;ru.sulgik.mapkit.geometry.PolylinePosition;kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry.geo/PolylineIndex.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry.geo/PolylineIndex.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKPolylineIndex // ru.sulgik.mapkit.geometry.geo/PolylineIndex.toNative|toNative(){}[0]
 }
 
@@ -540,6 +542,8 @@ final class ru.sulgik.mapkit.geometry.geo/Projection { // ru.sulgik.mapkit.geome
     final val isValid // ru.sulgik.mapkit.geometry.geo/Projection.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.geometry.geo/Projection.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry.geo/Projection.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry.geo/Projection.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKProjection // ru.sulgik.mapkit.geometry.geo/Projection.toNative|toNative(){}[0]
     final fun worldToXY(ru.sulgik.mapkit.geometry/Point, kotlin/Int): ru.sulgik.mapkit.geometry.geo/XYPoint // ru.sulgik.mapkit.geometry.geo/Projection.worldToXY|worldToXY(ru.sulgik.mapkit.geometry.Point;kotlin.Int){}[0]
     final fun xyToWorld(ru.sulgik.mapkit.geometry.geo/XYPoint, kotlin/Int): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit.geometry.geo/Projection.xyToWorld|xyToWorld(ru.sulgik.mapkit.geometry.geo.XYPoint;kotlin.Int){}[0]
@@ -649,6 +653,8 @@ final class ru.sulgik.mapkit.geometry/LinearRing { // ru.sulgik.mapkit.geometry/
     final val points // ru.sulgik.mapkit.geometry/LinearRing.points|{}points[0]
         final fun <get-points>(): kotlin.collections/List<ru.sulgik.mapkit.geometry/Point> // ru.sulgik.mapkit.geometry/LinearRing.points.<get-points>|<get-points>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry/LinearRing.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry/LinearRing.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKLinearRing // ru.sulgik.mapkit.geometry/LinearRing.toNative|toNative(){}[0]
 }
 
@@ -658,6 +664,8 @@ final class ru.sulgik.mapkit.geometry/MultiPolygon { // ru.sulgik.mapkit.geometr
     final val polygons // ru.sulgik.mapkit.geometry/MultiPolygon.polygons|{}polygons[0]
         final fun <get-polygons>(): kotlin.collections/List<ru.sulgik.mapkit.geometry/Polygon> // ru.sulgik.mapkit.geometry/MultiPolygon.polygons.<get-polygons>|<get-polygons>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry/MultiPolygon.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry/MultiPolygon.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKMultiPolygon // ru.sulgik.mapkit.geometry/MultiPolygon.toNative|toNative(){}[0]
 }
 
@@ -685,6 +693,8 @@ final class ru.sulgik.mapkit.geometry/Polygon { // ru.sulgik.mapkit.geometry/Pol
     final val outerRing // ru.sulgik.mapkit.geometry/Polygon.outerRing|{}outerRing[0]
         final fun <get-outerRing>(): ru.sulgik.mapkit.geometry/LinearRing // ru.sulgik.mapkit.geometry/Polygon.outerRing.<get-outerRing>|<get-outerRing>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry/Polygon.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry/Polygon.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKPolygon // ru.sulgik.mapkit.geometry/Polygon.toNative|toNative(){}[0]
     final fun toString(): kotlin/String // ru.sulgik.mapkit.geometry/Polygon.toString|toString(){}[0]
 }
@@ -695,6 +705,8 @@ final class ru.sulgik.mapkit.geometry/Polyline { // ru.sulgik.mapkit.geometry/Po
     final val points // ru.sulgik.mapkit.geometry/Polyline.points|{}points[0]
         final fun <get-points>(): kotlin.collections/List<ru.sulgik.mapkit.geometry/Point> // ru.sulgik.mapkit.geometry/Polyline.points.<get-points>|<get-points>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry/Polyline.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry/Polyline.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKPolyline // ru.sulgik.mapkit.geometry/Polyline.toNative|toNative(){}[0]
     final fun toString(): kotlin/String // ru.sulgik.mapkit.geometry/Polyline.toString|toString(){}[0]
 }
@@ -703,6 +715,8 @@ final class ru.sulgik.mapkit.geometry/PolylineBuilder { // ru.sulgik.mapkit.geom
     final fun append(ru.sulgik.mapkit.geometry/Point) // ru.sulgik.mapkit.geometry/PolylineBuilder.append|append(ru.sulgik.mapkit.geometry.Point){}[0]
     final fun append(ru.sulgik.mapkit.geometry/Polyline) // ru.sulgik.mapkit.geometry/PolylineBuilder.append|append(ru.sulgik.mapkit.geometry.Polyline){}[0]
     final fun build(): ru.sulgik.mapkit.geometry/Polyline // ru.sulgik.mapkit.geometry/PolylineBuilder.build|build(){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry/PolylineBuilder.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry/PolylineBuilder.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKPolylineBuilder // ru.sulgik.mapkit.geometry/PolylineBuilder.toNative|toNative(){}[0]
 }
 
@@ -797,6 +811,8 @@ final class ru.sulgik.mapkit.indoor/IndoorPlan { // ru.sulgik.mapkit.indoor/Indo
         final fun <get-activeLevelId>(): kotlin/String // ru.sulgik.mapkit.indoor/IndoorPlan.activeLevelId.<get-activeLevelId>|<get-activeLevelId>(){}[0]
         final fun <set-activeLevelId>(kotlin/String) // ru.sulgik.mapkit.indoor/IndoorPlan.activeLevelId.<set-activeLevelId>|<set-activeLevelId>(kotlin.String){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.indoor/IndoorPlan.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.indoor/IndoorPlan.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKIndoorPlan // ru.sulgik.mapkit.indoor/IndoorPlan.toNative|toNative(){}[0]
 }
 
@@ -814,6 +830,8 @@ final class ru.sulgik.mapkit.layers/DataSourceLayer { // ru.sulgik.mapkit.layers
         final fun <set-isActive>(kotlin/Boolean) // ru.sulgik.mapkit.layers/DataSourceLayer.isActive.<set-isActive>|<set-isActive>(kotlin.Boolean){}[0]
 
     final fun clear() // ru.sulgik.mapkit.layers/DataSourceLayer.clear|clear(){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.layers/DataSourceLayer.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.layers/DataSourceLayer.hashCode|hashCode(){}[0]
     final fun remove() // ru.sulgik.mapkit.layers/DataSourceLayer.remove|remove(){}[0]
     final fun resetStyles() // ru.sulgik.mapkit.layers/DataSourceLayer.resetStyles|resetStyles(){}[0]
     final fun setDataSourceListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.layers/DataSourceListener>?) // ru.sulgik.mapkit.layers/DataSourceLayer.setDataSourceListener|setDataSourceListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.layers.DataSourceListener>?){}[0]
@@ -828,6 +846,8 @@ final class ru.sulgik.mapkit.layers/GeoObjectTapEvent { // ru.sulgik.mapkit.laye
     final val isValid // ru.sulgik.mapkit.layers/GeoObjectTapEvent.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.layers/GeoObjectTapEvent.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.layers/GeoObjectTapEvent.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.layers/GeoObjectTapEvent.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKGeoObjectTapEvent // ru.sulgik.mapkit.layers/GeoObjectTapEvent.toNative|toNative(){}[0]
 }
 
@@ -836,6 +856,8 @@ final class ru.sulgik.mapkit.layers/Layer { // ru.sulgik.mapkit.layers/Layer|nul
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.layers/Layer.isValid.<get-isValid>|<get-isValid>(){}[0]
 
     final fun dataSourceLayer(): ru.sulgik.mapkit.layers/DataSourceLayer // ru.sulgik.mapkit.layers/Layer.dataSourceLayer|dataSourceLayer(){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.layers/Layer.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.layers/Layer.hashCode|hashCode(){}[0]
     final fun remove() // ru.sulgik.mapkit.layers/Layer.remove|remove(){}[0]
     final fun toNative(): YandexMapKit/YMKLayer // ru.sulgik.mapkit.layers/Layer.toNative|toNative(){}[0]
 }
@@ -880,6 +902,8 @@ final class ru.sulgik.mapkit.layers/TileDataSource : ru.sulgik.mapkit.layers/Bas
 }
 
 final class ru.sulgik.mapkit.location/DummyLocationManager { // ru.sulgik.mapkit.location/DummyLocationManager|null[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.location/DummyLocationManager.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.location/DummyLocationManager.hashCode|hashCode(){}[0]
     final fun setLocation(ru.sulgik.mapkit.location/Location, ru.sulgik.mapkit.location/DummyLocationQuality) // ru.sulgik.mapkit.location/DummyLocationManager.setLocation|setLocation(ru.sulgik.mapkit.location.Location;ru.sulgik.mapkit.location.DummyLocationQuality){}[0]
     final fun toNative(): YandexMapKit/YMKDummyLocationManager // ru.sulgik.mapkit.location/DummyLocationManager.toNative|toNative(){}[0]
 }
@@ -940,6 +964,8 @@ final class ru.sulgik.mapkit.location/LocationError { // ru.sulgik.mapkit.locati
 final class ru.sulgik.mapkit.location/LocationManager { // ru.sulgik.mapkit.location/LocationManager|null[0]
     constructor <init>(YandexMapKit/YMKLocationManager) // ru.sulgik.mapkit.location/LocationManager.<init>|<init>(YandexMapKit.YMKLocationManager){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.location/LocationManager.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.location/LocationManager.hashCode|hashCode(){}[0]
     final fun requestSingleUpdate(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.location/LocationListener>) // ru.sulgik.mapkit.location/LocationManager.requestSingleUpdate|requestSingleUpdate(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationListener>){}[0]
     final fun resume() // ru.sulgik.mapkit.location/LocationManager.resume|resume(){}[0]
     final fun subscribeForLocationUpdates(ru.sulgik.mapkit.location/SubscriptionSettings, ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.location/LocationListener>) // ru.sulgik.mapkit.location/LocationManager.subscribeForLocationUpdates|subscribeForLocationUpdates(ru.sulgik.mapkit.location.SubscriptionSettings;ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationListener>){}[0]
@@ -1001,6 +1027,8 @@ final class ru.sulgik.mapkit.location/LocationSimulator { // ru.sulgik.mapkit.lo
         final fun <get-speed>(): kotlin/Double // ru.sulgik.mapkit.location/LocationSimulator.speed.<get-speed>|<get-speed>(){}[0]
         final fun <set-speed>(kotlin/Double) // ru.sulgik.mapkit.location/LocationSimulator.speed.<set-speed>|<set-speed>(kotlin.Double){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.location/LocationSimulator.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.location/LocationSimulator.hashCode|hashCode(){}[0]
     final fun polylinePosition(): ru.sulgik.mapkit.geometry/PolylinePosition // ru.sulgik.mapkit.location/LocationSimulator.polylinePosition|polylinePosition(){}[0]
     final fun startSimulation(kotlin.collections/List<ru.sulgik.mapkit.location/SimulationSettings>) // ru.sulgik.mapkit.location/LocationSimulator.startSimulation|startSimulation(kotlin.collections.List<ru.sulgik.mapkit.location.SimulationSettings>){}[0]
     final fun stopSimulation() // ru.sulgik.mapkit.location/LocationSimulator.stopSimulation|stopSimulation(){}[0]
@@ -1016,6 +1044,8 @@ final class ru.sulgik.mapkit.location/LocationUnavailableError : ru.sulgik.mapki
 final class ru.sulgik.mapkit.location/LocationViewSource { // ru.sulgik.mapkit.location/LocationViewSource|null[0]
     constructor <init>(YandexMapKit/YMKLocationViewSource) // ru.sulgik.mapkit.location/LocationViewSource.<init>|<init>(YandexMapKit.YMKLocationViewSource){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.location/LocationViewSource.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.location/LocationViewSource.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKLocationViewSource // ru.sulgik.mapkit.location/LocationViewSource.toNative|toNative(){}[0]
 }
 
@@ -1103,6 +1133,8 @@ final class ru.sulgik.mapkit.logo/Logo { // ru.sulgik.mapkit.logo/Logo|null[0]
     final val isValid // ru.sulgik.mapkit.logo/Logo.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.logo/Logo.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.logo/Logo.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.logo/Logo.hashCode|hashCode(){}[0]
     final fun setAlignment(ru.sulgik.mapkit.logo/LogoAlignment) // ru.sulgik.mapkit.logo/Logo.setAlignment|setAlignment(ru.sulgik.mapkit.logo.LogoAlignment){}[0]
     final fun setPadding(ru.sulgik.mapkit.logo/LogoPadding) // ru.sulgik.mapkit.logo/Logo.setPadding|setPadding(ru.sulgik.mapkit.logo.LogoPadding){}[0]
     final fun toNative(): YandexMapKit/YMKLogo // ru.sulgik.mapkit.logo/Logo.toNative|toNative(){}[0]
@@ -1149,6 +1181,8 @@ final class ru.sulgik.mapkit.map/AnimatedImage { // ru.sulgik.mapkit.map/Animate
         final fun <get-loopCount>(): kotlin/Int // ru.sulgik.mapkit.map/AnimatedImage.loopCount.<get-loopCount>|<get-loopCount>(){}[0]
 
     final fun addFrame(ru.sulgik.mapkit.map/ImageProvider, kotlin.time/Duration) // ru.sulgik.mapkit.map/AnimatedImage.addFrame|addFrame(ru.sulgik.mapkit.map.ImageProvider;kotlin.time.Duration){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/AnimatedImage.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/AnimatedImage.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YRTAnimatedImage // ru.sulgik.mapkit.map/AnimatedImage.toNative|toNative(){}[0]
 }
 
@@ -1177,6 +1211,8 @@ final class ru.sulgik.mapkit.map/Arrow { // ru.sulgik.mapkit.map/Arrow|null[0]
         final fun <get-triangleHeight>(): kotlin/Float // ru.sulgik.mapkit.map/Arrow.triangleHeight.<get-triangleHeight>|<get-triangleHeight>(){}[0]
         final fun <set-triangleHeight>(kotlin/Float) // ru.sulgik.mapkit.map/Arrow.triangleHeight.<set-triangleHeight>|<set-triangleHeight>(kotlin.Float){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/Arrow.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/Arrow.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKArrow // ru.sulgik.mapkit.map/Arrow.toNative|toNative(){}[0]
 }
 
@@ -1192,6 +1228,8 @@ final class ru.sulgik.mapkit.map/CameraBounds { // ru.sulgik.mapkit.map/CameraBo
         final fun <get-latLngBounds>(): ru.sulgik.mapkit.geometry/BoundingBox? // ru.sulgik.mapkit.map/CameraBounds.latLngBounds.<get-latLngBounds>|<get-latLngBounds>(){}[0]
         final fun <set-latLngBounds>(ru.sulgik.mapkit.geometry/BoundingBox?) // ru.sulgik.mapkit.map/CameraBounds.latLngBounds.<set-latLngBounds>|<set-latLngBounds>(ru.sulgik.mapkit.geometry.BoundingBox?){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/CameraBounds.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/CameraBounds.hashCode|hashCode(){}[0]
     final fun resetMinMaxZoomPreference() // ru.sulgik.mapkit.map/CameraBounds.resetMinMaxZoomPreference|resetMinMaxZoomPreference(){}[0]
     final fun setMaxZoomPreference(kotlin/Float) // ru.sulgik.mapkit.map/CameraBounds.setMaxZoomPreference|setMaxZoomPreference(kotlin.Float){}[0]
     final fun setMinZoomPreference(kotlin/Float) // ru.sulgik.mapkit.map/CameraBounds.setMinZoomPreference|setMinZoomPreference(kotlin.Float){}[0]
@@ -1253,6 +1291,8 @@ final class ru.sulgik.mapkit.map/Cluster { // ru.sulgik.mapkit.map/Cluster|null[
         final fun <get-size>(): kotlin/Int // ru.sulgik.mapkit.map/Cluster.size.<get-size>|<get-size>(){}[0]
 
     final fun addClusterTapListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.map/ClusterTapListener>) // ru.sulgik.mapkit.map/Cluster.addClusterTapListener|addClusterTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.ClusterTapListener>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/Cluster.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/Cluster.hashCode|hashCode(){}[0]
     final fun removeClusterTapListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.map/ClusterTapListener>) // ru.sulgik.mapkit.map/Cluster.removeClusterTapListener|removeClusterTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.ClusterTapListener>){}[0]
     final fun toNative(): YandexMapKit/YMKCluster // ru.sulgik.mapkit.map/Cluster.toNative|toNative(){}[0]
 }
@@ -1436,6 +1476,8 @@ final class ru.sulgik.mapkit.map/LineStyle { // ru.sulgik.mapkit.map/LineStyle|n
         final fun <get-turnRadius>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.turnRadius.<get-turnRadius>|<get-turnRadius>(){}[0]
         final fun <set-turnRadius>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.turnRadius.<set-turnRadius>|<set-turnRadius>(kotlin.Float){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/LineStyle.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/LineStyle.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKLineStyle // ru.sulgik.mapkit.map/LineStyle.toNative|toNative(){}[0]
 }
 
@@ -1504,6 +1546,8 @@ final class ru.sulgik.mapkit.map/Map { // ru.sulgik.mapkit.map/Map|null[0]
     final fun addTileLayer(kotlin/String, ru.sulgik.mapkit.layers/LayerOptions, kotlin/Function1<ru.sulgik.mapkit.map/TileDataSourceBuilder, kotlin/Unit>): ru.sulgik.mapkit.layers/Layer // ru.sulgik.mapkit.map/Map.addTileLayer|addTileLayer(kotlin.String;ru.sulgik.mapkit.layers.LayerOptions;kotlin.Function1<ru.sulgik.mapkit.map.TileDataSourceBuilder,kotlin.Unit>){}[0]
     final fun cameraPosition(ru.sulgik.mapkit.geometry/Geometry, ru.sulgik.mapkit/ScreenRect? = ..., kotlin/Float? = ..., kotlin/Float? = ...): ru.sulgik.mapkit.map/CameraPosition // ru.sulgik.mapkit.map/Map.cameraPosition|cameraPosition(ru.sulgik.mapkit.geometry.Geometry;ru.sulgik.mapkit.ScreenRect?;kotlin.Float?;kotlin.Float?){}[0]
     final fun deselectGeoObject() // ru.sulgik.mapkit.map/Map.deselectGeoObject|deselectGeoObject(){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/Map.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/Map.hashCode|hashCode(){}[0]
     final fun move(ru.sulgik.mapkit.map/CameraPosition) // ru.sulgik.mapkit.map/Map.move|move(ru.sulgik.mapkit.map.CameraPosition){}[0]
     final fun move(ru.sulgik.mapkit.map/CameraPosition, ru.sulgik.mapkit/Animation, ru.sulgik.mapkit.map/CameraCallback? = ...) // ru.sulgik.mapkit.map/Map.move|move(ru.sulgik.mapkit.map.CameraPosition;ru.sulgik.mapkit.Animation;ru.sulgik.mapkit.map.CameraCallback?){}[0]
     final fun projection(): ru.sulgik.mapkit.geometry.geo/Projection // ru.sulgik.mapkit.map/Map.projection|projection(){}[0]
@@ -1598,6 +1642,8 @@ final class ru.sulgik.mapkit.map/MapWindow { // ru.sulgik.mapkit.map/MapWindow|n
 
     final fun addRasterScreenOverlay(): ru.sulgik.mapkit.ui/Overlay // ru.sulgik.mapkit.map/MapWindow.addRasterScreenOverlay|addRasterScreenOverlay(){}[0]
     final fun addSizeChangedListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.map/SizeChangedListener>) // ru.sulgik.mapkit.map/MapWindow.addSizeChangedListener|addSizeChangedListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.SizeChangedListener>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/MapWindow.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/MapWindow.hashCode|hashCode(){}[0]
     final fun removeSizeChangedListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.map/SizeChangedListener>) // ru.sulgik.mapkit.map/MapWindow.removeSizeChangedListener|removeSizeChangedListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.SizeChangedListener>){}[0]
     final fun screenToWorld(ru.sulgik.mapkit/ScreenPoint): ru.sulgik.mapkit.geometry/Point? // ru.sulgik.mapkit.map/MapWindow.screenToWorld|screenToWorld(ru.sulgik.mapkit.ScreenPoint){}[0]
     final fun setMaxFps(kotlin/Int) // ru.sulgik.mapkit.map/MapWindow.setMaxFps|setMaxFps(kotlin.Int){}[0]
@@ -1710,6 +1756,8 @@ final class ru.sulgik.mapkit.map/PlacemarkText { // ru.sulgik.mapkit.map/Placema
         final fun <get-text>(): kotlin/String // ru.sulgik.mapkit.map/PlacemarkText.text.<get-text>|<get-text>(){}[0]
         final fun <set-text>(kotlin/String) // ru.sulgik.mapkit.map/PlacemarkText.text.<set-text>|<set-text>(kotlin.String){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/PlacemarkText.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/PlacemarkText.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKPlacemarkText // ru.sulgik.mapkit.map/PlacemarkText.toNative|toNative(){}[0]
 }
 
@@ -1717,6 +1765,8 @@ final class ru.sulgik.mapkit.map/PlacemarksStyler { // ru.sulgik.mapkit.map/Plac
     final val isValid // ru.sulgik.mapkit.map/PlacemarksStyler.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.map/PlacemarksStyler.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/PlacemarksStyler.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/PlacemarksStyler.hashCode|hashCode(){}[0]
     final fun setScaleFunction(kotlin.collections/List<ru.sulgik.mapkit/PointF>) // ru.sulgik.mapkit.map/PlacemarksStyler.setScaleFunction|setScaleFunction(kotlin.collections.List<ru.sulgik.mapkit.PointF>){}[0]
     final fun toNative(): YandexMapKit/YMKPlacemarksStyler // ru.sulgik.mapkit.map/PlacemarksStyler.toNative|toNative(){}[0]
 }
@@ -1845,6 +1895,8 @@ final class ru.sulgik.mapkit.map/TextStyle { // ru.sulgik.mapkit.map/TextStyle|n
 }
 
 final class ru.sulgik.mapkit.map/TileDataSourceBuilder { // ru.sulgik.mapkit.map/TileDataSourceBuilder|null[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/TileDataSourceBuilder.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/TileDataSourceBuilder.hashCode|hashCode(){}[0]
     final fun setProjection(ru.sulgik.mapkit.geometry.geo/Projection) // ru.sulgik.mapkit.map/TileDataSourceBuilder.setProjection|setProjection(ru.sulgik.mapkit.geometry.geo.Projection){}[0]
     final fun setTileFormat(ru.sulgik.mapkit.layers/TileFormat) // ru.sulgik.mapkit.map/TileDataSourceBuilder.setTileFormat|setTileFormat(ru.sulgik.mapkit.layers.TileFormat){}[0]
     final fun setTileProvider(ru.sulgik.mapkit.tiles/TileProvider) // ru.sulgik.mapkit.map/TileDataSourceBuilder.setTileProvider|setTileProvider(ru.sulgik.mapkit.tiles.TileProvider){}[0]
@@ -1884,6 +1936,8 @@ final class ru.sulgik.mapkit.mapview/MapView { // ru.sulgik.mapkit.mapview/MapVi
         final fun <get-mapWindow>(): ru.sulgik.mapkit.map/MapWindow // ru.sulgik.mapkit.mapview/MapView.mapWindow.<get-mapWindow>|<get-mapWindow>(){}[0]
 
     final fun destroy() // ru.sulgik.mapkit.mapview/MapView.destroy|destroy(){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.mapview/MapView.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.mapview/MapView.hashCode|hashCode(){}[0]
     final fun onStart() // ru.sulgik.mapkit.mapview/MapView.onStart|onStart(){}[0]
     final fun onStop() // ru.sulgik.mapkit.mapview/MapView.onStop|onStop(){}[0]
     final fun setNoninteractive(kotlin/Boolean) // ru.sulgik.mapkit.mapview/MapView.setNoninteractive|setNoninteractive(kotlin.Boolean){}[0]
@@ -1896,6 +1950,8 @@ final class ru.sulgik.mapkit.offline_cache/OfflineCacheError { // ru.sulgik.mapk
     final val error // ru.sulgik.mapkit.offline_cache/OfflineCacheError.error|{}error[0]
         final fun <get-error>(): ru.sulgik.mapkit.runtime/Error? // ru.sulgik.mapkit.offline_cache/OfflineCacheError.error.<get-error>|<get-error>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.offline_cache/OfflineCacheError.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.offline_cache/OfflineCacheError.hashCode|hashCode(){}[0]
     final fun toNative(): platform.Foundation/NSError // ru.sulgik.mapkit.offline_cache/OfflineCacheError.toNative|toNative(){}[0]
 }
 
@@ -1911,10 +1967,12 @@ final class ru.sulgik.mapkit.offline_cache/OfflineCacheManager { // ru.sulgik.ma
     final fun computeCacheSize(kotlin/Function1<kotlin/Long?, kotlin/Unit>) // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.computeCacheSize|computeCacheSize(kotlin.Function1<kotlin.Long?,kotlin.Unit>){}[0]
     final fun drop(kotlin/Int) // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.drop|drop(kotlin.Int){}[0]
     final fun enableAutoUpdate(kotlin/Boolean) // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.enableAutoUpdate|enableAutoUpdate(kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.equals|equals(kotlin.Any?){}[0]
     final fun getCities(kotlin/Int): kotlin.collections/List<kotlin/String> // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.getCities|getCities(kotlin.Int){}[0]
     final fun getDownloadedReleaseTime(kotlin/Int): kotlin.time/Instant? // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.getDownloadedReleaseTime|getDownloadedReleaseTime(kotlin.Int){}[0]
     final fun getProgress(kotlin/Int): kotlin/Float // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.getProgress|getProgress(kotlin.Int){}[0]
     final fun getState(kotlin/Int): ru.sulgik.mapkit.offline_cache/RegionState // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.getState|getState(kotlin.Int){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.hashCode|hashCode(){}[0]
     final fun isLegacyPath(kotlin/Int): kotlin/Boolean // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.isLegacyPath|isLegacyPath(kotlin.Int){}[0]
     final fun mayBeOutOfAvailableSpace(kotlin/Int): kotlin/Boolean // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.mayBeOutOfAvailableSpace|mayBeOutOfAvailableSpace(kotlin.Int){}[0]
     final fun moveData(kotlin/String, ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.offline_cache/DataMoveListener>) // ru.sulgik.mapkit.offline_cache/OfflineCacheManager.moveData|moveData(kotlin.String;ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.offline_cache.DataMoveListener>){}[0]
@@ -2022,6 +2080,8 @@ final class ru.sulgik.mapkit.runtime.i18n/I18nManager { // ru.sulgik.mapkit.runt
         final fun <set-timeFormat>(ru.sulgik.mapkit.runtime.i18n/TimeFormat) // ru.sulgik.mapkit.runtime.i18n/I18nManager.timeFormat.<set-timeFormat>|<set-timeFormat>(ru.sulgik.mapkit.runtime.i18n.TimeFormat){}[0]
 
     final fun canonicalSpeed(kotlin/Double): ru.sulgik.mapkit.runtime.i18n/CanonicalUnit // ru.sulgik.mapkit.runtime.i18n/I18nManager.canonicalSpeed|canonicalSpeed(kotlin.Double){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.runtime.i18n/I18nManager.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.runtime.i18n/I18nManager.hashCode|hashCode(){}[0]
     final fun localizeCanonicalUnit(ru.sulgik.mapkit.runtime.i18n/CanonicalUnit): kotlin/String // ru.sulgik.mapkit.runtime.i18n/I18nManager.localizeCanonicalUnit|localizeCanonicalUnit(ru.sulgik.mapkit.runtime.i18n.CanonicalUnit){}[0]
     final fun localizeDataSize(kotlin/Long): kotlin/String // ru.sulgik.mapkit.runtime.i18n/I18nManager.localizeDataSize|localizeDataSize(kotlin.Long){}[0]
     final fun localizeDistance(kotlin/Int): kotlin/String // ru.sulgik.mapkit.runtime.i18n/I18nManager.localizeDistance|localizeDistance(kotlin.Int){}[0]
@@ -2094,6 +2154,8 @@ final class ru.sulgik.mapkit.runtime.logging/Logging { // ru.sulgik.mapkit.runti
     final val isValid // ru.sulgik.mapkit.runtime.logging/Logging.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.runtime.logging/Logging.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.runtime.logging/Logging.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.runtime.logging/Logging.hashCode|hashCode(){}[0]
     final fun subscribe(ru.sulgik.mapkit.runtime.logging/LogListener) // ru.sulgik.mapkit.runtime.logging/Logging.subscribe|subscribe(ru.sulgik.mapkit.runtime.logging.LogListener){}[0]
     final fun toNative(): YandexMapKit/YRTLogging // ru.sulgik.mapkit.runtime.logging/Logging.toNative|toNative(){}[0]
     final fun unsubscribe(ru.sulgik.mapkit.runtime.logging/LogListener) // ru.sulgik.mapkit.runtime.logging/Logging.unsubscribe|unsubscribe(ru.sulgik.mapkit.runtime.logging.LogListener){}[0]
@@ -2110,6 +2172,8 @@ final class ru.sulgik.mapkit.storage/StorageManager { // ru.sulgik.mapkit.storag
     final fun addStorageErrorListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.storage/StorageErrorListener>) // ru.sulgik.mapkit.storage/StorageManager.addStorageErrorListener|addStorageErrorListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.storage.StorageErrorListener>){}[0]
     final fun clear(kotlin/Function0<kotlin/Unit>) // ru.sulgik.mapkit.storage/StorageManager.clear|clear(kotlin.Function0<kotlin.Unit>){}[0]
     final fun computeSize(kotlin/Function2<kotlin/Long?, ru.sulgik.mapkit.runtime/Error?, kotlin/Unit>) // ru.sulgik.mapkit.storage/StorageManager.computeSize|computeSize(kotlin.Function2<kotlin.Long?,ru.sulgik.mapkit.runtime.Error?,kotlin.Unit>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.storage/StorageManager.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.storage/StorageManager.hashCode|hashCode(){}[0]
     final fun maxTileStorageSize(kotlin/Function2<kotlin/Long?, ru.sulgik.mapkit.runtime/Error?, kotlin/Unit>) // ru.sulgik.mapkit.storage/StorageManager.maxTileStorageSize|maxTileStorageSize(kotlin.Function2<kotlin.Long?,ru.sulgik.mapkit.runtime.Error?,kotlin.Unit>){}[0]
     final fun removeStorageErrorListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.storage/StorageErrorListener>) // ru.sulgik.mapkit.storage/StorageManager.removeStorageErrorListener|removeStorageErrorListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.storage.StorageErrorListener>){}[0]
     final fun resetMaxTileStorageSize(kotlin/Function2<kotlin/Long?, ru.sulgik.mapkit.runtime/Error?, kotlin/Unit>) // ru.sulgik.mapkit.storage/StorageManager.resetMaxTileStorageSize|resetMaxTileStorageSize(kotlin.Function2<kotlin.Long?,ru.sulgik.mapkit.runtime.Error?,kotlin.Unit>){}[0]
@@ -2126,6 +2190,8 @@ final class ru.sulgik.mapkit.traffic/TrafficLayer { // ru.sulgik.mapkit.traffic/
         final fun <set-isTrafficVisible>(kotlin/Boolean) // ru.sulgik.mapkit.traffic/TrafficLayer.isTrafficVisible.<set-isTrafficVisible>|<set-isTrafficVisible>(kotlin.Boolean){}[0]
 
     final fun addTrafficListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.traffic/TrafficListener>) // ru.sulgik.mapkit.traffic/TrafficLayer.addTrafficListener|addTrafficListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.traffic.TrafficListener>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.traffic/TrafficLayer.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.traffic/TrafficLayer.hashCode|hashCode(){}[0]
     final fun removeTrafficListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.traffic/TrafficListener>) // ru.sulgik.mapkit.traffic/TrafficLayer.removeTrafficListener|removeTrafficListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.traffic.TrafficListener>){}[0]
     final fun resetTrafficStyles() // ru.sulgik.mapkit.traffic/TrafficLayer.resetTrafficStyles|resetTrafficStyles(){}[0]
     final fun setTrafficStyle(kotlin/Int, kotlin/String): kotlin/Boolean // ru.sulgik.mapkit.traffic/TrafficLayer.setTrafficStyle|setTrafficStyle(kotlin.Int;kotlin.String){}[0]
@@ -2153,6 +2219,8 @@ final class ru.sulgik.mapkit.ui/Overlay { // ru.sulgik.mapkit.ui/Overlay|null[0]
     final val isValid // ru.sulgik.mapkit.ui/Overlay.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.ui/Overlay.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.ui/Overlay.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.ui/Overlay.hashCode|hashCode(){}[0]
     final fun remove() // ru.sulgik.mapkit.ui/Overlay.remove|remove(){}[0]
     final fun setImage(ru.sulgik.mapkit.map/ImageProvider, ru.sulgik.mapkit/ScreenRect) // ru.sulgik.mapkit.ui/Overlay.setImage|setImage(ru.sulgik.mapkit.map.ImageProvider;ru.sulgik.mapkit.ScreenRect){}[0]
     final fun toNative(): YandexMapKit/YMKOverlay // ru.sulgik.mapkit.ui/Overlay.toNative|toNative(){}[0]
@@ -2216,6 +2284,8 @@ final class ru.sulgik.mapkit.user_location/UserLocationLayer { // ru.sulgik.mapk
         final fun <get-isVisible>(): kotlin/Boolean // ru.sulgik.mapkit.user_location/UserLocationLayer.isVisible.<get-isVisible>|<get-isVisible>(){}[0]
         final fun <set-isVisible>(kotlin/Boolean) // ru.sulgik.mapkit.user_location/UserLocationLayer.isVisible.<set-isVisible>|<set-isVisible>(kotlin.Boolean){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.user_location/UserLocationLayer.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.user_location/UserLocationLayer.hashCode|hashCode(){}[0]
     final fun resetAnchor() // ru.sulgik.mapkit.user_location/UserLocationLayer.resetAnchor|resetAnchor(){}[0]
     final fun setAnchor(ru.sulgik.mapkit/PointF, ru.sulgik.mapkit/PointF) // ru.sulgik.mapkit.user_location/UserLocationLayer.setAnchor|setAnchor(ru.sulgik.mapkit.PointF;ru.sulgik.mapkit.PointF){}[0]
     final fun setDefaultSource() // ru.sulgik.mapkit.user_location/UserLocationLayer.setDefaultSource|setDefaultSource(){}[0]
@@ -2235,6 +2305,8 @@ final class ru.sulgik.mapkit.user_location/UserLocationView { // ru.sulgik.mapki
     final val pin // ru.sulgik.mapkit.user_location/UserLocationView.pin|{}pin[0]
         final fun <get-pin>(): ru.sulgik.mapkit.map/PlacemarkMapObject // ru.sulgik.mapkit.user_location/UserLocationView.pin.<get-pin>|<get-pin>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.user_location/UserLocationView.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.user_location/UserLocationView.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKUserLocationView // ru.sulgik.mapkit.user_location/UserLocationView.toNative|toNative(){}[0]
 }
 
@@ -2340,6 +2412,8 @@ final class ru.sulgik.mapkit/GeoObject { // ru.sulgik.mapkit/GeoObject|null[0]
     final val uriMetadata // ru.sulgik.mapkit/GeoObject.uriMetadata|{}uriMetadata[0]
         final fun <get-uriMetadata>(): ru.sulgik.mapkit.uri/UriObjectMetadata? // ru.sulgik.mapkit/GeoObject.uriMetadata.<get-uriMetadata>|<get-uriMetadata>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit/GeoObject.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit/GeoObject.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKGeoObject // ru.sulgik.mapkit/GeoObject.toNative|toNative(){}[0]
 }
 
@@ -2349,6 +2423,8 @@ final class ru.sulgik.mapkit/GeoObjectCollection { // ru.sulgik.mapkit/GeoObject
     final val children // ru.sulgik.mapkit/GeoObjectCollection.children|{}children[0]
         final fun <get-children>(): kotlin.collections/List<ru.sulgik.mapkit/GeoObjectCollectionItem> // ru.sulgik.mapkit/GeoObjectCollection.children.<get-children>|<get-children>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit/GeoObjectCollection.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit/GeoObjectCollection.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKGeoObjectCollection // ru.sulgik.mapkit/GeoObjectCollection.toNative|toNative(){}[0]
 }
 
@@ -2358,6 +2434,8 @@ final class ru.sulgik.mapkit/GeoObjectCollectionItem { // ru.sulgik.mapkit/GeoOb
     final val obj // ru.sulgik.mapkit/GeoObjectCollectionItem.obj|{}obj[0]
         final fun <get-obj>(): ru.sulgik.mapkit/GeoObject? // ru.sulgik.mapkit/GeoObjectCollectionItem.obj.<get-obj>|<get-obj>(){}[0]
 
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit/GeoObjectCollectionItem.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit/GeoObjectCollectionItem.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKGeoObjectCollectionItem // ru.sulgik.mapkit/GeoObjectCollectionItem.toNative|toNative(){}[0]
 }
 
@@ -2430,6 +2508,8 @@ final class ru.sulgik.mapkit/MapKit { // ru.sulgik.mapkit/MapKit|null[0]
     final fun createLocationSimulator(ru.sulgik.mapkit.geometry/Polyline? = ...): ru.sulgik.mapkit.location/LocationSimulator // ru.sulgik.mapkit/MapKit.createLocationSimulator|createLocationSimulator(ru.sulgik.mapkit.geometry.Polyline?){}[0]
     final fun createTrafficLayer(ru.sulgik.mapkit.map/MapWindow): ru.sulgik.mapkit.traffic/TrafficLayer // ru.sulgik.mapkit/MapKit.createTrafficLayer|createTrafficLayer(ru.sulgik.mapkit.map.MapWindow){}[0]
     final fun createUserLocationLayer(ru.sulgik.mapkit.map/MapWindow): ru.sulgik.mapkit.user_location/UserLocationLayer // ru.sulgik.mapkit/MapKit.createUserLocationLayer|createUserLocationLayer(ru.sulgik.mapkit.map.MapWindow){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit/MapKit.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit/MapKit.hashCode|hashCode(){}[0]
     final fun onStart() // ru.sulgik.mapkit/MapKit.onStart|onStart(){}[0]
     final fun onStop() // ru.sulgik.mapkit/MapKit.onStop|onStop(){}[0]
     final fun onTerminate() // ru.sulgik.mapkit/MapKit.onTerminate|onTerminate(){}[0]
@@ -2712,6 +2792,8 @@ open class ru.sulgik.mapkit.layers/BaseDataSource { // ru.sulgik.mapkit.layers/B
     final val isValid // ru.sulgik.mapkit.layers/BaseDataSource.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.layers/BaseDataSource.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    open fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.layers/BaseDataSource.equals|equals(kotlin.Any?){}[0]
+    open fun hashCode(): kotlin/Int // ru.sulgik.mapkit.layers/BaseDataSource.hashCode|hashCode(){}[0]
     open fun toNative(): YandexMapKit/YMKBaseDataSource // ru.sulgik.mapkit.layers/BaseDataSource.toNative|toNative(){}[0]
 }
 
@@ -2719,6 +2801,8 @@ open class ru.sulgik.mapkit.layers/ObjectEvent { // ru.sulgik.mapkit.layers/Obje
     final val isValid // ru.sulgik.mapkit.layers/ObjectEvent.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.layers/ObjectEvent.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    open fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.layers/ObjectEvent.equals|equals(kotlin.Any?){}[0]
+    open fun hashCode(): kotlin/Int // ru.sulgik.mapkit.layers/ObjectEvent.hashCode|hashCode(){}[0]
     open fun toNative(): YandexMapKit/YMKObjectEvent // ru.sulgik.mapkit.layers/ObjectEvent.toNative|toNative(){}[0]
 }
 
@@ -2754,6 +2838,8 @@ open class ru.sulgik.mapkit.map/MapObject { // ru.sulgik.mapkit.map/MapObject|nu
     final fun removeTapListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.map/MapObjectTapListener>) // ru.sulgik.mapkit.map/MapObject.removeTapListener|removeTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectTapListener>){}[0]
     final fun setDragListener(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.map/MapObjectDragListener>?) // ru.sulgik.mapkit.map/MapObject.setDragListener|setDragListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectDragListener>?){}[0]
     final fun setVisible(kotlin/Boolean, ru.sulgik.mapkit/Animation, ru.sulgik.mapkit.map/Callback? = ...) // ru.sulgik.mapkit.map/MapObject.setVisible|setVisible(kotlin.Boolean;ru.sulgik.mapkit.Animation;ru.sulgik.mapkit.map.Callback?){}[0]
+    open fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/MapObject.equals|equals(kotlin.Any?){}[0]
+    open fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/MapObject.hashCode|hashCode(){}[0]
     open fun toNative(): YandexMapKit/YMKMapObject // ru.sulgik.mapkit.map/MapObject.toNative|toNative(){}[0]
 }
 
@@ -2776,6 +2862,8 @@ open class ru.sulgik.mapkit.map/PlacemarkPresentation { // ru.sulgik.mapkit.map/
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.map/PlacemarkPresentation.isValid.<get-isValid>|<get-isValid>(){}[0]
 
     final fun remove() // ru.sulgik.mapkit.map/PlacemarkPresentation.remove|remove(){}[0]
+    open fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/PlacemarkPresentation.equals|equals(kotlin.Any?){}[0]
+    open fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/PlacemarkPresentation.hashCode|hashCode(){}[0]
     open fun toNative(): YandexMapKit/YMKPlacemarkPresentation // ru.sulgik.mapkit.map/PlacemarkPresentation.toNative|toNative(){}[0]
 }
 
@@ -2823,6 +2911,8 @@ open class ru.sulgik.mapkit.runtime/Error { // ru.sulgik.mapkit.runtime/Error|nu
     final val isValid // ru.sulgik.mapkit.runtime/Error.isValid|{}isValid[0]
         final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.runtime/Error.isValid.<get-isValid>|<get-isValid>(){}[0]
 
+    open fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.runtime/Error.equals|equals(kotlin.Any?){}[0]
+    open fun hashCode(): kotlin/Int // ru.sulgik.mapkit.runtime/Error.hashCode|hashCode(){}[0]
     open fun toNative(): YandexMapKit/YRTError // ru.sulgik.mapkit.runtime/Error.toNative|toNative(){}[0]
 }
 

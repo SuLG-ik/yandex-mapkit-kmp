@@ -34,6 +34,23 @@ public actual class AnimatedImage internal constructor(
     public actual fun addFrame(image: ImageProvider, duration: Duration) {
         nativeAnimatedImage.addFrame(image.toNative(), duration.inWholeMilliseconds)
     }
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is AnimatedImage) return false
+        if (this::class != other::class) return false
+        return nativeAnimatedImage == other.nativeAnimatedImage
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeAnimatedImage.hashCode()
+    }
 }
 
 public fun NativeAnimatedImage.toCommon(): AnimatedImage {

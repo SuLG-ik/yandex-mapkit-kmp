@@ -103,6 +103,23 @@ public actual class GeoObject internal constructor(private val nativeGeoObject: 
         get() = nativeGeoObject.metadataContainer
             .getItem(NativePersonalizedPoiExtraMetadata::class.java)
             ?.toCommon()
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is GeoObject) return false
+        if (this::class != other::class) return false
+        return nativeGeoObject == other.nativeGeoObject
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeGeoObject.hashCode()
+    }
 }
 
 public fun NativeGeoObject.toCommon(): GeoObject {

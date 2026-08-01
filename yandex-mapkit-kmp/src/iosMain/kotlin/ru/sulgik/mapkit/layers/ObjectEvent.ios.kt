@@ -16,6 +16,23 @@ public actual open class ObjectEvent internal constructor(private val nativeObje
      */
     public actual val isValid: Boolean
         get() = nativeObjectEvent.isValid()
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ObjectEvent) return false
+        if (this::class != other::class) return false
+        return nativeObjectEvent == other.nativeObjectEvent
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeObjectEvent.hashCode()
+    }
 }
 
 public fun NativeObjectEvent.toCommon(): ObjectEvent {

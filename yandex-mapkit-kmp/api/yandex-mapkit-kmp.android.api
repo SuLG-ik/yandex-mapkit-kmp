@@ -116,18 +116,24 @@ public final class ru.sulgik.mapkit.GeoObject {
   public final ru.sulgik.mapkit.map.GeoObjectTags getTags();
   public final ru.sulgik.mapkit.uri.UriObjectMetadata getUriMetadata();
   public final ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata getPersonalizedPoiMetadata();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.GeoObjectCollection {
   public ru.sulgik.mapkit.GeoObjectCollection(com.yandex.mapkit.GeoObjectCollection);
   public final com.yandex.mapkit.GeoObjectCollection toNative();
   public final ru.sulgik.mapkit.geometry.BoundingBox getBoundingBox();
   public final java.util.List<ru.sulgik.mapkit.GeoObjectCollectionItem> getChildren();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.GeoObjectCollectionItem {
   public ru.sulgik.mapkit.GeoObjectCollectionItem(com.yandex.mapkit.GeoObjectCollection$Item);
   public final com.yandex.mapkit.GeoObjectCollection$Item toNative();
   public final ru.sulgik.mapkit.GeoObject getObj();
   public final ru.sulgik.mapkit.GeoObjectCollection getCollection();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.GeoObjectCollectionItem_androidKt {
   public static final ru.sulgik.mapkit.GeoObjectCollectionItem toCommon(com.yandex.mapkit.GeoObjectCollection$Item);
@@ -207,6 +213,8 @@ public final class ru.sulgik.mapkit.MapKit {
   public final ru.sulgik.mapkit.storage.StorageManager getStorageManager();
   public final ru.sulgik.mapkit.offline_cache.OfflineCacheManager getOfflineCacheManager();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.MapKit$Companion {
   public final void initialize(android.content.Context);
@@ -579,6 +587,8 @@ public final class ru.sulgik.mapkit.geometry.LinearRing {
   public java.lang.String toString();
   public ru.sulgik.mapkit.geometry.LinearRing(java.util.List<ru.sulgik.mapkit.geometry.Point>);
   public final java.util.List<ru.sulgik.mapkit.geometry.Point> getPoints();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.geometry.LinearRingKt {
   public static final java.lang.String linearRingsListToString(java.util.List<ru.sulgik.mapkit.geometry.LinearRing>);
@@ -607,6 +617,8 @@ public final class ru.sulgik.mapkit.geometry.MultiPolygon {
   public final com.yandex.mapkit.geometry.MultiPolygon toNative();
   public ru.sulgik.mapkit.geometry.MultiPolygon(java.util.List<ru.sulgik.mapkit.geometry.Polygon>);
   public final java.util.List<ru.sulgik.mapkit.geometry.Polygon> getPolygons();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.geometry.MultiPolygon_androidKt {
   public static final ru.sulgik.mapkit.geometry.MultiPolygon toCommon(com.yandex.mapkit.geometry.MultiPolygon);
@@ -638,6 +650,8 @@ public final class ru.sulgik.mapkit.geometry.Polygon {
   public ru.sulgik.mapkit.geometry.Polygon(ru.sulgik.mapkit.geometry.LinearRing, java.util.List<ru.sulgik.mapkit.geometry.LinearRing>);
   public final ru.sulgik.mapkit.geometry.LinearRing getOuterRing();
   public final java.util.List<ru.sulgik.mapkit.geometry.LinearRing> getInnerRings();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.geometry.Polygon_androidKt {
   public static final ru.sulgik.mapkit.geometry.Polygon toCommon(com.yandex.mapkit.geometry.Polygon);
@@ -648,6 +662,8 @@ public final class ru.sulgik.mapkit.geometry.Polyline {
   public java.lang.String toString();
   public ru.sulgik.mapkit.geometry.Polyline(java.util.List<ru.sulgik.mapkit.geometry.Point>);
   public final java.util.List<ru.sulgik.mapkit.geometry.Point> getPoints();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.geometry.PolylineBuilder {
   public ru.sulgik.mapkit.geometry.PolylineBuilder(com.yandex.mapkit.geometry.PolylineBuilder);
@@ -655,6 +671,8 @@ public final class ru.sulgik.mapkit.geometry.PolylineBuilder {
   public final void append(ru.sulgik.mapkit.geometry.Polyline);
   public final void append(ru.sulgik.mapkit.geometry.Point);
   public final ru.sulgik.mapkit.geometry.Polyline build();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.geometry.PolylineBuilder_androidKt {
   public static final ru.sulgik.mapkit.geometry.PolylineBuilder toCommon(com.yandex.mapkit.geometry.PolylineBuilder);
@@ -736,6 +754,8 @@ public final class ru.sulgik.mapkit.geometry.geo.PolylineIndex {
   public final com.yandex.mapkit.geometry.geo.PolylineIndex toNative();
   public final ru.sulgik.mapkit.geometry.PolylinePosition closestPolylinePosition(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.geo.Priority, double);
   public final ru.sulgik.mapkit.geometry.PolylinePosition closestPolylinePosition(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.PolylinePosition, ru.sulgik.mapkit.geometry.PolylinePosition, double);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.geometry.geo.PolylineIndex_androidKt {
   public static final ru.sulgik.mapkit.geometry.geo.PolylineIndex toCommon(com.yandex.mapkit.geometry.geo.PolylineIndex);
@@ -764,6 +784,8 @@ public final class ru.sulgik.mapkit.geometry.geo.Projection {
   public final ru.sulgik.mapkit.geometry.geo.XYPoint worldToXY(ru.sulgik.mapkit.geometry.Point, int);
   public final ru.sulgik.mapkit.geometry.Point xyToWorld(ru.sulgik.mapkit.geometry.geo.XYPoint, int);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.geometry.geo.Projection_androidKt {
   public static final ru.sulgik.mapkit.geometry.geo.Projection toCommon(com.yandex.mapkit.geometry.geo.Projection);
@@ -813,6 +835,8 @@ public final class ru.sulgik.mapkit.indoor.IndoorPlan {
   public final java.util.List<ru.sulgik.mapkit.indoor.IndoorLevel> getLevels();
   public final java.lang.String getActiveLevelId();
   public final void setActiveLevelId(java.lang.String);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.indoor.IndoorPlan_androidKt {
   public static final ru.sulgik.mapkit.indoor.IndoorPlan toCommon(com.yandex.mapkit.indoor.IndoorPlan);
@@ -833,6 +857,8 @@ public class ru.sulgik.mapkit.layers.BaseDataSource {
   public com.yandex.mapkit.layers.BaseDataSource toNative();
   public final java.lang.String getId();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.layers.BaseDataSource_androidKt {
   public static final ru.sulgik.mapkit.layers.BaseDataSource toCommon(com.yandex.mapkit.layers.BaseDataSource);
@@ -855,6 +881,8 @@ public final class ru.sulgik.mapkit.layers.DataSourceLayer {
   public final void setDataSourceListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.layers.DataSourceListener>);
   public final void remove();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.layers.DataSourceLayer_androidKt {
   public static final ru.sulgik.mapkit.layers.DataSourceLayer toCommon(com.yandex.mapkit.layers.DataSourceLayer);
@@ -876,6 +904,8 @@ public final class ru.sulgik.mapkit.layers.GeoObjectTapEvent {
   public final com.yandex.mapkit.layers.GeoObjectTapEvent toNative();
   public final ru.sulgik.mapkit.GeoObject getGeoObject();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.layers.GeoObjectTapEvent_androidKt {
   public static final ru.sulgik.mapkit.layers.GeoObjectTapEvent toCommon(com.yandex.mapkit.layers.GeoObjectTapEvent);
@@ -895,6 +925,8 @@ public final class ru.sulgik.mapkit.layers.Layer {
   public final void remove();
   public final ru.sulgik.mapkit.layers.DataSourceLayer dataSourceLayer();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public abstract class ru.sulgik.mapkit.layers.LayerLoadedListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.layers.LayerLoadedListener> {
   public ru.sulgik.mapkit.layers.LayerLoadedListener();
@@ -941,6 +973,8 @@ public class ru.sulgik.mapkit.layers.ObjectEvent {
   public ru.sulgik.mapkit.layers.ObjectEvent(com.yandex.mapkit.layers.ObjectEvent);
   public com.yandex.mapkit.layers.ObjectEvent toNative();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.layers.ObjectEvent_androidKt {
   public static final ru.sulgik.mapkit.layers.ObjectEvent toCommon(com.yandex.mapkit.layers.ObjectEvent);
@@ -984,6 +1018,8 @@ public final class ru.sulgik.mapkit.location.DummyLocationManager {
   public ru.sulgik.mapkit.location.DummyLocationManager(com.yandex.mapkit.location.DummyLocationManager);
   public final com.yandex.mapkit.location.DummyLocationManager toNative();
   public final void setLocation(ru.sulgik.mapkit.location.Location, ru.sulgik.mapkit.location.DummyLocationQuality);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.location.DummyLocationManager_androidKt {
   public static final ru.sulgik.mapkit.location.DummyLocationManager toCommon(com.yandex.mapkit.location.DummyLocationManager);
@@ -1059,6 +1095,8 @@ public final class ru.sulgik.mapkit.location.LocationManager {
   public final void resume();
   public final void requestSingleUpdate(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationListener>);
   public final void unsubscribe(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationListener>);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.location.LocationManagerUtils_androidKt {
   public static final ru.sulgik.mapkit.location.Location lastKnownLocation();
@@ -1135,6 +1173,8 @@ public final class ru.sulgik.mapkit.location.LocationSimulator {
   public final void stopSimulation();
   public final ru.sulgik.mapkit.geometry.PolylinePosition polylinePosition();
   public final boolean isActive();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public abstract class ru.sulgik.mapkit.location.LocationSimulatorListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.location.LocationSimulatorListener> {
   public ru.sulgik.mapkit.location.LocationSimulatorListener();
@@ -1172,6 +1212,8 @@ public final class ru.sulgik.mapkit.location.LocationUnavailableError_androidKt 
 public final class ru.sulgik.mapkit.location.LocationViewSource {
   public ru.sulgik.mapkit.location.LocationViewSource(com.yandex.mapkit.location.LocationViewSource);
   public final com.yandex.mapkit.location.LocationViewSource toNative();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.location.LocationViewSource_androidKt {
   public static final ru.sulgik.mapkit.location.LocationViewSource toCommon(com.yandex.mapkit.location.LocationViewSource);
@@ -1278,6 +1320,8 @@ public final class ru.sulgik.mapkit.logo.Logo {
   public final void setAlignment(ru.sulgik.mapkit.logo.LogoAlignment);
   public final void setPadding(ru.sulgik.mapkit.logo.LogoPadding);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.logo.LogoAlignment {
   public ru.sulgik.mapkit.logo.LogoAlignment(ru.sulgik.mapkit.logo.LogoHorizontalAlignment, ru.sulgik.mapkit.logo.LogoVerticalAlignment);
@@ -1365,6 +1409,8 @@ public final class ru.sulgik.mapkit.map.AnimatedImage {
   public final int getLoopCount();
   public final java.util.List<ru.sulgik.mapkit.map.Frame> getFrames();
   public final void addFrame-HG0u8IE(ru.sulgik.mapkit.map.ImageProvider, long);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public interface ru.sulgik.mapkit.map.AnimatedImageProvider {
   public static final ru.sulgik.mapkit.map.AnimatedImageProvider$Companion Companion;
@@ -1400,6 +1446,8 @@ public final class ru.sulgik.mapkit.map.Arrow {
   public final float getTriangleHeight();
   public final void setTriangleHeight(float);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.map.Arrow_androidKt {
   public static final ru.sulgik.mapkit.map.Arrow toCommon(com.yandex.mapkit.map.Arrow);
@@ -1438,6 +1486,8 @@ public final class ru.sulgik.mapkit.map.CameraBounds {
   public final void setMinZoomPreference(float);
   public final void setMaxZoomPreference(float);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.map.CameraBounds_androidKt {
   public static final ru.sulgik.mapkit.map.CameraBounds toCommon(com.yandex.mapkit.map.CameraBounds);
@@ -1517,6 +1567,8 @@ public final class ru.sulgik.mapkit.map.Cluster {
   public final void addClusterTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.ClusterTapListener>);
   public final void removeClusterTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.ClusterTapListener>);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public abstract class ru.sulgik.mapkit.map.ClusterListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.ClusterListener> {
   public ru.sulgik.mapkit.map.ClusterListener();
@@ -1765,6 +1817,8 @@ public final class ru.sulgik.mapkit.map.LineStyle {
   public final void setDashOffset(float);
   public ru.sulgik.mapkit.map.LineStyle(float, float, int, float, boolean, float, float, float, float, float, int, kotlin.jvm.internal.DefaultConstructorMarker);
   public final com.yandex.mapkit.map.LineStyle toNative();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
   public ru.sulgik.mapkit.map.LineStyle(float, float, int, float, boolean, float, float, float, float, float, kotlin.jvm.internal.DefaultConstructorMarker);
 }
 public final class ru.sulgik.mapkit.map.LineStyle_androidKt {
@@ -1832,6 +1886,8 @@ public final class ru.sulgik.mapkit.map.Map {
   public final ru.sulgik.mapkit.layers.Layer addTileLayer(java.lang.String, ru.sulgik.mapkit.layers.LayerOptions, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.TileDataSourceBuilder, kotlin.Unit>);
   public final ru.sulgik.mapkit.geometry.geo.Projection projection();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.map.MapLoadStatistics {
   public final long getCurZoomGeometryLoaded-UwyO8pc();
@@ -1906,6 +1962,8 @@ public class ru.sulgik.mapkit.map.MapObject {
   public final void setDragListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.map.MapObjectDragListener>);
   public final ru.sulgik.mapkit.map.BaseMapObjectCollection getParent();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public class ru.sulgik.mapkit.map.MapObjectCollection extends ru.sulgik.mapkit.map.BaseMapObjectCollection {
   public ru.sulgik.mapkit.map.MapObjectCollection(com.yandex.mapkit.map.MapObjectCollection);
@@ -2013,6 +2071,8 @@ public final class ru.sulgik.mapkit.map.MapWindow {
   public final ru.sulgik.mapkit.map.VisibleRegion getFocusRegion();
   public final void setMaxFps(int);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.map.MapWindow_androidKt {
   public static final ru.sulgik.mapkit.map.MapWindow toCommon(com.yandex.mapkit.map.MapWindow);
@@ -2130,6 +2190,8 @@ public class ru.sulgik.mapkit.map.PlacemarkPresentation {
   public com.yandex.mapkit.map.PlacemarkPresentation toNative();
   public final void remove();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.map.PlacemarkPresentation_androidKt {
   public static final ru.sulgik.mapkit.map.PlacemarkPresentation toCommon(com.yandex.mapkit.map.PlacemarkPresentation);
@@ -2142,6 +2204,8 @@ public final class ru.sulgik.mapkit.map.PlacemarkText {
   public final ru.sulgik.mapkit.map.TextStyle getStyle();
   public final void setStyle(ru.sulgik.mapkit.map.TextStyle);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.map.PlacemarkText_androidKt {
   public static final ru.sulgik.mapkit.map.PlacemarkText toCommon(com.yandex.mapkit.map.PlacemarkText);
@@ -2151,6 +2215,8 @@ public final class ru.sulgik.mapkit.map.PlacemarksStyler {
   public final com.yandex.mapkit.map.PlacemarksStyler toNative();
   public final void setScaleFunction(java.util.List<ru.sulgik.mapkit.PointF>);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.map.PlacemarksStyler_androidKt {
   public static final ru.sulgik.mapkit.map.PlacemarksStyler toCommon(com.yandex.mapkit.map.PlacemarksStyler);
@@ -2314,6 +2380,8 @@ public final class ru.sulgik.mapkit.map.TileDataSourceBuilder {
   public final void setProjection(ru.sulgik.mapkit.geometry.geo.Projection);
   public final void setZoomRanges(java.util.List<ru.sulgik.mapkit.ZoomRange>);
   public final void setTileFormat(ru.sulgik.mapkit.layers.TileFormat);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.map.TileDataSourceBuilder_androidKt {
   public static final ru.sulgik.mapkit.map.TileDataSourceBuilder toCommon(com.yandex.mapkit.map.TileDataSourceBuilder);
@@ -2351,6 +2419,8 @@ public final class ru.sulgik.mapkit.mapview.MapView {
   public final void setNoninteractive(boolean);
   public final void destroy();
   public final boolean isDebugModeEnabled();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.mapview.MapView_androidKt {
   public static final ru.sulgik.mapkit.mapview.MapView toCommon(com.yandex.mapkit.mapview.MapView);
@@ -2383,6 +2453,8 @@ public final class ru.sulgik.mapkit.offline_cache.OfflineCacheError {
   public final com.yandex.runtime.Error toNative();
   public final java.lang.String getDescription();
   public final ru.sulgik.mapkit.runtime.Error getError();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.offline_cache.OfflineCacheError_androidKt {
   public static final ru.sulgik.mapkit.offline_cache.OfflineCacheError toOfflineCacheError(com.yandex.runtime.Error);
@@ -2416,6 +2488,8 @@ public final class ru.sulgik.mapkit.offline_cache.OfflineCacheManager {
   public final void clear(kotlin.jvm.functions.Function0<kotlin.Unit>);
   public final void requestRegionsAtPoint(ru.sulgik.mapkit.geometry.Point, kotlin.jvm.functions.Function2<? super java.util.List<java.lang.Integer>, ? super ru.sulgik.mapkit.offline_cache.OfflineCacheError, kotlin.Unit>);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.offline_cache.OfflineCacheManager_androidKt {
   public static final ru.sulgik.mapkit.offline_cache.OfflineCacheManager toCommon(com.yandex.mapkit.offline_cache.OfflineCacheManager);
@@ -2542,6 +2616,8 @@ public class ru.sulgik.mapkit.runtime.Error {
   public ru.sulgik.mapkit.runtime.Error(com.yandex.runtime.Error);
   public com.yandex.runtime.Error toNative();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.runtime.Error_androidKt {
   public static final ru.sulgik.mapkit.runtime.Error toCommon(com.yandex.runtime.Error);
@@ -2587,6 +2663,8 @@ public final class ru.sulgik.mapkit.runtime.i18n.I18nManager {
   public final ru.sulgik.mapkit.runtime.i18n.TimeFormat getTimeFormat();
   public final void setTimeFormat(ru.sulgik.mapkit.runtime.i18n.TimeFormat);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.runtime.i18n.I18nManager$Companion {
   public final java.lang.String getLocale();
@@ -2686,6 +2764,8 @@ public final class ru.sulgik.mapkit.runtime.logging.Logging {
   public final void subscribe(ru.sulgik.mapkit.runtime.logging.LogListener);
   public final void unsubscribe(ru.sulgik.mapkit.runtime.logging.LogListener);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.runtime.logging.Logging$Companion {
   public final ru.sulgik.mapkit.runtime.logging.Logging getLogging();
@@ -2775,6 +2855,8 @@ public final class ru.sulgik.mapkit.storage.StorageManager {
   public final void resetMaxTileStorageSize(kotlin.jvm.functions.Function2<? super java.lang.Long, ? super ru.sulgik.mapkit.runtime.Error, kotlin.Unit>);
   public final void maxTileStorageSize(kotlin.jvm.functions.Function2<? super java.lang.Long, ? super ru.sulgik.mapkit.runtime.Error, kotlin.Unit>);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.storage.StorageManager_androidKt {
   public static final ru.sulgik.mapkit.storage.StorageManager toCommon(com.yandex.mapkit.storage.StorageManager);
@@ -2820,6 +2902,8 @@ public final class ru.sulgik.mapkit.traffic.TrafficLayer {
   public final void addTrafficListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.traffic.TrafficListener>);
   public final void removeTrafficListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.traffic.TrafficListener>);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.traffic.TrafficLayer_androidKt {
   public static final ru.sulgik.mapkit.traffic.TrafficLayer toCommon(com.yandex.mapkit.traffic.TrafficLayer);
@@ -2858,6 +2942,8 @@ public final class ru.sulgik.mapkit.ui.Overlay {
   public final void setImage(ru.sulgik.mapkit.map.ImageProvider, ru.sulgik.mapkit.ScreenRect);
   public final void remove();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.ui.Overlay_androidKt {
   public static final ru.sulgik.mapkit.ui.Overlay toCommon(com.yandex.mapkit.ui.Overlay);
@@ -2948,6 +3034,8 @@ public final class ru.sulgik.mapkit.user_location.UserLocationLayer {
   public final void setTapListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.user_location.UserLocationTapListener>);
   public final void setObjectListener(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.user_location.UserLocationObjectListener>);
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.user_location.UserLocationLayer_androidKt {
   public static final ru.sulgik.mapkit.user_location.UserLocationLayer toCommon(com.yandex.mapkit.user_location.UserLocationLayer);
@@ -2979,6 +3067,8 @@ public final class ru.sulgik.mapkit.user_location.UserLocationView {
   public final ru.sulgik.mapkit.map.PlacemarkMapObject getPin();
   public final ru.sulgik.mapkit.map.CircleMapObject getAccuracyCircle();
   public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
 }
 public final class ru.sulgik.mapkit.user_location.UserLocationView_androidKt {
   public static final ru.sulgik.mapkit.user_location.UserLocationView toCommon(com.yandex.mapkit.user_location.UserLocationView);

@@ -86,6 +86,23 @@ public actual class StorageManager internal constructor(
      */
     public actual val isValid: Boolean
         get() = nativeStorageManager.isValid()
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is StorageManager) return false
+        if (this::class != other::class) return false
+        return nativeStorageManager == other.nativeStorageManager
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeStorageManager.hashCode()
+    }
 }
 
 private fun NSNumber.toLong(): Long {
