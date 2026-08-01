@@ -1807,14 +1807,14 @@ final class ru.sulgik.mapkit.map/PolylineMapObject : ru.sulgik.mapkit.map/MapObj
 
     final fun addArrow(ru.sulgik.mapkit.geometry/PolylinePosition, kotlin/Float, ru.sulgik.mapkit/Color): ru.sulgik.mapkit.map/Arrow // ru.sulgik.mapkit.map/PolylineMapObject.addArrow|addArrow(ru.sulgik.mapkit.geometry.PolylinePosition;kotlin.Float;ru.sulgik.mapkit.Color){}[0]
     final fun getPaletteColor(kotlin/Int): ru.sulgik.mapkit/Color // ru.sulgik.mapkit.map/PolylineMapObject.getPaletteColor|getPaletteColor(kotlin.Int){}[0]
-    final fun getStrokeColor(kotlin/Int): ru.sulgik.mapkit/Color // ru.sulgik.mapkit.map/PolylineMapObject.getStrokeColor|getStrokeColor(kotlin.Int){}[0]
+    final fun getStrokeColor(kotlin/Int): kotlin/Int // ru.sulgik.mapkit.map/PolylineMapObject.getStrokeColor|getStrokeColor(kotlin.Int){}[0]
     final fun hide(kotlin.collections/List<ru.sulgik.mapkit.geometry/Subpolyline>) // ru.sulgik.mapkit.map/PolylineMapObject.hide|hide(kotlin.collections.List<ru.sulgik.mapkit.geometry.Subpolyline>){}[0]
     final fun hide(ru.sulgik.mapkit.geometry/Subpolyline) // ru.sulgik.mapkit.map/PolylineMapObject.hide|hide(ru.sulgik.mapkit.geometry.Subpolyline){}[0]
     final fun select(ru.sulgik.mapkit/Color, ru.sulgik.mapkit.geometry/Subpolyline) // ru.sulgik.mapkit.map/PolylineMapObject.select|select(ru.sulgik.mapkit.Color;ru.sulgik.mapkit.geometry.Subpolyline){}[0]
     final fun setPaletteColor(kotlin/Int, ru.sulgik.mapkit/Color) // ru.sulgik.mapkit.map/PolylineMapObject.setPaletteColor|setPaletteColor(kotlin.Int;ru.sulgik.mapkit.Color){}[0]
     final fun setStrokeColor(ru.sulgik.mapkit/Color) // ru.sulgik.mapkit.map/PolylineMapObject.setStrokeColor|setStrokeColor(ru.sulgik.mapkit.Color){}[0]
-    final fun setStrokeColors(kotlin.collections/List<ru.sulgik.mapkit/Color>) // ru.sulgik.mapkit.map/PolylineMapObject.setStrokeColors|setStrokeColors(kotlin.collections.List<ru.sulgik.mapkit.Color>){}[0]
-    final fun setStrokeColors(kotlin.collections/List<ru.sulgik.mapkit/Color>, kotlin.collections/List<kotlin/Double>) // ru.sulgik.mapkit.map/PolylineMapObject.setStrokeColors|setStrokeColors(kotlin.collections.List<ru.sulgik.mapkit.Color>;kotlin.collections.List<kotlin.Double>){}[0]
+    final fun setStrokeColors(kotlin.collections/List<kotlin/Int>) // ru.sulgik.mapkit.map/PolylineMapObject.setStrokeColors|setStrokeColors(kotlin.collections.List<kotlin.Int>){}[0]
+    final fun setStrokeColors(kotlin.collections/List<kotlin/Int>, kotlin.collections/List<kotlin/Double>) // ru.sulgik.mapkit.map/PolylineMapObject.setStrokeColors|setStrokeColors(kotlin.collections.List<kotlin.Int>;kotlin.collections.List<kotlin.Double>){}[0]
     final fun toNative(): YandexMapKit/YMKPolylineMapObject // ru.sulgik.mapkit.map/PolylineMapObject.toNative|toNative(){}[0]
 }
 

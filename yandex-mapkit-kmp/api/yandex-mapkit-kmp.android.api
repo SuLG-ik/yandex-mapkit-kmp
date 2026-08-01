@@ -2263,10 +2263,10 @@ public final class ru.sulgik.mapkit.map.PolylineMapObject extends ru.sulgik.mapk
   public final void select-BiqP8v8(int, ru.sulgik.mapkit.geometry.Subpolyline);
   public final void hide(ru.sulgik.mapkit.geometry.Subpolyline);
   public final void hide(java.util.List<ru.sulgik.mapkit.geometry.Subpolyline>);
-  public final void setStrokeColors(java.util.List<ru.sulgik.mapkit.Color>, java.util.List<java.lang.Double>);
-  public final void setStrokeColors(java.util.List<ru.sulgik.mapkit.Color>);
   public final void setStrokeColor-FXrWlec(int);
-  public final int getStrokeColor-r4VzaI8(int);
+  public final void setStrokeColors(java.util.List<java.lang.Integer>, java.util.List<java.lang.Double>);
+  public final void setStrokeColors(java.util.List<java.lang.Integer>);
+  public final int getStrokeColor(int);
   public final void setPaletteColor-TeI54Kw(int, int);
   public final int getPaletteColor-r4VzaI8(int);
   public final ru.sulgik.mapkit.map.Arrow addArrow-PIVsv5I(ru.sulgik.mapkit.geometry.PolylinePosition, float, int);

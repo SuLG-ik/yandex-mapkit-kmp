@@ -86,9 +86,9 @@ current locale.
 Whatever a parameter cannot express lives on the state object: every `MapObjectState` animates
 visibility with `setVisible(visible, animation)`, `PlacemarkState` reaches `useIcon()`,
 `useCompositeIcon()`, `useModel()`, `useAnimation()`, `text` and `setScaleFunction()`,
-`PolylineState` selects and recolours subpolylines, `PolygonState` sets an animated pattern, and
-`MapObjectCollectionState` reaches the shared `PlacemarksStyler` and `traverse`. Anything still
-missing is one `MapEffect` away.
+`PolylineState` selects and hides subpolylines and colours segments through the palette,
+`PolygonState` sets an animated pattern, and `MapObjectCollectionState` reaches the shared
+`PlacemarksStyler` and `traverse`. Anything still missing is one `MapEffect` away.
 
 ## Not wrapped
 

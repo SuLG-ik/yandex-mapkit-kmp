@@ -95,6 +95,26 @@ List of supported nodes:
     }
     ```
 
+### Polyline segment colors
+
+A polyline is coloured through a palette. `PolylineState.setPaletteColor(colorIndex, color)` defines
+the colour stored under an index, and `PolylineState.setStrokeColors(paletteIndices)` assigns one of
+those indexes to every segment — a polyline of _n_ points has _n - 1_ segments. By default, all
+segments use palette index 0, which is what the `strokeColor` parameter sets.
+
+`PolylineState.getStrokeColor(segmentIndex)` returns the palette index of a segment, not its colour;
+resolve it with `getPaletteColor(colorIndex)`.
+
+These are called on a bound state — from a click handler, an effect, or anywhere else while the
+composable that owns the state is in the composition:
+
+```kotlin
+polylineState.setPaletteColor(0, Color.Red)
+polylineState.setPaletteColor(1, Color.Green)
+polylineState.setPaletteColor(2, Color.Blue)
+polylineState.setStrokeColors(listOf(0, 1, 2))
+```
+
 ### Clustering
 
 Clustering is feature to group multiple Placemark.

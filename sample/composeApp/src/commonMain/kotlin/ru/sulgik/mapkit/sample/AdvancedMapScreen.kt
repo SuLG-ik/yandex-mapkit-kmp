@@ -405,10 +405,13 @@ private fun advancedMapActions(
         },
         "Line colors" to {
             log.runAndLog("polyline setStrokeColors") {
-                polylineState.setStrokeColors(
-                    listOf(Color.Red, Color.Green, Color.Blue, Color.Yellow),
-                )
-                log.add("segment 0 color = ${polylineState.getStrokeColor(0)}")
+                PolylinePalette.forEachIndexed { index, color ->
+                    polylineState.setPaletteColor(index, color)
+                }
+                polylineState.setStrokeColors(PolylineSegmentPaletteIndices)
+                val applied = PolylineSegmentPaletteIndices.indices
+                    .map { polylineState.getStrokeColor(it) }
+                log.add("segment palette indices = $applied")
             }
         },
         "Line palette" to {
@@ -517,6 +520,10 @@ private fun Boolean.asSwitch(): String {
 }
 
 private val layerCircle = Circle(Point(59.941026, 30.324789), 250f)
+
+private val PolylinePalette = listOf(Color.Red, Color.Green, Color.Blue, Color.Yellow)
+
+private val PolylineSegmentPaletteIndices = listOf(0, 1, 2, 3)
 
 private const val GroupUserData = "placemark-group"
 private const val TileLayerId = "sample_tiles"

@@ -466,9 +466,9 @@ public final class ru.sulgik.mapkit.compose.PolylineState extends ru.sulgik.mapk
   public final void select-DxMtmZc(long, ru.sulgik.mapkit.geometry.Subpolyline);
   public final void hide(ru.sulgik.mapkit.geometry.Subpolyline);
   public final void hide(java.util.List<ru.sulgik.mapkit.geometry.Subpolyline>);
-  public final void setStrokeColors(java.util.List<androidx.compose.ui.graphics.Color>, java.util.List<java.lang.Double>);
-  public final void setStrokeColors(java.util.List<androidx.compose.ui.graphics.Color>);
-  public final long getStrokeColor-vNxB06k(int);
+  public final void setStrokeColors(java.util.List<java.lang.Integer>, java.util.List<java.lang.Double>);
+  public final void setStrokeColors(java.util.List<java.lang.Integer>);
+  public final int getStrokeColor(int);
   public final void setPaletteColor-4WTKRHQ(int, long);
   public final long getPaletteColor-vNxB06k(int);
   public final ru.sulgik.mapkit.map.Arrow addArrow-mxwnekA(ru.sulgik.mapkit.geometry.PolylinePosition, float, long);

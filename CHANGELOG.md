@@ -94,6 +94,16 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   `vertical` → `horizontalAlignment` / `verticalAlignment`, `MapView.setNonInteractive` →
   `setNoninteractive`, `PolylineState.arrows()` → `val arrows`.
 - **Breaking.** `MapWindow.setMaxFps` takes an `Int` instead of a `Float`.
+- **Breaking.** `PolylineMapObject.setStrokeColors` takes `List<Int>` and
+  `PolylineMapObject.getStrokeColor` returns an `Int`; `PolylineState` follows. These carry indexes
+  into the polyline's colour palette, not colours — MapKit's own signatures are `List<Integer>` /
+  `int` and `NSArray<NSNumber *> *` / `NSUInteger`. Typed as `Color`, they handed MapKit an ARGB
+  value such as `0xFFFF0000` where a small palette index was expected and read a palette index back
+  as ARGB, so a multi-coloured polyline could not be expressed at all; the readback only looked
+  right because the same wrong integer round-tripped. Define the palette with
+  `setPaletteColor(colorIndex, color)`, then assign an index per segment with
+  `setStrokeColors(paletteIndices)`. `setStrokeColor`, `setPaletteColor` and `getPaletteColor`
+  are colours and are unchanged.
 - **Breaking.** `Map.cameraPosition` is a single function whose `focusRect`, `azimuth` and `tilt`
   are optional, as in MapKit, instead of three overloads with required arguments.
 - **Breaking.** `IndoorPlan` is a wrapper class instead of an interface, so it is no longer

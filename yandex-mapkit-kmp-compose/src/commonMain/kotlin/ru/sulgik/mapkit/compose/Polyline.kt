@@ -46,22 +46,54 @@ public class PolylineState(geometry: Polyline) : MapObjectState<PolylineMapObjec
         mapObject?.hide(subpolylines)
     }
 
-    public fun setStrokeColors(colors: List<Color>, weights: List<Double>) {
-        mapObject?.setStrokeColors(colors.map { it.toMapkitColor() }, weights)
+    /**
+     * Sets indexes of colors in palette for line segments.
+     *
+     * A polyline is colored through a palette: [setPaletteColor] defines the color stored under an
+     * index, and this method assigns one of those indexes to every segment. By default, all segments
+     * use palette index 0.
+     *
+     * [weights] are used for generalization of colors.
+     */
+    public fun setStrokeColors(paletteIndices: List<Int>, weights: List<Double>) {
+        mapObject?.setStrokeColors(paletteIndices, weights)
     }
 
-    public fun setStrokeColors(colors: List<Color>) {
-        mapObject?.setStrokeColors(colors.map { it.toMapkitColor() })
+    /**
+     * Sets indexes of colors in palette for line segments.
+     *
+     * A polyline is colored through a palette: [setPaletteColor] defines the color stored under an
+     * index, and this method assigns one of those indexes to every segment. By default, all segments
+     * use palette index 0.
+     *
+     * All the weights are equal to 1.
+     */
+    public fun setStrokeColors(paletteIndices: List<Int>) {
+        mapObject?.setStrokeColors(paletteIndices)
     }
 
-    public fun getStrokeColor(segmentIndex: Int): Color {
-        return requireMapObject().getStrokeColor(segmentIndex).toComposeColor()
+    /**
+     * Returns the palette index used by segment with the specified index.
+     *
+     * The returned value is an index into the palette, not a color; resolve it with
+     * [getPaletteColor].
+     */
+    public fun getStrokeColor(segmentIndex: Int): Int {
+        return requireMapObject().getStrokeColor(segmentIndex)
     }
 
+    /**
+     * Sets color in RGBA mode for [colorIndex].
+     *
+     * If the color is not provided for some index, the default value 0x0066FFFF is used.
+     */
     public fun setPaletteColor(colorIndex: Int, color: Color) {
         mapObject?.setPaletteColor(colorIndex, color.toMapkitColor())
     }
 
+    /**
+     * Returns the palette color for the specified index.
+     */
     public fun getPaletteColor(colorIndex: Int): Color {
         return requireMapObject().getPaletteColor(colorIndex).toComposeColor()
     }
