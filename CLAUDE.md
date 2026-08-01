@@ -146,6 +146,11 @@ full one — before wrapping a member, check that it exists in the lite AAR
 (`javap -classpath <maps.mobile-*.aar>/classes.jar com.yandex.mapkit.MapKit`) rather than trusting
 `ymk-docs/`.
 
+`ymk-docs/` is the offline copy of the MapKit reference. It is generated, not committed —
+`ymk-docs/*` is gitignored except `ymk-docs/_tools`, which holds the scripts that build it. In a
+fresh clone run `python3 ymk-docs/_tools/bootstrap.py` once (Python 3 with `lxml`, a couple of
+minutes); the script is idempotent.
+
 ## Skills
 
 Detailed, task-specific guidance lives in `.claude/skills/` — read the relevant one before writing

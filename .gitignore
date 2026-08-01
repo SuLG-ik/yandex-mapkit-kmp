@@ -17,3 +17,5 @@ Pods/
 .kotlin
 docs/kdoc
 .claude/worktrees/
+ymk-docs/*
+!ymk-docs/_tools/
