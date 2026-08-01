@@ -59,7 +59,7 @@ public fun MapObjectCollection(
         zIndex = zIndex,
         userData = userData,
         onTap = onTap,
-        factory = { MapObjectCollectionNode(collection, onTap) },
+        factory = { MapObjectCollectionNode(collection, onTap, state) },
         update = { },
     )
     CompositionLocalProvider(LocalMapObjectCollection provides collection) {
@@ -70,4 +70,5 @@ public fun MapObjectCollection(
 internal class MapObjectCollectionNode(
     mapObject: MapObjectCollection,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<MapObjectCollection, MapObjectCollectionState>(mapObject, tapListener)
+    state: MapObjectCollectionState?,
+) : MapObjectNode<MapObjectCollection, MapObjectCollectionState>(mapObject, tapListener, state)

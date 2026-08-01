@@ -32,8 +32,9 @@ public abstract class MapObjectState<T : MapObject> internal constructor() {
     internal var mapObject: T?
         get() = mapObjectState.value
         set(value) {
-            if (mapObjectState.value == null && value == null) return
-            if (mapObjectState.value != null && value != null) {
+            val current = mapObjectState.value
+            if (current === value) return
+            if (current != null && value != null) {
                 error("${this::class.simpleName} may only be associated with one map object at a time.")
             }
             mapObjectState.value = value
@@ -95,31 +96,26 @@ internal inline fun <reified N : MapObjectNode<T, S>, T : MapObject, S : MapObje
 internal abstract class MapObjectNode<T : MapObject, S : MapObjectState<T>>(
     val mapObject: T,
     internal var tapListener: ((point: Point) -> Boolean)?,
+    state: S?,
 ) : MapNode {
 
-    private var attached: Boolean = false
-
-    internal var state: S? = null
+    internal var state: S? = state.also { it?.mapObject = mapObject }
         set(value) {
             if (field === value) return
-            if (attached) {
-                field?.mapObject = null
-                value?.mapObject = mapObject
-            }
+            field?.mapObject = null
             field = value
+            value?.mapObject = mapObject
         }
 
     private val nativeTapListener =
         MapObjectTapListener { _, point -> tapListener?.invoke(point) ?: false }
 
     override fun onAttached() {
-        attached = true
         state?.mapObject = mapObject
         mapObject.addTapListener(nativeTapListener.asWeakRef())
     }
 
     override fun onRemoved() {
-        attached = false
         state?.mapObject = null
         if (!mapObject.isValid) return
         mapObject.removeTapListener(nativeTapListener.asWeakRef())
@@ -127,7 +123,6 @@ internal abstract class MapObjectNode<T : MapObject, S : MapObjectState<T>>(
     }
 
     override fun onCleared() {
-        attached = false
         state?.mapObject = null
         tapListener = null
     }

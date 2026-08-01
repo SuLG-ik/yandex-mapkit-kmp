@@ -115,8 +115,9 @@ internal class TileLayerNode(
  * the default collection of the map.
  *
  * The layer picks the place of the objects in the render order; changing [layerId] moves them to
- * another layer. MapKit keeps the collection itself for as long as the map lives — leaving the
- * composition empties it, and entering it again links a new collection to the same layer.
+ * another layer. MapKit links one collection to a layer id for the lifetime of the map and cannot
+ * unlink it, so the collection is created once per id and reused: leaving the composition empties
+ * it and entering it again fills the same collection.
  */
 @[YandexMapComposable Composable]
 public fun MapObjectLayer(
@@ -126,7 +127,7 @@ public fun MapObjectLayer(
     val mapApplier = currentComposer.applier as? MapApplier
         ?: error("MapObjectLayer is not supported outside of YandexMapComposable")
     key(layerId) {
-        val collection = remember { mapApplier.mapWindow.map.addMapObjectLayer(layerId) }
+        val collection = remember(layerId) { mapApplier.mapObjectLayer(layerId) }
         ComposeNode<MapObjectLayerNode, MapApplier>(
             factory = { MapObjectLayerNode(collection) },
             update = { },

@@ -174,6 +174,7 @@ internal fun PolygonImpl(
             PolygonNode(
                 mapObject = mapObject,
                 tapListener = onTap,
+                state = state,
             )
         },
         update = {
@@ -201,7 +202,8 @@ internal fun PolygonImpl(
 internal class PolygonNode(
     mapObject: PolygonMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<PolygonMapObject, PolygonState>(mapObject, tapListener)
+    state: PolygonState?,
+) : MapObjectNode<PolygonMapObject, PolygonState>(mapObject, tapListener, state)
 
 private val DefaultStrokeColor = Color(0xFF66FF00)
 private const val DefaultStrokeWidth = 5f

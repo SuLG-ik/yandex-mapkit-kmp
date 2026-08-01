@@ -107,6 +107,7 @@ internal fun CircleImpl(
             CircleNode(
                 mapObject = mapObject,
                 tapListener = onTap,
+                state = state,
             )
         },
         update = {
@@ -122,7 +123,8 @@ internal fun CircleImpl(
 internal class CircleNode(
     mapObject: CircleMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<CircleMapObject, CircleState>(mapObject, tapListener)
+    state: CircleState?,
+) : MapObjectNode<CircleMapObject, CircleState>(mapObject, tapListener, state)
 
 private val DefaultStrokeColor = Color(0xFF66FF00)
 private const val DefaultStrokeWidth = 5f

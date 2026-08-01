@@ -133,6 +133,8 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
 - Compose: `PolylineState` was never bound to its `PolylineMapObject`, so `select`, `hide`,
   `setStrokeColors`, `setPaletteColor`, `addArrow` and `arrows` did nothing or threw. Every state is
   now bound while its composable is in the composition.
+- Compose: `Polyline` ignored a changed `outlineWidth`, which was applied when the map object was
+  created and never again.
 - Compose: removing a map object whose collection was removed first no longer touches an invalidated
   MapKit object.
 - Compose: `PolygonState.Saver` computed the wrong offset past a restored ring, so restoring any

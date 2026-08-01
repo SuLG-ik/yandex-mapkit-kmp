@@ -179,12 +179,14 @@ internal fun PolylineImpl(
             PolylineNode(
                 mapObject = mapObject,
                 tapListener = onTap,
+                state = state,
             )
         },
         update = {
             update(state.geometry) { this.mapObject.geometry = it }
             update(strokeWidth) { mapObject.style.strokeWidth = strokeWidth }
             update(gradientLength) { mapObject.style.gradientLength = gradientLength }
+            update(outlineWidth) { mapObject.style.outlineWidth = outlineWidth }
             update(outlineColor) { mapObject.style.outlineColor = outlineColor.toMapkitColor() }
             update(innerOutlineEnabled) { mapObject.style.innerOutlineEnabled = innerOutlineEnabled }
             update(turnRadius) { mapObject.style.turnRadius = turnRadius }
@@ -199,7 +201,8 @@ internal fun PolylineImpl(
 internal class PolylineNode(
     mapObject: PolylineMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<PolylineMapObject, PolylineState>(mapObject, tapListener)
+    state: PolylineState?,
+) : MapObjectNode<PolylineMapObject, PolylineState>(mapObject, tapListener, state)
 
 private val DefaultStrokeColor = Color(0x0066FFFF)
 private const val DefaultGradientLength = 0f
@@ -210,5 +213,3 @@ private val DefaultOutlineColor = Color(0x00000000)
 private const val DefaultDashLength = 0f
 private const val DefaultDashOffset = 0f
 private const val DefaultGapLength = 0f
-private val DefaultFillColor = Color(0x0066FF99)
-private const val DefaultGeodesic = false

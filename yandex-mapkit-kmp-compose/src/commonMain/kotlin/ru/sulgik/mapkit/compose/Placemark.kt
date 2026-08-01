@@ -235,6 +235,7 @@ internal inline fun PlacemarkImpl(
             PlacemarkNode(
                 mapObject = mapObject,
                 tapListener = onTap,
+                state = state,
             ).apply(init)
         },
         update = {
@@ -286,7 +287,8 @@ internal fun TitledPlacemarkImpl(
 internal class PlacemarkNode(
     mapObject: PlacemarkMapObject,
     tapListener: ((Point) -> Boolean)?,
-) : MapObjectNode<PlacemarkMapObject, PlacemarkState>(mapObject, tapListener) {
+    state: PlacemarkState?,
+) : MapObjectNode<PlacemarkMapObject, PlacemarkState>(mapObject, tapListener, state) {
 
     private var nativeDragListener: MapObjectDragListener? = MapObjectDragListener(
         onMapObjectDrag = { _, point -> state?.geometry = point },

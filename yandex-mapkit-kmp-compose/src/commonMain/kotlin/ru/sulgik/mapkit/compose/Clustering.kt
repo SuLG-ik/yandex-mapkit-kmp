@@ -28,6 +28,7 @@ internal class ClusterNode(
 ) : MapObjectNode<ClusterizedPlacemarkCollection, MapObjectState<ClusterizedPlacemarkCollection>>(
     mapObject,
     tapListener,
+    null,
 ) {
 
     private val nativeItemTapListener = MapObjectTapListener { mapObject, point ->

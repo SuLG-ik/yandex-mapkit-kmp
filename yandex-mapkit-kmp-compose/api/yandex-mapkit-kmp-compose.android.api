@@ -30,7 +30,7 @@ public final class ru.sulgik.mapkit.compose.CircleKt {
 }
 public final class ru.sulgik.mapkit.compose.CircleNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.CircleMapObject, ru.sulgik.mapkit.compose.CircleState> {
   public static final int $stable;
-  public ru.sulgik.mapkit.compose.CircleNode(ru.sulgik.mapkit.map.CircleMapObject, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
+  public ru.sulgik.mapkit.compose.CircleNode(ru.sulgik.mapkit.map.CircleMapObject, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, ru.sulgik.mapkit.compose.CircleState);
 }
 public final class ru.sulgik.mapkit.compose.CircleState extends ru.sulgik.mapkit.compose.MapObjectState<ru.sulgik.mapkit.map.CircleMapObject> {
   public static final ru.sulgik.mapkit.compose.CircleState$Companion Companion;
@@ -336,7 +336,7 @@ public final class ru.sulgik.mapkit.compose.MapObjectCollectionKt {
 }
 public final class ru.sulgik.mapkit.compose.MapObjectCollectionNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.MapObjectCollection, ru.sulgik.mapkit.compose.MapObjectCollectionState> {
   public static final int $stable;
-  public ru.sulgik.mapkit.compose.MapObjectCollectionNode(ru.sulgik.mapkit.map.MapObjectCollection, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
+  public ru.sulgik.mapkit.compose.MapObjectCollectionNode(ru.sulgik.mapkit.map.MapObjectCollection, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, ru.sulgik.mapkit.compose.MapObjectCollectionState);
 }
 public final class ru.sulgik.mapkit.compose.MapObjectCollectionState extends ru.sulgik.mapkit.compose.MapObjectState<ru.sulgik.mapkit.map.MapObjectCollection> {
   public static final int $stable;
@@ -357,7 +357,7 @@ public final class ru.sulgik.mapkit.compose.MapObjectLayerNode implements ru.sul
 }
 public abstract class ru.sulgik.mapkit.compose.MapObjectNode<T extends ru.sulgik.mapkit.map.MapObject, S extends ru.sulgik.mapkit.compose.MapObjectState<T>> implements ru.sulgik.mapkit.compose.composition.MapNode {
   public static final int $stable;
-  public ru.sulgik.mapkit.compose.MapObjectNode(T, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
+  public ru.sulgik.mapkit.compose.MapObjectNode(T, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, S);
   public final T getMapObject();
   public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.geometry.Point, java.lang.Boolean> getTapListener$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
   public final void setTapListener$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
@@ -399,7 +399,7 @@ public final class ru.sulgik.mapkit.compose.PlacemarkKt {
 }
 public final class ru.sulgik.mapkit.compose.PlacemarkNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.PlacemarkMapObject, ru.sulgik.mapkit.compose.PlacemarkState> {
   public static final int $stable;
-  public ru.sulgik.mapkit.compose.PlacemarkNode(ru.sulgik.mapkit.map.PlacemarkMapObject, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
+  public ru.sulgik.mapkit.compose.PlacemarkNode(ru.sulgik.mapkit.map.PlacemarkMapObject, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, ru.sulgik.mapkit.compose.PlacemarkState);
   public void onAttached();
   public void onRemoved();
   public void onCleared();
@@ -433,7 +433,7 @@ public final class ru.sulgik.mapkit.compose.PolygonKt {
 }
 public final class ru.sulgik.mapkit.compose.PolygonNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.PolygonMapObject, ru.sulgik.mapkit.compose.PolygonState> {
   public static final int $stable;
-  public ru.sulgik.mapkit.compose.PolygonNode(ru.sulgik.mapkit.map.PolygonMapObject, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
+  public ru.sulgik.mapkit.compose.PolygonNode(ru.sulgik.mapkit.map.PolygonMapObject, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, ru.sulgik.mapkit.compose.PolygonState);
 }
 public final class ru.sulgik.mapkit.compose.PolygonState extends ru.sulgik.mapkit.compose.MapObjectState<ru.sulgik.mapkit.map.PolygonMapObject> {
   public static final ru.sulgik.mapkit.compose.PolygonState$Companion Companion;
@@ -455,7 +455,7 @@ public final class ru.sulgik.mapkit.compose.PolylineKt {
 }
 public final class ru.sulgik.mapkit.compose.PolylineNode extends ru.sulgik.mapkit.compose.MapObjectNode<ru.sulgik.mapkit.map.PolylineMapObject, ru.sulgik.mapkit.compose.PolylineState> {
   public static final int $stable;
-  public ru.sulgik.mapkit.compose.PolylineNode(ru.sulgik.mapkit.map.PolylineMapObject, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
+  public ru.sulgik.mapkit.compose.PolylineNode(ru.sulgik.mapkit.map.PolylineMapObject, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>, ru.sulgik.mapkit.compose.PolylineState);
 }
 public final class ru.sulgik.mapkit.compose.PolylineState extends ru.sulgik.mapkit.compose.MapObjectState<ru.sulgik.mapkit.map.PolylineMapObject> {
   public static final ru.sulgik.mapkit.compose.PolylineState$Companion Companion;
@@ -537,6 +537,7 @@ public final class ru.sulgik.mapkit.compose.composition.MapApplier extends andro
   public static final int $stable;
   public ru.sulgik.mapkit.compose.composition.MapApplier(ru.sulgik.mapkit.map.MapWindow);
   public final ru.sulgik.mapkit.map.MapWindow getMapWindow();
+  public final ru.sulgik.mapkit.map.RootMapObjectCollection mapObjectLayer(java.lang.String);
   public void insertBottomUp(int, ru.sulgik.mapkit.compose.composition.MapNode);
   public void insertTopDown(int, ru.sulgik.mapkit.compose.composition.MapNode);
   public void move(int, int, int);
