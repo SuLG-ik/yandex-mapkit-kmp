@@ -199,4 +199,4 @@ setters that push into MapKit, and re-cluster when the group list or config chan
   `imageProvider { … }` content variant is warranted — the latter returns `ImageProvider?`, so the
   composable emits its node only once the icon has been rendered.
 - Consider a state-restoration test mirroring the shape kept in
-  `commonTest/.../MapObjectStatesRestorationTest.kt`.
+  `androidDeviceTest/.../MapObjectStatesRestorationTest.kt`.

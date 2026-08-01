@@ -5,11 +5,11 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-Releases before `0.5.0` were described in
+Releases up to and including `0.4.1` were described in
 [GitHub Releases](https://github.com/SuLG-ik/yandex-mapkit-kmp/releases) only; the sections below
-summarise them.
+summarise them. Their tags carry no `v` prefix, unlike the ones cut since.
 
-## [Unreleased]
+## [1.0.0-beta01] - 2026-08-01
 
 Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
 
@@ -141,6 +141,26 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   object, and `hashCode()` is the wrapped object's. Every `toCommon()` builds a fresh wrapper, so
   the placemark a tap listener handed over could not be compared to the one that was added, nor be
   found with `contains` or used as a `Map` key.
+- **Breaking.** `LineStyle` is a `data class` value type with `val`s instead of a wrapper over a live
+  object with `var`s. MapKit's `LineStyle` is a plain struct — `PolylineMapObject.getStyle()` builds
+  a new one on every call — so mutating the object a getter returned wrote into a copy that was
+  thrown away. Build a style and assign it: `polyline.style = LineStyle(strokeWidth = 5f)`.
+- **Breaking.** `LocationManager`, `LocationViewSource`, `CircleMapObject` and `ObjectEvent` have an
+  `internal` constructor, like every other handle type; they are built with `toCommon()`. The
+  constructors were public on one or both platforms by accident.
+- **Breaking. Android.** `MapObjectVisitor` no longer implements `com.yandex.mapkit.map.MapObjectVisitor`
+  itself, so its eight native-typed methods leave the public API; it holds the native visitor
+  privately and hands it over with `toNative()`, as on iOS.
+- **Breaking.** `LayerOptions` carries MapKit's own defaults: `nightModeAvailable` is `true` and
+  `tileAppearingAnimationDuration` is 400 ms, instead of `false` and 150 ms.
+- **iOS.** `Animation.Type.toNative()` and `NativeAnimationType.toCommon()` are public, as on
+  Android.
+- Compose: the map object states — `PlacemarkState`, `CircleState`, `PolylineState`, `PolygonState`,
+  `MapObjectCollectionState` and `UserLocationState` — are `@Stable` instead of `@Immutable`, which
+  they never were: every one of them exposes observable mutable state.
+- The release workflow accepts a pre-release version such as `1.0.0-beta01`, marks the GitHub release
+  as a pre-release, and refuses a version whose tag already exists in either the unprefixed scheme
+  used up to `0.4.1` or the `vX.Y.Z` one used since.
 - Library modules build with `com.android.kotlin.multiplatform.library`; the sample Android app moved
   to `sample:androidApp` while `sample:composeApp` became a KMP library.
 - Toolchain: Gradle 9.6.1, AGP 9.3.1, Kotlin 2.4.10, Compose Multiplatform 1.11.1, compileSdk 37,
@@ -199,6 +219,34 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   unchanged for callers. CI now links the frameworks so this cannot regress unnoticed.
 - `yandex-mapkit-kmp-moko-compose` declares `compose.foundation`, which pinned it to the 1.7.0
   artifact pulled in by moko-resources and failed to build a Kotlin/Native cache.
+- Compose: `Polyline` silently ignored `strokeWidth`, `gradientLength`, `outlineWidth`,
+  `outlineColor`, `innerOutlineEnabled`, `turnRadius`, `dashLength`, `gapLength` and `dashOffset`.
+  Every one of them was written into the throwaway copy `PolylineMapObject.style` returns, so the
+  polyline kept MapKit's default style; only `strokeColor` ever arrived.
+- Compose: the setter of the accuracy circle never stored it, so a changed
+  `UserLocationConfig.accuracy` reached the map only if the layer happened to publish a new circle.
+- Compose: `Clustering` dropped `ClusterItem.data` — the placemarks it creates never received it, so
+  `onItemTap` always reported `null`.
+- Compose: `Clustering` kept the `icon` and `iconStyle` of the first composition, because the cluster
+  listener captured them; changing either re-clustered with the old appearance.
+- Compose: `imageProvider(DrawableResource)` remembered the first image forever, so a call site that
+  switched to another resource, or whose image changed with the theme or the density, kept the old
+  one.
+- Compose: `UserLocationConfig.isHeadingEnabled` was documented as leaving the layer alone when
+  `null`, but heading mode was switched on unconditionally when the layer was created.
+- **iOS.** `LinearRing` and `MultiPolygon` had no `toString()`, so `Polygon.toString()` printed the
+  identity of its rings instead of their points.
+- **Android.** `Map.mapObjects` and `MapWindow.map` were resolved eagerly while the wrapper was
+  built, instead of on access as on iOS.
+- **iOS.** `Polyline.points` rebuilt the whole list on every access instead of caching it, unlike
+  every other geometry handle.
+- `MapWindow` documented `focusRect` with the description of `focusPoint` and vice versa, and the
+  same for `width` and `height`; `setMaxFps` still documented the range and default of a version that
+  took a `Float`.
+- The KDoc of 88 declarations was missing or truncated on the platform side, including the "does not
+  retain the object" contract of eight subscription methods.
+- The Android ABI dump task resolved its output name against the task instead of the project, so all
+  four modules wrote the same intermediate file.
 
 ## [0.4.1] - 2025-10-17
 
@@ -285,7 +333,8 @@ Uses Yandex MapKit 4.7.0-lite.
 
 The first published version.
 
-[Unreleased]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/0.4.1...HEAD
+[Unreleased]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/v1.0.0-beta01...HEAD
+[1.0.0-beta01]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/0.4.1...v1.0.0-beta01
 [0.4.1]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/0.4.0...0.4.1
 [0.4.0]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/0.3.0...0.3.1

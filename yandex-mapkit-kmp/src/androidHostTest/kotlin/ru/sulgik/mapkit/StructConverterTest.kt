@@ -14,6 +14,7 @@ import ru.sulgik.mapkit.logo.LogoVerticalAlignment
 import ru.sulgik.mapkit.logo.toCommon
 import ru.sulgik.mapkit.logo.toNative
 import ru.sulgik.mapkit.map.CameraPosition
+import ru.sulgik.mapkit.map.LineStyle
 import ru.sulgik.mapkit.map.ModelStyle
 import ru.sulgik.mapkit.map.TextStyle
 import ru.sulgik.mapkit.map.VisibleRegion
@@ -39,7 +40,6 @@ import com.yandex.mapkit.logo.VerticalAlignment as NativeVerticalAlignment
 import com.yandex.mapkit.map.CameraPosition as NativeCameraPosition
 import com.yandex.mapkit.map.ModelStyle as NativeModelStyle
 import com.yandex.mapkit.map.TextStyle as NativeTextStyle
-import com.yandex.mapkit.map.VisibleRegion as NativeVisibleRegion
 import com.yandex.runtime.i18n.CanonicalUnit as NativeCanonicalUnit
 import com.yandex.runtime.i18n.I18nPrefs as NativeI18nPrefs
 import com.yandex.runtime.i18n.SystemOfMeasurement as NativeSystemOfMeasurement
@@ -146,6 +146,37 @@ public class StructConverterTest {
         ).toCommon()
 
         assertEquals(null, common.variantName)
+    }
+
+    @Test
+    public fun `line style keeps every width the radius and the outline color apart`() {
+        val style = LineStyle(
+            strokeWidth = 2f,
+            gradientLength = 3f,
+            outlineColor = Color.fromArgb(0xFF778899.toInt()),
+            outlineWidth = 4f,
+            innerOutlineEnabled = true,
+            turnRadius = 5f,
+            arcApproximationStep = 6f,
+            dashLength = 7f,
+            gapLength = 8f,
+            dashOffset = 9f,
+        )
+
+        val native = style.toNative()
+
+        assertEquals(2f, native.strokeWidth, 0f)
+        assertEquals(3f, native.gradientLength, 0f)
+        assertEquals(0xFF778899.toInt(), native.outlineColor)
+        assertEquals(4f, native.outlineWidth, 0f)
+        assertEquals(true, native.innerOutlineEnabled)
+        assertEquals(5f, native.turnRadius, 0f)
+        assertEquals(6f, native.arcApproximationStep, 0f)
+        assertEquals(7f, native.dashLength, 0f)
+        assertEquals(8f, native.gapLength, 0f)
+        assertEquals(9f, native.dashOffset, 0f)
+
+        assertEquals(style, native.toCommon())
     }
 
     @Test

@@ -13,7 +13,6 @@ import ru.sulgik.mapkit.compose.YandexMapComposable
 import ru.sulgik.mapkit.compose.composition.MapApplier
 import ru.sulgik.mapkit.compose.composition.MapNode
 import ru.sulgik.mapkit.compose.utils.toMapkitColor
-import ru.sulgik.mapkit.location.LocationManager
 import ru.sulgik.mapkit.map.CircleMapObject
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.map.PlacemarkMapObject
@@ -31,7 +30,6 @@ internal class UserLocationNode(
     mapKit: MapKit,
     initialState: UserLocationState,
     userLocation: UserLocationConfig,
-    source: LocationManager? = null,
 ) : MapNode {
 
     init {
@@ -41,10 +39,7 @@ internal class UserLocationNode(
     internal var state: UserLocationState = initialState
 
     private val userLocationLayer = mapKit.createUserLocationLayer(mapWindow).apply {
-        this.isHeadingModeActive = true
-        if (source == null) {
-            setDefaultSource()
-        }
+        setDefaultSource()
     }
 
     init {
@@ -76,6 +71,7 @@ internal class UserLocationNode(
             if (value != null) {
                 applyCircle(value, userLocation.accuracy)
             }
+            field = value
         }
 
     private val userLocationObjectListener = UserLocationObjectListener(

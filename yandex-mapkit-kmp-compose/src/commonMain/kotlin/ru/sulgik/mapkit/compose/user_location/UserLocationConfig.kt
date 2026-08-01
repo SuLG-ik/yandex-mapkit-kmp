@@ -13,26 +13,30 @@ public data class UserLocationConfig(
     /**
      * User location visibility.
      *
-     * null if use map's default. Use null as initial value, don't affect after change custom value to null
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the layer's default.
      */
     public val isVisible: Boolean? = null,
     /**
      * Heading mode.
      *
-     * null if use map's default. Use null as initial value, don't affect after change custom value to null
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the layer's default.
      */
     public val isHeadingEnabled: Boolean? = null,
     /**
      * Auto zoom.
      *
-     * null if use map's default. Use null as initial value, don't affect after change custom value to null
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the layer's default.
      */
     public val isAutoZoomEnabled: Boolean? = null,
 
     /**
      * Sets the anchor to the specified position in pixels and enables Anchor mode with [UserLocationLayer.setAnchor]
      *
-     * null if use map's default. Use null as initial value, don't affect after change custom value to null
+     * Anchor mode is turned off with [UserLocationLayer.resetAnchor] when null, so unlike the other
+     * properties of this config, null does restore the layer's default here.
      */
     val anchor: Anchor? = null,
 

@@ -5,6 +5,10 @@ import ru.sulgik.mapkit.runtime.Error
 
 /**
  * A failure reported by the offline cache.
+ *
+ * The two properties are mutually exclusive because the platforms report the failure differently:
+ * Android hands over a typed [ru.sulgik.mapkit.runtime.Error], iOS an `NSError` that only carries
+ * a message.
  */
 public actual class OfflineCacheError internal constructor(private val nsError: NSError) {
 

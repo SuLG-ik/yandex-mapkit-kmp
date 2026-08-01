@@ -43,7 +43,8 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
      * List of map objects associated with the map. The layerId for this collection can be
      * retrieved via LayerIds.mapObjectsLayerId
      */
-    public actual val mapObjects: RootMapObjectCollection = nativeMap.mapObjects.toCommon()
+    public actual val mapObjects: RootMapObjectCollection
+        get() = nativeMap.mapObjects.toCommon()
 
     /**
      * If enabled, night mode will reduce map brightness and improve contrast.
@@ -190,6 +191,9 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
 
     /**
      * Adds camera listeners.
+     *
+     * The class does not retain the object in the 'cameraListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
     public actual fun addCameraListener(cameraListener: WeakRef<CameraListener>) {
         nativeMap.addCameraListener(cameraListener.toNative())
@@ -219,6 +223,9 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
 
     /**
      * Adds input listeners.
+     *
+     * The class does not retain the object in the 'inputListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
     public actual fun addInputListener(inputListener: WeakRef<InputListener>) {
         nativeMap.addInputListener(inputListener.toNative())
@@ -292,7 +299,7 @@ public actual class Map internal constructor(private val nativeMap: NativeMap) {
     /**
      * Selects one of predefined map style modes optimized for particular use case(transit, driving, etc).
      *
-     * Resets json styles set with setMapStyle. MapMode.Map by deafult.
+     * Resets json styles set with setMapStyle. MapMode.Map by default.
      */
     public actual var mode: MapMode
         get() = nativeMap.mode.toCommon()

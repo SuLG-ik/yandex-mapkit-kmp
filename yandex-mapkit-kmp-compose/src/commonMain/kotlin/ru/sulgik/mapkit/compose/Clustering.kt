@@ -59,12 +59,12 @@ internal class ClusterNode(
 
     private fun addGroup(group: ClusterGroup) {
         mapObject.addPlacemarks(group.placemarks.map { it.geometry }, group.icon, group.iconStyle)
-            .forEach {
-                it.setIcon(group.icon, group.iconStyle)
+            .forEachIndexed { index, placemark ->
+                placemark.userData = group.placemarks[index].data
                 if (group.text != null) {
-                    it.setText(group.text, group.textStyle)
+                    placemark.setText(group.text, group.textStyle)
                 }
-                it.addTapListener(nativeItemTapListener.asWeakRef())
+                placemark.addTapListener(nativeItemTapListener.asWeakRef())
             }
     }
 
@@ -157,6 +157,8 @@ public fun Clustering(
     zIndex: Float = 0.0f,
 ) {
     val collection = LocalMapObjectCollection.current
+    val currentIcon by rememberUpdatedState(icon)
+    val currentIconStyle by rememberUpdatedState(iconStyle)
     MapObjectNode(
         state = null,
         visible = visible,
@@ -167,7 +169,7 @@ public fun Clustering(
                 onClusterTap?.invoke(it) ?: false
             }
             val listener = ClusterListener {
-                it.appearance.setIcon(icon, iconStyle)
+                it.appearance.setIcon(currentIcon, currentIconStyle)
                 it.addClusterTapListener(nativeClusterTapListener.asWeakRef())
             }
             ClusterNode(
@@ -292,6 +294,7 @@ public fun Clustering(
     zIndex: Float = 0.0f,
 ) {
     val collection = LocalMapObjectCollection.current
+    val currentIcon by rememberUpdatedState(icon)
     val currentIconStyle by rememberUpdatedState(iconStyle)
     MapObjectNode(
         state = null,
@@ -303,7 +306,7 @@ public fun Clustering(
                 onClusterTap?.invoke(it) ?: false
             }
             val listener = ClusterListener {
-                icon.setIcon(it, currentIconStyle)
+                currentIcon.setIcon(it, currentIconStyle)
                 it.addClusterTapListener(nativeClusterTapListener.asWeakRef())
             }
             ClusterNode(

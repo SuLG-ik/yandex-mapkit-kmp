@@ -208,9 +208,10 @@ private val nativeListener = object : NativeInputListener, NSObject() {
 }
 ```
 
-Take the mapping between native and common callback names seriously — `InputListener.ios.kt`
-currently has `onMapTapWithMap` wired to `onMapLongTap` and vice versa, which is exactly the kind of
-bug this shape invites. Read the native signature twice.
+Take the mapping between native and common callback names seriously. A listener whose overrides
+differ only by a word (`onMapTapWithMap` / `onMapLongTapWithMap`) compiles just as well when the two
+bodies are swapped, and nothing downstream notices until a user reports that a long tap fires a tap.
+Read each native signature against the common method it forwards to, one pair at a time.
 
 Single-method callbacks can collapse further when the native side is a functional type:
 `Callback.ios.kt` returns a method reference (`return ::onTaskFinished`), and

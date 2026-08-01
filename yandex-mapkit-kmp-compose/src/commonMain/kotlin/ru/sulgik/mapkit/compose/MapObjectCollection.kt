@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import ru.sulgik.mapkit.PointF
 import ru.sulgik.mapkit.asWeakRef
@@ -16,7 +16,7 @@ public fun rememberMapObjectCollectionState(): MapObjectCollectionState {
     return remember { MapObjectCollectionState() }
 }
 
-@Immutable
+@Stable
 public class MapObjectCollectionState : MapObjectState<MapObjectCollection>() {
 
     /**

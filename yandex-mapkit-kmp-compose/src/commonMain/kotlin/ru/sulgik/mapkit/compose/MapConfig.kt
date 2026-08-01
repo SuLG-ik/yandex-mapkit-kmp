@@ -16,13 +16,15 @@ public data class MapConfig(
     /**
      * If enabled, night mode will reduce map brightness and improve contrast.
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isNightModeEnabled: Boolean? = null,
     /**
      * Limits the number of visible basemap POIs with [Map.poiLimit]
      *
-     * Optional property, can be null.
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val poiLimit: Int? = null,
     /**
@@ -30,37 +32,43 @@ public data class MapConfig(
      *
      * However, a double-tap will emit a tap gesture along with a double-tap.
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isFastTapEnabled: Boolean? = null,
     /**
      * Enable/disable rotation gestures, such as rotation with two fingers with [Map.isRotateGesturesEnabled]]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isRotateGesturesEnabled: Boolean? = null,
     /**
      * Enable/disable tilt gestures, such as parallel pan with two fingers with [Map.isTiltGesturesEnabled]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isTiltGesturesEnabled: Boolean? = null,
     /**
      * Enable/disable scroll gestures with [Map.isScrollGesturesEnabled]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isScrollGesturesEnabled: Boolean? = null,
     /**
      * Enable/disable zoom gestures with [Map.isZoomGesturesEnabled]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isZoomGesturesEnabled: Boolean? = null,
     /**
      * The base map type with [Map.mapType]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val mapType: MapType? = null,
 
@@ -69,42 +77,48 @@ public data class MapConfig(
      *
      * Resets json styles set with [mapStyle].
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val mode: MapMode? = null,
 
     /**
      * JSON style transformation applied to the map with [Map.setMapStyle]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val mapStyle: String? = null,
 
     /**
      * Enables hd mode of displayed content with [Map.isHdModeEnabled]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isHdModeEnabled: Boolean? = null,
 
     /**
      * Enables/disables indoor plans on the map with [Map.isIndoorEnabled]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isIndoorEnabled: Boolean? = null,
 
     /**
      * Enables rich textured 3d content on basemap with [Map.isAwesomeModelsEnabled]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isAwesomeModelsEnabled: Boolean? = null,
 
     /**
      * Makes the map background fully transparent with [Map.isTransparentBackgroundEnabled]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isTransparentBackgroundEnabled: Boolean? = null,
 
@@ -112,7 +126,8 @@ public data class MapConfig(
      * Hides the indoor plans and shows the buildings without resetting the current indoor plan
      * with [Map.isBuildingsAboveIndoorEnabled]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val isBuildingsAboveIndoorEnabled: Boolean? = null,
 
@@ -124,42 +139,48 @@ public data class MapConfig(
     /**
      * The area of interest inside the view with [MapWindow.focusRect]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val focusRect: ScreenRect? = null,
 
     /**
      * The point on the screen that corresponds to camera position with [MapWindow.focusPoint]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val focusPoint: ScreenPoint? = null,
 
     /**
      * The focus point of gestures with [MapWindow.gestureFocusPoint]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val gestureFocusPoint: ScreenPoint? = null,
 
     /**
      * The way provided gesture focus point affects gestures with [MapWindow.gestureFocusPointMode]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val gestureFocusPointMode: GestureFocusPointMode? = null,
 
     /**
      * The position of the point of view with [MapWindow.pointOfView]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val pointOfView: PointOfView? = null,
 
     /**
      * Scale factor of the map with [MapWindow.scaleFactor]
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val scaleFactor: Float? = null,
 
@@ -168,7 +189,9 @@ public data class MapConfig(
      *
      * true - All loaded tiles start showing the "flatten out" animation; all new tiles do not start 3D animation.
      * false - All tiles start showing the "rise up" animation.
-     * null – use map's default value
+     *
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val use2dMode: Boolean? = null,
 
@@ -182,7 +205,8 @@ public data class MapConfig(
      *
      * Valid range: [0, max display refresh rate]. 0 means max display refresh rate.
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     public val fps: Int? = null,
 )

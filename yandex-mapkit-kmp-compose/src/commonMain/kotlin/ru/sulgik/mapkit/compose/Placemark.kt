@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisallowComposableCalls
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.Updater
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,7 +42,7 @@ public fun rememberPlacemarkState(
     ) { PlacemarkState(geometry, direction) }
 }
 
-@Immutable
+@Stable
 public class PlacemarkState(
     geometry: Point,
     direction: Float = 0.0f,

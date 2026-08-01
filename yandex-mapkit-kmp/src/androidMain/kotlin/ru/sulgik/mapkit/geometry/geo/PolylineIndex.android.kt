@@ -17,6 +17,10 @@ public actual class PolylineIndex internal constructor(
         return nativePolylineIndex
     }
 
+    /**
+     * Finds closest polyline position. Returns `null` if there is no position that satisfies the
+     * condition `distance(point, position) < maxLocationBias`.
+     */
     public actual fun closestPolylinePosition(
         point: Point,
         priority: Priority,
@@ -27,6 +31,10 @@ public actual class PolylineIndex internal constructor(
             ?.toCommon()
     }
 
+    /**
+     * Finds the closest polyline position between the two positions. Returns `null` if there is no
+     * position that satisfies the condition `distance(point, position) < maxLocationBias`.
+     */
     public actual fun closestPolylinePosition(
         point: Point,
         positionFrom: PolylinePosition,

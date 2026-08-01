@@ -9,6 +9,10 @@ public actual class MultiPolygon internal constructor(private val nativeMultiPol
         return nativeMultiPolygon
     }
 
+    override fun toString(): String {
+        return "MultiPolygon(polygons=${polygons.polygonsListToString()})"
+    }
+
     public actual constructor(polygons: List<Polygon>) : this(
         NativeMultiPolygon.multiPolygonWithPolygons(polygons.map(Polygon::toNative)),
     )

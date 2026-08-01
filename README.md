@@ -8,8 +8,8 @@
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat&color=blue)
 ![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat&color=blue)
 
-Kotlin-first SDK for Yandex MapKit. It's API is similar to the Yandex MapKit SDK but also supports
-multiplatform projects and compose multiplaform, enabling you to use MapKit directly from your
+Kotlin-first SDK for Yandex MapKit. Its API is similar to the Yandex MapKit SDK but also supports
+multiplatform projects and Compose Multiplatform, enabling you to use MapKit directly from your
 common source targeting iOS or Android.
 
 **_NOTE:_ It is not Yandex's project. Author has no connection with original SDK, it is wrapper
@@ -22,10 +22,10 @@ uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.42.0-l
 
 | Module	                                        | Gradle Dependency                                                                                                                             | Description                                                                                                                                              |
 |------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Core](yandex-mapkit-kmp)                      | [`ru.sulgik.mapkit:yandex-mapkit-kmp:0.4.1`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp)                            | Features of original Yandex MapKit SDK                                                                                                                   |
-| [Compose](yandex-mapkit-kmp-compose)           | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:0.4.1`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose)            | Component to draw map and [compose-resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html) usage as map images |
-| [Moko](yandex-mapkit-kmp-moko)                 | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko:0.4.1`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko)                  | Use [moko-resources](https://github.com/icerockdev/moko-resources) as map images. Requires native initialization                                         |
-| [Moko Compose](yandex-mapkit-kmp-moko-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:0.4.1`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko-compose) | Use [moko-resources](https://github.com/icerockdev/moko-resources) as image provider. Not require native initialization                                  |
+| [Core](yandex-mapkit-kmp)                      | [`ru.sulgik.mapkit:yandex-mapkit-kmp:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp)                            | Features of original Yandex MapKit SDK                                                                                                                   |
+| [Compose](yandex-mapkit-kmp-compose)           | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose)            | Component to draw map and [compose-resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html) usage as map images |
+| [Moko](yandex-mapkit-kmp-moko)                 | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko)                  | Use [moko-resources](https://github.com/icerockdev/moko-resources) as map images. Requires native initialization                                         |
+| [Moko Compose](yandex-mapkit-kmp-moko-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko-compose) | Use [moko-resources](https://github.com/icerockdev/moko-resources) as image provider. Not require native initialization                                  |
 
 ## Installation
 

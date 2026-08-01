@@ -11,6 +11,8 @@ import com.yandex.mapkit.map.TileDataSourceBuilder as NativeTileDataSourceBuilde
 
 /**
  * Configures the tile data source of a custom layer.
+ *
+ * The builder is handed to [Map.addTileLayer] and is only valid for the duration of that call.
  */
 public actual class TileDataSourceBuilder internal constructor(
     private val nativeBuilder: NativeTileDataSourceBuilder,
@@ -20,10 +22,16 @@ public actual class TileDataSourceBuilder internal constructor(
         return nativeBuilder
     }
 
+    /**
+     * The class does not retain the object in the 'urlProvider' parameter.
+     */
     public actual fun setTileUrlProvider(urlProvider: UrlProvider) {
         nativeBuilder.setTileUrlProvider(urlProvider.toNative())
     }
 
+    /**
+     * The class does not retain the object in the 'tileProvider' parameter.
+     */
     public actual fun setTileProvider(tileProvider: TileProvider) {
         nativeBuilder.setTileProvider(tileProvider.toNative())
     }
