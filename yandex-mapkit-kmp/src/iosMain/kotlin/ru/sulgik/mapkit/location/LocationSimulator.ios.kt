@@ -18,6 +18,14 @@ public actual class LocationSimulator internal constructor(
         return nativeLocationSimulator
     }
 
+    /**
+     * The speed of the simulation in meters per second.
+     *
+     * Deprecated by MapKit in favour of [LocationSettings.speed] of each leg. [startSimulation]
+     * replaces [settings], so a value assigned here before the simulation starts is overwritten by
+     * the speed of the settings the simulation is started with. Set [LocationSettings.speed]
+     * together with [LocationSettings.provideSpeed] on every [SimulationSettings] instead.
+     */
     public actual var speed: Double
         get() = nativeLocationSimulator.speed
         set(value) {
@@ -55,6 +63,13 @@ public actual class LocationSimulator internal constructor(
         return nativeLocationSimulator.polylinePosition().toCommon()
     }
 
+    /**
+     * True if simulator is not suspended.
+     *
+     * Tracks the suspended state inherited from [LocationManager], not whether a simulation is
+     * running. [ru.sulgik.mapkit.MapKit.createLocationSimulator] returns a suspended simulator and
+     * [startSimulation] does not resume it, so this stays false while a simulation is running.
+     */
     public actual val isActive: Boolean
         get() = nativeLocationSimulator.isActive()
 }
