@@ -21,6 +21,13 @@ val yandexMapsMobileFrameworks = listOf(
     "NetworkExtension",
 )
 
+val yandexMapsMobileTestFrameworks = yandexMapsMobileFrameworks + listOf(
+    "CoreMotion",
+    "DeviceCheck",
+)
+
+val testExecutableInfoPlist = file("src/iosTest/Info.plist")
+
 kotlin {
     android {
         namespace = "ru.sulgik.mapkit"
@@ -98,7 +105,9 @@ kotlin {
         }
 
         binaries.withType<TestExecutable>().configureEach {
-            yandexMapsMobileFrameworks.forEach { linkerOpts("-framework", it) }
+            yandexMapsMobileTestFrameworks.forEach { linkerOpts("-framework", it) }
+            linkerOpts("-ObjC")
+            linkerOpts("-sectcreate", "__TEXT", "__info_plist", testExecutableInfoPlist.absolutePath)
         }
     }
 
