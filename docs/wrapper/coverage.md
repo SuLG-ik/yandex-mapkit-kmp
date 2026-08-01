@@ -133,5 +133,3 @@ visibility with `setVisible(visible, animation)`, `PlacemarkState` reaches `useI
   `UIImage` — so they stay parameters of the Android factories.
 
 Anything on this list is still reachable through `toNative()` from a platform source set.
-[`MAPKIT_BACKLOG.md`](https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/MAPKIT_BACKLOG.md)
-tracks what was deliberately left out.

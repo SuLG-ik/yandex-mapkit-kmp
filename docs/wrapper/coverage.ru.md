@@ -132,5 +132,3 @@ MapKit наследует `LocationSimulator` от `LocationManager`. Kotlin н�
   `UIImage`, — поэтому остались параметрами Android-фабрик.
 
 Всё из этого списка по-прежнему достижимо через `toNative()` из платформенных исходников.
-[`MAPKIT_BACKLOG.md`](https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/MAPKIT_BACKLOG.md)
-ведёт учёт того, что оставлено осознанно.

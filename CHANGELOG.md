@@ -80,7 +80,6 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   `setVisible(visible, animation, onFinished)` and `isValid` to all of them. `PlacemarkState` gained
   `setScaleFunction`, `useIcon`, `useCompositeIcon`, `useModel`, `useAnimation` and `text`;
   `PolygonState` gained `setPattern(AnimatedImageProvider, scale)` and `resetPattern`.
-- `MAPKIT_BACKLOG.md` listing MapKit 4.25–4.42 API that is not wrapped yet.
 - The documentation site is bilingual: English keeps the existing URLs, Russian is served under
   `/ru/`. Nine pages are new — migration from MapKit, the map and the camera, map objects, base map
   objects, geolocation, layers and tiles, offline maps and storage, runtime — and every page carries
