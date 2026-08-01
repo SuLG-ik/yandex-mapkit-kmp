@@ -25,7 +25,7 @@ public enum class MapMode {
     ADMIN,
 
     /**
-     * Legacy basic map design, can be used to preserve compatibility with app design/legacy map customizaitons
+     * Legacy basic map design, can be used to preserve compatibility with app design/legacy map customizations
      */
     LEGACY_MAP,
 

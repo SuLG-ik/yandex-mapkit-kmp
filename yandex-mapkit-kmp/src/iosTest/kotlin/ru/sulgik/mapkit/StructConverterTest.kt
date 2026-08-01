@@ -14,6 +14,7 @@ import ru.sulgik.mapkit.logo.LogoVerticalAlignment
 import ru.sulgik.mapkit.logo.toCommon
 import ru.sulgik.mapkit.logo.toNative
 import ru.sulgik.mapkit.map.CameraPosition
+import ru.sulgik.mapkit.map.LineStyle
 import ru.sulgik.mapkit.map.ModelStyle
 import ru.sulgik.mapkit.map.TextStyle
 import ru.sulgik.mapkit.map.VisibleRegion
@@ -28,7 +29,6 @@ import ru.sulgik.mapkit.runtime.i18n.toNative
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import YandexMapKit.YMKCameraPosition as NativeCameraPosition
-import YandexMapKit.YMKLocationSubscriptionSettings as NativeSubscriptionSettings
 import YandexMapKit.YMKLogoAlignment as NativeAlignment
 import YandexMapKit.YMKLogoHorizontalAlignment as NativeHorizontalAlignment
 import YandexMapKit.YMKLogoPadding as NativePadding
@@ -151,6 +151,37 @@ public class StructConverterTest {
         ).toCommon()
 
         assertEquals(null, common.variantName)
+    }
+
+    @Test
+    public fun `line style keeps every width the radius and the outline color apart`() {
+        val style = LineStyle(
+            strokeWidth = 2f,
+            gradientLength = 3f,
+            outlineColor = Color.fromArgb(0xFF778899.toInt()),
+            outlineWidth = 4f,
+            innerOutlineEnabled = true,
+            turnRadius = 5f,
+            arcApproximationStep = 6f,
+            dashLength = 7f,
+            gapLength = 8f,
+            dashOffset = 9f,
+        )
+
+        val native = style.toNative()
+
+        assertEquals(2f, native.strokeWidth)
+        assertEquals(3f, native.gradientLength)
+        assertEquals(Color.fromArgb(0xFF778899.toInt()), native.outlineColor.toCommon())
+        assertEquals(4f, native.outlineWidth)
+        assertEquals(true, native.innerOutlineEnabled)
+        assertEquals(5f, native.turnRadius)
+        assertEquals(6f, native.arcApproximationStep)
+        assertEquals(7f, native.dashLength)
+        assertEquals(8f, native.gapLength)
+        assertEquals(9f, native.dashOffset)
+
+        assertEquals(style, native.toCommon())
     }
 
     @Test

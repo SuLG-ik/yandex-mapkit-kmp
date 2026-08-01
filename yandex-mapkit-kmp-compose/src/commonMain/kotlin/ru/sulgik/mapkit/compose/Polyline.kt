@@ -1,7 +1,7 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
@@ -16,6 +16,7 @@ import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.Subpolyline
 import ru.sulgik.mapkit.map.Arrow
+import ru.sulgik.mapkit.map.LineStyle
 import ru.sulgik.mapkit.map.PolylineMapObject
 
 /**
@@ -29,7 +30,7 @@ public fun rememberPolylineState(geometry: Polyline, key: String? = null): Polyl
     return rememberSaveable(key = key, saver = PolylineState.Saver) { PolylineState(geometry) }
 }
 
-@Immutable
+@Stable
 public class PolylineState(geometry: Polyline) : MapObjectState<PolylineMapObject>() {
 
     public var geometry: Polyline by mutableStateOf(geometry)
@@ -190,6 +191,17 @@ internal fun PolylineImpl(
     onTap: ((Point) -> Boolean)? = null,
 ) {
     val collection = LocalMapObjectCollection.current
+    val style = LineStyle(
+        strokeWidth = strokeWidth,
+        gradientLength = gradientLength,
+        outlineColor = outlineColor.toMapkitColor(),
+        outlineWidth = outlineWidth,
+        innerOutlineEnabled = innerOutlineEnabled,
+        turnRadius = turnRadius,
+        dashLength = dashLength,
+        gapLength = gapLength,
+        dashOffset = dashOffset,
+    )
     MapObjectNode(
         state = state,
         visible = visible,
@@ -198,15 +210,7 @@ internal fun PolylineImpl(
         onTap = onTap,
         factory = {
             val mapObject = collection.addPolyline(state.geometry)
-            mapObject.style.strokeWidth = strokeWidth
-            mapObject.style.gradientLength = gradientLength
-            mapObject.style.outlineWidth = outlineWidth
-            mapObject.style.outlineColor = outlineColor.toMapkitColor()
-            mapObject.style.innerOutlineEnabled = innerOutlineEnabled
-            mapObject.style.turnRadius = turnRadius
-            mapObject.style.dashLength = dashLength
-            mapObject.style.gapLength = gapLength
-            mapObject.style.dashOffset = dashOffset
+            mapObject.style = style
             mapObject.setStrokeColor(strokeColor.toMapkitColor())
             PolylineNode(
                 mapObject = mapObject,
@@ -216,15 +220,7 @@ internal fun PolylineImpl(
         },
         update = {
             update(state.geometry) { this.mapObject.geometry = it }
-            update(strokeWidth) { mapObject.style.strokeWidth = strokeWidth }
-            update(gradientLength) { mapObject.style.gradientLength = gradientLength }
-            update(outlineWidth) { mapObject.style.outlineWidth = outlineWidth }
-            update(outlineColor) { mapObject.style.outlineColor = outlineColor.toMapkitColor() }
-            update(innerOutlineEnabled) { mapObject.style.innerOutlineEnabled = innerOutlineEnabled }
-            update(turnRadius) { mapObject.style.turnRadius = turnRadius }
-            update(dashLength) { mapObject.style.dashLength = dashLength }
-            update(gapLength) { mapObject.style.gapLength = gapLength }
-            update(dashOffset) { mapObject.style.dashOffset = dashOffset }
+            update(style) { mapObject.style = it }
             update(strokeColor) { mapObject.setStrokeColor(strokeColor.toMapkitColor()) }
         },
     )

@@ -17,9 +17,10 @@ public actual class Polyline internal constructor(private val nativePolyline: Na
         NativePolyline.polylineWithPoints(points.map(Point::toNative)),
     )
 
-    public actual val points: List<Point>
-        @Suppress("UNCHECKED_CAST")
-        get() = (nativePolyline.points as List<NativePoint>).map { it.toCommon() }
+    @Suppress("UNCHECKED_CAST")
+    public actual val points: List<Point> by lazy {
+        (nativePolyline.points as List<NativePoint>).map { it.toCommon() }
+    }
 
     /**
      * Two handles are equal when they have the same type and wrap the same native object.

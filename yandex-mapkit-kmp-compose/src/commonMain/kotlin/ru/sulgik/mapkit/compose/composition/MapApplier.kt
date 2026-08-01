@@ -1,7 +1,6 @@
 package ru.sulgik.mapkit.compose.composition
 
 import androidx.compose.runtime.AbstractApplier
-import androidx.compose.runtime.Composition
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.map.RootMapObjectCollection
 

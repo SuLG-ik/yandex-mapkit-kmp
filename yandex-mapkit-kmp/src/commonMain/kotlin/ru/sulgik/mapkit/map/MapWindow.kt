@@ -14,12 +14,12 @@ public expect class MapWindow {
     public fun addRasterScreenOverlay(): Overlay
 
     /**
-     * Window height in physical pixels
+     * Window width in physical pixels
      */
     public val width: Int
 
     /**
-     * Window width in physical pixels
+     * Window height in physical pixels
      */
     public val height: Int
 
@@ -27,18 +27,6 @@ public expect class MapWindow {
      * Gets the map interface.
      */
     public val map: Map
-
-    /**
-     * The point on the screen that corresponds to camera position.
-     *
-     * Changing camera position or focusPoint makes the new camera target appear exactly at the
-     * focusPoint on screen.
-     *
-     * If focusPoint is null, the center of focusRect is used instead.
-     *
-     * Optional property, can be null.
-     */
-    public var focusRect: ScreenRect?
 
     /**
      * When using controls that overlay the map view, calculating the proper camera position can be
@@ -57,6 +45,18 @@ public expect class MapWindow {
      *
      * On iOS, if you change the focus rectangle in the viewDidLayoutSubviews callback, it's
      * recommended to call MapView.layoutIfNeeded just before that action.
+     *
+     * Optional property, can be null.
+     */
+    public var focusRect: ScreenRect?
+
+    /**
+     * The point on the screen that corresponds to camera position.
+     *
+     * Changing camera position or focusPoint makes the new camera target appear exactly at the
+     * focusPoint on screen.
+     *
+     * If focusPoint is null, the center of focusRect is used instead.
      *
      * Optional property, can be null.
      */

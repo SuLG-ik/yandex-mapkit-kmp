@@ -13,9 +13,9 @@ public data class LayerOptions(
      */
     val active: Boolean = true,
     /**
-     * Indicates the availability of night mode for this layer.
+     * Indicates the availability of night mode for this layer. Default: true.
      */
-    val nightModeAvailable: Boolean = false,
+    val nightModeAvailable: Boolean = true,
     /**
      * Determines whether tiles are cached on persistent storage or not.
      */
@@ -25,9 +25,10 @@ public data class LayerOptions(
      */
     val animateOnActivation: Boolean = true,
     /**
-     * Specifies duration of tile appearing animation.
+     * Specifies duration of tile appearing animation. Can be set to zero to disable animation.
+     * Default: 400 ms.
      */
-    val tileAppearingAnimationDuration: Duration = 150.milliseconds,
+    val tileAppearingAnimationDuration: Duration = 400.milliseconds,
     /**
      * Whether to render tiles from adjacent zoom levels in place of absent or translucent tiles.
      */

@@ -33,10 +33,16 @@ public fun NativeLocationSettings.toCommon(): LocationSettings {
     )
 }
 
+/**
+ * The settings of a high accuracy location source.
+ */
 public actual fun LocationSettings.Companion.fineSettings(): LocationSettings {
     return NativeLocationSettingsFactory.fineSettings().toCommon()
 }
 
+/**
+ * The settings of a low accuracy location source.
+ */
 public actual fun LocationSettings.Companion.coarseSettings(): LocationSettings {
     return NativeLocationSettingsFactory.coarseSettings().toCommon()
 }

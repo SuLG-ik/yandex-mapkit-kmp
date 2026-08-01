@@ -37,28 +37,49 @@ public actual class LocationSimulator internal constructor(
             nativeLocationSimulator.speed = value
         }
 
+    /**
+     * The legs of the simulation.
+     */
     public actual var settings: List<SimulationSettings>
         get() = nativeLocationSimulator.settings.map { it.toCommon() }
         set(value) {
             nativeLocationSimulator.settings = value.map { it.toNative() }
         }
 
+    /**
+     * Subscribes to simulation events.
+     *
+     * The class does not retain the object in the 'simulatorListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
     public actual fun subscribeForSimulatorEvents(simulatorListener: WeakRef<LocationSimulatorListener>) {
         nativeLocationSimulator.subscribeForSimulatorEvents(simulatorListener.toNative())
     }
 
+    /**
+     * Unsubscribes from simulation events.
+     */
     public actual fun unsubscribeFromSimulatorEvents(simulatorListener: WeakRef<LocationSimulatorListener>) {
         nativeLocationSimulator.unsubscribeFromSimulatorEvents(simulatorListener.toNative())
     }
 
+    /**
+     * Start simulation.
+     */
     public actual fun startSimulation(settings: List<SimulationSettings>) {
         nativeLocationSimulator.startSimulation(settings.map { it.toNative() })
     }
 
+    /**
+     * Stop simulation.
+     */
     public actual fun stopSimulation() {
         nativeLocationSimulator.stopSimulation()
     }
 
+    /**
+     * The position of the polyline.
+     */
     public actual fun polylinePosition(): PolylinePosition {
         return nativeLocationSimulator.polylinePosition().toCommon()
     }

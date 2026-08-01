@@ -20,6 +20,10 @@ import com.yandex.mapkit.uri.UriObjectMetadata as NativeUriObjectMetadata
 
 /**
  * An object of the base map: a POI, a building, a toponym.
+ *
+ * This is a wrapper class rather than a value type because MapKit keeps the object's metadata in a
+ * dictionary keyed by native types, which has no common representation; the metadata is read
+ * through the typed accessors below.
  */
 public actual class GeoObject internal constructor(private val nativeGeoObject: NativeGeoObject) {
 

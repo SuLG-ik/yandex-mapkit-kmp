@@ -208,7 +208,7 @@ public expect class Map {
     /**
      * Selects one of predefined map style modes optimized for particular use case(transit, driving, etc).
      *
-     * Resets json styles set with setMapStyle. MapMode.Map by deafult.
+     * Resets json styles set with setMapStyle. MapMode.Map by default.
      */
     public var mode: MapMode
 

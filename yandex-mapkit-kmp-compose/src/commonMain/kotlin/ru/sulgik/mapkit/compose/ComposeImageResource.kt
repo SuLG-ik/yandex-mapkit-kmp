@@ -15,5 +15,5 @@ internal expect fun ImageBitmap.toImageProvider(density: Density): ImageProvider
 @Composable
 public fun imageProvider(resource: DrawableResource): ImageProvider {
     val image = imageResource(resource)
-    return remember { image.toImageProvider() }
+    return remember(image) { image.toImageProvider() }
 }

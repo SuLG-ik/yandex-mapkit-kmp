@@ -12,13 +12,15 @@ public data class MapLogoConfig(
     /**
      * Set Yandex Map logo alignment via [Logo.setAlignment].
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     val alignment: LogoAlignment? = null,
     /**
      * Set Yandex Map logo alignment via [Logo.setPadding].
      *
-     * If null use map's default value
+     * Left untouched when null: the value is applied only while it is not null, and setting it
+     * back to null does not restore the map's default.
      */
     val padding: LogoPadding? = null,
 )

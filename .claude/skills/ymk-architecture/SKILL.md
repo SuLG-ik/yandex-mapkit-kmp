@@ -35,9 +35,8 @@ Publication coordinates are `ru.sulgik.mapkit:<module>`, version comes from the 
 property in [gradle.properties](gradle.properties). MapKit's own version lives in
 [gradle/libs.versions.toml](gradle/libs.versions.toml) as `yandex-mapkit`.
 
-`yandex-mapkit-kmp` and `yandex-mapkit-kmp-compose` compile with `-Xexplicit-api=strict`; the two
-moko modules do not, which is why their sources have no `public` modifiers. Match the module you are
-editing rather than "fixing" the moko modules.
+All four published modules compile with `-Xexplicit-api=strict`, so every public declaration spells
+its visibility and its return type.
 
 ## Package layout mirrors MapKit
 
@@ -79,10 +78,16 @@ The `.android.kt` / `.ios.kt` suffix is mandatory for platform files that comple
 declaration. Platform-only types that have no common counterpart drop the suffix, because there is
 nothing to disambiguate: `map/AndroidImageProvider.kt`, `map/UIImageImageProvider.kt`.
 
-A handful of existing files break this (`location/SubscriptionSettings.android.kt` and
-`location/UseInBackground.android.kt` sitting in **iosMain**, `map/MapWindow.kt` in iosMain, `logo/
-Alignment.android.kt` holding `LogoAlignment` converters). They are historical typos — never copy
-them, and prefer the correct name when you touch such a file for other reasons.
+Check the two cheap failure modes before you commit a new platform file: a `.android.kt` name under
+`iosMain` (or the reverse) compiles happily because the suffix is not semantic, and a file whose
+name has drifted from the type it completes is invisible to everyone grepping for that type.
+
+```bash
+find */src/androidMain */src/iosMain -name '*.kt' ! -name '*.android.kt' ! -name '*.ios.kt'
+find . -path '*/iosMain/*' -name '*.android.kt' -o -path '*/androidMain/*' -name '*.ios.kt'
+```
+
+The first command should only list platform-only types; the second should list nothing.
 
 ## The converter vocabulary: exactly two names
 

@@ -1,7 +1,7 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
@@ -22,7 +22,7 @@ public fun rememberPolygonState(geometry: Polygon, key: String? = null): Polygon
     return rememberSaveable(key = key, saver = PolygonState.Saver) { PolygonState(geometry) }
 }
 
-@Immutable
+@Stable
 public class PolygonState(geometry: Polygon) : MapObjectState<PolygonMapObject>() {
 
     public var geometry: Polygon by mutableStateOf(geometry)

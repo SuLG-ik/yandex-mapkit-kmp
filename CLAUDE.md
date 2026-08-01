@@ -36,7 +36,9 @@ it has its own failure modes. Anything that changes an exported signature should
 ./gradlew libraryLinkIosFramework
 ```
 
-Tests live in `yandex-mapkit-kmp-compose/src/commonTest`:
+Tests live in `yandex-mapkit-kmp/src/{androidHostTest,androidDeviceTest,iosTest}` and in
+`yandex-mapkit-kmp-compose/src/{commonTest,androidDeviceTest,iosTest}`; converter tests that need a
+live MapKit object are device/simulator tests, the rest run on the JVM host:
 
 ```bash
 ./gradlew :yandex-mapkit-kmp-compose:allTests
@@ -163,6 +165,6 @@ code rather than inferring patterns from a single file:
 | `ymk-compose-api` | Adding Compose map objects, states, effects, image providers |
 | `ymk-conventions-review` | Auditing a diff before opening a PR |
 
-The skills also record known deviations already present in the tree (misnamed platform files,
-swapped callbacks in `InputListener.ios.kt`, commented-out tests) — treat those as bugs to avoid
-copying, not as precedent.
+The skills describe the conventions as they should be, and the tree currently follows them. If a file
+disagrees with a skill, the skill is the authority — fix the file or say so, do not take the odd file
+as precedent.

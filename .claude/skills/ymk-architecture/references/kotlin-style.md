@@ -5,9 +5,9 @@ the codebase wins — consistency is the point.
 
 ## Explicit API
 
-`yandex-mapkit-kmp` and `yandex-mapkit-kmp-compose` build with `-Xexplicit-api=strict`, so the
-compiler rejects a public declaration without an explicit modifier or an inferred return type. Write
-`public` even where it is the default, and always spell the return type:
+All four published modules build with `-Xexplicit-api=strict`, so the compiler rejects a public
+declaration without an explicit modifier or an inferred return type. Write `public` even where it is
+the default, and always spell the return type:
 
 ```kotlin
 public fun Point.toNative(): NativePoint {
@@ -16,9 +16,6 @@ public fun Point.toNative(): NativePoint {
 ```
 
 Test sources obey it too — `commonTest` classes and test functions are `public`.
-
-The moko modules do **not** enable it. Their sources use bare `interface MOKOImageLoader` and
-`class AndroidMOKOImageLoader`. Follow whichever module you are in.
 
 Other compiler flags in play: `-Xexpect-actual-classes` (the wrapper relies on `expect class`),
 `-Xconsistent-data-class-copy-visibility` (core), `-Xexport-kdoc` (KDoc reaches the ObjC headers),
@@ -152,5 +149,6 @@ public class ColorConvertionTest {
 ```
 
 Compose UI-state tests use `runComposeUiTest` with `StateRestorationTester` to prove a `Saver`
-survives configuration change — see the (currently commented-out) `MapObjectStatesRestorationTest`
-for the intended shape when adding a new state class.
+survives configuration change — see `MapObjectStatesRestorationTest` for the intended shape when
+adding a new state class. It needs a real frame, so it lives in `androidDeviceTest` and runs on an
+emulator, not in the host test task.
