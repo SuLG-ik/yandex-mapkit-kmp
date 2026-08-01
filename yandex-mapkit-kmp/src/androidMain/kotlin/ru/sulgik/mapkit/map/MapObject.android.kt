@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.map.BaseMapObjectCollection as NativeBaseMapObjectCollection
@@ -15,11 +16,25 @@ public actual open class MapObject internal constructor(private val nativeMapObj
         return nativeMapObject
     }
 
+    /**
+     * Manages visibility of the object on the map.
+     */
     public actual var isVisible: Boolean
         get() = nativeMapObject.isVisible
         set(value) {
             nativeMapObject.isVisible = value
         }
+
+    /**
+     * Manages visibility of the object.
+     *
+     * @param animation Describes the transition between visible and not visible states.
+     * @param onFinished Called when the transition is finished.
+     */
+    public actual fun setVisible(visible: Boolean, animation: Animation, onFinished: Callback?) {
+        nativeMapObject.setVisible(visible, animation.toNative(), onFinished?.toNative())
+    }
+
     public actual var zIndex: Float
         get() = nativeMapObject.zIndex
         set(value) {
@@ -53,6 +68,23 @@ public actual open class MapObject internal constructor(private val nativeMapObj
 
     public actual val isValid: Boolean
         get() = nativeMapObject.isValid
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is MapObject) return false
+        if (this::class != other::class) return false
+        return nativeMapObject == other.nativeMapObject
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeMapObject.hashCode()
+    }
 }
 
 public fun NativeMapObject.toCommon(): MapObject {

@@ -4,8 +4,14 @@ import ru.sulgik.mapkit.ScreenPoint
 import ru.sulgik.mapkit.ScreenRect
 import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.ui.Overlay
 
 public expect class MapWindow {
+
+    /**
+     * Adds raster screen overlay.
+     */
+    public fun addRasterScreenOverlay(): Overlay
 
     /**
      * Window height in physical pixels
@@ -104,16 +110,16 @@ public expect class MapWindow {
      * responsibility to maintain a strong reference to the target object while it is
      * attached to a class.
      */
-    public fun addSizeChangeListener(listener: WeakRef<SizeChangedListener>)
+    public fun addSizeChangedListener(listener: WeakRef<SizeChangedListener>)
 
     /**
      * Removes a SizeChangedListener.
      */
-    public fun removeSizeChangeListener(listener: WeakRef<SizeChangedListener>)
+    public fun removeSizeChangedListener(listener: WeakRef<SizeChangedListener>)
 
-    public fun convertWorldToScreen(worldPoint: Point): ScreenPoint?
+    public fun worldToScreen(worldPoint: Point): ScreenPoint?
 
-    public fun convertScreenToWorld(screenPoint: ScreenPoint): Point?
+    public fun screenToWorld(screenPoint: ScreenPoint): Point?
 
     /**
      * Allows to reduce CPU/GPU/battery usage in specific scenarios, where lower framerate is acceptable.
@@ -121,7 +127,17 @@ public expect class MapWindow {
      * Valid range: [0, max display refresh rate]. Default max fps depends on max display refresh
      * rate. If [fps] is 0, max fps value is set to max display refresh rate.
      */
-    public fun setMapFps(fps: Int)
+    public fun setMaxFps(fps: Int)
 
     public val isValid: Boolean
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    override fun equals(other: Any?): Boolean
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    override fun hashCode(): Int
 }

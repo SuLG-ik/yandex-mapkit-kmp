@@ -7,8 +7,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import ru.sulgik.mapkit.asWeakRef
-import ru.sulgik.mapkit.geometry.Cluster
 import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.map.Cluster
 import ru.sulgik.mapkit.map.ClusterListener
 import ru.sulgik.mapkit.map.ClusterTapListener
 import ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection
@@ -25,7 +25,11 @@ internal class ClusterNode(
     tapListener: ((Point) -> Boolean)?,
     val clusterListener: ClusterListener,
     var clusterItemTapListener: ((ClusterItem) -> Boolean)? = null,
-) : MapObjectNode<ClusterizedPlacemarkCollection>(mapObject, tapListener) {
+) : MapObjectNode<ClusterizedPlacemarkCollection, MapObjectState<ClusterizedPlacemarkCollection>>(
+    mapObject,
+    tapListener,
+    null,
+) {
 
     private val nativeItemTapListener = MapObjectTapListener { mapObject, point ->
         clusterItemTapListener?.let {
@@ -74,17 +78,11 @@ internal class ClusterNode(
         mapObject.clusterPlacemarks(config.clusterRadius, config.minZoom)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
-    override fun onAttached() {
-        super.onAttached()
-    }
-
     override fun onRemoved() {
-        mapObject.clear()
-        mapObject.parent.remove(mapObject)
+        if (mapObject.isValid) {
+            mapObject.clear()
+        }
+        super.onRemoved()
     }
 }
 
@@ -160,6 +158,7 @@ public fun Clustering(
 ) {
     val collection = LocalMapObjectCollection.current
     MapObjectNode(
+        state = null,
         visible = visible,
         onTap = null,
         zIndex = zIndex,
@@ -295,6 +294,7 @@ public fun Clustering(
     val collection = LocalMapObjectCollection.current
     val currentIconStyle by rememberUpdatedState(iconStyle)
     MapObjectNode(
+        state = null,
         visible = visible,
         onTap = null,
         zIndex = zIndex,

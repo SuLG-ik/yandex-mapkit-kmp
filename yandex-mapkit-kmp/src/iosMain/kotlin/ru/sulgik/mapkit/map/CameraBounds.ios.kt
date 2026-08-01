@@ -54,6 +54,29 @@ public actual class CameraBounds internal constructor(private val nativeCameraBo
     public actual fun setMaxZoomPreference(zoom: Float) {
         nativeCameraBounds.setMaxZoomPreferenceWithZoom(zoom)
     }
+
+    /**
+     * Tells if this **CameraBounds** is valid or not.
+     */
+    public actual val isValid: Boolean
+        get() = nativeCameraBounds.isValid()
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is CameraBounds) return false
+        if (this::class != other::class) return false
+        return nativeCameraBounds == other.nativeCameraBounds
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativeCameraBounds.hashCode()
+    }
 }
 
 public fun NativeCameraBounds.toCommon(): CameraBounds {

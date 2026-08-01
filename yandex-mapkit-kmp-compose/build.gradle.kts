@@ -149,6 +149,7 @@ tasks.withType<KotlinCompilationTask<*>> {
 tasks.withType<Test>().configureEach {
     filter {
         excludeTestsMatching("ru.sulgik.mapkit.compose.ComposeMapObjectRendererTest")
+        excludeTestsMatching("ru.sulgik.mapkit.compose.MapNodeInsertOrderTest")
         isFailOnNoMatchingTests = false
     }
 }

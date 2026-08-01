@@ -8,8 +8,9 @@ import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.toNative
 import java.lang.ref.WeakReference
 import com.yandex.mapkit.map.MapObjectCollection as NativeMapObjectCollection
+import com.yandex.mapkit.map.RootMapObjectCollection as NativeRootMapObjectCollection
 
-public actual class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) : BaseMapObjectCollection(nativeMapObjectCollection) {
+public actual open class MapObjectCollection internal constructor(private val nativeMapObjectCollection: NativeMapObjectCollection) : BaseMapObjectCollection(nativeMapObjectCollection) {
 
     override fun toNative(): NativeMapObjectCollection {
         return nativeMapObjectCollection
@@ -53,5 +54,8 @@ public actual class MapObjectCollection internal constructor(private val nativeM
 }
 
 public fun NativeMapObjectCollection.toCommon(): MapObjectCollection {
-    return MapObjectCollection(this)
+    return when (this) {
+        is NativeRootMapObjectCollection -> toCommon()
+        else -> MapObjectCollection(this)
+    }
 }

@@ -14,6 +14,6 @@ public fun NativeUserLocationIconType.toCommon(): UserLocationIconType {
     return when (this) {
         YMKUserLocationIconType.YMKUserLocationIconTypeArrow -> UserLocationIconType.ARROW
         YMKUserLocationIconType.YMKUserLocationIconTypePin -> UserLocationIconType.PIN
-        else -> throw IllegalArgumentException("Unknown NativeTextStylePlacement ($this)")
+        else -> throw IllegalArgumentException("Unknown NativeUserLocationIconType ($this)")
     }
 }

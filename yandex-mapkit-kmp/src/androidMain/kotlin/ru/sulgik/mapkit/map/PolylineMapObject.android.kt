@@ -29,86 +29,6 @@ public actual class PolylineMapObject internal constructor(private val nativePol
             nativePolylineMapObject.style = value.toNative()
         }
 
-    @Deprecated("Use style.strokeWidth instead", ReplaceWith("style.strokeWidth"))
-    @Suppress("DEPRECATION")
-    public actual var strokeWidth: Float
-        get() = nativePolylineMapObject.strokeWidth
-        set(value) {
-            nativePolylineMapObject.strokeWidth = value
-        }
-
-    @Deprecated("Use style.gradientLength instead", ReplaceWith("style.gradientLength"))
-    @Suppress("DEPRECATION")
-    public actual var gradientLength: Float
-        get() = nativePolylineMapObject.gradientLength
-        set(value) {
-            nativePolylineMapObject.gradientLength = value
-        }
-
-    @Deprecated("Use style.outlineWidth instead", ReplaceWith("style.outlineWidth"))
-    @Suppress("DEPRECATION")
-    public actual var outlineWidth: Float
-        get() = nativePolylineMapObject.outlineWidth
-        set(value) {
-            nativePolylineMapObject.outlineWidth = value
-        }
-
-    @Deprecated("Use style.outlineColor instead", ReplaceWith("style.outlineColor"))
-    @Suppress("DEPRECATION")
-    public actual var outlineColor: Color
-        get() = nativePolylineMapObject.outlineColor.toColor()
-        set(value) {
-            nativePolylineMapObject.outlineColor = value.toArgb()
-        }
-
-    @Deprecated("Use style.innerOutlineEnabled instead", ReplaceWith("style.innerOutlineEnabled"))
-    @Suppress("DEPRECATION")
-    public actual var isInnerOutlineEnabled: Boolean
-        get() = nativePolylineMapObject.isInnerOutlineEnabled
-        set(value) {
-            nativePolylineMapObject.isInnerOutlineEnabled = value
-        }
-
-    @Deprecated("Use style.turnRadius instead", ReplaceWith("style.turnRadius"))
-    @Suppress("DEPRECATION")
-    public actual var turnRadius: Float
-        get() = nativePolylineMapObject.turnRadius
-        set(value) {
-            nativePolylineMapObject.turnRadius = value
-        }
-
-    @Deprecated("Use style.dashLength instead", ReplaceWith("style.dashLength"))
-    @Suppress("DEPRECATION")
-    public actual var dashLength: Float
-        get() = nativePolylineMapObject.dashLength
-        set(value) {
-            nativePolylineMapObject.dashLength = value
-        }
-
-    @Deprecated("Use style.gapLength instead", ReplaceWith("style.gapLength"))
-    @Suppress("DEPRECATION")
-    public actual var gapLength: Float
-        get() = nativePolylineMapObject.gapLength
-        set(value) {
-            nativePolylineMapObject.gapLength = value
-        }
-
-    @Deprecated("Use style.dashOffset instead", ReplaceWith("style.dashOffset"))
-    @Suppress("DEPRECATION")
-    public actual var dashOffset: Float
-        get() = nativePolylineMapObject.dashOffset
-        set(value) {
-            nativePolylineMapObject.dashOffset = value
-        }
-
-    @Deprecated("Use style.arcApproximationStep instead", ReplaceWith("style.arcApproximationStep"))
-    @Suppress("DEPRECATION")
-    public actual var arcApproximationStep: Float
-        get() = nativePolylineMapObject.arcApproximationStep
-        set(value) {
-            nativePolylineMapObject.arcApproximationStep = value
-        }
-
     public actual fun select(
         selectionColor: Color,
         subpolyline: Subpolyline,
@@ -124,29 +44,66 @@ public actual class PolylineMapObject internal constructor(private val nativePol
         nativePolylineMapObject.hide(subpolylines.map { it.toNative() })
     }
 
-    public actual fun setStrokeColors(
-        colors: List<Color>,
-        weights: List<Double>,
-    ) {
-        nativePolylineMapObject.setStrokeColors(colors.map(Color::toArgb), weights)
-    }
-
-    public actual fun setStrokeColors(colors: List<Color>) {
-        nativePolylineMapObject.setStrokeColors(colors.map(Color::toArgb))
-    }
-
+    /**
+     * Sets the polyline color.
+     *
+     * Effectively sets a single-color palette and sets all segments' palette indices to 0.
+     */
     public actual fun setStrokeColor(color: Color) {
         return nativePolylineMapObject.setStrokeColor(color.toArgb())
     }
 
-    public actual fun getStrokeColor(segmentIndex: Int): Color {
-        return nativePolylineMapObject.getStrokeColor(segmentIndex).toColor()
+    /**
+     * Sets indexes of colors in palette for line segments.
+     *
+     * A polyline is colored through a palette: [setPaletteColor] defines the color stored under an
+     * index, and this method assigns one of those indexes to every segment. By default, all segments
+     * use palette index 0.
+     *
+     * [weights] are used for generalization of colors.
+     */
+    public actual fun setStrokeColors(
+        paletteIndices: List<Int>,
+        weights: List<Double>,
+    ) {
+        nativePolylineMapObject.setStrokeColors(paletteIndices, weights)
     }
 
+    /**
+     * Sets indexes of colors in palette for line segments.
+     *
+     * A polyline is colored through a palette: [setPaletteColor] defines the color stored under an
+     * index, and this method assigns one of those indexes to every segment. By default, all segments
+     * use palette index 0.
+     *
+     * All the weights are equal to 1.
+     */
+    public actual fun setStrokeColors(paletteIndices: List<Int>) {
+        nativePolylineMapObject.setStrokeColors(paletteIndices)
+    }
+
+    /**
+     * Returns the palette index used by segment with the specified index.
+     *
+     * The returned value is an index into the palette, not a color; resolve it with
+     * [getPaletteColor].
+     */
+    public actual fun getStrokeColor(segmentIndex: Int): Int {
+        return nativePolylineMapObject.getStrokeColor(segmentIndex)
+    }
+
+    /**
+     * Sets color in RGBA mode for [colorIndex].
+     *
+     * If the color is not provided for some index, the default value 0x0066FFFF is used.
+     */
     public actual fun setPaletteColor(colorIndex: Int, color: Color) {
         return nativePolylineMapObject.setPaletteColor(colorIndex, color.toArgb())
     }
 
+    /**
+     * Returns the palette color for the specified index.
+     */
     public actual fun getPaletteColor(colorIndex: Int): Color {
         return nativePolylineMapObject.getPaletteColor(colorIndex).toColor()
     }

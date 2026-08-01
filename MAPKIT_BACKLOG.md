@@ -15,89 +15,27 @@
 | `MapMode.HYBRID` | `ru.sulgik.mapkit.map.MapMode` |
 | `LocationPurpose.STATIC_DISPLAY_LOCATION` | `ru.sulgik.mapkit.location.LocationPurpose` |
 | `IconStyle.opacity` | `ru.sulgik.mapkit.map.IconStyle` |
-| `setMapFps(Float)` → `setMapFps(Int)` | `ru.sulgik.mapkit.map.MapWindow` |
-| Новый порядок аргументов `cameraPosition(geometry, focusRect, azimuth, tilt)` | `Map.calculateCameraPosition` |
+| `setMaxFps(Float)` → `setMaxFps(Int)` | `ru.sulgik.mapkit.map.MapWindow` |
+| Новый порядок аргументов `cameraPosition(geometry, focusRect, azimuth, tilt)` | `Map.cameraPosition` |
+| `RootMapObjectCollection`, `ConflictResolutionMode` | `ru.sulgik.mapkit.map`, `ru.sulgik.mapkit` |
 
 ---
 
-## Не поддержано: добавлено в 4.25–4.42
+## Не поддержано
 
-### `Map`
+Весь lite-доступный API MapKit 4.42 обёрнут — см. `docs/wrapper/coverage.md` и раздел
+«Этапы 2–8» в `MAPKIT_COVERAGE_AUDIT.md`. Осталось только то, что сознательно оставлено за бортом:
 
-- **Прозрачный фон карты** (4.41). `setTransparentBackgroundEnabled(Boolean)` /
-  `isTransparentBackgroundEnabled`. Просится свойством `var isTransparentBackgroundEnabled: Boolean`
-  рядом с `isHdModeEnabled`, плюс поле в `MapConfig` compose-модуля.
-- **Здания поверх indoor-плана**. `setBuildingsAboveIndoorEnabled(Boolean)` /
-  `isBuildingsAboveIndoorEnabled`. Свойство `var isBuildingsAboveIndoorEnabled: Boolean`; логически
-  в пару к существующему `isIndoorEnabled`.
-- **Перегрузки `cameraPosition` с необязательными azimuth/tilt**:
-  `cameraPosition(Geometry, ScreenRect?, Float?)` и `cameraPosition(Geometry, ScreenRect?, Float?, Float?)`.
-  Сейчас обёрнут только вариант с обязательными `azimuth` и `tilt`. Даёт «посчитай позицию, но
-  азимут оставь текущим».
-
-### `MapObject`
-
-- **Анимированная смена видимости**: `setVisible(Boolean, Animation)` и
-  `setVisible(Boolean, Animation, Callback)`. Сейчас есть только `var isVisible: Boolean` без
-  анимации.
-
-### `MapView`
-
-- `destroy()` — явное освобождение ресурсов вью. Стоит проверить, нужно ли звать его из
-  compose-обвязки при уходе `YandexMap` из композиции.
-
-### `CompositeIcon`
-
-Тип не обёрнут целиком, а в 4.42 у него появился короткий `setIcon(String, ImageProvider)` без
-`IconStyle`. Нужен, если захочется составные иконки плейсмарков.
-
-### `Model`
-
-- `setData(DataProviderWithId)` — подача данных 3D-модели с идентификатором. Сам `Model` не обёрнут.
-
-### `Size2u`
-
-Новый тип `com.yandex.mapkit.Size2u` (пара `width`/`height` в беззнаковых). Пока не используется ни
-одним обёрнутым API — обернуть вместе с тем, что его потребует.
-
-### Логирование (4.38.1)
-
-`Logging`, `LoggingFactory`, `LogListener`, `LogMessage` — подписка на внутренние логи MapKit.
-Изолированная фича, обернуть несложно; полезно для диагностики у пользователей SDK.
-
-### Аккаунты и авторизация (4.39.1)
-
-`com.yandex.runtime.auth.Account`, `TokenListener`, `PasswordRequiredData`. Нужно, только если
-появится задача про закладки Яндекс.Карт или персонализацию.
-
-### Настройки геолокации
-
-- `LocationSettingsFactory` — фабрика `LocationSettings`.
-- `LocationSettings` получил fluent-сеттеры (`setAccuracy`, `setProvideHeading`, `setSpeed`, …).
-- Сам `LocationSettings` во враппере не представлен: обёрнуты только `LocationManager`,
-  `SubscriptionSettings`, `LocationPurpose`.
-
-### `LocationSimulator`
-
-Не обёрнут. В 4.42 у него сменился API: `startSimulation(SimulationAccuracy)` заменён на
-`startSimulation(List<SimulationSettings>)`, а `setGeometry` / `getGeometry` /
-`setLocationSpeedProviding` убраны. Тип `SimulationAccuracy` удалён из SDK.
-
----
-
-## Не поддержано: было и до 4.25
-
-Подсистемы MapKit, которых во враппере нет вообще. В 4.41 у всех них подписки переехали на
-`WeakReference`, так что обёртки сразу надо писать под новую схему.
-
-| Подсистема | Ключевые типы |
+| API | Почему |
 |---|---|
-| Пробки | `TrafficLayer`, `TrafficListener`, `TrafficLevel` |
-| Офлайн-кеш | `OfflineCacheManager`, `RegionListener`, `RegionListUpdatesListener`, `DataMoveListener` |
-| Хранилище | `StorageManager`, `StorageErrorListener` |
-| Слои данных | `DataSourceLayer`, `DataSourceListener`, `LayerLoadedListener` |
-| Загрузка карты | `Map.setMapLoadedListener`, `MapLoadedListener` |
-| Тап по гео-объектам | `Map.addTapListener(GeoObjectTapListener)` |
+| `MapKit.setAccount`, `runtime.auth.*` | в lite-сборке у `MapKit` нет `setAccount` |
+| `MapKit.createOffscreenMapWindow`, `map.OffscreenMapWindow` | в lite-сборке метода нет |
+| `MapKit.createRoadEventsManager`, `road_events.*` | доступно только в полной сборке |
+| Поиск, маршрутизация, панорамы | доступно только в полной сборке |
+| `runtime.ui_view.ViewProvider` и `setView`-перегрузки | нет общей формы у `View` и `UIView`; в compose роль закрывает `imageProvider { }` |
+| `MapWindow.addSurface` / `removeSurface` | требует `runtime.view.Surface`, Android-специфично |
+| `runtime.TypeDictionary` | ключуется нативными классами; у `GeoObject` есть типизированные аксессоры |
+| `offline_cache.DownloadNotificationsListener` | работает только с `MapKitFactory.initializeBackgroundDownload`, который принимает internal-тип |
 
 ---
 

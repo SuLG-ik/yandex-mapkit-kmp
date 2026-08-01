@@ -4,7 +4,7 @@ import YandexMapKit.YMKLayerIds.Companion as NativeLayerIds
 
 public actual object LayerIds {
     public actual val mapLayerId: String
-        get() = NativeLayerIds.mapObjectsLayerId()
+        get() = NativeLayerIds.mapLayerId()
 
     public actual val jamsLayerId: String
         get() = NativeLayerIds.jamsLayerId()

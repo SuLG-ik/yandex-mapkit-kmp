@@ -3,9 +3,9 @@ package ru.sulgik.mapkit.moko
 import dev.icerock.moko.resources.ImageResource
 import ru.sulgik.mapkit.map.ImageProvider
 
-interface MOKOImageLoader {
+public interface MOKOImageLoader {
 
-    fun fromResource(imageResource: ImageResource): ImageProvider
+    public fun fromResource(imageResource: ImageResource): ImageProvider
 
-    fun fromResource(imageResource: ImageResource, isCacheable: Boolean): ImageProvider
+    public fun fromResource(imageResource: ImageResource, isCacheable: Boolean): ImageProvider
 }

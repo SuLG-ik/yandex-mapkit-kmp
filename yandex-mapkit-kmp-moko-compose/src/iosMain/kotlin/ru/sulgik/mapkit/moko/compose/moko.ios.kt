@@ -6,6 +6,6 @@ import ru.sulgik.mapkit.moko.IOSMOKOImageLoader
 import ru.sulgik.mapkit.moko.MOKOImageLoader
 
 @Composable
-actual fun rememberMOKOImageLoader(): MOKOImageLoader {
+public actual fun rememberMOKOImageLoader(): MOKOImageLoader {
     return remember { IOSMOKOImageLoader() }
 }

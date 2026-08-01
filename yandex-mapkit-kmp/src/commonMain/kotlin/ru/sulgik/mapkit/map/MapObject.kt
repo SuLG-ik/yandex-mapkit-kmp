@@ -1,12 +1,24 @@
 package ru.sulgik.mapkit.map
 
+import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.WeakRef
 
 public expect open class MapObject {
 
     public val parent: BaseMapObjectCollection
 
+    /**
+     * Manages visibility of the object on the map.
+     */
     public var isVisible: Boolean
+
+    /**
+     * Manages visibility of the object.
+     *
+     * @param animation Describes the transition between visible and not visible states.
+     * @param onFinished Called when the transition is finished.
+     */
+    public fun setVisible(visible: Boolean, animation: Animation, onFinished: Callback? = null)
 
     public var zIndex: Float
 
@@ -21,6 +33,16 @@ public expect open class MapObject {
     public fun setDragListener(dragListener: WeakRef<MapObjectDragListener>?)
 
     public val isValid: Boolean
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    override fun equals(other: Any?): Boolean
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    override fun hashCode(): Int
 }
 
 public inline fun <reified T : Any> MapObject.getCastedUserData(): T? {

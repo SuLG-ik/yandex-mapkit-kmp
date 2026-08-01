@@ -5,7 +5,7 @@ import ru.sulgik.mapkit.geometry.Circle
 import ru.sulgik.mapkit.geometry.Polygon
 import ru.sulgik.mapkit.geometry.Polyline
 
-public expect class MapObjectCollection : BaseMapObjectCollection {
+public expect open class MapObjectCollection : BaseMapObjectCollection {
 
     public fun addPlacemark(): PlacemarkMapObject
 

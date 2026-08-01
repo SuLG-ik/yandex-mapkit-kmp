@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.location
 
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import com.yandex.mapkit.location.Location as NativeLocation
@@ -17,7 +18,7 @@ public fun Location.toNative(): NativeLocation {
         speed,
         indoorLevelId,
         absoluteTimestamp.toEpochMilliseconds(),
-        relativeTimestamp.toEpochMilliseconds(),
+        relativeTimestamp.inWholeMilliseconds,
     )
 }
 
@@ -32,6 +33,6 @@ public fun NativeLocation.toCommon(): Location {
         speed = speed,
         indoorLevelId = indoorLevelId,
         absoluteTimestamp = Instant.fromEpochMilliseconds(absoluteTimestamp),
-        relativeTimestamp = Instant.fromEpochMilliseconds(relativeTimestamp),
+        relativeTimestamp = relativeTimestamp.milliseconds,
     )
 }

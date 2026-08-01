@@ -20,6 +20,23 @@ public actual class Polyline internal constructor(private val nativePolyline: Na
     public actual val points: List<Point>
         @Suppress("UNCHECKED_CAST")
         get() = (nativePolyline.points as List<NativePoint>).map { it.toCommon() }
+
+    /**
+     * Two handles are equal when they have the same type and wrap the same native object.
+     */
+    actual override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Polyline) return false
+        if (this::class != other::class) return false
+        return nativePolyline == other.nativePolyline
+    }
+
+    /**
+     * The hash code of the wrapped native object, consistent with [equals].
+     */
+    actual override fun hashCode(): Int {
+        return nativePolyline.hashCode()
+    }
 }
 
 public fun NativePolyline.toCommon(): Polyline {

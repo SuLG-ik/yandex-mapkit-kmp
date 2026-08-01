@@ -10,11 +10,11 @@ import YandexMapKit.YMKPoint as NativePoint
 
 public actual abstract class InputListener actual constructor() : NativeConvertible<NativeInputListener> {
     private val nativeListener = object : NativeInputListener, NSObject() {
-        override fun onMapLongTapWithMap(map: NativeMap, point: NativePoint) {
+        override fun onMapTapWithMap(map: NativeMap, point: NativePoint) {
             onMapTap(map.toCommon(), point.toCommon())
         }
 
-        override fun onMapTapWithMap(map: NativeMap, point: NativePoint) {
+        override fun onMapLongTapWithMap(map: NativeMap, point: NativePoint) {
             onMapLongTap(map.toCommon(), point.toCommon())
         }
     }

@@ -19,10 +19,12 @@ fun initMapKit() {
     MapKit.setApiKey(BuildKonfig.MAPKIT_API_KEY)
 }
 
-enum class NavItem {
-    SELECTION,
-    OLD_API,
-    NEW_API_OBJECTS,
+enum class NavItem(val title: String) {
+    SELECTION("Selection"),
+    OLD_API("Old api objects"),
+    NEW_API_OBJECTS("New api objects"),
+    ADVANCED_MAP("Layers, listeners and states"),
+    RUNTIME("Storage, offline cache, i18n"),
     ;
 
     companion object {
@@ -49,6 +51,8 @@ fun NavHost(
         NavItem.SELECTION -> Selection(onNavigate, modifier)
         NavItem.OLD_API -> MapScreen(modifier)
         NavItem.NEW_API_OBJECTS -> NewMapScreen(modifier)
+        NavItem.ADVANCED_MAP -> AdvancedMapScreen(modifier)
+        NavItem.RUNTIME -> RuntimeScreen(modifier)
     }
 }
 
@@ -62,19 +66,12 @@ fun Selection(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        OutlinedButton(
-            onClick = {
-                onNavigate(NavItem.OLD_API)
-            },
-        ) {
-            Text("Old api objects")
-        }
-        OutlinedButton(
-            onClick = {
-                onNavigate(NavItem.NEW_API_OBJECTS)
-            },
-        ) {
-            Text("New api objects")
+        NavItem.entries.filter { it != NavItem.SELECTION }.forEach { item ->
+            OutlinedButton(
+                onClick = { onNavigate(item) },
+            ) {
+                Text(item.title)
+            }
         }
     }
 }
