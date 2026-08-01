@@ -7,6 +7,8 @@ import platform.Foundation.NSDefaultRunLoopMode
 import platform.Foundation.NSRunLoop
 import platform.Foundation.dateWithTimeIntervalSinceNow
 import platform.Foundation.runMode
+import platform.UIKit.UIScreen
+import platform.darwin.NSObject
 import platform.posix._exit
 import platform.posix.atexit
 import platform.posix.fflush
@@ -17,11 +19,17 @@ import ru.sulgik.mapkit.map.toCommon
 import ru.sulgik.mapkit.user_location.UserLocationLayer
 import kotlin.time.Duration
 import YandexMapKit.YMKMapView as NativeMapView
+import YandexMapKit.YRTLifecycleListenerProtocol as NativeLifecycleListener
+import YandexMapKit.YRTLifecycleProviderProtocol as NativeLifecycleProvider
 
 internal object LiveMap {
 
     private const val TEST_API_KEY = "yandex-mapkit-kmp-simulator-test"
     private const val TEST_LOCALE = "ru_RU"
+    private const val MAP_VIEW_WIDTH = 320.0
+    private const val MAP_VIEW_HEIGHT = 480.0
+
+    private val lifecycleProvider = NeverActivatingLifecycleProvider()
 
     private var nativeMapView: NativeMapView? = null
     private var userLocationLayer: UserLocationLayer? = null
@@ -56,11 +64,6 @@ internal object LiveMap {
     }
 
     fun drainMainQueue(timeout: Duration) {
-        check(nativeMapView == null) {
-            "The main queue still holds the activation block of the YMKMapView that LiveMap created, " +
-                "and draining it starts the renderer, which crashes without a window server. " +
-                "Run the tests that drain the main queue before the ones that ask LiveMap for a map."
-        }
         NSRunLoop.currentRunLoop.runMode(
             NSDefaultRunLoopMode,
             beforeDate = NSDate.dateWithTimeIntervalSinceNow(timeout.inWholeMilliseconds / 1000.0),
@@ -76,7 +79,28 @@ internal object LiveMap {
         MapKit.setLocale(TEST_LOCALE)
         MapKit.getInstance()
         atexit(staticCFunction(::exitBeforeMapKitJoinsItsRenderThread))
-        return NativeMapView(frame = CGRectMake(0.0, 0.0, 320.0, 480.0))
+        return NativeMapView(
+            frame = CGRectMake(0.0, 0.0, MAP_VIEW_WIDTH, MAP_VIEW_HEIGHT),
+            scaleFactor = UIScreen.mainScreen.scale.toFloat(),
+            vulkanPreferred = false,
+            lifecycleProvider = lifecycleProvider,
+            transparencySupport = false,
+        )
+    }
+}
+
+private class NeverActivatingLifecycleProvider :
+    NSObject(),
+    NativeLifecycleProvider {
+
+    override fun setListener(listener: NativeLifecycleListener?) {
+    }
+
+    override fun reset() {
+    }
+
+    override fun isActive(): Boolean {
+        return false
     }
 }
 

@@ -1,12 +1,11 @@
-package ru.sulgik.mapkit
+package ru.sulgik.mapkit.runtime.logging
 
 import platform.Foundation.NSDate
 import platform.Foundation.NSLock
 import platform.Foundation.dateWithTimeIntervalSinceNow
 import platform.Foundation.timeIntervalSinceNow
-import ru.sulgik.mapkit.runtime.logging.LogListener
-import ru.sulgik.mapkit.runtime.logging.LogMessage
-import ru.sulgik.mapkit.runtime.logging.Logging
+import ru.sulgik.mapkit.LiveMap
+import ru.sulgik.mapkit.asWeakRef
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test

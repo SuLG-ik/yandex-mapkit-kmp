@@ -1,8 +1,7 @@
-package ru.sulgik.mapkit
+package ru.sulgik.mapkit.runtime.logging
 
-import ru.sulgik.mapkit.runtime.logging.LogListener
-import ru.sulgik.mapkit.runtime.logging.LogMessage
-import ru.sulgik.mapkit.runtime.logging.Logging
+import ru.sulgik.mapkit.MapKitRuntime
+import ru.sulgik.mapkit.asWeakRef
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
