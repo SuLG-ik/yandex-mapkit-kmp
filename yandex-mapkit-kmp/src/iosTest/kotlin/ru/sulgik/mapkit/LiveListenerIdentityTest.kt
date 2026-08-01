@@ -2,6 +2,8 @@ package ru.sulgik.mapkit
 
 import ru.sulgik.mapkit.indoor.IndoorStateListener
 import ru.sulgik.mapkit.layers.GeoObjectTapListener
+import ru.sulgik.mapkit.map.Callback
+import ru.sulgik.mapkit.map.CameraCallback
 import ru.sulgik.mapkit.map.CameraListener
 import ru.sulgik.mapkit.map.ClusterListener
 import ru.sulgik.mapkit.map.ClusterTapListener
@@ -65,10 +67,14 @@ public class LiveListenerIdentityTest {
     }
 
     @Test
-    public fun `the placemark created callback keeps one native instance`() {
+    public fun `completion callbacks keep one native instance`() {
         val placemarkCreatedCallback = PlacemarkCreatedCallback { }
+        val callback = Callback { }
+        val cameraCallback = CameraCallback { }
 
         assertSame(placemarkCreatedCallback.toNative(), placemarkCreatedCallback.toNative())
+        assertSame(callback.toNative(), callback.toNative())
+        assertSame(cameraCallback.toNative(), cameraCallback.toNative())
     }
 
     @Test
