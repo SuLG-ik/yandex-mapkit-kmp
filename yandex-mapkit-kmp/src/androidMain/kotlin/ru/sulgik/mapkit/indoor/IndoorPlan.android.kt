@@ -2,6 +2,11 @@ package ru.sulgik.mapkit.indoor
 
 import com.yandex.mapkit.indoor.IndoorPlan as NativeIndoorPlan
 
+/**
+ * Describes indoor plan of building.
+ *
+ * Use activeLevelId property to select active level
+ */
 public actual class IndoorPlan internal constructor(private val nativeIndoorPlan: NativeIndoorPlan) {
 
     public fun toNative(): NativeIndoorPlan {

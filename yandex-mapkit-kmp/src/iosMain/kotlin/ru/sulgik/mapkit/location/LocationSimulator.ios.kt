@@ -38,6 +38,9 @@ public actual class LocationSimulator internal constructor(
             nativeLocationSimulator.speed = value
         }
 
+    /**
+     * The legs of the simulation.
+     */
     @Suppress("UNCHECKED_CAST")
     public actual var settings: List<SimulationSettings>
         get() = (nativeLocationSimulator.settings as List<NativeSimulationSettings>).map { it.toCommon() }
@@ -45,26 +48,44 @@ public actual class LocationSimulator internal constructor(
             nativeLocationSimulator.settings = value.map { it.toNative() }
         }
 
+    /**
+     * Subscribes to simulation events.
+     *
+     * The class does not retain the object in the 'simulatorListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
+     */
     public actual fun subscribeForSimulatorEvents(simulatorListener: WeakRef<LocationSimulatorListener>) {
         nativeLocationSimulator.subscribeForSimulatorEventsWithSimulatorListener(
             simulatorListener.toNative() ?: return,
         )
     }
 
+    /**
+     * Unsubscribes from simulation events.
+     */
     public actual fun unsubscribeFromSimulatorEvents(simulatorListener: WeakRef<LocationSimulatorListener>) {
         nativeLocationSimulator.unsubscribeFromSimulatorEventsWithSimulatorListener(
             simulatorListener.toNative() ?: return,
         )
     }
 
+    /**
+     * Start simulation.
+     */
     public actual fun startSimulation(settings: List<SimulationSettings>) {
         nativeLocationSimulator.startSimulationWithSettings(settings.map { it.toNative() })
     }
 
+    /**
+     * Stop simulation.
+     */
     public actual fun stopSimulation() {
         nativeLocationSimulator.stopSimulation()
     }
 
+    /**
+     * The position of the polyline.
+     */
     public actual fun polylinePosition(): PolylinePosition {
         return nativeLocationSimulator.polylinePosition().toCommon()
     }

@@ -4,7 +4,7 @@ import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKLocationManager as NativeLocationManager
 
-public actual class LocationManager(private val nativeLocationManager: NativeLocationManager) {
+public actual class LocationManager internal constructor(private val nativeLocationManager: NativeLocationManager) {
 
     public fun toNative(): NativeLocationManager {
         return nativeLocationManager

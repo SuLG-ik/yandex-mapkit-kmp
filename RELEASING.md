@@ -12,6 +12,11 @@ Open a PR that contains only the release bookkeeping:
   section and add the compare link at the bottom of the file;
 - run `./gradlew updateDocumentedVersions` and commit the [README.md](README.md) it rewrites.
 
+Tags up to and including `0.4.1` have no `v` prefix; from the next release on the workflow creates
+`vX.Y.Z`. Spell both sides of the compare link the way the tags actually exist in the repository, so
+the first prefixed release links as `compare/0.4.1...vX.Y.Z` and every one after it as
+`compare/vA.B.C...vX.Y.Z`.
+
 The documentation site needs no edit: `docs_hooks/versions.py` substitutes `library_version` and the
 version catalog into the pages while MkDocs builds them, and the site is deployed after the version
 is already bumped. `checkDocumentedVersions` runs in the `lint` job and fails if the README was not
@@ -21,17 +26,21 @@ The usual CI checks run on that PR. Merge it once they are green.
 
 ## 2. Run the release workflow
 
-Actions → **Release** → *Run workflow*, with `version` set to `X.Y.Z` (no `v` prefix).
+Actions → **Release** → *Run workflow*, with `version` set to `X.Y.Z` or `X.Y.Z-prerelease` — for
+example `1.0.0` or `1.0.0-beta01` — in both cases without the `v` prefix, which the workflow adds to
+the tag itself. A version carrying a pre-release suffix is published like any other and marked as a
+pre-release on GitHub.
 
 Set `dry_run` to `true` first if you want a rehearsal: everything runs except publishing, tagging and
 the GitHub release.
 
 The workflow refuses to start when
 
-- `version` is not `X.Y.Z`,
+- `version` is neither `X.Y.Z` nor `X.Y.Z-prerelease`,
 - it differs from `library_version` in `gradle.properties`,
-- the tag `vX.Y.Z` already exists,
-- `CHANGELOG.md` has no `## [X.Y.Z]` section.
+- a tag for it already exists in either scheme — `vX.Y.Z`, or the unprefixed `X.Y.Z` of the releases
+  up to `0.4.1`,
+- `CHANGELOG.md` has no section for that version.
 
 Then it runs the instrumented tests on an emulator, and after that, on `macos-26`, `spotlessCheck`
 plus `libraryCompileIosArm64 libraryTests libraryApiCheck` — iOS compilation, unit tests and the

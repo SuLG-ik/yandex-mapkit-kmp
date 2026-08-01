@@ -47,33 +47,4 @@ public actual object LayerIds {
 
     public actual val roadEventsLayerId: String
         get() = NativeLayerIds.roadEventsLayerId()
-
-//    public actual val jamsLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val personalizedPoiLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val transportLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val searchPinsLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val advertPinsLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val buildingsLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val mapObjectsLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val routeMapObjectsLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val userLocationLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val drivingNavigationBaseLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val drivingNavigationRoutePinsLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val drivingNavigationBalloonsLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val drivingNavigationUserPlacemarkLayerId: String
-//        get() = TODO("Not yet implemented")
-//    public actual val roadEventsLayerId: String
-//        get() = TODO("Not yet implemented")
 }

@@ -23,7 +23,7 @@ kotlin {
     android {
         namespace = "ru.sulgik.mapkit.compose"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
-        minSdk = 26
+        minSdk = libs.versions.android.minSdk.get().toInt()
 
         androidResources {
             enable = true
@@ -37,7 +37,9 @@ kotlin {
             }
         }
 
-        withHostTest {}
+        withHostTest {
+            isReturnDefaultValues = true
+        }
 
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         withDeviceTestBuilder {
@@ -116,7 +118,6 @@ kotlin {
             "-P",
             "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=${stabilityConfigurationFile.absolutePath}",
         )
-        freeCompilerArgs.add("-Xopt-in=kotlin.RequiresOptIn")
 
         if (findProperty("composeCompilerReports") == "true") {
             freeCompilerArgs.addAll(
@@ -149,7 +150,6 @@ tasks.withType<KotlinCompilationTask<*>> {
 tasks.withType<Test>().configureEach {
     filter {
         excludeTestsMatching("ru.sulgik.mapkit.compose.ComposeMapObjectRendererTest")
-        excludeTestsMatching("ru.sulgik.mapkit.compose.MapNodeInsertOrderTest")
         isFailOnNoMatchingTests = false
     }
 }
@@ -169,7 +169,7 @@ if (version != "null") {
 
         pom {
             name.set("Yandex MapKit KMP SDK Compose Utils")
-            description.set("Yandex MapKit KMP SDK is a Kotlin-first SDK for Yandex MapKit. It's API is similar to the Yandex MapKit SDK but also supports multiplatform projects and compose multiplaform, enabling you to use MapKit directly from your common source targeting iOS or Android.")
+            description.set("Yandex MapKit KMP SDK is a Kotlin-first SDK for Yandex MapKit. Its API is similar to the Yandex MapKit SDK but also supports multiplatform projects and Compose Multiplatform, enabling you to use MapKit directly from your common source targeting iOS or Android.")
             inceptionYear.set("2024")
             url.set("https://github.com/SuLG-ik/yandex-mapkit-kmp")
             licenses {

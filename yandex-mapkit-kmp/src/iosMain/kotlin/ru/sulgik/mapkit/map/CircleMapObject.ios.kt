@@ -8,7 +8,7 @@ import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKCircleMapObject as NativeCircleMapObject
 
-public actual class CircleMapObject(private val nativeCircleMapObject: NativeCircleMapObject) : MapObject(nativeCircleMapObject) {
+public actual class CircleMapObject internal constructor(private val nativeCircleMapObject: NativeCircleMapObject) : MapObject(nativeCircleMapObject) {
 
     override fun toNative(): NativeCircleMapObject {
         return nativeCircleMapObject

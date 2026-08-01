@@ -50,13 +50,12 @@ find */src/androidMain */src/iosMain -name '*.kt' ! -name '*.android.kt' ! -name
 find . -path '*/iosMain/*' -name '*.android.kt' -o -path '*/androidMain/*' -name '*.ios.kt'
 ```
 
-Expected survivors of the first command are only platform-only types with no common counterpart
-(`AndroidImageProvider.kt`, `UIImageImageProvider.kt`) plus the known-bad `map/MapWindow.kt`.
-Anything new showing up there is a mistake.
+Expected survivors of the first command are only platform-only declarations with no common
+counterpart (`AndroidImageProvider.kt`, `UIImageImageProvider.kt`, `NSData.kt`, the two moko
+loaders). Anything new showing up there is a mistake.
 
-The second command should return only the two known-misplaced `location/*.android.kt` files in
-`iosMain`. A new hit means a file was created in the wrong source set — it will compile (the suffix
-is not semantic) and then confuse everyone forever.
+The second command should return nothing. A hit means a file was created in the wrong source set —
+it will compile (the suffix is not semantic) and then confuse everyone forever.
 
 Also verify the package mirrors MapKit (`ru.sulgik.mapkit.<mapkit package>`) and the file is named
 after its single public type.
@@ -87,8 +86,9 @@ The single highest-value check in this repo:
 - The listener class implements `NativeConvertible<NativeX>`, and `toNative()` returns a **stored
   field**, not a freshly built adapter.
 - The iOS adapter extends `NSObject` alongside the `*Protocol`.
-- Native callback names are wired to the matching common method — read them side by side. Precedent
-  for why: `InputListener.ios.kt` currently maps `onMapTapWithMap` to `onMapLongTap` and vice versa.
+- Native callback names are wired to the matching common method — read them side by side. Overrides
+  that differ by one word (`onMapTapWithMap` / `onMapLongTapWithMap`) compile just as well with their
+  bodies swapped, and only a user report surfaces it.
 - Common code offers an `inline` factory taking lambdas, so users are not forced to subclass.
 - Subscription methods take `WeakRef<Listener>` and forward `listener.toNative()`; call sites wrap
   with `asWeakRef()` **and** keep the listener in a field of whatever owns the subscription
@@ -110,12 +110,12 @@ listener is collected and the subscription just never fires again.
 
 ## 6. Style
 
-- Explicit `public` and explicit return types in `yandex-mapkit-kmp` and
-  `yandex-mapkit-kmp-compose` (not in the moko modules, which do not enable explicit API).
+- Explicit `public` and explicit return types — all four published modules run explicit API strict.
 - Block bodies with `return`, expression bodies only for property getters.
 - KDoc on new public API, repeated on the actuals.
-- **No `//` comments.** `grep -rn '^\s*//' --include='*.kt' <changed files>` should be empty;
-  existing hits are commented-out code in `LayerIds.ios.kt` and `MapObjectStatesRestorationTest.kt`.
+- **No `//` comments.** `grep -rn '^\s*//' --include='*.kt' <changed files>` should be empty. An
+  unimplemented `actual` is either written out or left out of the `expect` — never parked as
+  commented-out code.
 - Trailing commas, no wildcard imports, private default constants next to their type.
 
 ## 7. Compose module extras
@@ -170,6 +170,5 @@ Nit
 - map/Foo.kt:7 — expression body; the codebase uses block bodies with return.
 ```
 
-Known pre-existing deviations (misnamed files, `LocationManager.ios.kt`'s public constructor, the
-swapped `InputListener` callbacks) are not the author's fault — mention them only if the change
-touches those files.
+A deviation that predates the change under review is not the author's fault — mention it only if the
+change touches that file, and say plainly that it is pre-existing.

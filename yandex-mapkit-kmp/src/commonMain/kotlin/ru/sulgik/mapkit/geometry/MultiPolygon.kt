@@ -16,3 +16,7 @@ public expect class MultiPolygon {
      */
     override fun hashCode(): Int
 }
+
+internal fun List<Polygon>.polygonsListToString(): String {
+    return "[${joinToString(", ")}]"
+}

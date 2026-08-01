@@ -1,7 +1,7 @@
 package ru.sulgik.mapkit.compose
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
@@ -28,7 +28,7 @@ public fun rememberCircleState(geometry: Circle, key: String? = null): CircleSta
     ) { CircleState(geometry) }
 }
 
-@Immutable
+@Stable
 public class CircleState(geometry: Circle) : MapObjectState<CircleMapObject>() {
 
     public var geometry: Circle by mutableStateOf(geometry)

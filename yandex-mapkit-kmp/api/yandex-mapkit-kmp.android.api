@@ -615,10 +615,14 @@ public final class ru.sulgik.mapkit.geometry.Longitude implements java.lang.Comp
 public final class ru.sulgik.mapkit.geometry.MultiPolygon {
   public ru.sulgik.mapkit.geometry.MultiPolygon(com.yandex.mapkit.geometry.MultiPolygon);
   public final com.yandex.mapkit.geometry.MultiPolygon toNative();
+  public java.lang.String toString();
   public ru.sulgik.mapkit.geometry.MultiPolygon(java.util.List<ru.sulgik.mapkit.geometry.Polygon>);
   public final java.util.List<ru.sulgik.mapkit.geometry.Polygon> getPolygons();
   public boolean equals(java.lang.Object);
   public int hashCode();
+}
+public final class ru.sulgik.mapkit.geometry.MultiPolygonKt {
+  public static final java.lang.String polygonsListToString(java.util.List<ru.sulgik.mapkit.geometry.Polygon>);
 }
 public final class ru.sulgik.mapkit.geometry.MultiPolygon_androidKt {
   public static final ru.sulgik.mapkit.geometry.MultiPolygon toCommon(com.yandex.mapkit.geometry.MultiPolygon);
@@ -1795,34 +1799,36 @@ public final class ru.sulgik.mapkit.map.LayerIds {
   public final java.lang.String getRoadEventsLayerId();
 }
 public final class ru.sulgik.mapkit.map.LineStyle {
-  public ru.sulgik.mapkit.map.LineStyle(com.yandex.mapkit.map.LineStyle);
-  public final float getStrokeWidth();
-  public final void setStrokeWidth(float);
-  public final float getGradientLength();
-  public final void setGradientLength(float);
-  public final int getOutlineColor-ETeQKmY();
-  public final void setOutlineColor-FXrWlec(int);
-  public final float getOutlineWidth();
-  public final void setOutlineWidth(float);
-  public final boolean getInnerOutlineEnabled();
-  public final void setInnerOutlineEnabled(boolean);
-  public final float getTurnRadius();
-  public final void setTurnRadius(float);
-  public final float getArcApproximationStep();
-  public final void setArcApproximationStep(float);
-  public final float getDashLength();
-  public final void setDashLength(float);
-  public final float getGapLength();
-  public final void setGapLength(float);
-  public final float getDashOffset();
-  public final void setDashOffset(float);
   public ru.sulgik.mapkit.map.LineStyle(float, float, int, float, boolean, float, float, float, float, float, int, kotlin.jvm.internal.DefaultConstructorMarker);
-  public final com.yandex.mapkit.map.LineStyle toNative();
-  public boolean equals(java.lang.Object);
+  public final float getStrokeWidth();
+  public final float getGradientLength();
+  public final int getOutlineColor-ETeQKmY();
+  public final float getOutlineWidth();
+  public final boolean getInnerOutlineEnabled();
+  public final float getTurnRadius();
+  public final float getArcApproximationStep();
+  public final float getDashLength();
+  public final float getGapLength();
+  public final float getDashOffset();
+  public final float component1();
+  public final float component2();
+  public final int component3-ETeQKmY();
+  public final float component4();
+  public final boolean component5();
+  public final float component6();
+  public final float component7();
+  public final float component8();
+  public final float component9();
+  public final float component10();
+  public final ru.sulgik.mapkit.map.LineStyle copy-mqOR4iI(float, float, int, float, boolean, float, float, float, float, float);
+  public static ru.sulgik.mapkit.map.LineStyle copy-mqOR4iI$default(ru.sulgik.mapkit.map.LineStyle, float, float, int, float, boolean, float, float, float, float, float, int, java.lang.Object);
+  public java.lang.String toString();
   public int hashCode();
+  public boolean equals(java.lang.Object);
   public ru.sulgik.mapkit.map.LineStyle(float, float, int, float, boolean, float, float, float, float, float, kotlin.jvm.internal.DefaultConstructorMarker);
 }
 public final class ru.sulgik.mapkit.map.LineStyle_androidKt {
+  public static final com.yandex.mapkit.map.LineStyle toNative(ru.sulgik.mapkit.map.LineStyle);
   public static final ru.sulgik.mapkit.map.LineStyle toCommon(com.yandex.mapkit.map.LineStyle);
 }
 public final class ru.sulgik.mapkit.map.Map {
@@ -2016,17 +2022,9 @@ public abstract class ru.sulgik.mapkit.map.MapObjectTapListener implements ru.su
 public final class ru.sulgik.mapkit.map.MapObjectTapListenerKt {
   public static final ru.sulgik.mapkit.map.MapObjectTapListener MapObjectTapListener(kotlin.jvm.functions.Function2<? super ru.sulgik.mapkit.map.MapObject, ? super ru.sulgik.mapkit.geometry.Point, java.lang.Boolean>);
 }
-public final class ru.sulgik.mapkit.map.MapObjectVisitor implements com.yandex.mapkit.map.MapObjectVisitor, ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.MapObjectVisitor> {
+public final class ru.sulgik.mapkit.map.MapObjectVisitor implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.map.MapObjectVisitor> {
   public ru.sulgik.mapkit.map.MapObjectVisitor(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.PlacemarkMapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.PolylineMapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.PolygonMapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.CircleMapObject, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapObjectCollection, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapObjectCollection, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.ClusterizedPlacemarkCollection, kotlin.Unit>);
   public com.yandex.mapkit.map.MapObjectVisitor toNative();
-  public void onPlacemarkVisited(com.yandex.mapkit.map.PlacemarkMapObject);
-  public void onPolylineVisited(com.yandex.mapkit.map.PolylineMapObject);
-  public void onPolygonVisited(com.yandex.mapkit.map.PolygonMapObject);
-  public void onCircleVisited(com.yandex.mapkit.map.CircleMapObject);
-  public boolean onCollectionVisitStart(com.yandex.mapkit.map.MapObjectCollection);
-  public void onCollectionVisitEnd(com.yandex.mapkit.map.MapObjectCollection);
-  public boolean onClusterizedCollectionVisitStart(com.yandex.mapkit.map.ClusterizedPlacemarkCollection);
-  public void onClusterizedCollectionVisitEnd(com.yandex.mapkit.map.ClusterizedPlacemarkCollection);
   public java.lang.Object toNative();
 }
 public final class ru.sulgik.mapkit.map.MapObject_androidKt {

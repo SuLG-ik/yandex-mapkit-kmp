@@ -3,7 +3,7 @@ package ru.sulgik.mapkit.location
 import com.yandex.mapkit.location.LocationViewSource as NativeLocationViewSource
 import com.yandex.mapkit.location.LocationViewSourceFactory as NativeLocationViewSourceFactory
 
-public actual class LocationViewSource(private val nativeLocationViewSource: NativeLocationViewSource) {
+public actual class LocationViewSource internal constructor(private val nativeLocationViewSource: NativeLocationViewSource) {
 
     public fun toNative(): NativeLocationViewSource {
         return nativeLocationViewSource

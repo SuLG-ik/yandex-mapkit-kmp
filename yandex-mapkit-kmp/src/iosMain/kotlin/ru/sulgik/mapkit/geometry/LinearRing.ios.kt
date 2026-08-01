@@ -9,6 +9,10 @@ public actual class LinearRing internal constructor(private val nativeLinearRing
         return nativeLinearRing
     }
 
+    override fun toString(): String {
+        return "LinearRing(points=${points.pointsListToString()})"
+    }
+
     public actual constructor(points: List<Point>) : this(
         NativeLinearRing.linearRingWithPoints(points.map(Point::toNative)),
     )

@@ -6,12 +6,10 @@ import kotlin.test.assertEquals
 import YandexMapKit.YMKAttribution as NativeAttribution
 import YandexMapKit.YMKAttributionAuthor as NativeAuthor
 import YandexMapKit.YMKAttributionLink as NativeLink
-import YandexMapKit.YMKImage as NativeImage
 import YandexMapKit.YMKImageSize as NativeImageSize
 import YandexMapKit.YMKRawTile as NativeRawTile
 import YandexMapKit.YMKRawTileState as NativeState
 import YandexMapKit.YMKRawTileUseCache as NativeUseCache
-import YandexMapKit.YMKSpannableString as NativeSpannableString
 import YandexMapKit.YMKSpannableStringSpan as NativeSpan
 import YandexMapKit.YMKUserData as NativeUserData
 import YandexMapKit.YMKVersion as NativeVersion

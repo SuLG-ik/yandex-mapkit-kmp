@@ -260,12 +260,13 @@ fun Project.configureAbiValidation() {
 }
 
 fun Project.configureAndroidAbiValidation() {
-    val referenceDump = layout.projectDirectory.file("api/$name.android.api")
+    val dumpFileName = "$name.android.api"
+    val referenceDump = layout.projectDirectory.file("api/$dumpFileName")
 
     val dump = tasks.register<AndroidAbiDumpTask>("dumpAndroidAbi") {
         group = "verification"
         description = "Dumps the public API of the Android target into the build directory."
-        dumpFile.set(layout.buildDirectory.file("androidAbi/$name.android.api"))
+        dumpFile.set(layout.buildDirectory.file("androidAbi/$dumpFileName"))
     }
 
     tasks.register<AndroidAbiUpdateTask>("updateAndroidAbi") {
@@ -401,24 +402,12 @@ fun Project.getProperty(name: String): String? {
         ?: rootProject.findProperty(name)?.toString()
 }
 
-fun getEnvironmentProperty(name: String, defaultValue: String): String? {
-    return getEnvironmentProperty(name) ?: defaultValue
-}
-
 fun getEnvironmentProperty(name: String): String? {
     return System.getenv()[name]
 }
 
-fun Project.getLocalProperty(name: String, defaultValue: String): String {
-    return getLocalProperty(name) ?: defaultValue
-}
-
 fun Project.getLocalProperty(name: String): String? {
-    return getLocalProperties().getProperty(name)
-}
-
-fun Project.getLocalProperties(): Properties {
-    return loadLocalProperties()
+    return loadLocalProperties().getProperty(name)
 }
 
 fun Project.loadLocalProperties(fileName: String = "local.properties"): Properties {

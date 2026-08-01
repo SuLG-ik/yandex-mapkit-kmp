@@ -10,9 +10,15 @@ public actual class MapView internal constructor(private val nativeMapView: Nati
         return nativeMapView
     }
 
+    /**
+     * Should be called from the corresponding method of activity or fragment containing this view
+     */
     public actual fun onStart() {
     }
 
+    /**
+     * Should be called from the corresponding method of activity or fragment containing this view
+     */
     public actual fun onStop() {
     }
 

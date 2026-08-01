@@ -509,10 +509,6 @@ public final class ru.sulgik.mapkit.compose.TrafficLayerNode implements ru.sulgi
   public void onRemoved();
   public void onCleared();
 }
-public final class ru.sulgik.mapkit.compose.YandexMapAnchor {
-  public static final int $stable;
-  public ru.sulgik.mapkit.compose.YandexMapAnchor();
-}
 public interface ru.sulgik.mapkit.compose.YandexMapComposable extends java.lang.annotation.Annotation {
 }
 public final class ru.sulgik.mapkit.compose.YandexMapController {
@@ -663,8 +659,7 @@ public final class ru.sulgik.mapkit.compose.user_location.UserLocationConfigKt {
 }
 public final class ru.sulgik.mapkit.compose.user_location.UserLocationNode implements ru.sulgik.mapkit.compose.composition.MapNode {
   public static final int $stable;
-  public ru.sulgik.mapkit.compose.user_location.UserLocationNode(ru.sulgik.mapkit.map.MapWindow, ru.sulgik.mapkit.MapKit, ru.sulgik.mapkit.compose.user_location.UserLocationState, ru.sulgik.mapkit.compose.user_location.UserLocationConfig, ru.sulgik.mapkit.location.LocationManager);
-  public ru.sulgik.mapkit.compose.user_location.UserLocationNode(ru.sulgik.mapkit.map.MapWindow, ru.sulgik.mapkit.MapKit, ru.sulgik.mapkit.compose.user_location.UserLocationState, ru.sulgik.mapkit.compose.user_location.UserLocationConfig, ru.sulgik.mapkit.location.LocationManager, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public ru.sulgik.mapkit.compose.user_location.UserLocationNode(ru.sulgik.mapkit.map.MapWindow, ru.sulgik.mapkit.MapKit, ru.sulgik.mapkit.compose.user_location.UserLocationState, ru.sulgik.mapkit.compose.user_location.UserLocationConfig);
   public final ru.sulgik.mapkit.compose.user_location.UserLocationState getState$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
   public final void setState$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(ru.sulgik.mapkit.compose.user_location.UserLocationState);
   public final ru.sulgik.mapkit.compose.user_location.UserLocationConfig getUserLocation();

@@ -656,6 +656,7 @@ final class ru.sulgik.mapkit.geometry/LinearRing { // ru.sulgik.mapkit.geometry/
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry/LinearRing.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry/LinearRing.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKLinearRing // ru.sulgik.mapkit.geometry/LinearRing.toNative|toNative(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.geometry/LinearRing.toString|toString(){}[0]
 }
 
 final class ru.sulgik.mapkit.geometry/MultiPolygon { // ru.sulgik.mapkit.geometry/MultiPolygon|null[0]
@@ -667,6 +668,7 @@ final class ru.sulgik.mapkit.geometry/MultiPolygon { // ru.sulgik.mapkit.geometr
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.geometry/MultiPolygon.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.geometry/MultiPolygon.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKMultiPolygon // ru.sulgik.mapkit.geometry/MultiPolygon.toNative|toNative(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.geometry/MultiPolygon.toString|toString(){}[0]
 }
 
 final class ru.sulgik.mapkit.geometry/Point { // ru.sulgik.mapkit.geometry/Point|null[0]
@@ -962,8 +964,6 @@ final class ru.sulgik.mapkit.location/LocationError { // ru.sulgik.mapkit.locati
 }
 
 final class ru.sulgik.mapkit.location/LocationManager { // ru.sulgik.mapkit.location/LocationManager|null[0]
-    constructor <init>(YandexMapKit/YMKLocationManager) // ru.sulgik.mapkit.location/LocationManager.<init>|<init>(YandexMapKit.YMKLocationManager){}[0]
-
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.location/LocationManager.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.location/LocationManager.hashCode|hashCode(){}[0]
     final fun requestSingleUpdate(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.location/LocationListener>) // ru.sulgik.mapkit.location/LocationManager.requestSingleUpdate|requestSingleUpdate(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationListener>){}[0]
@@ -1042,8 +1042,6 @@ final class ru.sulgik.mapkit.location/LocationUnavailableError : ru.sulgik.mapki
 }
 
 final class ru.sulgik.mapkit.location/LocationViewSource { // ru.sulgik.mapkit.location/LocationViewSource|null[0]
-    constructor <init>(YandexMapKit/YMKLocationViewSource) // ru.sulgik.mapkit.location/LocationViewSource.<init>|<init>(YandexMapKit.YMKLocationViewSource){}[0]
-
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.location/LocationViewSource.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.location/LocationViewSource.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKLocationViewSource // ru.sulgik.mapkit.location/LocationViewSource.toNative|toNative(){}[0]
@@ -1259,8 +1257,6 @@ final class ru.sulgik.mapkit.map/CameraPosition { // ru.sulgik.mapkit.map/Camera
 }
 
 final class ru.sulgik.mapkit.map/CircleMapObject : ru.sulgik.mapkit.map/MapObject { // ru.sulgik.mapkit.map/CircleMapObject|null[0]
-    constructor <init>(YandexMapKit/YMKCircleMapObject) // ru.sulgik.mapkit.map/CircleMapObject.<init>|<init>(YandexMapKit.YMKCircleMapObject){}[0]
-
     final var fillColor // ru.sulgik.mapkit.map/CircleMapObject.fillColor|{}fillColor[0]
         final fun <get-fillColor>(): ru.sulgik.mapkit/Color // ru.sulgik.mapkit.map/CircleMapObject.fillColor.<get-fillColor>|<get-fillColor>(){}[0]
         final fun <set-fillColor>(ru.sulgik.mapkit/Color) // ru.sulgik.mapkit.map/CircleMapObject.fillColor.<set-fillColor>|<set-fillColor>(ru.sulgik.mapkit.Color){}[0]
@@ -1445,40 +1441,41 @@ final class ru.sulgik.mapkit.map/IconStyle { // ru.sulgik.mapkit.map/IconStyle|n
 final class ru.sulgik.mapkit.map/LineStyle { // ru.sulgik.mapkit.map/LineStyle|null[0]
     constructor <init>(kotlin/Float = ..., kotlin/Float = ..., ru.sulgik.mapkit/Color = ..., kotlin/Float = ..., kotlin/Boolean = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...) // ru.sulgik.mapkit.map/LineStyle.<init>|<init>(kotlin.Float;kotlin.Float;ru.sulgik.mapkit.Color;kotlin.Float;kotlin.Boolean;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
 
-    final var arcApproximationStep // ru.sulgik.mapkit.map/LineStyle.arcApproximationStep|{}arcApproximationStep[0]
+    final val arcApproximationStep // ru.sulgik.mapkit.map/LineStyle.arcApproximationStep|{}arcApproximationStep[0]
         final fun <get-arcApproximationStep>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.arcApproximationStep.<get-arcApproximationStep>|<get-arcApproximationStep>(){}[0]
-        final fun <set-arcApproximationStep>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.arcApproximationStep.<set-arcApproximationStep>|<set-arcApproximationStep>(kotlin.Float){}[0]
-    final var dashLength // ru.sulgik.mapkit.map/LineStyle.dashLength|{}dashLength[0]
+    final val dashLength // ru.sulgik.mapkit.map/LineStyle.dashLength|{}dashLength[0]
         final fun <get-dashLength>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.dashLength.<get-dashLength>|<get-dashLength>(){}[0]
-        final fun <set-dashLength>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.dashLength.<set-dashLength>|<set-dashLength>(kotlin.Float){}[0]
-    final var dashOffset // ru.sulgik.mapkit.map/LineStyle.dashOffset|{}dashOffset[0]
+    final val dashOffset // ru.sulgik.mapkit.map/LineStyle.dashOffset|{}dashOffset[0]
         final fun <get-dashOffset>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.dashOffset.<get-dashOffset>|<get-dashOffset>(){}[0]
-        final fun <set-dashOffset>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.dashOffset.<set-dashOffset>|<set-dashOffset>(kotlin.Float){}[0]
-    final var gapLength // ru.sulgik.mapkit.map/LineStyle.gapLength|{}gapLength[0]
+    final val gapLength // ru.sulgik.mapkit.map/LineStyle.gapLength|{}gapLength[0]
         final fun <get-gapLength>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.gapLength.<get-gapLength>|<get-gapLength>(){}[0]
-        final fun <set-gapLength>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.gapLength.<set-gapLength>|<set-gapLength>(kotlin.Float){}[0]
-    final var gradientLength // ru.sulgik.mapkit.map/LineStyle.gradientLength|{}gradientLength[0]
+    final val gradientLength // ru.sulgik.mapkit.map/LineStyle.gradientLength|{}gradientLength[0]
         final fun <get-gradientLength>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.gradientLength.<get-gradientLength>|<get-gradientLength>(){}[0]
-        final fun <set-gradientLength>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.gradientLength.<set-gradientLength>|<set-gradientLength>(kotlin.Float){}[0]
-    final var innerOutlineEnabled // ru.sulgik.mapkit.map/LineStyle.innerOutlineEnabled|{}innerOutlineEnabled[0]
+    final val innerOutlineEnabled // ru.sulgik.mapkit.map/LineStyle.innerOutlineEnabled|{}innerOutlineEnabled[0]
         final fun <get-innerOutlineEnabled>(): kotlin/Boolean // ru.sulgik.mapkit.map/LineStyle.innerOutlineEnabled.<get-innerOutlineEnabled>|<get-innerOutlineEnabled>(){}[0]
-        final fun <set-innerOutlineEnabled>(kotlin/Boolean) // ru.sulgik.mapkit.map/LineStyle.innerOutlineEnabled.<set-innerOutlineEnabled>|<set-innerOutlineEnabled>(kotlin.Boolean){}[0]
-    final var outlineColor // ru.sulgik.mapkit.map/LineStyle.outlineColor|{}outlineColor[0]
+    final val outlineColor // ru.sulgik.mapkit.map/LineStyle.outlineColor|{}outlineColor[0]
         final fun <get-outlineColor>(): ru.sulgik.mapkit/Color // ru.sulgik.mapkit.map/LineStyle.outlineColor.<get-outlineColor>|<get-outlineColor>(){}[0]
-        final fun <set-outlineColor>(ru.sulgik.mapkit/Color) // ru.sulgik.mapkit.map/LineStyle.outlineColor.<set-outlineColor>|<set-outlineColor>(ru.sulgik.mapkit.Color){}[0]
-    final var outlineWidth // ru.sulgik.mapkit.map/LineStyle.outlineWidth|{}outlineWidth[0]
+    final val outlineWidth // ru.sulgik.mapkit.map/LineStyle.outlineWidth|{}outlineWidth[0]
         final fun <get-outlineWidth>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.outlineWidth.<get-outlineWidth>|<get-outlineWidth>(){}[0]
-        final fun <set-outlineWidth>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.outlineWidth.<set-outlineWidth>|<set-outlineWidth>(kotlin.Float){}[0]
-    final var strokeWidth // ru.sulgik.mapkit.map/LineStyle.strokeWidth|{}strokeWidth[0]
+    final val strokeWidth // ru.sulgik.mapkit.map/LineStyle.strokeWidth|{}strokeWidth[0]
         final fun <get-strokeWidth>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.strokeWidth.<get-strokeWidth>|<get-strokeWidth>(){}[0]
-        final fun <set-strokeWidth>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.strokeWidth.<set-strokeWidth>|<set-strokeWidth>(kotlin.Float){}[0]
-    final var turnRadius // ru.sulgik.mapkit.map/LineStyle.turnRadius|{}turnRadius[0]
+    final val turnRadius // ru.sulgik.mapkit.map/LineStyle.turnRadius|{}turnRadius[0]
         final fun <get-turnRadius>(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.turnRadius.<get-turnRadius>|<get-turnRadius>(){}[0]
-        final fun <set-turnRadius>(kotlin/Float) // ru.sulgik.mapkit.map/LineStyle.turnRadius.<set-turnRadius>|<set-turnRadius>(kotlin.Float){}[0]
 
+    final fun component1(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.component1|component1(){}[0]
+    final fun component10(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.component10|component10(){}[0]
+    final fun component2(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.component2|component2(){}[0]
+    final fun component3(): ru.sulgik.mapkit/Color // ru.sulgik.mapkit.map/LineStyle.component3|component3(){}[0]
+    final fun component4(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.component4|component4(){}[0]
+    final fun component5(): kotlin/Boolean // ru.sulgik.mapkit.map/LineStyle.component5|component5(){}[0]
+    final fun component6(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.component6|component6(){}[0]
+    final fun component7(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.component7|component7(){}[0]
+    final fun component8(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.component8|component8(){}[0]
+    final fun component9(): kotlin/Float // ru.sulgik.mapkit.map/LineStyle.component9|component9(){}[0]
+    final fun copy(kotlin/Float = ..., kotlin/Float = ..., ru.sulgik.mapkit/Color = ..., kotlin/Float = ..., kotlin/Boolean = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ..., kotlin/Float = ...): ru.sulgik.mapkit.map/LineStyle // ru.sulgik.mapkit.map/LineStyle.copy|copy(kotlin.Float;kotlin.Float;ru.sulgik.mapkit.Color;kotlin.Float;kotlin.Boolean;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.map/LineStyle.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.map/LineStyle.hashCode|hashCode(){}[0]
-    final fun toNative(): YandexMapKit/YMKLineStyle // ru.sulgik.mapkit.map/LineStyle.toNative|toNative(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.map/LineStyle.toString|toString(){}[0]
 }
 
 final class ru.sulgik.mapkit.map/Map { // ru.sulgik.mapkit.map/Map|null[0]
@@ -2968,6 +2965,7 @@ final object ru.sulgik.mapkit.map/LayerIds { // ru.sulgik.mapkit.map/LayerIds|nu
 }
 
 final fun (YandexMapKit/YMKAnimation).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Animation // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAnimation(){}[0]
+final fun (YandexMapKit/YMKAnimationType).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Animation.Type // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAnimationType(){}[0]
 final fun (YandexMapKit/YMKArrow).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/Arrow // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKArrow(){}[0]
 final fun (YandexMapKit/YMKAttribution).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Attribution // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAttribution(){}[0]
 final fun (YandexMapKit/YMKAttributionAuthor).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Attribution.Author // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAttributionAuthor(){}[0]
@@ -3196,6 +3194,7 @@ final fun (ru.sulgik.mapkit.map/GeoObjectTags).ru.sulgik.mapkit.map/toNative(): 
 final fun (ru.sulgik.mapkit.map/GestureFocusPointMode).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKGestureFocusPointMode // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.GestureFocusPointMode(){}[0]
 final fun (ru.sulgik.mapkit.map/IconStyle).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKIconStyle // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.IconStyle(){}[0]
 final fun (ru.sulgik.mapkit.map/ImageProvider.Companion).ru.sulgik.mapkit.map/fromUIImage(platform.UIKit/UIImage): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.map/fromUIImage|fromUIImage@ru.sulgik.mapkit.map.ImageProvider.Companion(platform.UIKit.UIImage){}[0]
+final fun (ru.sulgik.mapkit.map/LineStyle).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKLineStyle // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.LineStyle(){}[0]
 final fun (ru.sulgik.mapkit.map/MapLoadStatistics).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKMapLoadStatistics // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.MapLoadStatistics(){}[0]
 final fun (ru.sulgik.mapkit.map/MapMode).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKMapMode // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.MapMode(){}[0]
 final fun (ru.sulgik.mapkit.map/MapType).ru.sulgik.mapkit.map/toNative(): YandexMapKit/YMKMapType // ru.sulgik.mapkit.map/toNative|toNative@ru.sulgik.mapkit.map.MapType(){}[0]
@@ -3227,6 +3226,7 @@ final fun (ru.sulgik.mapkit.uri/UriObjectMetadata).ru.sulgik.mapkit.uri/toNative
 final fun (ru.sulgik.mapkit.user_location/UserLocationAnchorType).ru.sulgik.mapkit.user_location/toNative(): YandexMapKit/YMKUserLocationAnchorType // ru.sulgik.mapkit.user_location/toNative|toNative@ru.sulgik.mapkit.user_location.UserLocationAnchorType(){}[0]
 final fun (ru.sulgik.mapkit.user_location/UserLocationIconType).ru.sulgik.mapkit.user_location/toNative(): YandexMapKit/YMKUserLocationIconType // ru.sulgik.mapkit.user_location/toNative|toNative@ru.sulgik.mapkit.user_location.UserLocationIconType(){}[0]
 final fun (ru.sulgik.mapkit/Animation).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKAnimation // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.Animation(){}[0]
+final fun (ru.sulgik.mapkit/Animation.Type).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKAnimationType // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.Animation.Type(){}[0]
 final fun (ru.sulgik.mapkit/Attribution).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKAttribution // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.Attribution(){}[0]
 final fun (ru.sulgik.mapkit/Attribution.Author).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKAttributionAuthor // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.Attribution.Author(){}[0]
 final fun (ru.sulgik.mapkit/Attribution.Link).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKAttributionLink // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.Attribution.Link(){}[0]

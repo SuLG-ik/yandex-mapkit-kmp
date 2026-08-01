@@ -18,25 +18,42 @@ public actual class PlacemarkMapObject internal constructor(private val nativePl
         set(value) {
             nativePlacemarkMapObject.geometry = value.toNative()
         }
+
+    /**
+     * Angle between the direction of an object and the direction to north.
+     */
     public actual var direction: Float
         get() = nativePlacemarkMapObject.direction
         set(value) {
             nativePlacemarkMapObject.direction = value
         }
+
+    /**
+     * Opacity multiplicator for the placemark content.
+     */
     public actual var opacity: Float
         get() = nativePlacemarkMapObject.opacity
         set(value) {
             nativePlacemarkMapObject.opacity = value
         }
 
+    /**
+     * Sets the text with the given style for the placemark.
+     */
     public actual fun setText(text: String, style: TextStyle) {
         nativePlacemarkMapObject.setText(text, style.toNative())
     }
 
+    /**
+     * Changes the text style.
+     */
     public actual fun setTextStyle(style: TextStyle) {
         nativePlacemarkMapObject.setTextStyle(style.toNative())
     }
 
+    /**
+     * Sets an icon with the given style for the placemark.
+     */
     public actual fun setIcon(
         image: ImageProvider,
         style: IconStyle,
