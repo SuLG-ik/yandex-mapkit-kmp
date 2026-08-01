@@ -21,6 +21,10 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   the map's own object collection can be configured.
 - `Map.isTransparentBackgroundEnabled` and `Map.isBuildingsAboveIndoorEnabled`.
 - `isValid` on `MapKit`, `Arrow`, `CameraBounds`, `Cluster` and `ObjectEvent`.
+- `LocationSimulator.asLocationManager()`, the `LocationManager` MapKit derives the simulator from.
+  It carries `subscribeForLocationUpdates`, `requestSingleUpdate`, `unsubscribe`, `suspend` and
+  `resume`, which common code could not reach before: a simulator is created suspended and
+  `startSimulation` does not resume it, so `isActive` could never become true.
 - Compose: `MapConfig` covers the rest of `Map` and `MapWindow` — `mode`, `mapStyle`,
   `isHdModeEnabled`, `isIndoorEnabled`, `isAwesomeModelsEnabled`, `isTransparentBackgroundEnabled`,
   `isBuildingsAboveIndoorEnabled`, `focusRect`, `focusPoint`, `gestureFocusPoint`,
@@ -112,6 +116,12 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   to `sample:androidApp` while `sample:composeApp` became a KMP library.
 - Toolchain: Gradle 9.6.1, AGP 9.3.1, Kotlin 2.4.10, Compose Multiplatform 1.11.1, compileSdk 37,
   JVM target 11.
+
+### Deprecated
+
+- `LocationSimulator.speed`, following MapKit, which deprecates it on both platforms. Set
+  `LocationSettings.speed` together with `LocationSettings.provideSpeed` on every
+  `SimulationSettings` instead.
 
 ### Removed
 

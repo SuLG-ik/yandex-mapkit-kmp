@@ -1126,6 +1126,7 @@ public final class ru.sulgik.mapkit.location.LocationSimulator {
   public final com.yandex.mapkit.location.LocationSimulator toNative();
   public final double getSpeed();
   public final void setSpeed(double);
+  public static void getSpeed$annotations();
   public final java.util.List<ru.sulgik.mapkit.location.SimulationSettings> getSettings();
   public final void setSettings(java.util.List<ru.sulgik.mapkit.location.SimulationSettings>);
   public final void subscribeForSimulatorEvents(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.location.LocationSimulatorListener>);
@@ -1146,6 +1147,7 @@ public final class ru.sulgik.mapkit.location.LocationSimulatorListenerKt {
 }
 public final class ru.sulgik.mapkit.location.LocationSimulator_androidKt {
   public static final ru.sulgik.mapkit.location.LocationSimulator toCommon(com.yandex.mapkit.location.LocationSimulator);
+  public static final ru.sulgik.mapkit.location.LocationManager asLocationManager(ru.sulgik.mapkit.location.LocationSimulator);
 }
 public final class ru.sulgik.mapkit.location.LocationStatus extends java.lang.Enum<ru.sulgik.mapkit.location.LocationStatus> {
   public static final ru.sulgik.mapkit.location.LocationStatus NOT_AVAILABLE;

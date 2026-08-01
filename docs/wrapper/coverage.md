@@ -51,6 +51,24 @@ Besides `LocationManager` and `LocationListener`, the wrapper covers the simulat
 `LocationSettings`, and `MapKit.createDummyLocationManager` pushes positions in by hand.
 `lastKnownLocation()` returns the last position MapKit received.
 
+MapKit derives `LocationSimulator` from `LocationManager`. Kotlin cannot express that inheritance
+across the two platforms, so `LocationSimulator.asLocationManager()` returns the same object seen as
+a `LocationManager`, which is where `subscribeForLocationUpdates`, `requestSingleUpdate`,
+`unsubscribe`, `suspend` and `resume` live. The simulator is created **suspended** and
+`startSimulation` does not resume it, so call `resume()` on the view to make `isActive` true and let
+the simulated locations reach the subscribers:
+
+=== "Kotlin"
+
+    ```kotlin
+    val simulator = mapKit.createLocationSimulator(route)
+    simulator.asLocationManager().resume()
+    simulator.startSimulation(settings)
+    ```
+
+The result is a plain `LocationManager`, so it can also be passed to `MapKit.setLocationManager()`
+or turned into a `LocationViewSource` with `toLocationViewSource()`.
+
 ## Runtime
 
 `runtime.Error` and its subtypes (`LocalError`, `DiskFullError`, `NetworkError`, `RemoteError`, …)

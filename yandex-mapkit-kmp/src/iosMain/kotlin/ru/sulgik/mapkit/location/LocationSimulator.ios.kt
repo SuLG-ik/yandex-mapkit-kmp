@@ -4,6 +4,7 @@ import ru.sulgik.mapkit.WeakRef
 import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.toNative
+import YandexMapKit.YMKLocationManager as NativeLocationManager
 import YandexMapKit.YMKLocationSimulator as NativeLocationSimulator
 import YandexMapKit.YMKSimulationSettings as NativeSimulationSettings
 
@@ -26,6 +27,11 @@ public actual class LocationSimulator internal constructor(
      * the speed of the settings the simulation is started with. Set [LocationSettings.speed]
      * together with [LocationSettings.provideSpeed] on every [SimulationSettings] instead.
      */
+    @Deprecated(
+        message = "Now a field in settings. Set LocationSettings.speed together with " +
+            "LocationSettings.provideSpeed on every SimulationSettings instead.",
+        level = DeprecationLevel.WARNING,
+    )
     public actual var speed: Double
         get() = nativeLocationSimulator.speed
         set(value) {
@@ -68,7 +74,8 @@ public actual class LocationSimulator internal constructor(
      *
      * Tracks the suspended state inherited from [LocationManager], not whether a simulation is
      * running. [ru.sulgik.mapkit.MapKit.createLocationSimulator] returns a suspended simulator and
-     * [startSimulation] does not resume it, so this stays false while a simulation is running.
+     * [startSimulation] does not resume it, so this stays false while a simulation is running until
+     * [LocationManager.resume] is called on [asLocationManager].
      */
     public actual val isActive: Boolean
         get() = nativeLocationSimulator.isActive()
@@ -76,4 +83,19 @@ public actual class LocationSimulator internal constructor(
 
 public fun NativeLocationSimulator.toCommon(): LocationSimulator {
     return LocationSimulator(this)
+}
+
+/**
+ * Views the simulator as the [LocationManager] that MapKit derives it from.
+ *
+ * The returned manager drives the same underlying object, so
+ * [LocationManager.subscribeForLocationUpdates] and [LocationManager.requestSingleUpdate] deliver
+ * the locations the simulation generates, and [LocationManager.resume] lifts the suspended state
+ * that [ru.sulgik.mapkit.MapKit.createLocationSimulator] returns the simulator in —
+ * [LocationSimulator.isActive] stays false until it is called. The result can also be handed to
+ * [ru.sulgik.mapkit.MapKit.setLocationManager] and [toLocationViewSource].
+ */
+public actual fun LocationSimulator.asLocationManager(): LocationManager {
+    val nativeLocationManager: NativeLocationManager = toNative()
+    return nativeLocationManager.toCommon()
 }
