@@ -5,6 +5,24 @@
 - macOS
 - CocoaPods
 - Android Studio
+- Python 3 with `lxml`, for the MapKit reference
+
+## MapKit reference
+
+`ymk-docs/` holds an offline copy of the Yandex MapKit reference — the source of truth for every
+signature the wrapper mirrors. It is generated, not stored in the repository, so build it once after
+cloning:
+
+```bash
+python3 ymk-docs/_tools/bootstrap.py
+```
+
+It fetches around 2000 pages from `yandex.ru/maps-api/docs/mapkit` and converts them to Markdown;
+expect a couple of minutes. The script is idempotent — it does nothing when the copy is already
+there. Add `--validate` to run the coverage and link checks, `--force` to rebuild, `--refresh` to
+re-download instead of reusing the cache in `ymk-docs/_tools/cache/`.
+
+Rebuilding under a new MapKit release is described in `ymk-docs/_tools/README.md`.
 
 ## Sample
 

@@ -140,11 +140,16 @@ in `androidMain` / `iosMain` — never in `commonMain`.
   `yandex-mapkit-kmp-compose/compose_compiler_stability_config.conf`.
 
 Public API changes also touch `docs/` (and `mkdocs.yml` `nav` for a new page) and the README module
-table. `docs/wrapper/coverage.md` states what is and is not wrapped; `MAPKIT_BACKLOG.md` lists the
-API deliberately left out. The wrapper targets the **lite** SDK, and the docs site describes the
+table. `docs/wrapper/coverage.md` states what is and is not wrapped, including the API deliberately
+left out. The wrapper targets the **lite** SDK, and the docs site describes the
 full one — before wrapping a member, check that it exists in the lite AAR
 (`javap -classpath <maps.mobile-*.aar>/classes.jar com.yandex.mapkit.MapKit`) rather than trusting
 `ymk-docs/`.
+
+`ymk-docs/` is the offline copy of the MapKit reference. It is generated, not committed —
+`ymk-docs/*` is gitignored except `ymk-docs/_tools`, which holds the scripts that build it. In a
+fresh clone run `python3 ymk-docs/_tools/bootstrap.py` once (Python 3 with `lxml`, a couple of
+minutes); the script is idempotent.
 
 ## Skills
 
