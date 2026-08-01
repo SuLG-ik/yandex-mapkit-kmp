@@ -25,6 +25,10 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
   It carries `subscribeForLocationUpdates`, `requestSingleUpdate`, `unsubscribe`, `suspend` and
   `resume`, which common code could not reach before: a simulator is created suspended and
   `startSimulation` does not resume it, so `isActive` could never become true.
+- `DummyLocationManager.asLocationManager()`, the same for the manager MapKit also derives from
+  `LocationManager`. Without it the wrapper exposed only `setLocation`, so nothing could subscribe
+  to the positions pushed in, and a dummy manager could not be handed to
+  `MapKit.setLocationManager()` or `toLocationViewSource()`.
 - Compose: `MapConfig` covers the rest of `Map` and `MapWindow` — `mode`, `mapStyle`,
   `isHdModeEnabled`, `isIndoorEnabled`, `isAwesomeModelsEnabled`, `isTransparentBackgroundEnabled`,
   `isBuildingsAboveIndoorEnabled`, `focusRect`, `focusPoint`, `gestureFocusPoint`,
@@ -81,7 +85,10 @@ Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.
 ### Changed
 
 - **Breaking.** Every listener subscription takes a `WeakRef<Listener>`: MapKit no longer retains
-  listeners itself (Android holds a `WeakReference`, iOS a `__weak` pointer).
+  listeners itself (Android holds a `WeakReference`, iOS a `__weak` pointer). This includes
+  `runtime.logging.Logging.subscribe` / `unsubscribe`, whose MapKit signatures take the listener
+  directly and store it in a `WeakHashMap` all the same, so the hazard and the API are the same as
+  everywhere else.
 - **Breaking.** `Cluster` moved from `ru.sulgik.mapkit.geometry` to `ru.sulgik.mapkit.map`, matching
   `com.yandex.mapkit.map.Cluster`.
 - **Breaking.** `Map.mapObjects` is a `RootMapObjectCollection` instead of a `MapObjectCollection`.

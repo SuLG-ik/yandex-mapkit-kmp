@@ -1,5 +1,6 @@
 package ru.sulgik.mapkit.runtime.logging
 
+import ru.sulgik.mapkit.WeakRef
 import YandexMapKit.YRTLogging as NativeLogging
 import YandexMapKit.YRTLoggingFactory as NativeLoggingFactory
 
@@ -14,16 +15,19 @@ public actual class Logging internal constructor(private val nativeLogging: Nati
 
     /**
      * Subscribes a listener to receive log messages.
+     *
+     * The class does not retain the object in the 'logListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
-    public actual fun subscribe(logListener: LogListener) {
-        nativeLogging.subscribeWithLogListener(logListener.toNative())
+    public actual fun subscribe(logListener: WeakRef<LogListener>) {
+        nativeLogging.subscribeWithLogListener(logListener.get()?.toNative() ?: return)
     }
 
     /**
      * Unsubscribes a listener from receiving log messages.
      */
-    public actual fun unsubscribe(logListener: LogListener) {
-        nativeLogging.unsubscribeWithLogListener(logListener.toNative())
+    public actual fun unsubscribe(logListener: WeakRef<LogListener>) {
+        nativeLogging.unsubscribeWithLogListener(logListener.get()?.toNative() ?: return)
     }
 
     /**

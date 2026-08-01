@@ -20,3 +20,14 @@ public expect class DummyLocationManager {
      */
     override fun hashCode(): Int
 }
+
+/**
+ * Views the dummy manager as the [LocationManager] that MapKit derives it from.
+ *
+ * The returned manager drives the same underlying object, so
+ * [LocationManager.subscribeForLocationUpdates] and [LocationManager.requestSingleUpdate] deliver
+ * the locations pushed in with [DummyLocationManager.setLocation], and [LocationManager.suspend]
+ * and [LocationManager.resume] control whether they reach the subscribers. The result can also be
+ * handed to [ru.sulgik.mapkit.MapKit.setLocationManager] and [toLocationViewSource].
+ */
+public expect fun DummyLocationManager.asLocationManager(): LocationManager

@@ -84,3 +84,11 @@ they compare references and never call into MapKit.
 
 Value types — `Point`, `CameraPosition`, `IconStyle` and the rest of the `data class`es — keep
 comparing by their fields as before.
+
+!!! note "`OfflineCacheError` compares by value on iOS"
+    Wrapping the same native object always makes two handles equal, but on one type it is not the
+    only way to be equal. `offline_cache.OfflineCacheError` wraps an `NSError` on iOS and a
+    `runtime.Error` on Android, and `NSError` overrides `isEqual:` and `hash` with value semantics.
+    Two distinct errors carrying the same domain, code and `userInfo` therefore compare equal on
+    iOS and unequal on Android. `NSError` is immutable, so its hash never drifts; treat
+    `OfflineCacheError` equality as "the same failure", not as "the same object".

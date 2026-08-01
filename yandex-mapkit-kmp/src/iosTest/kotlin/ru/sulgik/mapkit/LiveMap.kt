@@ -2,6 +2,11 @@ package ru.sulgik.mapkit
 
 import kotlinx.cinterop.staticCFunction
 import platform.CoreGraphics.CGRectMake
+import platform.Foundation.NSDate
+import platform.Foundation.NSDefaultRunLoopMode
+import platform.Foundation.NSRunLoop
+import platform.Foundation.dateWithTimeIntervalSinceNow
+import platform.Foundation.runMode
 import platform.posix._exit
 import platform.posix.atexit
 import platform.posix.fflush
@@ -10,6 +15,7 @@ import ru.sulgik.mapkit.map.MapObjectCollection
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.map.toCommon
 import ru.sulgik.mapkit.user_location.UserLocationLayer
+import kotlin.time.Duration
 import YandexMapKit.YMKMapView as NativeMapView
 
 internal object LiveMap {
@@ -47,6 +53,18 @@ internal object LiveMap {
 
     fun mapKit(): MapKit {
         return MapKit.getInstance()
+    }
+
+    fun drainMainQueue(timeout: Duration) {
+        check(nativeMapView == null) {
+            "The main queue still holds the activation block of the YMKMapView that LiveMap created, " +
+                "and draining it starts the renderer, which crashes without a window server. " +
+                "Run the tests that drain the main queue before the ones that ask LiveMap for a map."
+        }
+        NSRunLoop.currentRunLoop.runMode(
+            NSDefaultRunLoopMode,
+            beforeDate = NSDate.dateWithTimeIntervalSinceNow(timeout.inWholeMilliseconds / 1000.0),
+        )
     }
 
     private fun mapView(): NativeMapView {

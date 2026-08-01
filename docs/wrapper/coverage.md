@@ -69,6 +69,18 @@ the simulated locations reach the subscribers:
 The result is a plain `LocationManager`, so it can also be passed to `MapKit.setLocationManager()`
 or turned into a `LocationViewSource` with `toLocationViewSource()`.
 
+MapKit derives `DummyLocationManager` from `LocationManager` in the same way, so
+`DummyLocationManager.asLocationManager()` opens the same five members for a manager whose positions
+the application pushes in with `setLocation`:
+
+=== "Kotlin"
+
+    ```kotlin
+    val dummy = mapKit.createDummyLocationManager()
+    dummy.asLocationManager().subscribeForLocationUpdates(settings, locationListener.asWeakRef())
+    dummy.setLocation(location, DummyLocationQuality.HIGH)
+    ```
+
 ## Runtime
 
 `runtime.Error` and its subtypes (`LocalError`, `DiskFullError`, `NetworkError`, `RemoteError`, …)

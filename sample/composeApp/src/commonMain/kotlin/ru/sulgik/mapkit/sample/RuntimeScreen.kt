@@ -198,12 +198,12 @@ fun RuntimeScreen(modifier: Modifier = Modifier) {
             listOf(
                 "Subscribe" to {
                     log.runAndLog("Logging.subscribe") {
-                        Logging.getLogging().subscribe(logListener)
+                        Logging.getLogging().subscribe(logListener.asWeakRef())
                     }
                 },
                 "Unsubscribe" to {
                     log.runAndLog("Logging.unsubscribe") {
-                        Logging.getLogging().unsubscribe(logListener)
+                        Logging.getLogging().unsubscribe(logListener.asWeakRef())
                         log.add("received $logMessageCount messages")
                     }
                 },

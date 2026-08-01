@@ -1023,6 +1023,7 @@ public final class ru.sulgik.mapkit.location.DummyLocationManager {
 }
 public final class ru.sulgik.mapkit.location.DummyLocationManager_androidKt {
   public static final ru.sulgik.mapkit.location.DummyLocationManager toCommon(com.yandex.mapkit.location.DummyLocationManager);
+  public static final ru.sulgik.mapkit.location.LocationManager asLocationManager(ru.sulgik.mapkit.location.DummyLocationManager);
 }
 public final class ru.sulgik.mapkit.location.DummyLocationQuality extends java.lang.Enum<ru.sulgik.mapkit.location.DummyLocationQuality> {
   public static final ru.sulgik.mapkit.location.DummyLocationQuality HIGH;
@@ -2761,8 +2762,8 @@ public final class ru.sulgik.mapkit.runtime.logging.Logging {
   public static final ru.sulgik.mapkit.runtime.logging.Logging$Companion Companion;
   public ru.sulgik.mapkit.runtime.logging.Logging(com.yandex.runtime.logging.Logging);
   public final com.yandex.runtime.logging.Logging toNative();
-  public final void subscribe(ru.sulgik.mapkit.runtime.logging.LogListener);
-  public final void unsubscribe(ru.sulgik.mapkit.runtime.logging.LogListener);
+  public final void subscribe(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.runtime.logging.LogListener>);
+  public final void unsubscribe(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.runtime.logging.LogListener>);
   public final boolean isValid();
   public boolean equals(java.lang.Object);
   public int hashCode();

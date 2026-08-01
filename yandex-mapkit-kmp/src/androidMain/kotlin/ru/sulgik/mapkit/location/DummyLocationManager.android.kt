@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.location
 
 import com.yandex.mapkit.location.DummyLocationManager as NativeDummyLocationManager
+import com.yandex.mapkit.location.LocationManager as NativeLocationManager
 
 /**
  * A location manager whose positions are pushed in by the application.
@@ -40,4 +41,18 @@ public actual class DummyLocationManager internal constructor(
 
 public fun NativeDummyLocationManager.toCommon(): DummyLocationManager {
     return DummyLocationManager(this)
+}
+
+/**
+ * Views the dummy manager as the [LocationManager] that MapKit derives it from.
+ *
+ * The returned manager drives the same underlying object, so
+ * [LocationManager.subscribeForLocationUpdates] and [LocationManager.requestSingleUpdate] deliver
+ * the locations pushed in with [DummyLocationManager.setLocation], and [LocationManager.suspend]
+ * and [LocationManager.resume] control whether they reach the subscribers. The result can also be
+ * handed to [ru.sulgik.mapkit.MapKit.setLocationManager] and [toLocationViewSource].
+ */
+public actual fun DummyLocationManager.asLocationManager(): LocationManager {
+    val nativeLocationManager: NativeLocationManager = toNative()
+    return nativeLocationManager.toCommon()
 }

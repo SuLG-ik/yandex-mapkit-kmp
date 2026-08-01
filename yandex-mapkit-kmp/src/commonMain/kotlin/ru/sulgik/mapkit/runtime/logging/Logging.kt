@@ -1,5 +1,7 @@
 package ru.sulgik.mapkit.runtime.logging
 
+import ru.sulgik.mapkit.WeakRef
+
 /**
  * The log stream of MapKit.
  */
@@ -7,13 +9,16 @@ public expect class Logging {
 
     /**
      * Subscribes a listener to receive log messages.
+     *
+     * The class does not retain the object in the 'logListener' parameter.
+     * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
-    public fun subscribe(logListener: LogListener)
+    public fun subscribe(logListener: WeakRef<LogListener>)
 
     /**
      * Unsubscribes a listener from receiving log messages.
      */
-    public fun unsubscribe(logListener: LogListener)
+    public fun unsubscribe(logListener: WeakRef<LogListener>)
 
     /**
      * Tells if this **Logging** is valid or not.

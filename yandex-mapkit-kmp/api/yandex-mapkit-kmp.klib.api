@@ -2156,9 +2156,9 @@ final class ru.sulgik.mapkit.runtime.logging/Logging { // ru.sulgik.mapkit.runti
 
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.runtime.logging/Logging.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.runtime.logging/Logging.hashCode|hashCode(){}[0]
-    final fun subscribe(ru.sulgik.mapkit.runtime.logging/LogListener) // ru.sulgik.mapkit.runtime.logging/Logging.subscribe|subscribe(ru.sulgik.mapkit.runtime.logging.LogListener){}[0]
+    final fun subscribe(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.runtime.logging/LogListener>) // ru.sulgik.mapkit.runtime.logging/Logging.subscribe|subscribe(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.runtime.logging.LogListener>){}[0]
     final fun toNative(): YandexMapKit/YRTLogging // ru.sulgik.mapkit.runtime.logging/Logging.toNative|toNative(){}[0]
-    final fun unsubscribe(ru.sulgik.mapkit.runtime.logging/LogListener) // ru.sulgik.mapkit.runtime.logging/Logging.unsubscribe|unsubscribe(ru.sulgik.mapkit.runtime.logging.LogListener){}[0]
+    final fun unsubscribe(ru.sulgik.mapkit/WeakRef<ru.sulgik.mapkit.runtime.logging/LogListener>) // ru.sulgik.mapkit.runtime.logging/Logging.unsubscribe|unsubscribe(ru.sulgik.mapkit.WeakRef<ru.sulgik.mapkit.runtime.logging.LogListener>){}[0]
 
     final object Companion { // ru.sulgik.mapkit.runtime.logging/Logging.Companion|null[0]
         final fun getLogging(): ru.sulgik.mapkit.runtime.logging/Logging // ru.sulgik.mapkit.runtime.logging/Logging.Companion.getLogging|getLogging(){}[0]
@@ -3165,6 +3165,7 @@ final fun (ru.sulgik.mapkit.indoor/IndoorLevel).ru.sulgik.mapkit.indoor/toNative
 final fun (ru.sulgik.mapkit.layers/LayerOptions).ru.sulgik.mapkit.layers/toNative(): YandexMapKit/YMKLayerOptions // ru.sulgik.mapkit.layers/toNative|toNative@ru.sulgik.mapkit.layers.LayerOptions(){}[0]
 final fun (ru.sulgik.mapkit.layers/OverzoomMode).ru.sulgik.mapkit.layers/toNative(): YandexMapKit/YMKOverzoomMode // ru.sulgik.mapkit.layers/toNative|toNative@ru.sulgik.mapkit.layers.OverzoomMode(){}[0]
 final fun (ru.sulgik.mapkit.layers/TileFormat).ru.sulgik.mapkit.layers/toNative(): YandexMapKit/YMKTileFormat // ru.sulgik.mapkit.layers/toNative|toNative@ru.sulgik.mapkit.layers.TileFormat(){}[0]
+final fun (ru.sulgik.mapkit.location/DummyLocationManager).ru.sulgik.mapkit.location/asLocationManager(): ru.sulgik.mapkit.location/LocationManager // ru.sulgik.mapkit.location/asLocationManager|asLocationManager@ru.sulgik.mapkit.location.DummyLocationManager(){}[0]
 final fun (ru.sulgik.mapkit.location/DummyLocationQuality).ru.sulgik.mapkit.location/toNative(): YandexMapKit/YMKDummyLocationQuality // ru.sulgik.mapkit.location/toNative|toNative@ru.sulgik.mapkit.location.DummyLocationQuality(){}[0]
 final fun (ru.sulgik.mapkit.location/Location).ru.sulgik.mapkit.location/toNative(): YandexMapKit/YMKLocation // ru.sulgik.mapkit.location/toNative|toNative@ru.sulgik.mapkit.location.Location(){}[0]
 final fun (ru.sulgik.mapkit.location/LocationError).ru.sulgik.mapkit.location/toNative(): YandexMapKit/YMKLocationError // ru.sulgik.mapkit.location/toNative|toNative@ru.sulgik.mapkit.location.LocationError(){}[0]
