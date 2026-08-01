@@ -16,11 +16,20 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
+import androidx.compose.ui.graphics.layer.GraphicsLayer
+import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.toSize
 import kotlinx.coroutines.channels.Channel
 import ru.sulgik.mapkit.map.ImageProvider
 
@@ -117,6 +126,7 @@ internal fun ComposeMapObjectSlots(renderer: ComposeMapObjectRenderer) {
 @Composable
 private fun ComposeMapObjectSlotContent(slot: ComposeMapObjectSlot) {
     val density = LocalDensity.current
+    val layoutDirection = LocalLayoutDirection.current
     val layer = rememberGraphicsLayer()
     val records = remember(layer) { Channel<Unit>(Channel.CONFLATED) }
     Layout(
@@ -132,13 +142,25 @@ private fun ComposeMapObjectSlotContent(slot: ComposeMapObjectSlot) {
         },
         measurePolicy = DetachedContentMeasurePolicy,
     )
-    LaunchedEffect(slot, layer, density) {
+    LaunchedEffect(slot, layer, density, layoutDirection) {
         for (record in records) {
             val size = layer.size
             if (size.width <= 0 || size.height <= 0) continue
-            slot.updateImage(layer.toImageBitmap().toImageProvider(density))
+            val image = layer.drawToImageBitmap(density, layoutDirection)
+            slot.updateImage(image.toImageProvider(density))
         }
     }
+}
+
+private fun GraphicsLayer.drawToImageBitmap(
+    density: Density,
+    layoutDirection: LayoutDirection,
+): ImageBitmap {
+    val image = ImageBitmap(size.width, size.height)
+    CanvasDrawScope().draw(density, layoutDirection, Canvas(image), size.toSize()) {
+        drawLayer(this@drawToImageBitmap)
+    }
+    return image
 }
 
 private val DetachedContentMeasurePolicy = MeasurePolicy { measurables, _ ->
