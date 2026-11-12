@@ -1,7 +1,7 @@
 package ru.sulgik.mapkit.runtime.logging
 
 import ru.sulgik.mapkit.WeakRef
-import java.lang.ref.WeakReference
+import ru.sulgik.mapkit.toNative
 import com.yandex.runtime.logging.Logging as NativeLogging
 import com.yandex.runtime.logging.LoggingFactory as NativeLoggingFactory
 
@@ -21,16 +21,14 @@ public actual class Logging internal constructor(private val nativeLogging: Nati
      * It is your responsibility to maintain a strong reference to the target object while it is attached to a class.
      */
     public actual fun subscribe(logListener: WeakRef<LogListener>) {
-        val listener = logListener.get() ?: return
-        nativeLogging.subscribe(WeakReference(listener.toNative()))
+        nativeLogging.subscribe(logListener.toNative())
     }
 
     /**
      * Unsubscribes a listener from receiving log messages.
      */
     public actual fun unsubscribe(logListener: WeakRef<LogListener>) {
-        val listener = logListener.get() ?: return
-        nativeLogging.unsubscribe(WeakReference(listener.toNative()))
+        nativeLogging.unsubscribe(logListener.toNative())
     }
 
     /**
