@@ -64,7 +64,7 @@ python3 ymk-docs/_tools/bootstrap.py
     ./gradlew libraryApiCheck
     ```
 
-Задачи `library*` разворачиваются на четыре публикуемых модуля. iOS-задачам нужен CocoaPods, и
+Задачи `library*` запускаются для всех публикуемых модулей. iOS-задачам нужен CocoaPods, и
 `libraryApiCheck` тоже — дампы покрывают iOS-таргеты, поэтому он запускается только на macOS.
 
 Тесты отрисовки Compose ждут настоящий кадр (`GraphicsLayer` → `ImageBitmap`), который JVM не
@@ -78,7 +78,7 @@ python3 ymk-docs/_tools/bootstrap.py
 
 ## Публичный API
 
-Четыре публикуемых модуля хранят по два дампа своего публичного API в `<module>/api`. Любое
+Публикуемые модули хранят по два дампа своего публичного API в `<module>/api`. Любое
 изменение публичного объявления валит `libraryApiCheck`, пока оба дампа не обновлены:
 
 ```

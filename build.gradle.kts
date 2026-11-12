@@ -60,6 +60,7 @@ allprojects {
 private val dokkaModules = mapOf(
     "yandex-mapkit-kmp" to "Yandex MapKit SDK KMP",
     "yandex-mapkit-kmp-compose" to "Yandex MapKit KMP SDK Compose Utils",
+    "yandex-mapkit-kmp-compose-resources" to "Yandex MapKit KMP Compose Resources",
     "yandex-mapkit-kmp-moko" to "Yandex MapKit KMP SDK MOKO Utils",
     "yandex-mapkit-kmp-moko-compose" to "Yandex MapKit KMP SDK MOKO Compose Utils",
 )

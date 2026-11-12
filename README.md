@@ -23,7 +23,8 @@ uses [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) version *4.42.0-l
 | Module	                                        | Gradle Dependency                                                                                                                             | Description                                                                                                                                              |
 |------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Core](yandex-mapkit-kmp)                      | [`ru.sulgik.mapkit:yandex-mapkit-kmp:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp)                            | Features of original Yandex MapKit SDK                                                                                                                   |
-| [Compose](yandex-mapkit-kmp-compose)           | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose)            | Component to draw map and [compose-resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html) usage as map images |
+| [Compose](yandex-mapkit-kmp-compose)           | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose)            | Render the map and its objects with Compose Multiplatform |
+| [Compose Resources](yandex-mapkit-kmp-compose-resources) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:<version>`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose-resources) | Use Compose Multiplatform drawable resources as map images |
 | [Moko](yandex-mapkit-kmp-moko)                 | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko)                  | Use [moko-resources](https://github.com/icerockdev/moko-resources) as map images. Requires native initialization                                         |
 | [Moko Compose](yandex-mapkit-kmp-moko-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:1.0.0-beta01`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko-compose) | Use [moko-resources](https://github.com/icerockdev/moko-resources) as image provider. Not require native initialization                                  |
 
@@ -53,12 +54,18 @@ kotlin {
     commonMain.dependencies {
       implementation("ru.sulgik.mapkit:yandex-mapkit-kmp:<version>") // main module
       implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose:<version>") // optional compose support
+      implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:<version>") // optional drawable resources
       implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-moko:<version>") // optional: moko support
       implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:<version>") // optional: moko compose resources support
     }
   }
 }
 ```
+
+In `1.0.0-beta01`, `imageProvider(Res.drawable.*)` is provided by `yandex-mapkit-kmp-compose`.
+When upgrading to a release that includes `yandex-mapkit-kmp-compose-resources`, add that module
+at the same version if you use this overload. Keep the `ru.sulgik.mapkit.compose.imageProvider`
+import and your existing calls.
 
 ## Compatibility
 

@@ -1,0 +1,9 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources>
+final fun ru.sulgik.mapkit.compose/imageProvider(org.jetbrains.compose.resources/DrawableResource, androidx.compose.runtime/Composer?, kotlin/Int): ru.sulgik.mapkit.map/ImageProvider // ru.sulgik.mapkit.compose/imageProvider|imageProvider(org.jetbrains.compose.resources.DrawableResource;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
