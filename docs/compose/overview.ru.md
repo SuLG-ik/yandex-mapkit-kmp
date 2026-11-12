@@ -162,6 +162,45 @@ fun MapScreen() {
 `locationState.cameraPosition` следует за собственной позицией камеры слоя или равен `null`, пока
 позиции нет. Разрешения по-прежнему запрашиваете вы — см. [Геолокацию](../wrapper/location.md).
 
+Чтобы плавно переместить камеру к местоположению пользователя, вызовите
+`map.move(position, animation)` через `MapEffect` внутри той же `YandexMap`. Присваивание
+`CameraPositionState.position` перемещает камеру сразу. Используйте счётчик нажатий как ключ
+эффекта, чтобы новые координаты сами по себе не двигали камеру.
+
+```kotlin
+import kotlin.time.Duration.Companion.milliseconds
+import ru.sulgik.mapkit.Animation
+
+@Composable
+fun LocationMap() {
+    val locationState = rememberUserLocationState()
+    var recenterRequests by remember { mutableIntStateOf(0) }
+
+    Box {
+        YandexMap(
+            locationState = locationState,
+            locationConfig = UserLocationConfig(isVisible = true),
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            MapEffect(recenterRequests) { map ->
+                if (recenterRequests != 0) {
+                    locationState.cameraPosition?.let { position ->
+                        map.move(position, Animation(Animation.Type.SMOOTH, 350.milliseconds))
+                    }
+                }
+            }
+        }
+        Button(
+            enabled = locationState.cameraPosition != null,
+            onClick = { recenterRequests++ },
+            modifier = Modifier.align(Alignment.BottomCenter),
+        ) {
+            Text("Моё местоположение")
+        }
+    }
+}
+```
+
 ### Пробки
 
 ```kotlin

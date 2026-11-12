@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -28,11 +29,13 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.compose.Circle
 import ru.sulgik.mapkit.compose.ClusterGroup
 import ru.sulgik.mapkit.compose.ClusterItem
 import ru.sulgik.mapkit.compose.Clustering
 import ru.sulgik.mapkit.compose.MapConfig
+import ru.sulgik.mapkit.compose.MapEffect
 import ru.sulgik.mapkit.compose.MapLogoConfig
 import ru.sulgik.mapkit.compose.Placemark
 import ru.sulgik.mapkit.compose.Polygon
@@ -60,6 +63,7 @@ import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.logo.LogoAlignment
 import ru.sulgik.mapkit.logo.LogoHorizontalAlignment
 import ru.sulgik.mapkit.logo.LogoVerticalAlignment
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(YandexMapsComposeExperimentalApi::class)
 @Composable
@@ -90,6 +94,7 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
         }
     }
     val userLocationState = rememberUserLocationState()
+    var recenterRequests by remember { mutableIntStateOf(0) }
     Scaffold(
         bottomBar = {
             MapActions(
@@ -98,7 +103,7 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                     cameraPositionState.position = startPosition
                 },
                 onUserLocation = {
-                    userLocationState.cameraPosition?.let { cameraPositionState.position = it }
+                    recenterRequests++
                 },
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -135,6 +140,13 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                 ),
                 modifier = Modifier.fillMaxSize(),
             ) {
+                MapEffect(recenterRequests) { map ->
+                    if (recenterRequests != 0) {
+                        userLocationState.cameraPosition?.let { position ->
+                            map.move(position, Animation(Animation.Type.SMOOTH, 350.milliseconds))
+                        }
+                    }
+                }
                 if (mapActionsState.isPlacemarksEnabled) {
                     if (mapActionsState.isPlacemarksClsuteringEnabled) {
                         PlacemarksCluster(placemarks, mapActionsState.isComposableContentEnabled)
