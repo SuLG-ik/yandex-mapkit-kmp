@@ -162,6 +162,45 @@ fun MapScreen() {
 `locationState.cameraPosition` follows the layer's own camera position, or is `null` while there is
 no fix. Permissions are still yours to request — see [Geolocation](../wrapper/location.md).
 
+To animate the camera to the user's location, call `map.move(position, animation)` from a
+`MapEffect` inside the same `YandexMap`. Assigning to `CameraPositionState.position` moves
+the camera immediately. Key the effect on the button press so location updates do not move the
+camera on their own.
+
+```kotlin
+import kotlin.time.Duration.Companion.milliseconds
+import ru.sulgik.mapkit.Animation
+
+@Composable
+fun LocationMap() {
+    val locationState = rememberUserLocationState()
+    var recenterRequests by remember { mutableIntStateOf(0) }
+
+    Box {
+        YandexMap(
+            locationState = locationState,
+            locationConfig = UserLocationConfig(isVisible = true),
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            MapEffect(recenterRequests) { map ->
+                if (recenterRequests != 0) {
+                    locationState.cameraPosition?.let { position ->
+                        map.move(position, Animation(Animation.Type.SMOOTH, 350.milliseconds))
+                    }
+                }
+            }
+        }
+        Button(
+            enabled = locationState.cameraPosition != null,
+            onClick = { recenterRequests++ },
+            modifier = Modifier.align(Alignment.BottomCenter),
+        ) {
+            Text("My location")
+        }
+    }
+}
+```
+
 ### Traffic
 
 ```kotlin
