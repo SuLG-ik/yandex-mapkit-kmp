@@ -71,6 +71,16 @@ above.
     report, include that excerpt, your `cocoapods` block, and the MapKit, Kotlin, CocoaPods, and
     Xcode versions.
 
+    When linking a dynamic Kotlin framework, unresolved `SCNetworkReachability` or
+    `NEHotspotNetwork` symbols require two system frameworks. Add these options to the
+    `framework` block inside `cocoapods`.
+
+    ```kotlin
+    framework {
+        linkerOpts("-framework", "SystemConfiguration", "-framework", "NetworkExtension")
+    }
+    ```
+
 === "iOS (SPM)"
 
     Add `YandexMapsMobile` to the Xcode project the usual way and expose it to Kotlin through

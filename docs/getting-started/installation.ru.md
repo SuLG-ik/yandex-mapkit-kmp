@@ -69,6 +69,16 @@ MapKit **не** приходит транзитивно вместе с этим
     Найдите первую ошибку загрузки зависимости или сообщение Clang в логе. При обращении
     приложите этот фрагмент, блок `cocoapods` и версии MapKit, Kotlin, CocoaPods и Xcode.
 
+    При сборке динамического Kotlin-фреймворка ошибки линковщика о символах
+    `SCNetworkReachability` и `NEHotspotNetwork` устраняются подключением системных фреймворков.
+    Добавьте параметры в блок `framework` внутри `cocoapods`.
+
+    ```kotlin
+    framework {
+        linkerOpts("-framework", "SystemConfiguration", "-framework", "NetworkExtension")
+    }
+    ```
+
 === "iOS (SPM)"
 
     Добавьте `YandexMapsMobile` в проект Xcode обычным способом и откройте его для Kotlin через
