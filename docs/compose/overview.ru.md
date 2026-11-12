@@ -210,8 +210,15 @@ fun MapScreen(showPois: Boolean) {
 `TileLayer` добавляет слой ваших тайлов и убирает его при выходе из композиции. `layerId` называет
 слой и определяет его место в порядке отрисовки; `createTileDataSource` вызывается один раз на слой,
 поэтому источник данных не следует за последующими рекомпозициями.
+MapKit хранит слабую ссылку на поставщика тайлов, поэтому сохраняйте его через `remember`.
 
 ```kotlin
+val tileUrlProvider = remember {
+    UrlProvider { tileId, _, _ ->
+        "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+    }
+}
+
 YandexMap(modifier = Modifier.fillMaxSize()) {
     TileLayer(
         layerId = "weather",
@@ -220,11 +227,7 @@ YandexMap(modifier = Modifier.fillMaxSize()) {
         onLayerLoaded = { println("weather tiles are on screen") },
         onDataSourceUpdated = { },
     ) { builder ->
-        builder.setTileUrlProvider(
-            UrlProvider { tileId, _, _ ->
-                "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
-            },
-        )
+        builder.setTileUrlProvider(tileUrlProvider)
         builder.setProjection(Projections.wgs84Mercator)
         builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
         builder.setTileFormat(TileFormat.PNG)

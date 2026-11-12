@@ -27,7 +27,7 @@ public actual class CompositeIcon internal constructor(
         nativeCompositeIcon.setIcon(
             name,
             image.toNative(),
-            style?.toNative(),
+            (style ?: IconStyle()).toNative(),
             onFinished?.toNative(),
         )
     }

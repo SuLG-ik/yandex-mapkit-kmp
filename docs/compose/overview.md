@@ -210,8 +210,15 @@ fun MapScreen(showPois: Boolean) {
 `TileLayer` adds a layer of your own tiles and removes it when it leaves the composition.
 `layerId` names the layer and picks its place in the render order; `createTileDataSource` is called
 once per layer, so a data source does not follow later recompositions.
+MapKit holds a weak reference to the tile provider, so keep it alive with `remember`.
 
 ```kotlin
+val tileUrlProvider = remember {
+    UrlProvider { tileId, _, _ ->
+        "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+    }
+}
+
 YandexMap(modifier = Modifier.fillMaxSize()) {
     TileLayer(
         layerId = "weather",
@@ -220,11 +227,7 @@ YandexMap(modifier = Modifier.fillMaxSize()) {
         onLayerLoaded = { println("weather tiles are on screen") },
         onDataSourceUpdated = { },
     ) { builder ->
-        builder.setTileUrlProvider(
-            UrlProvider { tileId, _, _ ->
-                "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
-            },
-        )
+        builder.setTileUrlProvider(tileUrlProvider)
         builder.setProjection(Projections.wgs84Mercator)
         builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
         builder.setTileFormat(TileFormat.PNG)

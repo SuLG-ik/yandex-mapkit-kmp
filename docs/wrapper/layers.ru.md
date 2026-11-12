@@ -9,7 +9,14 @@
 `Map.addTileLayer` принимает идентификатор, настройки слоя и колбэк, который настраивает источник
 данных. Колбэк выполняется один раз, при создании слоя.
 
+MapKit хранит слабую ссылку на поставщика тайлов. Храните `UrlProvider` или `TileProvider`
+в поле владельца слоя до его удаления.
+
 ```kotlin
+private val tileUrlProvider = UrlProvider { tileId, _, _ ->
+    "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+}
+
 val layer: Layer = map.addTileLayer(
     layerId = "weather",
     layerOptions = LayerOptions(
@@ -18,11 +25,7 @@ val layer: Layer = map.addTileLayer(
         cacheable = true,
     ),
 ) { builder ->
-    builder.setTileUrlProvider(
-        UrlProvider { tileId, _, _ ->
-            "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
-        },
-    )
+    builder.setTileUrlProvider(tileUrlProvider)
     builder.setProjection(Projections.wgs84Mercator)
     builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
     builder.setTileFormat(TileFormat.PNG)
@@ -52,18 +55,18 @@ val layer: Layer = map.addTileLayer(
 отрисованные на устройстве или прочитанные из файла в поставке:
 
 ```kotlin
-builder.setTileProvider(
-    TileProvider { tileId, version, _, etag ->
-        RawTile(
-            version = version,
-            features = emptyMap(),
-            etag = etag,
-            useCache = RawTile.UseCache.YES,
-            state = RawTile.State.OK,
-            rawData = render(tileId),
-        )
-    },
-)
+private val tileProvider = TileProvider { tileId, version, _, etag ->
+    RawTile(
+        version = version,
+        features = emptyMap(),
+        etag = etag,
+        useCache = RawTile.UseCache.YES,
+        state = RawTile.State.OK,
+        rawData = render(tileId),
+    )
+}
+
+builder.setTileProvider(tileProvider)
 ```
 
 Возвращайте `RawTile.State.NOT_MODIFIED`, когда `etag` говорит, что тайл не изменился, и
@@ -165,6 +168,12 @@ layer.resetTrafficStyles()
 Оба вида слоёв — это composable-функции, которые снимают себя при выходе из композиции:
 
 ```kotlin
+val tileUrlProvider = remember {
+    UrlProvider { tileId, _, _ ->
+        "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+    }
+}
+
 YandexMap(modifier = Modifier.fillMaxSize()) {
     TrafficLayer(onTrafficChanged = { level = it })
 
@@ -173,11 +182,7 @@ YandexMap(modifier = Modifier.fillMaxSize()) {
         options = LayerOptions(transparent = true),
         onLayerLoaded = { println("weather tiles are on screen") },
     ) { builder ->
-        builder.setTileUrlProvider(
-            UrlProvider { tileId, _, _ ->
-                "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
-            },
-        )
+        builder.setTileUrlProvider(tileUrlProvider)
         builder.setProjection(Projections.wgs84Mercator)
         builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
         builder.setTileFormat(TileFormat.PNG)
