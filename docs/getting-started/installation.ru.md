@@ -22,6 +22,9 @@
   Compose-модулей.
 - [API-ключ](https://yandex.ru/dev/mapkit/doc/ru/android/generated/getting_started#key) от Яндекса.
 
+При использовании Compose добавьте `google()` и `mavenCentral()` в репозитории зависимостей
+в `settings.gradle.kts`. Часть зависимостей Compose для iOS тоже загружается из Google Maven.
+
 ## Подключение самого MapKit
 
 MapKit **не** приходит транзитивно вместе с этими модулями — его подключаете вы, версией из таблицы
@@ -47,10 +50,32 @@ MapKit **не** приходит транзитивно вместе с этим
     ```kotlin
     kotlin {
         cocoapods {
+            ios.deploymentTarget = "15.0"
             pod("YandexMapsMobile") {
                 version = "{{ mapkit_version }}"
+                packageName = "YandexMapKit"
             }
         }
+    }
+    ```
+
+    Если падает `cinteropYandexMapsMobileIosSimulatorArm64`, запустите задачу отдельно. Замените
+    `composeApp` на имя вашего модуля.
+
+    ```shell
+    ./gradlew :composeApp:cinteropYandexMapsMobileIosSimulatorArm64 --stacktrace --info
+    ```
+
+    Найдите первую ошибку загрузки зависимости или сообщение Clang в логе. При обращении
+    приложите этот фрагмент, блок `cocoapods` и версии MapKit, Kotlin, CocoaPods и Xcode.
+
+    При сборке динамического Kotlin-фреймворка ошибки линковщика о символах
+    `SCNetworkReachability` и `NEHotspotNetwork` устраняются подключением системных фреймворков.
+    Добавьте параметры в блок `framework` внутри `cocoapods`.
+
+    ```kotlin
+    framework {
+        linkerOpts("-framework", "SystemConfiguration", "-framework", "NetworkExtension")
     }
     ```
 

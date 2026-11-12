@@ -23,6 +23,9 @@ All modules are published to Maven Central under the `ru.sulgik.mapkit` group.
 - An [API key](https://yandex.ru/dev/mapkit/doc/ru/android/generated/getting_started#key) from
   Yandex.
 
+For Compose, include `google()` and `mavenCentral()` in the dependency repositories in
+`settings.gradle.kts`. Some Compose dependencies for iOS are also resolved from Google Maven.
+
 ## Linking MapKit itself
 
 MapKit is **not** a transitive dependency of these modules — you add it yourself, with the version
@@ -48,10 +51,33 @@ above.
     ```kotlin
     kotlin {
         cocoapods {
+            ios.deploymentTarget = "15.0"
             pod("YandexMapsMobile") {
                 version = "{{ mapkit_version }}"
+                packageName = "YandexMapKit"
             }
         }
+    }
+    ```
+
+    If `cinteropYandexMapsMobileIosSimulatorArm64` fails, run that task on its own. Replace
+    `composeApp` with the name of your module.
+
+    ```shell
+    ./gradlew :composeApp:cinteropYandexMapsMobileIosSimulatorArm64 --stacktrace --info
+    ```
+
+    Look for the first dependency-resolution error or Clang diagnostic in the output. In a bug
+    report, include that excerpt, your `cocoapods` block, and the MapKit, Kotlin, CocoaPods, and
+    Xcode versions.
+
+    When linking a dynamic Kotlin framework, unresolved `SCNetworkReachability` or
+    `NEHotspotNetwork` symbols require two system frameworks. Add these options to the
+    `framework` block inside `cocoapods`.
+
+    ```kotlin
+    framework {
+        linkerOpts("-framework", "SystemConfiguration", "-framework", "NetworkExtension")
     }
     ```
 
