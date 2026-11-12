@@ -7,6 +7,7 @@ import ru.sulgik.mapkit.layers.toNative
 import ru.sulgik.mapkit.tiles.TileProvider
 import ru.sulgik.mapkit.tiles.UrlProvider
 import ru.sulgik.mapkit.toNative
+import java.lang.ref.WeakReference
 import com.yandex.mapkit.map.TileDataSourceBuilder as NativeTileDataSourceBuilder
 
 /**
@@ -24,16 +25,18 @@ public actual class TileDataSourceBuilder internal constructor(
 
     /**
      * The class does not retain the object in the 'urlProvider' parameter.
+     * Keep a strong reference to it for as long as the layer uses it.
      */
     public actual fun setTileUrlProvider(urlProvider: UrlProvider) {
-        nativeBuilder.setTileUrlProvider(urlProvider.toNative())
+        nativeBuilder.setTileUrlProvider(WeakReference(urlProvider.toNative()))
     }
 
     /**
      * The class does not retain the object in the 'tileProvider' parameter.
+     * Keep a strong reference to it for as long as the layer uses it.
      */
     public actual fun setTileProvider(tileProvider: TileProvider) {
-        nativeBuilder.setTileProvider(tileProvider.toNative())
+        nativeBuilder.setTileProvider(WeakReference(tileProvider.toNative()))
     }
 
     public actual fun setProjection(projection: Projection) {
