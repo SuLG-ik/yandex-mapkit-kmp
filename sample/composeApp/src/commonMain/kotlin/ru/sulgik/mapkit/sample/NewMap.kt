@@ -103,7 +103,9 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                     cameraPositionState.position = startPosition
                 },
                 onUserLocation = {
-                    recenterRequests++
+                    if (userLocationState.cameraPosition != null) {
+                        recenterRequests++
+                    }
                 },
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -139,7 +141,7 @@ fun NewMapScreen(modifier: Modifier = Modifier) {
                     ),
                 ),
                 modifier = Modifier.fillMaxSize(),
-            ) {
+            ) @YandexMapComposable {
                 MapEffect(recenterRequests) { map ->
                     if (recenterRequests != 0) {
                         userLocationState.cameraPosition?.let { position ->

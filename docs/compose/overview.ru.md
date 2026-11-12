@@ -168,8 +168,9 @@ fun MapScreen() {
 эффекта, чтобы новые координаты сами по себе не двигали камеру.
 
 ```kotlin
-import kotlin.time.Duration.Companion.milliseconds
 import ru.sulgik.mapkit.Animation
+import ru.sulgik.mapkit.compose.YandexMapComposable
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun LocationMap() {
@@ -181,7 +182,7 @@ fun LocationMap() {
             locationState = locationState,
             locationConfig = UserLocationConfig(isVisible = true),
             modifier = Modifier.fillMaxSize(),
-        ) {
+        ) @YandexMapComposable {
             MapEffect(recenterRequests) { map ->
                 if (recenterRequests != 0) {
                     locationState.cameraPosition?.let { position ->

@@ -168,8 +168,9 @@ the camera immediately. Key the effect on the button press so location updates d
 camera on their own.
 
 ```kotlin
-import kotlin.time.Duration.Companion.milliseconds
 import ru.sulgik.mapkit.Animation
+import ru.sulgik.mapkit.compose.YandexMapComposable
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun LocationMap() {
@@ -181,7 +182,7 @@ fun LocationMap() {
             locationState = locationState,
             locationConfig = UserLocationConfig(isVisible = true),
             modifier = Modifier.fillMaxSize(),
-        ) {
+        ) @YandexMapComposable {
             MapEffect(recenterRequests) { map ->
                 if (recenterRequests != 0) {
                     locationState.cameraPosition?.let { position ->
