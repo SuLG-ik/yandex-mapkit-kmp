@@ -9,6 +9,13 @@ Releases up to and including `0.4.1` were described in
 [GitHub Releases](https://github.com/SuLG-ik/yandex-mapkit-kmp/releases) only; the sections below
 summarise them. Their tags carry no `v` prefix, unlike the ones cut since.
 
+## [Unreleased]
+
+### Changed
+
+- Updated Yandex MapKit to 4.45.0-lite on Android and iOS. Set the same version in your `Podfile`
+  or `podspec` when updating the wrapper.
+
 ## [1.0.0-beta01] - 2026-08-01
 
 Uses Yandex MapKit 4.42.0-lite. Set this version in your `Podfile` or `podspec`.

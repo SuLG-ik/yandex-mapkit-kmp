@@ -32,7 +32,7 @@ public actual class Icon internal constructor(
         style: IconStyle?,
         onFinished: Callback?,
     ) {
-        nativeIcon.setImageWithImage(image.toNative(), style?.toNative(), onFinished?.toNative())
+        nativeIcon.setImageWithImage(image.toNative(), (style ?: IconStyle()).toNative(), onFinished?.toNative())
     }
 }
 

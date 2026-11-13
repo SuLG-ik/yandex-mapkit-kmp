@@ -15,11 +15,13 @@ public expect class TileDataSourceBuilder {
 
     /**
      * The class does not retain the object in the 'urlProvider' parameter.
+     * Keep a strong reference to it for as long as the layer uses it.
      */
     public fun setTileUrlProvider(urlProvider: UrlProvider)
 
     /**
      * The class does not retain the object in the 'tileProvider' parameter.
+     * Keep a strong reference to it for as long as the layer uses it.
      */
     public fun setTileProvider(tileProvider: TileProvider)
 
