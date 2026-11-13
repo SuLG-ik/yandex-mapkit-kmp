@@ -9,7 +9,8 @@
 | Модуль | Зависимость Gradle | Описание |
 |---|:---|:---|
 | [Обёртка](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp) | [`ru.sulgik.mapkit:yandex-mapkit-kmp:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp) | API MapKit в общем коде |
-| [Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose) | Отрисовка карты через Compose Multiplatform и [compose-resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html) как изображения карты |
+| [Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose) | Отрисовка карты через Compose Multiplatform |
+| [Compose Resources](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-compose-resources) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose-resources) | Drawable-ресурсы Compose Multiplatform как изображения на карте |
 | [Moko](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-moko) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko) | [moko-resources](https://github.com/icerockdev/moko-resources) как `ImageProvider`. Требует инициализации на платформе |
 | [Moko Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-moko-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko-compose) | То же в composable-контексте, без инициализации на платформе |
 
@@ -104,6 +105,18 @@ MapKit **не** приходит транзитивно вместе с этим
         }
     }
     ```
+
+### Ресурсы Compose Multiplatform
+
+Если вызываете `imageProvider(Res.drawable.*)`, добавьте в `commonMain.dependencies` зависимость.
+
+```kotlin
+implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:{{ version }}")
+```
+
+Используйте ту же версию, что и у `yandex-mapkit-kmp-compose`. Импорт
+`ru.sulgik.mapkit.compose.imageProvider` и существующие вызовы остаются прежними. Подробнее
+на странице [Изображения в Compose](../compose/image-resources.md).
 
 ## moko-resources
 

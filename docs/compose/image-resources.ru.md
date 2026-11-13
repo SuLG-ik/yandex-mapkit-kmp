@@ -1,11 +1,18 @@
 # Изображения
 
-!!! info "Требуется `yandex-mapkit-kmp-compose`"
-
-В общем коде `ImageProvider` нельзя собрать из `Bitmap` или `UIImage` — Compose-модуль закрывает этот
-пробел тремя источниками: ресурс Compose Multiplatform, composable-содержимое и moko-resources.
+`yandex-mapkit-kmp-compose` преобразует `ImageBitmap` и содержимое composable в `ImageProvider`.
+Для drawable-ресурсов Compose Multiplatform и moko-resources есть отдельные модули.
 
 ## Ресурсы Compose Multiplatform
+
+!!! info "Требуется `yandex-mapkit-kmp-compose-resources`"
+    Если раньше вы использовали эту перегрузку из `yandex-mapkit-kmp-compose`, добавьте
+    зависимость ниже в `commonMain.dependencies`. Используйте ту же версию, что и у модуля
+    Compose. Импорт `ru.sulgik.mapkit.compose.imageProvider` и вызовы остаются прежними.
+
+```kotlin
+implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:{{ version }}")
+```
 
 ```kotlin
 @Composable

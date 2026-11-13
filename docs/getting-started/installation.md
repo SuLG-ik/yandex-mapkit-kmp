@@ -9,7 +9,8 @@ All modules are published to Maven Central under the `ru.sulgik.mapkit` group.
 | Module | Gradle dependency | Description |
 |---|:---|:---|
 | [Wrapper](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp) | [`ru.sulgik.mapkit:yandex-mapkit-kmp:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp) | The MapKit API in common code |
-| [Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose) | Rendering the map with Compose Multiplatform, plus [compose-resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html) as map images |
+| [Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose) | Rendering the map with Compose Multiplatform |
+| [Compose Resources](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-compose-resources) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-compose-resources) | Compose Multiplatform drawable resources as map images |
 | [Moko](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-moko) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko) | [moko-resources](https://github.com/icerockdev/moko-resources) as `ImageProvider`. Needs platform-side initialization |
 | [Moko Compose](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/yandex-mapkit-kmp-moko-compose) | [`ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose:{{ version }}`](https://search.maven.org/artifact/ru.sulgik.mapkit/yandex-mapkit-kmp-moko-compose) | The same in a composable context, with no platform-side initialization |
 
@@ -105,6 +106,18 @@ composition of their own: `YandexMap`, `Placemark`, `Polyline`, `Polygon`, `Circ
         }
     }
     ```
+
+### Compose Multiplatform resources
+
+Add the following to `commonMain.dependencies` if you call `imageProvider(Res.drawable.*)`.
+
+```kotlin
+implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:{{ version }}")
+```
+
+Use the same version as `yandex-mapkit-kmp-compose`. The import
+`ru.sulgik.mapkit.compose.imageProvider` and existing calls stay the same. See
+[Image resources](../compose/image-resources.md#compose-multiplatform-resources).
 
 ## moko-resources
 
