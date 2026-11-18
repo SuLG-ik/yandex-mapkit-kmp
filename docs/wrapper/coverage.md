@@ -3,6 +3,9 @@
 The wrapper targets the **lite** build of MapKit (`{{ mapkit_version }}`). Everything the lite SDK
 exposes on both Android and iOS is available from common code; this page is a map of where to look.
 
+See [Regression test coverage](regression-coverage.md) for the Android and iOS test evidence
+and remaining scenarios.
+
 !!! warning "The official docs describe the full SDK"
     [yandex.ru/dev/mapkit](https://yandex.ru/dev/mapkit/doc/ru/) documents the full build. A type
     documented there is not necessarily in the lite artifact — the "Not wrapped" section below lists

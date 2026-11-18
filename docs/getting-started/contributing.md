@@ -76,6 +76,20 @@ download the `android-emulator-logcat` artifact for the device log. To run the t
 ./gradlew :yandex-mapkit-kmp:connectedAndroidDeviceTest :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
 ```
 
+## Regressions { #regressions }
+
+1. Link the report and choose the smallest test that exercises the affected public behavior on
+   the relevant platform. Use a device test for view lifecycle, native touch, or real rendering.
+2. Apply the test changes to the parent revision in a separate worktree and run the same focused
+   test there and on the fix. Record the failure and the passing result with the command, SDK
+   version and OS. Check that the failure matches the report.
+3. If the issue is unreproducible, record the versions, device or simulator, reproduction steps
+   and observations in the issue. Describe which behavior the nearest test actually exercises
+   and link the remaining scenario as a follow-up.
+
+Keep the [regression coverage](../wrapper/regression-coverage.md) evidence and follow-up links
+current when a change adds, replaces or moves a test.
+
 ## Public API
 
 The published modules keep two dumps of their public API in `<module>/api`. Any change to a

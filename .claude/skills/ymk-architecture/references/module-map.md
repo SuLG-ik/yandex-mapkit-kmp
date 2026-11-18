@@ -5,6 +5,7 @@
 ```
 yandex-mapkit-kmp/              core wrapper (published)
 yandex-mapkit-kmp-compose/      Compose Multiplatform support (published)
+yandex-mapkit-kmp-compose-resources/ Compose drawable adapter (published)
 yandex-mapkit-kmp-moko/         moko-resources ImageProvider (published)
 yandex-mapkit-kmp-moko-compose/ moko-resources + Compose (published)
 sample/composeApp/              sample KMP app
@@ -15,7 +16,7 @@ docs/                           mkdocs sources (wrapper/, compose/, getting-star
 
 ## Targets and native dependency
 
-Both published Kotlin modules declare `android { }` (the AGP KMP plugin target, not the classic
+Published Kotlin modules declare `android { }` (the AGP KMP plugin target, not the classic
 `androidTarget()`) plus `iosArm64()` and `iosSimulatorArm64()` — there is no `iosX64()` target since
 MapKit 4.42. iOS targets are guarded by:
 
@@ -79,9 +80,10 @@ types. On iOS it is deliberately **not** transitive — consumers link `YandexMa
 as documented in the README.
 
 Compose module dependencies worth remembering: `api(project(":yandex-mapkit-kmp"))`, compose runtime
-/ foundation / ui / components.resources, lifecycle (`api` on `lifecycle-runtime`), `atomicfu` (used
+/ foundation / ui, lifecycle (`api` on `lifecycle-runtime`), `atomicfu` (used
 by `MapWindowOwner`'s reentrant lock) and `kotlinx-collections-immutable` (`api`, because
-`Clustering` takes `ImmutableList`).
+`Clustering` takes `ImmutableList`). The optional `yandex-mapkit-kmp-compose-resources` module
+depends on Compose support and exposes `components.resources` for `imageProvider(DrawableResource)`.
 
 ## Versions and publication
 

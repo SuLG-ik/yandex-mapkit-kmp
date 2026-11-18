@@ -54,7 +54,7 @@ Formatting (Spotless with ktlint, configured in the root `build.gradle.kts`):
 ./gradlew spotlessApply
 ```
 
-Public API of the four published modules is dumped into `<module>/api` and checked by
+Public API of every published module is dumped into `<module>/api` and checked by
 `libraryApiCheck`. There are two dumps per module: `<module>.klib.api` from the Kotlin ABI validator
 (`commonMain` + `iosMain`) and `<module>.android.api` from the `dumpAndroidAbi` task in the root
 `build.gradle.kts`, which runs `javap -public` over the Android main compilation because the
@@ -98,7 +98,7 @@ locally.
 
 ## Architecture in one page
 
-Four published modules plus a sample:
+Published modules and the sample:
 
 - `yandex-mapkit-kmp` — the wrapper itself, package `ru.sulgik.mapkit.*` mirroring MapKit's own
   packages (`geometry`, `map`, `location`, `logo`, `indoor`, `layers`, `user_location`, `mapview`).
@@ -106,6 +106,8 @@ Four published modules plus a sample:
 - `yandex-mapkit-kmp-compose` — Compose Multiplatform rendering. Runs a **second composition** whose
   applier is `MapApplier` and whose nodes are map objects, so `@YandexMapComposable` content cannot
   contain UI composables.
+- `yandex-mapkit-kmp-compose-resources` — optional Compose drawable support through
+  `imageProvider(DrawableResource)`.
 - `yandex-mapkit-kmp-moko` / `-moko-compose` — moko-resources images as `ImageProvider`.
 
 Every type falls into one of three shapes:
