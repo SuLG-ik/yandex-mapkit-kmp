@@ -2,6 +2,7 @@ import XCTest
 
 final class MapInteractionTests: XCTestCase {
     func testMapAcceptsTouchAfterMountAndReopen() {
+        continueAfterFailure = false
         let app = XCUIApplication()
         app.launch()
 
@@ -47,12 +48,18 @@ final class MapInteractionTests: XCTestCase {
     }
 
     private func waitForEvent(_ event: String, in app: XCUIApplication) {
-        let match = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", event)).firstMatch
-        XCTAssertTrue(match.waitForExistence(timeout: 10), "Waiting for \(event). Events: \(trace(in: app))")
+        let element = app.staticTexts["fixture-trace"]
+        let containsEvent = NSPredicate { object, _ in
+            guard let trace = object as? XCUIElement, trace.exists else { return false }
+            return trace.label.split(whereSeparator: \.isNewline).contains(Substring(event))
+        }
+        let expectation = XCTNSPredicateExpectation(predicate: containsEvent, object: element)
+        let outcome = XCTWaiter.wait(for: [expectation], timeout: 10)
+        XCTAssertEqual(outcome, .completed, "Waiting for \(event). Events: \(trace(in: app))")
     }
 
     private func trace(in app: XCUIApplication) -> String {
-        let match = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "mount screen=1 map=1")).firstMatch
-        return match.exists ? match.label : "<empty>"
+        let element = app.staticTexts["fixture-trace"]
+        return element.exists ? element.label : "<missing fixture-trace>\n\(app.debugDescription)"
     }
 }
