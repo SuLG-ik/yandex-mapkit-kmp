@@ -71,8 +71,8 @@ The map logic goes to common code; the platform side only creates the view and c
     }
     ```
 
-`toCommon()` and `toNative()` exist for every wrapped type and live in the platform source sets
-only — `commonMain` has no idea a native type exists.
+Use `toCommon()` and `toNative()` in the platform source sets. See the
+[wrapper overview](../wrapper/overview.md#crossing-the-boundary) for both conversion directions.
 
 ## 3. Wrap listeners in `WeakRef`
 
