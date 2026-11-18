@@ -41,8 +41,8 @@ python3 ymk-docs/_tools/bootstrap.py
 
 ## Проверки
 
-На каждый pull request параллельно запускаются четыре задачи — `lint`, `test-android`, `test-ios` и
-`api-check`, — и все их можно воспроизвести локально:
+На каждом pull request параллельно запускаются линтер, тесты Android на хосте и эмуляторе,
+тесты iOS и проверка публичного API. Их можно запустить и локально.
 
 === "Форматирование"
     ```
@@ -69,11 +69,12 @@ python3 ymk-docs/_tools/bootstrap.py
 
 Тесты отрисовки Compose ждут настоящий кадр (`GraphicsLayer` → `ImageBitmap`), который JVM не
 выдаёт, поэтому они исключены из Android-прогона на хосте и покрываются симулятором iOS плюс
-отдельной задачей на эмуляторе. Эта задача запускается при пушах в `main` и ещё раз перед каждым
-релизом:
+отдельной задачей на эмуляторе. Она запускается на PR, при пушах в `main` и перед релизом.
+Если тесты в CI упали, скачайте журнал устройства из артефакта `android-emulator-logcat`.
+Для локального прогона запустите эмулятор и выполните команду:
 
 ```
-./gradlew :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest
+./gradlew :yandex-mapkit-kmp:connectedAndroidDeviceTest :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
 ```
 
 ## Публичный API

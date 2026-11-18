@@ -41,8 +41,8 @@ already landed on `main`.
 
 ## Checks
 
-Every pull request runs four jobs in parallel — `lint`, `test-android`, `test-ios` and `api-check` —
-and you can reproduce all of them locally:
+Every pull request runs lint, Android host and emulator tests, iOS tests and the public API check in parallel.
+You can run these checks locally.
 
 === "Formatting"
     ```
@@ -69,10 +69,11 @@ does `libraryApiCheck` — the dumps cover the iOS targets, so it only runs on m
 
 Compose rendering tests wait for a real frame (`GraphicsLayer` → `ImageBitmap`), which the JVM does
 not produce, so they are excluded from the Android host run and covered by the iOS simulator plus an
-emulator job. That emulator job runs on pushes to `main` and again before every release:
+emulator job. The emulator runs on PRs, pushes to `main` and before release. For a failed CI run,
+download the `android-emulator-logcat` artifact for the device log. To run the tests on a connected emulator:
 
 ```
-./gradlew :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest
+./gradlew :yandex-mapkit-kmp:connectedAndroidDeviceTest :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
 ```
 
 ## Public API
