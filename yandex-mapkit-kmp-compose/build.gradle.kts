@@ -81,7 +81,6 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
-            implementation(compose.components.resources)
             implementation(libs.lifecycle.compose)
             api(libs.lifecycle.runtime)
             implementation(libs.atomicfu)

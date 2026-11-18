@@ -67,6 +67,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.ktor)
             api(project(":yandex-mapkit-kmp-compose"))
+            implementation(project(":yandex-mapkit-kmp-compose-resources"))
             implementation(compose.components.uiToolingPreview)
         }
     }
