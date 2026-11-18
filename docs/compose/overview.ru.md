@@ -162,6 +162,46 @@ fun MapScreen() {
 `locationState.cameraPosition` следует за собственной позицией камеры слоя или равен `null`, пока
 позиции нет. Разрешения по-прежнему запрашиваете вы — см. [Геолокацию](../wrapper/location.md).
 
+Чтобы плавно переместить камеру к местоположению пользователя, вызовите
+`map.move(position, animation)` через `MapEffect` внутри той же `YandexMap`. Присваивание
+`CameraPositionState.position` перемещает камеру сразу. Используйте счётчик нажатий как ключ
+эффекта, чтобы новые координаты сами по себе не двигали камеру.
+
+```kotlin
+import ru.sulgik.mapkit.Animation
+import ru.sulgik.mapkit.compose.YandexMapComposable
+import kotlin.time.Duration.Companion.milliseconds
+
+@Composable
+fun LocationMap() {
+    val locationState = rememberUserLocationState()
+    var recenterRequests by remember { mutableIntStateOf(0) }
+
+    Box {
+        YandexMap(
+            locationState = locationState,
+            locationConfig = UserLocationConfig(isVisible = true),
+            modifier = Modifier.fillMaxSize(),
+        ) @YandexMapComposable {
+            MapEffect(recenterRequests) { map ->
+                if (recenterRequests != 0) {
+                    locationState.cameraPosition?.let { position ->
+                        map.move(position, Animation(Animation.Type.SMOOTH, 350.milliseconds))
+                    }
+                }
+            }
+        }
+        Button(
+            enabled = locationState.cameraPosition != null,
+            onClick = { recenterRequests++ },
+            modifier = Modifier.align(Alignment.BottomCenter),
+        ) {
+            Text("Моё местоположение")
+        }
+    }
+}
+```
+
 ### Пробки
 
 ```kotlin
@@ -210,8 +250,15 @@ fun MapScreen(showPois: Boolean) {
 `TileLayer` добавляет слой ваших тайлов и убирает его при выходе из композиции. `layerId` называет
 слой и определяет его место в порядке отрисовки; `createTileDataSource` вызывается один раз на слой,
 поэтому источник данных не следует за последующими рекомпозициями.
+MapKit хранит слабую ссылку на поставщика тайлов, поэтому сохраняйте его через `remember`.
 
 ```kotlin
+val tileUrlProvider = remember {
+    UrlProvider { tileId, _, _ ->
+        "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+    }
+}
+
 YandexMap(modifier = Modifier.fillMaxSize()) {
     TileLayer(
         layerId = "weather",
@@ -220,11 +267,7 @@ YandexMap(modifier = Modifier.fillMaxSize()) {
         onLayerLoaded = { println("weather tiles are on screen") },
         onDataSourceUpdated = { },
     ) { builder ->
-        builder.setTileUrlProvider(
-            UrlProvider { tileId, _, _ ->
-                "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
-            },
-        )
+        builder.setTileUrlProvider(tileUrlProvider)
         builder.setProjection(Projections.wgs84Mercator)
         builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
         builder.setTileFormat(TileFormat.PNG)

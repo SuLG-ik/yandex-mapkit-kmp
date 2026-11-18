@@ -162,6 +162,46 @@ fun MapScreen() {
 `locationState.cameraPosition` follows the layer's own camera position, or is `null` while there is
 no fix. Permissions are still yours to request — see [Geolocation](../wrapper/location.md).
 
+To animate the camera to the user's location, call `map.move(position, animation)` from a
+`MapEffect` inside the same `YandexMap`. Assigning to `CameraPositionState.position` moves
+the camera immediately. Key the effect on the button press so location updates do not move the
+camera on their own.
+
+```kotlin
+import ru.sulgik.mapkit.Animation
+import ru.sulgik.mapkit.compose.YandexMapComposable
+import kotlin.time.Duration.Companion.milliseconds
+
+@Composable
+fun LocationMap() {
+    val locationState = rememberUserLocationState()
+    var recenterRequests by remember { mutableIntStateOf(0) }
+
+    Box {
+        YandexMap(
+            locationState = locationState,
+            locationConfig = UserLocationConfig(isVisible = true),
+            modifier = Modifier.fillMaxSize(),
+        ) @YandexMapComposable {
+            MapEffect(recenterRequests) { map ->
+                if (recenterRequests != 0) {
+                    locationState.cameraPosition?.let { position ->
+                        map.move(position, Animation(Animation.Type.SMOOTH, 350.milliseconds))
+                    }
+                }
+            }
+        }
+        Button(
+            enabled = locationState.cameraPosition != null,
+            onClick = { recenterRequests++ },
+            modifier = Modifier.align(Alignment.BottomCenter),
+        ) {
+            Text("My location")
+        }
+    }
+}
+```
+
 ### Traffic
 
 ```kotlin
@@ -210,8 +250,15 @@ fun MapScreen(showPois: Boolean) {
 `TileLayer` adds a layer of your own tiles and removes it when it leaves the composition.
 `layerId` names the layer and picks its place in the render order; `createTileDataSource` is called
 once per layer, so a data source does not follow later recompositions.
+MapKit holds a weak reference to the tile provider, so keep it alive with `remember`.
 
 ```kotlin
+val tileUrlProvider = remember {
+    UrlProvider { tileId, _, _ ->
+        "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+    }
+}
+
 YandexMap(modifier = Modifier.fillMaxSize()) {
     TileLayer(
         layerId = "weather",
@@ -220,11 +267,7 @@ YandexMap(modifier = Modifier.fillMaxSize()) {
         onLayerLoaded = { println("weather tiles are on screen") },
         onDataSourceUpdated = { },
     ) { builder ->
-        builder.setTileUrlProvider(
-            UrlProvider { tileId, _, _ ->
-                "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
-            },
-        )
+        builder.setTileUrlProvider(tileUrlProvider)
         builder.setProjection(Projections.wgs84Mercator)
         builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
         builder.setTileFormat(TileFormat.PNG)

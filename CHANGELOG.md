@@ -17,6 +17,8 @@ summarise them. Their tags carry no `v` prefix, unlike the ones cut since.
   `ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources` at the same version if you use this
   overload. The import and calls stay the same. The main Compose module no longer depends on
   Compose Multiplatform Resources.
+- Updated Yandex MapKit to 4.45.0-lite on Android and iOS. Set the same version in your `Podfile`
+  or `podspec` when updating the wrapper.
 
 ## [1.0.0-beta01] - 2026-08-01
 

@@ -9,7 +9,14 @@ separate collection of map objects.
 `Map.addTileLayer` takes an id, the layer options and a callback that configures the data source.
 The callback runs once, when the layer is created.
 
+MapKit holds a weak reference to the tile provider. Keep the `UrlProvider` or `TileProvider`
+in a field of the layer owner until you remove the layer.
+
 ```kotlin
+private val tileUrlProvider = UrlProvider { tileId, _, _ ->
+    "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+}
+
 val layer: Layer = map.addTileLayer(
     layerId = "weather",
     layerOptions = LayerOptions(
@@ -18,11 +25,7 @@ val layer: Layer = map.addTileLayer(
         cacheable = true,
     ),
 ) { builder ->
-    builder.setTileUrlProvider(
-        UrlProvider { tileId, _, _ ->
-            "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
-        },
-    )
+    builder.setTileUrlProvider(tileUrlProvider)
     builder.setProjection(Projections.wgs84Mercator)
     builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
     builder.setTileFormat(TileFormat.PNG)
@@ -52,18 +55,18 @@ map objects.
 tiles rendered on the device or read from a bundled file:
 
 ```kotlin
-builder.setTileProvider(
-    TileProvider { tileId, version, _, etag ->
-        RawTile(
-            version = version,
-            features = emptyMap(),
-            etag = etag,
-            useCache = RawTile.UseCache.YES,
-            state = RawTile.State.OK,
-            rawData = render(tileId),
-        )
-    },
-)
+private val tileProvider = TileProvider { tileId, version, _, etag ->
+    RawTile(
+        version = version,
+        features = emptyMap(),
+        etag = etag,
+        useCache = RawTile.UseCache.YES,
+        state = RawTile.State.OK,
+        rawData = render(tileId),
+    )
+}
+
+builder.setTileProvider(tileProvider)
 ```
 
 Return `RawTile.State.NOT_MODIFIED` when `etag` says the tile has not changed, and
@@ -163,6 +166,12 @@ Both style setters return whether the style was accepted.
 Both kinds of layer are composables that remove themselves when they leave the composition:
 
 ```kotlin
+val tileUrlProvider = remember {
+    UrlProvider { tileId, _, _ ->
+        "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
+    }
+}
+
 YandexMap(modifier = Modifier.fillMaxSize()) {
     TrafficLayer(onTrafficChanged = { level = it })
 
@@ -171,11 +180,7 @@ YandexMap(modifier = Modifier.fillMaxSize()) {
         options = LayerOptions(transparent = true),
         onLayerLoaded = { println("weather tiles are on screen") },
     ) { builder ->
-        builder.setTileUrlProvider(
-            UrlProvider { tileId, _, _ ->
-                "https://tiles.example.com/${tileId.z}/${tileId.x}/${tileId.y}.png"
-            },
-        )
+        builder.setTileUrlProvider(tileUrlProvider)
         builder.setProjection(Projections.wgs84Mercator)
         builder.setZoomRanges(listOf(ZoomRange(zMin = 0, zMax = 19)))
         builder.setTileFormat(TileFormat.PNG)

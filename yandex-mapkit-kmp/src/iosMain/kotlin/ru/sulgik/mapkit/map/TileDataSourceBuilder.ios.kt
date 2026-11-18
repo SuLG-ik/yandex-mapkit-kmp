@@ -24,6 +24,7 @@ public actual class TileDataSourceBuilder internal constructor(
 
     /**
      * The class does not retain the object in the 'urlProvider' parameter.
+     * Keep a strong reference to it for as long as the layer uses it.
      */
     public actual fun setTileUrlProvider(urlProvider: UrlProvider) {
         nativeBuilder.setTileUrlProviderWithUrlProvider(urlProvider.toNative())
@@ -31,6 +32,7 @@ public actual class TileDataSourceBuilder internal constructor(
 
     /**
      * The class does not retain the object in the 'tileProvider' parameter.
+     * Keep a strong reference to it for as long as the layer uses it.
      */
     public actual fun setTileProvider(tileProvider: TileProvider) {
         nativeBuilder.setTileProviderWithTileProvider(tileProvider.toNative())
