@@ -10,9 +10,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.test.platform.app.InstrumentationRegistry
-import ru.sulgik.mapkit.MapKit
 import ru.sulgik.mapkit.test.interaction.FixtureClose
-import ru.sulgik.mapkit.test.interaction.FixtureKey
 import ru.sulgik.mapkit.test.interaction.FixtureMapTag
 import ru.sulgik.mapkit.test.interaction.FixtureOpen
 import ru.sulgik.mapkit.test.interaction.MapInteractionFixture
@@ -27,7 +25,7 @@ public class MapInteractionTest {
     public fun mapAcceptsTouchAfterMountAndReopen() {
         runComposeUiTest {
             val trace = MapInteractionTrace()
-            runOnUiThread { MapKit.setApiKey(FixtureKey) }
+            runOnUiThread { setDeviceTestMapKitApiKey() }
             setContent { MapInteractionFixture(trace) }
 
             tapReadyMap(1, trace)
