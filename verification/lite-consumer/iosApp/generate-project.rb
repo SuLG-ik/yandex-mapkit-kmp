@@ -8,6 +8,7 @@ target.build_configurations.each do |configuration|
   configuration.build_settings.merge!(
     'PRODUCT_BUNDLE_IDENTIFIER' => 'ru.sulgik.liteconsumer',
     'GENERATE_INFOPLIST_FILE' => 'YES',
+    'INFOPLIST_FILE' => 'Info.plist',
     'SWIFT_VERSION' => '5.0'
   )
 end

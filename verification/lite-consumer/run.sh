@@ -20,16 +20,7 @@ esac
 logs="$root/build/lite-consumer/$platform/$resources_mode"
 mkdir -p "$logs"
 temp_dir="$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/ymk-lite-consumer.XXXXXX")"
-launcher_pid=
-cleanup() {
-    if [[ -n "$launcher_pid" ]]; then
-        kill "$launcher_pid" 2>/dev/null || true
-        wait "$launcher_pid" 2>/dev/null || true
-    fi
-    echo "Consumer files: $temp_dir"
-    echo "Diagnostic logs: $logs"
-}
-trap cleanup EXIT
+trap 'echo "Consumer files: $temp_dir"; echo "Diagnostic logs: $logs"' EXIT
 
 candidate_version="$(sed -n 's/^library_version=//p' "$root/gradle.properties")"
 sdk_version="$(sed -n 's/^yandex-mapkit = "\(.*\)"$/\1/p' "$root/gradle/libs.versions.toml")"
@@ -87,9 +78,8 @@ else
         CODE_SIGNING_ALLOWED=NO build 2>&1 | tee "$logs/build.log"
     xcrun simctl install "$device" "$temp_dir/xcode/Build/Products/Debug-iphonesimulator/LiteConsumerApp.app"
     app_data="$(xcrun simctl get_app_container "$device" ru.sulgik.liteconsumer data)"
-    xcrun simctl launch --console-pty --terminate-running-process "$device" ru.sulgik.liteconsumer "$token" \
-        > "$logs/device.log" 2>&1 &
-    launcher_pid=$!
+    xcrun simctl launch --stdout="$logs/stdout.log" --stderr="$logs/device.log" \
+        --terminate-running-process "$device" ru.sulgik.liteconsumer "$token" 2>&1 | tee "$logs/launch.log"
 fi
 
 for attempt in {1..60}; do
@@ -103,11 +93,15 @@ for attempt in {1..60}; do
         echo "$token MAP_READY"
         exit 0
     fi
-    if [[ -n "$launcher_pid" ]] && ! kill -0 "$launcher_pid" 2>/dev/null; then
-        break
-    fi
     sleep 1
 done
 
+if [[ "$platform" == ios ]]; then
+    for report in "$HOME/Library/Logs/DiagnosticReports"/LiteConsumerApp-*.ips; do
+        if [[ -f "$report" && "$report" -nt "$logs/launch.log" ]]; then
+            cp "$report" "$logs/"
+        fi
+    done
+fi
 echo "Consumer never reported a valid map and placemark. See $logs/device.log." >&2
 exit 1
