@@ -86,10 +86,9 @@ structures and enums, and the wrapper mirrors them as `data class`es and `enum c
 `docs/getting-started/contributing.md` state this; keep them in sync when the policy changes.
 
 `main` is the only long-lived branch. Every pull request runs `.github/workflows/ci.yml` — `lint`,
-`test-android`, `test-ios` and `api-check` in parallel, driven by the `library*` aggregate tasks
-registered in the root `build.gradle.kts`. Instrumented tests run on an emulator only on pushes to
-`main` and before a release, because Compose rendering tests need a real frame and are excluded from
-the Android host run.
+`test-android`, `test-android-device`, `test-ios` and `api-check` in parallel. Instrumented tests
+run on an Android emulator on PRs, pushes to `main` and before release. For a failed CI run,
+download `android-emulator-logcat` alongside the Android device test reports.
 
 Releases are triggered manually (`.github/workflows/release.yml`, `workflow_dispatch` with a
 version): CI verifies that `library_version`, the tag and the CHANGELOG section agree, runs the
