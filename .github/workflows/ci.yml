@@ -114,7 +114,6 @@ jobs:
 
   test-android-device:
     name: Tests (Android emulator)
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -141,7 +140,15 @@ jobs:
           api-level: 30
           arch: x86_64
           target: aosp_atd
-          script: ./gradlew :yandex-mapkit-kmp:connectedAndroidDeviceTest :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
+          script: bash .github/scripts/test-android-device.sh
+
+      - name: Upload emulator logcat
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-emulator-logcat
+          path: ${{ runner.temp }}/android-emulator-logcat.txt
+          if-no-files-found: warn
 
       - name: Upload test reports
         if: failure()
