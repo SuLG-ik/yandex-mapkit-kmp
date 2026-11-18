@@ -38,8 +38,13 @@
     === "Kotlin (iosMain)"
 
         ```kotlin
-        fun setupMap(mapView: YMKMapView) {
-            setupMap(mapView.mapWindow.toCommon().map)
+        import YandexMapKit.YMKMapView
+        import kotlinx.cinterop.ExperimentalForeignApi
+        import ru.sulgik.mapkit.mapview.toCommon
+
+        @OptIn(ExperimentalForeignApi::class)
+        public fun setupMap(mapView: YMKMapView) {
+            setupMap(mapView.toCommon().mapWindow.map)
         }
         ```
 
@@ -48,18 +53,66 @@
 
 ## Пересечение границы
 
-Переход между общим и нативным записывается ровно двумя именами, и оба живут только в платформенных
-исходниках:
+Вызывайте `toCommon()`, чтобы передать нативный объект MapKit в общий код. Вызывайте `toNative()`,
+когда платформенный API принимает нативное значение или объект MapKit. Оба преобразования доступны
+в `androidMain` и `iosMain`. Общую логику карты и типы обёртки оставляйте в `commonMain`.
 
-```kotlin
-public fun NativePoint.toCommon(): Point
-public fun Point.toNative(): NativePoint
-```
+В примерах ниже `MapView` уже создан на платформе. Обёртка хранит тот же нативный экземпляр
+`MapView`. Значение вроде `Point` преобразуется по полям.
 
-`commonMain` никогда не видит нативный тип — именно поэтому один и тот же общий код компилируется
-под обе платформы. У всего, что отдаёт MapKit, есть `toCommon()`, а у всего, что держит обёртка, —
-`toNative()`, поэтому спуститься к платформенному SDK за тем, чего обёртка не покрывает, можно
-всегда.
+=== "Kotlin (androidMain)"
+
+    ```kotlin
+    import com.yandex.mapkit.mapview.MapView
+    import ru.sulgik.mapkit.geometry.Point
+    import ru.sulgik.mapkit.geometry.toCommon
+    import ru.sulgik.mapkit.geometry.toNative
+    import ru.sulgik.mapkit.map.Map
+    import ru.sulgik.mapkit.mapview.toCommon
+
+    public fun mapFromPlatform(nativeView: MapView): Map {
+        val view = nativeView.toCommon()
+        check(view.toNative() === nativeView)
+
+        val point = Point(55.751225, 37.629540)
+        val nativePoint = point.toNative()
+        check(nativePoint.toCommon() == point)
+
+        return view.mapWindow.map
+    }
+    ```
+
+=== "Kotlin (iosMain)"
+
+    ```kotlin
+    import YandexMapKit.YMKMapView
+    import kotlinx.cinterop.ExperimentalForeignApi
+    import ru.sulgik.mapkit.geometry.Point
+    import ru.sulgik.mapkit.geometry.toCommon
+    import ru.sulgik.mapkit.geometry.toNative
+    import ru.sulgik.mapkit.map.Map
+    import ru.sulgik.mapkit.mapview.toCommon
+
+    @OptIn(ExperimentalForeignApi::class)
+    public fun mapFromPlatform(nativeView: YMKMapView): Map {
+        val view = nativeView.toCommon()
+        check(view.toNative() === nativeView)
+
+        val point = Point(55.751225, 37.629540)
+        val nativePoint = point.toNative()
+        check(nativePoint.toCommon() == point)
+
+        return view.mapWindow.map
+    }
+    ```
+
+Эти преобразования доступны для типов, которые поддерживает обёртка. Если нужная функция SDK пока
+не обёрнута, получите нативный объект через `toNative()` и вызовите её в платформенном коде.
+У адаптеров колбэков может быть только одно направление. Например, создайте `InputListener` через
+лямбды и вызовите `toNative()`, если его принимает нативный API. Для уже созданного нативного
+слушателя ввода обратного преобразования в обёртке нет. Для `Geometry` выберите вариант,
+поддерживаемый SDK, через фабрику вроде `Geometry.fromPoint(point)`. Преобразование геометрии
+без варианта бросает исключение.
 
 ## Три вида типов
 
@@ -89,7 +142,12 @@ MapKit не удерживает слушателей: он держит их в
 каждая подписка в обёртке принимает `WeakRef<Listener>`, а сильную ссылку держит вызывающий код.
 
 ```kotlin
-class MapController(private val map: Map) {
+import ru.sulgik.mapkit.asWeakRef
+import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.map.InputListener
+import ru.sulgik.mapkit.map.Map
+
+public class MapController(private val map: Map, onTap: (Point) -> Unit) {
 
     private val inputListener = InputListener(
         onMapTap = { _, point -> onTap(point) },
@@ -100,16 +158,15 @@ class MapController(private val map: Map) {
         map.addInputListener(inputListener.asWeakRef())
     }
 
-    fun dispose() {
+    public fun dispose() {
         map.removeInputListener(inputListener.asWeakRef())
     }
 }
 ```
 
-!!! warning "Держите слушателя сами"
-    `map.addInputListener(InputListener { /* ... */ }.asWeakRef())` скомпилируется и никогда не
-    сработает: слушателя никто не держит, и он будет собран. Положите его в поле того, кому
-    принадлежит подписка, — контроллера, Compose-узла, модели экрана.
+Храните контроллер, пока нужна подписка, и вызовите `dispose()` до уничтожения карты. Если
+передать только слабую ссылку на временного слушателя, сборщик мусора может удалить его, и
+события перестанут приходить.
 
 Отписаться можно новым `WeakRef` вокруг того же слушателя: `toNative()` в обёртке всю жизнь
 возвращает один и тот же нативный экземпляр, а MapKit сравнивает именно по нему.

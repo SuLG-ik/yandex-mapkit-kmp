@@ -66,13 +66,18 @@ The map logic goes to common code; the platform side only creates the view and c
 === "Kotlin (iosMain)"
 
     ```kotlin
-    fun setupMap(mapView: YMKMapView) {
-        setupMap(mapView.mapWindow.toCommon().map)
+    import YandexMapKit.YMKMapView
+    import kotlinx.cinterop.ExperimentalForeignApi
+    import ru.sulgik.mapkit.mapview.toCommon
+
+    @OptIn(ExperimentalForeignApi::class)
+    public fun setupMap(mapView: YMKMapView) {
+        setupMap(mapView.toCommon().mapWindow.map)
     }
     ```
 
-`toCommon()` and `toNative()` exist for every wrapped type and live in the platform source sets
-only — `commonMain` has no idea a native type exists.
+Use `toCommon()` and `toNative()` in the platform source sets. See the
+[wrapper overview](../wrapper/overview.md#crossing-the-boundary) for both conversion directions.
 
 ## 3. Wrap listeners in `WeakRef`
 

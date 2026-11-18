@@ -107,8 +107,8 @@ composable leaves the composition.
 
 ### Around a view you already have
 
-Every wrapped native type has a `toCommon()` extension in the platform source set, so a `MapView`
-created the way the official SDK does it can be handed to common code:
+Create the `MapView` as described by the official SDK and use `toCommon()` in the platform source
+set to hand it to common code:
 `MapView.toCommon()` / `YMKMapView.toCommon()`, `MapWindow.toCommon()` / `YMKMapWindow.toCommon()`,
 `Map.toCommon()` / `YMKMap.toCommon()`. The opposite direction is `toNative()`, also platform-only.
 

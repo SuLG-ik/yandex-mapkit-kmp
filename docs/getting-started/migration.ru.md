@@ -66,13 +66,18 @@
 === "Kotlin (iosMain)"
 
     ```kotlin
-    fun setupMap(mapView: YMKMapView) {
-        setupMap(mapView.mapWindow.toCommon().map)
+    import YandexMapKit.YMKMapView
+    import kotlinx.cinterop.ExperimentalForeignApi
+    import ru.sulgik.mapkit.mapview.toCommon
+
+    @OptIn(ExperimentalForeignApi::class)
+    public fun setupMap(mapView: YMKMapView) {
+        setupMap(mapView.toCommon().mapWindow.map)
     }
     ```
 
-`toCommon()` и `toNative()` есть у каждого обёрнутого типа и живут только в платформенных
-исходниках — `commonMain` вообще не знает, что нативный тип существует.
+Вызывайте `toCommon()` и `toNative()` в платформенных исходниках. Примеры обоих направлений есть
+в [обзоре обёртки](../wrapper/overview.md).
 
 ## 3. Оберните слушателей в `WeakRef`
 

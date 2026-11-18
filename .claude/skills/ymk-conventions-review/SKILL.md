@@ -16,20 +16,44 @@ Run this over a change before it lands. The goal is not style policing for its o
 below has a failure mode attached, and most of them fail silently at runtime rather than at compile
 time, which is exactly why a checklist earns its keep here.
 
-Work through the sections that apply to the change. For each finding, state the file, the rule and
-the concrete consequence. Fix mechanical issues directly; flag anything that changes public API
-shape for the author to decide.
+After the author's self-check, spawn a fresh, independent subagent for the exact commit intended
+for merge. Use `model: gpt-6.2-astra`, `reasoning_effort: high` and a fresh context. Give the reviewer
+the base and head SHAs, originating issue and verification evidence. The reviewer reports the
+file, rule and consequence for each finding. The author fixes the findings and sends any new head
+to a fresh reviewer. Record the reviewer model and effort, reviewed SHA, findings, resolution and
+verification in the PR before merging.
 
 ## Scope the review first
 
+Set `base_sha` and `head_sha` to the supplied commits before comparing them.
+
 ```bash
-git diff --stat main...HEAD
-git diff main...HEAD -- '*.kt'
+git diff --stat "$base_sha...$head_sha"
+git diff "$base_sha...$head_sha"
 ```
 
-If the change touches `commonMain`, both platform source sets must be in the diff too — a new
-`expect` member with only one `actual` does not compile, but a new *optional* member or a converter
-added on one platform only will happily ship half-done.
+Check the full diff against the issue's acceptance criteria. For wrapper changes, inspect both
+platform implementations and their tests, including when a converter is the only platform change.
+If the base advances, check for changes that affect the reviewed behavior and review any new head.
+
+## Native SDK parity
+
+For a wrapper API change, confirm the native version and edition that the candidate claims to
+support. Compare against the resolved Android AAR's `classes.jar` and the corresponding iOS
+framework headers. Record the evidence for both targets. Check the following items where they apply.
+
+- Verify the package under `ru.sulgik.mapkit`, member names, overloads, parameter order and types,
+  return types, nullability, defaults and units.
+- Verify callback delivery, threading, errors, native identity, ownership and invalidation against
+  the native contracts.
+- Verify platform `toNative()` and `toCommon()` for native-backed objects. Test value round-trips,
+  preservation of native handles and listener adapter identity where applicable.
+- Record Kotlin adaptations, unavailable conversions and genuine platform differences in the API
+  docs and the coverage inventory for [the existing API](https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/65)
+  or [Full](https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/81).
+- For public API changes, check the Android and Kotlin ABI dumps, platform CI results, regression
+  coverage and accompanying docs. For behavioral fixes, identify the scenario exercised by the
+  regression and report the result on each relevant target.
 
 ## 1. Boundary discipline
 
@@ -140,7 +164,8 @@ listener is collected and the subscription just never fires again.
 
 ## 9. Compile
 
-Nothing counts as reviewed until it builds on both platforms:
+For a change to production Kotlin or native dependencies, verify the affected modules build on
+both platforms. CI can supply this evidence for the reviewed commit. For local checks:
 
 ```bash
 ./gradlew :yandex-mapkit-kmp:compileAndroidMain :yandex-mapkit-kmp:compileKotlinIosSimulatorArm64
