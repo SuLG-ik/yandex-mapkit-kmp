@@ -1,0 +1,5 @@
+target 'MapInteractionApp' do
+  platform :ios, '16.0'
+  use_frameworks!
+  pod 'MapInteractionFixture', :path => '..'
+end

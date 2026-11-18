@@ -5,6 +5,9 @@ include(":yandex-mapkit-kmp-moko-compose")
 include(":yandex-mapkit-kmp-compose")
 include(":sample:composeApp")
 include(":sample:androidApp")
+if (providers.gradleProperty("skipIosTarget").orNull != "true") {
+    include(":tests:map-interaction")
+}
 
 pluginManagement {
     repositories {
