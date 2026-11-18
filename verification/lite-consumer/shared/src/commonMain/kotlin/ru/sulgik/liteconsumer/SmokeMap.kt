@@ -6,6 +6,8 @@ import androidx.compose.ui.Modifier
 import ru.sulgik.mapkit.MapKit
 import ru.sulgik.mapkit.compose.MapEffect
 import ru.sulgik.mapkit.compose.YandexMap
+import ru.sulgik.mapkit.compose.bindToLifecycleOwner
+import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
 import ru.sulgik.mapkit.geometry.Point
 
 public fun initializeSmokeMap() {
@@ -14,6 +16,7 @@ public fun initializeSmokeMap() {
 
 @Composable
 public fun SmokeMap(onReady: () -> Unit) {
+    rememberAndInitializeMapKit().bindToLifecycleOwner()
     val image = smokeImage()
     YandexMap(modifier = Modifier.fillMaxSize()) {
         MapEffect(Unit) { map ->

@@ -32,7 +32,7 @@ kotlin {
             summary = "Standalone MapKit Lite consumer"
             homepage = "https://github.com/SuLG-ik/yandex-mapkit-kmp"
             version = "1.0"
-            ios.deploymentTarget = "16.0"
+            ios.deploymentTarget = "15.0"
             podfile = project.file("../iosApp/Podfile")
             framework {
                 baseName = "LiteConsumer"

@@ -10,7 +10,7 @@ internal class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val token = intent.getStringExtra("smokeToken") ?: "manual"
-        initializeAndroidSmokeMap(this)
+        initializeSmokeMap()
         setContent {
             SmokeMap {
                 Log.i("MapKitLiteConsumer", "$token MAP_READY")
