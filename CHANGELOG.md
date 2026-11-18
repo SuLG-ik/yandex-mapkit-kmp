@@ -21,11 +21,11 @@ summarise them. Their tags carry no `v` prefix, unlike the ones cut since.
   Compose Multiplatform Resources.
 - Updated Yandex MapKit to 4.45.0-lite on Android and iOS. Set the same version in your `Podfile`
   or `podspec` when updating the wrapper.
+- Adapt Android logging subscriptions to MapKit 4.45’s weak-reference API.
 
 ### Fixed
 
 - Stop the Android MapView before destroying it when a Compose map leaves its host (#55).
-- Keep the native logging adapter tied to the Kotlin listener when converting a weak subscription.
 
 ### Documentation and tests
 
