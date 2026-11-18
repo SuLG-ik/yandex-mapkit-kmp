@@ -38,8 +38,13 @@
     === "Kotlin (iosMain)"
 
         ```kotlin
-        fun setupMap(mapView: YMKMapView) {
-            setupMap(mapView.mapWindow.toCommon().map)
+        import YandexMapKit.YMKMapView
+        import kotlinx.cinterop.ExperimentalForeignApi
+        import ru.sulgik.mapkit.mapview.toCommon
+
+        @OptIn(ExperimentalForeignApi::class)
+        public fun setupMap(mapView: YMKMapView) {
+            setupMap(mapView.toCommon().mapWindow.map)
         }
         ```
 
