@@ -41,6 +41,11 @@ native gesture checks on [Android][a-map-taps-ci] and [iOS][i-map-taps-ci], and 
 | [`MOKOImageLoader.fromResource` and `rememberMOKOImageLoader`](image-resources.md) in `-moko` and `-moko-compose` | The [public ABI][api] covers both modules. Dedicated runtime tests for decoding a Moko asset, the cache flag and retaining the Compose loader remain gaps. | Optional image integrations [#84][84]. |
 | [Installing the published modules](../getting-started/installation.md) | The [#76 fixture][consumer] resolves candidate artifacts from a temporary Maven repository in an isolated [Android][a-consumer] and [iOS][i-consumer] app. The jobs check the selected Lite SDK, build and launch the apps, and wait for a native map and placemark. | Release and OS matrix [#82][82]. |
 
+The [Return to map sample](../sample.md#return-to-map) has a dedicated Android
+[ReturnMapRoutesTest][a-return-routes] for opening details, switching tabs, save/restore, final
+route removal and marker edits. It substitutes a small UI for the native map. Device runs of the
+sample and same-viewport timings are tracked in [#75][75] and [#74][74].
+
 ## Reported regressions
 
 | Report | Verified behavior and evidence | Next coverage |
@@ -64,6 +69,7 @@ when adding evidence or reporting a remaining gap.
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
 [a-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44435197621/job/135262196868
 [a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238
+[a-return-routes]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/49449ba1394c264ca50748667faf7a95cc42e560/sample/composeApp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/sample/ReturnMapRoutesTest.kt#L28-L97
 [i-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L194-L226
 [consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/pull/88
 [a-consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44408195495/job/135169172609
