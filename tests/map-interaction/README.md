@@ -33,9 +33,12 @@ Start an emulator and run:
 point in the MapKit view.
 
 `CameraRegressionTest` drives a real Android activity. Its drag and two-pointer pinch use screen
-coordinates from the measured Compose map. The shared Kotlin camera fixture waits for completion
-and compares positions with tolerances. It also checks interrupted animations and feeds two
-known positions through a per-map dummy location source without requesting device GPS.
+coordinates from the measured Compose map. The camera fixture checks direction and completion
+with independent scroll and zoom flags. It starts new camera listeners on distinct native maps,
+checks interruption, and waits past the previous animation's deadline. The location case reads
+`UserLocationState.cameraPosition`, moves the same map to each injected fix, and checks a custom
+pin on screen while toggling `UserLocationConfig.isVisible`. The test host installs a dummy
+location manager before enabling the layer and restores the default during cleanup.
 
 ## iOS
 

@@ -1,5 +1,7 @@
 package ru.sulgik.mapkit.compose
 
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.SystemClock
 import android.view.InputDevice
 import android.view.MotionEvent
@@ -22,15 +24,23 @@ public class CameraRegressionTest {
         scenario(CameraRegressionMode.Gestures) {
             expect("gestures enabled")
             drag()
-            expect("pan finished")
+            expect("pan moved west")
             pinch()
-            expect("zoom finished")
+            expect("pinch zoomed in")
             advance()
-            expect("gestures disabled")
+            expect("scroll disabled")
             drag()
+            advance()
+            expect("blocked pan held camera")
+            pinch()
+            expect("pinch zoomed in with scroll disabled")
+            advance()
+            expect("zoom disabled")
             pinch()
             advance()
-            expect("disabled gestures held camera")
+            expect("blocked pinch held camera")
+            drag()
+            expect("pan moved west with zoom disabled")
         }
     }
 
@@ -43,9 +53,9 @@ public class CameraRegressionTest {
             advance()
             expect("leaving while moving 1", "animation detached 1")
             advance()
-            expect("animation ready 2")
+            expect("animation ready 2 on a new native map")
             advance()
-            expect("new animation finished 2")
+            expect("new animation finished 2", "retired move deadline passed 1")
         }
     }
 
@@ -53,10 +63,13 @@ public class CameraRegressionTest {
     public fun simulatedPositionDrivesBothMountedMapsWithoutGps() {
         scenario(CameraRegressionMode.Location) {
             expect("location applied 1")
+            expectLocationPin(visible = true)
             advance()
-            expect("location hidden 1")
+            expect("location hide requested 1")
+            expectLocationPin(visible = false)
             advance()
             expect("location applied 2")
+            expectLocationPin(visible = true)
         }
     }
 
@@ -105,6 +118,36 @@ public class CameraRegressionTest {
             activity.onActivity { assertNotNull(probe.advance, "No active camera action").invoke() }
         }
 
+        fun expectLocationPin(visible: Boolean) {
+            val deadline = SystemClock.uptimeMillis() + 10_000L
+            do {
+                val screen = assertNotNull(
+                    InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot(),
+                    "Could not capture the location layer",
+                )
+                val sample = Bitmap.createScaledBitmap(screen, 256, 256, false)
+                val readable = if (sample.config == Bitmap.Config.HARDWARE) {
+                    assertNotNull(sample.copy(Bitmap.Config.ARGB_8888, false))
+                } else {
+                    sample
+                }
+                try {
+                    val pixels = IntArray(256 * 256)
+                    readable.getPixels(pixels, 0, 256, 0, 0, 256, 256)
+                    val hasPin = pixels.count { pixel ->
+                        Color.red(pixel) >= 175 && Color.green(pixel) <= 90 && Color.blue(pixel) >= 125
+                    } >= 4
+                    if (hasPin == visible) return
+                } finally {
+                    if (readable !== sample) readable.recycle()
+                    sample.recycle()
+                    if (sample !== screen) screen.recycle()
+                }
+                SystemClock.sleep(100)
+            } while (SystemClock.uptimeMillis() < deadline)
+            error("Location pin did not become ${if (visible) "visible" else "hidden"}")
+        }
+
         fun drag() {
             val start = point(0.34f)
             val end = point(0.70f)
@@ -140,14 +183,21 @@ public class CameraRegressionTest {
         }
 
         private fun point(x: Float): Offset {
-            var result = Offset.Unspecified
-            activity.onActivity {
-                val layout = assertNotNull(probe.mapLayout, "Map has no measured layout")
-                check(layout.isAttached)
-                result = layout.localToScreen(Offset(layout.size.width * x, layout.size.height * 0.5f))
-            }
-            check(result.x.isFinite() && result.y.isFinite()) { "Invalid screen point for the map" }
-            return result
+            val deadline = SystemClock.uptimeMillis() + 5_000L
+            do {
+                var result: Offset? = null
+                activity.onActivity {
+                    val layout = probe.mapLayout
+                    if (it.hasWindowFocus() && layout?.isAttached == true) {
+                        result = layout.localToScreen(Offset(layout.size.width * x, layout.size.height * 0.5f))
+                    }
+                }
+                result?.let {
+                    if (it.x.isFinite() && it.y.isFinite()) return it
+                }
+                SystemClock.sleep(25)
+            } while (SystemClock.uptimeMillis() < deadline)
+            error("Map did not receive focus and a valid screen position")
         }
 
         private fun touch(startTime: Long, action: Int, vararg points: Offset) {

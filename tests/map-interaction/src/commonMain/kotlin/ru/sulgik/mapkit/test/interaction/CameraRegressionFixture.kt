@@ -16,6 +16,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.testTag
@@ -38,11 +43,13 @@ import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.bindToLifecycleOwner
 import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
 import ru.sulgik.mapkit.compose.rememberYandexMapController
+import ru.sulgik.mapkit.compose.toImageProvider
+import ru.sulgik.mapkit.compose.user_location.UserLocationConfig
+import ru.sulgik.mapkit.compose.user_location.rememberUserLocationState
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.location.DummyLocationQuality
 import ru.sulgik.mapkit.location.Location
 import ru.sulgik.mapkit.location.asLocationManager
-import ru.sulgik.mapkit.location.toLocationViewSource
 import ru.sulgik.mapkit.map.CameraCallback
 import ru.sulgik.mapkit.map.CameraListener
 import ru.sulgik.mapkit.map.CameraPosition
@@ -50,11 +57,12 @@ import ru.sulgik.mapkit.map.CameraUpdateReason
 import ru.sulgik.mapkit.map.Map
 import ru.sulgik.mapkit.map.MapType
 import ru.sulgik.mapkit.map.MapWindow
-import ru.sulgik.mapkit.user_location.UserLocationLayer
 import kotlin.math.abs
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeMark
+import kotlin.time.TimeSource
 
 internal enum class CameraRegressionMode { Gestures, Animation, Location }
 
@@ -87,15 +95,28 @@ internal fun CameraRegressionFixture(
 private fun GestureCamera(probe: CameraRegressionProbe) {
     val camera = remember { CameraPositionState(InitialCamera) }
     var nativeMap by remember { mutableStateOf<Map?>(null) }
-    var gesturesEnabled by remember { mutableStateOf(true) }
-    var disabledPosition by remember { mutableStateOf<CameraPosition?>(null) }
-    var checkDisabled by remember { mutableStateOf(false) }
+    var phase by remember { mutableStateOf(GesturePhase.Enabled) }
+    var baseline by remember { mutableStateOf<CameraPosition?>(null) }
+    var checkBlocked by remember { mutableStateOf(false) }
+    var blockedChecked by remember { mutableStateOf(false) }
+    var movedWhileBlocked by remember { mutableStateOf(false) }
 
-    CameraAction(probe, if (gesturesEnabled) "Disable gestures" else "Check disabled gestures") {
-        if (gesturesEnabled) {
-            gesturesEnabled = false
-        } else {
-            checkDisabled = true
+    val action = when (phase) {
+        GesturePhase.Enabled -> "Disable scroll"
+        GesturePhase.NoScroll -> if (blockedChecked) "Disable zoom" else "Check blocked pan"
+        GesturePhase.NoZoom -> "Check blocked pinch"
+    }
+    CameraAction(probe, action) {
+        when {
+            phase == GesturePhase.Enabled -> phase = GesturePhase.NoScroll
+            phase == GesturePhase.NoScroll && blockedChecked -> {
+                baseline = null
+                checkBlocked = false
+                blockedChecked = false
+                movedWhileBlocked = false
+                phase = GesturePhase.NoZoom
+            }
+            else -> checkBlocked = true
         }
     }
     YandexMap(
@@ -105,17 +126,17 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
             .semantics { contentDescription = "camera gesture map" },
         config = MapConfig(
             mapType = MapType.NONE,
-            isScrollGesturesEnabled = gesturesEnabled,
-            isZoomGesturesEnabled = gesturesEnabled,
+            isScrollGesturesEnabled = phase.scroll,
+            isZoomGesturesEnabled = phase.zoom,
             isRotateGesturesEnabled = false,
             isTiltGesturesEnabled = false,
         ),
     ) {
-        MapEffect(gesturesEnabled) { map ->
+        MapEffect(phase) { map ->
             nativeMap = map
-            val enabled = gesturesEnabled
+            val currentPhase = phase
             val configured = awaitCameraCondition {
-                map.isScrollGesturesEnabled == enabled && map.isZoomGesturesEnabled == enabled &&
+                map.isScrollGesturesEnabled == currentPhase.scroll && map.isZoomGesturesEnabled == currentPhase.zoom &&
                     probe.mapLayout?.isAttached == true
             }
             if (!configured) {
@@ -123,42 +144,57 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
                 return@MapEffect
             }
 
-            if (!enabled) {
+            if (currentPhase != GesturePhase.Enabled) {
                 camera.position = InitialCamera
                 if (!awaitCameraCondition { map.cameraPosition.near(InitialCamera) && !camera.isMoving }) {
                     probe.events.add("failure: could not reset the camera after disabling gestures")
                     return@MapEffect
                 }
-                disabledPosition = map.cameraPosition
+                baseline = map.cameraPosition
             }
-            probe.events.add(if (enabled) "gestures enabled" else "gestures disabled")
+            probe.events.add(currentPhase.readyEvent)
         }
     }
 
     LaunchedEffect(camera) {
-        snapshotFlow { GestureReading(camera.position, camera.updateReason, camera.isMoving) }.collect { reading ->
-            if (!gesturesEnabled || reading.moving || reading.reason != CameraUpdateReason.GESTURES) {
-                return@collect
+        snapshotFlow {
+            GestureReading(camera.position, camera.updateReason, camera.isMoving, phase, baseline, blockedChecked)
+        }.collect { reading ->
+            if (reading.phase != phase) return@collect
+            val start = reading.baseline
+            if (start != null && !reading.blockedChecked && !reading.position.near(start)) {
+                movedWhileBlocked = true
             }
-            if ("pan finished" !in probe.events && !reading.position.target.near(InitialCamera.target) &&
-                abs(reading.position.zoom - InitialCamera.zoom) < 0.02f
-            ) {
-                probe.events.add("pan finished")
+            if (reading.moving || reading.reason != CameraUpdateReason.GESTURES) return@collect
+            val comparedTo = start ?: InitialCamera
+            val pannedWest = reading.position.target.longitude.value < comparedTo.target.longitude.value - 0.0001 &&
+                abs(reading.position.zoom - comparedTo.zoom) < 0.02f
+            val zoomedIn = reading.position.zoom > comparedTo.zoom + 0.35f
+            val event = when (phase) {
+                GesturePhase.Enabled -> when {
+                    "pan moved west" !in probe.events && pannedWest -> "pan moved west"
+                    "pan moved west" in probe.events && zoomedIn -> "pinch zoomed in"
+                    else -> null
+                }
+                GesturePhase.NoScroll -> {
+                    if (reading.blockedChecked && zoomedIn) "pinch zoomed in with scroll disabled" else null
+                }
+                GesturePhase.NoZoom -> {
+                    if (reading.blockedChecked && pannedWest) "pan moved west with zoom disabled" else null
+                }
             }
-            if ("pan finished" in probe.events && "zoom finished" !in probe.events &&
-                abs(reading.position.zoom - InitialCamera.zoom) > 0.35f
-            ) {
-                probe.events.add("zoom finished")
-            }
+            if (event != null && event !in probe.events) probe.events.add(event)
         }
     }
-    LaunchedEffect(disabledPosition, checkDisabled) {
-        val before = disabledPosition ?: return@LaunchedEffect
-        if (!checkDisabled) return@LaunchedEffect
+    LaunchedEffect(phase, baseline, checkBlocked) {
+        val before = baseline ?: return@LaunchedEffect
+        if (!checkBlocked || blockedChecked) return@LaunchedEffect
         delay(750)
         val actual = nativeMap?.cameraPosition
-        if (actual?.near(before) == true && camera.position.near(before) && !camera.isMoving) {
-            probe.events.add("disabled gestures held camera")
+        if (!movedWhileBlocked && actual?.near(before) == true && camera.position.near(before) && !camera.isMoving) {
+            blockedChecked = true
+            val event = if (phase == GesturePhase.NoScroll) "blocked pan held camera" else "blocked pinch held camera"
+            probe.events.add(event)
         } else {
             probe.events.add(
                 "failure: disabled gestures changed camera from $before to $actual (state ${camera.position})",
@@ -167,10 +203,19 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
     }
 }
 
+private enum class GesturePhase(val scroll: Boolean, val zoom: Boolean, val readyEvent: String) {
+    Enabled(scroll = true, zoom = true, readyEvent = "gestures enabled"),
+    NoScroll(scroll = false, zoom = true, readyEvent = "scroll disabled"),
+    NoZoom(scroll = true, zoom = false, readyEvent = "zoom disabled"),
+}
+
 private data class GestureReading(
     val position: CameraPosition,
     val reason: CameraUpdateReason?,
     val moving: Boolean,
+    val phase: GesturePhase,
+    val baseline: CameraPosition?,
+    val blockedChecked: Boolean,
 )
 
 @Composable
@@ -181,6 +226,8 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
     var generation by remember { mutableStateOf(1) }
     var step by remember { mutableStateOf(AnimationStep.Supersede) }
     var requested by remember { mutableStateOf(false) }
+    var retiredMap by remember { mutableStateOf<Map?>(null) }
+    var retiredMoveDeadline by remember { mutableStateOf<TimeMark?>(null) }
 
     CameraAction(probe, step.label) {
         if (step == AnimationStep.Reopen) {
@@ -211,10 +258,16 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
         val ready = awaitCameraCondition {
             current.width > 0 && current.height > 0 && current.map.cameraPosition.near(InitialCamera)
         }
-        if (ready) {
-            probe.events.add("animation ready $generation")
-        } else {
-            probe.events.add("failure: animation map $generation not ready")
+        when {
+            !ready -> probe.events.add("failure: animation map $generation not ready")
+            generation == 2 -> {
+                if (retiredMap == null || retiredMap == current.map) {
+                    probe.events.add("failure: reopening did not create a distinct native map")
+                } else {
+                    probe.events.add("animation ready 2 on a new native map")
+                }
+            }
+            else -> probe.events.add("animation ready 1")
         }
     }
 
@@ -225,9 +278,9 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
             AnimationStep.Supersede -> {
                 val interrupted = CompletableDeferred<Boolean>()
                 val first = CameraCallback { interrupted.complete(it) }
-                if (!awaitNativeMoveStart(current, first, probe)) return@LaunchedEffect
+                if (!awaitNativeMoveStart(current.map, LongMove, first, probe)) return@LaunchedEffect
                 probe.events.add("first animation moving 1")
-                val settled = moveAndAwait(current, ReplacementCamera)
+                val settled = moveAndAwait(current.map, ReplacementCamera)
                 val cancelled = withTimeoutOrNull(CameraWaitMillis) { interrupted.await() }
                 if (cancelled == false) probe.events.add("first animation cancelled 1")
                 if (settled && current.map.cameraPosition.near(ReplacementCamera)) {
@@ -243,18 +296,30 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
                 val leaving = CameraCallback { completed ->
                     if (completed) probe.events.add("failure: animation finished after leaving map $origin")
                 }
-                if (!awaitNativeMoveStart(current, leaving, probe)) return@LaunchedEffect
+                val deadline = TimeSource.Monotonic.markNow() + DepartingMove.duration
+                if (!awaitNativeMoveStart(current.map, DepartingMove, leaving, probe)) return@LaunchedEffect
+                retiredMap = current.map
+                retiredMoveDeadline = deadline
                 probe.events.add("leaving while moving $origin")
                 requested = false
                 mounted = false
                 step = AnimationStep.Reopen
             }
             AnimationStep.MoveNewMap -> {
-                val settled = moveAndAwait(current, RemountedCamera)
-                if (settled && current.map.cameraPosition.near(RemountedCamera)) {
-                    probe.events.add("new animation finished $generation")
-                } else {
+                val settled = moveAndAwait(current.map, RemountedCamera)
+                if (!settled || !current.map.cameraPosition.near(RemountedCamera)) {
                     probe.events.add("failure: new map missed its camera destination")
+                    return@LaunchedEffect
+                }
+                probe.events.add("new animation finished $generation")
+                val deadline = checkNotNull(retiredMoveDeadline)
+                val remaining = -deadline.elapsedNow()
+                delay(remaining + 250.milliseconds)
+                withFrameNanos { }
+                if (deadline.hasPassedNow() && current.map.cameraPosition.near(RemountedCamera)) {
+                    probe.events.add("retired move deadline passed 1")
+                } else {
+                    probe.events.add("failure: retired move changed the new native map")
                 }
                 requested = false
             }
@@ -271,11 +336,11 @@ private enum class AnimationStep(val label: String) {
 }
 
 private suspend fun awaitNativeMoveStart(
-    window: MapWindow,
+    map: Map,
+    animation: Animation,
     callback: CameraCallback,
     probe: CameraRegressionProbe,
 ): Boolean {
-    val map = window.map
     val startedOnMountedMap = CompletableDeferred<Boolean>()
     val listener = CameraListener { reportedMap, _, reason, finished ->
         if (reason == CameraUpdateReason.APPLICATION && !finished) {
@@ -284,7 +349,7 @@ private suspend fun awaitNativeMoveStart(
     }
     map.addCameraListener(listener.asWeakRef())
     try {
-        map.move(InterruptedCamera, Animation(Animation.Type.LINEAR, 8.seconds), callback)
+        map.move(InterruptedCamera, animation, callback)
         val started = withTimeoutOrNull(CameraWaitMillis) { startedOnMountedMap.await() } == true
         if (!started) probe.events.add("failure: native animation did not start on the mounted map")
         return started
@@ -293,15 +358,27 @@ private suspend fun awaitNativeMoveStart(
     }
 }
 
-private suspend fun moveAndAwait(window: MapWindow, position: CameraPosition): Boolean {
-    val finished = CompletableDeferred<Boolean>()
-    val callback = CameraCallback { finished.complete(it) }
-    window.map.move(position, Animation(Animation.Type.LINEAR, 350.milliseconds), callback)
-    return withTimeoutOrNull(CameraWaitMillis) { finished.await() } == true
+private suspend fun moveAndAwait(map: Map, position: CameraPosition): Boolean {
+    val callbackFinished = CompletableDeferred<Boolean>()
+    val nativeFinished = CompletableDeferred<Boolean>()
+    val callback = CameraCallback { callbackFinished.complete(it) }
+    val listener = CameraListener { reportedMap, camera, reason, finished ->
+        if (reason == CameraUpdateReason.APPLICATION && finished && camera.near(position)) {
+            nativeFinished.complete(reportedMap == map)
+        }
+    }
+    map.addCameraListener(listener.asWeakRef())
+    try {
+        map.move(position, Animation(Animation.Type.LINEAR, 350.milliseconds), callback)
+        return withTimeoutOrNull(CameraWaitMillis) { callbackFinished.await() && nativeFinished.await() } == true
+    } finally {
+        if (map.isValid) map.removeCameraListener(listener.asWeakRef())
+    }
 }
 
 @Composable
 private fun SimulatedLocationCamera(probe: CameraRegressionProbe, kit: MapKit) {
+    val owner = remember { LocationTestOwner() }
     var generation by remember { mutableStateOf(1) }
     var visible by remember { mutableStateOf(true) }
     CameraAction(probe, if (visible) "Hide simulated location" else "Remount location map") {
@@ -313,94 +390,110 @@ private fun SimulatedLocationCamera(probe: CameraRegressionProbe, kit: MapKit) {
         }
     }
     key(generation) {
-        SimulatedLocationMap(probe, kit, generation, visible)
+        SimulatedLocationMap(probe, kit, owner, generation, visible)
     }
+}
+
+private class LocationTestOwner {
+    var generation: Int? = null
 }
 
 @OptIn(kotlin.time.ExperimentalTime::class)
 @Composable
-private fun SimulatedLocationMap(probe: CameraRegressionProbe, kit: MapKit, generation: Int, visible: Boolean) {
-    val controller = rememberYandexMapController()
-    var window by remember { mutableStateOf<MapWindow?>(null) }
-    var layer by remember { mutableStateOf<UserLocationLayer?>(null) }
+private fun SimulatedLocationMap(
+    probe: CameraRegressionProbe,
+    kit: MapKit,
+    owner: LocationTestOwner,
+    generation: Int,
+    visible: Boolean,
+) {
+    val locationState = rememberUserLocationState()
+    val camera = remember { CameraPositionState(InitialCamera) }
+    var dummyInstalled by remember { mutableStateOf(false) }
     val input = if (generation == 1) FirstLocation else SecondLocation
-
-    YandexMap(controller, modifier = Modifier.size(260.dp))
-    MapControllerEffect(controller, dispose = { window = null }) {
-        it.map.mapType = MapType.NONE
-        it.map.move(InitialCamera)
-        window = it
+    val testIcon = remember {
+        val image = ImageBitmap(32, 32)
+        Canvas(image).drawCircle(Offset(16f, 16f), 13f, Paint().apply { color = Color(0xFFE516B7) })
+        UserLocationConfig.LocationIcon(image.toImageProvider())
     }
 
-    LaunchedEffect(window) {
-        val current = window ?: return@LaunchedEffect
-        if (!awaitCameraCondition { current.width > 0 && current.height > 0 }) {
-            probe.events.add("failure: location map $generation missing its window")
-            return@LaunchedEffect
-        }
-        val dummy = kit.createDummyLocationManager()
-        val locationManager = dummy.asLocationManager()
-        val source = locationManager.toLocationViewSource()
-        val activeLayer = kit.createUserLocationLayer(current)
-        layer = activeLayer
-        activeLayer.setSource(source)
-        locationManager.resume()
-        activeLayer.isVisible = true
-        val startedAt = Clock.System.now()
-        try {
-            val destination = withTimeoutOrNull(CameraWaitMillis) {
-                var position: CameraPosition? = null
-                while (position == null) {
-                    val now = Clock.System.now()
-                    dummy.setLocation(
-                        Location(
-                            position = input,
-                            accuracy = 5.0,
-                            altitude = null,
-                            altitudeAccuracy = null,
-                            heading = 0.0,
-                            speed = 0.0,
-                            indoorLevelId = null,
-                            absoluteTimestamp = now,
-                            relativeTimestamp = now - startedAt,
-                        ),
-                        DummyLocationQuality.HIGH,
-                    )
-                    delay(100)
-                    position = activeLayer.cameraPosition?.takeIf { it.target.near(input) }
+    YandexMap(
+        locationState = locationState,
+        cameraPositionState = camera,
+        locationConfig = UserLocationConfig(
+            isVisible = dummyInstalled && visible,
+            isHeadingEnabled = false,
+            isAutoZoomEnabled = false,
+            pin = testIcon,
+            arrow = testIcon,
+        ),
+        config = MapConfig(mapType = MapType.NONE),
+        modifier = Modifier.size(260.dp)
+            .onGloballyPositioned { probe.mapLayout = it }
+            .semantics { contentDescription = "camera location map" },
+    ) {
+        MapEffect(generation) { map ->
+            val dummy = kit.createDummyLocationManager()
+            val manager = dummy.asLocationManager()
+            owner.generation = generation
+            try {
+                kit.setLocationManager(manager)
+                manager.resume()
+                dummyInstalled = true
+                val startedAt = Clock.System.now()
+                val destination = withTimeoutOrNull(CameraWaitMillis) {
+                    var position: CameraPosition? = null
+                    while (position == null) {
+                        val now = Clock.System.now()
+                        dummy.setLocation(
+                            Location(
+                                position = input,
+                                accuracy = 5.0,
+                                altitude = null,
+                                altitudeAccuracy = null,
+                                heading = 0.0,
+                                speed = 0.0,
+                                indoorLevelId = null,
+                                absoluteTimestamp = now,
+                                relativeTimestamp = now - startedAt,
+                            ),
+                            DummyLocationQuality.HIGH,
+                        )
+                        delay(100)
+                        position = locationState.cameraPosition?.takeIf { it.target.near(input) }
+                    }
+                    position
                 }
-                position
+                if (destination == null) {
+                    probe.events.add("failure: UserLocationState on map $generation did not receive $input")
+                    return@MapEffect
+                }
+                if (!moveAndAwait(map, destination) ||
+                    !awaitCameraCondition { camera.position.target.near(input) && !camera.isMoving }
+                ) {
+                    probe.events.add("failure: map $generation did not finish at $input")
+                    return@MapEffect
+                }
+                probe.events.add("location applied $generation")
+                awaitCancellation()
+            } finally {
+                if (owner.generation == generation) {
+                    owner.generation = null
+                    kit.resetLocationManagerToDefault()
+                }
             }
-            if (destination != null && activeLayer.isVisible) {
-                current.map.move(destination)
-                if (awaitCameraCondition { current.map.cameraPosition.target.near(input) }) {
-                    probe.events.add("location applied $generation")
+        }
+        MapEffect(visible, dummyInstalled) { map ->
+            if (dummyInstalled && !visible) {
+                if (map.cameraPosition.target.near(input)) {
+                    probe.events.add("location hide requested $generation")
                 } else {
-                    probe.events.add("failure: map $generation did not move to $input")
+                    probe.events.add("failure: hiding the layer changed its requested camera target")
                 }
-            } else {
-                probe.events.add("failure: map $generation did not receive simulated location $input")
             }
-            awaitCancellation()
-        } finally {
-            if (activeLayer.isValid) {
-                activeLayer.isVisible = false
-                activeLayer.setSource(null)
-            }
-        }
-    }
-    LaunchedEffect(visible, layer) {
-        val currentLayer = layer ?: return@LaunchedEffect
-        if (visible) return@LaunchedEffect
-        currentLayer.isVisible = false
-        if (!currentLayer.isVisible && window?.map?.cameraPosition?.target?.near(input) == true) {
-            probe.events.add("location hidden $generation")
-        } else {
-            probe.events.add("failure: hiding the layer changed its requested camera target")
         }
     }
 }
-
 @Composable
 private fun CameraAction(probe: CameraRegressionProbe, label: String, onClick: () -> Unit) {
     SideEffect { probe.advance = onClick }
@@ -427,6 +520,8 @@ private fun Point.near(other: Point): Boolean {
 
 private const val CameraWaitMillis = 10_000L
 private val InitialCamera = CameraPosition(Point(55.751225, 37.629540), 16f, 0f, 0f)
+private val LongMove = Animation(Animation.Type.LINEAR, 8.seconds)
+private val DepartingMove = Animation(Animation.Type.LINEAR, 3.seconds)
 private val InterruptedCamera = InitialCamera.copy(target = Point(55.7600, 37.6110))
 private val ReplacementCamera = InitialCamera.copy(target = Point(55.7550, 37.6350))
 private val RemountedCamera = InitialCamera.copy(target = Point(55.7470, 37.6200))

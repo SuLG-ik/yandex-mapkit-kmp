@@ -1,3 +1,4 @@
+import CoreGraphics
 import XCTest
 
 final class MapInteractionTests: XCTestCase {
@@ -108,24 +109,37 @@ final class MapInteractionTests: XCTestCase {
         XCTAssertTrue(map.waitForExistence(timeout: 10), trace(in: app))
 
         drag(on: map)
-        waitForEvent("pan finished", in: app)
+        waitForEvent("pan moved west", in: app)
         map.pinch(withScale: 2, velocity: 1)
-        waitForEvent("zoom finished", in: app)
+        waitForEvent("pinch zoomed in", in: app)
 
-        app.buttons["Disable gestures"].tap()
-        waitForEvent("gestures disabled", in: app)
+        app.buttons["Disable scroll"].tap()
+        waitForEvent("scroll disabled", in: app)
         drag(on: map)
+        app.buttons["Check blocked pan"].tap()
+        waitForEvent("blocked pan held camera", in: app)
         map.pinch(withScale: 2, velocity: 1)
-        app.buttons["Check disabled gestures"].tap()
-        waitForEvent("disabled gestures held camera", in: app)
+        waitForEvent("pinch zoomed in with scroll disabled", in: app)
+
+        app.buttons["Disable zoom"].tap()
+        waitForEvent("zoom disabled", in: app)
+        map.pinch(withScale: 2, velocity: 1)
+        app.buttons["Check blocked pinch"].tap()
+        waitForEvent("blocked pinch held camera", in: app)
+        drag(on: map)
+        waitForEvent("pan moved west with zoom disabled", in: app)
         XCTAssertEqual(
             trace(in: app),
             """
             gestures enabled
-            pan finished
-            zoom finished
-            gestures disabled
-            disabled gestures held camera
+            pan moved west
+            pinch zoomed in
+            scroll disabled
+            blocked pan held camera
+            pinch zoomed in with scroll disabled
+            zoom disabled
+            blocked pinch held camera
+            pan moved west with zoom disabled
             """
         )
     }
@@ -138,9 +152,9 @@ final class MapInteractionTests: XCTestCase {
         app.buttons["Leave during a move"].tap()
         waitForEvent("animation detached 1", in: app)
         app.buttons["Reopen animation map"].tap()
-        waitForEvent("animation ready 2", in: app)
+        waitForEvent("animation ready 2 on a new native map", in: app)
         app.buttons["Move the new map"].tap()
-        waitForEvent("new animation finished 2", in: app)
+        waitForEvent("retired move deadline passed 1", in: app)
         XCTAssertEqual(
             trace(in: app),
             """
@@ -150,20 +164,58 @@ final class MapInteractionTests: XCTestCase {
             replacement finished 1
             leaving while moving 1
             animation detached 1
-            animation ready 2
+            animation ready 2 on a new native map
             new animation finished 2
+            retired move deadline passed 1
             """
         )
     }
 
     func testSimulatedPositionDrivesBothMountedMapsWithoutGps() {
         let app = launchCameraFixture("Location")
-        waitForEvent("location applied 1", in: app)
+        waitForEvent("location applied 1", in: app, timeout: 15)
+        expectLocationPin(true, in: app)
         app.buttons["Hide simulated location"].tap()
-        waitForEvent("location hidden 1", in: app)
+        waitForEvent("location hide requested 1", in: app)
+        expectLocationPin(false, in: app)
         app.buttons["Remount location map"].tap()
-        waitForEvent("location applied 2", in: app)
-        XCTAssertEqual(trace(in: app), "location applied 1\nlocation hidden 1\nlocation applied 2")
+        waitForEvent("location applied 2", in: app, timeout: 15)
+        expectLocationPin(true, in: app)
+        XCTAssertEqual(trace(in: app), "location applied 1\nlocation hide requested 1\nlocation applied 2")
+    }
+
+    private func expectLocationPin(_ visible: Bool, in app: XCUIApplication) {
+        let deadline = Date().addingTimeInterval(10)
+        repeat {
+            let extent = 256
+            guard let image = app.screenshot().image.cgImage,
+                  let pixels = CGContext(
+                    data: nil,
+                    width: extent,
+                    height: extent,
+                    bitsPerComponent: 8,
+                    bytesPerRow: extent * 4,
+                    space: CGColorSpaceCreateDeviceRGB(),
+                    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+                  ),
+                  let bytes = pixels.data?.assumingMemoryBound(to: UInt8.self)
+            else {
+                XCTFail("Could not capture the location layer")
+                return
+            }
+            pixels.interpolationQuality = .none
+            pixels.draw(image, in: CGRect(x: 0, y: 0, width: CGFloat(extent), height: CGFloat(extent)))
+            var pinSamples = 0
+            for offset in stride(from: 0, to: extent * extent * 4, by: 4) {
+                if bytes[offset] >= 175 && bytes[offset + 1] <= 90 && bytes[offset + 2] >= 125 {
+                    pinSamples += 1
+                    if pinSamples == 4 { break }
+                }
+            }
+            if (pinSamples >= 4) == visible { return }
+            Thread.sleep(forTimeInterval: 0.1)
+        } while Date() < deadline
+        XCTFail("Location pin did not become \(visible ? "visible" : "hidden"). Events: \(trace(in: app))")
     }
 
     private func launchCameraFixture(_ mode: String) -> XCUIApplication {
@@ -201,14 +253,14 @@ final class MapInteractionTests: XCTestCase {
         waitForEvent("tap \(identity)", in: app)
     }
 
-    private func waitForEvent(_ event: String, in app: XCUIApplication) {
+    private func waitForEvent(_ event: String, in app: XCUIApplication, timeout: TimeInterval = 10) {
         let element = app.staticTexts["fixture-trace"]
         let containsEvent = NSPredicate { object, _ in
             guard let trace = object as? XCUIElement, trace.exists else { return false }
             return trace.label.split(whereSeparator: \.isNewline).contains(Substring(event))
         }
         let expectation = XCTNSPredicateExpectation(predicate: containsEvent, object: element)
-        let outcome = XCTWaiter.wait(for: [expectation], timeout: 10)
+        let outcome = XCTWaiter.wait(for: [expectation], timeout: timeout)
         XCTAssertEqual(outcome, .completed, "Waiting for \(event). Events: \(trace(in: app))")
     }
 
