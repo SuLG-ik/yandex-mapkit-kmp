@@ -1,12 +1,14 @@
 package ru.sulgik.mapkit.search
 
+import platform.Foundation.NSError
 import ru.sulgik.mapkit.NativeConvertible
-import YandexMapKit.YMKSearchSessionResponseHandler as NativeSearchListener
+import YandexMapKit.YMKSearchResponse as NativeResponse
 
 /** Receives the terminal response or error of a [SearchManager.submit] request on the UI thread. */
-public actual abstract class SearchListener actual constructor() : NativeConvertible<NativeSearchListener> {
+public actual abstract class SearchListener actual constructor() :
+    NativeConvertible<(NativeResponse?, NSError?) -> Unit> {
 
-    private val nativeListener: NativeSearchListener = { response, error ->
+    private val nativeListener: (NativeResponse?, NSError?) -> Unit = { response, error ->
         when {
             error != null -> onSearchError(error.toCommon())
             response != null -> onSearchResponse(response.toCommon())
@@ -14,7 +16,7 @@ public actual abstract class SearchListener actual constructor() : NativeConvert
         }
     }
 
-    override fun toNative(): NativeSearchListener {
+    override fun toNative(): (NativeResponse?, NSError?) -> Unit {
         return nativeListener
     }
 
