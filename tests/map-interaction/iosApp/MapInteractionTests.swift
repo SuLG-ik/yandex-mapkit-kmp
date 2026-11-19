@@ -175,6 +175,109 @@ final class DecomposeStackTests: XCTestCase {
 
 
 final class MapInteractionTests: XCTestCase {
+    func testTrustedBasemapPoiTap() throws {
+        guard let runID = ProcessInfo.processInfo.environment["MAPKIT_TRUSTED_POI_RUN_ID"] else {
+            throw XCTSkip("Runs only in the trusted iOS service suite")
+        }
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments.append("--trusted-basemap-poi")
+        app.launchEnvironment["MAPKIT_TRUSTED_POI_RUN_ID"] = runID
+        app.launch()
+
+        let map = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "label == %@", "trusted-poi-map"))
+            .firstMatch
+        let trace = app.staticTexts["trusted-poi-trace"]
+        let arm = app.buttons["Arm POI callback case"]
+
+        func events() -> [String] {
+            return trace.exists ? trace.label.split(separator: "\n").map(String.init) : []
+        }
+
+        func waitFor(_ event: String, timeout: TimeInterval) -> Bool {
+            let predicate = NSPredicate { object, _ in
+                guard let text = object as? XCUIElement, text.exists else { return false }
+                return text.label.split(separator: "\n").contains(Substring(event))
+            }
+            let result = XCTWaiter.wait(
+                for: [XCTNSPredicateExpectation(predicate: predicate, object: trace)],
+                timeout: timeout
+            )
+            return result == .completed
+        }
+
+        guard map.waitForExistence(timeout: 10), arm.exists else {
+            XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
+            return
+        }
+        guard waitFor("native viewport loaded", timeout: 25) else {
+            XCTFail("MAPKIT_TRUSTED_POI provider-or-network")
+            return
+        }
+        let deadline = ProcessInfo.processInfo.systemUptime + 34
+        var found: CGVector?
+        let positions: [CGFloat] = [0.50, 0.31, 0.69, 0.15, 0.85, 0.42, 0.58]
+        scan: for y in positions {
+            for x in positions {
+                if ProcessInfo.processInfo.systemUptime >= deadline {
+                    break scan
+                }
+                let position = CGVector(dx: x, dy: y)
+                map.coordinate(withNormalizedOffset: position).tap()
+                Thread.sleep(forTimeInterval: 0.38)
+                if events().contains("native POI found") {
+                    found = position
+                    break scan
+                }
+            }
+        }
+        guard let hit = found else {
+            XCTFail("MAPKIT_TRUSTED_POI provider-or-network")
+            return
+        }
+        let baseline = ["native viewport loaded", "native POI found"]
+        guard events() == baseline else {
+            XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
+            return
+        }
+
+        arm.tap()
+        let point = map.coordinate(withNormalizedOffset: hit)
+        point.tap()
+        guard waitFor("consumed POI", timeout: 4) else {
+            XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
+            return
+        }
+        Thread.sleep(forTimeInterval: 0.45)
+        let consumed = baseline + ["consume armed", "consumed POI"]
+        guard events() == consumed else {
+            XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
+            return
+        }
+
+        arm.tap()
+        point.tap()
+        guard waitFor("declined POI", timeout: 4) else {
+            XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
+            return
+        }
+        Thread.sleep(forTimeInterval: 0.45)
+        let prefix = consumed + ["propagate armed", "declined POI"]
+        let actual = events()
+        guard actual.count == prefix.count + 1, Array(actual.prefix(prefix.count)) == prefix else {
+            XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
+            return
+        }
+        let fields = actual[prefix.count].split(separator: " ")
+        guard fields.count == 4, fields[0] == "map", fields[1] == "tap",
+              let x = Double(fields[2]), let y = Double(fields[3]),
+              abs(x - Double(hit.dx)) <= 0.02, abs(y - Double(hit.dy)) <= 0.02 else {
+            XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
+            return
+        }
+    }
+
     func testMapAcceptsTouchAfterMountAndReopen() {
         continueAfterFailure = false
         let app = XCUIApplication()

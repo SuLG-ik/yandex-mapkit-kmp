@@ -17,6 +17,9 @@ struct MapInteractionApp: App {
 private struct ComposeMapHost: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--trusted-basemap-poi") {
+            return makeTrustedPoiController()
+        }
         if arguments.contains("--navigation3") {
             return InteractionViewControllerKt.nav3ViewController()
         }
@@ -32,6 +35,26 @@ private struct ComposeMapHost: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ controller: UIViewController, context: Context) {}
+
+    private func makeTrustedPoiController() -> UIViewController {
+        let files = FileManager.default
+        guard let runID = ProcessInfo.processInfo.environment["MAPKIT_TRUSTED_POI_RUN_ID"],
+              runID.range(of: "^[0-9]+-[0-9]+$", options: .regularExpression) != nil,
+              let cache = files.urls(for: .cachesDirectory, in: .userDomainMask).first else {
+            return UIHostingController(rootView: Text("trusted POI handoff unavailable"))
+        }
+        let handoff = cache.appendingPathComponent("mapkit-poi-key-\(runID)")
+        do {
+            let data = try Data(contentsOf: handoff)
+            try files.removeItem(at: handoff)
+            guard let key = String(data: data, encoding: .utf8), !key.isEmpty else {
+                return UIHostingController(rootView: Text("trusted POI handoff unavailable"))
+            }
+            return TrustedPoiViewControllerKt.trustedPoiViewController(apiKey: key)
+        } catch {
+            return UIHostingController(rootView: Text("trusted POI handoff unavailable"))
+        }
+    }
 }
 
 private struct LifecycleHost: View {

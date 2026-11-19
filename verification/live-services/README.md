@@ -30,6 +30,23 @@ after 18 seconds. Success requires four mode markers and the final routing marke
 adapter tests inject retired callbacks separately to cover delivery even when the provider honors
 cancellation before it replies.
 
+The iOS POI probe reuses the UIKit fixture built by the credential-free matrix step. The test waits
+for a native vector map load and finds a selectable point object by making bounded physical taps
+through XCTest. The native listener saves the object's selection metadata and geometry. The wrapper
+then receives two taps at that same screen position. Consuming the event suppresses map input.
+Declining it delivers one matching map input callback. The check compares the native observation
+within that run, so changes in business names or label order require no reference update.
+
+XCTest receives only a run identifier. The fixture consumes the separate key file inside its
+simulator sandbox before MapKit initialization. The keyed test log and xcresult stay in runner
+temporary storage and are removed by the cleanup hook. The scheduler uploads the category only.
+A missing loaded map or selectable POI reports provider-or-network. A mismatch after independent
+native discovery reports wrapper-or-result-shape.
+
+Traffic and offline region listener shapes remain covered by deterministic adapter tests. The
+scheduled suite does not call offline region operations without confirmed paid entitlement.
+[MapKit POI interaction](https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_interaction.html) · [Offline map licensing](https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_offline.html)
+
 Markers contain fixed probe names and status codes. After each launch, including a timeout, the
 runner starts bounded, credential-free cleanup on the same device. It terminates the fixture app,
 removes its temporary inputs and markers and reports an incomplete cleanup if the device is

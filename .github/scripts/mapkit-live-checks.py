@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 
 
-CHECKS = ("search", "routing")
+CHECKS = ("search", "routing", "poi")
 HOOK_DIRECTORY = Path("verification/live-services")
 EXIT_CATEGORIES = {
     0: "passed",
