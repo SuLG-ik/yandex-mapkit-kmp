@@ -154,6 +154,7 @@ final class MapObjectMembershipTests: XCTestCase {
             ("ChildrenShown", "circle"),
             ("ParentHidden", "map"),
             ("Reordered", "marker:reordered"),
+            ("ReorderedRemove", "map"),
             ("Cleared", "map"),
             ("Repopulated", "marker:repopulated"),
             ("Clustered", "cluster:a1,a2"),

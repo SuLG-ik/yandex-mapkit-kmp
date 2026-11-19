@@ -75,6 +75,7 @@ internal enum class MembershipStage(
     val childrenVisible: Boolean = true,
     val parentVisible: Boolean = true,
     val reverse: Boolean = false,
+    val removed: ShapeKind? = null,
     val isEmpty: Boolean = false,
     val clusterData: String? = null,
     val zoom: Float = 16f,
@@ -89,12 +90,19 @@ internal enum class MembershipStage(
     ChildrenShown(ShapeKind.Circle, expectedTap = "circle"),
     ParentHidden(ShapeKind.Polygon, parentVisible = false, expectedTap = "map"),
     Reordered(ShapeKind.Marker, reverse = true, expectedTap = "marker:reordered"),
+    ReorderedRemove(ShapeKind.Polygon, reverse = true, removed = ShapeKind.Polygon, expectedTap = "map"),
     Cleared(ShapeKind.Marker, isEmpty = true, expectedTap = "map"),
     Repopulated(ShapeKind.Marker, expectedTap = "marker:repopulated"),
     Clustered(clusterData = "a", zoom = 14f, expectedTap = "cluster:a1,a2"),
     Scattered(clusterData = "a", zoom = 18f, expectedTap = "item:a1"),
     ClusterReplaced(clusterData = "b", zoom = 14f, expectedTap = "cluster:b1,b2"),
     ;
+
+    fun shapes(): List<ShapeKind> {
+        if (isEmpty) return emptyList()
+        val ordered = if (reverse) ShapeKind.entries.reversed() else ShapeKind.entries
+        return ordered.filterNot { it == removed }
+    }
 
     fun camera(): CameraPosition {
         val center = target?.center(shifted && !formerTarget) ?: clusterCenter(checkNotNull(clusterData))
@@ -145,8 +153,8 @@ internal class MapObjectMembershipTrace {
         }
 
         val parent = snapshot.parent ?: return "missing parent collection"
-        val order = if (expected.reverse) ShapeKind.entries.reversed() else ShapeKind.entries
-        val expectedIds = if (expected.isEmpty) emptyList() else order.map { it.id }.sorted()
+        val order = expected.shapes()
+        val expectedIds = order.map { it.id }.sorted()
         if (snapshot.ids != expectedIds || snapshot.clusterCollections != 0) {
             return "expected children $expectedIds, got ${snapshot.ids}"
         }
@@ -155,7 +163,8 @@ internal class MapObjectMembershipTrace {
 
         val handles = snapshot.objects.associateBy { it.userData as String }
         for ((index, kind) in order.withIndex()) {
-            val shape = handles[kind.id] ?: continue
+            val shape = handles.getValue(kind.id)
+            if (!shape.isValid) return "invalid surviving handle for ${kind.id}"
             if (shape.parent != parent || shape.zIndex != index.toFloat()) return "wrong parent or z-index for ${kind.id}"
             if (expected.parentVisible && shape.isVisible != expected.childrenVisible) {
                 return "wrong visibility for ${kind.id}"
@@ -165,6 +174,9 @@ internal class MapObjectMembershipTrace {
             if (previous != null && (shape == previous) == (expected == MembershipStage.Repopulated)) {
                 return "wrong object identity for ${kind.id}"
             }
+        }
+        expected.removed?.let { kind ->
+            if (originalHandles.getValue(kind.id).isValid) return "removed handle still valid for ${kind.id}"
         }
         val isAfterClear = expected == MembershipStage.Cleared || expected == MembershipStage.Repopulated
         if (isAfterClear && originalHandles.values.any { it.isValid }) return "a cleared handle is still valid"
@@ -205,12 +217,9 @@ internal fun MapObjectMembershipFixture(trace: MapObjectMembershipTrace = rememb
             val clusterData = stage.clusterData
             if (clusterData == null) {
                 MapObjectCollection(userData = parentTag, visible = stage.parentVisible) {
-                    if (!stage.isEmpty) {
-                        val order = if (stage.reverse) ShapeKind.entries.reversed() else ShapeKind.entries
-                        order.forEachIndexed { index, kind ->
-                            key(kind) {
-                                MembershipShape(kind, stage, index.toFloat(), icon, trace)
-                            }
+                    stage.shapes().forEachIndexed { index, kind ->
+                        key(kind) {
+                            MembershipShape(kind, stage, index.toFloat(), icon, trace)
                         }
                     }
                 }
