@@ -80,7 +80,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: full-consumer-android
-          path: build/full-consumer/android/
+          path: |
+            build/full-consumer/android/
+            yandex-mapkit-kmp/build/test-results/testAndroidHostTest/
           if-no-files-found: ignore
 
   ios:

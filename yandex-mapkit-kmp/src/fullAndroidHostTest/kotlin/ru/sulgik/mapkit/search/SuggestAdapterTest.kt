@@ -5,19 +5,28 @@ import ru.sulgik.mapkit.SpannableString
 import ru.sulgik.mapkit.geometry.BoundingBox
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toCommon
+import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.runtime.KeyValuePair
 import ru.sulgik.mapkit.runtime.network.NetworkError
+import ru.sulgik.mapkit.runtime.toNative
+import ru.sulgik.mapkit.toNative
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertIs
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
+import com.yandex.mapkit.LocalizedValue as NativeLocalizedValue
+import com.yandex.mapkit.SpannableString as NativeSpannableString
 import com.yandex.mapkit.geometry.BoundingBox as NativeBoundingBox
+import com.yandex.mapkit.geometry.Point as NativePoint
+import com.yandex.mapkit.search.SuggestItem as NativeSuggestItem
 import com.yandex.mapkit.search.SuggestOptions as NativeSuggestOptions
+import com.yandex.mapkit.search.SuggestResponse as NativeSuggestResponse
 import com.yandex.mapkit.search.SuggestSession as NativeSuggestSession
 import com.yandex.mapkit.search.SuggestSession.SuggestListener as NativeSuggestListener
 import com.yandex.mapkit.search.SuggestType as NativeSuggestType
+import com.yandex.runtime.KeyValuePair as NativeKeyValuePair
 import com.yandex.runtime.network.NetworkError as NativeNetworkError
 
 public class SuggestAdapterTest {
@@ -47,12 +56,12 @@ public class SuggestAdapterTest {
 
         session.suggest("A", bounds, options, listener)
         val first = transport.callbacks.single()
-        transport.onSuggest = { first.onResponse(response("A").toNative()) }
+        transport.onSuggest = { first.onResponse(response("A").toHostNative()) }
         alias.suggest("AB", bounds, options, listener)
         val second = transport.callbacks.last()
-        second.onResponse(response("AB").toNative())
-        first.onResponse(response("A").toNative())
-        second.onResponse(SuggestResponse(emptyList()).toNative())
+        second.onResponse(response("AB").toHostNative())
+        first.onResponse(response("A").toHostNative())
+        second.onResponse(SuggestResponse(emptyList()).toHostNative())
 
         assertEquals(listOf("A", "AB"), transport.texts)
         assertEquals(bounds, transport.window)
@@ -78,22 +87,22 @@ public class SuggestAdapterTest {
         val cleared = transport.callbacks.last()
         transport.onReset = { cleared.onError(failure) }
         alias.reset()
-        cleared.onResponse(response("clear this").toNative())
+        cleared.onResponse(response("clear this").toHostNative())
 
         alias.suggest("close this", bounds, SuggestOptions(), listener)
         val closed = transport.callbacks.last()
-        transport.onReset = { closed.onResponse(response("close this").toNative()) }
+        transport.onReset = { closed.onResponse(response("close this").toHostNative()) }
         session.reset()
         closed.onError(failure)
 
         val reopened = SuggestTransport()
         val next = reopened.toCommon()
         next.suggest("empty result", bounds, SuggestOptions(), listener)
-        reopened.callbacks.last().onResponse(SuggestResponse(emptyList()).toNative())
+        reopened.callbacks.last().onResponse(SuggestResponse(emptyList()).toHostNative())
         next.suggest("failed", bounds, SuggestOptions(), listener)
         val failed = reopened.callbacks.last()
         failed.onError(failure)
-        failed.onResponse(response("failed").toNative())
+        failed.onResponse(response("failed").toHostNative())
 
         assertEquals(2, transport.resets)
         assertEquals(listOf(SuggestResponse(emptyList())), replies)
@@ -112,10 +121,10 @@ public class SuggestAdapterTest {
         assertFailsWith<IllegalStateException> {
             session.suggest("A", bounds, SuggestOptions(), listener)
         }
-        transport.callbacks.single().onResponse(response("A").toNative())
+        transport.callbacks.single().onResponse(response("A").toHostNative())
         transport.onSuggest = {}
         session.suggest("AB", bounds, SuggestOptions(), listener)
-        transport.callbacks.last().onResponse(response("AB").toNative())
+        transport.callbacks.last().onResponse(response("AB").toHostNative())
 
         assertEquals(listOf(response("AB")), replies)
     }
@@ -179,4 +188,97 @@ private fun response(text: String): SuggestResponse {
             ),
         ),
     )
+}
+
+private fun SuggestResponse.toHostNative(): NativeSuggestResponse {
+    val fixture = items.map(::HostSuggestItem)
+    return object : NativeSuggestResponse() {
+        override fun getItems(): List<NativeSuggestItem> {
+            return fixture
+        }
+    }
+}
+
+private class HostSuggestItem(private val fixture: SuggestItem) : NativeSuggestItem() {
+
+    override fun getType(): NativeSuggestItem.Type {
+        return fixture.type.toNative()
+    }
+
+    override fun getTitle(): NativeSpannableString {
+        return fixture.title.toHostNative()
+    }
+
+    override fun getSubtitle(): NativeSpannableString? {
+        return fixture.subtitle?.toHostNative()
+    }
+
+    override fun getTags(): List<String> {
+        return fixture.tags
+    }
+
+    override fun getSearchText(): String {
+        return fixture.searchText
+    }
+
+    override fun getDisplayText(): String? {
+        return fixture.displayText
+    }
+
+    override fun getUri(): String? {
+        return fixture.uri
+    }
+
+    override fun getLink(): String? {
+        return fixture.link
+    }
+
+    override fun getDistance(): NativeLocalizedValue? {
+        return fixture.distance?.toNative()
+    }
+
+    override fun getIsPersonal(): Boolean {
+        return fixture.isPersonal
+    }
+
+    override fun getAction(): NativeSuggestItem.Action {
+        return fixture.action.toNative()
+    }
+
+    override fun getLogId(): String? {
+        return fixture.logId
+    }
+
+    override fun getIsOffline(): Boolean {
+        return fixture.isOffline
+    }
+
+    override fun getIsWordItem(): Boolean {
+        return fixture.isWordItem
+    }
+
+    override fun getProperties(): List<NativeKeyValuePair> {
+        return fixture.properties.map { it.toNative() }
+    }
+
+    override fun getCenter(): NativePoint? {
+        return fixture.center?.toNative()
+    }
+
+    override fun getBusinessContext(): NativeSuggestItem.BusinessContext? {
+        return fixture.businessContext?.toNative()
+    }
+}
+
+private fun SpannableString.toHostNative(): NativeSpannableString {
+    val fixture = this
+    return object : NativeSpannableString() {
+        override fun getText(): String {
+            return fixture.text
+        }
+
+        override fun getSpans(): List<NativeSpannableString.Span> {
+            return fixture.spans.map { it.toNative() }
+        }
+    }
 }
