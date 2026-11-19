@@ -21,6 +21,9 @@ private struct ComposeMapHost: UIViewControllerRepresentable {
         if let argument = arguments.first(where: { $0.hasPrefix(cameraFlag) }) {
             return CameraViewControllerKt.cameraViewController(mode: String(argument.dropFirst(cameraFlag.count)))
         }
+        if arguments.contains("--navigation3") {
+            return InteractionViewControllerKt.nav3ViewController()
+        }
         if arguments.contains("--decompose-stack") {
             return DecomposeStackViewControllerKt.decomposeStackViewController()
         }

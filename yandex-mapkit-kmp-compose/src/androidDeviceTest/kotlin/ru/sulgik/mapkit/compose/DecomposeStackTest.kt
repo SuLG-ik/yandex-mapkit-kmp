@@ -1,15 +1,26 @@
 package ru.sulgik.mapkit.compose
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.view.InputDevice
 import android.view.MotionEvent
+import android.view.PixelCopy
+import android.view.SurfaceView
+import android.view.View
+import android.view.ViewConfiguration
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
+import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.mapview.toCommon
 import ru.sulgik.mapkit.test.interaction.DecomposeBack
 import ru.sulgik.mapkit.test.interaction.DecomposeFinish
 import ru.sulgik.mapkit.test.interaction.DecomposeFrontA
@@ -19,12 +30,15 @@ import ru.sulgik.mapkit.test.interaction.DecomposeReplace
 import ru.sulgik.mapkit.test.interaction.DecomposeSaveCamera
 import ru.sulgik.mapkit.test.interaction.DecomposeStackFixture
 import ru.sulgik.mapkit.test.interaction.DecomposeTrace
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import com.yandex.mapkit.mapview.MapView as NativeMapView
 
 private var runningTrace: DecomposeTrace? = null
 
@@ -91,7 +105,7 @@ public class DecomposeStackTest {
                 driver.waitForCount("parent start", 2)
                 driver.waitForCount("start C1", 2)
                 driver.waitForCount("subscribe C1.1", 2)
-                driver.tapMap("C1.1")
+                driver.tapResumedMap("C1.1", Point(initialC.target.latitude, initialC.target.longitude))
                 driver.waitFor("show D4", "tap C1.1", "release C1.1")
                 driver.expectButton(DecomposeBack)
 
@@ -123,6 +137,9 @@ public class DecomposeStackTest {
         private val host: ActivityScenario<DecomposeStackTestActivity>,
         private val trace: DecomposeTrace,
     ) {
+        private var lastTouch = "no touch"
+        private var lastMapTapUp = 0L
+
         fun ready(id: String, expected: Scene) {
             waitFor("subscribe $id")
             await("native scene for $id: $expected") {
@@ -149,6 +166,78 @@ public class DecomposeStackTest {
 
         fun tapMap(id: String) {
             tap(id) { trace.targets[id]?.let { screenPoint(id.substringBefore('.'), it) } }
+            lastMapTapUp = SystemClock.uptimeMillis()
+        }
+
+        fun tapResumedMap(id: String, point: Point) {
+            var resumedWindow: MapWindow? = null
+            host.onActivity { resumedWindow = trace.mapWindow(id) }
+            val window = assertNotNull(resumedWindow, "No retained native window for $id")
+            awaitRenderedMap(id, window)
+            val frame = CountDownLatch(1)
+            host.onActivity { activity ->
+                val decor = activity.window.decorView
+                decor.postOnAnimation { decor.postOnAnimation { frame.countDown() } }
+            }
+            assertTrue(frame.await(5L, TimeUnit.SECONDS), "No decor frame after map $id resumed")
+            val doubleTapTimeout = maxOf(ViewConfiguration.getDoubleTapTimeout().toLong(), 300L)
+            val remaining = lastMapTapUp + doubleTapTimeout + 1L - SystemClock.uptimeMillis()
+            if (remaining > 0L) SystemClock.sleep(remaining)
+
+            tap("resumed map $id") { activity ->
+                if (trace.mapWindow(id) != window || !window.isValid || window.width == 0 || window.height == 0) {
+                    return@tap null
+                }
+                val surface = activity.window.decorView.mapSurface(window) ?: return@tap null
+                if (!surface.isShown || !surface.holder.surface.isValid || surface.width == 0 || surface.height == 0) {
+                    return@tap null
+                }
+                val projected = window.worldToScreen(point) ?: return@tap null
+                if (projected.x !in 0f..window.width.toFloat() || projected.y !in 0f..window.height.toFloat()) return@tap null
+                val origin = IntArray(2)
+                surface.getLocationOnScreen(origin)
+                Offset(
+                    x = origin[0] + projected.x / window.width * surface.width,
+                    y = origin[1] + projected.y / window.height * surface.height,
+                )
+            }
+            lastMapTapUp = SystemClock.uptimeMillis()
+        }
+
+        private fun awaitRenderedMap(id: String, window: MapWindow) {
+            val bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+            val main = Handler(Looper.getMainLooper())
+            var copyPending = false
+            var copiedSurface: SurfaceView? = null
+            await("rendered surface for resumed map $id") { activity ->
+                val surface = activity.window.decorView.mapSurface(window) ?: return@await false
+                if (!activity.hasWindowFocus() || !surface.isShown || !surface.holder.surface.isValid ||
+                    surface.width == 0 || surface.height == 0
+                ) {
+                    return@await false
+                }
+                if (copiedSurface === surface) return@await true
+                if (!copyPending) {
+                    copyPending = true
+                    PixelCopy.request(
+                        surface,
+                        bitmap,
+                        { result ->
+                            if (result == PixelCopy.SUCCESS) copiedSurface = surface
+                            copyPending = false
+                        },
+                        main,
+                    )
+                }
+                false
+            }
+            bitmap.recycle()
+        }
+
+        private fun View.mapSurface(window: MapWindow): SurfaceView? {
+            if (this is NativeMapView && toCommon().mapWindow == window) return getChildAt(0) as? SurfaceView
+            if (this !is ViewGroup) return null
+            return (0 until childCount).firstNotNullOfOrNull { getChildAt(it).mapSurface(window) }
         }
 
         private fun screenPoint(name: String, normalized: Offset): Offset? {
@@ -157,13 +246,14 @@ public class DecomposeStackTest {
             return point.takeIf { it.x.isFinite() && it.y.isFinite() }
         }
 
-        private fun tap(label: String, position: () -> Offset?) {
+        private fun tap(label: String, position: (DecomposeStackTestActivity) -> Offset?) {
             var screen: Offset? = null
             await("focused position for $label") { activity ->
-                screen = if (activity.hasWindowFocus()) position() else null
+                screen = if (activity.hasWindowFocus()) position(activity) else null
                 screen != null
             }
             val point = assertNotNull(screen)
+            lastTouch = "$label at $point"
             val instrumentation = InstrumentationRegistry.getInstrumentation()
             val down = SystemClock.uptimeMillis()
             for (action in listOf(MotionEvent.ACTION_DOWN, MotionEvent.ACTION_UP)) {
@@ -189,7 +279,7 @@ public class DecomposeStackTest {
                 if (ready) return
                 SystemClock.sleep(20L)
             }
-            throw AssertionError("Waiting for $label. Events: $events")
+            throw AssertionError("Waiting for $label. Last input: $lastTouch. Events: $events")
         }
     }
 }
