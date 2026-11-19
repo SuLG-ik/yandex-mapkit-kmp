@@ -5,7 +5,7 @@ needed to make the Full API available in common Kotlin. Check the [release notes
 features shipped in a particular wrapper version. At this inventory's baseline the released wrapper
 is Lite. The [Full packaging checks][77] launched standalone [Android][full-android-ci] and
 [iOS][full-ios-ci] consumers and created a native `ONLINE` search manager from common Kotlin.
-Requests and results are tracked in [text search][78].
+The candidate also supports [text queries](full-text-search.md), results and cancellation.
 
 The comparison uses the Android AARs for `com.yandex.android:maps.mobile` and the iOS
 `YandexMapsMobile` CocoaPods XCFrameworks for `4.45.0-lite` and `4.45.0-full`. Native names below come
@@ -21,7 +21,7 @@ establish service access.
 
 | Family | Android entry points | iOS entry points | Common Kotlin status |
 | --- | --- | --- | --- |
-| Text search | `search.SearchFactory`, `Search.createSearchManager`, `SearchManager.submit(String, Geometry, …)`, `Session`, `Response` | `YMKSearchFactory`, `YMKSearch.createSearchManagerWithSearchManagerType:`, `YMKSearchManager.submitWithText:geometry:searchOptions:responseHandler:`, `YMKSearchSession`, `YMKSearchResponse` | **Partial** in [packaging][77]. [#78][78] plans queries, results and cancellation. |
+| Text search | `search.SearchFactory`, `Search.createSearchManager`, `SearchManager.submit(String, Geometry, …)`, `Session`, `Response` | `YMKSearchFactory`, `YMKSearch.createSearchManagerWithSearchManagerType:`, `YMKSearchManager.submitWithText:geometry:searchOptions:responseHandler:`, `YMKSearchSession`, `YMKSearchResponse` | **Partial** in [#78][78]. The [common API](full-text-search.md) submits text for an area, decodes results and errors, and cancels a pending session. |
 | Autocomplete | `SearchManager.createSuggestSession`, `SuggestSession.suggest`, `reset` | `YMKSearchManager.createSuggestSession`, `YMKSearchSuggestSession.suggestWithText:window:suggestOptions:responseHandler:`, `reset` | **Planned** in [#79][79]. |
 | Reverse geocoding | `SearchManager.submit(Point, Integer, …)`, `ToponymObjectMetadata`, `Address` | `YMKSearchManager.submitWithPoint:zoom:searchOptions:responseHandler:`, `YMKSearchToponymObjectMetadata`, `YMKSearchAddress` | **Planned** in [#95][95]. This uses the existing search family. The zoom is nullable on both platforms. |
 | Search layers and advanced results | `Search.createSearchLayer`, `search.search_layer.SearchLayer`, `SearchManager.searchByURI`, `searchByBusinessOids`, along-polyline `submit` | `YMKSearch.createSearchLayerWithMapWindow:`, `YMKSearchLayer`, `YMKSearchManager.searchByURIWithUri:…`, `searchByBusinessOidsWithBusinessOids:…`, `submitWithText:polyline:…` | **Planned** in [#96][96]. Includes filtered business results, marker assets and layer callbacks. [Native layer reference][native-search-layer] |
@@ -48,7 +48,7 @@ or credentials.
 
 | Uncovered behavior | Required inputs | Acceptance check |
 | --- | --- | --- |
-| Search and suggest [#78][78] [#79][79] | Controlled responses for ordinary tests, a Full key and a known query for live tests | Decode result coordinates and errors. Clearing or changing a query discards an earlier callback. [Android search][android-search] · [iOS search][ios-search] |
+| Live text search [#82][82] and suggestions [#79][79] | A Full key and a known query for live search, controlled responses for suggestion tests | Validate results and errors from a live text query. Clearing or changing a suggestion query discards an earlier callback. [Android search][android-search] · [iOS search][ios-search] |
 | Geocoding and advanced search [#95][95] [#96][96] | A fixed coordinate, controlled result/marker assets, and known provider URI/ID for live lookup | Map to an optional structured address. Select and clear a result layer, page where supported and detach its callbacks when the map closes. |
 | Routes and route utility APIs [#80][80] [#101][101] | Fixed waypoints, geometry/metadata fixtures and live mode coverage in the target region | Draw a route, replace and cancel the request, and validate no-route delivery and supported modes. Check summary and serialization round-trips separately. [Native routing guide][android-routes] |
 | Panorama and place imagery [#97][97] | Fixed panorama identifier or controlled session; a known photo/track asset for any verified MRC path | Resolve the nearest panorama and close the player safely, including error and cancellation. Verify a real photo/track loading path before wrapping either MRC player. |

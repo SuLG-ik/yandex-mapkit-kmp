@@ -5,8 +5,8 @@
 обёртки указаны в [описаниях релизов][releases]. На момент сравнения опубликованная обёртка
 использует Lite. В рамках [проверки Full-артефактов][77] отдельные приложения
 [Android][full-android-ci] и [iOS][full-ios-ci] запустились и создали нативный менеджер
-поиска `ONLINE` из общего Kotlin-кода. Отправка запросов и обработка результатов входят
-в [задачу текстового поиска][78].
+поиска `ONLINE` из общего Kotlin-кода. Кандидат также поддерживает [текстовые запросы](full-text-search.ru.md),
+их результаты и отмену.
 
 Для сравнения использованы Android AAR `com.yandex.android:maps.mobile` и CocoaPods
 XCFramework `YandexMapsMobile` для `4.45.0-lite` и `4.45.0-full`. Имена нативных типов и функций
@@ -22,7 +22,7 @@ XCFramework `YandexMapsMobile` для `4.45.0-lite` и `4.45.0-full`. Имена
 
 | Семейство | Точки входа Android | Точки входа iOS | Состояние в общем Kotlin-коде |
 | --- | --- | --- | --- |
-| Текстовый поиск | `search.SearchFactory`, `Search.createSearchManager`, `SearchManager.submit(String, Geometry, …)`, `Session`, `Response` | `YMKSearchFactory`, `YMKSearch.createSearchManagerWithSearchManagerType:`, `YMKSearchManager.submitWithText:geometry:searchOptions:responseHandler:`, `YMKSearchSession`, `YMKSearchResponse` | **Частично** в [проверке Full-артефактов][77]. В [#78][78] запланированы запросы, результаты и отмена. |
+| Текстовый поиск | `search.SearchFactory`, `Search.createSearchManager`, `SearchManager.submit(String, Geometry, …)`, `Session`, `Response` | `YMKSearchFactory`, `YMKSearch.createSearchManagerWithSearchManagerType:`, `YMKSearchManager.submitWithText:geometry:searchOptions:responseHandler:`, `YMKSearchSession`, `YMKSearchResponse` | **Частично** в [#78][78]. [Общий API](full-text-search.ru.md) отправляет текстовый запрос по области, обрабатывает результаты и ошибки и отменяет текущую сессию. |
 | Поисковые подсказки | `SearchManager.createSuggestSession`, `SuggestSession.suggest`, `reset` | `YMKSearchManager.createSuggestSession`, `YMKSearchSuggestSession.suggestWithText:window:suggestOptions:responseHandler:`, `reset` | **Запланировано** в [#79][79]. |
 | Обратное геокодирование | `SearchManager.submit(Point, Integer, …)`, `ToponymObjectMetadata`, `Address` | `YMKSearchManager.submitWithPoint:zoom:searchOptions:responseHandler:`, `YMKSearchToponymObjectMetadata`, `YMKSearchAddress` | **Запланировано** в [#95][95]. Использует существующий API поиска. Масштаб может отсутствовать на обеих платформах. |
 | Слои поиска и расширенные результаты | `Search.createSearchLayer`, `search.search_layer.SearchLayer`, `SearchManager.searchByURI`, `searchByBusinessOids`, `submit` для поиска вдоль полилинии | `YMKSearch.createSearchLayerWithMapWindow:`, `YMKSearchLayer`, `YMKSearchManager.searchByURIWithUri:…`, `searchByBusinessOidsWithBusinessOids:…`, `submitWithText:polyline:…` | **Запланировано** в [#96][96]. Включает фильтры организаций, изображения меток и колбэки слоя. [Справочник слоя][native-search-layer] |
@@ -49,7 +49,7 @@ XCFramework `YandexMapsMobile` для `4.45.0-lite` и `4.45.0-full`. Имена
 
 | Непокрытое поведение | Необходимые данные | Приёмочная проверка |
 | --- | --- | --- |
-| Поиск и подсказки [#78][78] [#79][79] | Контролируемые ответы для обычных тестов, ключ Full и известный запрос для живых | Преобразовать координаты результатов и ошибки. При очистке или изменении запроса отбросить ответ на предыдущий запрос. [Поиск на Android][android-search] · [Поиск на iOS][ios-search] |
+| Проверка поиска с сервисом [#82][82] и подсказки [#79][79] | Ключ Full и известный текстовый запрос, контролируемые ответы для тестов подсказок | Проверить результаты и ошибки запроса к сервису. При очистке или изменении запроса подсказок отбросить предыдущий ответ. [Поиск на Android][android-search] · [Поиск на iOS][ios-search] |
 | Геокодирование и расширенный поиск [#95][95] [#96][96] | Фиксированная координата, тестовый результат и изображение метки, известный URI или ID для живого запроса | Преобразовать необязательный структурированный адрес. Выбрать и очистить результат слоя, получить следующую страницу там, где она доступна, и отписаться при закрытии карты. |
 | Маршруты и дополнительные функции [#80][80] [#101][101] | Фиксированные точки, тестовая геометрия и метаданные, доступность нужного режима в регионе для живой проверки | Отрисовать маршрут, заменить и отменить запрос, проверить отсутствие маршрута и поддерживаемые режимы. Сводки и сериализацию проверять отдельно. [Руководство по маршрутизации][android-routes] |
 | Панорамы и изображения мест [#97][97] | Известный ID панорамы или контролируемая сессия, тестовый снимок или трек для подтверждённого MRC API | Найти ближайшую панораму и закрыть плеер с проверкой ошибок и отмены. Подтвердить загрузку реального снимка или трека до добавления обёртки MRC. |
