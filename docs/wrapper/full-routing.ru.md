@@ -83,6 +83,27 @@ val session = router.requestRoutes(
 nullable, когда их не вернул SDK. `replaceTransitRoute` в [примере транспорта][transport-example]
 отменяет старую сессию, рисует выбранный маршрут и позволяет очистить выделенную коллекцию.
 
+## Нативные объекты маршрутов и сессий
+
+Для отрисовки и чтения маршрута в общем коде используйте обёртку. В коде Android или iOS
+вызовите `toNative()`, если платформенный API принимает объект MapKit. Вызовите `toCommon()`
+у объекта из нативного API, чтобы передать его в общий код.
+
+```kotlin
+import ru.sulgik.mapkit.transport.masstransit.Route
+import ru.sulgik.mapkit.transport.masstransit.toCommon
+
+fun routeFromNativeInterop(route: Route): Route {
+    val nativeRoute = route.toNative()
+    // Передайте nativeRoute платформенному коду, который использует нативный MapKit.
+    return nativeRoute.toCommon()
+}
+```
+
+У автомобильных типов эти же методы находятся в `ru.sulgik.mapkit.directions.driving`.
+Для сессий, созданных через обёртку, вызывайте её `retry()` и `cancel()`, чтобы все обёртки
+одной сессии совместно управляли слушателем и отменой.
+
 ## Режимы в MapKit 4.45.0 Full
 
 Проверенные версии Android и iOS содержат следующие фабрики. Android возвращает результат через

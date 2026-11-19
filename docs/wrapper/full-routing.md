@@ -82,6 +82,27 @@ and exit data, estimated times and route identifiers preserve the SDK's nullabil
 `replaceTransitRoute` in the [transport example][transport-example] cancels an earlier
 session and draws its replacement in a collection the screen can clear.
 
+## Use native route and session handles
+
+Draw and inspect routes from shared code through the wrapper. In an Android or iOS source set,
+call `toNative()` when a platform API expects a MapKit handle. Call `toCommon()` on a handle
+you receive from native code before passing it into shared code.
+
+```kotlin
+import ru.sulgik.mapkit.transport.masstransit.Route
+import ru.sulgik.mapkit.transport.masstransit.toCommon
+
+fun routeFromNativeInterop(route: Route): Route {
+    val nativeRoute = route.toNative()
+    // Share nativeRoute with platform code that uses native MapKit.
+    return nativeRoute.toCommon()
+}
+```
+
+The driving types use the same methods in `ru.sulgik.mapkit.directions.driving`. Use wrapper
+`retry()` and `cancel()` for sessions you create through the wrapper so every alias shares
+the listener and cancellation state.
+
 ## Mode parity in MapKit 4.45.0 Full
 
 Both pinned SDKs have the factories below. Android returns results through listener interfaces.
