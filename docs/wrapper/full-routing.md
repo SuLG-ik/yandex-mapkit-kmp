@@ -1,0 +1,100 @@
+# Full routing
+
+The driving router is part of the Full edition. Use the candidate
+`ru.sulgik.mapkit:yandex-mapkit-kmp-full` and `yandex-mapkit-kmp-compose-full` coordinates and
+`YandexMapsMobile` {{ mapkit_version_full }} on iOS. The
+[Full consumer fixture](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/verification/lite-consumer)
+documents the isolated candidate repository and distribution checks.
+
+## Driving
+
+Initialize MapKit and start its lifecycle before creating the router. Call the router and session
+on the UI thread.
+
+```kotlin
+val router = Directions.getInstance().createDrivingRouter(DrivingRouterType.ONLINE)
+val points = listOf(
+    RequestPoint(Point(55.75, 37.62), RequestPointType.WAYPOINT),
+    RequestPoint(Point(55.76, 37.61), RequestPointType.VIAPOINT),
+    RequestPoint(Point(55.77, 37.60), RequestPointType.WAYPOINT),
+)
+val session = router.requestRoutes(
+    points = points,
+    drivingOptions = DrivingOptions(
+        routesCount = 2,
+        avoidanceFlags = AvoidanceFlags(avoidTolls = true),
+    ),
+    vehicleOptions = VehicleOptions(),
+    routeListener = DrivingRouteListener(
+        onDrivingRoutes = { alternatives -> showRoutes(alternatives) },
+        onDrivingRoutesError = { failure -> showFailure(failure) },
+    ),
+)
+```
+
+Keep the session in the screen or controller that owns the request. Cancel that wrapper before
+starting a replacement or disposing the screen. `retry` swaps the listener for that request while
+retaining the native session. Every wrapper of that native session shares the current request.
+Cancellation or retry through any alias silences the previous callback, even when that alias
+was created before the new request. Native successes can contain an empty list. Errors retain their native representation and
+expose the underlying typed MapKit error when available.
+
+The Full fixture includes a
+[controller example](https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/lite-consumer/shared/src/fullMain/kotlin/ru/sulgik/liteconsumer/FullDrivingExample.kt).
+Instantiate it with a live map's `mapObjects`. `replaceRoute` cancels the previous request, draws the
+first alternative in its own collection and presents all alternatives to its callback. `clear`
+cancels the request and removes its lines. Call `dispose` before leaving the screen. Building the
+fixture exercises the example's public API calls. A live route request needs a valid MapKit key.
+
+## Mode parity in MapKit 4.45.0 Full
+
+Both pinned SDKs have the factories below. Android returns results through listener interfaces.
+iOS uses handlers with a nullable routes array and `NSError`. The driving bridge forwards errors
+separately from successful route lists and preserves the native alternative order.
+
+| Mode | Native factories and options | Geometry and lifetime | Wrapper delivery and verification |
+| --- | --- | --- | --- |
+| Driving | Android `DirectionsFactory.getInstance().createDrivingRouter(type)`, iOS `YMKDirectionsFactory.instance().createDrivingRouter(withType:)`. Ordered request points, `DrivingOptions` and `VehicleOptions`. | `DrivingRoute.geometry` and waypoint positions, `DrivingSession.cancel/retry`. | Request and geometry slice implemented. Android checks input and alternative order, geometry, no route, error, retry and cancellation. iOS checks native waypoint and geometry values, empty results, errors and shared cancellation state through a surrogate identity. Live requests require a MapKit key. |
+| Walking | `Transport.createPedestrianRouter()` / `YMKTransport.createPedestrianRouter()` with ordered request points, `TimeOptions` and `RouteOptions`. | `transport.masstransit.Route` / `YMKMasstransitRoute` expose a polyline and sections. The shared transport session supports cancel and retry. | Next transport slice. Wrap the shared session, route and options, then verify ordered walking waypoints and section geometry before enabling the scheduled request. |
+| Cycling | `Transport.createBicycleRouterV2()` / `YMKTransport.createBicycleRouterV2()` with the same `TimeOptions` and `RouteOptions` as walking. | Same route and session as walking. | Reuse the walking slice's transport adapters and add a separate factory, callback and map rendering check. |
+| Public transit | `Transport.createMasstransitRouter()` / `YMKTransport.createMasstransitRouter()` takes `TransitOptions` and `RouteOptions`. `TransitOptions` carries departure/arrival time settings and a vehicle-type filter. | Same route and session as walking. Route sections distinguish transit legs and transfers. | Add transit-specific options and verify walking/transit alternatives, geometry and cancellation. Run one deterministic fixture per platform and a trusted live request. |
+
+The driving slice exposes route identifiers, polylines, waypoint positions and originating request
+points. Route metadata, vehicle restrictions in returned routes, summaries, external route
+matching and live driving-condition subscriptions are separate native surfaces. Upcoming walking,
+cycling and transit increments are tracked in [#80](https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/80).
+
+## Regression checks
+
+Run the device suites and the isolated Full apps in GitHub Actions with a running Android
+emulator and a booted iOS simulator.
+
+```bash
+./gradlew -PmapkitEdition=full -PskipIosTarget=true :yandex-mapkit-kmp:connectedAndroidDeviceTest
+./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:iosSimulatorArm64Test
+bash verification/lite-consumer/run.sh android "$ANDROID_SERIAL" with-integrations full
+bash verification/lite-consumer/run.sh ios "$IOS_DEVICE_UDID" with-integrations full
+```
+
+The first two commands cover [DrivingAdapterTest · Android][android-adapter] and
+[DrivingAdapterTest · iOS][ios-adapter]. Android runs on a device because the `RequestPoint`
+and `Polyline` constructors call JNI. Android sends two routes through the native listener and checks their order, geometry and cancellation.
+iOS uses real point and polyline values and a surrogate `NSObject` in the same weak registry to
+test shared cancellation. The SDK constructs driving routes and sessions through the router.
+Decoding non-empty route alternatives on iOS remains a keyed live check.
+
+Before reporting `MAP_READY` the isolated Full app creates, replaces and clears native map
+polylines. In the installed app tap **Draw route**, **Replace route**, then **Clear route**.
+A blue line appears, changes to the alternative and disappears. This preview uses the same
+drawing code as the request example. A live driving request and replacement before delivery
+require a test MapKit key.
+
+If an ABI check finds a difference, [Full CI][full-workflow] uploads the actual Android or iOS
+dump. Review and update the snapshots in `api/full`, then rerun both mandatory checks.
+
+[Android routing reference](https://yandex.com/maps-api/docs/mapkit/android/generated/tutorials/map_routing.html) ·
+[iOS routing reference](https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_routing.html)
+
+[android-adapter]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidDeviceTest/kotlin/ru/sulgik/mapkit/directions/driving/DrivingAdapterTest.kt
+[ios-adapter]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/directions/driving/DrivingAdapterTest.kt
+[full-workflow]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/full-consumer.yml

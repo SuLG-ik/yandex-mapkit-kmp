@@ -6,6 +6,64 @@
 // - Show declarations: true
 
 // Library unique name: <ru.sulgik.mapkit:yandex-mapkit-kmp>
+final enum class ru.sulgik.mapkit.annotations/AnnotationLanguage : kotlin/Enum<ru.sulgik.mapkit.annotations/AnnotationLanguage> { // ru.sulgik.mapkit.annotations/AnnotationLanguage|null[0]
+    enum entry ARABIC // ru.sulgik.mapkit.annotations/AnnotationLanguage.ARABIC|null[0]
+    enum entry ARMENIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.ARMENIAN|null[0]
+    enum entry AZERBAIJANI // ru.sulgik.mapkit.annotations/AnnotationLanguage.AZERBAIJANI|null[0]
+    enum entry BASHKIR // ru.sulgik.mapkit.annotations/AnnotationLanguage.BASHKIR|null[0]
+    enum entry ENGLISH // ru.sulgik.mapkit.annotations/AnnotationLanguage.ENGLISH|null[0]
+    enum entry ESTONIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.ESTONIAN|null[0]
+    enum entry FINNISH // ru.sulgik.mapkit.annotations/AnnotationLanguage.FINNISH|null[0]
+    enum entry FRENCH // ru.sulgik.mapkit.annotations/AnnotationLanguage.FRENCH|null[0]
+    enum entry GEORGIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.GEORGIAN|null[0]
+    enum entry HEBREW // ru.sulgik.mapkit.annotations/AnnotationLanguage.HEBREW|null[0]
+    enum entry ITALIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.ITALIAN|null[0]
+    enum entry KAZAKH // ru.sulgik.mapkit.annotations/AnnotationLanguage.KAZAKH|null[0]
+    enum entry KYRGYZ // ru.sulgik.mapkit.annotations/AnnotationLanguage.KYRGYZ|null[0]
+    enum entry LATIN_AMERICAN_SPANISH // ru.sulgik.mapkit.annotations/AnnotationLanguage.LATIN_AMERICAN_SPANISH|null[0]
+    enum entry LATVIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.LATVIAN|null[0]
+    enum entry LITHUANIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.LITHUANIAN|null[0]
+    enum entry PORTUGUESE // ru.sulgik.mapkit.annotations/AnnotationLanguage.PORTUGUESE|null[0]
+    enum entry ROMANIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.ROMANIAN|null[0]
+    enum entry RUSSIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.RUSSIAN|null[0]
+    enum entry SERBIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.SERBIAN|null[0]
+    enum entry TATAR // ru.sulgik.mapkit.annotations/AnnotationLanguage.TATAR|null[0]
+    enum entry TURKISH // ru.sulgik.mapkit.annotations/AnnotationLanguage.TURKISH|null[0]
+    enum entry UKRAINIAN // ru.sulgik.mapkit.annotations/AnnotationLanguage.UKRAINIAN|null[0]
+    enum entry UZBEK // ru.sulgik.mapkit.annotations/AnnotationLanguage.UZBEK|null[0]
+
+    final val entries // ru.sulgik.mapkit.annotations/AnnotationLanguage.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<ru.sulgik.mapkit.annotations/AnnotationLanguage> // ru.sulgik.mapkit.annotations/AnnotationLanguage.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): ru.sulgik.mapkit.annotations/AnnotationLanguage // ru.sulgik.mapkit.annotations/AnnotationLanguage.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<ru.sulgik.mapkit.annotations/AnnotationLanguage> // ru.sulgik.mapkit.annotations/AnnotationLanguage.values|values#static(){}[0]
+}
+
+final enum class ru.sulgik.mapkit.directions.driving/DrivingRouterType : kotlin/Enum<ru.sulgik.mapkit.directions.driving/DrivingRouterType> { // ru.sulgik.mapkit.directions.driving/DrivingRouterType|null[0]
+    enum entry COMBINED // ru.sulgik.mapkit.directions.driving/DrivingRouterType.COMBINED|null[0]
+    enum entry OFFLINE // ru.sulgik.mapkit.directions.driving/DrivingRouterType.OFFLINE|null[0]
+    enum entry ONLINE // ru.sulgik.mapkit.directions.driving/DrivingRouterType.ONLINE|null[0]
+
+    final val entries // ru.sulgik.mapkit.directions.driving/DrivingRouterType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<ru.sulgik.mapkit.directions.driving/DrivingRouterType> // ru.sulgik.mapkit.directions.driving/DrivingRouterType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): ru.sulgik.mapkit.directions.driving/DrivingRouterType // ru.sulgik.mapkit.directions.driving/DrivingRouterType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<ru.sulgik.mapkit.directions.driving/DrivingRouterType> // ru.sulgik.mapkit.directions.driving/DrivingRouterType.values|values#static(){}[0]
+}
+
+final enum class ru.sulgik.mapkit.directions.driving/VehicleType : kotlin/Enum<ru.sulgik.mapkit.directions.driving/VehicleType> { // ru.sulgik.mapkit.directions.driving/VehicleType|null[0]
+    enum entry DEFAULT // ru.sulgik.mapkit.directions.driving/VehicleType.DEFAULT|null[0]
+    enum entry MOTO // ru.sulgik.mapkit.directions.driving/VehicleType.MOTO|null[0]
+    enum entry TAXI // ru.sulgik.mapkit.directions.driving/VehicleType.TAXI|null[0]
+    enum entry TRUCK // ru.sulgik.mapkit.directions.driving/VehicleType.TRUCK|null[0]
+
+    final val entries // ru.sulgik.mapkit.directions.driving/VehicleType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<ru.sulgik.mapkit.directions.driving/VehicleType> // ru.sulgik.mapkit.directions.driving/VehicleType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): ru.sulgik.mapkit.directions.driving/VehicleType // ru.sulgik.mapkit.directions.driving/VehicleType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<ru.sulgik.mapkit.directions.driving/VehicleType> // ru.sulgik.mapkit.directions.driving/VehicleType.values|values#static(){}[0]
+}
+
 final enum class ru.sulgik.mapkit.geometry.geo/Priority : kotlin/Enum<ru.sulgik.mapkit.geometry.geo/Priority> { // ru.sulgik.mapkit.geometry.geo/Priority|null[0]
     enum entry CLOSEST_TO_RAW_POINT // ru.sulgik.mapkit.geometry.geo/Priority.CLOSEST_TO_RAW_POINT|null[0]
     enum entry CLOSEST_TO_START // ru.sulgik.mapkit.geometry.geo/Priority.CLOSEST_TO_START|null[0]
@@ -323,6 +381,17 @@ final enum class ru.sulgik.mapkit/ConflictResolutionMode : kotlin/Enum<ru.sulgik
     final fun values(): kotlin/Array<ru.sulgik.mapkit/ConflictResolutionMode> // ru.sulgik.mapkit/ConflictResolutionMode.values|values#static(){}[0]
 }
 
+final enum class ru.sulgik.mapkit/RequestPointType : kotlin/Enum<ru.sulgik.mapkit/RequestPointType> { // ru.sulgik.mapkit/RequestPointType|null[0]
+    enum entry VIAPOINT // ru.sulgik.mapkit/RequestPointType.VIAPOINT|null[0]
+    enum entry WAYPOINT // ru.sulgik.mapkit/RequestPointType.WAYPOINT|null[0]
+
+    final val entries // ru.sulgik.mapkit/RequestPointType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<ru.sulgik.mapkit/RequestPointType> // ru.sulgik.mapkit/RequestPointType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): ru.sulgik.mapkit/RequestPointType // ru.sulgik.mapkit/RequestPointType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<ru.sulgik.mapkit/RequestPointType> // ru.sulgik.mapkit/RequestPointType.values|values#static(){}[0]
+}
+
 abstract interface <#A: kotlin/Any> ru.sulgik.mapkit/NativeConvertible { // ru.sulgik.mapkit/NativeConvertible|null[0]
     abstract fun toNative(): #A // ru.sulgik.mapkit/NativeConvertible.toNative|toNative(){}[0]
 }
@@ -343,6 +412,14 @@ abstract interface ru.sulgik.mapkit.map/ImageProvider { // ru.sulgik.mapkit.map/
     abstract fun toNative(): platform.UIKit/UIImage // ru.sulgik.mapkit.map/ImageProvider.toNative|toNative(){}[0]
 
     final object Companion // ru.sulgik.mapkit.map/ImageProvider.Companion|null[0]
+}
+
+abstract class ru.sulgik.mapkit.directions.driving/DrivingRouteListener : ru.sulgik.mapkit/NativeConvertible<kotlin/Function2<kotlin.collections/List<*>?, platform.Foundation/NSError?, kotlin/Unit>> { // ru.sulgik.mapkit.directions.driving/DrivingRouteListener|null[0]
+    constructor <init>() // ru.sulgik.mapkit.directions.driving/DrivingRouteListener.<init>|<init>(){}[0]
+
+    abstract fun onDrivingRoutes(kotlin.collections/List<ru.sulgik.mapkit.directions.driving/DrivingRoute>) // ru.sulgik.mapkit.directions.driving/DrivingRouteListener.onDrivingRoutes|onDrivingRoutes(kotlin.collections.List<ru.sulgik.mapkit.directions.driving.DrivingRoute>){}[0]
+    abstract fun onDrivingRoutesError(ru.sulgik.mapkit.directions.driving/DrivingRouteError) // ru.sulgik.mapkit.directions.driving/DrivingRouteListener.onDrivingRoutesError|onDrivingRoutesError(ru.sulgik.mapkit.directions.driving.DrivingRouteError){}[0]
+    open fun toNative(): kotlin/Function2<kotlin.collections/List<*>?, platform.Foundation/NSError?, kotlin/Unit> // ru.sulgik.mapkit.directions.driving/DrivingRouteListener.toNative|toNative(){}[0]
 }
 
 abstract class ru.sulgik.mapkit.indoor/IndoorStateListener : ru.sulgik.mapkit/NativeConvertible<YandexMapKit/YMKIndoorStateListenerProtocol> { // ru.sulgik.mapkit.indoor/IndoorStateListener|null[0]
@@ -591,6 +668,161 @@ final class <#A: kotlin/Any> ru.sulgik.mapkit/WeakRef { // ru.sulgik.mapkit/Weak
     constructor <init>(#A) // ru.sulgik.mapkit/WeakRef.<init>|<init>(1:0){}[0]
 
     final fun get(): #A? // ru.sulgik.mapkit/WeakRef.get|get(){}[0]
+}
+
+final class ru.sulgik.mapkit.directions.driving/AvoidanceFlags { // ru.sulgik.mapkit.directions.driving/AvoidanceFlags|null[0]
+    constructor <init>(kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ...) // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.<init>|<init>(kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean){}[0]
+
+    final val avoidBoatFerry // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidBoatFerry|{}avoidBoatFerry[0]
+        final fun <get-avoidBoatFerry>(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidBoatFerry.<get-avoidBoatFerry>|<get-avoidBoatFerry>(){}[0]
+    final val avoidFordCrossing // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidFordCrossing|{}avoidFordCrossing[0]
+        final fun <get-avoidFordCrossing>(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidFordCrossing.<get-avoidFordCrossing>|<get-avoidFordCrossing>(){}[0]
+    final val avoidHighway // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidHighway|{}avoidHighway[0]
+        final fun <get-avoidHighway>(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidHighway.<get-avoidHighway>|<get-avoidHighway>(){}[0]
+    final val avoidPoorCondition // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidPoorCondition|{}avoidPoorCondition[0]
+        final fun <get-avoidPoorCondition>(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidPoorCondition.<get-avoidPoorCondition>|<get-avoidPoorCondition>(){}[0]
+    final val avoidRailwayCrossing // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidRailwayCrossing|{}avoidRailwayCrossing[0]
+        final fun <get-avoidRailwayCrossing>(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidRailwayCrossing.<get-avoidRailwayCrossing>|<get-avoidRailwayCrossing>(){}[0]
+    final val avoidTolls // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidTolls|{}avoidTolls[0]
+        final fun <get-avoidTolls>(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidTolls.<get-avoidTolls>|<get-avoidTolls>(){}[0]
+    final val avoidTunnel // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidTunnel|{}avoidTunnel[0]
+        final fun <get-avoidTunnel>(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidTunnel.<get-avoidTunnel>|<get-avoidTunnel>(){}[0]
+    final val avoidUnpaved // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidUnpaved|{}avoidUnpaved[0]
+        final fun <get-avoidUnpaved>(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.avoidUnpaved.<get-avoidUnpaved>|<get-avoidUnpaved>(){}[0]
+
+    final fun component1(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.component1|component1(){}[0]
+    final fun component2(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.component2|component2(){}[0]
+    final fun component3(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.component3|component3(){}[0]
+    final fun component4(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.component4|component4(){}[0]
+    final fun component5(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.component5|component5(){}[0]
+    final fun component6(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.component6|component6(){}[0]
+    final fun component7(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.component7|component7(){}[0]
+    final fun component8(): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.component8|component8(){}[0]
+    final fun copy(kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ...): ru.sulgik.mapkit.directions.driving/AvoidanceFlags // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.copy|copy(kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.directions.driving/AvoidanceFlags.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.directions.driving/DrivingOptions { // ru.sulgik.mapkit.directions.driving/DrivingOptions|null[0]
+    constructor <init>(kotlin/Double? = ..., kotlin/Int? = ..., kotlin.time/Instant? = ..., ru.sulgik.mapkit.annotations/AnnotationLanguage? = ..., ru.sulgik.mapkit.directions.driving/AvoidanceFlags? = ...) // ru.sulgik.mapkit.directions.driving/DrivingOptions.<init>|<init>(kotlin.Double?;kotlin.Int?;kotlin.time.Instant?;ru.sulgik.mapkit.annotations.AnnotationLanguage?;ru.sulgik.mapkit.directions.driving.AvoidanceFlags?){}[0]
+
+    final val annotationLanguage // ru.sulgik.mapkit.directions.driving/DrivingOptions.annotationLanguage|{}annotationLanguage[0]
+        final fun <get-annotationLanguage>(): ru.sulgik.mapkit.annotations/AnnotationLanguage? // ru.sulgik.mapkit.directions.driving/DrivingOptions.annotationLanguage.<get-annotationLanguage>|<get-annotationLanguage>(){}[0]
+    final val avoidanceFlags // ru.sulgik.mapkit.directions.driving/DrivingOptions.avoidanceFlags|{}avoidanceFlags[0]
+        final fun <get-avoidanceFlags>(): ru.sulgik.mapkit.directions.driving/AvoidanceFlags? // ru.sulgik.mapkit.directions.driving/DrivingOptions.avoidanceFlags.<get-avoidanceFlags>|<get-avoidanceFlags>(){}[0]
+    final val departureTime // ru.sulgik.mapkit.directions.driving/DrivingOptions.departureTime|{}departureTime[0]
+        final fun <get-departureTime>(): kotlin.time/Instant? // ru.sulgik.mapkit.directions.driving/DrivingOptions.departureTime.<get-departureTime>|<get-departureTime>(){}[0]
+    final val initialAzimuth // ru.sulgik.mapkit.directions.driving/DrivingOptions.initialAzimuth|{}initialAzimuth[0]
+        final fun <get-initialAzimuth>(): kotlin/Double? // ru.sulgik.mapkit.directions.driving/DrivingOptions.initialAzimuth.<get-initialAzimuth>|<get-initialAzimuth>(){}[0]
+    final val routesCount // ru.sulgik.mapkit.directions.driving/DrivingOptions.routesCount|{}routesCount[0]
+        final fun <get-routesCount>(): kotlin/Int? // ru.sulgik.mapkit.directions.driving/DrivingOptions.routesCount.<get-routesCount>|<get-routesCount>(){}[0]
+
+    final fun component1(): kotlin/Double? // ru.sulgik.mapkit.directions.driving/DrivingOptions.component1|component1(){}[0]
+    final fun component2(): kotlin/Int? // ru.sulgik.mapkit.directions.driving/DrivingOptions.component2|component2(){}[0]
+    final fun component3(): kotlin.time/Instant? // ru.sulgik.mapkit.directions.driving/DrivingOptions.component3|component3(){}[0]
+    final fun component4(): ru.sulgik.mapkit.annotations/AnnotationLanguage? // ru.sulgik.mapkit.directions.driving/DrivingOptions.component4|component4(){}[0]
+    final fun component5(): ru.sulgik.mapkit.directions.driving/AvoidanceFlags? // ru.sulgik.mapkit.directions.driving/DrivingOptions.component5|component5(){}[0]
+    final fun copy(kotlin/Double? = ..., kotlin/Int? = ..., kotlin.time/Instant? = ..., ru.sulgik.mapkit.annotations/AnnotationLanguage? = ..., ru.sulgik.mapkit.directions.driving/AvoidanceFlags? = ...): ru.sulgik.mapkit.directions.driving/DrivingOptions // ru.sulgik.mapkit.directions.driving/DrivingOptions.copy|copy(kotlin.Double?;kotlin.Int?;kotlin.time.Instant?;ru.sulgik.mapkit.annotations.AnnotationLanguage?;ru.sulgik.mapkit.directions.driving.AvoidanceFlags?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/DrivingOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.directions.driving/DrivingOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.directions.driving/DrivingOptions.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.directions.driving/DrivingRoute { // ru.sulgik.mapkit.directions.driving/DrivingRoute|null[0]
+    final val geometry // ru.sulgik.mapkit.directions.driving/DrivingRoute.geometry|{}geometry[0]
+        final fun <get-geometry>(): ru.sulgik.mapkit.geometry/Polyline // ru.sulgik.mapkit.directions.driving/DrivingRoute.geometry.<get-geometry>|<get-geometry>(){}[0]
+    final val requestPoints // ru.sulgik.mapkit.directions.driving/DrivingRoute.requestPoints|{}requestPoints[0]
+        final fun <get-requestPoints>(): kotlin.collections/List<ru.sulgik.mapkit/RequestPoint>? // ru.sulgik.mapkit.directions.driving/DrivingRoute.requestPoints.<get-requestPoints>|<get-requestPoints>(){}[0]
+    final val routeId // ru.sulgik.mapkit.directions.driving/DrivingRoute.routeId|{}routeId[0]
+        final fun <get-routeId>(): kotlin/String // ru.sulgik.mapkit.directions.driving/DrivingRoute.routeId.<get-routeId>|<get-routeId>(){}[0]
+    final val wayPoints // ru.sulgik.mapkit.directions.driving/DrivingRoute.wayPoints|{}wayPoints[0]
+        final fun <get-wayPoints>(): kotlin.collections/List<ru.sulgik.mapkit.geometry/PolylinePosition> // ru.sulgik.mapkit.directions.driving/DrivingRoute.wayPoints.<get-wayPoints>|<get-wayPoints>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/DrivingRoute.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.directions.driving/DrivingRoute.hashCode|hashCode(){}[0]
+    final fun toNative(): YandexMapKit/YMKDrivingRoute // ru.sulgik.mapkit.directions.driving/DrivingRoute.toNative|toNative(){}[0]
+}
+
+final class ru.sulgik.mapkit.directions.driving/DrivingRouteError { // ru.sulgik.mapkit.directions.driving/DrivingRouteError|null[0]
+    final val description // ru.sulgik.mapkit.directions.driving/DrivingRouteError.description|{}description[0]
+        final fun <get-description>(): kotlin/String? // ru.sulgik.mapkit.directions.driving/DrivingRouteError.description.<get-description>|<get-description>(){}[0]
+    final val error // ru.sulgik.mapkit.directions.driving/DrivingRouteError.error|{}error[0]
+        final fun <get-error>(): ru.sulgik.mapkit.runtime/Error? // ru.sulgik.mapkit.directions.driving/DrivingRouteError.error.<get-error>|<get-error>(){}[0]
+
+    final fun toNative(): platform.Foundation/NSError // ru.sulgik.mapkit.directions.driving/DrivingRouteError.toNative|toNative(){}[0]
+}
+
+final class ru.sulgik.mapkit.directions.driving/DrivingRouter { // ru.sulgik.mapkit.directions.driving/DrivingRouter|null[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/DrivingRouter.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.directions.driving/DrivingRouter.hashCode|hashCode(){}[0]
+    final fun requestRoutes(kotlin.collections/List<ru.sulgik.mapkit/RequestPoint>, ru.sulgik.mapkit.directions.driving/DrivingOptions, ru.sulgik.mapkit.directions.driving/VehicleOptions, ru.sulgik.mapkit.directions.driving/DrivingRouteListener): ru.sulgik.mapkit.directions.driving/DrivingSession // ru.sulgik.mapkit.directions.driving/DrivingRouter.requestRoutes|requestRoutes(kotlin.collections.List<ru.sulgik.mapkit.RequestPoint>;ru.sulgik.mapkit.directions.driving.DrivingOptions;ru.sulgik.mapkit.directions.driving.VehicleOptions;ru.sulgik.mapkit.directions.driving.DrivingRouteListener){}[0]
+    final fun toNative(): YandexMapKit/YMKDrivingRouter // ru.sulgik.mapkit.directions.driving/DrivingRouter.toNative|toNative(){}[0]
+}
+
+final class ru.sulgik.mapkit.directions.driving/DrivingSession { // ru.sulgik.mapkit.directions.driving/DrivingSession|null[0]
+    final fun cancel() // ru.sulgik.mapkit.directions.driving/DrivingSession.cancel|cancel(){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/DrivingSession.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.directions.driving/DrivingSession.hashCode|hashCode(){}[0]
+    final fun retry(ru.sulgik.mapkit.directions.driving/DrivingRouteListener) // ru.sulgik.mapkit.directions.driving/DrivingSession.retry|retry(ru.sulgik.mapkit.directions.driving.DrivingRouteListener){}[0]
+    final fun toNative(): YandexMapKit/YMKDrivingSession // ru.sulgik.mapkit.directions.driving/DrivingSession.toNative|toNative(){}[0]
+}
+
+final class ru.sulgik.mapkit.directions.driving/VehicleOptions { // ru.sulgik.mapkit.directions.driving/VehicleOptions|null[0]
+    constructor <init>(ru.sulgik.mapkit.directions.driving/VehicleType = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Int? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ...) // ru.sulgik.mapkit.directions.driving/VehicleOptions.<init>|<init>(ru.sulgik.mapkit.directions.driving.VehicleType;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Int?;kotlin.Boolean?;kotlin.Boolean?){}[0]
+
+    final val axleWeight // ru.sulgik.mapkit.directions.driving/VehicleOptions.axleWeight|{}axleWeight[0]
+        final fun <get-axleWeight>(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.axleWeight.<get-axleWeight>|<get-axleWeight>(){}[0]
+    final val buswayPermitted // ru.sulgik.mapkit.directions.driving/VehicleOptions.buswayPermitted|{}buswayPermitted[0]
+        final fun <get-buswayPermitted>(): kotlin/Boolean? // ru.sulgik.mapkit.directions.driving/VehicleOptions.buswayPermitted.<get-buswayPermitted>|<get-buswayPermitted>(){}[0]
+    final val ecoClass // ru.sulgik.mapkit.directions.driving/VehicleOptions.ecoClass|{}ecoClass[0]
+        final fun <get-ecoClass>(): kotlin/Int? // ru.sulgik.mapkit.directions.driving/VehicleOptions.ecoClass.<get-ecoClass>|<get-ecoClass>(){}[0]
+    final val hasTrailer // ru.sulgik.mapkit.directions.driving/VehicleOptions.hasTrailer|{}hasTrailer[0]
+        final fun <get-hasTrailer>(): kotlin/Boolean? // ru.sulgik.mapkit.directions.driving/VehicleOptions.hasTrailer.<get-hasTrailer>|<get-hasTrailer>(){}[0]
+    final val height // ru.sulgik.mapkit.directions.driving/VehicleOptions.height|{}height[0]
+        final fun <get-height>(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.height.<get-height>|<get-height>(){}[0]
+    final val length // ru.sulgik.mapkit.directions.driving/VehicleOptions.length|{}length[0]
+        final fun <get-length>(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.length.<get-length>|<get-length>(){}[0]
+    final val maxWeight // ru.sulgik.mapkit.directions.driving/VehicleOptions.maxWeight|{}maxWeight[0]
+        final fun <get-maxWeight>(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.maxWeight.<get-maxWeight>|<get-maxWeight>(){}[0]
+    final val payload // ru.sulgik.mapkit.directions.driving/VehicleOptions.payload|{}payload[0]
+        final fun <get-payload>(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.payload.<get-payload>|<get-payload>(){}[0]
+    final val vehicleType // ru.sulgik.mapkit.directions.driving/VehicleOptions.vehicleType|{}vehicleType[0]
+        final fun <get-vehicleType>(): ru.sulgik.mapkit.directions.driving/VehicleType // ru.sulgik.mapkit.directions.driving/VehicleOptions.vehicleType.<get-vehicleType>|<get-vehicleType>(){}[0]
+    final val weight // ru.sulgik.mapkit.directions.driving/VehicleOptions.weight|{}weight[0]
+        final fun <get-weight>(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.weight.<get-weight>|<get-weight>(){}[0]
+    final val width // ru.sulgik.mapkit.directions.driving/VehicleOptions.width|{}width[0]
+        final fun <get-width>(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.width.<get-width>|<get-width>(){}[0]
+
+    final fun component1(): ru.sulgik.mapkit.directions.driving/VehicleType // ru.sulgik.mapkit.directions.driving/VehicleOptions.component1|component1(){}[0]
+    final fun component10(): kotlin/Boolean? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component10|component10(){}[0]
+    final fun component11(): kotlin/Boolean? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component11|component11(){}[0]
+    final fun component2(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component2|component2(){}[0]
+    final fun component3(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component3|component3(){}[0]
+    final fun component4(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component4|component4(){}[0]
+    final fun component5(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component5|component5(){}[0]
+    final fun component6(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component6|component6(){}[0]
+    final fun component7(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component7|component7(){}[0]
+    final fun component8(): kotlin/Float? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component8|component8(){}[0]
+    final fun component9(): kotlin/Int? // ru.sulgik.mapkit.directions.driving/VehicleOptions.component9|component9(){}[0]
+    final fun copy(ru.sulgik.mapkit.directions.driving/VehicleType = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Float? = ..., kotlin/Int? = ..., kotlin/Boolean? = ..., kotlin/Boolean? = ...): ru.sulgik.mapkit.directions.driving/VehicleOptions // ru.sulgik.mapkit.directions.driving/VehicleOptions.copy|copy(ru.sulgik.mapkit.directions.driving.VehicleType;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Float?;kotlin.Int?;kotlin.Boolean?;kotlin.Boolean?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.directions.driving/VehicleOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.directions.driving/VehicleOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.directions.driving/VehicleOptions.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.directions/Directions { // ru.sulgik.mapkit.directions/Directions|null[0]
+    final val isValid // ru.sulgik.mapkit.directions/Directions.isValid|{}isValid[0]
+        final fun <get-isValid>(): kotlin/Boolean // ru.sulgik.mapkit.directions/Directions.isValid.<get-isValid>|<get-isValid>(){}[0]
+
+    final fun createDrivingRouter(ru.sulgik.mapkit.directions.driving/DrivingRouterType): ru.sulgik.mapkit.directions.driving/DrivingRouter // ru.sulgik.mapkit.directions/Directions.createDrivingRouter|createDrivingRouter(ru.sulgik.mapkit.directions.driving.DrivingRouterType){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.directions/Directions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.directions/Directions.hashCode|hashCode(){}[0]
+    final fun toNative(): YandexMapKit/YMKDirections // ru.sulgik.mapkit.directions/Directions.toNative|toNative(){}[0]
+
+    final object Companion { // ru.sulgik.mapkit.directions/Directions.Companion|null[0]
+        final fun getInstance(): ru.sulgik.mapkit.directions/Directions // ru.sulgik.mapkit.directions/Directions.Companion.getInstance|getInstance(){}[0]
+    }
 }
 
 final class ru.sulgik.mapkit.geometry.geo/PolylineIndex { // ru.sulgik.mapkit.geometry.geo/PolylineIndex|null[0]
@@ -2891,6 +3123,31 @@ final class ru.sulgik.mapkit/RawTile { // ru.sulgik.mapkit/RawTile|null[0]
     }
 }
 
+final class ru.sulgik.mapkit/RequestPoint { // ru.sulgik.mapkit/RequestPoint|null[0]
+    constructor <init>(ru.sulgik.mapkit.geometry/Point, ru.sulgik.mapkit/RequestPointType, kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ...) // ru.sulgik.mapkit/RequestPoint.<init>|<init>(ru.sulgik.mapkit.geometry.Point;ru.sulgik.mapkit.RequestPointType;kotlin.String?;kotlin.String?;kotlin.String?){}[0]
+
+    final val drivingArrivalPointId // ru.sulgik.mapkit/RequestPoint.drivingArrivalPointId|{}drivingArrivalPointId[0]
+        final fun <get-drivingArrivalPointId>(): kotlin/String? // ru.sulgik.mapkit/RequestPoint.drivingArrivalPointId.<get-drivingArrivalPointId>|<get-drivingArrivalPointId>(){}[0]
+    final val indoorLevelId // ru.sulgik.mapkit/RequestPoint.indoorLevelId|{}indoorLevelId[0]
+        final fun <get-indoorLevelId>(): kotlin/String? // ru.sulgik.mapkit/RequestPoint.indoorLevelId.<get-indoorLevelId>|<get-indoorLevelId>(){}[0]
+    final val point // ru.sulgik.mapkit/RequestPoint.point|{}point[0]
+        final fun <get-point>(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit/RequestPoint.point.<get-point>|<get-point>(){}[0]
+    final val pointContext // ru.sulgik.mapkit/RequestPoint.pointContext|{}pointContext[0]
+        final fun <get-pointContext>(): kotlin/String? // ru.sulgik.mapkit/RequestPoint.pointContext.<get-pointContext>|<get-pointContext>(){}[0]
+    final val type // ru.sulgik.mapkit/RequestPoint.type|{}type[0]
+        final fun <get-type>(): ru.sulgik.mapkit/RequestPointType // ru.sulgik.mapkit/RequestPoint.type.<get-type>|<get-type>(){}[0]
+
+    final fun component1(): ru.sulgik.mapkit.geometry/Point // ru.sulgik.mapkit/RequestPoint.component1|component1(){}[0]
+    final fun component2(): ru.sulgik.mapkit/RequestPointType // ru.sulgik.mapkit/RequestPoint.component2|component2(){}[0]
+    final fun component3(): kotlin/String? // ru.sulgik.mapkit/RequestPoint.component3|component3(){}[0]
+    final fun component4(): kotlin/String? // ru.sulgik.mapkit/RequestPoint.component4|component4(){}[0]
+    final fun component5(): kotlin/String? // ru.sulgik.mapkit/RequestPoint.component5|component5(){}[0]
+    final fun copy(ru.sulgik.mapkit.geometry/Point = ..., ru.sulgik.mapkit/RequestPointType = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ...): ru.sulgik.mapkit/RequestPoint // ru.sulgik.mapkit/RequestPoint.copy|copy(ru.sulgik.mapkit.geometry.Point;ru.sulgik.mapkit.RequestPointType;kotlin.String?;kotlin.String?;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit/RequestPoint.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit/RequestPoint.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit/RequestPoint.toString|toString(){}[0]
+}
+
 final class ru.sulgik.mapkit/ScreenPoint { // ru.sulgik.mapkit/ScreenPoint|null[0]
     constructor <init>(kotlin/Float, kotlin/Float) // ru.sulgik.mapkit/ScreenPoint.<init>|<init>(kotlin.Float;kotlin.Float){}[0]
 
@@ -3268,6 +3525,7 @@ final object ru.sulgik.mapkit.map/LayerIds { // ru.sulgik.mapkit.map/LayerIds|nu
 
 final fun (YandexMapKit/YMKAnimation).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Animation // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAnimation(){}[0]
 final fun (YandexMapKit/YMKAnimationType).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Animation.Type // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAnimationType(){}[0]
+final fun (YandexMapKit/YMKAnnotationLanguage).ru.sulgik.mapkit.annotations/toCommon(): ru.sulgik.mapkit.annotations/AnnotationLanguage // ru.sulgik.mapkit.annotations/toCommon|toCommon@YandexMapKit.YMKAnnotationLanguage(){}[0]
 final fun (YandexMapKit/YMKArrow).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/Arrow // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKArrow(){}[0]
 final fun (YandexMapKit/YMKAttribution).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Attribution // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAttribution(){}[0]
 final fun (YandexMapKit/YMKAttributionAuthor).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Attribution.Author // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAttributionAuthor(){}[0]
@@ -3287,6 +3545,15 @@ final fun (YandexMapKit/YMKConflictResolutionMode).ru.sulgik.mapkit/toCommon(): 
 final fun (YandexMapKit/YMKDataSource).ru.sulgik.mapkit.layers/toCommon(): ru.sulgik.mapkit.layers/DataSource // ru.sulgik.mapkit.layers/toCommon|toCommon@YandexMapKit.YMKDataSource(){}[0]
 final fun (YandexMapKit/YMKDataSourceLayer).ru.sulgik.mapkit.layers/toCommon(): ru.sulgik.mapkit.layers/DataSourceLayer // ru.sulgik.mapkit.layers/toCommon|toCommon@YandexMapKit.YMKDataSourceLayer(){}[0]
 final fun (YandexMapKit/YMKDirection).ru.sulgik.mapkit.geometry/toCommon(): ru.sulgik.mapkit.geometry/Direction // ru.sulgik.mapkit.geometry/toCommon|toCommon@YandexMapKit.YMKDirection(){}[0]
+final fun (YandexMapKit/YMKDirections).ru.sulgik.mapkit.directions/toCommon(): ru.sulgik.mapkit.directions/Directions // ru.sulgik.mapkit.directions/toCommon|toCommon@YandexMapKit.YMKDirections(){}[0]
+final fun (YandexMapKit/YMKDrivingAvoidanceFlags).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/AvoidanceFlags // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@YandexMapKit.YMKDrivingAvoidanceFlags(){}[0]
+final fun (YandexMapKit/YMKDrivingOptions).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/DrivingOptions // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@YandexMapKit.YMKDrivingOptions(){}[0]
+final fun (YandexMapKit/YMKDrivingRoute).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/DrivingRoute // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@YandexMapKit.YMKDrivingRoute(){}[0]
+final fun (YandexMapKit/YMKDrivingRouter).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/DrivingRouter // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@YandexMapKit.YMKDrivingRouter(){}[0]
+final fun (YandexMapKit/YMKDrivingRouterType).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/DrivingRouterType // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@YandexMapKit.YMKDrivingRouterType(){}[0]
+final fun (YandexMapKit/YMKDrivingSession).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/DrivingSession // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@YandexMapKit.YMKDrivingSession(){}[0]
+final fun (YandexMapKit/YMKDrivingVehicleOptions).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/VehicleOptions // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@YandexMapKit.YMKDrivingVehicleOptions(){}[0]
+final fun (YandexMapKit/YMKDrivingVehicleType).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/VehicleType // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@YandexMapKit.YMKDrivingVehicleType(){}[0]
 final fun (YandexMapKit/YMKDummyLocationManager).ru.sulgik.mapkit.location/toCommon(): ru.sulgik.mapkit.location/DummyLocationManager // ru.sulgik.mapkit.location/toCommon|toCommon@YandexMapKit.YMKDummyLocationManager(){}[0]
 final fun (YandexMapKit/YMKDummyLocationQuality).ru.sulgik.mapkit.location/toCommon(): ru.sulgik.mapkit.location/DummyLocationQuality // ru.sulgik.mapkit.location/toCommon|toCommon@YandexMapKit.YMKDummyLocationQuality(){}[0]
 final fun (YandexMapKit/YMKGeoObject).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/GeoObject // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKGeoObject(){}[0]
@@ -3369,6 +3636,8 @@ final fun (YandexMapKit/YMKRawTile).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapki
 final fun (YandexMapKit/YMKRawTileState).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/RawTile.State // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKRawTileState(){}[0]
 final fun (YandexMapKit/YMKRawTileUseCache).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/RawTile.UseCache // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKRawTileUseCache(){}[0]
 final fun (YandexMapKit/YMKRect).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/Rect // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKRect(){}[0]
+final fun (YandexMapKit/YMKRequestPoint).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/RequestPoint // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKRequestPoint(){}[0]
+final fun (YandexMapKit/YMKRequestPointType).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/RequestPointType // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKRequestPointType(){}[0]
 final fun (YandexMapKit/YMKRootMapObjectCollection).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/RootMapObjectCollection // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKRootMapObjectCollection(){}[0]
 final fun (YandexMapKit/YMKRotationType).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/RotationType // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKRotationType(){}[0]
 final fun (YandexMapKit/YMKScreenPoint).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/ScreenPoint // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKScreenPoint(){}[0]
@@ -3444,9 +3713,16 @@ final fun (YandexMapKit/YRTSystemOfMeasurement).ru.sulgik.mapkit.runtime.i18n/to
 final fun (YandexMapKit/YRTTimeFormat).ru.sulgik.mapkit.runtime.i18n/toCommon(): ru.sulgik.mapkit.runtime.i18n/TimeFormat // ru.sulgik.mapkit.runtime.i18n/toCommon|toCommon@YandexMapKit.YRTTimeFormat(){}[0]
 final fun (YandexMapKit/YRTUnauthorizedError).ru.sulgik.mapkit.runtime.network/toCommon(): ru.sulgik.mapkit.runtime.network/UnauthorizedError // ru.sulgik.mapkit.runtime.network/toCommon|toCommon@YandexMapKit.YRTUnauthorizedError(){}[0]
 final fun (platform.CoreGraphics/CGPoint).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/PointF // ru.sulgik.mapkit/toCommon|toCommon@platform.CoreGraphics.CGPoint(){}[0]
+final fun (platform.Foundation/NSError).ru.sulgik.mapkit.directions.driving/toCommon(): ru.sulgik.mapkit.directions.driving/DrivingRouteError // ru.sulgik.mapkit.directions.driving/toCommon|toCommon@platform.Foundation.NSError(){}[0]
 final fun (platform.Foundation/NSError).ru.sulgik.mapkit.offline_cache/toOfflineCacheError(): ru.sulgik.mapkit.offline_cache/OfflineCacheError // ru.sulgik.mapkit.offline_cache/toOfflineCacheError|toOfflineCacheError@platform.Foundation.NSError(){}[0]
 final fun (platform.Foundation/NSError).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SearchError // ru.sulgik.mapkit.search/toCommon|toCommon@platform.Foundation.NSError(){}[0]
 final fun (platform.UIKit/UIColor).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Color // ru.sulgik.mapkit/toCommon|toCommon@platform.UIKit.UIColor(){}[0]
+final fun (ru.sulgik.mapkit.annotations/AnnotationLanguage).ru.sulgik.mapkit.annotations/toNative(): YandexMapKit/YMKAnnotationLanguage // ru.sulgik.mapkit.annotations/toNative|toNative@ru.sulgik.mapkit.annotations.AnnotationLanguage(){}[0]
+final fun (ru.sulgik.mapkit.directions.driving/AvoidanceFlags).ru.sulgik.mapkit.directions.driving/toNative(): YandexMapKit/YMKDrivingAvoidanceFlags // ru.sulgik.mapkit.directions.driving/toNative|toNative@ru.sulgik.mapkit.directions.driving.AvoidanceFlags(){}[0]
+final fun (ru.sulgik.mapkit.directions.driving/DrivingOptions).ru.sulgik.mapkit.directions.driving/toNative(): YandexMapKit/YMKDrivingOptions // ru.sulgik.mapkit.directions.driving/toNative|toNative@ru.sulgik.mapkit.directions.driving.DrivingOptions(){}[0]
+final fun (ru.sulgik.mapkit.directions.driving/DrivingRouterType).ru.sulgik.mapkit.directions.driving/toNative(): YandexMapKit/YMKDrivingRouterType // ru.sulgik.mapkit.directions.driving/toNative|toNative@ru.sulgik.mapkit.directions.driving.DrivingRouterType(){}[0]
+final fun (ru.sulgik.mapkit.directions.driving/VehicleOptions).ru.sulgik.mapkit.directions.driving/toNative(): YandexMapKit/YMKDrivingVehicleOptions // ru.sulgik.mapkit.directions.driving/toNative|toNative@ru.sulgik.mapkit.directions.driving.VehicleOptions(){}[0]
+final fun (ru.sulgik.mapkit.directions.driving/VehicleType).ru.sulgik.mapkit.directions.driving/toNative(): YandexMapKit/YMKDrivingVehicleType // ru.sulgik.mapkit.directions.driving/toNative|toNative@ru.sulgik.mapkit.directions.driving.VehicleType(){}[0]
 final fun (ru.sulgik.mapkit.geometry.geo/Priority).ru.sulgik.mapkit.geometry.geo/toNative(): YandexMapKit/YMKPolylineIndexPriority // ru.sulgik.mapkit.geometry.geo/toNative|toNative@ru.sulgik.mapkit.geometry.geo.Priority(){}[0]
 final fun (ru.sulgik.mapkit.geometry.geo/XYPoint).ru.sulgik.mapkit.geometry.geo/toNative(): YandexMapKit/YMKXYPoint // ru.sulgik.mapkit.geometry.geo/toNative|toNative@ru.sulgik.mapkit.geometry.geo.XYPoint(){}[0]
 final fun (ru.sulgik.mapkit.geometry/BoundingBox).ru.sulgik.mapkit.geometry/getBounds(): ru.sulgik.mapkit.geometry/BoundingBox // ru.sulgik.mapkit.geometry/getBounds|getBounds@ru.sulgik.mapkit.geometry.BoundingBox(){}[0]
@@ -3566,6 +3842,8 @@ final fun (ru.sulgik.mapkit/PointF).ru.sulgik.mapkit/toNative(): kotlinx.cintero
 final fun (ru.sulgik.mapkit/RawTile).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKRawTile // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.RawTile(){}[0]
 final fun (ru.sulgik.mapkit/RawTile.State).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKRawTileState // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.RawTile.State(){}[0]
 final fun (ru.sulgik.mapkit/RawTile.UseCache).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKRawTileUseCache // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.RawTile.UseCache(){}[0]
+final fun (ru.sulgik.mapkit/RequestPoint).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKRequestPoint // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.RequestPoint(){}[0]
+final fun (ru.sulgik.mapkit/RequestPointType).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKRequestPointType // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.RequestPointType(){}[0]
 final fun (ru.sulgik.mapkit/ScreenPoint).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKScreenPoint // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.ScreenPoint(){}[0]
 final fun (ru.sulgik.mapkit/ScreenRect).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKScreenRect // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.ScreenRect(){}[0]
 final fun (ru.sulgik.mapkit/Size2u).ru.sulgik.mapkit/toNative(): YandexMapKit/YMKSize2u // ru.sulgik.mapkit/toNative|toNative@ru.sulgik.mapkit.Size2u(){}[0]
@@ -3584,6 +3862,7 @@ final fun ru.sulgik.mapkit.geometry/PolylineBuilder(): ru.sulgik.mapkit.geometry
 final fun ru.sulgik.mapkit.location/lastKnownLocation(): ru.sulgik.mapkit.location/Location? // ru.sulgik.mapkit.location/lastKnownLocation|lastKnownLocation(){}[0]
 final inline fun <#A: kotlin/Any, #B: kotlin/Any?> (ru.sulgik.mapkit/WeakRef<#A>).ru.sulgik.mapkit/withValue(kotlin/Function1<#A, #B>): #B? // ru.sulgik.mapkit/withValue|withValue@ru.sulgik.mapkit.WeakRef<0:0>(kotlin.Function1<0:0,0:1>){0§<kotlin.Any>;1§<kotlin.Any?>}[0]
 final inline fun <#A: reified kotlin/Any> (ru.sulgik.mapkit.map/MapObject).ru.sulgik.mapkit.map/getCastedUserData(): #A? // ru.sulgik.mapkit.map/getCastedUserData|getCastedUserData@ru.sulgik.mapkit.map.MapObject(){0§<kotlin.Any>}[0]
+final inline fun ru.sulgik.mapkit.directions.driving/DrivingRouteListener(crossinline kotlin/Function1<kotlin.collections/List<ru.sulgik.mapkit.directions.driving/DrivingRoute>, kotlin/Unit>, crossinline kotlin/Function1<ru.sulgik.mapkit.directions.driving/DrivingRouteError, kotlin/Unit>): ru.sulgik.mapkit.directions.driving/DrivingRouteListener // ru.sulgik.mapkit.directions.driving/DrivingRouteListener|DrivingRouteListener(kotlin.Function1<kotlin.collections.List<ru.sulgik.mapkit.directions.driving.DrivingRoute>,kotlin.Unit>;kotlin.Function1<ru.sulgik.mapkit.directions.driving.DrivingRouteError,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.indoor/IndoorStateListener(crossinline kotlin/Function1<ru.sulgik.mapkit.indoor/IndoorPlan, kotlin/Unit>, crossinline kotlin/Function0<kotlin/Unit>, crossinline kotlin/Function1<kotlin/String, kotlin/Unit>): ru.sulgik.mapkit.indoor/IndoorStateListener // ru.sulgik.mapkit.indoor/IndoorStateListener|IndoorStateListener(kotlin.Function1<ru.sulgik.mapkit.indoor.IndoorPlan,kotlin.Unit>;kotlin.Function0<kotlin.Unit>;kotlin.Function1<kotlin.String,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.layers/DataSourceListener(crossinline kotlin/Function1<ru.sulgik.mapkit.layers/BaseDataSource, kotlin/Unit>): ru.sulgik.mapkit.layers/DataSourceListener // ru.sulgik.mapkit.layers/DataSourceListener|DataSourceListener(kotlin.Function1<ru.sulgik.mapkit.layers.BaseDataSource,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.layers/GeoObjectTapListener(crossinline kotlin/Function1<ru.sulgik.mapkit.layers/GeoObjectTapEvent, kotlin/Boolean>): ru.sulgik.mapkit.layers/GeoObjectTapListener // ru.sulgik.mapkit.layers/GeoObjectTapListener|GeoObjectTapListener(kotlin.Function1<ru.sulgik.mapkit.layers.GeoObjectTapEvent,kotlin.Boolean>){}[0]
