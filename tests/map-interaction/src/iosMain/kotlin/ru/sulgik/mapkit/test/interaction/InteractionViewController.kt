@@ -25,6 +25,11 @@ public fun nav3ViewController(): UIViewController {
     return ComposeUIViewController { Nav3Fixture(remember { Nav3Probe() }) }
 }
 
+public fun objectMembershipViewController(): UIViewController {
+    MapKit.setApiKey(FixtureKey)
+    return ComposeUIViewController { MapObjectMembershipFixture() }
+}
+
 @OptIn(NativeRuntimeApi::class)
 private fun collectGarbage() {
     GC.collect()
