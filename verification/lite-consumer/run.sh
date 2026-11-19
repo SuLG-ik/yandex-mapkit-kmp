@@ -22,7 +22,7 @@ case "$mode" in
         ;;
     prepare-live-search)
         if [[ "$edition" != full || -z "${GITHUB_OUTPUT:-}" || -n "${MAPKIT_TEST_API_KEY:-}" ]]; then
-            echo "Prepare the Full search app in a GitHub Actions step without the test key." >&2
+            echo "Prepare the Full service app in a GitHub Actions step without the test key." >&2
             exit 2
         fi
         ;;

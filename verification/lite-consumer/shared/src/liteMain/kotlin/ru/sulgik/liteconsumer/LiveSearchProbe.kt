@@ -1,5 +1,5 @@
 package ru.sulgik.liteconsumer
 
-internal suspend fun probeLiveSearch(): LiveSearchStatus {
-    return LiveSearchStatus.RunnerOrFixture
+internal suspend fun probeLiveSearch(): LiveServiceStatus {
+    return LiveServiceStatus.RunnerOrFixture
 }

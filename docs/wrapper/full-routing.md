@@ -121,8 +121,8 @@ native callback arriving during or after cancellation reaches no retired listene
 Before reporting `MAP_READY` the Full app creates, replaces and clears actual map polylines.
 In the installed app tap **Draw route**, **Replace route**, then **Clear route**. A thick blue
 line appears, changes to the alternative and disappears. This offline preview exercises the
-same drawing and clearing code as the request examples. A scheduled service request for each
-mode, including replacing an in-flight request before it delivers, needs a test MapKit key.
+same drawing and clearing code as the request examples. The scheduled service probe uses a test MapKit key. It replaces an in-flight request in
+each of the four modes, validates the returned geometry, and clears it from the map.
 
 The iOS adapter tests use a surrogate identity for shared session ownership because MapKit
 creates the native sessions. The tests still invoke the native response handlers.

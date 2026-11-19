@@ -5,32 +5,38 @@ can run. They only read the dedicated `MAPKIT_TEST_API_KEY` secret for scheduled
 on `main` of the maintainer repository. Use a restricted test key. Pull request jobs and release
 verification do not use it.
 
-The search hooks install the Full consumer built in a separate, credential-free step. They
-transfer the key to a private file in the debug app's sandbox at launch. The app reads and removes
-that file, then writes a marker with only its result category. On Android, the runner consumes a
-restricted temporary credential file after emulator startup so the emulator and SDK setup have no
-credential in their environment. The hook uses `adb run-as` and stdin for the app transfer. The iOS
-hook writes the file in the installed simulator app container. The credential is absent from the
-build, artifact paths and device command arguments. The driver then runs a separate credential-free
-cleanup while the device is still running, including after a hook deadline. Cleanup is itself
-bounded. It terminates only the fixture app, removes its temporary inputs and markers and reports
-an incomplete cleanup if it cannot reach the device.
+The hooks install the same Full consumer built in a separate, credential-free step. On Android,
+the workflow boots a dedicated emulator with a checked-in shell script after the offline matrix
+action exits. On iOS it reuses the booted simulator. First-party steps stage and consume a
+restricted runner file. Each hook transfers the key to a separate private file in the app sandbox.
+Android uses `adb run-as` with stdin. iOS writes directly into the installed simulator app's
+container. The app reads and removes the file at launch. The credential and the runner handoff path
+stay out of action inputs, build arguments, device command arguments and diagnostic artifacts.
 
-The app makes one online request for cafés in the same Moscow area on both platforms. An online
-response must contain at least one nonblank name with valid coordinates. Ranking, result count
-and specific businesses can change between runs. The app owns the native session and cancels an
-unfinished request after 20 seconds. The surrounding runner limits a hook to 120 seconds so an
-unresponsive emulator, launch or poll cannot block the job.
+The search probe makes one online request for cafés in a preset Moscow area. An online response
+must contain a nonblank place name with valid coordinates. Rankings and businesses may change. The
+app owns the session and cancels an unfinished request after 20 seconds.
 
-Routing remains skipped until `routing-android.sh` and `routing-ios.sh` are added. Each hook receives
-the booted device identifier as its only argument and reads the key from its scoped environment.
-Routing can add a credential-free preparation step if it needs its own fixture.
+The routing probe requests driving, pedestrian, bicycle and public transit routes in the same preset
+region. Each mode starts a route to a different destination and cancels it before submitting the
+replacement. The probe requires a real callback for the replacement and observes whether the
+retired request delivers a callback during cancellation or the bounded draw window. It checks
+nonempty geometry and ordered waypoints. The public transit case requires an alternative with a
+transit line. The accepted geometry is set on a native polyline, then cleared. A mode times out
+after 18 seconds. Success requires four mode markers and the final routing marker. Deterministic
+adapter tests inject retired callbacks separately to cover delivery even when the provider honors
+cancellation before it replies.
+
+Markers contain fixed probe names and status codes. After each launch, including a timeout, the
+runner starts bounded, credential-free cleanup on the same device. It terminates the fixture app,
+removes its temporary inputs and markers and reports an incomplete cleanup if the device is
+unreachable. Each hook has a 120-second outer deadline.
 
 | Status | Meaning |
 | --- | --- |
 | `0` | Passed |
 | `10` | MapKit supplied a typed unauthorized or forbidden error |
-| `11` | The provider returned another error or the 20-second request deadline expired |
+| `11` | The provider returned another error or the request deadline expired |
 | `12` | Callback, conversion or result-shape verification failed |
 | Anything else | The runner or fixture failed |
 

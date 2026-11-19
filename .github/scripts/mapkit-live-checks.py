@@ -66,9 +66,10 @@ def run_check(check, platform, device, api_key):
     command = ["bash", str(hook(check, platform)), device]
     environment = dict(os.environ, MAPKIT_LIVE_SEARCH_TOKEN=f"{time.time_ns()}-{os.getpid()}")
     environment.pop("MAPKIT_TEST_API_KEY", None)
+    environment.pop("MAPKIT_LIVE_KEY_FILE", None)
     status = run_process(command, dict(environment, MAPKIT_TEST_API_KEY=api_key), timeout=120)
     category = "runner-deadline" if status is None else EXIT_CATEGORIES.get(status, "runner-or-fixture")
-    if check == "search" and run_process(command + ["--cleanup"], environment, timeout=15) != 0:
+    if run_process(command + ["--cleanup"], environment, timeout=15) != 0:
         return f"{category}-cleanup-incomplete"
     return category
 

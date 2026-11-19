@@ -68,6 +68,9 @@ resets its session, and **Close editor** disposes it. Open the editor again to s
 Relaunch the manual profile to enter a different key. The script returns once it opens the setup
 screen. Requests begin when you type in the editor.
 
+The scheduled device matrix also launches the Full consumer in a [trusted service profile](../live-services/README.md)
+for search and four real routing modes. The credential is staged after building the fixture.
+
 The pinned 4.45.0 SDK release ships both editions on Android and iOS. Compressed upstream
 artifact sizes are 46,046,811 bytes (Lite) and 61,346,821 bytes (Full) for the Android AAR and
 199,668,819 bytes (Lite) and 259,160,882 bytes (Full) for the iOS CocoaPods archive. Final app
