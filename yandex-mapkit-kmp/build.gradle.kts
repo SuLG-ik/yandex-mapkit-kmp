@@ -78,6 +78,7 @@ kotlin {
             commonMain.get().kotlin.srcDir("src/fullMain/kotlin")
             androidMain.get().kotlin.srcDir("src/fullAndroidMain/kotlin")
             getByName("androidHostTest").kotlin.srcDir("src/fullAndroidHostTest/kotlin")
+            getByName("androidDeviceTest").kotlin.srcDir("src/fullAndroidDeviceTest/kotlin")
         }
 
         all {

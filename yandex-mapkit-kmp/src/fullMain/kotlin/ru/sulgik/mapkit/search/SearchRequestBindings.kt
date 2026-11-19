@@ -32,6 +32,10 @@ internal class SearchRequestBindings<Native : Any, Request : Any> {
         return null
     }
 
+    fun getOrPut(native: Native, create: () -> Request): Request {
+        return requestFor(native) ?: create().also { bind(native, it) }
+    }
+
     private class Binding<Native : Any, Request : Any>(
         val native: WeakRef<Native>,
         val request: WeakRef<Request>,

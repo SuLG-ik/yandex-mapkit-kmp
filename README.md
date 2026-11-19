@@ -69,7 +69,9 @@ import and your existing calls.
 
 The unreleased Full wrapper includes common Kotlin text search. See
 [Full text search](docs/wrapper/full-text-search.md) for the verification commands that stage the
-candidate from source and for request lifetime.
+candidate from source and for request lifetime. The candidate also exposes
+[driving routes](docs/wrapper/full-routing.md) with ordered request points, alternatives and
+cancellable sessions.
 
 ## Compatibility
 

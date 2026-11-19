@@ -17,6 +17,9 @@ summarise them. Their tags carry no `v` prefix, unlike the ones cut since.
   The Full consumer workflow checks both ABI snapshots and the search adapter regressions.
 - MapKit Full suggestions by viewport with filters, typed items, request replacement and session
   reset (#79).
+- Driving routes in the unreleased MapKit Full candidate, with ordered waypoints, alternatives,
+  route geometry and session cancellation on Android and iOS. The Full consumer includes an
+  offline preview for drawing, replacing and clearing routes.
 
 ## [1.0.0-beta02] - 2026-11-19
 

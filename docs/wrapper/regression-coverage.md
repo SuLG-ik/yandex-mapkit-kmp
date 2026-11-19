@@ -72,6 +72,15 @@ consumer creates and resets a native suggestion session. [#82][82] tracks live r
 The remaining Full surface is tracked in [#81][81]. Use the [regression workflow](../getting-started/contributing.md#regressions)
 when adding evidence or reporting a remaining gap.
 
+## Full driving routing
+
+The [Android adapter check](full-routing.md#regression-checks) exercises route delivery, geometry,
+empty results, errors and cancellation through a native wrapper. iOS checks native geometry
+values, empty/error callbacks and shared cancellation with a surrogate registry identity. The
+isolated Full app draws, replaces and clears a real polyline before `MAP_READY`. Live driving
+requests and the other routing modes remain tracked in [#80][80], with scheduled service
+runs in [#82][82].
+
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
 [a-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44435197621/job/135262196868
@@ -170,6 +179,7 @@ when adding evidence or reporting a remaining gap.
 [86]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/86
 [a-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
 [i-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
+[80]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/80
 
 [a-nav3]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/4adbf6cc0e960b89767ca5cef163f28b0d305960/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/Nav3MapTest.kt
 [i-nav3]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/4adbf6cc0e960b89767ca5cef163f28b0d305960/tests/map-interaction/iosApp/Nav3MapTests.swift

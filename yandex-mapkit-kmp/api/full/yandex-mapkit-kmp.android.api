@@ -292,6 +292,40 @@ public final class ru.sulgik.mapkit.RawTile_androidKt {
   public static final com.yandex.mapkit.RawTile$State toNative(ru.sulgik.mapkit.RawTile$State);
   public static final ru.sulgik.mapkit.RawTile$State toCommon(com.yandex.mapkit.RawTile$State);
 }
+public final class ru.sulgik.mapkit.RequestPoint {
+  public ru.sulgik.mapkit.RequestPoint(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.RequestPointType, java.lang.String, java.lang.String, java.lang.String);
+  public ru.sulgik.mapkit.RequestPoint(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.RequestPointType, java.lang.String, java.lang.String, java.lang.String, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final ru.sulgik.mapkit.geometry.Point getPoint();
+  public final ru.sulgik.mapkit.RequestPointType getType();
+  public final java.lang.String getPointContext();
+  public final java.lang.String getDrivingArrivalPointId();
+  public final java.lang.String getIndoorLevelId();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final ru.sulgik.mapkit.RequestPointType component2();
+  public final java.lang.String component3();
+  public final java.lang.String component4();
+  public final java.lang.String component5();
+  public final ru.sulgik.mapkit.RequestPoint copy(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.RequestPointType, java.lang.String, java.lang.String, java.lang.String);
+  public static ru.sulgik.mapkit.RequestPoint copy$default(ru.sulgik.mapkit.RequestPoint, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.RequestPointType, java.lang.String, java.lang.String, java.lang.String, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.RequestPointType extends java.lang.Enum<ru.sulgik.mapkit.RequestPointType> {
+  public static final ru.sulgik.mapkit.RequestPointType WAYPOINT;
+  public static final ru.sulgik.mapkit.RequestPointType VIAPOINT;
+  public static ru.sulgik.mapkit.RequestPointType[] values();
+  public static ru.sulgik.mapkit.RequestPointType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.RequestPointType> getEntries();
+}
+public final class ru.sulgik.mapkit.RequestPointType_androidKt {
+  public static final com.yandex.mapkit.RequestPointType toNative(ru.sulgik.mapkit.RequestPointType);
+  public static final ru.sulgik.mapkit.RequestPointType toCommon(com.yandex.mapkit.RequestPointType);
+}
+public final class ru.sulgik.mapkit.RequestPoint_androidKt {
+  public static final com.yandex.mapkit.RequestPoint toNative(ru.sulgik.mapkit.RequestPoint);
+  public static final ru.sulgik.mapkit.RequestPoint toCommon(com.yandex.mapkit.RequestPoint);
+}
 public final class ru.sulgik.mapkit.ScreenPoint {
   public ru.sulgik.mapkit.ScreenPoint(float, float);
   public final float getX();
@@ -457,6 +491,231 @@ public final class ru.sulgik.mapkit.ZoomRange {
 public final class ru.sulgik.mapkit.ZoomRange_androidKt {
   public static final com.yandex.mapkit.ZoomRange toNative(ru.sulgik.mapkit.ZoomRange);
   public static final ru.sulgik.mapkit.ZoomRange toCommon(com.yandex.mapkit.ZoomRange);
+}
+public final class ru.sulgik.mapkit.annotations.AnnotationLanguage extends java.lang.Enum<ru.sulgik.mapkit.annotations.AnnotationLanguage> {
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage RUSSIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage ENGLISH;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage FRENCH;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage TURKISH;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage UKRAINIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage ITALIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage HEBREW;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage SERBIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage LATVIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage FINNISH;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage ROMANIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage KYRGYZ;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage KAZAKH;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage LITHUANIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage ESTONIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage GEORGIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage UZBEK;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage ARMENIAN;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage AZERBAIJANI;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage TATAR;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage ARABIC;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage PORTUGUESE;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage LATIN_AMERICAN_SPANISH;
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage BASHKIR;
+  public static ru.sulgik.mapkit.annotations.AnnotationLanguage[] values();
+  public static ru.sulgik.mapkit.annotations.AnnotationLanguage valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.annotations.AnnotationLanguage> getEntries();
+}
+public final class ru.sulgik.mapkit.annotations.AnnotationLanguage_androidKt {
+  public static final com.yandex.mapkit.annotations.AnnotationLanguage toNative(ru.sulgik.mapkit.annotations.AnnotationLanguage);
+  public static final ru.sulgik.mapkit.annotations.AnnotationLanguage toCommon(com.yandex.mapkit.annotations.AnnotationLanguage);
+}
+public final class ru.sulgik.mapkit.directions.Directions {
+  public static final ru.sulgik.mapkit.directions.Directions$Companion Companion;
+  public ru.sulgik.mapkit.directions.Directions(com.yandex.mapkit.directions.Directions);
+  public final com.yandex.mapkit.directions.Directions toNative();
+  public final ru.sulgik.mapkit.directions.driving.DrivingRouter createDrivingRouter(ru.sulgik.mapkit.directions.driving.DrivingRouterType);
+  public final boolean isValid();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.directions.Directions$Companion {
+  public final ru.sulgik.mapkit.directions.Directions getInstance();
+  public ru.sulgik.mapkit.directions.Directions$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.directions.Directions_androidKt {
+  public static final ru.sulgik.mapkit.directions.Directions toCommon(com.yandex.mapkit.directions.Directions);
+}
+public final class ru.sulgik.mapkit.directions.driving.AvoidanceFlags {
+  public ru.sulgik.mapkit.directions.driving.AvoidanceFlags(boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean);
+  public ru.sulgik.mapkit.directions.driving.AvoidanceFlags(boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final boolean getAvoidTolls();
+  public final boolean getAvoidUnpaved();
+  public final boolean getAvoidPoorCondition();
+  public final boolean getAvoidRailwayCrossing();
+  public final boolean getAvoidBoatFerry();
+  public final boolean getAvoidFordCrossing();
+  public final boolean getAvoidTunnel();
+  public final boolean getAvoidHighway();
+  public final boolean component1();
+  public final boolean component2();
+  public final boolean component3();
+  public final boolean component4();
+  public final boolean component5();
+  public final boolean component6();
+  public final boolean component7();
+  public final boolean component8();
+  public final ru.sulgik.mapkit.directions.driving.AvoidanceFlags copy(boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean);
+  public static ru.sulgik.mapkit.directions.driving.AvoidanceFlags copy$default(ru.sulgik.mapkit.directions.driving.AvoidanceFlags, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.directions.driving.AvoidanceFlags();
+}
+public final class ru.sulgik.mapkit.directions.driving.AvoidanceFlags_androidKt {
+  public static final com.yandex.mapkit.directions.driving.AvoidanceFlags toNative(ru.sulgik.mapkit.directions.driving.AvoidanceFlags);
+  public static final ru.sulgik.mapkit.directions.driving.AvoidanceFlags toCommon(com.yandex.mapkit.directions.driving.AvoidanceFlags);
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingOptions {
+  public ru.sulgik.mapkit.directions.driving.DrivingOptions(java.lang.Double, java.lang.Integer, kotlin.time.Instant, ru.sulgik.mapkit.annotations.AnnotationLanguage, ru.sulgik.mapkit.directions.driving.AvoidanceFlags);
+  public ru.sulgik.mapkit.directions.driving.DrivingOptions(java.lang.Double, java.lang.Integer, kotlin.time.Instant, ru.sulgik.mapkit.annotations.AnnotationLanguage, ru.sulgik.mapkit.directions.driving.AvoidanceFlags, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final java.lang.Double getInitialAzimuth();
+  public final java.lang.Integer getRoutesCount();
+  public final kotlin.time.Instant getDepartureTime();
+  public final ru.sulgik.mapkit.annotations.AnnotationLanguage getAnnotationLanguage();
+  public final ru.sulgik.mapkit.directions.driving.AvoidanceFlags getAvoidanceFlags();
+  public final java.lang.Double component1();
+  public final java.lang.Integer component2();
+  public final kotlin.time.Instant component3();
+  public final ru.sulgik.mapkit.annotations.AnnotationLanguage component4();
+  public final ru.sulgik.mapkit.directions.driving.AvoidanceFlags component5();
+  public final ru.sulgik.mapkit.directions.driving.DrivingOptions copy(java.lang.Double, java.lang.Integer, kotlin.time.Instant, ru.sulgik.mapkit.annotations.AnnotationLanguage, ru.sulgik.mapkit.directions.driving.AvoidanceFlags);
+  public static ru.sulgik.mapkit.directions.driving.DrivingOptions copy$default(ru.sulgik.mapkit.directions.driving.DrivingOptions, java.lang.Double, java.lang.Integer, kotlin.time.Instant, ru.sulgik.mapkit.annotations.AnnotationLanguage, ru.sulgik.mapkit.directions.driving.AvoidanceFlags, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.directions.driving.DrivingOptions();
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingOptions_androidKt {
+  public static final com.yandex.mapkit.directions.driving.DrivingOptions toNative(ru.sulgik.mapkit.directions.driving.DrivingOptions);
+  public static final ru.sulgik.mapkit.directions.driving.DrivingOptions toCommon(com.yandex.mapkit.directions.driving.DrivingOptions);
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRoute {
+  public ru.sulgik.mapkit.directions.driving.DrivingRoute(com.yandex.mapkit.directions.driving.DrivingRoute);
+  public final com.yandex.mapkit.directions.driving.DrivingRoute toNative();
+  public final java.lang.String getRouteId();
+  public final ru.sulgik.mapkit.geometry.Polyline getGeometry();
+  public final java.util.List<ru.sulgik.mapkit.RequestPoint> getRequestPoints();
+  public final java.util.List<ru.sulgik.mapkit.geometry.PolylinePosition> getWayPoints();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouteError {
+  public ru.sulgik.mapkit.directions.driving.DrivingRouteError(com.yandex.runtime.Error);
+  public final com.yandex.runtime.Error toNative();
+  public final ru.sulgik.mapkit.runtime.Error getError();
+  public final java.lang.String getDescription();
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouteError_androidKt {
+  public static final ru.sulgik.mapkit.directions.driving.DrivingRouteError toCommon(com.yandex.runtime.Error);
+}
+public abstract class ru.sulgik.mapkit.directions.driving.DrivingRouteListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.directions.driving.DrivingSession$DrivingRouteListener> {
+  public ru.sulgik.mapkit.directions.driving.DrivingRouteListener();
+  public com.yandex.mapkit.directions.driving.DrivingSession$DrivingRouteListener toNative();
+  public abstract void onDrivingRoutes(java.util.List<ru.sulgik.mapkit.directions.driving.DrivingRoute>);
+  public abstract void onDrivingRoutesError(ru.sulgik.mapkit.directions.driving.DrivingRouteError);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouteListenerKt {
+  public static final ru.sulgik.mapkit.directions.driving.DrivingRouteListener DrivingRouteListener(kotlin.jvm.functions.Function1<? super java.util.List<ru.sulgik.mapkit.directions.driving.DrivingRoute>, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.directions.driving.DrivingRouteError, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouteListener_androidKt {
+  public static final com.yandex.mapkit.directions.driving.DrivingSession$DrivingRouteListener toNative(ru.sulgik.mapkit.directions.driving.DrivingRouteRequest);
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouteRequest extends ru.sulgik.mapkit.routing.RoutingRequest<ru.sulgik.mapkit.directions.driving.DrivingRouteListener> {
+  public ru.sulgik.mapkit.directions.driving.DrivingRouteRequest(ru.sulgik.mapkit.directions.driving.DrivingRouteListener);
+  public final ru.sulgik.mapkit.directions.driving.DrivingRouteListener asListener();
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRoute_androidKt {
+  public static final ru.sulgik.mapkit.directions.driving.DrivingRoute toCommon(com.yandex.mapkit.directions.driving.DrivingRoute);
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouter {
+  public ru.sulgik.mapkit.directions.driving.DrivingRouter(com.yandex.mapkit.directions.driving.DrivingRouter);
+  public final com.yandex.mapkit.directions.driving.DrivingRouter toNative();
+  public final ru.sulgik.mapkit.directions.driving.DrivingSession requestRoutes(java.util.List<ru.sulgik.mapkit.RequestPoint>, ru.sulgik.mapkit.directions.driving.DrivingOptions, ru.sulgik.mapkit.directions.driving.VehicleOptions, ru.sulgik.mapkit.directions.driving.DrivingRouteListener);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouterType extends java.lang.Enum<ru.sulgik.mapkit.directions.driving.DrivingRouterType> {
+  public static final ru.sulgik.mapkit.directions.driving.DrivingRouterType ONLINE;
+  public static final ru.sulgik.mapkit.directions.driving.DrivingRouterType OFFLINE;
+  public static final ru.sulgik.mapkit.directions.driving.DrivingRouterType COMBINED;
+  public static ru.sulgik.mapkit.directions.driving.DrivingRouterType[] values();
+  public static ru.sulgik.mapkit.directions.driving.DrivingRouterType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.directions.driving.DrivingRouterType> getEntries();
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouterType_androidKt {
+  public static final com.yandex.mapkit.directions.driving.DrivingRouterType toNative(ru.sulgik.mapkit.directions.driving.DrivingRouterType);
+  public static final ru.sulgik.mapkit.directions.driving.DrivingRouterType toCommon(com.yandex.mapkit.directions.driving.DrivingRouterType);
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingRouter_androidKt {
+  public static final ru.sulgik.mapkit.directions.driving.DrivingRouter toCommon(com.yandex.mapkit.directions.driving.DrivingRouter);
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingSession {
+  public ru.sulgik.mapkit.directions.driving.DrivingSession(com.yandex.mapkit.directions.driving.DrivingSession, ru.sulgik.mapkit.routing.RoutingRequestState<ru.sulgik.mapkit.directions.driving.DrivingRouteListener>);
+  public final com.yandex.mapkit.directions.driving.DrivingSession toNative();
+  public final void cancel();
+  public final void retry(ru.sulgik.mapkit.directions.driving.DrivingRouteListener);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.directions.driving.DrivingSession_androidKt {
+  public static final ru.sulgik.mapkit.directions.driving.DrivingSession toCommon(com.yandex.mapkit.directions.driving.DrivingSession);
+  public static final ru.sulgik.mapkit.directions.driving.DrivingSession toCommon(com.yandex.mapkit.directions.driving.DrivingSession, ru.sulgik.mapkit.directions.driving.DrivingRouteRequest);
+}
+public final class ru.sulgik.mapkit.directions.driving.VehicleOptions {
+  public ru.sulgik.mapkit.directions.driving.VehicleOptions(ru.sulgik.mapkit.directions.driving.VehicleType, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Integer, java.lang.Boolean, java.lang.Boolean);
+  public ru.sulgik.mapkit.directions.driving.VehicleOptions(ru.sulgik.mapkit.directions.driving.VehicleType, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Integer, java.lang.Boolean, java.lang.Boolean, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final ru.sulgik.mapkit.directions.driving.VehicleType getVehicleType();
+  public final java.lang.Float getWeight();
+  public final java.lang.Float getAxleWeight();
+  public final java.lang.Float getMaxWeight();
+  public final java.lang.Float getHeight();
+  public final java.lang.Float getWidth();
+  public final java.lang.Float getLength();
+  public final java.lang.Float getPayload();
+  public final java.lang.Integer getEcoClass();
+  public final java.lang.Boolean getHasTrailer();
+  public final java.lang.Boolean getBuswayPermitted();
+  public final ru.sulgik.mapkit.directions.driving.VehicleType component1();
+  public final java.lang.Float component2();
+  public final java.lang.Float component3();
+  public final java.lang.Float component4();
+  public final java.lang.Float component5();
+  public final java.lang.Float component6();
+  public final java.lang.Float component7();
+  public final java.lang.Float component8();
+  public final java.lang.Integer component9();
+  public final java.lang.Boolean component10();
+  public final java.lang.Boolean component11();
+  public final ru.sulgik.mapkit.directions.driving.VehicleOptions copy(ru.sulgik.mapkit.directions.driving.VehicleType, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Integer, java.lang.Boolean, java.lang.Boolean);
+  public static ru.sulgik.mapkit.directions.driving.VehicleOptions copy$default(ru.sulgik.mapkit.directions.driving.VehicleOptions, ru.sulgik.mapkit.directions.driving.VehicleType, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Float, java.lang.Integer, java.lang.Boolean, java.lang.Boolean, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.directions.driving.VehicleOptions();
+}
+public final class ru.sulgik.mapkit.directions.driving.VehicleOptions_androidKt {
+  public static final com.yandex.mapkit.directions.driving.VehicleOptions toNative(ru.sulgik.mapkit.directions.driving.VehicleOptions);
+  public static final ru.sulgik.mapkit.directions.driving.VehicleOptions toCommon(com.yandex.mapkit.directions.driving.VehicleOptions);
+}
+public final class ru.sulgik.mapkit.directions.driving.VehicleType extends java.lang.Enum<ru.sulgik.mapkit.directions.driving.VehicleType> {
+  public static final ru.sulgik.mapkit.directions.driving.VehicleType DEFAULT;
+  public static final ru.sulgik.mapkit.directions.driving.VehicleType TAXI;
+  public static final ru.sulgik.mapkit.directions.driving.VehicleType TRUCK;
+  public static final ru.sulgik.mapkit.directions.driving.VehicleType MOTO;
+  public static ru.sulgik.mapkit.directions.driving.VehicleType[] values();
+  public static ru.sulgik.mapkit.directions.driving.VehicleType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.directions.driving.VehicleType> getEntries();
+}
+public final class ru.sulgik.mapkit.directions.driving.VehicleType_androidKt {
+  public static final com.yandex.mapkit.directions.driving.VehicleType toNative(ru.sulgik.mapkit.directions.driving.VehicleType);
+  public static final ru.sulgik.mapkit.directions.driving.VehicleType toCommon(com.yandex.mapkit.directions.driving.VehicleType);
 }
 public final class ru.sulgik.mapkit.geometry.BoundingBox {
   public ru.sulgik.mapkit.geometry.BoundingBox(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point);
@@ -2583,6 +2842,17 @@ public final class ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadat
   public static final com.yandex.mapkit.personalized_poi.PersonalizedPoiExtraMetadataEntry toNative(ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry);
   public static final ru.sulgik.mapkit.personalized_poi.PersonalizedPoiExtraMetadata$Entry toCommon(com.yandex.mapkit.personalized_poi.PersonalizedPoiExtraMetadataEntry);
 }
+public abstract class ru.sulgik.mapkit.routing.RoutingRequest<Listener> {
+  public ru.sulgik.mapkit.routing.RoutingRequest(Listener);
+  public final void attach(ru.sulgik.mapkit.routing.RoutingRequestState<Listener>);
+  public final void dispose();
+}
+public final class ru.sulgik.mapkit.routing.RoutingRequestState<Listener> {
+  public ru.sulgik.mapkit.routing.RoutingRequestState();
+  public final void replace(ru.sulgik.mapkit.routing.RoutingRequest<Listener>);
+  public final void cancel();
+  public final boolean isCurrent(ru.sulgik.mapkit.routing.RoutingRequest<Listener>);
+}
 public class ru.sulgik.mapkit.runtime.DiskCorruptError extends ru.sulgik.mapkit.runtime.LocalError {
   public ru.sulgik.mapkit.runtime.DiskCorruptError(com.yandex.runtime.DiskCorruptError);
   public com.yandex.runtime.DiskCorruptError toNative();
@@ -2954,6 +3224,7 @@ public final class ru.sulgik.mapkit.search.SearchRequestBindings<Native, Request
   public ru.sulgik.mapkit.search.SearchRequestBindings();
   public final void bind(Native, Request);
   public final Request requestFor(Native);
+  public final Request getOrPut(Native, kotlin.jvm.functions.Function0<? extends Request>);
 }
 final class ru.sulgik.mapkit.search.SearchRequestBindings$Binding<Native, Request> {
   public ru.sulgik.mapkit.search.SearchRequestBindings$Binding(ru.sulgik.mapkit.WeakRef<Native>, ru.sulgik.mapkit.WeakRef<Request>);
