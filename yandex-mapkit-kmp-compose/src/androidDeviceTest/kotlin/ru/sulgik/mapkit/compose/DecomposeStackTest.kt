@@ -14,6 +14,9 @@ import android.view.ViewConfiguration
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
@@ -47,7 +50,11 @@ public class DecomposeStackTestActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setDeviceTestMapKitApiKey()
         val trace = checkNotNull(runningTrace)
-        setContent { DecomposeStackFixture(trace) }
+        setContent {
+            Box(Modifier.safeDrawingPadding()) {
+                DecomposeStackFixture(trace)
+            }
+        }
     }
 }
 
