@@ -1,0 +1,241 @@
+name: MapKit device matrix
+
+on:
+  schedule:
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  JAVA_VERSION: '21'
+
+jobs:
+  android:
+    name: Android (${{ matrix.profile }}, API ${{ matrix.api }})
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - profile: minimum
+            api: '26'
+            sdk-package: '26'
+            catalog-key: android-minSdk
+            target: default
+          - profile: current
+            api: '37'
+            sdk-package: '37.0'
+            catalog-key: android-targetSdk
+            target: google_apis
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Verify matrix endpoints against the catalog
+        env:
+          MATRIX_API: ${{ matrix.api }}
+          CATALOG_KEY: ${{ matrix.catalog-key }}
+        run: |
+          declared_api=$(grep -E "^${CATALOG_KEY} = \"[0-9]+\"$" gradle/libs.versions.toml | cut -d '"' -f 2)
+          test "$declared_api" = "$MATRIX_API" || {
+            echo "::error::Update the Android matrix endpoint to match $CATALOG_KEY ($declared_api)."
+            exit 1
+          }
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Repeat offline device scenarios
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.sdk-package }}
+          arch: x86_64
+          target: ${{ matrix.target }}
+          profile: pixel_7
+          ram-size: 4096M
+          script: bash .github/scripts/test-android-navigation-matrix.sh ${{ matrix.api }}
+
+      - name: Report booted Android runtime
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-runtime-${{ matrix.profile }}
+          path: build/device-matrix/android/runtime.txt
+          if-no-files-found: ignore
+
+      - name: Upload offline Android diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-matrix-failure-${{ matrix.profile }}
+          path: build/device-matrix/android/
+          if-no-files-found: ignore
+
+      - name: Check whether trusted Android service tests are available
+        id: live
+        if: matrix.profile == 'current' && github.repository == 'SuLG-ik/yandex-mapkit-kmp'
+        env:
+          MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+        run: python3 .github/scripts/mapkit-live-checks.py plan android
+
+      - name: Prepare the Full Android search app without credentials
+        id: live-app
+        if: steps.live.outputs.enabled == 'true'
+        run: bash verification/lite-consumer/run.sh android emulator-5554 base full prepare-live-search
+
+      - name: Stage the Android hook credential
+        id: live-key
+        if: steps.live.outputs.enabled == 'true'
+        env:
+          MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+        run: |
+          set +x
+          umask 077
+          key_file=$(mktemp "$RUNNER_TEMP/mapkit-service-key.XXXXXX")
+          printf '%s' "$MAPKIT_TEST_API_KEY" > "$key_file"
+          printf 'file=%s\n' "$key_file" >> "$GITHUB_OUTPUT"
+
+      - name: Run trusted Android service tests
+        if: steps.live.outputs.enabled == 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          MAPKIT_LIVE_SEARCH_APP: ${{ steps.live-app.outputs.app }}
+          MAPKIT_LIVE_KEY_FILE: ${{ steps.live-key.outputs.file }}
+        with:
+          api-level: ${{ matrix.sdk-package }}
+          arch: x86_64
+          target: ${{ matrix.target }}
+          profile: pixel_7
+          ram-size: 4096M
+          script: python3 .github/scripts/mapkit-live-checks.py run android emulator-5554 --key-file "$MAPKIT_LIVE_KEY_FILE"
+
+      - name: Remove any unconsumed Android credential handoff
+        if: ${{ always() && steps.live-key.outcome == 'success' }}
+        env:
+          MAPKIT_LIVE_KEY_FILE: ${{ steps.live-key.outputs.file }}
+        run: rm -f -- "$MAPKIT_LIVE_KEY_FILE"
+
+      - name: Upload Android service result categories
+        if: ${{ !cancelled() && steps.live.outputs.enabled == 'true' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-live-results
+          path: build/device-matrix/live/android/results.json
+          if-no-files-found: ignore
+
+  ios:
+    name: iOS (${{ matrix.profile }} installed runtime)
+    if: github.ref == 'refs/heads/main'
+    runs-on: macos-26
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [oldest, current]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Cache Kotlin/Native compiler
+        uses: actions/cache@v6
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: konan-${{ runner.os }}-
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods/repos
+          key: cocoapods-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: cocoapods-${{ runner.os }}-
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Boot matching iPhone
+        id: simulator
+        run: python3 .github/scripts/select-ios-runtime.py ${{ matrix.profile }} build/device-matrix/ios
+
+      - name: Repeat offline UIKit scenarios
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: bash .github/scripts/test-ios-map-interaction.sh "$SIMULATOR_UDID" 3
+
+      - name: Report booted iOS runtime
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: ios-runtime-${{ matrix.profile }}
+          path: build/device-matrix/ios/runtime.json
+          if-no-files-found: ignore
+
+      - name: Upload offline iOS diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ios-matrix-failure-${{ matrix.profile }}
+          path: |
+            tests/map-interaction/build/*.xcresult
+            tests/map-interaction/build/interaction-diagnostics/
+          if-no-files-found: ignore
+
+      - name: Check whether trusted iOS service tests are available
+        id: live
+        if: matrix.profile == 'current' && github.repository == 'SuLG-ik/yandex-mapkit-kmp'
+        env:
+          MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+        run: python3 .github/scripts/mapkit-live-checks.py plan ios
+
+      - name: Prepare the Full iOS search app without credentials
+        id: live-app
+        if: steps.live.outputs.enabled == 'true'
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: bash verification/lite-consumer/run.sh ios "$SIMULATOR_UDID" base full prepare-live-search
+
+      - name: Run trusted iOS service tests
+        if: steps.live.outputs.enabled == 'true'
+        env:
+          MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+          MAPKIT_LIVE_SEARCH_APP: ${{ steps.live-app.outputs.app }}
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: python3 .github/scripts/mapkit-live-checks.py run ios "$SIMULATOR_UDID"
+
+      - name: Upload iOS service result categories
+        if: ${{ !cancelled() && steps.live.outputs.enabled == 'true' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: ios-live-results
+          path: build/device-matrix/live/ios/results.json
+          if-no-files-found: ignore

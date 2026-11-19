@@ -166,6 +166,35 @@ The README is not built by MkDocs, so its versions are kept in sync by Gradle in
 
 The check runs in the `lint` job, so a bumped `library_version` with a stale README fails CI.
 
+## Scheduled device matrix
+
+The **MapKit device matrix** workflow runs weekly and can be dispatched manually from `main`.
+Android exercises the minimum and target API levels declared in the catalog on x86_64 AVDs.
+iOS chooses the oldest and newest compatible iPhone runtimes that the macOS runner actually has.
+The iOS test fixture requires a newer deployment target than the wrapper's minimum. Use the runtime
+artifact rather than inferring iOS coverage from either deployment target.
+
+Each entry runs the corresponding Compose interaction suite three times, including closing and
+reopening the map. A failure keeps the job red. The job summary lists each test that passed in one
+iteration and failed in another, even if a different test failed every time. It counts passed,
+failed and skipped tests per iteration. Runner failures and runs without the close-and-reopen
+test are listed separately. Failure artifacts retain per-iteration Android JUnit logs and reports
+or iOS logs and `.xcresult` bundles.
+
+To reproduce a matrix entry, use the API and ABI in `android-runtime-*` or the iOS version and build
+in `ios-runtime-*`. Boot the matching device and run the appropriate command from the repository.
+
+```bash
+bash .github/scripts/test-android-navigation-matrix.sh <API>
+bash .github/scripts/test-ios-map-interaction.sh <iPhone-UDID> 3
+```
+
+Live service verification runs only on the current Android and iOS entries in the maintainer
+repository's scheduled or manual workflow on `main`. The job summary records a skip if
+`MAPKIT_TEST_API_KEY` or the live test fixture is missing. See the
+[service check contract](https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/live-services/README.md)
+for authorization, provider and wrapper result categories. Offline pull request checks need no key.
+
 ## Compatibility
 
 Within `1.x` the modules guarantee **source** compatibility, not binary compatibility.

@@ -2,8 +2,9 @@
 set -euo pipefail
 
 fixture="tests/map-interaction"
-if [[ $# -ne 1 ]]; then
-  echo "Usage: bash .github/scripts/test-ios-map-interaction.sh <simulator UDID>" >&2
+iterations=${2:-1}
+if [[ $# -lt 1 || $# -gt 2 || ! "$iterations" =~ ^[1-9][0-9]*$ ]]; then
+  echo "Usage: bash .github/scripts/test-ios-map-interaction.sh <simulator UDID> [iterations]" >&2
   exit 2
 fi
 
@@ -40,5 +41,24 @@ for key in CFBundleShortVersionString CFBundleVersion; do
 done
 test "$(plutil -extract CADisableMinimumFrameDurationOnPhone raw -expect bool -o - "$info_plist")" = true
 
-xcodebuild test-without-building "${xcode_args[@]}" \
-  -resultBundlePath "$fixture/build/MapInteraction-$(date +%s).xcresult"
+run_id="$(date +%s)-$$"
+if (( iterations == 1 )); then
+  xcodebuild test-without-building "${xcode_args[@]}" \
+    -resultBundlePath "$fixture/build/MapInteraction-$run_id.xcresult"
+  exit 0
+fi
+
+attempts="$diagnostics/$run_id"
+for (( attempt = 1; attempt <= iterations; attempt++ )); do
+  iteration="$attempts/iteration-$attempt"
+  mkdir -p "$iteration"
+  result="$fixture/build/MapInteraction-$run_id-$attempt.xcresult"
+  status=0
+  xcodebuild test-without-building "${xcode_args[@]}" -resultBundlePath "$result" \
+    2>&1 | tee "$iteration/xcodebuild.log" || status=$?
+  if [[ -d "$result" ]]; then
+    xcrun xcresulttool get test-results tests --path "$result" > "$iteration/xctest.json" || true
+  fi
+  python3 .github/scripts/device-test-results.py record ios "$iteration/xctest.json" "$iteration" "$status"
+done
+python3 .github/scripts/device-test-results.py summarize "$attempts" "$iterations"
