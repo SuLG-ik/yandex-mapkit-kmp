@@ -55,7 +55,8 @@ the projected UIKit coordinate and verifies the ordered trace through accessibil
 bundle is under `tests/map-interaction/build`.
 
 The camera scenarios use the same simulator test target. XCUITest drags the UIKit map and sends
-MapKit's two-finger tap to an inset area to zoom out. It also selects the animation and location
+MapKit's two-finger tap to an inset area to zoom out. The gesture map renders at up to 30 FPS on
+the iOS simulator to limit Metal load. XCUITest also selects the animation and location
 controls. It samples the map viewport to check the location pin and attaches that viewport on
 failure. The pin check uses magenta color contrast across multiple pixels to account for blending
 with the map. The controls and fixture are test-only.

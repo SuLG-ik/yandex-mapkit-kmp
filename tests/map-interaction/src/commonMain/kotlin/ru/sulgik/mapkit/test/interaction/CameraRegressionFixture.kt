@@ -85,13 +85,14 @@ internal fun CameraRegressionFixture(
     mode: CameraRegressionMode,
     probe: CameraRegressionProbe = remember { CameraRegressionProbe() },
     zoomDirection: CameraZoomDirection = CameraZoomDirection.In,
+    gestureFrameRate: Int? = null,
 ) {
     val kit = rememberAndInitializeMapKit()
     kit.bindToLifecycleOwner()
 
     Column {
         when (mode) {
-            CameraRegressionMode.Gestures -> GestureCamera(probe, zoomDirection)
+            CameraRegressionMode.Gestures -> GestureCamera(probe, zoomDirection, gestureFrameRate)
             CameraRegressionMode.Animation -> AnimatedCamera(probe)
             CameraRegressionMode.Location -> SimulatedLocationCamera(probe, kit)
         }
@@ -100,7 +101,7 @@ internal fun CameraRegressionFixture(
 }
 
 @Composable
-private fun GestureCamera(probe: CameraRegressionProbe, zoomDirection: CameraZoomDirection) {
+private fun GestureCamera(probe: CameraRegressionProbe, zoomDirection: CameraZoomDirection, frameRate: Int?) {
     val camera = remember { CameraPositionState(InitialCamera) }
     var nativeMap by remember { mutableStateOf<Map?>(null) }
     var phase by remember { mutableStateOf(GesturePhase.Enabled) }
@@ -142,6 +143,7 @@ private fun GestureCamera(probe: CameraRegressionProbe, zoomDirection: CameraZoo
                 isZoomGesturesEnabled = phase.zoom,
                 isRotateGesturesEnabled = false,
                 isTiltGesturesEnabled = false,
+                fps = frameRate,
             ),
         ) {
             MapEffect(phase) { map ->

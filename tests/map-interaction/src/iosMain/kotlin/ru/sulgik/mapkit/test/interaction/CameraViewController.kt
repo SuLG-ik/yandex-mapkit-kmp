@@ -8,6 +8,6 @@ public fun cameraViewController(mode: String): UIViewController {
     MapKit.setApiKey(FixtureKey)
     val cameraMode = CameraRegressionMode.valueOf(mode)
     return ComposeUIViewController {
-        CameraRegressionFixture(cameraMode, zoomDirection = CameraZoomDirection.Out)
+        CameraRegressionFixture(cameraMode, zoomDirection = CameraZoomDirection.Out, gestureFrameRate = 30)
     }
 }
