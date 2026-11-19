@@ -6,5 +6,6 @@ import ru.sulgik.mapkit.search.SearchManagerType
 internal fun verifySearchManager() {
     val search = Search.getInstance()
     check(search.isValid)
-    search.createSearchManager(SearchManagerType.ONLINE)
+    val manager = search.createSearchManager(SearchManagerType.ONLINE)
+    manager.createSuggestSession().reset()
 }

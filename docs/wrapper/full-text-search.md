@@ -63,6 +63,39 @@ The common API currently covers the initial text request and cancellation. The p
 are available through `toNative()`. See the [Android search guide] and [iOS search guide] for
 provider behavior.
 
+## Suggestions while typing
+
+On the UI thread, use one `manager.createSuggestSession()` per query editor. Hold the session while
+the editor is open, and pass the visible map window as a `BoundingBox` on every call.
+
+```kotlin
+session.suggest(
+    text = query,
+    window = window,
+    suggestOptions = SuggestOptions(
+        suggestTypes = SuggestType.GEO.value or SuggestType.BIZ.value,
+        strictBounds = true,
+    ),
+    suggestListener = SuggestListener(
+        onResponse = { response -> showSuggestions(response.items) },
+        onError = { failure -> showFailure(failure.description ?: "Suggestions unavailable") },
+    ),
+)
+```
+
+A new `suggest()` replaces the pending request. The wrapper keeps its listener until it receives a
+response, receives an error, or discards the request. Call `reset()` when the query is cleared or
+the editor closes. MapKit then starts a new backend session on the next query. The
+[Full suggestions example] clears visible results on edit and uses a query generation to keep a
+superseded reply from overwriting newer UI state. Reopening creates a new editor and session.
+
+An empty item list is a successful response. Display `item.displayText ?: item.title.text`.
+`title.spans` contains highlight ranges, and `center` and `distance` are optional. When the user
+selects an item, use `item.action` to choose between submitting `searchText`, substituting it in
+the editor, or following `link`. Use a MapKit key for a live query. The Full consumer smoke only
+creates and resets a session, and the adapter tests supply deterministic replies. See the official
+[Android Geosuggest guide] and [iOS Geosuggest guide].
+
 ## Regression checks
 
 The [Android adapter test] and [iOS adapter test] supply responses locally. They check options,
@@ -76,3 +109,6 @@ named coordinates, empty responses, native errors and late callbacks after dispo
 [Android adapter test]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SearchAdapterTest.kt
 [iOS adapter test]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SearchAdapterTest.kt
 [Full consumer workflow]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/full-consumer.yml
+[Full suggestions example]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/lite-consumer/shared/src/fullMain/kotlin/ru/sulgik/liteconsumer/FullSuggestionsExample.kt
+[Android Geosuggest guide]: https://yandex.com/maps-api/docs/mapkit/android/generated/tutorials/map_suggest.html
+[iOS Geosuggest guide]: https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_suggest.html

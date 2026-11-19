@@ -130,6 +130,9 @@ The Full wrapper adds [text search](full-text-search.md) with a query and area, 
 named geographic results, native errors and session cancellation. The
 [MapKit Full inventory](full-coverage.md) tracks the rest of the native surface.
 
+It also supports [suggestions while typing](full-text-search.md#suggestions-while-typing), including
+request replacement, session reset, and suggested items with actions and optional coordinates.
+
 ## Not wrapped
 
 - **`BaseDataSourceBuilder` and `mapkit.images`.** The types exist in the lite build but nothing
