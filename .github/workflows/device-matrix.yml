@@ -79,6 +79,7 @@ jobs:
           target: ${{ matrix.target }}
           profile: pixel_7
           ram-size: 4096M
+          disable-animations: false
           script: bash .github/scripts/test-android-navigation-matrix.sh ${{ matrix.api }}
 
       - name: Report booted Android runtime
