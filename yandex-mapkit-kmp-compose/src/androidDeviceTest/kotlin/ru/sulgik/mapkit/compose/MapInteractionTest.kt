@@ -2,6 +2,9 @@ package ru.sulgik.mapkit.compose
 
 import android.os.SystemClock
 import android.view.MotionEvent
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -9,6 +12,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
 import ru.sulgik.mapkit.test.interaction.FixtureClose
 import ru.sulgik.mapkit.test.interaction.FixtureMapTag
@@ -17,10 +21,9 @@ import ru.sulgik.mapkit.test.interaction.MapInteractionFixture
 import ru.sulgik.mapkit.test.interaction.MapInteractionTrace
 import ru.sulgik.mapkit.test.interaction.MapTapFixture
 import ru.sulgik.mapkit.test.interaction.MapTapTrace
-import ru.sulgik.mapkit.test.interaction.TapMapLabel
-import ru.sulgik.mapkit.test.interaction.TapNextCase
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 @OptIn(ExperimentalTestApi::class)
 public class MapInteractionTest {
@@ -57,29 +60,49 @@ public class MapInteractionTest {
 
     @Test
     public fun mapTapsRespectHitOrderConsumptionAndCurrentCallbacks() {
-        runComposeUiTest {
-            val trace = MapTapTrace()
-            val expected = mutableListOf<String>()
-            runOnUiThread { setDeviceTestMapKitApiKey() }
-            setContent { MapTapFixture(trace) }
+        val trace = MapTapTrace()
+        val expected = mutableListOf<String>()
+
+        ActivityScenario.launch(ComponentActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                setDeviceTestMapKitApiKey()
+                activity.setContent { MapTapFixture(trace) }
+            }
 
             fun awaitTrace() {
-                try {
-                    waitUntil(timeoutMillis = 10_000L) { trace.events.toList() == expected }
-                } catch (failure: Throwable) {
-                    throw AssertionError("Expected events: $expected. Actual events: ${trace.events}", failure)
+                val deadline = SystemClock.uptimeMillis() + 10_000L
+                var actual = emptyList<String>()
+                while (SystemClock.uptimeMillis() < deadline) {
+                    scenario.onActivity { actual = trace.events.toList() }
+                    if (actual == expected) return
+                    if (actual.size >= expected.size || actual != expected.take(actual.size)) break
+                    SystemClock.sleep(20L)
                 }
+                assertEquals(expected, actual, "Native map event trace")
+            }
+
+            fun touch(center: () -> Offset?, holdMillis: Long = 0L) {
+                var point = Offset.Zero
+                scenario.onActivity { activity ->
+                    val target = assertNotNull(center(), "Touch target is not laid out")
+                    val decor = activity.window.decorView
+                    val screen = IntArray(2)
+                    val window = IntArray(2)
+                    decor.getLocationOnScreen(screen)
+                    decor.getLocationInWindow(window)
+                    point = Offset(target.x + screen[0] - window[0], target.y + screen[1] - window[1])
+                }
+                tap(point.x, point.y, holdMillis)
             }
 
             fun touchCenter(vararg events: String, holdMillis: Long = 0L) {
-                val bounds = onNodeWithTag(TapMapLabel).fetchSemanticsNode().boundsInWindow
-                tap(bounds.center.x, bounds.center.y, holdMillis)
+                touch({ trace.mapCenter }, holdMillis)
                 expected.addAll(events)
                 awaitTrace()
             }
 
             fun ready(case: String, advance: Boolean = true) {
-                if (advance) onNodeWithText(TapNextCase).performClick()
+                if (advance) touch({ trace.nextCaseCenter })
                 expected.add("ready $case")
                 awaitTrace()
             }

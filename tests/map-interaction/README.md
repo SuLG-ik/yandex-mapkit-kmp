@@ -11,7 +11,9 @@ viewport and drives native taps and a 900 ms long press there. Two separate came
 empty-map gestures away from the overlapping placemark and polygon. Coordinates are compared
 within 0.0001° on each axis to allow for the platform's screen-point rounding. The ordered trace
 checks z-order, polygon and placemark visibility, parent consumption, and map callbacks through
-registration, replacement, removal, and reattachment.
+registration, replacement, removal, and reattachment. The Android gesture regression
+starts the fixture in a regular activity so MapKit composition work and cleanup use the
+platform UI thread.
 
 ## Android
 

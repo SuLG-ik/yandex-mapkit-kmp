@@ -12,6 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -82,6 +85,8 @@ private enum class TapCase(
 
 internal class MapTapTrace {
     val events = mutableStateListOf<String>()
+    var nextCaseCenter: Offset? = null
+    var mapCenter: Offset? = null
 
     fun record(name: String, actual: Point, expected: Point) {
         val event = if (actual.isNear(expected)) name else "wrong $name coordinate: $actual, expected $expected"
@@ -103,13 +108,18 @@ internal fun MapTapFixture(trace: MapTapTrace = remember { MapTapTrace() }) {
     Column {
         BasicText(
             text = TapNextCase,
-            modifier = Modifier.clickable(enabled = activeCase != TapCase.HandlerRestored, role = Role.Button) {
-                step = TapCase.entries[step.ordinal + 1]
-            },
+            modifier = Modifier
+                .onGloballyPositioned { trace.nextCaseCenter = it.boundsInWindow().center }
+                .clickable(enabled = activeCase != TapCase.HandlerRestored, role = Role.Button) {
+                    step = TapCase.entries[step.ordinal + 1]
+                },
         )
         YandexMap(
             cameraPositionState = camera,
-            modifier = Modifier.size(260.dp).testTag(TapMapLabel).semantics { contentDescription = TapMapLabel },
+            modifier = Modifier.size(260.dp)
+                .onGloballyPositioned { trace.mapCenter = it.boundsInWindow().center }
+                .testTag(TapMapLabel)
+                .semantics { contentDescription = TapMapLabel },
             config = MapConfig(
                 mapType = MapType.NONE,
                 isFastTapEnabled = true,
