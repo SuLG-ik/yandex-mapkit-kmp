@@ -49,17 +49,12 @@ private const val tapTolerance = 0.0001
 private const val tapZoom = 16f
 private val emptyPoint = Point(55.751225, 37.629540)
 private val objectPoint = Point(55.752225, 37.638540)
-private val polygonGeometry = PolygonGeometry(
-    outerRing = LinearRing(
-        listOf(
-            Point(55.751225, 37.637540),
-            Point(55.753225, 37.637540),
-            Point(55.753225, 37.639540),
-            Point(55.751225, 37.639540),
-            Point(55.751225, 37.637540),
-        ),
-    ),
-    innerRings = emptyList(),
+private val polygonRingPoints = listOf(
+    Point(55.751225, 37.637540),
+    Point(55.753225, 37.637540),
+    Point(55.753225, 37.639540),
+    Point(55.751225, 37.639540),
+    Point(55.751225, 37.637540),
 )
 
 private enum class TapCase(
@@ -103,6 +98,9 @@ internal fun MapTapFixture(trace: MapTapTrace = remember { MapTapTrace() }) {
     val activeCase = step
     val camera = rememberCameraPositionState { position = tapCamera(activeCase.target) }
     val marker = rememberPlacemarkState(objectPoint)
+    val polygonGeometry = remember {
+        PolygonGeometry(outerRing = LinearRing(polygonRingPoints), innerRings = emptyList())
+    }
     val polygon = rememberPolygonState(polygonGeometry)
     val icon = remember { fixtureMarkerIcon() }
 
