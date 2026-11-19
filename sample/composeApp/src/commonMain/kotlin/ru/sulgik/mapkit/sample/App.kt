@@ -25,6 +25,7 @@ enum class NavItem(val title: String) {
     NEW_API_OBJECTS("New api objects"),
     ADVANCED_MAP("Layers, listeners and states"),
     RUNTIME("Storage, offline cache, i18n"),
+    RETURN_TO_MAP("Return to map"),
     ;
 
     companion object {
@@ -53,6 +54,10 @@ fun NavHost(
         NavItem.NEW_API_OBJECTS -> NewMapScreen(modifier)
         NavItem.ADVANCED_MAP -> AdvancedMapScreen(modifier)
         NavItem.RUNTIME -> RuntimeScreen(modifier)
+        NavItem.RETURN_TO_MAP -> ReturnToMapScreen(
+            onExit = { onNavigate(NavItem.SELECTION) },
+            modifier = modifier,
+        )
     }
 }
 
