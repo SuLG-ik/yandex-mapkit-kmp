@@ -26,6 +26,7 @@ enum class NavItem(val title: String) {
     ADVANCED_MAP("Layers, listeners and states"),
     RUNTIME("Storage, offline cache, i18n"),
     RETURN_TO_MAP("Return to map"),
+    RETURN_METRICS("Measure return to map"),
     ;
 
     companion object {
@@ -62,6 +63,11 @@ fun NavHost(
         NavItem.RETURN_TO_MAP -> ReturnToMapScreen(
             onExit = { onNavigate(NavItem.SELECTION) },
             modifier = modifier,
+        )
+
+        NavItem.RETURN_METRICS -> ReturnMapMetricsScreen(
+            modifier = modifier,
+            onExit = { onNavigate(NavItem.SELECTION) },
         )
     }
 }
