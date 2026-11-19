@@ -67,6 +67,10 @@ When upgrading to a release that includes `yandex-mapkit-kmp-compose-resources`,
 at the same version if you use this overload. Keep the `ru.sulgik.mapkit.compose.imageProvider`
 import and your existing calls.
 
+For common Kotlin text search, use the `yandex-mapkit-kmp-full` coordinates and their matching
+native SDK. See [Full text search](docs/wrapper/full-text-search.md) for installation and request
+lifetime.
+
 ## Compatibility
 
 Within `1.x` the modules guarantee **source** compatibility, not binary compatibility.

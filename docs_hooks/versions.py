@@ -43,6 +43,7 @@ def collect(config):
     return {
         "version": properties["library_version"],
         "mapkit_version": mapkit,
+        "mapkit_version_full": mapkit.removesuffix("-lite") + "-full",
         "kotlin_version": catalog["kotlin"],
         "compose_version": catalog["compose-plugin"],
         "min_sdk": catalog["android-minSdk"],

@@ -9,6 +9,7 @@ on:
       - 'gradle/libs.versions.toml'
       - 'verification/lite-consumer/**'
       - 'yandex-mapkit-kmp*/build.gradle.kts'
+      - 'yandex-mapkit-kmp/api/full/**'
       - 'yandex-mapkit-kmp/src/full*/**'
 
 permissions:
@@ -37,6 +38,22 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
+
+      - name: Test the Full Android search adapter
+        run: >-
+          ./gradlew -PmapkitEdition=full -PskipIosTarget=true
+          :yandex-mapkit-kmp:testAndroidHostTest
+          --tests ru.sulgik.mapkit.search.SearchAdapterTest
+
+      - name: Generate the Full Android API baseline
+        run: ./gradlew -PmapkitEdition=full -PskipIosTarget=true :yandex-mapkit-kmp:updateAndroidAbi
+
+      - name: Upload the Full Android API baseline
+        uses: actions/upload-artifact@v7
+        with:
+          name: full-android-api-bootstrap
+          path: yandex-mapkit-kmp/api/full/*.android.api
+          if-no-files-found: error
 
       - name: Enable KVM
         run: |
@@ -90,6 +107,19 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
+
+      - name: Test the Full iOS search adapter
+        run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:iosSimulatorArm64Test
+
+      - name: Generate the Full Kotlin API baseline
+        run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:updateKotlinAbi
+
+      - name: Upload the Full Kotlin API baseline
+        uses: actions/upload-artifact@v7
+        with:
+          name: full-kotlin-api-bootstrap
+          path: yandex-mapkit-kmp/api/full/*.klib.api
+          if-no-files-found: error
 
       - name: Launch Full consumer
         run: |

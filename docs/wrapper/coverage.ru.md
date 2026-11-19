@@ -123,10 +123,15 @@ MapKit наследует `LocationSimulator` от `LocationManager`. Kotlin н�
 
 → [Обзор Compose](../compose/overview.md)
 
+## Редакция Full
+
+Редакция Full добавляет [текстовый поиск](full-text-search.ru.md) с запросом и областью, параметрами
+поиска, географическими результатами с названиями, нативными ошибками и отменой сессии.
+
 ## Что не обёрнуто
 
-- **API сборки full.** Поиска, маршрутизации, панорам, дорожных событий и API персонализации
-  (`MapKit.setAccount`, `MapKit.createOffscreenMapWindow`) в сборке lite нет.
+- **Остальной API Full.** Маршрутизация, панорамы, дорожные события и API персонализации
+  (`MapKit.setAccount`, `MapKit.createOffscreenMapWindow`) пока не обёрнуты в редакции Full.
 - **`BaseDataSourceBuilder` и `mapkit.images`.** Типы в lite есть, но их никто не отдаёт наружу —
   `Map.addTileLayer` строит `TileDataSourceBuilder`.
 - **`ViewProvider`.** MapKit умеет отрисовывать нативную `View` / `UIView` в иконку. Общей формы для

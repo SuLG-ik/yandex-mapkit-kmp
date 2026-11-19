@@ -52,10 +52,13 @@
 | [#42][42] Compose Resources как зависимость основного Compose-модуля | [#61][split] перенёс перегрузку в опциональный модуль, [проверка ABI][api] проверяет её сигнатуру. Приложения на [Android][a-consumer] и [iOS][i-consumer] подключают опциональный артефакт и устанавливают PNG на метку. | Проверить отрисовку и обновление изображений меток и кластеров [#84][84]. |
 | [#55][55] Сбой при закрытии карты Compose | [NativeYandexMapLifecycleTest][a-lifecycle] инициализирует MapKit, создаёт карту и завершает Activity. | Скрытие и показ, пересоздание и повторное закрытие [#70][70]. |
 
-[Ограничения API](coverage.md) применимы и к тестам. Поиск, маршрутизация и другие API сборки Full
-недоступны для Lite. Проверки раздельного подключения сборок описаны в [#77][77], остальные API
-Full отслеживаются в [#81][81]. При добавлении тестов или обнаружении пробела используйте
-[процесс проверки регрессий](../getting-started/contributing.md#regressions).
+## Текстовый поиск Full
+
+[Тесты адаптеров Android и iOS](full-text-search.ru.md#проверки-регрессий) покрывают параметры
+запроса, названия и координаты, пустой ответ, нативную ошибку и события после отмены. Тестовое
+приложение Full создаёт нативный менеджер в рамках проверки редакций SDK из [#77][77].
+Остальные API Full отслеживаются в [#81][81]. Новые сценарии проверяйте по
+[процессу проверки регрессий](../getting-started/contributing.md#regressions).
 
 [a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238
 [i-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L194-L226

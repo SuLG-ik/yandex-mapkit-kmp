@@ -77,11 +77,15 @@ kotlin {
         if (isFullEdition) {
             commonMain.get().kotlin.srcDir("src/fullMain/kotlin")
             androidMain.get().kotlin.srcDir("src/fullAndroidMain/kotlin")
+            getByName("androidHostTest").kotlin.srcDir("src/fullAndroidHostTest/kotlin")
         }
 
         all {
             if (isFullEdition && name == "iosMain") {
                 kotlin.srcDir("src/fullIosMain/kotlin")
+            }
+            if (isFullEdition && name == "iosTest") {
+                kotlin.srcDir("src/fullIosTest/kotlin")
             }
             languageSettings.apply {
                 progressiveMode = true

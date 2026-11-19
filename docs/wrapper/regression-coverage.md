@@ -52,9 +52,12 @@ linked separately in the tables. SDK surface and platform exclusions are listed 
 | [#42][42] Base Compose module pulls in Compose Resources | [#61][split] moves the overload to the optional module and the [ABI check][api] covers the exposed overload. The [Android][a-consumer] and [iOS][i-consumer] consumers resolve the optional artifact and set a PNG on a placemark. | Cover rendering and updates on markers and clusters [#84][84]. |
 | [#55][55] Crash when closing a Compose map | [NativeYandexMapLifecycleTest][a-lifecycle] initializes MapKit, creates the map and finishes the Activity. | Hide/show, recreation and repeated teardown [#70][70]. |
 
-The [API exclusions](coverage.md) also apply to the test matrix. Search, routing and other Full-only
-families have no Lite runtime contract. Separate edition resolution is tracked in [#77][77], and the
-remaining Full surface in [#81][81]. Use the [regression workflow](../getting-started/contributing.md#regressions)
+## Full text search
+
+[Android and iOS adapter tests](full-text-search.md#regression-checks) cover request options,
+named coordinates, an empty result, a native error and callbacks after cancellation.
+The Full consumer instantiates the native manager as part of the edition checks in [#77][77].
+The remaining Full surface is tracked in [#81][81]. Use the [regression workflow](../getting-started/contributing.md#regressions)
 when adding evidence or reporting a remaining gap.
 
 [a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238

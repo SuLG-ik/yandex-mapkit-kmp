@@ -124,10 +124,15 @@ visibility with `setVisible(visible, animation)`, `PlacemarkState` reaches `useI
 
 → [Compose overview](../compose/overview.md)
 
+## Full edition
+
+The Full wrapper adds [text search](full-text-search.md) with a query and area, search options,
+named geographic results, native errors and session cancellation.
+
 ## Not wrapped
 
-- **Full-build API.** Search, routing, panoramas, road events and the personalization API
-  (`MapKit.setAccount`, `MapKit.createOffscreenMapWindow`) do not exist in the lite build.
+- **Remaining Full API.** Routing, panoramas, road events and the personalization API
+  (`MapKit.setAccount`, `MapKit.createOffscreenMapWindow`) are outside the current Full wrapper.
 - **`BaseDataSourceBuilder` and `mapkit.images`.** The types exist in the lite build but nothing
   hands one out — `Map.addTileLayer` builds a `TileDataSourceBuilder` instead.
 - **`ViewProvider`.** MapKit can render a native `View` / `UIView` into an icon. There is no common
