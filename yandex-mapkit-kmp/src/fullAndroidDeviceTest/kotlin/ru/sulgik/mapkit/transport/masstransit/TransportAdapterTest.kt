@@ -322,8 +322,12 @@ private class RecordingRequests {
 
 private inline fun <reified T : Any> proxy(crossinline respond: (String, Array<out Any?>) -> Any?): T {
     return T::class.java.cast(
-        Proxy.newProxyInstance(T::class.java.classLoader, arrayOf(T::class.java)) { _, method, args ->
-            respond(method.name, args.orEmpty())
+        Proxy.newProxyInstance(T::class.java.classLoader, arrayOf(T::class.java)) { instance, method, args ->
+            when (method.name) {
+                "equals" -> instance === args?.singleOrNull()
+                "hashCode" -> System.identityHashCode(instance)
+                else -> respond(method.name, args.orEmpty())
+            }
         },
     )
 }
