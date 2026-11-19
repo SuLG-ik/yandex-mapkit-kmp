@@ -79,8 +79,9 @@ Region downloads require a paid MapKit license. [Storage reference](https://yand
 
 The [sample workflow][sample-ci] checks sample changes in GitHub Actions. It runs the Android
 route-state tests with a small UI in place of the native map and compiles the iOS simulator target.
-Those jobs use a placeholder key and make no MapKit service requests. On a device, use the actual
-example to check marker hits and camera restoration as the map opens and closes.
+Those jobs use a placeholder key. The measured baseline records a native replay of the Android
+sample, including marker hits, camera restoration after the background process was killed,
+and reset after leaving the example. [Native saved-state replay][return-baseline]
 
 ### Retain a viewport within its current host
 

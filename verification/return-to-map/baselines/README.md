@@ -37,3 +37,20 @@ python3 verification/return-to-map/summarize.py --device "iPhone 16e Simulator i
 ```
 
 Use the [measurement procedure](../README.md) to repeat the comparison on another device.
+
+## Native saved-state replay
+
+The Android sample at `3467ce80` was replayed on a disposable API 33 emulator with physical
+input. A swipe moved the fixed A-2 marker from (593, 1213) to (681, 1280). After details moved
+the selected A-1, the reopened map placed A-2 at the same pixel and showed A-1 in its new
+location. Removing A-1 cleared its selection. Taps at its old and moved points left the
+selection empty.
+
+After selecting and panning Tab B, the Home action stopped the activity and `am kill`
+terminated its background process. A new PID resumed the same Android task with B-1 selected
+and both B marker anchors at their prior pixels. Switching to A restored its panned camera
+and retained the removal. Exiting the example and reopening reset both tabs to their initial
+camera, markers and empty selection. This run exercised Android process-death restoration.
+
+The platform regression fixtures separately check native input ownership when the map is
+covered and release on host removal. [Overlay and pane tests](https://github.com/SuLG-ik/yandex-mapkit-kmp/pull/114) · [Lifecycle tests](https://github.com/SuLG-ik/yandex-mapkit-kmp/pull/94)
