@@ -27,7 +27,6 @@ native gesture checks on [Android][a-map-taps-ci] and [iOS][i-map-taps-ci], and 
 | [`Map.addTileLayer`, `addMapObjectLayer`, `Logo`, indoor state and overlays](layers.md) | An independent object collection, map styles, indoor flags and reachable logo/projection handles in [Android][a-map] and [iOS][i-map]. | Controlled tile providers, style and loaded callbacks, indoor state transitions and rendered overlays [#85][85], [#83][83]. |
 | [`TrafficLayer`, `StorageManager` and `OfflineCacheManager`](offline.md) | `TrafficColor` and `RegionState` convert in both directions in [EnumConverterTest · Android host][a-enums] and [EnumConverterTest · iOS][i-enums]. Service requests and storage lifecycle remain gaps. | Traffic, region lifecycle and cache errors [#85][85]. Cold/warm cache and isolated release scenarios [#74][74], [#82][82]. |
 | [`Logging`, `I18nManager` and runtime failures](runtime.md) | Log level, filtering, delivery and unsubscribe in [LiveLoggingTest · Android][a-logs] and [LiveLoggingTest · iOS][i-logs]. Locale preferences and enum conversion in [Android host][a-converters] and [iOS][i-converters]. | Real formatting output and runtime error callbacks from controlled providers [#85][85]. |
-| [Full suggestions and session reset](full-text-search.md#suggestions-while-typing) | [SuggestAdapterTest · Android host][a-suggest] and [SuggestAdapterTest · iOS simulator][i-suggest] cover bounds and options, item fields, request replacement, reset through a native alias and late responses. | Validate provider response shape with a trusted Full key [#82][82]. |
 
 ## Compose and resources
 
@@ -58,11 +57,17 @@ sample and same-viewport timings are tracked in [#75][75] and [#74][74].
 | [#42][42] Base Compose module pulls in Compose Resources | [#61][split] moves the overload to the optional module and the [ABI check][api] covers the exposed overload. The [Android][a-consumer] and [iOS][i-consumer] consumers resolve the optional artifact and set a PNG on a placemark. | Cover rendering and updates on markers and clusters [#84][84]. |
 | [#55][55] Crash when closing a Compose map | [NativeYandexMapLifecycleTest][a-lifecycle] initializes MapKit, creates the map and finishes the Activity. The [Android][a-host-lifecycle] and [iOS][i-host-lifecycle] lifecycle scenarios remove the map repeatedly during an animation and require one detach per old attachment. Android also verifies that released windows are invalid. | Navigation back-stack transitions [#72][72], [#73][73]. |
 
-## Full text search
+## Full search
 
 [Android and iOS adapter tests](full-text-search.md#regression-checks) cover request options,
 named coordinates, an empty result, a native error and callbacks after cancellation.
 The Full consumer instantiates the native manager as part of the edition checks in [#77][77].
+
+[SuggestAdapterTest · Android host][a-suggest] and [SuggestAdapterTest · iOS simulator][i-suggest]
+cover [suggestions and reset](full-text-search.md#suggestions-while-typing), including options,
+result fields, request replacement, reset through a native alias and late responses. The Full
+consumer creates and resets a native suggestion session. [#82][82] tracks live response checks.
+
 The remaining Full surface is tracked in [#81][81]. Use the [regression workflow](../getting-started/contributing.md#regressions)
 when adding evidence or reporting a remaining gap.
 
