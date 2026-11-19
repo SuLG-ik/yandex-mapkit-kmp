@@ -141,7 +141,7 @@ private class TrustedPoiScenario {
             }
             val current = window?.toNative()
             val screen = current?.worldToScreenWithWorldPoint(point)
-            if (current == null || screen == null || current.width() == 0uL || current.height() == 0uL) {
+            if (current == null || screen == null || current.width() <= 0L || current.height() <= 0L) {
                 events += "native miss projection missing"
             } else {
                 events += "native miss ${screen.x / current.width().toFloat()} ${screen.y / current.height().toFloat()}"
