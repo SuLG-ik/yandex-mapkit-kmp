@@ -17,6 +17,9 @@ struct MapInteractionApp: App {
 private struct ComposeMapHost: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--navigation3") {
+            return InteractionViewControllerKt.nav3ViewController()
+        }
         if arguments.contains("--decompose-stack") {
             return DecomposeStackViewControllerKt.decomposeStackViewController()
         }
