@@ -130,6 +130,7 @@ public class MapObjectMembershipTest {
                     val ready = when {
                         rendered == null -> false
                         expected == MembershipInk.Background -> rendered.isEmpty()
+                        stage == MembershipStage.Scattered -> expected in rendered && MembershipInk.Cluster !in rendered
                         else -> expected in rendered
                     }
                     if (ready) {

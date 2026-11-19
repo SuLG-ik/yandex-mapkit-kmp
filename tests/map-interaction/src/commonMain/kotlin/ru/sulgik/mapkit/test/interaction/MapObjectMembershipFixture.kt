@@ -151,6 +151,7 @@ internal class MapObjectMembershipTrace {
     private var originalHandles: Map<String, MapObject> = emptyMap()
     private var repopulatedHandles: Map<String, MapObject> = emptyMap()
     private var originalParent: NativeCollection? = null
+    private var initialCluster: TappedCluster? = null
 
     fun advance() {
         stage = MembershipStage.entries[stage.ordinal + 1]
@@ -171,14 +172,16 @@ internal class MapObjectMembershipTrace {
             events.add("wrong ${stage.name} cluster callback")
             return
         }
+        val appearance = cluster.appearance
         val members = cluster.placemarks
         val mismatch = when {
             cluster.size != 2 -> "cluster size ${cluster.size}, expected 2"
-            else -> clusterAppearanceMismatch(cluster.appearance, data) ?: memberMismatch(members, data)
+            else -> clusterAppearanceMismatch(appearance, data) ?: memberMismatch(members, data)
         }
         if (mismatch != null) {
-            events.add("wrong ${stage.name} $mismatch")
+            events.add("wrong ${stage.name} $mismatch; members=${describeClusterObjects(members, appearance)}")
         } else {
+            if (stage == MembershipStage.Clustered) initialCluster = TappedCluster(appearance, members)
             recordTap("cluster:${members.map { it.userData.toString() }.sorted().joinToString(",")}")
         }
     }
@@ -191,10 +194,13 @@ internal class MapObjectMembershipTrace {
                 return "expected one cluster collection and no shape collection, got ${snapshot.clusterCollections} clusters"
             }
             if (repopulatedHandles.values.any { it.isValid }) return "retired shape still valid in cluster stage"
-            return if (expected == MembershipStage.Scattered) {
-                memberMismatch(snapshot.objects, clusterData)
+            val mismatch = if (expected == MembershipStage.Scattered) {
+                scatteredMembershipMismatch(snapshot.objects, clusterData)
             } else {
                 clusterAppearanceMismatch(snapshot.objects.singleOrNull(), clusterData)
+            }
+            return mismatch?.let {
+                "$it; traversed=${describeClusterObjects(snapshot.objects, initialCluster?.appearance)}"
             }
         }
 
@@ -235,7 +241,18 @@ internal class MapObjectMembershipTrace {
         }
         return null
     }
+
+    private fun scatteredMembershipMismatch(objects: List<MapObject>, data: String): String? {
+        val original = initialCluster ?: return "missing initial cluster callback"
+        val (appearances, members) = objects.partition { it == original.appearance }
+        if (appearances.size > 1) return "traversal repeated the original cluster appearance"
+        memberMismatch(members, data)?.let { return it }
+        if (original.members.any { it !in members }) return "native membership changed when zooming in"
+        return null
+    }
 }
+
+private class TappedCluster(val appearance: PlacemarkMapObject, val members: List<PlacemarkMapObject>)
 
 @Composable
 internal fun MapObjectMembershipFixture(trace: MapObjectMembershipTrace = remember { MapObjectMembershipTrace() }) {
@@ -478,6 +495,21 @@ private fun memberMismatch(objects: List<MapObject>, data: String): String? {
         }
     }
     return null
+}
+
+private fun describeClusterObjects(objects: List<MapObject>, appearance: PlacemarkMapObject?): String {
+    return objects.joinToString(prefix = "[", postfix = "]") { objectHandle ->
+        val knownAppearance = objectHandle == appearance
+        when {
+            !objectHandle.isValid -> "${objectHandle::class.simpleName}(invalid, knownAppearance=$knownAppearance)"
+
+            objectHandle is PlacemarkMapObject ->
+                "placemark(data=${objectHandle.userData}, point=${objectHandle.geometry}, " +
+                    "visible=${objectHandle.isVisible}, knownAppearance=$knownAppearance)"
+
+            else -> "${objectHandle::class.simpleName}(data=${objectHandle.userData})"
+        }
+    }
 }
 
 private fun clusterCenter(data: String): Point {
