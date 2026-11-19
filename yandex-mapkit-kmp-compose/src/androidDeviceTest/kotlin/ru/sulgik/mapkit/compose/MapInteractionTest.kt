@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.geometry.Offset
@@ -28,6 +29,7 @@ import ru.sulgik.mapkit.test.interaction.MapTapTrace
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import com.yandex.mapkit.mapview.MapView as NativeMapView
 
 @OptIn(ExperimentalTestApi::class)
@@ -67,11 +69,35 @@ public class MapInteractionTest {
     public fun mapTapsRespectHitOrderConsumptionAndCurrentCallbacks() {
         val trace = MapTapTrace()
         val expected = mutableListOf<String>()
+        val receivedTouches = mutableListOf<Offset>()
 
         ActivityScenario.launch(ComponentActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 setDeviceTestMapKitApiKey()
                 activity.setContent { MapTapFixture(trace) }
+                val callback = activity.window.callback
+                activity.window.callback = object : Window.Callback by callback {
+                    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+                        val handled = callback.dispatchTouchEvent(event)
+                        if (event.actionMasked == MotionEvent.ACTION_UP) {
+                            val touch = Offset(event.rawX, event.rawY)
+                            receivedTouches.add(touch)
+                            Log.d("MapInteractionTest", "Activity received ACTION_UP at $touch. Handled: $handled")
+                        }
+                        return handled
+                    }
+                }
+            }
+
+            fun tapAndVerifyDelivery(point: Offset, holdMillis: Long = 0L) {
+                var previousCount = 0
+                scenario.onActivity { previousCount = receivedTouches.size }
+                tap(point.x, point.y, holdMillis)
+                scenario.onActivity {
+                    assertEquals(previousCount + 1, receivedTouches.size, "Activity ACTION_UP count at $point")
+                    val received = receivedTouches.last()
+                    assertTrue((received - point).getDistance() <= 1f, "Sent $point, received $received")
+                }
             }
 
             fun awaitTrace() {
@@ -98,7 +124,8 @@ public class MapInteractionTest {
                     decor.getLocationInWindow(window)
                     point = Offset(target.x + screen[0] - window[0], target.y + screen[1] - window[1])
                 }
-                tap(point.x, point.y)
+                Log.d("MapInteractionTest", "Next case control is at $point")
+                tapAndVerifyDelivery(point)
             }
 
             fun touchProjectedPoint(vararg events: String, holdMillis: Long = 0L) {
@@ -124,12 +151,17 @@ public class MapInteractionTest {
                             x = location[0] + projected.x / window.width * view.width,
                             y = location[1] + projected.y / window.height * view.height,
                         )
-                        Log.d("MapInteractionTest", "Native tap target $target projects to $projected, screen $point")
+                        Log.d(
+                            "MapInteractionTest",
+                            "Native tap target $target projects to $projected, screen $point in " +
+                                "view ${view.width}×${view.height} at (${location[0]}, ${location[1]}), " +
+                                "map window ${window.width}×${window.height}",
+                        )
                     }
                     if (point == null) SystemClock.sleep(20L)
                 }
                 val screenPoint = assertNotNull(point, "The map did not project a touch target. Events: $expected")
-                tap(screenPoint.x, screenPoint.y, holdMillis)
+                tapAndVerifyDelivery(screenPoint, holdMillis)
                 expected.addAll(events)
                 awaitTrace()
             }
@@ -141,10 +173,12 @@ public class MapInteractionTest {
             }
 
             ready("Disabled", advance = false)
-            touchProjectedPoint("polygon", "collection")
+            touchProjectedPoint()
             ready("Empty")
             touchProjectedPoint("map")
             touchProjectedPoint("long", holdMillis = 900L)
+            ready("PolygonOnly")
+            touchProjectedPoint("polygon", "collection", "map")
             ready("PlacemarkConsumes")
             touchProjectedPoint("placemark")
             ready("PlacemarkPropagates")

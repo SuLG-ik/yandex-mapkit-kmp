@@ -13,9 +13,10 @@ Two separate camera targets keep
 empty-map gestures away from the overlapping placemark and polygon. Coordinates are compared
 within 0.0001° on each axis to allow for the platform's screen-point rounding. The ordered trace
 checks z-order, polygon and placemark visibility, parent consumption, and map callbacks through
-registration, replacement, removal, and reattachment. The Android gesture regression
-starts the fixture in a regular activity so MapKit composition work and cleanup use the
-platform UI thread.
+registration, replacement, removal, and reattachment. The fixture taps the same empty map point
+before and after enabling callbacks, then checks an isolated polygon hit before introducing the
+overlapping placemark. On Android, a regular activity keeps MapKit composition work on the UI
+thread and verifies that each injected pointer release reaches the window at the intended location.
 
 ## Android
 

@@ -69,10 +69,12 @@ final class MapInteractionTests: XCTestCase {
         }
 
         ready("Disabled", advance: false)
-        touchCenter("polygon", "collection")
+        touchCenter()
         ready("Empty")
         touchCenter("map")
         touchCenter("long", hold: true)
+        ready("PolygonOnly")
+        touchCenter("polygon", "collection", "map")
         ready("PlacemarkConsumes")
         touchCenter("placemark")
         ready("PlacemarkPropagates")

@@ -72,8 +72,9 @@ private enum class TapCase(
     val mapHandler: String? = "map",
     val longTapEnabled: Boolean = false,
 ) {
-    Disabled(hasPlacemark = false, mapHandler = null),
-    Empty(target = emptyPoint, longTapEnabled = true),
+    Disabled(target = emptyPoint, hasPlacemark = false, mapHandler = null),
+    Empty(target = emptyPoint, hasPlacemark = false, longTapEnabled = true),
+    PolygonOnly(hasPlacemark = false),
     PlacemarkConsumes,
     PlacemarkPropagates(placemarkConsumes = false, collectionConsumes = true),
     PlacemarkHidden(isPlacemarkVisible = false, polygonConsumes = true),
