@@ -1,8 +1,6 @@
 package ru.sulgik.mapkit.search
 
 import platform.Foundation.NSError
-import platform.Foundation.NSLocalizedDescriptionKey
-import platform.Foundation.errorWithDomain
 import ru.sulgik.mapkit.LiveMap
 import ru.sulgik.mapkit.LocalizedValue
 import ru.sulgik.mapkit.SpannableString
@@ -53,10 +51,10 @@ public class SuggestAdapterTest {
         val failures = mutableListOf<SearchError>()
         val listener = SuggestListener({ replies.add(it) }, { failures.add(it) })
         val callbacks = mutableListOf<(NativeSuggestResponse?, NSError?) -> Unit>()
-        val error = NSError.errorWithDomain(
+        val error = NSError(
             domain = "SuggestTest",
             code = 42,
-            userInfo = mapOf(NSLocalizedDescriptionKey to "Network unavailable"),
+            userInfo = null,
         )
         assertSame(listener.toNative(), listener.toNative())
 
@@ -87,7 +85,7 @@ public class SuggestAdapterTest {
         assertEquals(response("AB"), replies.first())
         assertTrue(replies.last().items.isEmpty())
         assertSame(error, failures.single().toNative())
-        assertEquals("Network unavailable", failures.single().description)
+        assertEquals(error.localizedDescription, failures.single().description)
         assertNull(failures.single().error)
     }
 
