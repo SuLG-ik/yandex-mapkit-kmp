@@ -28,6 +28,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.withTimeoutOrNull
+import ru.sulgik.mapkit.PointF
 import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.compose.Circle
 import ru.sulgik.mapkit.compose.CircleState
@@ -54,6 +55,7 @@ import ru.sulgik.mapkit.geometry.LinearRing
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.CameraPosition
 import ru.sulgik.mapkit.map.CircleMapObject
+import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.MapObject
 import ru.sulgik.mapkit.map.MapObjectVisitor
@@ -211,7 +213,12 @@ internal fun MapObjectMembershipFixture(trace: MapObjectMembershipTrace = rememb
             modifier = Modifier.size(260.dp)
                 .onGloballyPositioned { trace.mapCenter = it.boundsInWindow().center }
                 .semantics { contentDescription = "fixture-object-map" },
-            config = MapConfig(mapType = MapType.NONE, isFastTapEnabled = true),
+            config = MapConfig(
+                mapType = MapType.NONE,
+                isFastTapEnabled = true,
+                isScrollGesturesEnabled = false,
+                isZoomGesturesEnabled = false,
+            ),
         ) {
             MapListeners(onMapTap = { trace.recordTap("map") })
             val clusterData = stage.clusterData
@@ -232,11 +239,13 @@ internal fun MapObjectMembershipFixture(trace: MapObjectMembershipTrace = rememb
                             ClusterItem(center.offset(east = clusterSpacing), "${clusterData}2"),
                         ).toPersistentList(),
                         icon = icon,
+                        iconStyle = CenteredIcon,
                     )
                 }
                 Clustering(
                     group = group,
                     icon = icon,
+                    iconStyle = CenteredIcon,
                     config = ClusterizingConfig(clusterRadius = 80.0, minZoom = 15),
                     onItemTap = {
                         trace.recordTap("item:${it.data}")
@@ -301,7 +310,15 @@ private fun MembershipShape(
         ShapeKind.Marker -> {
             val state = remember { PlacemarkState(center) }
             LaunchedEffect(center) { state.geometry = center }
-            Placemark(state, icon, onTap = onTap, visible = stage.childrenVisible, userData = kind.id, zIndex = zIndex)
+            Placemark(
+                state = state,
+                icon = icon,
+                iconStyle = CenteredIcon,
+                onTap = onTap,
+                visible = stage.childrenVisible,
+                userData = kind.id,
+                zIndex = zIndex,
+            )
         }
         ShapeKind.Line -> {
             val state = remember { PolylineState(lineAt(center)) }
@@ -403,6 +420,7 @@ private fun polygonAt(center: Point): MapPolygon {
     return MapPolygon(ring, emptyList())
 }
 
+private val CenteredIcon = IconStyle(anchor = PointF(0.5f, 0.5f))
 private val origin = Point(55.751225, 37.629540)
 private const val parentTag = "fixture-shape-collection"
 private const val clusterSpacing = 0.0006
