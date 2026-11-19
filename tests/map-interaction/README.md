@@ -90,10 +90,10 @@ on a live map for both a placemark and a cluster. The probes sample horizontal a
 strips to check the anchor, transparent margin over a colored backing placemark, and the icon
 dimensions. The Android bitmap case checks physical pixels on both axes. On iOS the known
 48×48 backing bitmap gives the screenshot scale for the fixed bitmap on each axis. The
-Compose cases measure relative to the viewport. Distinct
-colors distinguish cluster members from the cluster image. A mark drawn at the raised density
-confirms the icon was rerendered even on iOS,
-where its logical size should stay the same. The next step resizes the content at that density.
+Compose cases measure relative to the viewport. Distinct colors distinguish cluster members
+from the cluster image. The density-only step holds the viewport and content dimensions fixed
+and raises the renderer's density by 1.5×. Both native pixel axes grow by that factor, and the
+new image contains the density mark. The next step increases the content width at that density.
 The 240 dp viewport leaves space for the 48 dp advance control and a two-line diagnostic on
 compact simulators. XCTest checks containment and taps the control's center.
 

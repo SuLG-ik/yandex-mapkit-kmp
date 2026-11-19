@@ -65,8 +65,18 @@ final class MapIconRenderingTests: XCTestCase {
                     XCTFail("Missing narrow icon sample before the density change")
                     return
                 }
-                XCTAssertTrue((0.83...1.17).contains(image.widthFraction / narrow.widthFraction), "Density-only width: \(narrow) → \(image)")
-                XCTAssertTrue((0.83...1.17).contains(image.heightFraction / narrow.heightFraction), "Density-only height: \(narrow) → \(image)")
+                XCTAssertEqual(
+                    image.widthFraction / narrow.widthFraction,
+                    1.5,
+                    accuracy: 0.25,
+                    "Density-only width: \(narrow) → \(image)"
+                )
+                XCTAssertEqual(
+                    image.heightFraction / narrow.heightFraction,
+                    1.5,
+                    accuracy: 0.25,
+                    "Density-only height: \(narrow) → \(image)"
+                )
                 densityOnly = image
             case "Wide":
                 guard let densityOnly else {
