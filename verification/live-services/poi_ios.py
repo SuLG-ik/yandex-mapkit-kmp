@@ -45,15 +45,20 @@ def already_stopped(result):
     domain = b"NSPOSIXErrorDomain, code=3"
     reported = b"An error was encountered processing the command (domain=" + domain + b"):"
     absent = b"found nothing to terminate"
+    failed = f"Simulator device failed to terminate {PACKAGE}.".encode()
+    details = [
+        b"Underlying error (domain=" + domain + b"):",
+        f'The request to terminate "{PACKAGE}" failed. found nothing to terminate'.encode(),
+        absent,
+    ]
     return lines in (
-        [reported, f"Simulator device failed to terminate {PACKAGE}.".encode(), absent],
+        [reported, failed, absent],
+        [reported, failed, absent, *details],
         [
             reported,
             b"Simulator device returned an error for the requested operation.",
             absent,
-            b"Underlying error (domain=" + domain + b"):",
-            f'The request to terminate "{PACKAGE}" failed. found nothing to terminate'.encode(),
-            absent,
+            *details,
         ],
     )
 

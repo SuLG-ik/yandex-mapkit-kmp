@@ -22,14 +22,18 @@ NOT_RUNNING = (
     + f"Simulator device failed to terminate {poi_ios.PACKAGE}.\n".encode()
     + b"found nothing to terminate\n"
 )
-NESTED_NOT_RUNNING = (
-    b"An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=3):\n"
-    b"Simulator device returned an error for the requested operation.\n"
-    b"found nothing to terminate\n"
+NESTED_DETAILS = (
     b"Underlying error (domain=NSPOSIXErrorDomain, code=3):\n"
     + f'\tThe request to terminate "{poi_ios.PACKAGE}" failed. found nothing to terminate\n'.encode()
     + b"\tfound nothing to terminate\n"
 )
+NESTED_NOT_RUNNING = (
+    b"An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=3):\n"
+    b"Simulator device returned an error for the requested operation.\n"
+    b"found nothing to terminate\n"
+    + NESTED_DETAILS
+)
+COMBINED_NOT_RUNNING = NOT_RUNNING + NESTED_DETAILS
 
 
 class TrustedPoiRunnerTest(unittest.TestCase):
@@ -215,7 +219,12 @@ class TrustedPoiRunnerTest(unittest.TestCase):
 
     def test_termination_accepts_success_and_the_specific_already_stopped_result(self):
         device = poi_ios.Simulator("test-simulator")
-        for code, diagnosis in ((0, b""), (errno.ESRCH, NOT_RUNNING), (errno.ESRCH, NESTED_NOT_RUNNING)):
+        for code, diagnosis in (
+            (0, b""),
+            (errno.ESRCH, NOT_RUNNING),
+            (errno.ESRCH, NESTED_NOT_RUNNING),
+            (errno.ESRCH, COMBINED_NOT_RUNNING),
+        ):
             with self.subTest(code=code):
                 result = Mock(returncode=code, stderr=diagnosis)
                 with patch.object(poi_ios, "run_command", return_value=result) as command:
@@ -228,6 +237,8 @@ class TrustedPoiRunnerTest(unittest.TestCase):
         device = poi_ios.Simulator("test-simulator")
         for code, diagnosis in (
             (errno.ESRCH, NOT_RUNNING.replace(poi_ios.PACKAGE.encode(), b"some.other.app")),
+            (errno.ESRCH, COMBINED_NOT_RUNNING.replace(f'"{poi_ios.PACKAGE}"'.encode(), b'"some.other.app"')),
+            (errno.ESRCH, COMBINED_NOT_RUNNING + b"Unexpected simulator transport failure\n"),
             (errno.ESRCH, NOT_RUNNING + b"Unexpected simulator transport failure\n"),
             (1, NOT_RUNNING),
         ):
