@@ -41,13 +41,16 @@ The iOS POI probe reuses the UIKit fixture built by the credential-free matrix s
 for a native vector map load and finds a selectable point object by making bounded physical taps
 through XCTest. Each tap must produce a native hit or a miss confirmed by native map input before
 the test taps the next point. The native listener saves the object's selection metadata and
-geometry. The wrapper then receives two taps at that same screen position. Consuming the event suppresses map input.
-Declining it delivers one matching map input callback. The check compares the native observation
-within that run, so changes in business names or label order require no reference update.
+geometry. The wrapper then receives two taps at that same screen position. Consuming the event
+suppresses map input. Declining it delivers one matching map input callback. The check compares the
+native observation within that run, so changes in business names or label order require no reference update.
 
-XCTest receives only a run identifier. The fixture consumes the separate key file inside its
-simulator sandbox before MapKit initialization. The keyed test log and xcresult stay in runner
-temporary storage and are removed by the cleanup hook. The scheduler uploads the category only.
+XCTest receives only a run identifier. The launched fixture announces readiness from its own
+simulator sandbox and waits asynchronously. The runner verifies that container and publishes a
+private key file there atomically. The fixture removes the key file and records consumption
+before MapKit initialization. XCTest stdout and stderr are discarded. Its private xcresult stays
+in runner temporary storage and is removed by the cleanup hook. The scheduler uploads the category
+only.
 A missing loaded map or selectable POI reports provider-or-network. A mismatch after independent
 native discovery reports wrapper-or-result-shape.
 

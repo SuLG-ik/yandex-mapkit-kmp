@@ -230,7 +230,7 @@ final class MapInteractionTests: XCTestCase {
             lastMapTap = ProcessInfo.processInfo.systemUptime
         }
 
-        guard map.waitForExistence(timeout: 10), arm.exists else {
+        guard map.waitForExistence(timeout: 25), arm.exists else {
             XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
             return
         }
