@@ -1,7 +1,7 @@
 package ru.sulgik.mapkit.directions.driving
 
-import ru.sulgik.mapkit.runtime.Error
 import YandexMapKit.YRTUnderlyingErrorKey
+import ru.sulgik.mapkit.runtime.Error
 import YandexMapKit.YRTError as NativeRuntimeError
 import platform.Foundation.NSError as NativeError
 import ru.sulgik.mapkit.runtime.toCommon as toRuntimeError

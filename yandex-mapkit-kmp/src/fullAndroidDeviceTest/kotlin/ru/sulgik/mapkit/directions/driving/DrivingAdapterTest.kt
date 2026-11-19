@@ -189,11 +189,13 @@ private class RecordingRouter {
                 listeners.add(args.single() as NativeRouteListener)
                 null
             }
+
             "cancel" -> {
                 cancellations++
                 onCancel()
                 null
             }
+
             else -> error("Unexpected session method: $method")
         }
     }

@@ -5,9 +5,9 @@ import ru.sulgik.mapkit.geometry.Polyline
 import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.toCommon
+import YandexMapKit.YMKDrivingRoute as NativeDrivingRoute
 import YandexMapKit.YMKPolylinePosition as NativePolylinePosition
 import YandexMapKit.YMKRequestPoint as NativeRequestPoint
-import YandexMapKit.YMKDrivingRoute as NativeDrivingRoute
 
 /** A driving route returned by MapKit. */
 public actual class DrivingRoute internal constructor(private val nativeDrivingRoute: NativeDrivingRoute) {

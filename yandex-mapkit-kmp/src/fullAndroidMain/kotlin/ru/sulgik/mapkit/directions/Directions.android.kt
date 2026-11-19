@@ -4,8 +4,8 @@ import ru.sulgik.mapkit.directions.driving.DrivingRouter
 import ru.sulgik.mapkit.directions.driving.DrivingRouterType
 import ru.sulgik.mapkit.directions.driving.toCommon
 import ru.sulgik.mapkit.directions.driving.toNative
-import com.yandex.mapkit.directions.DirectionsFactory as NativeDirectionsFactory
 import com.yandex.mapkit.directions.Directions as NativeDirections
+import com.yandex.mapkit.directions.DirectionsFactory as NativeDirectionsFactory
 
 /** Entry point for driving in the Full MapKit SDK. */
 public actual class Directions internal constructor(private val nativeDirections: NativeDirections) {

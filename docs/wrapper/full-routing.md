@@ -54,7 +54,7 @@ separately from successful route lists and preserves the native alternative orde
 
 | Mode | Native factories and options | Geometry and lifetime | Wrapper delivery and verification |
 | --- | --- | --- | --- |
-| Driving | Android `DirectionsFactory.getInstance().createDrivingRouter(type)`, iOS `YMKDirectionsFactory.instance().createDrivingRouter(withType:)`. Ordered request points, `DrivingOptions` and `VehicleOptions`. | `DrivingRoute.geometry` and waypoint positions, `DrivingSession.cancel/retry`. | Request and geometry slice implemented. Android checks input and alternative order, geometry, no route, error, retry and cancellation. iOS checks point and geometry values, nullable options and the handler. Both adapters check cancellation through an earlier alias. Live requests require a MapKit key. |
+| Driving | Android `DirectionsFactory.getInstance().createDrivingRouter(type)`, iOS `YMKDirectionsFactory.instance().createDrivingRouter(withType:)`. Ordered request points, `DrivingOptions` and `VehicleOptions`. | `DrivingRoute.geometry` and waypoint positions, `DrivingSession.cancel/retry`. | Request and geometry slice implemented. Android checks input and alternative order, geometry, no route, error, retry and cancellation. iOS checks native waypoint and geometry values, empty results, errors and shared cancellation state through a surrogate identity. Live requests require a MapKit key. |
 | Walking | `Transport.createPedestrianRouter()` / `YMKTransport.createPedestrianRouter()` with ordered request points, `TimeOptions` and `RouteOptions`. | `transport.masstransit.Route` / `YMKMasstransitRoute` expose a polyline and sections. The shared transport session supports cancel and retry. | Next transport slice. Wrap the shared session, route and options, then verify ordered walking waypoints and section geometry before enabling the scheduled request. |
 | Cycling | `Transport.createBicycleRouterV2()` / `YMKTransport.createBicycleRouterV2()` with the same `TimeOptions` and `RouteOptions` as walking. | Same route and session as walking. | Reuse the walking slice's transport adapters and add a separate factory, callback and map rendering check. |
 | Public transit | `Transport.createMasstransitRouter()` / `YMKTransport.createMasstransitRouter()` takes `TransitOptions` and `RouteOptions`. `TransitOptions` carries departure/arrival time settings and a vehicle-type filter. | Same route and session as walking. Route sections distinguish transit legs and transfers. | Add transit-specific options and verify walking/transit alternatives, geometry and cancellation. Run one deterministic fixture per platform and a trusted live request. |
@@ -78,9 +78,10 @@ bash verification/lite-consumer/run.sh ios "$IOS_DEVICE_UDID" with-integrations 
 
 The first two commands cover [DrivingAdapterTest · Android][android-adapter] and
 [DrivingAdapterTest · iOS][ios-adapter]. Android runs on a device because the `RequestPoint`
-and `Polyline` constructors call JNI. The tests create aliases before the first binding and
-before `retry`. They cancel the current request through an older alias and verify that native
-callbacks during or after cancellation reach no retired listener.
+and `Polyline` constructors call JNI. Android sends two routes through the native listener and checks their order, geometry and cancellation.
+iOS uses real point and polyline values and a surrogate `NSObject` in the same weak registry to
+test shared cancellation. The SDK constructs driving routes and sessions through the router.
+Decoding non-empty route alternatives on iOS remains a keyed live check.
 
 Before reporting `MAP_READY` the isolated Full app creates, replaces and clears native map
 polylines. In the installed app tap **Draw route**, **Replace route**, then **Clear route**.

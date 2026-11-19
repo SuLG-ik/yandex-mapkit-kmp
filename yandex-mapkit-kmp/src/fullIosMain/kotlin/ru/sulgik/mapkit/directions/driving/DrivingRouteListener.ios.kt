@@ -5,8 +5,7 @@ import ru.sulgik.mapkit.NativeConvertible
 import YandexMapKit.YMKDrivingRoute as NativeRoute
 
 /** Receives route alternatives or a request failure on the UI thread. */
-public actual abstract class DrivingRouteListener actual constructor() :
-    NativeConvertible<(List<*>?, NSError?) -> Unit> {
+public actual abstract class DrivingRouteListener actual constructor() : NativeConvertible<(List<*>?, NSError?) -> Unit> {
 
     private val nativeListener: (List<*>?, NSError?) -> Unit = { routes, error ->
         if (error != null) {

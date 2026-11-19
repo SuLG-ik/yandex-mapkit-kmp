@@ -54,7 +54,7 @@ val session = router.requestRoutes(
 
 | Режим | Нативные фабрики и параметры | Геометрия и жизненный цикл | Реализация и проверка |
 | --- | --- | --- | --- |
-| Автомобиль | Android `DirectionsFactory.getInstance().createDrivingRouter(type)`, iOS `YMKDirectionsFactory.instance().createDrivingRouter(withType:)`. Упорядоченные точки, `DrivingOptions` и `VehicleOptions`. | `DrivingRoute.geometry` и позиции точек, `DrivingSession.cancel/retry`. | Реализованы запрос и геометрия. Android-тест проверяет порядок и геометрию вариантов, отсутствие маршрута, ошибку, повтор и отмену. iOS-тест проверяет значения точек и геометрии, nullable-поля и обработчик. Обе платформы проверяют завершение текущего запроса через другую обёртку. Сетевая проверка требует ключа MapKit. |
+| Автомобиль | Android `DirectionsFactory.getInstance().createDrivingRouter(type)`, iOS `YMKDirectionsFactory.instance().createDrivingRouter(withType:)`. Упорядоченные точки, `DrivingOptions` и `VehicleOptions`. | `DrivingRoute.geometry` и позиции точек, `DrivingSession.cancel/retry`. | Реализованы запрос и геометрия. Android-тест проверяет порядок и геометрию вариантов, отсутствие маршрута, ошибку, повтор и отмену. iOS проверяет нативные значения точек и геометрии, пустой ответ и обработку ошибок. Общая логика отмены на iOS проверяется через тестовый объект. Сетевая проверка требует ключа MapKit. |
 | Пешком | `Transport.createPedestrianRouter()` / `YMKTransport.createPedestrianRouter()` принимает упорядоченные точки, `TimeOptions` и `RouteOptions`. | `transport.masstransit.Route` / `YMKMasstransitRoute` предоставляют полилинию и участки. Общая сессия поддерживает отмену и повтор. | Следующий шаг. Обернуть общую сессию, маршрут и параметры транспорта, проверить порядок точек и геометрию участков, затем добавить плановый живой запрос. |
 | Велосипед | `Transport.createBicycleRouterV2()` / `YMKTransport.createBicycleRouterV2()` с теми же `TimeOptions` и `RouteOptions`, что для пешего маршрута. | Те же типы маршрута и сессии, что для пешего режима. | Переиспользовать транспортные адаптеры пешего режима и отдельно проверить фабрику, обработчик результата и отображение на карте. |
 | Общественный транспорт | `Transport.createMasstransitRouter()` / `YMKTransport.createMasstransitRouter()` принимает `TransitOptions` и `RouteOptions`. `TransitOptions` включает время отправления или прибытия и фильтр транспорта. | Те же типы маршрута и сессии, что для пешего режима. Участки различают поездки и пересадки. | Добавить параметры общественного транспорта. Проверить пешие и транспортные альтернативы, геометрию и отмену. Запустить детерминированные тесты и доверенный живой запрос. |
@@ -79,9 +79,11 @@ bash verification/lite-consumer/run.sh ios "$IOS_DEVICE_UDID" with-integrations 
 
 Первые две команды включают [DrivingAdapterTest · Android][android-adapter] и
 [DrivingAdapterTest · iOS][ios-adapter]. Android выполняет их на устройстве, потому что
-`RequestPoint` и `Polyline` вызывают JNI. Обе версии теста создают обёртки до первого запроса
-и до `retry`, затем отменяют текущий запрос через более раннюю обёртку и проверяют события,
-которые нативный обработчик доставляет во время и после отмены.
+`RequestPoint` и `Polyline` вызывают JNI. Android вызывает нативный адаптер с двумя маршрутами и проверяет порядок, геометрию и отмену.
+iOS использует настоящие значения точек и полилиний, а для проверки общей логики отмены
+сессии передаёт тестовый `NSObject` в тот же реестр. SDK создаёт объекты маршрута и
+сессии через маршрутизатор. Проверка ответа iOS с непустым списком альтернатив ждёт
+сетевого запуска с ключом.
 
 До `MAP_READY` отдельное приложение Full создаёт, заменяет и очищает нативные полилинии
 на карте. В установленном приложении нажмите **Draw route**, **Replace route** и

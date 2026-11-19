@@ -73,8 +73,9 @@ when adding evidence or reporting a remaining gap.
 
 ## Full driving routing
 
-The [device adapter checks](full-routing.md#regression-checks) cover point order, geometry,
-empty results, native errors and cancellation through an alias created before retry. The
+The [Android adapter check](full-routing.md#regression-checks) exercises route delivery, geometry,
+empty results, errors and cancellation through a native wrapper. iOS checks native geometry
+values, empty/error callbacks and shared cancellation with a surrogate registry identity. The
 isolated Full app draws, replaces and clears a real polyline before `MAP_READY`. Live driving
 requests and the other routing modes remain tracked in [#80][80], with scheduled service
 runs in [#82][82].

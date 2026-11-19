@@ -1,8 +1,8 @@
 package ru.sulgik.mapkit.directions.driving
 
 import ru.sulgik.mapkit.runtime.Error
-import ru.sulgik.mapkit.runtime.toCommon as toRuntimeError
 import com.yandex.runtime.Error as NativeError
+import ru.sulgik.mapkit.runtime.toCommon as toRuntimeError
 
 /** A failure reported by the driving router. */
 public actual class DrivingRouteError internal constructor(private val nativeError: NativeError) {

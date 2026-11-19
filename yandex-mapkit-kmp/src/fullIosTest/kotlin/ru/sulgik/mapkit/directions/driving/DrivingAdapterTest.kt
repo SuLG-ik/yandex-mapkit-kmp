@@ -2,14 +2,18 @@ package ru.sulgik.mapkit.directions.driving
 
 import platform.Foundation.NSError
 import platform.Foundation.NSLocalizedDescriptionKey
-import platform.Foundation.errorWithDomain
+import platform.Foundation.NSObject
 import platform.Foundation.timeIntervalSince1970
 import ru.sulgik.mapkit.RequestPoint
 import ru.sulgik.mapkit.RequestPointType
 import ru.sulgik.mapkit.annotations.AnnotationLanguage
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.Polyline
+import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.toCommon
+import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.routing.RoutingRequestState
+import ru.sulgik.mapkit.search.SearchRequestBindings
 import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import kotlin.test.Test
@@ -18,7 +22,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 import kotlin.time.Instant
-import YandexMapKit.YMKDrivingSession as NativeDrivingSession
 
 public class DrivingAdapterTest {
 
@@ -63,11 +66,13 @@ public class DrivingAdapterTest {
         assertEquals(VehicleOptions(), VehicleOptions().toNative().toCommon())
         assertEquals(points, points.map(RequestPoint::toNative).map { it.toCommon() })
         assertEquals(points.map { it.point }, Polyline(points.map { it.point }).toNative().toCommon().points)
+        val wayPoints = listOf(PolylinePosition(0, 0.0), PolylinePosition(1, 1.0))
+        assertEquals(wayPoints, wayPoints.map { it.toNative().toCommon() })
     }
 
     @Test
     public fun native_handler_preserves_empty_results_errors_and_disposal() {
-        val error = NSError.errorWithDomain(
+        val error = NSError(
             domain = "DrivingTest",
             code = 42,
             userInfo = mapOf(NSLocalizedDescriptionKey to "Network unavailable"),
@@ -95,45 +100,33 @@ public class DrivingAdapterTest {
     }
 
     @Test
-    public fun aliases_replace_and_cancel_the_same_native_driving_request() {
-        val native = RecordingDrivingSession()
-        val aliasBeforeRequest = native.toCommon()
+    public fun shared_lifecycle_state_cancels_a_replacement_through_an_earlier_surrogate_alias() {
+        val handle = NSObject()
+        val bindings = SearchRequestBindings<NSObject, RoutingRequestState<DrivingRouteListener>>()
+        val aliasBeforeRequest = bindings.getOrPut(handle) { RoutingRequestState() }
         val oldResults = mutableListOf<List<DrivingRoute>>()
         val oldRequest = DrivingRouteRequest(
             DrivingRouteListener({ oldResults.add(it) }, { error("Unexpected initial failure") }),
         )
-        native.callbacks.add(oldRequest.toNative())
-        val owner = native.toCommon(oldRequest)
-        val aliasBeforeRetry = owner.toNative().toCommon()
+        val owner = bindings.getOrPut(handle) { error("Earlier alias lost its request state") }
+        owner.replace(oldRequest)
+        val retiredHandler = oldRequest.toNative()
+        val aliasBeforeRetry = bindings.getOrPut(handle) { error("Request state was replaced") }
         val currentResults = mutableListOf<List<DrivingRoute>>()
-        aliasBeforeRetry.retry(DrivingRouteListener({ currentResults.add(it) }, { error("Unexpected retry failure") }))
-        assertEquals(2, native.callbacks.size)
+        val retryRequest = DrivingRouteRequest(
+            DrivingRouteListener({ currentResults.add(it) }, { error("Unexpected retry failure") }),
+        )
+        aliasBeforeRetry.replace(retryRequest)
+        val currentHandler = retryRequest.toNative()
 
-        native.callbacks[0](emptyList<Any>(), null)
-        native.callbacks[1](emptyList<Any>(), null)
+        retiredHandler(emptyList<Any>(), null)
+        currentHandler(emptyList<Any>(), null)
         aliasBeforeRequest.cancel()
-        native.callbacks[1](emptyList<Any>(), null)
+        currentHandler(emptyList<Any>(), null)
 
-        assertSame(native, owner.toNative())
-        assertEquals(1, native.cancelCount)
+        assertSame(aliasBeforeRequest, owner)
+        assertSame(aliasBeforeRequest, aliasBeforeRetry)
         assertTrue(oldResults.isEmpty())
         assertTrue(currentResults.single().isEmpty())
-    }
-
-}
-
-private class RecordingDrivingSession : NativeDrivingSession() {
-
-    val callbacks = mutableListOf<(List<*>?, NSError?) -> Unit>()
-    var cancelCount = 0
-        private set
-
-    override fun retryWithRouteHandler(routeHandler: (List<*>?, NSError?) -> Unit) {
-        callbacks.add(routeHandler)
-    }
-
-    override fun cancel() {
-        cancelCount++
-        callbacks.lastOrNull()?.invoke(emptyList<Any>(), null)
     }
 }
