@@ -4,6 +4,7 @@ import YandexMapKit.YMKStorageManagerClearCallback
 import YandexMapKit.YMKStorageManagerSizeCallback
 import YandexMapKit.YRTUnderlyingErrorKey
 import platform.Foundation.NSError
+import platform.Foundation.NSNumber
 import ru.sulgik.mapkit.LiveMap
 import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.runtime.DiskWriteAccessError
@@ -151,7 +152,7 @@ private class RecordingStorage : NativeStorageManager() {
         pendingSize = callback
     }
 
-    private fun takeSizeCallback(): YMKStorageManagerSizeCallback {
+    private fun takeSizeCallback(): (NSNumber?, NSError?) -> Unit {
         val callback = checkNotNull(pendingSize)
         pendingSize = null
         return callback
