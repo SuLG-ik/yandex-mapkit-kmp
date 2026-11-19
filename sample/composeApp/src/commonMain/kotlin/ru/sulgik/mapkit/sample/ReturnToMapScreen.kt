@@ -96,19 +96,10 @@ internal fun ReturnMapRoutes(
             var isShowingDetails by rememberSaveable { mutableStateOf(false) }
             var isMoved by rememberSaveable { mutableStateOf(false) }
             var isRemoved by rememberSaveable { mutableStateOf(false) }
-            val markers = remember(tab, isMoved, isRemoved) {
-                buildList {
-                    if (!isRemoved) {
-                        add(
-                            if (isMoved) {
-                                tab.editableMarker.copy(point = tab.movedPoint)
-                            } else {
-                                tab.editableMarker
-                            },
-                        )
-                    }
-                    add(tab.referenceMarker)
-                }
+            val markers = when {
+                isRemoved -> tab.remainingMarkers
+                isMoved -> tab.movedMarkers
+                else -> tab.initialMarkers
             }
             val selected = markers.firstOrNull { it.id == selectedId }
 
@@ -178,4 +169,7 @@ internal enum class ReturnMapTab(
     ;
 
     val initialCamera: CameraPosition = CameraPosition(center, zoom = 15f, azimuth = 0f, tilt = 0f)
+    val initialMarkers: List<ReturnMapMarker> = listOf(editableMarker, referenceMarker)
+    val movedMarkers: List<ReturnMapMarker> = listOf(editableMarker.copy(point = movedPoint), referenceMarker)
+    val remainingMarkers: List<ReturnMapMarker> = listOf(referenceMarker)
 }
