@@ -26,6 +26,8 @@ private val firstRoute = listOf(start, Point(55.753, 37.621), destination)
 private val alternativeRoute = listOf(start, Point(55.756, 37.628), destination)
 
 internal fun verifyRoutingOverlay(map: Map) {
+    verifyDrivingWaypoints()
+    verifyNoRouteReplies()
     val drawing = RoutingOverlay(map.mapObjects)
     try {
         val first = checkNotNull(drawing.show(Polyline(firstRoute)))
