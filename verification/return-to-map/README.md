@@ -62,9 +62,13 @@ python3 verification/return-to-map/summarize.py --device "iOS iPhone 16e Simulat
 ```
 
 The report lists trial counts by cohort and gives medians, ranges and observed/attempted counts
-for each route. The parser deduplicates by trial ID and rejects mixed measured viewports,
-conflicting duplicates and changes in SDK, mode or timing scope inside a cohort. It keeps
-deadline rows and missing fields. Signed differences use pairs from the same trial.
+for each route. Route metrics use all trials for the same case. The report summarizes verified
+tile callback metrics separately for `mount` and `ready` registrations. Each tile table counts
+only the attempts from its registration phase, including timeouts. Unverified early callbacks
+are counted with route metrics because the recorded phase reflects the final registration.
+The parser deduplicates by trial ID and rejects mixed measured viewports, conflicting duplicates
+and changes in SDK, mode or timing scope inside a cohort. It keeps deadline rows and missing
+fields. Signed differences use pairs from the same trial.
 
 | Field | Meaning |
 |---|---|

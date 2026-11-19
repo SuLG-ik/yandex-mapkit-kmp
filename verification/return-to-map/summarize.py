@@ -9,7 +9,7 @@ from statistics import median
 
 PREFIX = "MAPKIT_RETURN_METRIC|"
 CASE_ORDER = ("cold", "reopen", "retained", "restart")
-TIMINGS = ("mount_ms", "overlay_ms", "ready_ms", "tap_ms", "tile_ms", "early_tile_ms")
+ROUTE_FIELDS = ("mount_ms", "overlay_ms", "ready_ms", "tap_ms", "early_tile_ms", "mounts", "markers", "icons")
 SDK_TIMINGS = (
     "geometry_ms",
     "placemarks_ms",
@@ -19,8 +19,8 @@ SDK_TIMINGS = (
     "fully_loaded_ms",
     "fully_appeared_ms",
 )
-COUNTS = ("mounts", "markers", "icons", "render_objects", "tile_bytes")
-NUMERIC_FIELDS = TIMINGS + SDK_TIMINGS + COUNTS
+TILE_FIELDS = ("tile_ms",) + SDK_TIMINGS + ("render_objects", "tile_bytes")
+NUMERIC_FIELDS = ROUTE_FIELDS + TILE_FIELDS
 PAIRED_TIMINGS = {
     "mount_to_overlay_ms": ("overlay_ms", "mount_ms"),
     "ready_to_tap_ms": ("tap_ms", "ready_ms"),
@@ -89,6 +89,12 @@ def stats(records, field):
     return f"{median(values):g} [{min(values)}–{max(values)}] ({len(values)}/{len(records)})"
 
 
+def print_metric_table(records, fields):
+    print("\n| Metric | Median [min–max] (observations/trials) |\n|---|---|")
+    for field in fields:
+        print(f"| {field} | {stats(records, field)} |")
+
+
 def print_summary(records):
     groups = defaultdict(list)
     cohorts = {}
@@ -120,9 +126,13 @@ def print_summary(records):
             print(f"\n### {case}")
             print(f"\nTrials: {len(trials)}. Deadlines: {sum(row['end'] == 'deadline' for row in trials)}. Tiles: {tiles}.")
             print(f"Tile registrations: {registrations}.")
-            print("\n| Metric | Median [min–max] (observations/trials) |\n|---|---|")
-            for field in NUMERIC_FIELDS + tuple(PAIRED_TIMINGS):
-                print(f"| {field} | {stats(trials, field)} |")
+            print_metric_table(trials, ROUTE_FIELDS + ("mount_to_overlay_ms", "ready_to_tap_ms"))
+
+            for phase in ("mount", "ready"):
+                registered = [record for record in trials if record["tile_registered"] == phase]
+                if registered:
+                    print(f"\n#### Tile metrics · registered at {phase}")
+                    print_metric_table(registered, TILE_FIELDS + ("ready_to_tiles_ms",))
 
 
 def main():
