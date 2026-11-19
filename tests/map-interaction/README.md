@@ -33,13 +33,15 @@ bundle is under `tests/map-interaction/build`.
 ## On-map icon rendering
 
 `MapIconRenderingTest` on Android and `MapIconRenderingTests` on iOS run the same fixture
-on a live map for both a placemark and a cluster. The screen probe compares a row through the
-icon with channel tolerances. It checks the anchor, transparent margin over a colored backing
-placemark, and the width change after updating the content and density. The checks sample
-local pixels without golden images or base-map tiles.
+on a live map for both a placemark and a cluster. The probes sample horizontal and vertical
+strips to check the anchor, transparent margin over a colored backing placemark, and the icon
+dimensions. The cluster members have a distinct color so a visible member cannot pass as the
+cluster image. A mark drawn at the raised density confirms the icon was rerendered even on iOS,
+where the logical size should stay the same. The next step resizes the content at that density.
 
-The fixture drives a local Coil fetcher through a placeholder, failure, retry and success.
-It releases an older request after a newer image is visible, then releases a pending request
-after removing its map object. The map keeps the newer image in the first case and stays clear
-of the removed icon in the second. The [standalone consumer](../../verification/lite-consumer/README.md)
-exercises the published drawable adapter.
+The fixture uses a local Coil fetcher with two attempts for the same model. The first attempt
+shows a placeholder and an error, then the painter restarts the request and shows the fetched
+image. The fixture later releases both a superseded request and a request whose map object was
+removed. Each final pixel check waits for Coil's cancellation callback. The
+[standalone consumer](../../verification/lite-consumer/README.md) exercises the published
+drawable adapter.
