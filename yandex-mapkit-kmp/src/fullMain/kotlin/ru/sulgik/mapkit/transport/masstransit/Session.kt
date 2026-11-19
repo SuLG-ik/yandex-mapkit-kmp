@@ -10,7 +10,7 @@ public expect class Session {
     public fun retry(routeListener: RouteListener)
 
     /** Receives transport routes or a failure on the UI thread. */
-    public abstract class RouteListener() {
+    public abstract class RouteListener public constructor() {
 
         /** Called with the routes in native order. The list may be empty. */
         public abstract fun onMasstransitRoutes(routes: List<Route>)
