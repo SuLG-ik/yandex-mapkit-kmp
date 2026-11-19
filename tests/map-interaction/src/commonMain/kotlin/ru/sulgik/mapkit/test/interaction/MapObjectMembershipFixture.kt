@@ -100,6 +100,14 @@ internal enum class MembershipStage(
     ClusterReplaced(clusterData = "b", zoom = 14f, expectedTap = "cluster:b1,b2"),
     ;
 
+    val targetInk: MembershipInk
+        get() = when {
+            expectedTap == "map" -> MembershipInk.Background
+            target != null -> target.ink
+            this == Scattered -> MembershipInk.Marker
+            else -> MembershipInk.Cluster
+        }
+
     fun shapes(): List<ShapeKind> {
         if (isEmpty) return emptyList()
         val ordered = if (reverse) ShapeKind.entries.reversed() else ShapeKind.entries
@@ -113,11 +121,20 @@ internal enum class MembershipStage(
     }
 }
 
-internal enum class ShapeKind(val id: String, private val east: Double) {
-    Marker("marker", 0.0),
-    Line("line", 0.005),
-    Circle("circle", 0.010),
-    Polygon("polygon", 0.015),
+internal enum class MembershipInk(val color: Color) {
+    Background(Color.Unspecified),
+    Marker(Color.Red),
+    Line(Color(0xff00c43c)),
+    Circle(Color(0xffff8d00)),
+    Polygon(Color(0xff8246ee)),
+    Cluster(Color(0xff00aaff)),
+}
+
+internal enum class ShapeKind(val id: String, private val east: Double, val ink: MembershipInk) {
+    Marker("marker", 0.0, MembershipInk.Marker),
+    Line("line", 0.005, MembershipInk.Line),
+    Circle("circle", 0.010, MembershipInk.Circle),
+    Polygon("polygon", 0.015, MembershipInk.Polygon),
     ;
 
     fun center(shifted: Boolean): Point {
@@ -138,8 +155,13 @@ internal class MapObjectMembershipTrace {
         stage = MembershipStage.entries[stage.ordinal + 1]
     }
 
-    fun recordTap(name: String) {
-        events.add("tap ${stage.name} $name")
+    fun recordTap(name: String, point: Point? = null) {
+        val target = stage.camera().target
+        if (point == null || near(point, target, tolerance = 0.0001)) {
+            events.add("tap ${stage.name} $name")
+        } else {
+            events.add("wrong ${stage.name} $name coordinate: $point, expected $target")
+        }
     }
 
     fun mismatch(map: MapKitMap, expected: MembershipStage): String? {
@@ -197,11 +219,8 @@ internal class MapObjectMembershipTrace {
 internal fun MapObjectMembershipFixture(trace: MapObjectMembershipTrace = remember { MapObjectMembershipTrace() }) {
     rememberAndInitializeMapKit().bindToLifecycleOwner()
     val stage = trace.stage
-    val icon = remember {
-        val bitmap = ImageBitmap(40, 40)
-        Canvas(bitmap).drawCircle(Offset(20f, 20f), 17f, Paint().apply { color = Color.Red })
-        bitmap.toImageProvider()
-    }
+    val icon = remember { membershipIcon(MembershipInk.Marker) }
+    val clusterIcon = remember { membershipIcon(MembershipInk.Cluster) }
     Column {
         BasicText(
             "Next object case",
@@ -220,7 +239,7 @@ internal fun MapObjectMembershipFixture(trace: MapObjectMembershipTrace = rememb
                 isZoomGesturesEnabled = false,
             ),
         ) {
-            MapListeners(onMapTap = { trace.recordTap("map") })
+            MapListeners(onMapTap = { trace.recordTap("map", it) })
             val clusterData = stage.clusterData
             if (clusterData == null) {
                 MapObjectCollection(userData = parentTag, visible = stage.parentVisible) {
@@ -244,11 +263,11 @@ internal fun MapObjectMembershipFixture(trace: MapObjectMembershipTrace = rememb
                 }
                 Clustering(
                     group = group,
-                    icon = icon,
+                    icon = clusterIcon,
                     iconStyle = CenteredIcon,
                     config = ClusterizingConfig(clusterRadius = 80.0, minZoom = 15),
                     onItemTap = {
-                        trace.recordTap("item:${it.data}")
+                        trace.recordTap("item:${it.data}", it.geometry)
                         true
                     },
                     onClusterTap = {
@@ -303,7 +322,7 @@ private fun MembershipShape(
         else -> "marker:initial"
     }
     val onTap: (Point) -> Boolean = {
-        trace.recordTap(tapName)
+        trace.recordTap(tapName, it)
         true
     }
     when (kind) {
@@ -324,18 +343,38 @@ private fun MembershipShape(
             val state = remember { PolylineState(lineAt(center)) }
             LaunchedEffect(center) { state.geometry = lineAt(center) }
             Polyline(
-                state, strokeWidth = 8f, onTap = onTap, visible = stage.childrenVisible, userData = kind.id, zIndex = zIndex,
+                state = state,
+                strokeColor = kind.ink.color,
+                strokeWidth = 8f,
+                onTap = onTap,
+                visible = stage.childrenVisible,
+                userData = kind.id,
+                zIndex = zIndex,
             )
         }
         ShapeKind.Circle -> {
             val state = remember { CircleState(circleAt(center)) }
             LaunchedEffect(center) { state.geometry = circleAt(center) }
-            Circle(state, onTap = onTap, visible = stage.childrenVisible, userData = kind.id, zIndex = zIndex)
+            Circle(
+                state = state,
+                color = kind.ink.color,
+                onTap = onTap,
+                visible = stage.childrenVisible,
+                userData = kind.id,
+                zIndex = zIndex,
+            )
         }
         ShapeKind.Polygon -> {
             val state = remember { PolygonState(polygonAt(center)) }
             LaunchedEffect(center) { state.geometry = polygonAt(center) }
-            Polygon(state, onTap = onTap, visible = stage.childrenVisible, userData = kind.id, zIndex = zIndex)
+            Polygon(
+                state = state,
+                color = kind.ink.color,
+                onTap = onTap,
+                visible = stage.childrenVisible,
+                userData = kind.id,
+                zIndex = zIndex,
+            )
         }
     }
 }
@@ -395,9 +434,15 @@ private fun Point.offset(north: Double = 0.0, east: Double = 0.0): Point {
     return Point(latitude.value + north, longitude.value + east)
 }
 
-private fun near(actual: Point, expected: Point): Boolean {
-    return abs(actual.latitude.value - expected.latitude.value) < 0.000001 &&
-        abs(actual.longitude.value - expected.longitude.value) < 0.000001
+private fun near(actual: Point, expected: Point, tolerance: Double = 0.000001): Boolean {
+    return abs(actual.latitude.value - expected.latitude.value) < tolerance &&
+        abs(actual.longitude.value - expected.longitude.value) < tolerance
+}
+
+private fun membershipIcon(ink: MembershipInk): ImageProvider {
+    val bitmap = ImageBitmap(40, 40)
+    Canvas(bitmap).drawCircle(Offset(20f, 20f), 17f, Paint().apply { color = ink.color })
+    return bitmap.toImageProvider()
 }
 
 private fun lineAt(center: Point): MapPolyline {
