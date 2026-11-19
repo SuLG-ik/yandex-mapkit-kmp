@@ -18,6 +18,7 @@ public enum class LiveServiceStatus(public val code: Int) {
     Authorization(10),
     ProviderOrNetwork(11),
     WrapperOrShape(12),
+    ProviderNoRoute(13),
     RunnerOrFixture(70),
 }
 

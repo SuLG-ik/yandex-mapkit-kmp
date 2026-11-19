@@ -131,7 +131,9 @@ private fun routeStarter(mode: RouteMode): StartRoute {
                 DrivingOptions(routesCount = 2),
                 VehicleOptions(),
                 DrivingRouteListener(
-                    onDrivingRoutes = { routes -> deliver(verifyReply { drivingGeometry(routes, points) }) },
+                    onDrivingRoutes = { routes ->
+                        deliver(verifyReply(routes) { drivingGeometry(routes, points) })
+                    },
                     onDrivingRoutesError = { error -> deliver(errorReply { error.error }) },
                 ),
             )
@@ -164,7 +166,9 @@ private fun routeStarter(mode: RouteMode): StartRoute {
         val session = request(
             points,
             RouteListener(
-                onMasstransitRoutes = { routes -> deliver(verifyReply { transportGeometry(routes, points, mode) }) },
+                onMasstransitRoutes = { routes ->
+                    deliver(verifyReply(routes) { transportGeometry(routes, points, mode) })
+                },
                 onMasstransitRoutesError = { error -> deliver(errorReply { error.error }) },
             ),
         )
@@ -176,9 +180,14 @@ private fun drivingGeometry(routes: List<DrivingRoute>, points: List<RequestPoin
     val selected = routes.first()
     val geometry = selected.geometry
     check(selected.routeId.isNotBlank())
-    check(selected.requestPoints?.map { it.point }?.let { it == points.map(RequestPoint::point) } != false)
-    check(selected.wayPoints.size >= points.size)
-    check(selected.wayPoints.all { it.segmentIndex in geometry.points.indices && it.segmentPosition in 0.0..1.0 })
+    check(
+        drivingWaypointsMatch(
+            geometry = geometry,
+            wayPoints = selected.wayPoints,
+            requestedPoints = points.map(RequestPoint::point),
+            reportedRequestPoints = selected.requestPoints?.map(RequestPoint::point),
+        ),
+    )
     return geometry
 }
 
@@ -195,7 +204,8 @@ private fun transportGeometry(routes: List<Route>, points: List<RequestPoint>, m
     return selected.geometry
 }
 
-private fun verifyReply(readGeometry: () -> Polyline): RouteReply {
+private fun verifyReply(routes: List<*>, readGeometry: () -> Polyline): RouteReply {
+    if (routes.isEmpty()) return RouteReply(LiveServiceStatus.ProviderNoRoute)
     return try {
         val geometry = readGeometry()
         val points = geometry.points
@@ -217,4 +227,11 @@ private fun errorReply(readError: () -> Error?): RouteReply {
         LiveServiceStatus.WrapperOrShape
     }
     return RouteReply(status)
+}
+
+internal fun verifyNoRouteReplies() {
+    val emptyReply = verifyReply(emptyList<Any>()) { error("Empty alternatives have no geometry to decode") }
+    check(emptyReply.status == LiveServiceStatus.ProviderNoRoute)
+    val undecodable = verifyReply(listOf(Any())) { error("A nonempty route failed decoding") }
+    check(undecodable.status == LiveServiceStatus.WrapperOrShape)
 }
