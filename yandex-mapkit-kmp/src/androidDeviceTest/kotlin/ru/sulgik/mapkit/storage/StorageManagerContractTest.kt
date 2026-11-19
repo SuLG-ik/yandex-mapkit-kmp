@@ -70,11 +70,14 @@ public class StorageManagerContractTest {
             }
         }
 
+        val adapter = listener.toNative()
         storage.addStorageErrorListener(listener.asWeakRef())
-        assertSame(listener.toNative(), nativeStorage.currentErrorListener?.get())
-        checkNotNull(nativeStorage.currentErrorListener?.get()).onStorageError(failure)
+        val registered = checkNotNull(nativeStorage.currentErrorListener?.get())
+        assertSame(adapter, registered)
+        registered.onStorageError(failure)
 
         storage.removeStorageErrorListener(listener.asWeakRef())
+        assertSame(adapter, listener.toNative())
         assertNull(nativeStorage.currentErrorListener)
         val mapped = assertIs<DiskWriteAccessError>(received.single())
         assertSame(failure, mapped.toNative())
@@ -106,7 +109,9 @@ private class RecordingStorage : NativeStorageManager {
     }
 
     override fun removeStorageErrorListener(errorListener: WeakReference<NativeStorageErrorListener>) {
-        assertSame(currentErrorListener?.get(), errorListener?.get(), "Native unsubscribe uses adapter identity")
+        val registered = checkNotNull(currentErrorListener?.get())
+        val removed = checkNotNull(errorListener.get())
+        assertSame(registered, removed, "Native unsubscribe uses adapter identity")
         currentErrorListener = null
     }
 

@@ -74,18 +74,24 @@ public class TileLayerContractTest {
         }
         val loaded = LayerLoadedListener { events += "loaded" }
         val loadedReplacement = LayerLoadedListener { events += "loaded:new" }
+        val firstAdapter = first.toNative()
+        val nextAdapter = next.toNative()
+        val loadedAdapter = loaded.toNative()
+        val loadedReplacementAdapter = loadedReplacement.toNative()
 
         layer.setDataSourceListener(first.asWeakRef())
         layer.setLayerLoadedListener(loaded.asWeakRef())
-        assertSame(first.toNative(), nativeLayer.currentDataSourceListener?.get())
-        assertSame(loaded.toNative(), nativeLayer.currentLoadedListener?.get())
+        assertSame(firstAdapter, checkNotNull(nativeLayer.currentDataSourceListener?.get()))
+        assertSame(loadedAdapter, checkNotNull(nativeLayer.currentLoadedListener?.get()))
 
         layer.setDataSourceListener(next.asWeakRef())
         layer.setLayerLoadedListener(loadedReplacement.asWeakRef())
-        assertSame(next.toNative(), nativeLayer.currentDataSourceListener?.get())
-        assertSame(loadedReplacement.toNative(), nativeLayer.currentLoadedListener?.get())
-        checkNotNull(nativeLayer.currentDataSourceListener?.get()).onDataSourceUpdated(nativeSource)
-        checkNotNull(nativeLayer.currentLoadedListener?.get()).onLayerLoaded()
+        val registeredSource = checkNotNull(nativeLayer.currentDataSourceListener?.get())
+        val registeredLoaded = checkNotNull(nativeLayer.currentLoadedListener?.get())
+        assertSame(nextAdapter, registeredSource)
+        assertSame(loadedReplacementAdapter, registeredLoaded)
+        registeredSource.onDataSourceUpdated(nativeSource)
+        registeredLoaded.onLayerLoaded()
 
         layer.setDataSourceListener(null)
         layer.setLayerLoadedListener(null)
@@ -128,17 +134,27 @@ private class RecordingLayer : NativeDataSourceLayer {
         currentLoadedListener = layerLoadedListener
     }
 
-    override fun isActive(): Boolean = false
+    override fun isActive(): Boolean {
+        return false
+    }
 
-    override fun setActive(active: Boolean) = Unit
+    override fun setActive(active: Boolean) {
+    }
 
-    override fun clear() = Unit
+    override fun clear() {
+    }
 
-    override fun setStyle(id: Int, style: String): Boolean = false
+    override fun setStyle(id: Int, style: String): Boolean {
+        return false
+    }
 
-    override fun resetStyles() = Unit
+    override fun resetStyles() {
+    }
 
-    override fun remove() = Unit
+    override fun remove() {
+    }
 
-    override fun isValid(): Boolean = true
+    override fun isValid(): Boolean {
+        return true
+    }
 }
