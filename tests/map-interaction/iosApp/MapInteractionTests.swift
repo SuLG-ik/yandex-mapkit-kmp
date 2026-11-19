@@ -155,8 +155,10 @@ final class MapInteractionTests: XCTestCase {
     private func tapOwnershipAction(_ label: String, in app: XCUIApplication) {
         let action = app.buttons[label]
         XCTAssertTrue(action.waitForExistence(timeout: 10), "Missing \(label). \(app.debugDescription)")
-        XCTAssertTrue(action.isHittable, "Cannot tap \(label) at \(action.frame)")
-        XCTAssertGreaterThanOrEqual(action.frame.height, 44, "Touch target for \(label) is \(action.frame)")
+        let frame = action.frame
+        XCTAssertTrue(action.isHittable, "Cannot tap \(label) at \(frame)")
+        XCTAssertTrue(app.windows.firstMatch.frame.contains(frame), "\(label) is outside the window at \(frame)")
+        XCTAssertGreaterThanOrEqual(min(frame.width, frame.height), 44, "Touch target for \(label) is \(frame)")
         action.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
     }
 

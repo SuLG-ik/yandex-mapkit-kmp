@@ -53,7 +53,9 @@ run one GC probe while retaining the listener in the current composition. The pr
 2 MiB and asks the platform to collect garbage. The assertion checks event delivery to the
 retained listener regardless of collection timing.
 
-Each action has its own 48 dp touch target. XCTest checks the frame and taps its center.
+The fixture uses a compact native map and pairs actions in rows so the controls fit on shorter
+simulator screens. Each action has its own 48 dp touch target. XCTest checks that the frame
+fits inside the window and taps its center.
 
 The drivers replace and explicitly unsubscribe the listener. They keep each retired listener
 strongly referenced through the next native add, then drop that reference. Any extra callback

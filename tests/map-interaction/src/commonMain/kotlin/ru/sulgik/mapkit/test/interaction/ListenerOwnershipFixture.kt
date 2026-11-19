@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -90,7 +91,7 @@ private fun OwnedMap(
 ) {
     val controller = rememberYandexMapController()
     var collection by remember { mutableStateOf<MapObjectCollection?>(null) }
-    YandexMap(controller = controller, modifier = Modifier.size(220.dp))
+    YandexMap(controller = controller, modifier = Modifier.size(128.dp))
     MapControllerEffect(controller, dispose = { collection = null }) { window ->
         window.map.mapType = MapType.NONE
         val root = window.map.mapObjects
@@ -157,13 +158,15 @@ private fun CollectionControls(
                 trace.events.add("unsubscribed $identity")
             }
         }
-        Action(ReplaceListener) {
-            retired.listener = listener
-            revision = ++nextRevision
-        }
-        Action(UnsubscribeListener) {
-            retired.listener = listener
-            revision = 0
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Action(ReplaceListener, Modifier.weight(1f)) {
+                retired.listener = listener
+                revision = ++nextRevision
+            }
+            Action(UnsubscribeListener, Modifier.weight(1f)) {
+                retired.listener = listener
+                revision = 0
+            }
         }
         Action(ReopenWithPendingCallback) {
             check(trace.pendingWork == null)
@@ -175,18 +178,20 @@ private fun CollectionControls(
     } else {
         Action(SubscribeListener) { revision = ++nextRevision }
     }
-    Action(AddListenerObject) {
-        val retiredListener = retired.listener
-        val placemark = collection.addPlacemark()
-        if (retiredListener != null) {
-            check(retired.listener === retiredListener)
-            retired.listener = null
-            trace.events.add("retired listener held owner=$owner")
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        Action(AddListenerObject, Modifier.weight(1f)) {
+            val retiredListener = retired.listener
+            val placemark = collection.addPlacemark()
+            if (retiredListener != null) {
+                check(retired.listener === retiredListener)
+                retired.listener = null
+                trace.events.add("retired listener held owner=$owner")
+            }
+            collection.remove(placemark)
+            trace.events.add("added owner=$owner")
         }
-        collection.remove(placemark)
-        trace.events.add("added owner=$owner")
+        Action(ProbeListener, Modifier.weight(1f)) { probe++ }
     }
-    Action(ProbeListener) { probe++ }
     LaunchedEffect(probe) {
         if (probe != 0) {
             val pressure = List(8) { index -> ByteArray(256 * 1024).apply { this[lastIndex] = index.toByte() } }
@@ -202,9 +207,10 @@ private class RetiredListener {
 }
 
 @Composable
-private fun Action(label: String, onClick: () -> Unit) {
+private fun Action(label: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth().height(48.dp)
+        modifier = modifier.fillMaxWidth().height(48.dp)
+            .testTag(label)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 8.dp),
         contentAlignment = Alignment.CenterStart,
