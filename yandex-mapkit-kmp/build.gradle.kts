@@ -19,21 +19,6 @@ val mapkitArtifactSuffix = extra["mapkit_artifact_suffix"] as String
 val isFullEdition = extra["mapkit_edition"] == "full"
 val artifactName = name + mapkitArtifactSuffix
 
-configurations.configureEach {
-    val platformSuffix = when (name.removeSuffix("-published")) {
-        "metadataApiElements" -> ""
-        "androidApiElements", "androidRuntimeElements" -> "-android"
-        "iosArm64ApiElements" -> "-iosarm64"
-        "iosSimulatorArm64ApiElements" -> "-iossimulatorarm64"
-        else -> return@configureEach
-    }
-    val coordinates = setOf(project.name, artifactName, artifactName + platformSuffix)
-    for (coordinate in coordinates) {
-        outgoing.capability("$group:$coordinate:$version")
-    }
-    outgoing.capability("$group:yandex-mapkit-kmp-edition:$version")
-}
-
 val yandexMapsMobileFrameworks = listOf(
     "CoreLocation",
     "SystemConfiguration",
@@ -147,6 +132,16 @@ kotlin {
         freeCompilerArgs.add("-Xexplicit-api=strict")
         freeCompilerArgs.add("-Xexpect-actual-classes")
         freeCompilerArgs.add("-Xconsistent-data-class-copy-visibility")
+    }
+}
+
+if (isFullEdition) {
+    val liteCoreArtifacts = listOf(name, "$name-android", "$name-iosarm64", "$name-iossimulatorarm64")
+    for (artifact in liteCoreArtifacts) {
+        dependencies.constraints.add("commonMainApi", "$group:$artifact:$version") {
+            version { reject("+") }
+            because("Choose either MapKit Lite or Full")
+        }
     }
 }
 

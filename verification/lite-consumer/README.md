@@ -41,10 +41,9 @@ projects publish these artifacts in the scratch repository:
 | Moko | `ru.sulgik.mapkit:yandex-mapkit-kmp-moko-full` |
 | Moko Compose | `ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose-full` |
 
-Choose one edition for the entire dependency graph. Gradle Module Metadata declares the shared
-core capability `ru.sulgik.mapkit:yandex-mapkit-kmp-edition` so mixed installations fail at
-dependency resolution. Keep Gradle Module Metadata enabled, since a Maven POM cannot represent
-capabilities. The Full core also pins the Android SDK's Full version. On iOS, use the matched
+Choose one edition for the entire dependency graph. Full core's Gradle Module Metadata rejects
+the Lite core coordinates, including platform artifacts. Keep Gradle Module Metadata enabled to
+retain the rejection constraint. The Full core also pins the Android SDK's Full version. On iOS, use the matched
 `YandexMapsMobile` pod in the app's CocoaPods integration. For the pinned Full SDK the declaration is
 `pod 'YandexMapsMobile', '4.45.0-full'`. The fixture links a static Kotlin framework against that
 pod and checks the pod version in its lockfile.

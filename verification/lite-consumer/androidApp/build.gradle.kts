@@ -1,3 +1,5 @@
+import org.gradle.api.artifacts.result.UnresolvedDependencyResult
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
@@ -29,8 +31,10 @@ dependencies {
 
 tasks.register("verifyMapKitSdk") {
     doLast {
-        val selectedVersions = configurations.getByName("debugRuntimeClasspath").incoming.resolutionResult
-            .allComponents
+        val resolution = configurations.getByName("debugRuntimeClasspath").incoming.resolutionResult
+        val failures = resolution.allDependencies.filterIsInstance<UnresolvedDependencyResult>()
+        check(failures.isEmpty()) { failures.joinToString("\n") { it.failure.stackTraceToString() } }
+        val selectedVersions = resolution.allComponents
             .mapNotNull { it.moduleVersion }
             .filter { it.group == "com.yandex.android" && it.name == "maps.mobile" }
             .map { it.version }

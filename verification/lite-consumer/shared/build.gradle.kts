@@ -97,9 +97,9 @@ tasks.register("verifyMixedMapKitEditions") {
         val resolution = configurations.getByName(configurationName).incoming.resolutionResult
         val failures = resolution.allDependencies.filterIsInstance<UnresolvedDependencyResult>()
             .map { it.failure.stackTraceToString() }
-        check(failures.any { it.contains("yandex-mapkit-kmp-edition") }) {
+        check(failures.any { it.contains("Choose either MapKit Lite or Full") }) {
             "Expected Gradle to reject mixed MapKit editions. Resolution errors:\n${failures.joinToString("\n")}"
         }
-        logger.lifecycle("Mixed MapKit editions rejected by the shared SDK capability")
+        logger.lifecycle("Mixed MapKit editions rejected by the Full artifact's Lite exclusion constraint")
     }
 }
