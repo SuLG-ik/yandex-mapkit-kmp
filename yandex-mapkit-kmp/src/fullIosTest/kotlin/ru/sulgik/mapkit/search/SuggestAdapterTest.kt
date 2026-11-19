@@ -3,6 +3,7 @@ package ru.sulgik.mapkit.search
 import platform.Foundation.NSError
 import platform.Foundation.NSLocalizedDescriptionKey
 import platform.Foundation.errorWithDomain
+import ru.sulgik.mapkit.LiveMap
 import ru.sulgik.mapkit.LocalizedValue
 import ru.sulgik.mapkit.SpannableString
 import ru.sulgik.mapkit.geometry.Point
@@ -12,7 +13,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
-import YandexMapKit.YMKSearchSuggestSessionResponseHandler as NativeSuggestHandler
+import YandexMapKit.YMKSuggestResponse as NativeSuggestResponse
 
 public class SuggestAdapterTest {
 
@@ -51,7 +52,7 @@ public class SuggestAdapterTest {
         val replies = mutableListOf<SuggestResponse>()
         val failures = mutableListOf<SearchError>()
         val listener = SuggestListener({ replies.add(it) }, { failures.add(it) })
-        val callbacks = mutableListOf<NativeSuggestHandler>()
+        val callbacks = mutableListOf<(NativeSuggestResponse?, NSError?) -> Unit>()
         val error = NSError.errorWithDomain(
             domain = "SuggestTest",
             code = 42,
@@ -88,6 +89,30 @@ public class SuggestAdapterTest {
         assertSame(error, failures.single().toNative())
         assertEquals("Network unavailable", failures.single().description)
         assertNull(failures.single().error)
+    }
+
+    @Test
+    public fun resetting_a_native_session_alias_discards_the_original_pending_listener() {
+        LiveMap.onMap {
+            val manager = Search.getInstance().createSearchManager(SearchManagerType.ONLINE)
+            val session = manager.createSuggestSession()
+            val native = session.toNative()
+            val alias = native.toCommon()
+            val requests = native.requestState()
+            val callbacks = mutableListOf<(NativeSuggestResponse?, NSError?) -> Unit>()
+            val replies = mutableListOf<SuggestResponse>()
+            val listener = SuggestListener({ replies.add(it) }, { error("Unexpected suggest error") })
+
+            assertEquals(session, alias)
+            requests.submit(listener) { callbacks.add(it.toNative()) }
+            alias.reset()
+            callbacks.single()(response("before alias reset").toNative(), null)
+            assertTrue(replies.isEmpty())
+
+            native.requestState().submit(listener) { callbacks.add(it.toNative()) }
+            callbacks.last()(response("after alias reset").toNative(), null)
+            assertEquals(listOf(response("after alias reset")), replies)
+        }
     }
 }
 

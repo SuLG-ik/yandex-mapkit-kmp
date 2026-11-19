@@ -89,6 +89,9 @@ the editor closes. MapKit then starts a new backend session on the next query. T
 [Full suggestions example] clears visible results on edit and uses a query generation to keep a
 superseded reply from overwriting newer UI state. Reopening creates a new editor and session.
 
+Kotlin aliases of the same native session share the pending request. Resetting through an alias
+created by `session.toNative().toCommon()` therefore cancels delivery to the original listener.
+
 An empty item list is a successful response. Display `item.displayText ?: item.title.text`.
 `title.spans` contains highlight ranges, and `center` and `distance` are optional. When the user
 selects an item, use `item.action` to choose between submitting `searchText`, substituting it in

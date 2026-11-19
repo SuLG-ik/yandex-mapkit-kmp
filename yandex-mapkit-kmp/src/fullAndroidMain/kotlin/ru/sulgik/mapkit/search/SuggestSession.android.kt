@@ -4,10 +4,16 @@ import ru.sulgik.mapkit.geometry.BoundingBox
 import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.search.SuggestSession as NativeSuggestSession
 
+private val requestBindings = SearchRequestBindings<NativeSuggestSession, SuggestRequests>()
+
+internal fun NativeSuggestSession.requestState(): SuggestRequests {
+    return requestBindings.requestFor(this) ?: SuggestRequests().also { requestBindings.bind(this, it) }
+}
+
 /** Retain one suggest session for the lifetime of a query editor. Use it on the UI thread. */
 public actual class SuggestSession internal constructor(private val nativeSuggestSession: NativeSuggestSession) {
 
-    private val requests = SuggestRequests()
+    private val requests = nativeSuggestSession.requestState()
 
     public fun toNative(): NativeSuggestSession {
         return nativeSuggestSession

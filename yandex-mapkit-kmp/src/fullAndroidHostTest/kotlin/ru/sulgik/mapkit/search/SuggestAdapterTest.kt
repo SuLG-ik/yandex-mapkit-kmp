@@ -26,6 +26,7 @@ public class SuggestAdapterTest {
     public fun rapid_queries_replace_callbacks_and_preserve_bounds_and_options() {
         val transport = SuggestTransport()
         val session = transport.toCommon()
+        val alias = session.toNative().toCommon()
         val options = SuggestOptions(
             suggestTypes = SuggestType.GEO.value or SuggestType.BIZ.value or SuggestType.COORDS.value,
             userPosition = Point(55.75, 37.62),
@@ -36,6 +37,7 @@ public class SuggestAdapterTest {
         val listener = SuggestListener({ replies.add(it) }, { error("Unexpected error: ${it.error}") })
 
         assertSame(transport, session.toNative())
+        assertEquals(session, alias)
         assertSame(listener.toNative(), listener.toNative())
         assertEquals(SuggestOptions(), SuggestOptions().toNative().toCommon())
         assertEquals(
@@ -46,7 +48,7 @@ public class SuggestAdapterTest {
         session.suggest("A", bounds, options, listener)
         val first = transport.callbacks.single()
         transport.onSuggest = { first.onResponse(response("A").toNative()) }
-        session.suggest("AB", bounds, options, listener)
+        alias.suggest("AB", bounds, options, listener)
         val second = transport.callbacks.last()
         second.onResponse(response("AB").toNative())
         first.onResponse(response("A").toNative())
@@ -62,6 +64,7 @@ public class SuggestAdapterTest {
     public fun reset_filters_synchronous_and_late_delivery_and_reopening_accepts_empty_results() {
         val transport = SuggestTransport()
         val session = transport.toCommon()
+        val alias = session.toNative().toCommon()
         val replies = mutableListOf<SuggestResponse>()
         val failures = mutableListOf<SearchError>()
         val listener = SuggestListener({ replies.add(it) }, { failures.add(it) })
@@ -74,10 +77,10 @@ public class SuggestAdapterTest {
         session.suggest("clear this", bounds, SuggestOptions(), listener)
         val cleared = transport.callbacks.last()
         transport.onReset = { cleared.onError(failure) }
-        session.reset()
+        alias.reset()
         cleared.onResponse(response("clear this").toNative())
 
-        session.suggest("close this", bounds, SuggestOptions(), listener)
+        alias.suggest("close this", bounds, SuggestOptions(), listener)
         val closed = transport.callbacks.last()
         transport.onReset = { closed.onResponse(response("close this").toNative()) }
         session.reset()

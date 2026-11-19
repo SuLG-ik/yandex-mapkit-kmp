@@ -32,7 +32,9 @@ internal class SuggestRequests {
 
     fun submit(listener: SuggestListener, submit: (SuggestListener) -> Unit) {
         pending?.dispose()
-        val request = SuggestRequest(listener)
+        val request = SuggestRequest(listener) { completed ->
+            if (pending === completed) pending = null
+        }
         pending = request
         try {
             submit(request)
@@ -50,23 +52,34 @@ internal class SuggestRequests {
     }
 }
 
-private class SuggestRequest(listener: SuggestListener) : SuggestListener() {
+private class SuggestRequest(
+    listener: SuggestListener,
+    onFinished: (SuggestRequest) -> Unit,
+) : SuggestListener() {
 
     private var pendingListener: SuggestListener? = listener
+    private var onFinished: ((SuggestRequest) -> Unit)? = onFinished
 
     override fun onResponse(response: SuggestResponse) {
-        val listener = pendingListener ?: return
-        pendingListener = null
+        val listener = takeListener() ?: return
         listener.onResponse(response)
     }
 
     override fun onError(error: SearchError) {
-        val listener = pendingListener ?: return
-        pendingListener = null
+        val listener = takeListener() ?: return
         listener.onError(error)
     }
 
     fun dispose() {
         pendingListener = null
+        onFinished = null
+    }
+
+    private fun takeListener(): SuggestListener? {
+        val listener = pendingListener ?: return null
+        val completed = onFinished
+        dispose()
+        completed?.invoke(this)
+        return listener
     }
 }
