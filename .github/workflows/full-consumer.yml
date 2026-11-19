@@ -45,15 +45,8 @@ jobs:
           :yandex-mapkit-kmp:testAndroidHostTest
           --tests ru.sulgik.mapkit.search.SearchAdapterTest
 
-      - name: Regenerate Full Android API for the round-trip regression
-        run: ./gradlew -PmapkitEdition=full -PskipIosTarget=true :yandex-mapkit-kmp:updateAndroidAbi
-
-      - name: Upload the Full Android API baseline
-        uses: actions/upload-artifact@v7
-        with:
-          name: full-android-api-bootstrap
-          path: yandex-mapkit-kmp/api/full/*.android.api
-          if-no-files-found: error
+      - name: Check the Full Android API
+        run: ./gradlew -PmapkitEdition=full -PskipIosTarget=true :yandex-mapkit-kmp:checkAndroidAbi
 
       - name: Enable KVM
         run: |

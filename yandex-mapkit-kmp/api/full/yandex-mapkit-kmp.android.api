@@ -2933,6 +2933,16 @@ public final class ru.sulgik.mapkit.search.SearchRequest extends ru.sulgik.mapki
   public void onSearchError(ru.sulgik.mapkit.search.SearchError);
   public final void dispose();
 }
+public final class ru.sulgik.mapkit.search.SearchRequestBindings<Native, Request> {
+  public ru.sulgik.mapkit.search.SearchRequestBindings();
+  public final void bind(Native, Request);
+  public final Request requestFor(Native);
+}
+final class ru.sulgik.mapkit.search.SearchRequestBindings$Binding<Native, Request> {
+  public ru.sulgik.mapkit.search.SearchRequestBindings$Binding(ru.sulgik.mapkit.WeakRef<Native>, ru.sulgik.mapkit.WeakRef<Request>);
+  public final ru.sulgik.mapkit.WeakRef<Native> getNative();
+  public final ru.sulgik.mapkit.WeakRef<Request> getRequest();
+}
 public final class ru.sulgik.mapkit.search.SearchType extends java.lang.Enum<ru.sulgik.mapkit.search.SearchType> {
   public static final ru.sulgik.mapkit.search.SearchType NONE;
   public static final ru.sulgik.mapkit.search.SearchType GEO;
@@ -2955,6 +2965,7 @@ public final class ru.sulgik.mapkit.search.Session {
 }
 public final class ru.sulgik.mapkit.search.Session_androidKt {
   public static final ru.sulgik.mapkit.search.Session toCommon(com.yandex.mapkit.search.Session);
+  public static final ru.sulgik.mapkit.search.Session toCommon(com.yandex.mapkit.search.Session, ru.sulgik.mapkit.search.SearchRequest);
 }
 public abstract class ru.sulgik.mapkit.storage.StorageErrorListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.storage.StorageErrorListener> {
   public ru.sulgik.mapkit.storage.StorageErrorListener();
