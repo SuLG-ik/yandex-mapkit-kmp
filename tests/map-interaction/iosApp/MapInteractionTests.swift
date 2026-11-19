@@ -26,6 +26,69 @@ final class MapInteractionTests: XCTestCase {
         )
     }
 
+    func testMapTapsRespectHitOrderConsumptionAndCurrentCallbacks() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments.append("--map-tap-cases")
+        app.launch()
+        var expected: [String] = []
+
+        func awaitTrace() {
+            let expectedTrace = expected.joined(separator: "\n")
+            let element = app.staticTexts["fixture-trace"]
+            let hasTrace = NSPredicate { object, _ in
+                guard let trace = object as? XCUIElement, trace.exists else { return false }
+                return trace.label == expectedTrace
+            }
+            let expectation = XCTNSPredicateExpectation(predicate: hasTrace, object: element)
+            let outcome = XCTWaiter.wait(for: [expectation], timeout: 10)
+            XCTAssertEqual(outcome, .completed, "Expected:\n\(expectedTrace)\nActual:\n\(trace(in: app))")
+        }
+
+        func ready(_ name: String, advance: Bool = true) {
+            if advance {
+                app.buttons["Next tap case"].tap()
+            }
+            expected.append("ready \(name)")
+            awaitTrace()
+        }
+
+        func touchCenter(_ events: String..., hold: Bool = false) {
+            let target = app.descendants(matching: .any).matching(
+                NSPredicate(format: "label == %@", "fixture-tap-map")
+            ).firstMatch
+            XCTAssertTrue(target.waitForExistence(timeout: 10), "Missing map. Events: \(trace(in: app))")
+            let center = target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            if hold {
+                center.press(forDuration: 0.9)
+            } else {
+                center.tap()
+            }
+            expected.append(contentsOf: events)
+            awaitTrace()
+        }
+
+        ready("Disabled", advance: false)
+        touchCenter("polygon", "collection")
+        ready("Empty")
+        touchCenter("map")
+        touchCenter("long", hold: true)
+        ready("PlacemarkConsumes")
+        touchCenter("placemark")
+        ready("PlacemarkPropagates")
+        touchCenter("placemark", "collection")
+        ready("PlacemarkHidden")
+        touchCenter("polygon")
+        ready("PlacemarkRestored")
+        touchCenter("placemark")
+        ready("PlacemarkRemoved")
+        touchCenter("polygon", "collection", "replacement")
+        ready("HandlerRemoved")
+        touchCenter("polygon", "collection")
+        ready("HandlerRestored")
+        touchCenter("polygon", "collection", "restored")
+    }
+
     private func tapReadyMap(_ app: XCUIApplication, screen: Int) {
         let identity = "screen=\(screen) map=\(screen)"
         waitForEvent("ready \(identity)", in: app)

@@ -12,7 +12,9 @@ struct MapInteractionApp: App {
 
 private struct ComposeMapHost: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        InteractionViewControllerKt.interactionViewController()
+        InteractionViewControllerKt.interactionViewController(
+            tapCases: ProcessInfo.processInfo.arguments.contains("--map-tap-cases")
+        )
     }
 
     func updateUIViewController(_ controller: UIViewController, context: Context) {}

@@ -15,6 +15,10 @@ import ru.sulgik.mapkit.test.interaction.FixtureMapTag
 import ru.sulgik.mapkit.test.interaction.FixtureOpen
 import ru.sulgik.mapkit.test.interaction.MapInteractionFixture
 import ru.sulgik.mapkit.test.interaction.MapInteractionTrace
+import ru.sulgik.mapkit.test.interaction.MapTapFixture
+import ru.sulgik.mapkit.test.interaction.MapTapTrace
+import ru.sulgik.mapkit.test.interaction.TapMapLabel
+import ru.sulgik.mapkit.test.interaction.TapNextCase
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -51,6 +55,57 @@ public class MapInteractionTest {
         }
     }
 
+    @Test
+    public fun mapTapsRespectHitOrderConsumptionAndCurrentCallbacks() {
+        runComposeUiTest {
+            val trace = MapTapTrace()
+            val expected = mutableListOf<String>()
+            runOnUiThread { setDeviceTestMapKitApiKey() }
+            setContent { MapTapFixture(trace) }
+
+            fun awaitTrace() {
+                try {
+                    waitUntil(timeoutMillis = 10_000L) { trace.events.toList() == expected }
+                } catch (failure: Throwable) {
+                    throw AssertionError("Expected events: $expected. Actual events: ${trace.events}", failure)
+                }
+            }
+
+            fun touchCenter(vararg events: String, holdMillis: Long = 0L) {
+                val bounds = onNodeWithTag(TapMapLabel).fetchSemanticsNode().boundsInWindow
+                tap(bounds.center.x, bounds.center.y, holdMillis)
+                expected.addAll(events)
+                awaitTrace()
+            }
+
+            fun ready(case: String, advance: Boolean = true) {
+                if (advance) onNodeWithText(TapNextCase).performClick()
+                expected.add("ready $case")
+                awaitTrace()
+            }
+
+            ready("Disabled", advance = false)
+            touchCenter("polygon", "collection")
+            ready("Empty")
+            touchCenter("map")
+            touchCenter("long", holdMillis = 900L)
+            ready("PlacemarkConsumes")
+            touchCenter("placemark")
+            ready("PlacemarkPropagates")
+            touchCenter("placemark", "collection")
+            ready("PlacemarkHidden")
+            touchCenter("polygon")
+            ready("PlacemarkRestored")
+            touchCenter("placemark")
+            ready("PlacemarkRemoved")
+            touchCenter("polygon", "collection", "replacement")
+            ready("HandlerRemoved")
+            touchCenter("polygon", "collection")
+            ready("HandlerRestored")
+            touchCenter("polygon", "collection", "restored")
+        }
+    }
+
     private fun ComposeUiTest.tapReadyMap(screen: Int, trace: MapInteractionTrace) {
         val identity = "screen=$screen map=$screen"
         waitForEvent(trace, "ready $identity")
@@ -73,7 +128,7 @@ public class MapInteractionTest {
         }
     }
 
-    private fun tap(x: Float, y: Float) {
+    private fun tap(x: Float, y: Float, holdMillis: Long = 0L) {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val start = SystemClock.uptimeMillis()
         for (action in listOf(MotionEvent.ACTION_DOWN, MotionEvent.ACTION_UP)) {
@@ -83,6 +138,7 @@ public class MapInteractionTest {
             } finally {
                 event.recycle()
             }
+            if (action == MotionEvent.ACTION_DOWN && holdMillis > 0L) SystemClock.sleep(holdMillis)
         }
     }
 }

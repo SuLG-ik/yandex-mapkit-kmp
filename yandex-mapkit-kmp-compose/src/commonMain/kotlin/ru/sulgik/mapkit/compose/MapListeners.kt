@@ -68,8 +68,8 @@ public fun MapListeners(
 
 internal class MapListenersNode(
     private val mapWindow: MapWindow,
-    internal var onMapTap: ((Point) -> Unit)?,
-    internal var onMapLongTap: ((Point) -> Unit)?,
+    onMapTap: ((Point) -> Unit)?,
+    onMapLongTap: ((Point) -> Unit)?,
     internal var onGeoObjectTap: ((GeoObjectTapEvent) -> Boolean)?,
     internal var onMapLoaded: ((MapLoadStatistics) -> Unit)?,
     internal var onActivePlanFocused: ((IndoorPlan) -> Unit)?,
@@ -78,13 +78,27 @@ internal class MapListenersNode(
     internal var onMapWindowSizeChanged: ((width: Int, height: Int) -> Unit)?,
 ) : MapNode {
 
-    private val hasInputCallbacks = onMapTap != null || onMapLongTap != null
+    private var isAttached = false
+    private var isInputListenerRegistered = false
+
+    internal var onMapTap: ((Point) -> Unit)? = onMapTap
+        set(value) {
+            field = value
+            updateInputListenerRegistration()
+        }
+
+    internal var onMapLongTap: ((Point) -> Unit)? = onMapLongTap
+        set(value) {
+            field = value
+            updateInputListenerRegistration()
+        }
+
     private val hasIndoorCallbacks =
         onActivePlanFocused != null || onActivePlanLeft != null || onActiveLevelChanged != null
 
     private var inputListener: InputListener? = InputListener(
-        onMapTap = { _, point -> onMapTap?.invoke(point) },
-        onMapLongTap = { _, point -> onMapLongTap?.invoke(point) },
+        onMapTap = { _, point -> this.onMapTap?.invoke(point) },
+        onMapLongTap = { _, point -> this.onMapLongTap?.invoke(point) },
     )
 
     private var geoObjectTapListener: GeoObjectTapListener? =
@@ -102,11 +116,24 @@ internal class MapListenersNode(
     private var sizeChangedListener: SizeChangedListener? =
         SizeChangedListener { _, width, height -> onMapWindowSizeChanged?.invoke(width, height) }
 
-    override fun onAttached() {
+    private fun updateInputListenerRegistration() {
+        val shouldRegister = isAttached && (onMapTap != null || onMapLongTap != null)
+        val listener = inputListener ?: return
+        if (shouldRegister == isInputListenerRegistered) return
+
         val map = mapWindow.map
-        if (hasInputCallbacks) {
-            inputListener?.let { map.addInputListener(it.asWeakRef()) }
+        if (shouldRegister) {
+            map.addInputListener(listener.asWeakRef())
+        } else {
+            map.removeInputListener(listener.asWeakRef())
         }
+        isInputListenerRegistered = shouldRegister
+    }
+
+    override fun onAttached() {
+        isAttached = true
+        updateInputListenerRegistration()
+        val map = mapWindow.map
         if (onGeoObjectTap != null) {
             geoObjectTapListener?.let { map.addTapListener(it.asWeakRef()) }
         }
@@ -122,10 +149,9 @@ internal class MapListenersNode(
     }
 
     override fun onRemoved() {
+        isAttached = false
+        updateInputListenerRegistration()
         val map = mapWindow.map
-        if (hasInputCallbacks) {
-            inputListener?.let { map.removeInputListener(it.asWeakRef()) }
-        }
         if (onGeoObjectTap != null) {
             geoObjectTapListener?.let { map.removeTapListener(it.asWeakRef()) }
         }
@@ -141,6 +167,8 @@ internal class MapListenersNode(
     }
 
     override fun onCleared() {
+        isAttached = false
+        isInputListenerRegistered = false
         inputListener = null
         geoObjectTapListener = null
         mapLoadedListener = null
