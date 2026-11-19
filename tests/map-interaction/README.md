@@ -29,3 +29,17 @@ bash .github/scripts/test-ios-map-interaction.sh SIMULATOR_UDID
 The script installs pods and runs `MapInteractionTests` against a test-only app. XCUITest taps
 the projected UIKit coordinate and verifies the ordered trace through accessibility. The result
 bundle is under `tests/map-interaction/build`.
+
+## On-map icon rendering
+
+`MapIconRenderingTest` on Android and `MapIconRenderingTests` on iOS run the same fixture
+on a live map for both a placemark and a cluster. The screen probe compares a row through the
+icon with channel tolerances. It checks the anchor, transparent margin over a colored backing
+placemark, and the width change after updating the content and density. The checks sample
+local pixels without golden images or base-map tiles.
+
+The fixture drives a local Coil fetcher through a placeholder, failure, retry and success.
+It releases an older request after a newer image is visible, then releases a pending request
+after removing its map object. The map keeps the newer image in the first case and stays clear
+of the removed icon in the second. The [standalone consumer](../../verification/lite-consumer/README.md)
+exercises the published drawable adapter.
