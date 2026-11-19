@@ -109,8 +109,8 @@ Full отслеживаются в [#81][81]. При добавлении тес
 [i-location]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/user_location/LiveUserLocationLayerTest.kt
 [a-logs]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/runtime/logging/LiveLoggingTest.kt
 [i-logs]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/runtime/logging/LiveLoggingTest.kt
-[a-membership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/e66bf916ac02e57003189ab2e0cddaf7aeb6a7a8/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapObjectMembershipTest.kt#L26
-[i-membership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/e66bf916ac02e57003189ab2e0cddaf7aeb6a7a8/tests/map-interaction/iosApp/MapInteractionTests.swift#L141
+[a-membership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/629c2810448006a44a12c8c85848ad858611d2c2/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapObjectMembershipTest.kt#L33
+[i-membership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/629c2810448006a44a12c8c85848ad858611d2c2/tests/map-interaction/iosApp/MapInteractionTests.swift#L141
 [map-order]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/commonTest/kotlin/ru/sulgik/mapkit/compose/MapNodeInsertOrderTest.kt
 [a-savers]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/MapObjectStatesRestorationTest.kt
 [i-savers]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/iosTest/kotlin/ru/sulgik/mapkit/compose/MapObjectStateSaversTest.kt
