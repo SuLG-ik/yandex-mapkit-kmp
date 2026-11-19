@@ -431,6 +431,7 @@ private fun SimulatedLocationCamera(probe: CameraRegressionProbe, kit: MapKit) {
 }
 
 private class LocationTestOwner {
+    val clockStart = TimeSource.Monotonic.markNow()
     var generation: Int? = null
 }
 
@@ -476,7 +477,6 @@ private fun SimulatedLocationMap(
                 kit.setLocationManager(manager)
                 manager.resume()
                 dummyInstalled = true
-                val startedAt = Clock.System.now()
                 val destination = withTimeoutOrNull(CameraWaitMillis) {
                     var position: CameraPosition? = null
                     while (position == null) {
@@ -491,7 +491,7 @@ private fun SimulatedLocationMap(
                                 speed = 0.0,
                                 indoorLevelId = null,
                                 absoluteTimestamp = now,
-                                relativeTimestamp = now - startedAt,
+                                relativeTimestamp = owner.clockStart.elapsedNow(),
                             ),
                             DummyLocationQuality.HIGH,
                         )
