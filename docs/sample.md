@@ -6,7 +6,7 @@ Compose Multiplatform application that exercises the whole wrapper. All of its m
 
 ## Running it
 
-The API key comes from `local.properties`, and the build fails with an explicit message without it.
+Put a valid MapKit API key in `local.properties` to run the native map screens.
 
 === "local.properties"
 
@@ -17,12 +17,13 @@ The API key comes from `local.properties`, and the build fails with an explicit 
 === "Android"
 
     ```bash
-    ./gradlew :sample:composeApp:installDebug
+    ./gradlew :sample:androidApp:installDebug
     ```
 
 === "iOS"
 
-    Open `sample/iosApp/iosApp.xcworkspace` in Xcode and run.
+    Run `./gradlew :sample:composeApp:podInstall` on a fresh checkout. Then open
+    `sample/iosApp/iosApp.xcworkspace` in Xcode and run.
 
 [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) generates the key into common code, which is
 the pattern described in [Quick start](getting-started/quick-start.md).
@@ -48,10 +49,11 @@ so the same scenarios can be compared side by side with the original Android cod
 
 ## Return to map
 
-Open **Return to map**, move the camera, select the red marker `A-1` and open its details. Use
-**Move marker**, then **Back to map**. The camera returns to the saved viewport and the green
-selection follows the same ID to its updated position. **Remove marker** clears that selection
-and excludes the old marker when the map reopens.
+Open **Return to map** and tap the southwest red marker on **Tab A**. Confirm the selection
+`A-1`, move the camera slightly, then tap **Open details**, **Move marker** and **Back to map**.
+The camera returns to the saved viewport and the green selection follows the same ID to its
+updated position. Reopen its details, tap **Remove marker**, then **Back to map**. The selection
+is cleared and the removed marker is absent.
 
 Move the camera and select a marker in **Tab B**, then switch between tabs. Each tab has its own
 `rememberSaveableStateHolder` entry keyed by tab ID. The entry holds the saveable camera,
@@ -74,10 +76,14 @@ A cache hit helps with map data. The route owner restores the camera and selecte
 Use `OfflineCacheManager` to download supported regions when the application needs offline maps.
 Region downloads require a paid MapKit license. [Storage reference](https://yandex.com/maps-api/docs/mapkit/com/yandex/mapkit/storage/StorageManager.html) · [Offline region guide](https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_offline.html)
 
-The Android route-state test substitutes a small UI for the native map so it can exercise saved
-state with deterministic input and no network. On a device, use this screen to check marker hits
-and camera restoration as the map opens and closes. A comparison of view recreation with keeping
+The [sample workflow][sample-ci] checks sample changes in GitHub Actions. It runs the Android
+route-state tests with a small UI in place of the native map and compiles the iOS simulator target.
+Those jobs use a placeholder key and make no MapKit service requests. On a device, use the actual
+example to check marker hits and camera restoration as the map opens and closes.
+
+A comparison of view recreation with keeping
 the tab mounted needs the same viewport, device and dataset on both runs. Compare native view
 creation, the first usable frame, touch delivery and memory after [the baseline measurements][74].
 
 [74]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/74
+[sample-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/sample.yml
