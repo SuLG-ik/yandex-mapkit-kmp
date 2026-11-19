@@ -204,7 +204,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: ios-runtime-${{ matrix.profile }}
-          path: build/device-matrix/ios/runtime.json
+          path: build/device-matrix/ios/
           if-no-files-found: ignore
 
       - name: Upload offline iOS diagnostics
