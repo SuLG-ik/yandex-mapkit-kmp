@@ -200,7 +200,8 @@ public class CameraRegressionTest {
             error("Map did not receive focus and a valid screen position")
         }
 
-        private fun touch(startTime: Long, action: Int, vararg points: Offset) {
+        private fun touch(startTime: Long, action: Int, first: Offset, second: Offset? = null) {
+            val points = listOfNotNull(first, second)
             val properties = Array(points.size) { index ->
                 MotionEvent.PointerProperties().apply {
                     id = index

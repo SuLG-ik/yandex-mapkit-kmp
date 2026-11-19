@@ -146,7 +146,10 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
 
             if (currentPhase != GesturePhase.Enabled) {
                 camera.position = InitialCamera
-                if (!awaitCameraCondition { map.cameraPosition.near(InitialCamera) && !camera.isMoving }) {
+                val reset = awaitCameraCondition {
+                    map.cameraPosition.near(InitialCamera) && camera.position.near(InitialCamera) && !camera.isMoving
+                }
+                if (!reset) {
                     probe.events.add("failure: could not reset the camera after disabling gestures")
                     return@MapEffect
                 }
