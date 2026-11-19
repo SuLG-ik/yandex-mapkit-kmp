@@ -186,17 +186,38 @@ final class MapInteractionTests: XCTestCase {
         app.buttons["Hide simulated location"].tap()
         waitForEvent("location hide requested 1", in: app)
         expectLocationPin(false, in: app)
-        app.buttons["Remount location map"].tap()
+        app.buttons["Remove location map"].tap()
+        waitForEvent("location source released 1", in: app)
+        app.buttons["Open location map"].tap()
         waitForEvent("location applied 2", in: app, timeout: 15)
         expectLocationPin(true, in: app)
-        XCTAssertEqual(trace(in: app), "location applied 1\nlocation hide requested 1\nlocation applied 2")
+        XCTAssertEqual(
+            trace(in: app),
+            """
+            location applied 1
+            location hide requested 1
+            location source released 1
+            location applied 2
+            """
+        )
     }
 
     private func expectLocationPin(_ visible: Bool, in app: XCUIApplication) {
+        let map = app.descendants(matching: .any).matching(
+            NSPredicate(format: "label == %@", "camera location map")
+        ).firstMatch
+        guard map.waitForExistence(timeout: 10), !map.frame.isEmpty else {
+            XCTFail("Missing location map. Events: \(trace(in: app))")
+            return
+        }
         let deadline = Date().addingTimeInterval(10)
+        var lastScreenshot: XCUIScreenshot?
+        var lastPinSamples = 0
         repeat {
-            let extent = 256
-            guard let image = app.screenshot().image.cgImage,
+            let screenshot = map.screenshot()
+            lastScreenshot = screenshot
+            let extent = 512
+            guard let image = screenshot.image.cgImage,
                   let pixels = CGContext(
                     data: nil,
                     width: extent,
@@ -220,10 +241,19 @@ final class MapInteractionTests: XCTestCase {
                     if pinSamples == 4 { break }
                 }
             }
+            lastPinSamples = pinSamples
             if (pinSamples >= 4) == visible { return }
             Thread.sleep(forTimeInterval: 0.1)
         } while Date() < deadline
-        XCTFail("Location pin did not become \(visible ? "visible" : "hidden"). Events: \(trace(in: app))")
+        if let screenshot = lastScreenshot {
+            let evidence = XCTAttachment(screenshot: screenshot)
+            evidence.name = "Location map after waiting for pin to become \(visible ? "visible" : "hidden")"
+            add(evidence)
+        }
+        XCTFail(
+            "Location pin did not become \(visible ? "visible" : "hidden"). "
+                + "Map frame: \(map.frame). Pin samples: \(lastPinSamples). Events: \(trace(in: app))"
+        )
     }
 
     private func launchCameraFixture(_ mode: String) -> XCUIApplication {

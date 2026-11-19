@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import ru.sulgik.mapkit.Animation
 import ru.sulgik.mapkit.MapKit
@@ -416,21 +418,44 @@ private suspend fun moveAndAwait(map: Map, position: CameraPosition): Boolean {
 private fun SimulatedLocationCamera(probe: CameraRegressionProbe, kit: MapKit) {
     val owner = remember { LocationTestOwner() }
     var generation by remember { mutableStateOf(1) }
-    var visible by remember { mutableStateOf(true) }
-    CameraAction(probe, if (visible) "Hide simulated location" else "Remount location map") {
-        if (visible) {
-            visible = false
-        } else {
-            generation++
-            visible = true
+    var phase by remember { mutableStateOf(LocationPhase.Visible) }
+    CameraAction(probe, phase.action) {
+        when (phase) {
+            LocationPhase.Visible -> phase = LocationPhase.Hidden
+
+            LocationPhase.Hidden -> phase = LocationPhase.Detached
+
+            LocationPhase.Detached -> {
+                if (owner.generation == null) {
+                    generation++
+                    phase = LocationPhase.Visible
+                }
+            }
         }
     }
-    key(generation) {
-        SimulatedLocationMap(probe, kit, owner, generation, visible)
+    if (phase != LocationPhase.Detached) {
+        key(generation) {
+            SimulatedLocationMap(probe, kit, owner, generation, visible = phase == LocationPhase.Visible)
+        }
+    }
+    LaunchedEffect(phase) {
+        if (phase != LocationPhase.Detached) return@LaunchedEffect
+        if (awaitCameraCondition { owner.generation == null }) {
+            probe.events.add("location source released $generation")
+        } else {
+            probe.events.add("failure: map $generation did not release its dummy location source")
+        }
     }
 }
 
+private enum class LocationPhase(val action: String) {
+    Visible("Hide simulated location"),
+    Hidden("Remove location map"),
+    Detached("Open location map"),
+}
+
 private class LocationTestOwner {
+    val startedAt = TimeSource.Monotonic.markNow()
     var generation: Int? = null
 }
 
@@ -476,11 +501,8 @@ private fun SimulatedLocationMap(
                 kit.setLocationManager(manager)
                 manager.resume()
                 dummyInstalled = true
-                val startedAt = Clock.System.now()
-                val destination = withTimeoutOrNull(CameraWaitMillis) {
-                    var position: CameraPosition? = null
-                    while (position == null) {
-                        val now = Clock.System.now()
+                val delivery = launch {
+                    while (isActive) {
                         dummy.setLocation(
                             Location(
                                 position = input,
@@ -490,32 +512,36 @@ private fun SimulatedLocationMap(
                                 heading = 0.0,
                                 speed = 0.0,
                                 indoorLevelId = null,
-                                absoluteTimestamp = now,
-                                relativeTimestamp = now - startedAt,
+                                absoluteTimestamp = Clock.System.now(),
+                                relativeTimestamp = owner.startedAt.elapsedNow(),
                             ),
                             DummyLocationQuality.HIGH,
                         )
-                        delay(100)
-                        position = locationState.cameraPosition?.takeIf { it.target.near(input) }
+                        delay(150)
                     }
-                    position
                 }
-                if (destination == null) {
-                    probe.events.add("failure: UserLocationState on map $generation did not receive $input")
-                    return@MapEffect
+                try {
+                    val receivedFix = awaitCameraCondition { locationState.cameraPosition?.target?.near(input) == true }
+                    val destination = locationState.cameraPosition?.takeIf { receivedFix && it.target.near(input) }
+                    if (destination == null) {
+                        probe.events.add("failure: UserLocationState on map $generation did not receive $input")
+                        return@MapEffect
+                    }
+                    if (!moveAndAwait(map, destination) ||
+                        !awaitCameraCondition { camera.position.target.near(input) && !camera.isMoving }
+                    ) {
+                        probe.events.add("failure: map $generation did not finish at $input")
+                        return@MapEffect
+                    }
+                    probe.events.add("location applied $generation")
+                    awaitCancellation()
+                } finally {
+                    delivery.cancel()
                 }
-                if (!moveAndAwait(map, destination) ||
-                    !awaitCameraCondition { camera.position.target.near(input) && !camera.isMoving }
-                ) {
-                    probe.events.add("failure: map $generation did not finish at $input")
-                    return@MapEffect
-                }
-                probe.events.add("location applied $generation")
-                awaitCancellation()
             } finally {
                 if (owner.generation == generation) {
-                    owner.generation = null
                     kit.resetLocationManagerToDefault()
+                    owner.generation = null
                 }
             }
         }
