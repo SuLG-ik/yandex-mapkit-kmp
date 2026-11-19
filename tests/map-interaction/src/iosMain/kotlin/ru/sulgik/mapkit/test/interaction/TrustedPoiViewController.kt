@@ -38,8 +38,11 @@ import YandexMapKit.YMKGeoObjectSelectionMetadata as NativePoiSelection
 import YandexMapKit.YMKGeoObjectTapEvent as NativePoiTapEvent
 import YandexMapKit.YMKGeometry as NativeGeometry
 import YandexMapKit.YMKLayersGeoObjectTapListenerProtocol as NativePoiTapListener
+import YandexMapKit.YMKMap as NativeMap
+import YandexMapKit.YMKMapInputListenerProtocol as NativeInputListener
 import YandexMapKit.YMKMapLoadStatistics as NativeMapLoadStatistics
 import YandexMapKit.YMKMapLoadedListenerProtocol as NativeMapLoadedListener
+import YandexMapKit.YMKPoint as NativePoint
 
 public fun trustedPoiViewController(apiKey: String): UIViewController {
     MapKit.setApiKey(apiKey)
@@ -102,6 +105,7 @@ private class TrustedPoiScenario {
                 return false
             }
             if (reference != null) {
+                events += "duplicate native POI hit"
                 return true
             }
             if (!event.isValid()) {
@@ -126,6 +130,26 @@ private class TrustedPoiScenario {
             )
             events += "native POI found"
             return true
+        }
+    }
+
+    private val nativeProbeInput = object : NSObject(), NativeInputListener {
+        override fun onMapTapWithMap(map: NativeMap, point: NativePoint) {
+            if (phase != PoiPhase.Discover) {
+                events += "retired native input listener called"
+                return
+            }
+            val current = window?.toNative()
+            val screen = current?.worldToScreenWithWorldPoint(point)
+            if (current == null || screen == null || current.width() == 0uL || current.height() == 0uL) {
+                events += "native miss projection missing"
+            } else {
+                events += "native miss ${screen.x / current.width().toFloat()} ${screen.y / current.height().toFloat()}"
+            }
+        }
+
+        override fun onMapLongTapWithMap(map: NativeMap, point: NativePoint) {
+            events += "unexpected native long tap"
         }
     }
 
@@ -164,6 +188,7 @@ private class TrustedPoiScenario {
         val nativeMap = map.toNative()
         nativeMap.setMapLoadedListenerWithMapLoadedListener(mapLoaded)
         nativeMap.addTapListenerWithTapListener(nativeProbe)
+        nativeMap.addInputListenerWithInputListener(nativeProbeInput)
         map.mapType = MapType.VECTOR_MAP
         map.isFastTapEnabled = true
         map.move(CameraPosition(Point(55.75, 37.61), 16.5f, 0f, 0f))
@@ -178,6 +203,7 @@ private class TrustedPoiScenario {
                 }
                 val nativeMap = map.toNative()
                 nativeMap.removeTapListenerWithTapListener(nativeProbe)
+                nativeMap.removeInputListenerWithInputListener(nativeProbeInput)
                 nativeMap.setMapLoadedListenerWithMapLoadedListener(null)
                 phase = PoiPhase.Consume
                 map.addTapListener(wrapperPoi.asWeakRef())
@@ -203,6 +229,7 @@ private class TrustedPoiScenario {
         if (phase == PoiPhase.Discover) {
             val nativeMap = map.toNative()
             nativeMap.removeTapListenerWithTapListener(nativeProbe)
+            nativeMap.removeInputListenerWithInputListener(nativeProbeInput)
             nativeMap.setMapLoadedListenerWithMapLoadedListener(null)
         } else {
             map.removeTapListener(wrapperPoi.asWeakRef())

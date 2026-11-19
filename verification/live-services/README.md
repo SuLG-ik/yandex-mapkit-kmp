@@ -39,8 +39,9 @@ cancellation before it replies.
 
 The iOS POI probe reuses the UIKit fixture built by the credential-free matrix step. The test waits
 for a native vector map load and finds a selectable point object by making bounded physical taps
-through XCTest. The native listener saves the object's selection metadata and geometry. The wrapper
-then receives two taps at that same screen position. Consuming the event suppresses map input.
+through XCTest. Each tap must produce a native hit or a miss confirmed by native map input before
+the test taps the next point. The native listener saves the object's selection metadata and
+geometry. The wrapper then receives two taps at that same screen position. Consuming the event suppresses map input.
 Declining it delivers one matching map input callback. The check compares the native observation
 within that run, so changes in business names or label order require no reference update.
 

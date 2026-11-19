@@ -195,16 +195,39 @@ final class MapInteractionTests: XCTestCase {
             return trace.exists ? trace.label.split(separator: "\n").map(String.init) : []
         }
 
-        func waitFor(_ event: String, timeout: TimeInterval) -> Bool {
+        func waitForEvents(timeout: TimeInterval, matching: @escaping ([Substring]) -> Bool) -> Bool {
             let predicate = NSPredicate { object, _ in
                 guard let text = object as? XCUIElement, text.exists else { return false }
-                return text.label.split(separator: "\n").contains(Substring(event))
+                return matching(text.label.split(separator: "\n"))
             }
             let result = XCTWaiter.wait(
                 for: [XCTNSPredicateExpectation(predicate: predicate, object: trace)],
                 timeout: timeout
             )
             return result == .completed
+        }
+
+        func waitFor(_ event: String, timeout: TimeInterval) -> Bool {
+            return waitForEvents(timeout: timeout) { $0.contains(Substring(event)) }
+        }
+
+        func matchesTap(_ line: String, kind: String, action: String, at point: CGVector) -> Bool {
+            let fields = line.split(separator: " ")
+            guard fields.count == 4, fields[0] == Substring(kind), fields[1] == Substring(action),
+                  let x = Double(fields[2]), let y = Double(fields[3]) else { return false }
+            return abs(x - Double(point.dx)) <= 0.02 && abs(y - Double(point.dy)) <= 0.02
+        }
+
+        var lastMapTap: TimeInterval?
+        func tapMap(at position: CGVector) {
+            if let lastMapTap {
+                let remaining = lastMapTap + 0.35 - ProcessInfo.processInfo.systemUptime
+                if remaining > 0 {
+                    Thread.sleep(forTimeInterval: remaining)
+                }
+            }
+            map.coordinate(withNormalizedOffset: position).tap()
+            lastMapTap = ProcessInfo.processInfo.systemUptime
         }
 
         guard map.waitForExistence(timeout: 10), arm.exists else {
@@ -217,6 +240,7 @@ final class MapInteractionTests: XCTestCase {
         }
         let deadline = ProcessInfo.processInfo.systemUptime + 34
         var found: CGVector?
+        var baseline = ["native viewport loaded"]
         let positions: [CGFloat] = [0.50, 0.31, 0.69, 0.15, 0.85, 0.42, 0.58]
         scan: for y in positions {
             for x in positions {
@@ -224,11 +248,31 @@ final class MapInteractionTests: XCTestCase {
                     break scan
                 }
                 let position = CGVector(dx: x, dy: y)
-                map.coordinate(withNormalizedOffset: position).tap()
-                Thread.sleep(forTimeInterval: 0.38)
-                if events().contains("native POI found") {
+                guard events() == baseline else {
+                    XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
+                    return
+                }
+                let knownEvents = baseline.count
+                tapMap(at: position)
+                let wait = min(4, max(0.01, deadline - ProcessInfo.processInfo.systemUptime))
+                guard waitForEvents(timeout: wait, matching: { $0.count > knownEvents }) else {
+                    XCTFail("MAPKIT_TRUSTED_POI provider-or-network")
+                    return
+                }
+                let observed = events()
+                guard observed.count == knownEvents + 1, Array(observed.prefix(knownEvents)) == baseline,
+                      let acknowledgement = observed.last else {
+                    XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
+                    return
+                }
+                baseline = observed
+                if acknowledgement == "native POI found" {
                     found = position
                     break scan
+                }
+                guard matchesTap(acknowledgement, kind: "native", action: "miss", at: position) else {
+                    XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
+                    return
                 }
             }
         }
@@ -236,15 +280,17 @@ final class MapInteractionTests: XCTestCase {
             XCTFail("MAPKIT_TRUSTED_POI provider-or-network")
             return
         }
-        let baseline = ["native viewport loaded", "native POI found"]
         guard events() == baseline else {
             XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
             return
         }
 
         arm.tap()
-        let point = map.coordinate(withNormalizedOffset: hit)
-        point.tap()
+        guard waitFor("consume armed", timeout: 4) else {
+            XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
+            return
+        }
+        tapMap(at: hit)
         guard waitFor("consumed POI", timeout: 4) else {
             XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
             return
@@ -257,7 +303,11 @@ final class MapInteractionTests: XCTestCase {
         }
 
         arm.tap()
-        point.tap()
+        guard waitFor("propagate armed", timeout: 4) else {
+            XCTFail("MAPKIT_TRUSTED_POI runner-or-fixture")
+            return
+        }
+        tapMap(at: hit)
         guard waitFor("declined POI", timeout: 4) else {
             XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
             return
@@ -269,10 +319,7 @@ final class MapInteractionTests: XCTestCase {
             XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
             return
         }
-        let fields = actual[prefix.count].split(separator: " ")
-        guard fields.count == 4, fields[0] == "map", fields[1] == "tap",
-              let x = Double(fields[2]), let y = Double(fields[3]),
-              abs(x - Double(hit.dx)) <= 0.02, abs(y - Double(hit.dy)) <= 0.02 else {
+        guard matchesTap(actual[prefix.count], kind: "map", action: "tap", at: hit) else {
             XCTFail("MAPKIT_TRUSTED_POI wrapper-or-result-shape")
             return
         }
