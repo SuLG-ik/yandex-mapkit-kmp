@@ -55,6 +55,7 @@ import ru.sulgik.mapkit.geometry.LinearRing
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.CameraPosition
 import ru.sulgik.mapkit.map.CircleMapObject
+import ru.sulgik.mapkit.map.Cluster
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.MapObject
@@ -164,16 +165,37 @@ internal class MapObjectMembershipTrace {
         }
     }
 
+    fun recordClusterTap(cluster: Cluster) {
+        val data = stage.clusterData
+        if (data == null || stage == MembershipStage.Scattered || !cluster.isValid) {
+            events.add("wrong ${stage.name} cluster callback")
+            return
+        }
+        val members = cluster.placemarks
+        val mismatch = when {
+            cluster.size != 2 -> "cluster size ${cluster.size}, expected 2"
+            else -> clusterAppearanceMismatch(cluster.appearance, data) ?: memberMismatch(members, data)
+        }
+        if (mismatch != null) {
+            events.add("wrong ${stage.name} $mismatch")
+        } else {
+            recordTap("cluster:${members.map { it.userData.toString() }.sorted().joinToString(",")}")
+        }
+    }
+
     fun mismatch(map: MapKitMap, expected: MembershipStage): String? {
         val snapshot = readMembership(map)
         val clusterData = expected.clusterData
         if (clusterData != null) {
-            val expectedIds = listOf("${clusterData}1", "${clusterData}2")
-            if (snapshot.clusterCollections != 1 || snapshot.ids != expectedIds || snapshot.parent != null) {
-                return "expected cluster $expectedIds, got ${snapshot.ids}, clusters=${snapshot.clusterCollections}"
+            if (snapshot.clusterCollections != 1 || snapshot.parent != null) {
+                return "expected one cluster collection and no shape collection, got ${snapshot.clusterCollections} clusters"
             }
             if (repopulatedHandles.values.any { it.isValid }) return "retired shape still valid in cluster stage"
-            return null
+            return if (expected == MembershipStage.Scattered) {
+                memberMismatch(snapshot.objects, clusterData)
+            } else {
+                clusterAppearanceMismatch(snapshot.objects.singleOrNull(), clusterData)
+            }
         }
 
         val parent = snapshot.parent ?: return "missing parent collection"
@@ -271,8 +293,7 @@ internal fun MapObjectMembershipFixture(trace: MapObjectMembershipTrace = rememb
                         true
                     },
                     onClusterTap = {
-                        val members = it.placemarks.map { placemark -> placemark.userData.toString() }.sorted()
-                        trace.recordTap("cluster:${members.joinToString(",")}")
+                        trace.recordClusterTap(it)
                         true
                     },
                 )
@@ -433,6 +454,32 @@ private fun matchesGeometry(shape: MapObject, center: Point): Boolean {
     }
 }
 
+private fun clusterAppearanceMismatch(appearance: MapObject?, data: String): String? {
+    if (appearance !is PlacemarkMapObject || !appearance.isValid || !appearance.isVisible) {
+        return "expected one visible native cluster appearance for $data"
+    }
+    if (appearance.userData != null) return "expected cluster appearance, got item ${appearance.userData}"
+    if (!near(appearance.geometry, clusterCenter(data), tolerance = clusterSpacing + 0.000001)) {
+        return "cluster appearance at ${appearance.geometry} is outside the $data member positions"
+    }
+    return null
+}
+
+private fun memberMismatch(objects: List<MapObject>, data: String): String? {
+    if (objects.size != 2) return "expected two native $data members, got ${objects.size}"
+    if (objects.any { it !is PlacemarkMapObject || !it.isValid }) return "invalid or non-placemark member for $data"
+    val members = objects.filterIsInstance<PlacemarkMapObject>().sortedBy { it.userData.toString() }
+    val center = clusterCenter(data)
+    val expected = listOf("${data}1" to center.offset(east = -clusterSpacing), "${data}2" to center.offset(east = clusterSpacing))
+    for ((member, target) in members.zip(expected)) {
+        val (key, point) = target
+        if (member.userData != key || !near(member.geometry, point)) {
+            return "expected cluster member $key at $point, got ${member.userData} at ${member.geometry}"
+        }
+    }
+    return null
+}
+
 private fun clusterCenter(data: String): Point {
     return origin.offset(east = if (data == "a") 0.0 else 0.015)
 }
@@ -475,4 +522,4 @@ private fun polygonAt(center: Point): MapPolygon {
 private val CenteredIcon = IconStyle(anchor = PointF(0.5f, 0.5f))
 private val origin = Point(55.751225, 37.629540)
 private const val parentTag = "fixture-shape-collection"
-private const val clusterSpacing = 0.0006
+private const val clusterSpacing = 0.00025
