@@ -1,17 +1,28 @@
 package ru.sulgik.mapkit.compose
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.view.InputDevice
 import android.view.MotionEvent
+import android.view.PixelCopy
+import android.view.SurfaceView
+import android.view.View
 import android.view.ViewConfiguration
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
+import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.test.interaction.AnimateAndClose
 import ru.sulgik.mapkit.test.interaction.CoverToggle
@@ -28,6 +39,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import com.yandex.mapkit.mapview.MapView as NativeMapView
 
 private class LifecycleRun {
     val fixture = MapLifecycleScenario()
@@ -47,11 +59,13 @@ public class MapLifecycleTestActivity : ComponentActivity() {
         run.fixture.customCamera = savedInstanceState?.getBoolean("customCamera") ?: false
         run.fixture.selected = savedInstanceState?.getBoolean("selected") ?: false
         setContent {
-            MapLifecycleFixture(
-                scenario = run.fixture,
-                onWindowAttached = { id, window -> run.windows[id] = window },
-                onPositioned = { name, coordinates -> run.positions[name] = coordinates },
-            )
+            Box(Modifier.safeDrawingPadding()) {
+                MapLifecycleFixture(
+                    scenario = run.fixture,
+                    onWindowAttached = { id, window -> run.windows[id] = window },
+                    onPositioned = { name, coordinates -> run.positions[name] = coordinates },
+                )
+            }
         }
     }
 
@@ -88,9 +102,7 @@ public class MapLifecycleTest {
 
                 driver.tapButton(SaveViewport)
                 driver.waitForEvent("ready 1 camera=true selected=true")
-                host.moveToState(Lifecycle.State.CREATED)
-                host.moveToState(Lifecycle.State.RESUMED)
-                driver.tapMap(id = 1, saved = true)
+                driver.backgroundAndTapMap(id = 1)
                 driver.waitForEvent("tap 1", occurrences = 3)
                 host.onActivity { assertTrue(run.windows.getValue(1).isValid) }
 
@@ -144,6 +156,67 @@ public class MapLifecycleTest {
             previousMapTapUp = SystemClock.uptimeMillis()
         }
 
+        fun backgroundAndTapMap(id: Int) {
+            var savedTarget: Point? = null
+            host.onActivity { savedTarget = run.windows.getValue(id).map.cameraPosition.target }
+            val worldPoint = assertNotNull(savedTarget)
+
+            host.moveToState(Lifecycle.State.CREATED)
+            host.moveToState(Lifecycle.State.RESUMED)
+            waitForMapSurfaceFrame()
+            waitForFrame("map resume")
+            waitForSingleTapInterval()
+            touch("resumed map $id") { activity ->
+                val surface = activity.window.decorView.mapSurface() ?: return@touch null
+                if (!surface.isShown || !surface.holder.surface.isValid) return@touch null
+                val window = run.windows.getValue(id)
+                if (!window.isValid || window.width == 0 || window.height == 0) return@touch null
+                val projected = window.worldToScreen(worldPoint) ?: return@touch null
+                val origin = IntArray(2)
+                surface.getLocationOnScreen(origin)
+                val point = Offset(
+                    x = origin[0] + projected.x / window.width * surface.width,
+                    y = origin[1] + projected.y / window.height * surface.height,
+                )
+                if (point.x.isFinite() && point.y.isFinite()) point else null
+            }
+            previousMap = id
+            previousMapTapUp = SystemClock.uptimeMillis()
+        }
+
+        private fun waitForMapSurfaceFrame() {
+            val probe = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+            val main = Handler(Looper.getMainLooper())
+            var copyInProgress = false
+            var copyResult: Int? = null
+            waitUntil("a rendered frame on the resumed native map") { activity ->
+                val surface = activity.window.decorView.mapSurface()
+                if (surface == null || !activity.hasWindowFocus() || !surface.isShown) return@waitUntil false
+                if (!surface.holder.surface.isValid || surface.width == 0 || surface.height == 0) return@waitUntil false
+                if (copyResult == PixelCopy.SUCCESS) return@waitUntil true
+                if (!copyInProgress) {
+                    copyInProgress = true
+                    PixelCopy.request(
+                        surface,
+                        probe,
+                        { result ->
+                            copyResult = result
+                            copyInProgress = false
+                        },
+                        main,
+                    )
+                }
+                false
+            }
+            probe.recycle()
+        }
+
+        private fun View.mapSurface(): SurfaceView? {
+            if (this is NativeMapView) return getChildAt(0) as? SurfaceView
+            if (this !is ViewGroup) return null
+            return (0 until childCount).firstNotNullOfOrNull { getChildAt(it).mapSurface() }
+        }
+
         private fun waitForSingleTapInterval() {
             val doubleTapTimeout = maxOf(ViewConfiguration.getDoubleTapTimeout().toLong(), 300L)
             val nextSingleTap = previousMapTapUp + doubleTapTimeout + 1L
@@ -159,12 +232,16 @@ public class MapLifecycleTest {
             waitUntil("overlay visible=$visible") {
                 (run.positions[LifecycleOverlay]?.isAttached == true) == visible
             }
+            waitForFrame("overlay visible=$visible")
+        }
+
+        private fun waitForFrame(after: String) {
             val frame = CountDownLatch(1)
             host.onActivity { activity ->
                 val decor = activity.window.decorView
                 decor.postOnAnimation { decor.postOnAnimation { frame.countDown() } }
             }
-            assertTrue(frame.await(5L, TimeUnit.SECONDS), "No frame after overlay visible=$visible")
+            assertTrue(frame.await(5L, TimeUnit.SECONDS), "No frame after $after")
         }
 
         fun waitForWindowRelease(id: Int) {
@@ -199,10 +276,10 @@ public class MapLifecycleTest {
             throw AssertionError("Waiting for $label. Last input: $lastTouch. Events: $events")
         }
 
-        private fun touch(name: String, position: () -> Offset?) {
+        private fun touch(name: String, position: (MapLifecycleTestActivity) -> Offset?) {
             var point: Offset? = null
             waitUntil("focused screen position of $name") { activity ->
-                point = if (activity.hasWindowFocus()) position() else null
+                point = if (activity.hasWindowFocus()) position(activity) else null
                 point != null
             }
             val target = assertNotNull(point)

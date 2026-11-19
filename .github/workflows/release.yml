@@ -112,6 +112,7 @@ jobs:
           api-level: 30
           arch: x86_64
           target: aosp_atd
+          disable-animations: false
           script: bash .github/scripts/test-android-device.sh release
 
       - name: Upload Android consumer and test diagnostics

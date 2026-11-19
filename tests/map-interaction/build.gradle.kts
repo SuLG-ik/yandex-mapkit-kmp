@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose.plugin)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.cocoapods)
 }
 
@@ -34,6 +35,8 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
+            implementation(libs.navigation3.ui)
+            implementation(libs.navigation.event.compose)
             implementation(project(":yandex-mapkit-kmp-compose"))
         }
     }

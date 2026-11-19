@@ -11,7 +11,9 @@ case "$mode" in
 esac
 
 # The action shuts down the emulator as soon as this script returns.
-adb -e logcat -b all -v threadtime > "${RUNNER_TEMP}/android-emulator-logcat.txt" &
+logcat_path="${RUNNER_TEMP}/android-emulator-logcat.txt"
+python3 .github/scripts/prepare-android-emulator.py "$logcat_path"
+adb -e logcat -b all -v threadtime > "$logcat_path" &
 logcat_pid=$!
 trap 'kill "$logcat_pid" 2>/dev/null || true; wait "$logcat_pid" 2>/dev/null || true' EXIT
 

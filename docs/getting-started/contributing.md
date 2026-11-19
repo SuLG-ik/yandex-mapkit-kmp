@@ -169,7 +169,14 @@ The check runs in the `lint` job, so a bumped `library_version` with a stale REA
 ## Scheduled device matrix
 
 The **MapKit device matrix** workflow runs weekly and can be dispatched manually from `main`.
+To check an Android candidate before merge, select its branch in **Run workflow** and enable
+**Verify both Android endpoints without service credentials**. This runs the same Android emulator
+and instrumentation steps as the weekly matrix and skips iOS and the live service steps.
 Android exercises the minimum and target API levels declared in the catalog on x86_64 AVDs.
+The current lane uses the Google APIs system image. Android instrumentation declares Espresso
+3.7.0 for the public input-service lookup introduced in that release.
+[AndroidX Test release notes](https://developer.android.com/jetpack/androidx/releases/test#espresso-3.7.0)
+
 iOS chooses the oldest and newest compatible iPhone runtimes that the macOS runner actually has.
 The iOS test fixture requires a newer deployment target than the wrapper's minimum. Use the runtime
 artifact rather than inferring iOS coverage from either deployment target.
