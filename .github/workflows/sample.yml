@@ -92,5 +92,11 @@ jobs:
       - name: Set sample key placeholder
         run: printf '%s\n' 'MAPKIT_API_KEY=sample-ci-placeholder' >> local.properties
 
-      - name: Compile the shared sample for the iOS simulator
-        run: ./gradlew :sample:composeApp:compileKotlinIosSimulatorArm64
+      - name: Install the sample's CocoaPods dependencies
+        run: ./gradlew :sample:composeApp:podInstall
+
+      - name: Build the sample and its UI test target for the iOS simulator
+        run: |
+          xcodebuild build-for-testing -workspace sample/iosApp/iosApp.xcworkspace \
+            -scheme ReturnMapBenchmark -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/sample-ios-xcode ARCHS=arm64

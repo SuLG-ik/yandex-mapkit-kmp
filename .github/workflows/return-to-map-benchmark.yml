@@ -78,3 +78,80 @@ jobs:
             build/return-to-map/android/baseline.metrics
             build/return-to-map/android/summary.md
           if-no-files-found: ignore
+
+  ios:
+    name: Trusted iOS return-to-map benchmark
+    if: github.repository == 'SuLG-ik/yandex-mapkit-kmp' && github.ref == 'refs/heads/main' && !inputs.boot_only
+    runs-on: macos-26
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: '21'
+
+      - uses: actions/cache@v6
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: konan-${{ runner.os }}-
+
+      - uses: actions/cache@v6
+        with:
+          path: |
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods/repos
+          key: cocoapods-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: cocoapods-${{ runner.os }}-
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Boot the iPhone simulator
+        id: simulator
+        run: python3 .github/scripts/select-ios-runtime.py current "$RUNNER_TEMP/return-map-ios-runtime"
+
+      - name: Build the sample and its UI test target without credentials
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: |
+          printf '%s\n' 'MAPKIT_API_KEY=sample-ci-placeholder' >> local.properties
+          ./gradlew :sample:composeApp:podInstall
+          xcodebuild build-for-testing -workspace sample/iosApp/iosApp.xcworkspace \
+            -scheme ReturnMapBenchmark -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
+            -parallel-testing-enabled NO -derivedDataPath build/return-to-map/ios-xcode
+
+      - name: Measure cold and warm map routes
+        env:
+          MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: |
+          set +x
+          test -n "$MAPKIT_TEST_API_KEY" || {
+            echo "::error::MAPKIT_TEST_API_KEY is unset."
+            exit 1
+          }
+          umask 077
+          key_file=$(mktemp "$RUNNER_TEMP/mapkit-service-key.XXXXXX")
+          trap 'rm -f -- "$key_file"' EXIT
+          printf '%s' "$MAPKIT_TEST_API_KEY" > "$key_file"
+          unset MAPKIT_TEST_API_KEY
+          products=build/return-to-map/ios-xcode/Build/Products
+          test_specs=("$products"/ReturnMapBenchmark_*.xctestrun)
+          test "${#test_specs[@]}" = 1 && test -f "${test_specs[0]}"
+          python3 -B verification/return-to-map/ios_benchmark.py \
+            "$SIMULATOR_UDID" "${test_specs[0]}" \
+            "$RUNNER_TEMP/return-map-ios-runtime/runtime.json" --key-file "$key_file"
+
+      - name: Upload extracted metrics and summary
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: return-to-map-ios
+          path: |
+            build/return-to-map/ios/baseline.metrics
+            build/return-to-map/ios/summary.md
+          if-no-files-found: ignore
