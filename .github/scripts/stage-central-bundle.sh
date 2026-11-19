@@ -43,14 +43,17 @@ case "$mode" in
     ;;
   release)
     : "${ORG_GRADLE_PROJECT_signingInMemoryKey:?Maven Central signing key is missing}"
-    release_key_packets | gpgsplit --secret-to-public --no-split | gpg --batch --quiet --import
+    release_key_packets |
+      gpg --batch --quiet --dry-run --import-options import-export --import > "$staging/signing-public.pgp"
+    gpg --batch --quiet --import "$staging/signing-public.pgp"
     ;;
   *) echo "Expected rehearsal or release" >&2; exit 2 ;;
 esac
 
 key_count="$(gpg --batch --with-colons --list-keys | awk -F: '$1 == "pub" { count++ } END { print count + 0 }')"
-if [[ "$key_count" != 1 ]]; then
-  echo "Expected exactly one trusted signing certificate" >&2
+secret_keys="$(gpg --batch --with-colons --list-secret-keys | awk -F: '$1 == "sec" || $1 == "ssb"')"
+if [[ "$key_count" != 1 || -n "$secret_keys" ]]; then
+  echo "Expected exactly one trusted public signing certificate and no secret keys" >&2
   exit 1
 fi
 
