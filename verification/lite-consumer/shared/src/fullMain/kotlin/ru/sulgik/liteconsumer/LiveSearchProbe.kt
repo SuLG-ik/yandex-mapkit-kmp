@@ -16,18 +16,18 @@ import ru.sulgik.mapkit.search.SearchType
 import ru.sulgik.mapkit.search.Session
 import kotlin.coroutines.resume
 
-internal suspend fun probeLiveSearch(): LiveSearchStatus {
+internal suspend fun probeLiveSearch(): LiveServiceStatus {
     var session: Session? = null
     var delivered = false
     return try {
         withTimeoutOrNull(20_000L) {
-            suspendCancellableCoroutine<LiveSearchStatus> { continuation ->
-                fun complete(classify: () -> LiveSearchStatus) {
+            suspendCancellableCoroutine<LiveServiceStatus> { continuation ->
+                fun complete(classify: () -> LiveServiceStatus) {
                     if (!continuation.isActive) return
                     val status = try {
                         classify()
                     } catch (_: Exception) {
-                        LiveSearchStatus.WrapperOrShape
+                        LiveServiceStatus.WrapperOrShape
                     }
                     delivered = true
                     continuation.resume(status)
@@ -50,28 +50,28 @@ internal suspend fun probeLiveSearch(): LiveSearchStatus {
                                         place.point.longitude.value in -180.0..180.0
                                 }
                                 if (!response.isOffline && hasPlace) {
-                                    LiveSearchStatus.Passed
+                                    LiveServiceStatus.Passed
                                 } else {
-                                    LiveSearchStatus.WrapperOrShape
+                                    LiveServiceStatus.WrapperOrShape
                                 }
                             }
                         },
                         onSearchError = { error ->
                             complete {
                                 when (error.error) {
-                                    is UnauthorizedError, is ForbiddenError -> LiveSearchStatus.Authorization
-                                    else -> LiveSearchStatus.ProviderOrNetwork
+                                    is UnauthorizedError, is ForbiddenError -> LiveServiceStatus.Authorization
+                                    else -> LiveServiceStatus.ProviderOrNetwork
                                 }
                             }
                         },
                     ),
                 )
             }
-        } ?: LiveSearchStatus.ProviderOrNetwork
+        } ?: LiveServiceStatus.ProviderOrNetwork
     } catch (cancelled: CancellationException) {
         throw cancelled
     } catch (_: Exception) {
-        LiveSearchStatus.WrapperOrShape
+        LiveServiceStatus.WrapperOrShape
     } finally {
         if (!delivered) {
             session?.cancel()

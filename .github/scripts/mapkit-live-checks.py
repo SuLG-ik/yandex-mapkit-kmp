@@ -3,17 +3,21 @@ import json
 import os
 import signal
 import subprocess
+import tempfile
 import time
 from pathlib import Path
 
 
 CHECKS = ("search", "routing")
+ROUTING_MODES = ("driving", "walking", "cycling", "transit")
 HOOK_DIRECTORY = Path("verification/live-services")
 EXIT_CATEGORIES = {
     0: "passed",
     10: "authorization",
     11: "provider-or-network",
     12: "wrapper-or-result-shape",
+    13: "provider-no-route",
+    70: "runner-or-fixture",
 }
 
 
@@ -37,12 +41,12 @@ def is_trusted():
     )
 
 
-def run_process(command, environment, timeout):
+def run_process(command, environment, timeout, stdout=subprocess.DEVNULL):
     try:
         process = subprocess.Popen(
             command,
             stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
+            stdout=stdout,
             stderr=subprocess.DEVNULL,
             start_new_session=True,
             env=environment,
@@ -62,15 +66,30 @@ def run_process(command, environment, timeout):
         return 70
 
 
+def read_routing_modes(command, environment):
+    modes = dict.fromkeys(ROUTING_MODES, "not-run")
+    categories = {str(code): category for code, category in EXIT_CATEGORIES.items()}
+    with tempfile.TemporaryFile(mode="w+", encoding="utf-8", errors="replace") as markers:
+        run_process(command + ["--modes"], environment, timeout=15, stdout=markers)
+        markers.seek(0)
+        for line in markers.read(256).splitlines():
+            fields = line.split()
+            if len(fields) == 2 and fields[0] in modes and fields[1] in categories:
+                modes[fields[0]] = categories[fields[1]]
+    return modes
+
+
 def run_check(check, platform, device, api_key):
     command = ["bash", str(hook(check, platform)), device]
     environment = dict(os.environ, MAPKIT_LIVE_SEARCH_TOKEN=f"{time.time_ns()}-{os.getpid()}")
     environment.pop("MAPKIT_TEST_API_KEY", None)
+    environment.pop("MAPKIT_LIVE_KEY_FILE", None)
     status = run_process(command, dict(environment, MAPKIT_TEST_API_KEY=api_key), timeout=120)
     category = "runner-deadline" if status is None else EXIT_CATEGORIES.get(status, "runner-or-fixture")
-    if check == "search" and run_process(command + ["--cleanup"], environment, timeout=15) != 0:
-        return f"{category}-cleanup-incomplete"
-    return category
+    modes = read_routing_modes(command, environment) if check == "routing" else None
+    if run_process(command + ["--cleanup"], environment, timeout=15) != 0:
+        category = f"{category}-cleanup-incomplete"
+    return category, modes
 
 
 def main():
@@ -119,13 +138,18 @@ def main():
     if arguments.device is None:
         parser.error("run requires a device identifier")
     results = {}
+    routing_modes = dict.fromkeys(ROUTING_MODES, "not-run")
     for check in CHECKS:
-        result = run_check(check, platform, arguments.device, api_key) if check in available else "skipped-no-hook"
+        result, modes = (
+            run_check(check, platform, arguments.device, api_key) if check in available else ("skipped-no-hook", None)
+        )
+        if modes is not None:
+            routing_modes = modes
         results[check] = result
         emit_summary(f"MapKit live {check} on {platform}: {result}.")
     diagnostics = Path("build/device-matrix/live") / platform
     diagnostics.mkdir(parents=True, exist_ok=True)
-    (diagnostics / "results.json").write_text(json.dumps(results, indent=2) + "\n")
+    (diagnostics / "results.json").write_text(json.dumps({**results, "routing_modes": routing_modes}, indent=2) + "\n")
     if any(result not in {"passed", "skipped-no-hook"} for result in results.values()):
         raise SystemExit(1)
 

@@ -8,27 +8,40 @@ import ru.sulgik.mapkit.compose.YandexMap
 import ru.sulgik.mapkit.compose.bindToLifecycleOwner
 import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
 
-public enum class LiveSearchStatus(public val code: Int) {
+public enum class LiveServiceProbe(public val keyFile: String, public val marker: String) {
+    Search("live-search-key", "LIVE_SEARCH"),
+    Routing("live-routing-key", "LIVE_ROUTING"),
+}
+
+public enum class LiveServiceStatus(public val code: Int) {
     Passed(0),
     Authorization(10),
     ProviderOrNetwork(11),
     WrapperOrShape(12),
+    ProviderNoRoute(13),
     RunnerOrFixture(70),
 }
 
-public fun isLiveSearchToken(token: String): Boolean {
+public fun isLiveServiceToken(token: String): Boolean {
     return token.matches(Regex("[0-9]+-[0-9]+"))
 }
 
 @Composable
-public fun LiveSearchMap(onResult: (LiveSearchStatus) -> Unit) {
+public fun LiveServiceMap(
+    probe: LiveServiceProbe,
+    onModeResult: (String, LiveServiceStatus) -> Unit,
+    onResult: (LiveServiceStatus) -> Unit,
+) {
     rememberAndInitializeMapKit().bindToLifecycleOwner()
     YandexMap(modifier = Modifier.fillMaxSize()) {
-        MapEffect(Unit) { map ->
+        MapEffect(probe) { map ->
             val status = if (map.isValid) {
-                probeLiveSearch()
+                when (probe) {
+                    LiveServiceProbe.Search -> probeLiveSearch()
+                    LiveServiceProbe.Routing -> probeLiveRouting(map, onModeResult)
+                }
             } else {
-                LiveSearchStatus.WrapperOrShape
+                LiveServiceStatus.WrapperOrShape
             }
             onResult(status)
         }
