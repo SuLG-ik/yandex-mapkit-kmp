@@ -5,7 +5,9 @@ can run. They only read the dedicated `MAPKIT_TEST_API_KEY` secret for scheduled
 on `main` of the maintainer repository. Use a restricted test key. Pull request jobs and release
 verification do not use it.
 
-The hooks install the same Full consumer built in a separate, credential-free step. On Android,
+Search and routing use the Full consumer (`ru.sulgik.liteconsumer`). The iOS POI hook uses
+the native test host (`ru.sulgik.mapkit.test.mapinteractionapp`). Include these bundle IDs
+when restricting the trusted key. Each app is built in a separate, credential-free step. On Android,
 the workflow boots a dedicated emulator with a checked-in shell script after the offline matrix
 action exits. On iOS it reuses the booted simulator. First-party steps stage and consume a
 restricted runner file. Each hook transfers the key to a separate private file in the app sandbox.
@@ -34,6 +36,29 @@ line. The accepted geometry is set on a native polyline, then cleared. A mode ti
 after 18 seconds. Success requires four mode markers and the final routing marker. Deterministic
 adapter tests inject retired callbacks separately to cover delivery even when the provider honors
 cancellation before it replies.
+
+The iOS POI probe reuses the UIKit fixture built by the credential-free matrix step. The test waits
+for a native vector map load and finds a selectable point object by making bounded physical taps
+through XCTest. Each tap must produce a native hit or a miss confirmed by native map input before
+the test taps the next point. The native listener saves the object's selection metadata and
+geometry. The wrapper then receives two taps at that same screen position. Consuming the event
+suppresses map input. Declining it delivers one matching map input callback. The check compares the
+native observation within that run, so changes in business names or label order require no reference update.
+
+XCTest receives only a run identifier. The launched fixture announces readiness from its own
+simulator sandbox and waits asynchronously. The runner verifies that container and publishes a
+private key file there atomically. The fixture removes the key file and records consumption
+before MapKit initialization. XCTest stdout and stderr are discarded. Its private xcresult stays
+in runner temporary storage and is removed by the cleanup hook. The scheduler uploads the category
+only.
+A termination error reports incomplete cleanup unless simctl confirms the app was already stopped.
+Cleanup still scrubs the recorded sandbox and the current simulator sandbox before reporting its status.
+A missing loaded map or selectable POI reports provider-or-network. A mismatch after independent
+native discovery reports wrapper-or-result-shape.
+
+Traffic and offline region listener shapes remain covered by deterministic adapter tests. The
+scheduled suite does not call offline region operations without confirmed paid entitlement.
+[MapKit POI interaction](https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_interaction.html) · [Offline map licensing](https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_offline.html)
 
 Markers contain fixed probe names and status codes. After each search or routing launch, including a
 failure or timeout, the runner reads the allowed mode markers before cleanup. The `search_modes`

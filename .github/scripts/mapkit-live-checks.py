@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 
 
-CHECKS = ("search", "routing")
+CHECKS = ("search", "routing", "poi")
 CHECK_MODES = {
     "search": ("text", "suggestions"),
     "routing": ("driving", "walking", "cycling", "transit"),
