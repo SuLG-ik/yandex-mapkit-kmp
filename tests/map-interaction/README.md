@@ -44,3 +44,23 @@ bash .github/scripts/test-ios-map-interaction.sh SIMULATOR_UDID
 The script installs pods and runs `MapInteractionTests` against a test-only app. XCUITest taps
 the projected UIKit coordinate and verifies the ordered trace through accessibility. The result
 bundle is under `tests/map-interaction/build`.
+
+## Listener ownership
+
+The Android and iOS drivers use the same `ListenerOwnershipFixture`, with a real MapKit
+collection and a weak subscription to its native add events. They force recomposition and
+run one GC probe while retaining the listener in the current composition. The probe allocates
+2 MiB and asks the platform to collect garbage. The assertion checks event delivery to the
+retained listener regardless of collection timing.
+
+Each action has its own 48 dp touch target. XCTest checks the frame and taps its center.
+
+The drivers replace and explicitly unsubscribe the listener. They keep each retired listener
+strongly referenced through the next native add, then drop that reference. Any extra callback
+appears in the exact trace even if the SDK retains subscriptions weakly.
+
+The drivers then suspend work started by a real native callback on a gate. The screen immediately
+remounts, and the tests wait for the old scope to cancel before releasing the gate. Each mount
+checks that the new native root has no tag and sets its own `userData` tag. This detects reuse
+without retaining the disposed map. A late continuation records a failure event before it can
+try to mutate the old object through a weak reference.
