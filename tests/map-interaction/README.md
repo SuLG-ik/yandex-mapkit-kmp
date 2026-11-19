@@ -59,3 +59,25 @@ The camera scenarios use the same simulator test target. XCUITest drags the UIKi
 MapKit's two-finger tap to an inset area to zoom out. It also selects the animation and location
 controls. It samples the map viewport to check the location pin and attaches that viewport on
 failure. The controls and fixture are test-only.
+
+## Listener ownership
+
+The Android and iOS drivers use the same `ListenerOwnershipFixture`, with a real MapKit
+collection and a weak subscription to its native add events. They force recomposition and
+run one GC probe while retaining the listener in the current composition. The probe allocates
+2 MiB and asks the platform to collect garbage. The assertion checks event delivery to the
+retained listener regardless of collection timing.
+
+The fixture uses a compact native map and pairs actions in rows so the controls fit on shorter
+simulator screens. Each action has its own 48 dp touch target. XCTest checks that the frame
+fits inside the window and taps its center.
+
+The drivers replace and explicitly unsubscribe the listener. They keep each retired listener
+strongly referenced through the next native add, then drop that reference. Any extra callback
+appears in the exact trace even if the SDK retains subscriptions weakly.
+
+The drivers then suspend work started by a real native callback on a gate. The screen immediately
+remounts, and the tests wait for the old scope to cancel before releasing the gate. Each mount
+checks that the new native root has no tag and sets its own `userData` tag. This detects reuse
+without retaining the disposed map. A late continuation records a failure event before it can
+try to mutate the old object through a weak reference.
