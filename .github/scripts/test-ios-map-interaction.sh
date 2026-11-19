@@ -42,28 +42,23 @@ done
 test "$(plutil -extract CADisableMinimumFrameDurationOnPhone raw -expect bool -o - "$info_plist")" = true
 
 run_id="$(date +%s)-$$"
-passed=0
-failed=0
-for (( attempt = 1; attempt <= iterations; attempt++ )); do
-  result="$fixture/build/MapInteraction-$run_id-$attempt.xcresult"
-  if xcodebuild test-without-building "${xcode_args[@]}" -resultBundlePath "$result" \
-    2>&1 | tee "$diagnostics/iteration-$attempt.log"; then
-    passed=$((passed + 1))
-  else
-    failed=$((failed + 1))
-  fi
-  if [[ -d "$result" ]]; then
-    xcrun xcresulttool get test-results summary --path "$result" \
-      > "$diagnostics/iteration-$attempt.json" || true
-  fi
-done
+if (( iterations == 1 )); then
+  xcodebuild test-without-building "${xcode_args[@]}" \
+    -resultBundlePath "$fixture/build/MapInteraction-$run_id.xcresult"
+  exit 0
+fi
 
-summary="UIKit map interaction repetitions: $passed passed, $failed failed."
-echo "$summary"
-if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
-  echo "$summary" >> "$GITHUB_STEP_SUMMARY"
-fi
-if (( passed > 0 && failed > 0 )); then
-  echo "::warning::UIKit map interaction repetitions had mixed outcomes. Compare the per-run result bundles."
-fi
-test "$failed" -eq 0
+attempts="$diagnostics/$run_id"
+for (( attempt = 1; attempt <= iterations; attempt++ )); do
+  iteration="$attempts/iteration-$attempt"
+  mkdir -p "$iteration"
+  result="$fixture/build/MapInteraction-$run_id-$attempt.xcresult"
+  status=0
+  xcodebuild test-without-building "${xcode_args[@]}" -resultBundlePath "$result" \
+    2>&1 | tee "$iteration/xcodebuild.log" || status=$?
+  if [[ -d "$result" ]]; then
+    xcrun xcresulttool get test-results tests --path "$result" > "$iteration/xctest.json" || true
+  fi
+  python3 .github/scripts/device-test-results.py record ios "$iteration/xctest.json" "$iteration" "$status"
+done
+python3 .github/scripts/device-test-results.py summarize "$attempts" "$iterations"

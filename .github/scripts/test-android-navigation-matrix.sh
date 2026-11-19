@@ -21,27 +21,20 @@ adb -e logcat -b all -v threadtime > "$diagnostics/logcat.txt" &
 logcat_pid=$!
 trap 'kill "$logcat_pid" 2>/dev/null || true; wait "$logcat_pid" 2>/dev/null || true' EXIT
 
-passed=0
-failed=0
+attempts="$diagnostics/$(date +%s)-$$"
+results=yandex-mapkit-kmp-compose/build/outputs/androidTest-results/connected
 reports=yandex-mapkit-kmp-compose/build/reports/androidTests/connected
 for attempt in 1 2 3; do
-  if ./gradlew :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest --rerun -PskipIosTarget=true \
-    2>&1 | tee "$diagnostics/iteration-$attempt.log"; then
-    passed=$((passed + 1))
-  else
-    failed=$((failed + 1))
-  fi
+  iteration="$attempts/iteration-$attempt"
+  mkdir -p "$iteration"
+  touch "$iteration/started"
+  status=0
+  ./gradlew :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest --rerun -PskipIosTarget=true \
+    2>&1 | tee "$iteration/gradle.log" || status=$?
   if [[ -d "$reports" ]]; then
-    cp -R "$reports" "$diagnostics/report-$attempt"
+    cp -R "$reports" "$iteration/report"
   fi
+  python3 .github/scripts/device-test-results.py record android "$results" "$iteration" "$status" \
+    --since "$iteration/started"
 done
-
-summary="Android Compose device suite repetitions: $passed passed, $failed failed."
-echo "$summary"
-if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
-  echo "$summary" >> "$GITHUB_STEP_SUMMARY"
-fi
-if (( passed > 0 && failed > 0 )); then
-  echo "::warning::Android device suite repetitions had mixed outcomes. Compare the per-run reports."
-fi
-test "$failed" -eq 0
+python3 .github/scripts/device-test-results.py summarize "$attempts" 3

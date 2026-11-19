@@ -29,10 +29,12 @@ jobs:
             api: '26'
             sdk-package: '26'
             catalog-key: android-minSdk
+            target: default
           - profile: current
             api: '37'
             sdk-package: '37.0'
             catalog-key: android-targetSdk
+            target: google_apis
     steps:
       - uses: actions/checkout@v7
         with:
@@ -69,7 +71,7 @@ jobs:
         with:
           api-level: ${{ matrix.sdk-package }}
           arch: x86_64
-          target: default
+          target: ${{ matrix.target }}
           profile: pixel_7
           ram-size: 4096M
           script: bash .github/scripts/test-android-navigation-matrix.sh ${{ matrix.api }}
@@ -105,7 +107,7 @@ jobs:
         with:
           api-level: ${{ matrix.sdk-package }}
           arch: x86_64
-          target: default
+          target: ${{ matrix.target }}
           profile: pixel_7
           ram-size: 4096M
           script: python3 .github/scripts/mapkit-live-checks.py run android emulator-5554
