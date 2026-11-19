@@ -11,6 +11,8 @@ plugins {
     alias(libs.plugins.buildKonfig)
 }
 
+val mapkitSdkVersion = extra["mapkit_sdk_version"] as String
+
 kotlin {
     android {
         namespace = "ru.sulgik.mapkit.sample"
@@ -44,7 +46,7 @@ kotlin {
             isStatic = true
         }
         pod("YandexMapsMobile") {
-            version = libs.versions.yandex.mapkit.get()
+            version = mapkitSdkVersion
             packageName = "YandexMapKit"
         }
     }

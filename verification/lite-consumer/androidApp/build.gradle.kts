@@ -27,15 +27,16 @@ dependencies {
     implementation(libs.androidx.activity.compose)
 }
 
-tasks.register("verifyLiteSdk") {
+tasks.register("verifyMapKitSdk") {
     doLast {
         val selectedVersions = configurations.getByName("debugRuntimeClasspath").incoming.resolutionResult
             .allComponents
             .mapNotNull { it.moduleVersion }
             .filter { it.group == "com.yandex.android" && it.name == "maps.mobile" }
             .map { it.version }
-        val expected = libs.versions.yandex.mapkit.get()
-        check(expected.endsWith("-lite") && selectedVersions == listOf(expected)) {
+        val edition = providers.gradleProperty("mapkitEdition").orElse("lite").get()
+        val expected = libs.versions.yandex.mapkit.get().removeSuffix("-lite") + "-" + edition
+        check(selectedVersions == listOf(expected)) {
             "Expected exactly one com.yandex.android:maps.mobile:$expected, resolved $selectedVersions"
         }
         logger.lifecycle("Verified com.yandex.android:maps.mobile:$expected")

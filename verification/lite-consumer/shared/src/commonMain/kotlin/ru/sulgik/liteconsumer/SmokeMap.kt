@@ -27,6 +27,7 @@ public fun SmokeMap(onReady: () -> Unit) {
                 placemark.setIcon(image)
             }
             check(placemark.isValid)
+            verifySearchManager()
             onReady()
         }
     }

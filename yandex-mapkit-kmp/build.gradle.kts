@@ -14,6 +14,25 @@ plugins {
 
 val supportIosTarget = project.property("skipIosTarget") != "true"
 version = extra["library_version"].toString()
+val mapkitSdkVersion = extra["mapkit_sdk_version"] as String
+val mapkitArtifactSuffix = extra["mapkit_artifact_suffix"] as String
+val isFullEdition = extra["mapkit_edition"] == "full"
+val artifactName = name + mapkitArtifactSuffix
+
+configurations.configureEach {
+    val platformSuffix = when (name.removeSuffix("-published")) {
+        "metadataApiElements" -> ""
+        "androidApiElements", "androidRuntimeElements" -> "-android"
+        "iosArm64ApiElements" -> "-iosarm64"
+        "iosSimulatorArm64ApiElements" -> "-iossimulatorarm64"
+        else -> return@configureEach
+    }
+    val coordinates = setOf(project.name, artifactName, artifactName + platformSuffix)
+    for (coordinate in coordinates) {
+        outgoing.capability("$group:$coordinate:$version")
+    }
+    outgoing.capability("$group:yandex-mapkit-kmp-edition:$version")
+}
 
 val yandexMapsMobileFrameworks = listOf(
     "CoreLocation",
@@ -63,13 +82,21 @@ kotlin {
             }
             noPodspec()
             pod("YandexMapsMobile") {
-                version = libs.versions.yandex.mapkit.get()
+                version = mapkitSdkVersion
                 packageName = "YandexMapKit"
             }
         }
     }
 
     sourceSets {
+        if (isFullEdition) {
+            commonMain.get().kotlin.srcDir("src/fullMain/kotlin")
+            androidMain.get().kotlin.srcDir("src/fullAndroidMain/kotlin")
+            if (supportIosTarget) {
+                getByName("iosMain").kotlin.srcDir("src/fullIosMain/kotlin")
+            }
+        }
+
         all {
             languageSettings.apply {
                 progressiveMode = true
@@ -81,7 +108,11 @@ kotlin {
         }
 
         androidMain.dependencies {
-            api(libs.yandex.mapkit)
+            api("com.yandex.android:maps.mobile:$mapkitSdkVersion") {
+                if (isFullEdition) {
+                    version { strictly(mapkitSdkVersion) }
+                }
+            }
         }
         commonMain.dependencies {
             api(libs.kotlinx.datetime)
@@ -121,7 +152,7 @@ kotlin {
 
 if (version != "null") {
     mavenPublishing {
-        coordinates(group.toString(), name, version.toString())
+        coordinates(group.toString(), artifactName, version.toString())
         publishToMavenCentral()
 
         signAllPublications()
