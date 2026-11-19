@@ -21,7 +21,7 @@ public expect class Transport {
 
     public companion object {
 
-        /** Returns the transport entry point. */
+        /** Returns the transport entry point through [TransportFactory]. */
         public fun getInstance(): Transport
     }
 

@@ -75,12 +75,17 @@ public class TransportAdapterTest {
         val common = transport.toCommon()
         assertTrue(common.isValid)
         assertSame(router, common.createPedestrianRouter().toNative())
-        val session = common.createPedestrianRouter().requestRoutes(
-            points,
-            time,
-            options,
-            RouteListener({ results.add(it) }, { error("Unexpected routing error") }),
-        )
+        val listener = object : Session.RouteListener() {
+            override fun onMasstransitRoutes(routes: List<Route>) {
+                results.add(routes)
+            }
+
+            override fun onMasstransitRoutesError(error: RouteError) {
+                kotlin.error("Unexpected routing error: $error")
+            }
+        }
+        assertSame(listener.toNative(), listener.toNative())
+        val session = common.createPedestrianRouter().requestRoutes(points, time, options, listener)
         assertSame(requests.nativeSession, session.toNative())
         val first = route(points, null)
         val second = route(points.reversed(), "second")
@@ -172,9 +177,23 @@ public class TransportAdapterTest {
     }
 
     @Test
-    public fun public_transit_factory_preserves_filter_bits_and_alternative_section_data() {
+    public fun single_filter_flags_and_combined_options_round_trip() {
         val nativeBits = NativeFilterVehicleTypes.values().associate { it.name to it.value }
         assertEquals(nativeBits, FilterVehicleTypes.entries.associate { it.name to it.value })
+        for (flag in FilterVehicleTypes.entries) {
+            val native = flag.toNative()
+            assertEquals(flag.name, native.name)
+            assertEquals(flag.value, native.value)
+            assertEquals(flag, native.toCommon())
+        }
+        val mask = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value or Int.MIN_VALUE
+        val options = TransitOptions(avoid = mask)
+        assertEquals(mask, options.toNative().avoid)
+        assertEquals(options, options.toNative().toCommon())
+    }
+
+    @Test
+    public fun public_transit_factory_preserves_filter_bits_and_alternative_section_data() {
         val points = points()
         val avoid = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value
         val transit = TransitOptions(
