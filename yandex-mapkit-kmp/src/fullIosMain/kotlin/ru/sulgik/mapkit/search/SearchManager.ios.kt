@@ -33,7 +33,7 @@ public actual class SearchManager internal constructor(private val nativeSearchM
             searchOptions = searchOptions.toNative(),
             responseHandler = request.toNative(),
         )
-        return Session(session, request)
+        return session.toCommon(request)
     }
 
     /** Two handles are equal when they wrap the same native search manager. */

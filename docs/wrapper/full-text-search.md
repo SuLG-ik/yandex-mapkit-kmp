@@ -60,7 +60,9 @@ val session = manager.submit(
 
 Store `session` in a field. Cancel it before replacing the query and on screen disposal. The wrapper
 holds the listener while the request is pending and clears it on completion or cancellation. A
-native callback arriving after cancellation is ignored. Callbacks run on the UI thread.
+native callback arriving after cancellation is ignored. The cancellation guard also applies when
+calling `cancel()` on a common handle converted back from the same native session. Callbacks run on
+the UI thread.
 
 `SearchError.error` exposes the typed MapKit error on Android and on iOS when the SDK attaches one.
 `SearchError.description` exposes the iOS message. The [compiled consumer example] retains each

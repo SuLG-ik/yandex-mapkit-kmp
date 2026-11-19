@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.search
 
 import platform.Foundation.NSError
 import platform.Foundation.NSLocalizedDescriptionKey
+import platform.darwin.NSObject
 import ru.sulgik.mapkit.geometry.Geometry
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toNative
@@ -77,8 +78,11 @@ public class SearchAdapterTest {
         assertTrue(replies.isEmpty())
 
         val obsolete = SearchRequest(listener)
+        val bindings = SearchRequestBindings<NSObject, SearchRequest>()
+        val nativeHandle = NSObject()
+        bindings.bind(nativeHandle, obsolete)
         val obsoleteCallback = obsolete.toNative()
-        obsolete.dispose()
+        checkNotNull(bindings.requestFor(nativeHandle)).dispose()
         obsoleteCallback(response(), null)
         obsoleteCallback(null, nativeError)
         assertEquals(1, failures.size)

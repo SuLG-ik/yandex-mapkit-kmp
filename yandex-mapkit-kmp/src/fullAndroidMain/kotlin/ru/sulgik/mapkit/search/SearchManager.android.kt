@@ -28,7 +28,7 @@ public actual class SearchManager internal constructor(private val nativeSearchM
     ): Session {
         val request = SearchRequest(searchListener)
         val session = nativeSearchManager.submit(text, geometry.toNative(), searchOptions.toNative(), request.toNative())
-        return Session(session, request)
+        return session.toCommon(request)
     }
 
     /** Two handles are equal when they wrap the same native search manager. */

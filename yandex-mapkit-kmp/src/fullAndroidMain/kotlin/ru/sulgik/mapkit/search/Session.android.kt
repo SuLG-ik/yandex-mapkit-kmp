@@ -2,6 +2,8 @@ package ru.sulgik.mapkit.search
 
 import com.yandex.mapkit.search.Session as NativeSession
 
+private val searchRequests = SearchRequestBindings<NativeSession, SearchRequest>()
+
 /**
  * A text search request in progress. Retain this session until the search completes or is canceled.
  */
@@ -16,7 +18,7 @@ public actual class Session internal constructor(
 
     /** Cancels the current request. The listener receives no further events from this request. */
     public actual fun cancel() {
-        request?.dispose()
+        (request ?: searchRequests.requestFor(nativeSession))?.dispose()
         nativeSession.cancel()
     }
 
@@ -34,5 +36,10 @@ public actual class Session internal constructor(
 }
 
 public fun NativeSession.toCommon(): Session {
-    return Session(this)
+    return Session(this, searchRequests.requestFor(this))
+}
+
+internal fun NativeSession.toCommon(request: SearchRequest): Session {
+    searchRequests.bind(this, request)
+    return Session(this, request)
 }

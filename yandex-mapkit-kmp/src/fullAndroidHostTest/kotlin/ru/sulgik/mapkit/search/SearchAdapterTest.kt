@@ -85,16 +85,17 @@ public class SearchAdapterTest {
     }
 
     @Test
-    public fun cancel_releases_the_listener_and_filters_callbacks_after_disposal() {
+    public fun cancelling_a_round_tripped_session_filters_inline_and_late_callbacks() {
         val transport = SearchTransport()
         val geometry = Geometry(point = Point(55.75, 37.62))
         var deliveries = 0
         val listener = SearchListener({ deliveries++ }, { deliveries++ })
         val session = transport.manager.toCommon().submit("old", geometry, SearchOptions(), listener)
+        val alias = session.toNative().toCommon()
         val obsoleteCallback = transport.listener
 
         transport.onCancel = { obsoleteCallback.onSearchResponse(response()) }
-        session.cancel()
+        alias.cancel()
         obsoleteCallback.onSearchResponse(response())
         assertEquals(1, transport.cancellations)
         assertEquals(0, deliveries)
@@ -167,8 +168,12 @@ private class SearchTransport {
         onInvoke: (method: String, args: Array<out Any?>) -> Any?,
     ): T {
         return type.cast(
-            Proxy.newProxyInstance(type.classLoader, arrayOf(type)) { _, method, args ->
-                onInvoke(method.name, args.orEmpty())
+            Proxy.newProxyInstance(type.classLoader, arrayOf(type)) { proxy, method, args ->
+                when (method.name) {
+                    "equals" -> proxy === args?.single()
+                    "hashCode" -> System.identityHashCode(proxy)
+                    else -> onInvoke(method.name, args.orEmpty())
+                }
             },
         )
     }
