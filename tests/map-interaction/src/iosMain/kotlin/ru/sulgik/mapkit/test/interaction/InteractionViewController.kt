@@ -8,3 +8,8 @@ public fun interactionViewController(): UIViewController {
     MapKit.setApiKey(FixtureKey)
     return ComposeUIViewController { MapInteractionFixture() }
 }
+
+public fun iconRenderingViewController(clustered: Boolean): UIViewController {
+    MapKit.setApiKey(FixtureKey)
+    return ComposeUIViewController { MapIconRenderingFixture(clustered) }
+}

@@ -31,6 +31,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
+            implementation(libs.coil.compose)
             implementation(project(":yandex-mapkit-kmp-compose"))
         }
     }

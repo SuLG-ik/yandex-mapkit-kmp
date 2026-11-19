@@ -12,7 +12,14 @@ struct MapInteractionApp: App {
 
 private struct ComposeMapHost: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        InteractionViewControllerKt.interactionViewController()
+        let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--cluster-image-test") {
+            return InteractionViewControllerKt.iconRenderingViewController(clustered: true)
+        }
+        if arguments.contains("--placemark-image-test") {
+            return InteractionViewControllerKt.iconRenderingViewController(clustered: false)
+        }
+        return InteractionViewControllerKt.interactionViewController()
     }
 
     func updateUIViewController(_ controller: UIViewController, context: Context) {}
