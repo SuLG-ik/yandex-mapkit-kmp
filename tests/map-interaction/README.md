@@ -44,3 +44,22 @@ bash .github/scripts/test-ios-map-interaction.sh SIMULATOR_UDID
 The script installs pods and runs `MapInteractionTests` against a test-only app. XCUITest taps
 the projected UIKit coordinate and verifies the ordered trace through accessibility. The result
 bundle is under `tests/map-interaction/build`.
+
+## Navigation 3
+
+The Android instrumentation test and the iOS XCTest target both mount a test-only `NavDisplay`.
+Their two tab stacks each own serialized destination keys and saved state. Map A and Map B set
+different native viewports and selections. A native camera listener saves completed movements
+independently of marker selection. Each new window applies its stored camera once on attachment.
+Readiness observes the actual camera and marker visibility after the NavDisplay entry is resumed.
+
+The drivers tap the projected map position to open details and check the complete tap recipient
+trace after returning, replacing entries and switching stacks. Android sends system Back and uses
+`ActivityScenario.recreate()` with a details entry on the secondary tab, then waits for its content
+to be laid out in the new Activity. The iOS test waits for the details entry and its actual text. The iOS simulator sends
+an edge swipe, observes a Navigation Event gesture start and idle, and checks that a short swipe
+leaves details in place while a full swipe pops it.
+
+Navigation 3 and its gesture observer are dependencies of the test targets. The fixture uses the
+[Navigation 3 versions documented for Compose Multiplatform 1.11](https://kotlinlang.org/docs/multiplatform/whats-new-compose-111.html)
+and the Navigation Event version declared by the published Navigation 3 artifact.

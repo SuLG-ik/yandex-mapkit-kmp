@@ -16,8 +16,12 @@ struct MapInteractionApp: App {
 
 private struct ComposeMapHost: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        InteractionViewControllerKt.interactionViewController(
-            tapCases: ProcessInfo.processInfo.arguments.contains("--map-tap-cases")
+        let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--navigation3") {
+            return InteractionViewControllerKt.nav3ViewController()
+        }
+        return InteractionViewControllerKt.interactionViewController(
+            tapCases: arguments.contains("--map-tap-cases")
         )
     }
 

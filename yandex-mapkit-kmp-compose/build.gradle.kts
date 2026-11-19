@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.compose.plugin)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.publish)
 }
@@ -103,6 +104,8 @@ kotlin {
                 implementation(libs.androidx.activity.compose)
                 implementation("androidx.test:core:1.7.0")
                 implementation("androidx.test:runner:1.7.0")
+                implementation(libs.navigation3.ui)
+                implementation(libs.navigation.event.compose)
             }
         }
     }

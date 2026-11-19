@@ -12,6 +12,8 @@ androidx-activity = "1.13.0"
 androidx-compose = "1.11.0"
 moko-resources = "0.26.4"
 lifecycle = "2.11.0"
+navigation3 = "1.1.2"
+navigation-event = "1.1.0"
 datetime = "0.8.0"
 collections = "0.5.1"
 
@@ -26,6 +28,8 @@ spotless = "8.9.0"
 ktlint = "1.8.0"
 
 [libraries]
+navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
+navigation-event-compose = { module = "org.jetbrains.androidx.navigationevent:navigationevent-compose", version.ref = "navigation-event" }
 yandex-mapkit = { module = "com.yandex.android:maps.mobile", version.ref = "yandex-mapkit" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 moko-resources = { module = "dev.icerock.moko:resources", version.ref = "moko-resources" }
@@ -44,6 +48,7 @@ androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-mani
 [plugins]
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
