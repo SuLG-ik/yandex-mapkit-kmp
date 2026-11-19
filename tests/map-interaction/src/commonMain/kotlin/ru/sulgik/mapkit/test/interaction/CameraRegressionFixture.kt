@@ -109,6 +109,7 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
     CameraAction(probe, action) {
         when {
             phase == GesturePhase.Enabled -> phase = GesturePhase.NoScroll
+
             phase == GesturePhase.NoScroll && blockedChecked -> {
                 baseline = null
                 checkBlocked = false
@@ -116,6 +117,7 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
                 movedWhileBlocked = false
                 phase = GesturePhase.NoZoom
             }
+
             else -> checkBlocked = true
         }
     }
@@ -179,9 +181,11 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
                     "pan moved west" in probe.events && zoomedIn -> "pinch zoomed in"
                     else -> null
                 }
+
                 GesturePhase.NoScroll -> {
                     if (reading.blockedChecked && zoomedIn) "pinch zoomed in with scroll disabled" else null
                 }
+
                 GesturePhase.NoZoom -> {
                     if (reading.blockedChecked && pannedWest) "pan moved west with zoom disabled" else null
                 }
@@ -263,6 +267,7 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
         }
         when {
             !ready -> probe.events.add("failure: animation map $generation not ready")
+
             generation == 2 -> {
                 if (retiredMap == null || retiredMap == current.map) {
                     probe.events.add("failure: reopening did not create a distinct native map")
@@ -270,6 +275,7 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
                     probe.events.add("animation ready 2 on a new native map")
                 }
             }
+
             else -> probe.events.add("animation ready 1")
         }
     }
@@ -294,6 +300,7 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
                 requested = false
                 step = AnimationStep.Leave
             }
+
             AnimationStep.Leave -> {
                 val origin = generation
                 val leaving = CameraCallback { completed ->
@@ -308,6 +315,7 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
                 mounted = false
                 step = AnimationStep.Reopen
             }
+
             AnimationStep.MoveNewMap -> {
                 val settled = moveAndAwait(current.map, RemountedCamera)
                 if (!settled || !current.map.cameraPosition.near(RemountedCamera)) {
@@ -326,6 +334,7 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
                 }
                 requested = false
             }
+
             AnimationStep.Reopen -> Unit
         }
     }
@@ -497,6 +506,7 @@ private fun SimulatedLocationMap(
         }
     }
 }
+
 @Composable
 private fun CameraAction(probe: CameraRegressionProbe, label: String, onClick: () -> Unit) {
     SideEffect { probe.advance = onClick }
