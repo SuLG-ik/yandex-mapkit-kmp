@@ -81,7 +81,7 @@ jobs:
 
   ios:
     name: Trusted iOS return-to-map benchmark
-    if: github.repository == 'SuLG-ik/yandex-mapkit-kmp' && github.ref == 'refs/heads/main'
+    if: github.repository == 'SuLG-ik/yandex-mapkit-kmp' && github.ref == 'refs/heads/main' && !inputs.boot_only
     runs-on: macos-26
     timeout-minutes: 75
     steps:
