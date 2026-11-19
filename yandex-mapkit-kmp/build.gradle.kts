@@ -137,10 +137,22 @@ kotlin {
 
 if (isFullEdition) {
     val liteCoreArtifacts = listOf(name, "$name-android", "$name-iosarm64", "$name-iossimulatorarm64")
-    for (artifact in liteCoreArtifacts) {
-        dependencies.constraints.add("commonMainApi", "$group:$artifact:$version") {
-            version { reject("+") }
-            because("Choose either MapKit Lite or Full")
+    val publishedGraphConfigurations = setOf(
+        "androidApiElements-published",
+        "androidRuntimeElements-published",
+        "iosArm64ApiElements-published",
+        "iosArm64MetadataElements-published",
+        "iosSimulatorArm64ApiElements-published",
+        "iosSimulatorArm64MetadataElements-published",
+    )
+    configurations.matching { it.name in publishedGraphConfigurations }.configureEach {
+        val constraints = project.dependencies.constraints
+        for (artifact in liteCoreArtifacts) {
+            val constraint = constraints.create("${project.group}:$artifact:${project.version}") {
+                version { reject("+") }
+                because("Choose either MapKit Lite or Full")
+            }
+            dependencyConstraints.add(constraint)
         }
     }
 }
