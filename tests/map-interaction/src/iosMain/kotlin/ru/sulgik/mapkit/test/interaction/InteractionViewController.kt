@@ -14,6 +14,7 @@ public fun interactionViewController(tapCases: Boolean): UIViewController {
     return ComposeUIViewController {
         when {
             ListenerOwnershipArgument in arguments -> ListenerOwnershipFixture(collectGarbage = ::collectGarbage)
+            PaneScenarioArgument in arguments -> MapPanesFixture()
             PlacemarkIconRenderingArgument in arguments -> MapIconRenderingFixture(clustered = false)
             ClusterIconRenderingArgument in arguments -> MapIconRenderingFixture(clustered = true)
             tapCases -> MapTapFixture()
