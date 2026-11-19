@@ -101,9 +101,6 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
 
-      - name: Test the Full iOS search adapter
-        run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:iosSimulatorArm64Test
-
       - name: Generate the Full Kotlin API baseline
         run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:updateKotlinAbi
 
@@ -113,6 +110,9 @@ jobs:
           name: full-kotlin-api-bootstrap
           path: yandex-mapkit-kmp/api/full/*.klib.api
           if-no-files-found: error
+
+      - name: Test the Full iOS search adapter
+        run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:iosSimulatorArm64Test
 
       - name: Launch Full consumer
         run: |

@@ -86,7 +86,7 @@ public class SearchAdapterTest {
     }
 
     private fun response(position: Point? = null): NativeResponse {
-        val dictionary = NativeTypeDictionary<NativeBaseMetadata>(values = emptyList())
+        val dictionary = NativeTypeDictionary(values = emptyList<NativeBaseMetadata>())
         val children = if (position == null) {
             emptyList()
         } else {
