@@ -20,6 +20,7 @@ final class MapIconRenderingTests: XCTestCase {
             ("Empty", nil),
             ("Bitmap", .red),
             ("Narrow", .blue),
+            ("DensityOnly", .blue),
             ("Wide", .green),
             ("Hidden", nil),
             ("Visible", .green),
@@ -40,7 +41,8 @@ final class MapIconRenderingTests: XCTestCase {
         ).firstMatch
         let status = app.staticTexts["icon-rendering-status"]
         let advance = app.buttons["Advance icon rendering"]
-        var narrowWidth: Double?
+        var narrow: IconRow?
+        var densityOnly: IconRow?
 
         for (name, ink) in cases {
             guard let image = awaitImage(
@@ -49,12 +51,26 @@ final class MapIconRenderingTests: XCTestCase {
                 viewport: viewport,
                 status: status
             ) else { return }
-            if name == "Narrow" {
-                narrowWidth = image.widthFraction
-            }
-            if name == "Wide", let narrowWidth {
-                XCTAssertGreaterThanOrEqual(image.widthFraction, narrowWidth * 1.65)
-                XCTAssertTrue((0.17...0.27).contains(image.widthFraction), "Icon width must remain in logical points")
+            switch name {
+            case "Narrow":
+                narrow = image
+            case "DensityOnly":
+                guard let narrow else {
+                    XCTFail("Missing narrow icon sample before the density change")
+                    return
+                }
+                XCTAssertTrue((0.83...1.17).contains(image.widthFraction / narrow.widthFraction), "Density-only width: \(narrow) → \(image)")
+                XCTAssertTrue((0.83...1.17).contains(image.heightFraction / narrow.heightFraction), "Density-only height: \(narrow) → \(image)")
+                densityOnly = image
+            case "Wide":
+                guard let densityOnly else {
+                    XCTFail("Missing density-only icon sample before resizing the content")
+                    return
+                }
+                XCTAssertGreaterThanOrEqual(image.widthFraction, densityOnly.widthFraction * 1.65)
+                XCTAssertTrue((0.83...1.17).contains(image.heightFraction / densityOnly.heightFraction), "Height after resize: \(densityOnly) → \(image)")
+            default:
+                break
             }
             if name != cases.last?.0 { advance.tap() }
         }
@@ -74,7 +90,8 @@ final class MapIconRenderingTests: XCTestCase {
             stage = status.exists ? status.label : "<missing status>"
             if stage == name && viewport.exists {
                 sample = probe(XCUIScreen.main.screenshot().image, frame: viewport.frame, expected: ink)
-                if let sample, sample.matches(expected: ink) {
+                let raisesDensity = ["DensityOnly", "Wide", "Visible"].contains(name)
+                if let sample, sample.matches(expected: ink, raisesDensity: raisesDensity) {
                     matchingFrames += 1
                     if matchingFrames >= 3 { return sample }
                 } else {
@@ -99,7 +116,7 @@ private struct RGB {
 }
 
 private enum Ink: CaseIterable, Hashable {
-    case red, blue, green, magenta, yellow, cyan
+    case red, blue, green, magenta, yellow, cyan, orange
 
     var rgb: RGB {
         switch self {
@@ -109,6 +126,7 @@ private enum Ink: CaseIterable, Hashable {
         case .magenta: RGB(red: 255, green: 0, blue: 255)
         case .yellow: RGB(red: 255, green: 255, blue: 0)
         case .cyan: RGB(red: 0, green: 255, blue: 255)
+        case .orange: RGB(red: 255, green: 128, blue: 0)
         }
     }
 }
@@ -116,14 +134,20 @@ private enum Ink: CaseIterable, Hashable {
 private struct IconRow {
     let first: Double?
     let widthFraction: Double
+    let heightFraction: Double
+    let verticalCenter: Double?
+    let densityMark: Bool
     let colors: Set<Ink>
     let background: RGB
 
-    func matches(expected: Ink?) -> Bool {
+    func matches(expected: Ink?, raisesDensity: Bool) -> Bool {
         guard background.isClose(to: RGB(red: 99, green: 125, blue: 143), tolerance: 32) else { return false }
         guard let expected else { return colors.isEmpty }
-        guard let first else { return false }
-        return colors == [expected] && (0.012...0.075).contains(first) && (0.065...0.36).contains(widthFraction)
+        guard let first, let verticalCenter else { return false }
+        return colors == [expected] &&
+            (0.012...0.075).contains(first) && (0.065...0.36).contains(widthFraction) &&
+            abs(verticalCenter) <= 0.02 && (0.065...0.17).contains(heightFraction) &&
+            densityMark == raisesDensity
     }
 }
 
@@ -134,53 +158,101 @@ private func probe(_ screenshot: UIImage, frame: CGRect, expected: Ink?) -> Icon
     let sx = CGFloat(image.width) / screenshot.size.width
     let sy = CGFloat(image.height) / screenshot.size.height
     let width = Int((frame.width * sx).rounded())
-    guard width > 0, let line = image.cropping(to: CGRect(
-        x: (frame.minX * sx).rounded(),
-        y: (frame.midY * sy).rounded(),
+    let height = Int((frame.height * sy).rounded())
+    let left = (frame.minX * sx).rounded()
+    let top = (frame.minY * sy).rounded()
+    guard width > 0, height > 0, let row = readPixels(image, in: CGRect(
+        x: left,
+        y: top + CGFloat(height / 2),
         width: CGFloat(width),
         height: 1
-    )), line.width == width else {
+    ), colorSpace: colorSpace), row.count == width else {
         return nil
     }
 
-    var pixels = [UInt8](repeating: 0, count: width * 4)
+    var first: Int?
+    var last = 0
+    var count = 0
+    var colors = Set<Ink>()
+    for pixel in width / 4 ..< width * 9 / 10 {
+        let color = row[pixel]
+        guard let ink = Ink.allCases.first(where: { color.isClose(to: $0.rgb, tolerance: 54) }) else { continue }
+        colors.insert(ink)
+        if ink == expected {
+            first = first ?? pixel
+            last = pixel
+            count += 1
+        }
+    }
+    let vertical = first.flatMap { first in
+        expected.flatMap {
+            probeHeight(image, x: left + CGFloat((first + last) / 2), top: top, height: height, ink: $0, colorSpace: colorSpace)
+        }
+    }
+    let densityMark: Bool
+    if let first, let vertical {
+        let x = left + CGFloat(first + (last - first) / 4)
+        let y = top + CGFloat(vertical.first + (vertical.last - vertical.first) / 4)
+        let pixel = readPixels(image, in: CGRect(x: x, y: y, width: 1, height: 1), colorSpace: colorSpace)?.first
+        densityMark = pixel?.isClose(to: RGB(red: 128, green: 80, blue: 240), tolerance: 40) == true
+    } else {
+        densityMark = false
+    }
+    return IconRow(
+        first: first.map { Double($0) / Double(width) - 0.5 },
+        widthFraction: Double(count) / Double(width),
+        heightFraction: Double(vertical?.count ?? 0) / Double(height),
+        verticalCenter: vertical.map { Double($0.first + $0.last) / (2 * Double(height)) - 0.5 },
+        densityMark: densityMark,
+        colors: colors,
+        background: row[Int((Double(width) * 0.508).rounded())]
+    )
+}
+
+private struct VerticalBand {
+    let first: Int
+    let last: Int
+    let count: Int
+}
+
+private func probeHeight(
+    _ image: CGImage,
+    x: CGFloat,
+    top: CGFloat,
+    height: Int,
+    ink: Ink,
+    colorSpace: CGColorSpace
+) -> VerticalBand? {
+    let frame = CGRect(x: x, y: top, width: 1, height: CGFloat(height))
+    guard let pixels = readPixels(image, in: frame, colorSpace: colorSpace), pixels.count == height else {
+        return nil
+    }
+    let hits = (height / 4 ..< height * 3 / 4).filter { pixels[$0].isClose(to: ink.rgb, tolerance: 54) }
+    guard let first = hits.first, let last = hits.last else { return nil }
+    return VerticalBand(first: first, last: last, count: hits.count)
+}
+
+private func readPixels(_ image: CGImage, in frame: CGRect, colorSpace: CGColorSpace) -> [RGB]? {
+    guard let crop = image.cropping(to: frame) else { return nil }
+    let width = crop.width
+    let height = crop.height
+    var pixels = [UInt8](repeating: 0, count: width * height * 4)
     let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue
-    let drewLine = pixels.withUnsafeMutableBytes { buffer -> Bool in
+    let drewPixels = pixels.withUnsafeMutableBytes { buffer -> Bool in
         guard let context = CGContext(
             data: buffer.baseAddress,
             width: width,
-            height: 1,
+            height: height,
             bitsPerComponent: 8,
             bytesPerRow: width * 4,
             space: colorSpace,
             bitmapInfo: bitmapInfo
         ) else { return false }
-        context.draw(line, in: CGRect(x: 0, y: 0, width: CGFloat(width), height: 1))
+        context.draw(crop, in: CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height)))
         return true
     }
-    guard drewLine else { return nil }
-
-    func rgb(at index: Int) -> RGB {
-        let address = index * 4
-        return RGB(red: Int(pixels[address]), green: Int(pixels[address + 1]), blue: Int(pixels[address + 2]))
+    guard drewPixels else { return nil }
+    return stride(from: 0, to: pixels.count, by: 4).map {
+        RGB(red: Int(pixels[$0]), green: Int(pixels[$0 + 1]), blue: Int(pixels[$0 + 2]))
     }
-
-    var first: Int?
-    var count = 0
-    var colors = Set<Ink>()
-    for pixel in width / 4 ..< width * 9 / 10 {
-        let color = rgb(at: pixel)
-        guard let ink = Ink.allCases.first(where: { color.isClose(to: $0.rgb, tolerance: 54) }) else { continue }
-        colors.insert(ink)
-        if ink == expected {
-            first = first ?? pixel
-            count += 1
-        }
-    }
-    return IconRow(
-        first: first.map { Double($0) / Double(width) - 0.5 },
-        widthFraction: Double(count) / Double(width),
-        colors: colors,
-        background: rgb(at: Int((Double(width) * 0.508).rounded()))
-    )
 }

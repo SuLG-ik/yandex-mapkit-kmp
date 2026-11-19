@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -47,6 +48,7 @@ import coil3.request.ImageRequest
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.withContext
 import ru.sulgik.mapkit.PointF
 import ru.sulgik.mapkit.compose.ClusterGroup
@@ -78,6 +80,7 @@ private val iconCamera = CameraPosition(iconPoint, zoom = 14f, azimuth = 0f, til
 private val iconStyle = IconStyle(anchor = PointF(0f, 0.5f))
 private val iconClustering = ClusterizingConfig(clusterRadius = 60.0, minZoom = 19)
 internal val IconRenderingBackdrop = Color(0xFF637D8F)
+internal val IconRenderingDensityMark = Color(0xFF8050F0)
 
 internal enum class IconInk(val color: Color) {
     Red(Color.Red),
@@ -86,12 +89,14 @@ internal enum class IconInk(val color: Color) {
     Magenta(Color.Magenta),
     Yellow(Color.Yellow),
     Cyan(Color.Cyan),
+    Orange(Color(0xFFFF8000)),
 }
 
 internal enum class IconRenderingCase(val ink: IconInk?) {
     Empty(null),
     Bitmap(IconInk.Red),
     Narrow(IconInk.Blue),
+    DensityOnly(IconInk.Blue),
     Wide(IconInk.Green),
     Hidden(null),
     Visible(IconInk.Green),
@@ -106,36 +111,64 @@ internal enum class IconRenderingCase(val ink: IconInk?) {
     Removed(null),
     RemovedRequestCompleted(null),
     Recreated(IconInk.Blue),
+    ;
+
+    val raisesDensity: Boolean
+        get() = when (this) {
+            DensityOnly, Wide, Hidden, Visible -> true
+            else -> false
+        }
 }
 
-private class IconRequest {
-    private val result = CompletableDeferred<IconInk>()
-    val started = MutableStateFlow(false)
-    val settled = MutableStateFlow(false)
+private enum class CoilOutcome {
+    Success,
+    Failure,
+    Cancelled,
+}
+
+private class IconRequest(attempts: Int = 1) {
+    private val results = List(attempts) { CompletableDeferred<IconInk>() }
+    val started = MutableStateFlow(0)
+    val outcome = MutableStateFlow<CoilOutcome?>(null)
 
     suspend fun fetch(): IconInk {
         return withContext(NonCancellable) {
-            started.value = true
-            try {
-                result.await()
-            } finally {
-                settled.value = true
-            }
+            val index = started.getAndUpdate { it + 1 }
+            val attempt = checkNotNull(results.getOrNull(index)) { "Unexpected Coil attempt ${index + 1}" }
+            attempt.await()
         }
     }
 
-    fun succeed(ink: IconInk) {
-        result.complete(ink)
+    fun succeed(ink: IconInk, attempt: Int = 1) {
+        results[attempt - 1].complete(ink)
     }
 
     fun fail() {
-        result.completeExceptionally(IllegalStateException("Synthetic icon failure"))
+        results.first().completeExceptionally(IllegalStateException("Synthetic icon failure"))
+    }
+
+    fun dispose() {
+        results.forEach { it.cancel() }
+    }
+}
+
+private class CoilObservation(
+    private val request: IconRequest,
+    private val attempts: Int = 1,
+    private val outcome: CoilOutcome? = null,
+) {
+
+    @Composable
+    fun status(case: IconRenderingCase): String {
+        val started by request.started.collectAsState()
+        val reportedOutcome by request.outcome.collectAsState()
+        if (started == attempts && (outcome == null || reportedOutcome == outcome)) return case.name
+        return "${case.name} pending (attempts=$started/$attempts, outcome=$reportedOutcome)"
     }
 }
 
 private class IconRenderingSequence {
-    private val failing = IconRequest()
-    private val retry = IconRequest()
+    private val retryable = IconRequest(attempts = 2)
     private val older = IconRequest()
     private val newer = IconRequest()
     private val removed = IconRequest()
@@ -146,8 +179,8 @@ private class IconRenderingSequence {
     fun advance() {
         case = IconRenderingCase.entries[case.ordinal + 1]
         when (case) {
-            IconRenderingCase.Failure -> failing.fail()
-            IconRenderingCase.Retried -> retry.succeed(IconInk.Cyan)
+            IconRenderingCase.Failure -> retryable.fail()
+            IconRenderingCase.Retried -> retryable.succeed(IconInk.Cyan, attempt = 2)
             IconRenderingCase.Newer -> newer.succeed(IconInk.Green)
             IconRenderingCase.OlderCompleted -> older.succeed(IconInk.Red)
             IconRenderingCase.RemovedRequestCompleted -> removed.succeed(IconInk.Red)
@@ -157,8 +190,11 @@ private class IconRenderingSequence {
 
     fun currentRequest(): IconRequest? {
         return when (case) {
-            IconRenderingCase.Loading, IconRenderingCase.Failure -> failing
-            IconRenderingCase.Retrying, IconRenderingCase.Retried -> retry
+            IconRenderingCase.Loading,
+            IconRenderingCase.Failure,
+            IconRenderingCase.Retrying,
+            IconRenderingCase.Retried,
+            -> retryable
             IconRenderingCase.OlderPending -> older
             IconRenderingCase.Newer, IconRenderingCase.OlderCompleted -> newer
             IconRenderingCase.RemovalPending -> removed
@@ -166,16 +202,23 @@ private class IconRenderingSequence {
         }
     }
 
-    fun requestToObserve(): IconRequest? {
+    fun observeCoil(): CoilObservation? {
         return when (case) {
-            IconRenderingCase.OlderCompleted -> older
-            IconRenderingCase.RemovedRequestCompleted -> removed
+            IconRenderingCase.Loading -> CoilObservation(retryable)
+            IconRenderingCase.Failure -> CoilObservation(retryable, outcome = CoilOutcome.Failure)
+            IconRenderingCase.Retrying -> CoilObservation(retryable, attempts = 2)
+            IconRenderingCase.Retried -> CoilObservation(retryable, attempts = 2, outcome = CoilOutcome.Success)
+            IconRenderingCase.OlderPending -> CoilObservation(older)
+            IconRenderingCase.Newer -> CoilObservation(newer, outcome = CoilOutcome.Success)
+            IconRenderingCase.OlderCompleted -> CoilObservation(older, outcome = CoilOutcome.Cancelled)
+            IconRenderingCase.RemovalPending -> CoilObservation(removed)
+            IconRenderingCase.RemovedRequestCompleted -> CoilObservation(removed, outcome = CoilOutcome.Cancelled)
             else -> null
         }
     }
 
     fun dispose() {
-        listOf(failing, retry, older, newer, removed).forEach { it.fail() }
+        listOf(retryable, older, newer, removed).forEach(IconRequest::dispose)
     }
 }
 
@@ -209,22 +252,19 @@ internal fun MapIconRenderingFixture(
 
     val case = sequence.case
     val request = sequence.currentRequest()
-    val observed = sequence.requestToObserve()
-    val started = request?.started?.collectAsState()?.value ?: true
-    val settled = observed?.settled?.collectAsState()?.value ?: true
-    val status = if (started && settled) case.name else "${case.name} pending"
+    val status = sequence.observeCoil()?.status(case) ?: case.name
     SideEffect { onStatus(status) }
 
-    val bitmap = remember { bitmapIcon() }
+    val bitmap = remember { bitmapIcon(IconInk.Red) }
     val backdrop = remember { backdropIcon() }
     val backdropState = rememberPlacemarkState(iconPoint)
-    val group = remember(bitmap) {
+    val group = remember {
         ClusterGroup(
             points = listOf(
                 Point(iconPoint.latitude.value, iconPoint.longitude.value - 0.00001),
                 Point(iconPoint.latitude.value, iconPoint.longitude.value + 0.00001),
             ),
-            icon = bitmap,
+            icon = bitmapIcon(IconInk.Orange),
             iconStyle = iconStyle,
         )
     }
@@ -235,6 +275,7 @@ internal fun MapIconRenderingFixture(
         IconRenderingCase.Wide, IconRenderingCase.Hidden, IconRenderingCase.Visible -> true
         else -> false
     }
+    val retry = case == IconRenderingCase.Retrying || case == IconRenderingCase.Retried
 
     Column {
         Box(
@@ -242,7 +283,7 @@ internal fun MapIconRenderingFixture(
                 .onGloballyPositioned(onMapLayout)
                 .semantics { contentDescription = IconRenderingMap },
         ) {
-            CompositionLocalProvider(LocalDensity provides if (wide) {
+            CompositionLocalProvider(LocalDensity provides if (case.raisesDensity) {
                 Density(density.density * 1.5f, density.fontScale)
             } else {
                 density
@@ -262,9 +303,10 @@ internal fun MapIconRenderingFixture(
                         IconRenderingCase.Bitmap -> BitmapMapIcon(clustered, placemark, group, bitmap)
                         else -> RenderedMapIcon(clustered, placemark, group, case != IconRenderingCase.Hidden) {
                             if (request == null) {
-                                PaintedStripe(checkNotNull(case.ink), wide)
+                                val paint = if (case == IconRenderingCase.Hidden) IconInk.Green else checkNotNull(case.ink)
+                                PaintedStripe(paint, wide, density.density)
                             } else {
-                                CoilStripe(loader, request)
+                                CoilStripe(loader, request, retry)
                             }
                         }
                     }
@@ -313,14 +355,23 @@ private fun RenderedMapIcon(
 }
 
 @Composable
-private fun PaintedStripe(ink: IconInk, wide: Boolean) {
-    Box(Modifier.size(width = if (wide) 64.dp else 32.dp, height = 24.dp)) {
-        Box(Modifier.offset(x = 8.dp).size(width = if (wide) 56.dp else 24.dp, height = 24.dp).background(ink.color))
+private fun PaintedStripe(ink: IconInk, wide: Boolean, baseDensity: Float) {
+    val width = if (wide) 56.dp else 24.dp
+    Box(Modifier.size(width = width + 8.dp, height = 24.dp)) {
+        Box(Modifier.offset(x = 8.dp).size(width, 24.dp).background(ink.color)) {
+            if (LocalDensity.current.density > baseDensity * 1.25f) {
+                Box(
+                    Modifier.offset(x = width * 0.14f, y = 4.dp)
+                        .size(width * 0.22f, 5.dp)
+                        .background(IconRenderingDensityMark),
+                )
+            }
+        }
     }
 }
 
 @Composable
-private fun CoilStripe(loader: ImageLoader, icon: IconRequest) {
+private fun CoilStripe(loader: ImageLoader, icon: IconRequest, retry: Boolean) {
     val context = LocalPlatformContext.current
     val request = remember(context, icon) {
         ImageRequest.Builder(context)
@@ -331,9 +382,17 @@ private fun CoilStripe(loader: ImageLoader, icon: IconRequest) {
             .networkCachePolicy(CachePolicy.DISABLED)
             .placeholder(IconInk.Magenta.coilImage())
             .error(IconInk.Yellow.coilImage())
+            .listener(
+                onCancel = { icon.outcome.value = CoilOutcome.Cancelled },
+                onError = { _, _ -> icon.outcome.value = CoilOutcome.Failure },
+                onSuccess = { _, _ -> icon.outcome.value = CoilOutcome.Success },
+            )
             .build()
     }
     val painter = rememberAsyncImagePainter(request, imageLoader = loader, contentScale = ContentScale.FillBounds)
+    LaunchedEffect(painter, retry) {
+        if (retry) painter.restart()
+    }
     Box(Modifier.size(32.dp, 24.dp)) {
         Image(
             painter = painter,
@@ -348,9 +407,9 @@ private fun IconInk.coilImage(): ColorImage {
     return ColorImage(color.toArgb(), width = 24, height = 24)
 }
 
-private fun bitmapIcon(): ImageProvider {
+private fun bitmapIcon(ink: IconInk): ImageProvider {
     val bitmap = ImageBitmap(32, 24)
-    Canvas(bitmap).drawRect(Rect(8f, 0f, 32f, 24f), Paint().apply { color = IconInk.Red.color })
+    Canvas(bitmap).drawRect(Rect(8f, 0f, 32f, 24f), Paint().apply { color = ink.color })
     return bitmap.toImageProvider()
 }
 

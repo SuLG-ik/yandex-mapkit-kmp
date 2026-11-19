@@ -13,6 +13,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import ru.sulgik.mapkit.test.interaction.IconInk
 import ru.sulgik.mapkit.test.interaction.IconRenderingBackdrop
 import ru.sulgik.mapkit.test.interaction.IconRenderingCase
+import ru.sulgik.mapkit.test.interaction.IconRenderingDensityMark
 import ru.sulgik.mapkit.test.interaction.MapIconRenderingFixture
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -38,15 +39,23 @@ public class MapIconRenderingTest {
         ActivityScenario.launch(ComponentActivity::class.java).use { scenario ->
             val fixture = IconFixtureDriver(scenario)
             fixture.mount(clustered)
-            var previousWidth = 0f
+            var narrow: IconRow? = null
+            var densityOnly: IconRow? = null
             IconRenderingCase.entries.forEach { case ->
                 val image = fixture.awaitImage(case)
                 when (case) {
-                    IconRenderingCase.Narrow -> previousWidth = image.widthFraction
-                    IconRenderingCase.Wide -> assertTrue(
-                        image.widthFraction >= previousWidth * 1.65f,
-                        "Wide icon ${image.widthFraction} must grow beyond the narrow icon $previousWidth",
-                    )
+                    IconRenderingCase.Narrow -> narrow = image
+                    IconRenderingCase.DensityOnly -> {
+                        val before = assertNotNull(narrow)
+                        assertTrue(image.widthFraction / before.widthFraction in 1.25f..1.75f, "Density-only width: $before → $image")
+                        assertTrue(image.heightFraction / before.heightFraction in 1.25f..1.75f, "Density-only height: $before → $image")
+                        densityOnly = image
+                    }
+                    IconRenderingCase.Wide -> {
+                        val before = assertNotNull(densityOnly)
+                        assertTrue(image.widthFraction >= before.widthFraction * 1.65f, "Wider content: $before → $image")
+                        assertTrue(image.heightFraction / before.heightFraction in 0.83f..1.17f, "Height after resize: $before → $image")
+                    }
                     else -> Unit
                 }
                 if (case != IconRenderingCase.Recreated) fixture.advance()
@@ -107,7 +116,7 @@ private class IconFixtureDriver(private val scenario: ActivityScenario<Component
                 val screenshot = instrumentation.uiAutomation.takeScreenshot()
                 val row = screenshot?.probeAndRecycle(bounds, case.ink)
                 lastImage = row
-                if (row != null && row.matches(case.ink)) {
+                if (row != null && row.matches(case)) {
                     matchingFrames++
                     if (matchingFrames >= 3) return row
                 } else {
@@ -128,17 +137,26 @@ private class IconFixtureDriver(private val scenario: ActivityScenario<Component
 
 private data class Viewport(val origin: Offset, val width: Int, val height: Int)
 
+private data class VerticalBand(val first: Int, val last: Int, val count: Int)
+
 private data class IconRow(
     val first: Float?,
     val widthFraction: Float,
+    val heightFraction: Float,
+    val verticalCenter: Float?,
+    val densityMark: Boolean,
     val colors: Set<IconInk>,
     val background: Int,
 ) {
 
-    fun matches(ink: IconInk?): Boolean {
+    fun matches(case: IconRenderingCase): Boolean {
         if (!background.isClose(IconRenderingBackdrop.toArgb(), tolerance = 32)) return false
+        val ink = case.ink
         if (ink == null) return colors.isEmpty()
-        return colors == setOf(ink) && first != null && first in 0.012f..0.075f && widthFraction in 0.065f..0.36f
+        return colors == setOf(ink) &&
+            first != null && first in 0.012f..0.075f && widthFraction in 0.065f..0.36f &&
+            verticalCenter != null && abs(verticalCenter) <= 0.02f && heightFraction in 0.065f..0.17f &&
+            densityMark == case.raisesDensity
     }
 }
 
@@ -157,27 +175,53 @@ private fun Bitmap.probe(viewport: Viewport, expected: IconInk?): IconRow? {
     if (width <= 0 || viewport.height <= 0) return null
     if (!viewport.origin.x.isFinite() || !viewport.origin.y.isFinite()) return null
     val left = viewport.origin.x.roundToInt()
-    val row = (viewport.origin.y + viewport.height / 2f).roundToInt()
-    if (left < 0 || left + width > this.width || row !in 0 until height) return null
+    val top = viewport.origin.y.roundToInt()
+    val row = top + viewport.height / 2
+    if (left < 0 || left + width > this.width || top < 0 || top + viewport.height > height) return null
     val pixels = IntArray(width)
     getPixels(pixels, 0, width, left, row, width, 1)
     val inks = mutableSetOf<IconInk>()
     var first: Int? = null
+    var last = 0
     var count = 0
     for (pixel in width / 4 until width * 9 / 10) {
         val ink = IconInk.entries.firstOrNull { pixels[pixel].isClose(it.color.toArgb(), tolerance = 54) } ?: continue
         inks.add(ink)
         if (ink == expected) {
             if (first == null) first = pixel
+            last = pixel
             count++
         }
+    }
+    val vertical = if (expected != null && first != null) {
+        probeHeight(x = left + (first + last) / 2, top = top, height = viewport.height, color = expected.color.toArgb())
+    } else {
+        null
+    }
+    val densityMark = if (first != null && vertical != null) {
+        val x = left + first + (last - first) / 4
+        val y = top + vertical.first + (vertical.last - vertical.first) / 4
+        getPixel(x, y).isClose(IconRenderingDensityMark.toArgb(), tolerance = 40)
+    } else {
+        false
     }
     return IconRow(
         first = first?.let { it.toFloat() / width - 0.5f },
         widthFraction = count.toFloat() / width,
+        heightFraction = (vertical?.count ?: 0).toFloat() / viewport.height,
+        verticalCenter = vertical?.let { (it.first + it.last) / (2f * viewport.height) - 0.5f },
+        densityMark = densityMark,
         colors = inks,
         background = pixels[(width * 0.508f).roundToInt()],
     )
+}
+
+private fun Bitmap.probeHeight(x: Int, top: Int, height: Int, color: Int): VerticalBand? {
+    val pixels = IntArray(height)
+    getPixels(pixels, 0, 1, x, top, 1, height)
+    val hits = (height / 4 until height * 3 / 4).filter { pixels[it].isClose(color, tolerance = 54) }
+    if (hits.isEmpty()) return null
+    return VerticalBand(hits.first(), hits.last(), hits.size)
 }
 
 private fun Int.isClose(other: Int, tolerance: Int): Boolean {
