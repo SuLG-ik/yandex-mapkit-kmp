@@ -77,12 +77,12 @@ kotlin {
         if (isFullEdition) {
             commonMain.get().kotlin.srcDir("src/fullMain/kotlin")
             androidMain.get().kotlin.srcDir("src/fullAndroidMain/kotlin")
-            if (supportIosTarget) {
-                getByName("iosMain").kotlin.srcDir("src/fullIosMain/kotlin")
-            }
         }
 
         all {
+            if (isFullEdition && name == "iosMain") {
+                kotlin.srcDir("src/fullIosMain/kotlin")
+            }
             languageSettings.apply {
                 progressiveMode = true
                 if (name.lowercase().contains("ios")) {
