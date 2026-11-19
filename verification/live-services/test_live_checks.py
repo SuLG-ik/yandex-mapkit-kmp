@@ -44,6 +44,12 @@ class LiveDiagnosticsTest(unittest.TestCase):
             ("authorization", {"text": "authorization", "suggestions": "not-run"}),
         )
 
+    def test_search_rejects_routing_only_exit_and_marker(self):
+        self.assertEqual(
+            self.run_probe("search", 13, "text 0\nsuggestions 13\n"),
+            ("runner-or-fixture", {"text": "passed", "suggestions": "not-run"}),
+        )
+
     def run_probe(self, check, status, markers, cleanup_status=0):
         calls = []
 
