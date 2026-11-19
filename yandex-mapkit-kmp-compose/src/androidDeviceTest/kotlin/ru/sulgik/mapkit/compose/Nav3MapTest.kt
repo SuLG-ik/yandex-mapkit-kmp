@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.test.core.app.ActivityScenario
@@ -37,7 +40,11 @@ public class Nav3TestActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setDeviceTestMapKitApiKey()
         val probe = checkNotNull(activeProbe)
-        setContent { Nav3Fixture(probe, navigationHost) }
+        setContent {
+            Box(Modifier.safeDrawingPadding()) {
+                Nav3Fixture(probe, navigationHost)
+            }
+        }
     }
 }
 
