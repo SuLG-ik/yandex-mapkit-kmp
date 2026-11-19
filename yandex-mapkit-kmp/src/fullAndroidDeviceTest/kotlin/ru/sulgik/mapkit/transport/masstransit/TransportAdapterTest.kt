@@ -23,6 +23,7 @@ import kotlin.test.assertTrue
 import kotlin.time.Instant
 import com.yandex.mapkit.RequestPoint as NativeRequestPoint
 import com.yandex.mapkit.transport.Transport as NativeTransport
+import com.yandex.mapkit.transport.masstransit.BicycleRouterV2 as NativeBicycleRouter
 import com.yandex.mapkit.transport.masstransit.PedestrianRouter as NativePedestrianRouter
 import com.yandex.mapkit.transport.masstransit.Route as NativeRoute
 import com.yandex.mapkit.transport.masstransit.RouteMetadata as NativeRouteMetadata
@@ -124,6 +125,39 @@ public class TransportAdapterTest {
         assertTrue(old.isEmpty())
         assertSame(nativeError, failures.single().toNative())
         assertIs<NetworkError>(failures.single().error)
+    }
+
+    @Test
+    public fun bicycle_factory_keeps_via_points_and_returns_route_geometry() {
+        val points = points().toMutableList().apply {
+            add(1, RequestPoint(Point(55.751, 37.618), RequestPointType.VIAPOINT))
+        }
+        val time = TimeOptions(arrivalTime = Instant.fromEpochMilliseconds(1_797_432_123_456L))
+        val options = RouteOptions(FitnessOptions(avoidSteep = true))
+        val requests = RecordingRequests()
+        val router: NativeBicycleRouter = proxy { method, args ->
+            check(method == "requestRoutes")
+            assertEquals(points, (args[0] as List<*>).map { (it as NativeRequestPoint).toCommon() })
+            assertEquals(time, (args[1] as NativeTimeOptions).toCommon())
+            assertEquals(options, (args[2] as NativeRouteOptions).toCommon())
+            requests.open(args[3] as NativeRouteListener)
+        }
+        val transport: NativeTransport = proxy { method, _ ->
+            check(method == "createBicycleRouterV2")
+            router
+        }
+        val results = mutableListOf<Route>()
+        val common = transport.toCommon().createBicycleRouterV2()
+        assertSame(router, common.toNative())
+        val session = common.requestRoutes(points, time, options, RouteListener({ results.addAll(it) }, { error("Unexpected failure") }))
+        val route = route(points, "bicycle")
+        requests.listeners.single().onMasstransitRoutes(listOf(route))
+        session.cancel()
+        requests.listeners.single().onMasstransitRoutes(listOf(route))
+
+        assertEquals("bicycle", results.single().metadata.routeId)
+        assertEquals(points.map { it.point }, results.single().geometry.points)
+        assertEquals(1, requests.cancelCount)
     }
 
     private fun points(): List<RequestPoint> {

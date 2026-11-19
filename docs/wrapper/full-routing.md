@@ -61,6 +61,14 @@ describes a fragment of the whole route. `Section.metadata.data` distinguishes w
 transfer, taxi and transit information. Detailed payment and stop data remain accessible through
 the underlying native handles.
 
+## Cycling
+
+Use `Transport.getInstance().createBicycleRouterV2()`. It accepts the same ordered points, time
+and route preferences as the walking router. Bicycle sections preserve `FitnessType.BICYCLE` and
+the projected via points in `Section.metadata.data.fitness`. `replaceCyclingRoute` in the
+[transport example][transport-example] draws the result, cancels the previous request and clears
+its own geometry.
+
 ## Mode parity in MapKit 4.45.0 Full
 
 Both pinned SDKs have the factories below. Android returns results through listener interfaces.
@@ -71,13 +79,13 @@ separately from successful route lists and preserves the native alternative orde
 | --- | --- | --- | --- |
 | Driving | Android `DirectionsFactory.getInstance().createDrivingRouter(type)`, iOS `YMKDirectionsFactory.instance().createDrivingRouter(withType:)`. Ordered request points, `DrivingOptions` and `VehicleOptions`. | `DrivingRoute.geometry` and waypoint positions, `DrivingSession.cancel/retry`. | Request and geometry slice implemented. Android checks input and alternative order, geometry, no route, error, retry and cancellation. iOS checks native waypoint and geometry values, empty results, errors and shared cancellation state through a surrogate identity. Live requests require a MapKit key. |
 | Walking | `Transport.createPedestrianRouter()` / `YMKTransport.createPedestrianRouter()` with ordered request points, `TimeOptions` and `RouteOptions`. | `transport.masstransit.Route` / `YMKMasstransitRoute` expose a polyline and sections. The shared transport session supports cancel and retry. | Request and shared transport types implemented. Android adapter checks input order, alternatives, geometry and session lifetime. iOS fixture checks metadata, nullable values and the handler. Hosted and live verification pending. |
-| Cycling | `Transport.createBicycleRouterV2()` / `YMKTransport.createBicycleRouterV2()` with the same `TimeOptions` and `RouteOptions` as walking. | Same route and session as walking. | Reuse the walking slice's transport adapters and add a separate factory, callback and map rendering check. |
+| Cycling | `Transport.createBicycleRouterV2()` / `YMKTransport.createBicycleRouterV2()` with the same `TimeOptions` and `RouteOptions` as walking. | Same route and session as walking. | Factory and request implemented. Android checks via points, options, geometry and cancellation. iOS checks native bicycle section type and via positions. Hosted and live verification pending. |
 | Public transit | `Transport.createMasstransitRouter()` / `YMKTransport.createMasstransitRouter()` takes `TransitOptions` and `RouteOptions`. `TransitOptions` carries departure/arrival time settings and a vehicle-type filter. | Same route and session as walking. Route sections distinguish transit legs and transfers. | Add transit-specific options and verify walking/transit alternatives, geometry and cancellation. Run one deterministic fixture per platform and a trusted live request. |
 
 The driving slice exposes route identifiers, polylines, waypoint positions and originating request
 points. Route metadata, vehicle restrictions in returned routes, summaries, external route
-matching and live driving-condition subscriptions are separate native surfaces. Upcoming walking,
-cycling and transit increments are tracked in [#80](https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/80).
+matching and live driving-condition subscriptions are separate native surfaces. Public transit
+and pending device verification remain tracked in [#80](https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/80).
 
 ## Regression checks
 

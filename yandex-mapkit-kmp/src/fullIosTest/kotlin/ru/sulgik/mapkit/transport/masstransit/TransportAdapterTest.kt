@@ -20,6 +20,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 import kotlin.time.Instant
+import YandexMapKit.YMKMasstransitFitness as NativeFitness
 import YandexMapKit.YMKMasstransitRouteMetadata as NativeRouteMetadata
 import YandexMapKit.YMKMasstransitSection as NativeSection
 import YandexMapKit.YMKMasstransitSectionMetadata as NativeSectionMetadata
@@ -96,6 +97,29 @@ public class TransportAdapterTest {
         assertEquals(Wait(1), section.metadata.data.wait)
         assertNull(section.metadata.data.transports)
         assertNull(section.metadata.estimation)
+    }
+
+    @Test
+    public fun bicycle_section_keeps_kind_and_via_positions() {
+        val via = listOf(PolylinePosition(0, 0.25), PolylinePosition(1, 0.5))
+        val native = NativeFitness.fitnessWithType(
+            type = FitnessType.BICYCLE.toNative(),
+            constructions = emptyList<Any>(),
+            restrictedEntries = emptyList<Any>(),
+            viaPoints = via.map { it.toNative() },
+            annotations = emptyList<Any>(),
+            trafficTypes = emptyList<Any>(),
+            elevationData = null,
+            indoorSegments = emptyList<Any>(),
+        )
+        val section = NativeSectionData.sectionDataWithFitness(native).toCommon()
+        val bicycle = checkNotNull(section.fitness)
+
+        assertSame(native, bicycle.toNative())
+        assertEquals(FitnessType.BICYCLE, bicycle.type)
+        assertEquals(via, bicycle.viaPoints)
+        assertNull(section.wait)
+        assertNull(section.transports)
     }
 
     @Test

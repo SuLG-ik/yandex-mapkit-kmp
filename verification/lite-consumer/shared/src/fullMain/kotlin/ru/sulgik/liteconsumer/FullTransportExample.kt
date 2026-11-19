@@ -14,6 +14,7 @@ internal class FullTransportExample(private val parent: MapObjectCollection) {
 
     private val transport = Transport.getInstance()
     private val pedestrian = transport.createPedestrianRouter()
+    private val bicycle = transport.createBicycleRouterV2()
     private val routeObjects = parent.addCollection()
     private var session: Session? = null
     private var generation: Long = 0
@@ -25,6 +26,18 @@ internal class FullTransportExample(private val parent: MapObjectCollection) {
     ) {
         replaceRoute(
             request = { listener -> pedestrian.requestRoutes(points, TimeOptions(), RouteOptions(), listener) },
+            onRoutes = onRoutes,
+            onFailure = onFailure,
+        )
+    }
+
+    fun replaceCyclingRoute(
+        points: List<RequestPoint>,
+        onRoutes: (List<Route>) -> Unit,
+        onFailure: (RouteError) -> Unit,
+    ) {
+        replaceRoute(
+            request = { listener -> bicycle.requestRoutes(points, TimeOptions(), RouteOptions(), listener) },
             onRoutes = onRoutes,
             onFailure = onFailure,
         )

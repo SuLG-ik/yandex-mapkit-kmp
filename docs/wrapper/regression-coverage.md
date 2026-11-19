@@ -82,7 +82,7 @@ runs in [#82][82].
 
 ## Full routing
 
-[Driving and walking routing](full-routing.md) add `DrivingAdapterTest` and `TransportAdapterTest`. [Android][a-full-transport] checks request and result order, geometry, nullable metadata and cancellation. [iOS][i-full-transport] checks native options and section metadata, empty results, error delivery and suppression of late callbacks after cancellation. Full CI and live routing remain tracked in [#80][80].
+[Driving, walking and cycling routing](full-routing.md) add `DrivingAdapterTest` and `TransportAdapterTest`. [Android][a-full-transport] checks request and result order, geometry, nullable metadata and cancellation. Bicycle-specific fixtures preserve via points and the section type. [iOS][i-full-transport] checks native options and section metadata, empty results, error delivery and suppression of late callbacks after cancellation. Full CI and live routing remain tracked in [#80][80].
 
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
