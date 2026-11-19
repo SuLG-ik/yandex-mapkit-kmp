@@ -45,6 +45,28 @@ The script installs pods and runs `MapInteractionTests` against a test-only app.
 the projected UIKit coordinate and verifies the ordered trace through accessibility. The result
 bundle is under `tests/map-interaction/build`.
 
+## Listener ownership
+
+The Android and iOS drivers use the same `ListenerOwnershipFixture`, with a real MapKit
+collection and a weak subscription to its native add events. They force recomposition and
+run one GC probe while retaining the listener in the current composition. The probe allocates
+2 MiB and asks the platform to collect garbage. The assertion checks event delivery to the
+retained listener regardless of collection timing.
+
+The fixture uses a compact native map and pairs actions in rows so the controls fit on shorter
+simulator screens. Each action has its own 48 dp touch target. XCTest checks that the frame
+fits inside the window and taps its center.
+
+The drivers replace and explicitly unsubscribe the listener. They keep each retired listener
+strongly referenced through the next native add, then drop that reference. Any extra callback
+appears in the exact trace even if the SDK retains subscriptions weakly.
+
+The drivers then suspend work started by a real native callback on a gate. The screen immediately
+remounts, and the tests wait for the old scope to cancel before releasing the gate. Each mount
+checks that the new native root has no tag and sets its own `userData` tag. This detects reuse
+without retaining the disposed map. A late continuation records a failure event before it can
+try to mutate the old object through a weak reference.
+
 ## Navigation 3
 
 The Android instrumentation test and the iOS XCTest target both mount a test-only `NavDisplay`.

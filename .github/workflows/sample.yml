@@ -1,0 +1,96 @@
+name: Sample app
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/sample.yml'
+      - 'sample/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  JAVA_VERSION: '21'
+
+jobs:
+  android:
+    name: Sample route-state tests (Android)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Set sample key placeholder
+        run: printf '%s\n' 'MAPKIT_API_KEY=sample-ci-placeholder' >> local.properties
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Assemble the sample and verify route state
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          arch: x86_64
+          target: aosp_atd
+          script: ./gradlew :sample:androidApp:assembleDebug :sample:composeApp:connectedAndroidDeviceTest -PskipIosTarget=true
+
+      - name: Upload sample route-state test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: sample-android-device-tests
+          path: sample/composeApp/build/reports/androidTests/
+          if-no-files-found: ignore
+
+  ios:
+    name: Sample compilation (iOS simulator)
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Cache Kotlin/Native compiler
+        uses: actions/cache@v6
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: konan-${{ runner.os }}-
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods/repos
+          key: cocoapods-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: cocoapods-${{ runner.os }}-
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Set sample key placeholder
+        run: printf '%s\n' 'MAPKIT_API_KEY=sample-ci-placeholder' >> local.properties
+
+      - name: Compile the shared sample for the iOS simulator
+        run: ./gradlew :sample:composeApp:compileKotlinIosSimulatorArm64
