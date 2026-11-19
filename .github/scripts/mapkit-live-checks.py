@@ -3,6 +3,7 @@ import json
 import os
 import signal
 import subprocess
+import time
 from pathlib import Path
 
 
@@ -36,26 +37,40 @@ def is_trusted():
     )
 
 
-def run_check(script, device, api_key):
+def run_process(command, environment, timeout):
     try:
-        with subprocess.Popen(
-            ["bash", str(script), device],
+        process = subprocess.Popen(
+            command,
             stdin=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             start_new_session=True,
-            env=dict(os.environ, MAPKIT_TEST_API_KEY=api_key),
-        ) as process:
-            try:
-                return EXIT_CATEGORIES.get(process.wait(timeout=120), "runner-or-fixture")
-            except subprocess.TimeoutExpired:
-                try:
-                    os.killpg(process.pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
-                return "runner-deadline"
+            env=environment,
+        )
+        return process.wait(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        try:
+            process.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            pass
+        return None
     except OSError:
-        return "runner-or-fixture"
+        return 70
+
+
+def run_check(check, platform, device, api_key):
+    command = ["bash", str(hook(check, platform)), device]
+    environment = dict(os.environ, MAPKIT_LIVE_SEARCH_TOKEN=f"{time.time_ns()}-{os.getpid()}")
+    environment.pop("MAPKIT_TEST_API_KEY", None)
+    status = run_process(command, dict(environment, MAPKIT_TEST_API_KEY=api_key), timeout=120)
+    category = "runner-deadline" if status is None else EXIT_CATEGORIES.get(status, "runner-or-fixture")
+    if check == "search" and run_process(command + ["--cleanup"], environment, timeout=15) != 0:
+        return f"{category}-cleanup-incomplete"
+    return category
 
 
 def main():
@@ -105,7 +120,7 @@ def main():
         parser.error("run requires a device identifier")
     results = {}
     for check in CHECKS:
-        result = run_check(hook(check, platform), arguments.device, api_key) if check in available else "skipped-no-hook"
+        result = run_check(check, platform, arguments.device, api_key) if check in available else "skipped-no-hook"
         results[check] = result
         emit_summary(f"MapKit live {check} on {platform}: {result}.")
     diagnostics = Path("build/device-matrix/live") / platform

@@ -3,8 +3,13 @@ import json
 import os
 import shutil
 import xml.etree.ElementTree as ET
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
+from urllib.parse import unquote
+
+
+ANDROID_NAVIGATION = "ru.sulgik.mapkit.compose.MapInteractionTest#mapAcceptsTouchAfterMountAndReopen"
+IOS_NAVIGATION = "MapInteractionTests/testMapAcceptsTouchAfterMountAndReopen"
 
 
 def android_results(source, attempt, marker, problems):
@@ -68,6 +73,19 @@ def ios_results(source, problems):
     return tests
 
 
+def ran_navigation(platform, tests):
+    for test, outcome in tests.items():
+        if outcome == "skipped":
+            continue
+        if platform == "android" and test == ANDROID_NAVIGATION:
+            return True
+        if platform == "ios":
+            identifier = unquote(test).removesuffix("()")
+            if identifier == IOS_NAVIGATION or identifier.endswith(f"/{IOS_NAVIGATION}"):
+                return True
+    return False
+
+
 def record(arguments):
     problems = []
     if arguments.platform == "android":
@@ -78,6 +96,10 @@ def record(arguments):
         tests = ios_results(arguments.source, problems)
     if not tests:
         problems.append("No tests were reported.")
+    elif all(outcome == "skipped" for outcome in tests.values()):
+        problems.append("All reported tests were skipped.")
+    elif not ran_navigation(arguments.platform, tests):
+        problems.append("The required close-and-reopen navigation test was skipped or missing.")
     failed = "failed" in tests.values()
     if arguments.status != 0 and not failed:
         problems.append(f"Runner exited {arguments.status} without a reported test failure.")
@@ -93,12 +115,14 @@ def summarize(arguments):
     outcomes = defaultdict(lambda: defaultdict(list))
     infrastructure = []
     reported_tests = {}
+    iteration_counts = {}
     if len(attempts) != arguments.iterations:
         infrastructure.append(f"Found {len(attempts)} of {arguments.iterations} iteration reports.")
     for path in attempts:
         attempt = path.parent.name
         result = json.loads(path.read_text())
         reported_tests[attempt] = set(result["tests"])
+        iteration_counts[attempt] = Counter(result["tests"].values())
         infrastructure.extend(f"{attempt}: {problem}" for problem in result["infrastructure"])
         for test, outcome in result["tests"].items():
             outcomes[test][outcome].append(attempt)
@@ -110,6 +134,10 @@ def summarize(arguments):
         if tests and missing:
             infrastructure.append(f"{attempt}: {len(missing)} tests observed in other iterations were not reported.")
     lines = [f"Repeated device tests: {len(attempts)} iterations, {len(failures)} tests failed at least once."]
+    for attempt, counts in iteration_counts.items():
+        lines.append(
+            f"- {attempt}: {counts['passed']} passed, {counts['failed']} failed, {counts['skipped']} skipped."
+        )
     for test in mixed:
         passed = ", ".join(outcomes[test]["passed"])
         failed = ", ".join(outcomes[test]["failed"])

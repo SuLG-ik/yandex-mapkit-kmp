@@ -11,8 +11,10 @@ that file, then writes a marker with only its result category. On Android, the r
 restricted temporary credential file after emulator startup so the emulator and SDK setup have no
 credential in their environment. The hook uses `adb run-as` and stdin for the app transfer. The iOS
 hook writes the file in the installed simulator app container. The credential is absent from the
-build, artifact paths and device command arguments. Both hooks remove the temporary input and result
-and terminate the app when they finish.
+build, artifact paths and device command arguments. The driver then runs a separate credential-free
+cleanup while the device is still running, including after a hook deadline. Cleanup is itself
+bounded. It terminates only the fixture app, removes its temporary inputs and markers and reports
+an incomplete cleanup if it cannot reach the device.
 
 The app makes one online request for cafés in the same Moscow area on both platforms. An online
 response must contain at least one nonblank name with valid coordinates. Ranking, result count

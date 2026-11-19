@@ -176,9 +176,10 @@ artifact rather than inferring iOS coverage from either deployment target.
 
 Each entry runs the corresponding Compose interaction suite three times, including closing and
 reopening the map. A failure keeps the job red. The job summary lists each test that passed in one
-iteration and failed in another, even if a different test failed every time. Runner and incomplete
-report failures are listed separately. Failure artifacts retain per-iteration Android JUnit logs
-and reports or iOS logs and `.xcresult` bundles.
+iteration and failed in another, even if a different test failed every time. It counts passed,
+failed and skipped tests per iteration. Runner failures and runs without the close-and-reopen
+test are listed separately. Failure artifacts retain per-iteration Android JUnit logs and reports
+or iOS logs and `.xcresult` bundles.
 
 To reproduce a matrix entry, use the API and ABI in `android-runtime-*` or the iOS version and build
 in `ios-runtime-*`. Boot the matching device and run the appropriate command from the repository.
