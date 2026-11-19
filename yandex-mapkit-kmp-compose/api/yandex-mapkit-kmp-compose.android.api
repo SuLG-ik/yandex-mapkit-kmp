@@ -292,10 +292,6 @@ public final class ru.sulgik.mapkit.compose.MapListenersKt {
 public final class ru.sulgik.mapkit.compose.MapListenersNode implements ru.sulgik.mapkit.compose.composition.MapNode {
   public static final int $stable;
   public ru.sulgik.mapkit.compose.MapListenersNode(ru.sulgik.mapkit.map.MapWindow, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.layers.GeoObjectTapEvent, java.lang.Boolean>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.map.MapLoadStatistics, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.indoor.IndoorPlan, kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>, kotlin.jvm.functions.Function1<? super java.lang.String, kotlin.Unit>, kotlin.jvm.functions.Function2<? super java.lang.Integer, ? super java.lang.Integer, kotlin.Unit>);
-  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.geometry.Point, kotlin.Unit> getOnMapTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
-  public final void setOnMapTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>);
-  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.geometry.Point, kotlin.Unit> getOnMapLongTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
-  public final void setOnMapLongTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>);
   public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.layers.GeoObjectTapEvent, java.lang.Boolean> getOnGeoObjectTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
   public final void setOnGeoObjectTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.layers.GeoObjectTapEvent, java.lang.Boolean>);
   public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.map.MapLoadStatistics, kotlin.Unit> getOnMapLoaded$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
@@ -308,6 +304,10 @@ public final class ru.sulgik.mapkit.compose.MapListenersNode implements ru.sulgi
   public final void setOnActiveLevelChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super java.lang.String, kotlin.Unit>);
   public final kotlin.jvm.functions.Function2<java.lang.Integer, java.lang.Integer, kotlin.Unit> getOnMapWindowSizeChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
   public final void setOnMapWindowSizeChanged$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function2<? super java.lang.Integer, ? super java.lang.Integer, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.geometry.Point, kotlin.Unit> getOnMapTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnMapTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>);
+  public final kotlin.jvm.functions.Function1<ru.sulgik.mapkit.geometry.Point, kotlin.Unit> getOnMapLongTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose();
+  public final void setOnMapLongTap$ru_sulgik_mapkit_yandex_mapkit_kmp_compose(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.geometry.Point, kotlin.Unit>);
   public void onAttached();
   public void onRemoved();
   public void onCleared();
