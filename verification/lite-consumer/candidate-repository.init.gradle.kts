@@ -10,8 +10,10 @@ gradle.beforeProject {
                 url = project.uri(project.providers.gradleProperty("candidateRepository").get())
             }
         }
-        project.tasks.withType<Sign>().configureEach {
-            enabled = false
+        if (!project.providers.gradleProperty("candidateSigning").map(String::toBoolean).getOrElse(false)) {
+            project.tasks.withType<Sign>().configureEach {
+                enabled = false
+            }
         }
     }
 }

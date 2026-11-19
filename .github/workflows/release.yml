@@ -8,13 +8,21 @@ on:
         required: true
         type: string
       dry_run:
-        description: 'Run every check but skip publishing, tagging and the GitHub release'
+        description: 'Verify and sign a release bundle with an ephemeral key without uploading it'
         required: false
         default: false
         type: boolean
+      deployment_id:
+        description: 'Resume the existing Central deployment for this version and release commit'
+        required: false
+        type: string
+
+concurrency:
+  group: release-${{ inputs.version }}
+  cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   JAVA_VERSION: '21'
@@ -32,6 +40,8 @@ jobs:
       - name: Verify version
         env:
           VERSION: ${{ inputs.version }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          DEPLOYMENT_ID: ${{ inputs.deployment_id }}
         run: |
           set -euo pipefail
           if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
@@ -43,10 +53,19 @@ jobs:
             echo "::error::library_version in gradle.properties is '$declared', expected '$VERSION'"
             exit 1
           fi
+          if [[ -n "$DEPLOYMENT_ID" ]] && {
+            [[ "$DRY_RUN" == true ]] ||
+            [[ ! "$DEPLOYMENT_ID" =~ ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ ]];
+          }; then
+            echo "::error::deployment_id must be a UUID and is only supported for live release recovery"
+            exit 1
+          fi
           for tag in "v$VERSION" "$VERSION"; do
-            if git rev-parse -q --verify "refs/tags/$tag" > /dev/null; then
-              echo "::error::tag $tag already exists"
-              exit 1
+            if tag_commit=$(git rev-parse -q --verify "refs/tags/$tag^{commit}"); then
+              if [[ "$tag" != "v$VERSION" || -z "$DEPLOYMENT_ID" || "$tag_commit" != "$GITHUB_SHA" ]]; then
+                echo "::error::tag $tag already exists"
+                exit 1
+              fi
             fi
           done
           if ! grep -q "^## \[$VERSION\]" CHANGELOG.md; then
@@ -102,8 +121,10 @@ jobs:
   release:
     name: Publish ${{ inputs.version }}
     needs: [verify, test-android-device]
+    permissions:
+      contents: write
     runs-on: macos-26
-    timeout-minutes: 120
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v7
         with:
@@ -174,14 +195,30 @@ jobs:
             build/full-consumer/ios/
           if-no-files-found: ignore
 
-      - name: Publish to Maven Central
-        if: ${{ !inputs.dry_run }}
+      - name: Rehearse the signed Lite and Full bundle
+        if: ${{ inputs.dry_run }}
         env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPEUSERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPEPASSWORD }}
+          VERSION: ${{ inputs.version }}
+        run: bash .github/scripts/stage-central-bundle.sh "$VERSION" rehearsal
+
+      - name: Sign the Lite and Full bundle
+        if: ${{ !inputs.dry_run && inputs.deployment_id == '' }}
+        env:
+          VERSION: ${{ inputs.version }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+        run: bash .github/scripts/stage-central-bundle.sh "$VERSION" release
+
+      - name: Publish and verify both editions on Maven Central
+        if: ${{ !inputs.dry_run }}
+        env:
+          VERSION: ${{ inputs.version }}
+          DEPLOYMENT_ID: ${{ inputs.deployment_id }}
+          CENTRAL_USERNAME: ${{ secrets.SONATYPEUSERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.SONATYPEPASSWORD }}
+        run: |
+          python3 .github/scripts/central-bundle.py publish "$VERSION" "$GITHUB_SHA" \
+            build/central-release/central-bundle.zip --resume "$DEPLOYMENT_ID"
 
       - name: Tag the published commit
         if: ${{ !inputs.dry_run }}
@@ -189,6 +226,10 @@ jobs:
           VERSION: ${{ inputs.version }}
         run: |
           set -euo pipefail
+          if tag_commit=$(git rev-parse -q --verify "refs/tags/v$VERSION^{commit}"); then
+            test "$tag_commit" = "$GITHUB_SHA"
+            exit 0
+          fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git tag -a "v$VERSION" -m "Release $VERSION"
