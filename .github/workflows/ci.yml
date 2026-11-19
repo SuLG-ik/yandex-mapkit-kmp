@@ -104,6 +104,35 @@ jobs:
       - name: Link the Objective-C frameworks
         run: ./gradlew libraryLinkIosFramework
 
+      - name: Launch standalone Lite consumer
+        run: |
+          simulator=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+
+          runtimes = json.load(sys.stdin)["devices"]
+          iphones = [
+              device
+              for runtime, devices in runtimes.items()
+              if ".SimRuntime.iOS-" in runtime
+              for device in devices
+              if device["name"].startswith("iPhone")
+          ]
+          if not iphones:
+              sys.exit("No iPhone simulator is available")
+          device = next((device for device in iphones if device["state"] == "Booted"), iphones[-1])
+          print(device["udid"])
+          ')
+          xcrun simctl bootstatus "$simulator" -b
+          bash verification/lite-consumer/run.sh ios "$simulator"
+
+      - name: Upload Lite consumer diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lite-consumer-ios
+          path: build/lite-consumer/ios/
+          if-no-files-found: ignore
+
       - name: Upload test reports
         if: failure()
         uses: actions/upload-artifact@v7
@@ -149,6 +178,14 @@ jobs:
           name: android-emulator-logcat
           path: ${{ runner.temp }}/android-emulator-logcat.txt
           if-no-files-found: warn
+
+      - name: Upload Lite consumer diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lite-consumer-android
+          path: build/lite-consumer/android/
+          if-no-files-found: ignore
 
       - name: Upload test reports
         if: failure()
