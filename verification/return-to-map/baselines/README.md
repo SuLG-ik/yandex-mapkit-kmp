@@ -3,7 +3,8 @@
 Captured on November 20, 2026, on two disposable local simulators with a configured MapKit key.
 Each platform completed five matched cohorts at one viewport, for 20 trials per platform and
 zero deadlines. Both ran Lite SDK `2026081315.14-d31a76c2e2204db-210.5-lite-public` from MapKit
-4.45.0. Each row includes an observed native map tap.
+4.45.0. Each row includes an observed native map tap. Both drivers waited 350 ms after detecting
+the readiness prompt. Tap timings also include observation and scheduling by the driver.
 
 | Platform | Configuration | Measured viewport | Revision | Rows |
 | --- | --- | --- | --- | --- |
