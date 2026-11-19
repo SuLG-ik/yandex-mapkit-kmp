@@ -1,7 +1,9 @@
 package ru.sulgik.mapkit.transport.masstransit
 
+import ru.sulgik.mapkit.map.BaseMetadata
+
 /** Information about a walking, cycling or transit route. */
-public expect class RouteMetadata {
+public expect class RouteMetadata : BaseMetadata {
 
     /** Travel time, walking distance and transfer count. */
     public val weight: Weight

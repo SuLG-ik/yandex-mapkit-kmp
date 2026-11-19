@@ -67,11 +67,9 @@ When upgrading to a release that includes `yandex-mapkit-kmp-compose-resources`,
 at the same version if you use this overload. Keep the `ru.sulgik.mapkit.compose.imageProvider`
 import and your existing calls.
 
-The unreleased Full wrapper includes common Kotlin text search. See
-[Full text search](docs/wrapper/full-text-search.md) for the verification commands that stage the
-candidate from source and for request lifetime. The candidate also exposes
-[driving routes](docs/wrapper/full-routing.md) with ordered request points, alternatives and
-cancellable sessions.
+The unreleased Full wrapper includes [text search and suggestions](docs/wrapper/full-text-search.md)
+and [driving, walking, cycling and public transit routing](docs/wrapper/full-routing.md)
+with ordered request points, route alternatives and cancellable sessions.
 
 ## Compatibility
 

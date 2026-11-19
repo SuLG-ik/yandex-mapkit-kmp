@@ -21,11 +21,16 @@ import kotlin.test.assertSame
 import kotlin.test.assertTrue
 import kotlin.time.Instant
 import YandexMapKit.YMKMasstransitFitness as NativeFitness
+import YandexMapKit.YMKMasstransitLine as NativeLine
 import YandexMapKit.YMKMasstransitRouteMetadata as NativeRouteMetadata
+import YandexMapKit.YMKMasstransitRouteStop as NativeRouteStop
+import YandexMapKit.YMKMasstransitRouteStopMetadata as NativeRouteStopMetadata
 import YandexMapKit.YMKMasstransitSection as NativeSection
 import YandexMapKit.YMKMasstransitSectionMetadata as NativeSectionMetadata
 import YandexMapKit.YMKMasstransitSectionMetadataSectionData as NativeSectionData
 import YandexMapKit.YMKMasstransitSession as NativeSession
+import YandexMapKit.YMKMasstransitStop as NativeStop
+import YandexMapKit.YMKMasstransitTransport as NativeTransportLeg
 
 public class TransportAdapterTest {
 
@@ -120,6 +125,74 @@ public class TransportAdapterTest {
         assertEquals(via, bicycle.viaPoints)
         assertNull(section.wait)
         assertNull(section.transports)
+    }
+
+    @Test
+    public fun transit_filters_and_nullable_access_points_survive_native_mapping() {
+        val filters = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value
+        val options = TransitOptions(
+            avoid = filters,
+            timeOptions = TimeOptions(arrivalTime = Instant.fromEpochMilliseconds(1_797_432_000_123L)),
+        )
+        assertEquals(17uL, options.toNative().avoid)
+        assertEquals(options, options.toNative().toCommon())
+        assertEquals(TransitOptions(), TransitOptions().toNative().toCommon())
+
+        val places = listOf(Point(55.75, 37.62), Point(55.76, 37.61))
+        val stops = places.mapIndexed { index, place ->
+            val stop = NativeStop.stopWithId(
+                id = "stop-$index",
+                name = "Station $index",
+                additionalName = null,
+                features = null,
+                transportContours = emptyList<Any>(),
+            )
+            NativeRouteStop.routeStopWithMetadata(
+                metadata = NativeRouteStopMetadata.routeStopMetadataWithStop(
+                    stop = stop,
+                    stopExit = null,
+                    exitPoint = null,
+                    stopEntrance = null,
+                    entrancePoint = if (index == 0) place.toNative() else null,
+                ),
+                position = place.toNative(),
+            )
+        }
+        val line = NativeLine.lineWithId(
+            id = "line-1",
+            name = "M1",
+            vehicleTypes = listOf("underground"),
+            style = null,
+            isNight = false,
+            uri = null,
+            shortName = null,
+            transportSystemId = null,
+        )
+        val ride = NativeTransportLeg.transportWithLine(line, emptyList<Any>(), emptyList<Any>())
+        val weight = Weight(LocalizedValue(70.0, "70 s"), LocalizedValue(0.0, "0 m"), 0)
+        val sectionGeometry = Subpolyline(PolylinePosition(0, 0.0), PolylinePosition(0, 1.0))
+        val section = NativeSection.sectionWithMetadata(
+            metadata = NativeSectionMetadata.sectionMetadataWithWeight(
+                weight = weight.toNative(),
+                data = NativeSectionData.sectionDataWithTransports(listOf(ride)),
+                estimation = null,
+                legIndex = 0uL,
+                paymentOptions = emptyList<Any>(),
+            ),
+            geometry = sectionGeometry.toNative(),
+            stops = stops,
+            rideLegs = listOf(sectionGeometry.toNative()),
+        ).toCommon()
+
+        assertNull(section.metadata.data.fitness)
+        assertSame(line, section.metadata.data.transports?.single()?.line?.toNative())
+        assertEquals(listOf("underground"), section.metadata.data.transports?.single()?.line?.vehicleTypes)
+        assertEquals(listOf("stop-0", "stop-1"), section.stops.map { it.metadata.stop.id })
+        assertEquals(places, section.stops.map { it.position })
+        assertEquals(places[0], section.stops.first().metadata.entrancePoint)
+        assertNull(section.stops.last().metadata.entrancePoint)
+        assertNull(section.stops.last().metadata.stop.additionalName)
+        assertEquals(listOf(sectionGeometry), section.rideLegs)
     }
 
     @Test

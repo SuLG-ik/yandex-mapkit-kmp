@@ -20,6 +20,10 @@ public actual class Section internal constructor(private val nativeSection: Nati
     public actual val geometry: Subpolyline
         get() = nativeSection.geometry.toCommon()
 
+    /** Stops from boarding to exiting transport, in route order. */
+    public actual val stops: List<RouteStop>
+        get() = nativeSection.stops.map { it.toCommon() }
+
     /** The geometry connecting consecutive stops on a transit ride. */
     public actual val rideLegs: List<Subpolyline>
         get() = nativeSection.rideLegs.map { it.toCommon() }

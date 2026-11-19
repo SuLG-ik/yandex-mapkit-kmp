@@ -86,7 +86,7 @@
 
 ## Маршрутизация Full
 
-Для [автомобильных, пеших и велосипедных маршрутов](full-routing.ru.md) добавлены `DrivingAdapterTest` и `TransportAdapterTest`. [Android][a-full-transport] проверяет порядок запроса и маршрутов, геометрию, nullable-метаданные и отмену сессии. Отдельные проверки сохраняют точки проезда и велосипедный тип участка. [iOS][i-full-transport] проверяет нативные параметры, метаданные участков, пустые ответы и обработку ошибок после отмены. Прогоны Full и живые запросы остаются в [#80][80].
+Для [автомобильных, пеших, велосипедных маршрутов и маршрутов общественного транспорта](full-routing.ru.md) добавлены `DrivingAdapterTest` и `TransportAdapterTest`. [Android][a-full-transport] проверяет порядок запроса и маршрутов, геометрию, nullable-метаданные и отмену сессии. Режимы отдельно проверяют велосипедный тип и точки проезда, а также маски транспорта, линии и порядок остановок. [iOS][i-full-transport] проверяет нативные параметры, метаданные участков, пустые ответы и обработку ошибок после отмены. Прогоны Full и живые запросы остаются в [#80][80].
 
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29

@@ -11,6 +11,9 @@ public expect class Section {
     /** The fragment of the route polyline that describes this section. */
     public val geometry: Subpolyline
 
+    /** Stops from boarding to exiting transport, in route order. */
+    public val stops: List<RouteStop>
+
     /** The geometry connecting consecutive stops on a transit ride. */
     public val rideLegs: List<Subpolyline>
 

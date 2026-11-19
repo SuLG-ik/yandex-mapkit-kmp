@@ -10,6 +10,10 @@ public actual class Transfer internal constructor(private val nativeTransfer: Na
         return nativeTransfer
     }
 
+    /** The stop used by the transfer. */
+    public actual val transferStop: TransferStop
+        get() = nativeTransfer.transferStop.toCommon()
+
     /** Reports whether two wrappers hold the same native handle. */
     actual override fun equals(other: Any?): Boolean {
         if (this === other) return true

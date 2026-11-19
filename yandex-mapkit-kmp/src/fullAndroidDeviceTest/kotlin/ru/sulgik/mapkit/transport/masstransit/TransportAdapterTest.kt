@@ -24,15 +24,24 @@ import kotlin.time.Instant
 import com.yandex.mapkit.RequestPoint as NativeRequestPoint
 import com.yandex.mapkit.transport.Transport as NativeTransport
 import com.yandex.mapkit.transport.masstransit.BicycleRouterV2 as NativeBicycleRouter
+import com.yandex.mapkit.transport.masstransit.FilterVehicleTypes as NativeFilterVehicleTypes
+import com.yandex.mapkit.transport.masstransit.Fitness as NativeFitness
+import com.yandex.mapkit.transport.masstransit.Line as NativeLine
+import com.yandex.mapkit.transport.masstransit.MasstransitRouter as NativeMasstransitRouter
 import com.yandex.mapkit.transport.masstransit.PedestrianRouter as NativePedestrianRouter
 import com.yandex.mapkit.transport.masstransit.Route as NativeRoute
 import com.yandex.mapkit.transport.masstransit.RouteMetadata as NativeRouteMetadata
 import com.yandex.mapkit.transport.masstransit.RouteOptions as NativeRouteOptions
+import com.yandex.mapkit.transport.masstransit.RouteStop as NativeRouteStop
+import com.yandex.mapkit.transport.masstransit.RouteStopMetadata as NativeRouteStopMetadata
 import com.yandex.mapkit.transport.masstransit.Section as NativeSection
 import com.yandex.mapkit.transport.masstransit.SectionMetadata as NativeSectionMetadata
 import com.yandex.mapkit.transport.masstransit.Session as NativeSession
 import com.yandex.mapkit.transport.masstransit.Session.RouteListener as NativeRouteListener
+import com.yandex.mapkit.transport.masstransit.Stop as NativeStop
 import com.yandex.mapkit.transport.masstransit.TimeOptions as NativeTimeOptions
+import com.yandex.mapkit.transport.masstransit.TransitOptions as NativeTransitOptions
+import com.yandex.mapkit.transport.masstransit.Transport as NativeTransitLeg
 import com.yandex.runtime.network.NetworkError as NativeNetworkError
 
 public class TransportAdapterTest {
@@ -160,6 +169,73 @@ public class TransportAdapterTest {
         assertEquals(1, requests.cancelCount)
     }
 
+    @Test
+    public fun public_transit_factory_preserves_filter_bits_and_alternative_section_data() {
+        val nativeBits = NativeFilterVehicleTypes.values().associate { it.name to it.value }
+        assertEquals(nativeBits, FilterVehicleTypes.entries.associate { it.name to it.value })
+        val points = points()
+        val avoid = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value
+        val transit = TransitOptions(
+            avoid = avoid,
+            timeOptions = TimeOptions(departureTime = Instant.fromEpochMilliseconds(1_797_432_000_123L)),
+        )
+        val routeOptions = RouteOptions(FitnessOptions(avoidStairs = true))
+        val requests = RecordingRequests()
+        val router: NativeMasstransitRouter = proxy { method, args ->
+            check(method == "requestRoutes")
+            assertEquals(points, (args[0] as List<*>).map { (it as NativeRequestPoint).toCommon() })
+            val nativeTransit = args[1] as NativeTransitOptions
+            assertEquals(avoid, nativeTransit.avoid)
+            assertEquals(transit, nativeTransit.toCommon())
+            assertEquals(routeOptions, (args[2] as NativeRouteOptions).toCommon())
+            requests.open(args[3] as NativeRouteListener)
+        }
+        val transport: NativeTransport = proxy { method, _ ->
+            check(method == "createMasstransitRouter")
+            router
+        }
+        val results = mutableListOf<List<Route>>()
+        val common = transport.toCommon().createMasstransitRouter()
+        assertSame(router, common.toNative())
+        val session = common.requestRoutes(
+            points,
+            transit,
+            routeOptions,
+            RouteListener({ results.add(it) }, { error("Unexpected failure") }),
+        )
+
+        val walking = NativeFitness(
+            FitnessType.PEDESTRIAN.toNative(), emptyList(), emptyList(), emptyList(),
+            emptyList(), emptyList(), null, emptyList(),
+        )
+        val line = NativeLine("line-1", "M1", listOf("underground"), null, false, null, null, null)
+        val stops = points.mapIndexed { index, point ->
+            val stop = NativeStop("stop-$index", "Station $index", null, null, emptyList())
+            val metadata = NativeRouteStopMetadata(stop, null, null, null, null)
+            NativeRouteStop(metadata, point.point.toNative())
+        }
+        val ride = NativeTransitLeg(line, emptyList(), emptyList())
+        val walkAlternative = route(points, "walk", NativeSectionMetadata.SectionData.fromFitness(walking))
+        val rideAlternative = route(points, "ride", NativeSectionMetadata.SectionData.fromTransports(listOf(ride)), stops)
+        requests.listeners.single().onMasstransitRoutes(listOf(walkAlternative, rideAlternative))
+        session.cancel()
+        requests.listeners.single().onMasstransitRoutes(emptyList())
+
+        val (walkResult, rideResult) = results.single()
+        val walkSection = walkResult.sections.single()
+        val rideSection = rideResult.sections.single()
+        assertEquals(listOf("walk", "ride"), listOf(walkResult.metadata.routeId, rideResult.metadata.routeId))
+        assertEquals(FitnessType.PEDESTRIAN, walkSection.metadata.data.fitness?.type)
+        assertNull(walkSection.metadata.data.transports)
+        assertNull(rideSection.metadata.data.fitness)
+        assertEquals(listOf("underground"), rideSection.metadata.data.transports?.single()?.line?.vehicleTypes)
+        assertEquals(listOf("stop-0", "stop-1"), rideSection.stops.map { it.metadata.stop.id })
+        assertEquals(points.map { it.point }, rideSection.stops.map { it.position })
+        assertNull(rideSection.stops.last().metadata.exitPoint)
+        assertEquals(points.map { it.point }, rideResult.geometry.points)
+        assertEquals(1, requests.cancelCount)
+    }
+
     private fun points(): List<RequestPoint> {
         return listOf(
             RequestPoint(Point(55.75, 37.62), RequestPointType.WAYPOINT, pointContext = "first"),
@@ -167,7 +243,12 @@ public class TransportAdapterTest {
         )
     }
 
-    private fun route(points: List<RequestPoint>, id: String?): NativeRoute {
+    private fun route(
+        points: List<RequestPoint>,
+        id: String?,
+        data: NativeSectionMetadata.SectionData = NativeSectionMetadata.SectionData.fromWait(Wait(1).toNative()),
+        stops: List<NativeRouteStop> = emptyList(),
+    ): NativeRoute {
         val wayPoints = points.map { WayPoint(position = it.point, context = it.pointContext).toNative() }
         val geometry = Polyline(points.map { it.point }).toNative()
         val weight = Weight(LocalizedValue(90.0, "90 s"), LocalizedValue(120.0, "120 m"), 0).toNative()
@@ -185,13 +266,13 @@ public class TransportAdapterTest {
         )
         val sectionMetadata = NativeSectionMetadata(
             weight,
-            NativeSectionMetadata.SectionData.fromWait(Wait(1).toNative()),
+            data,
             null,
             0,
             emptyList(),
         )
         val sectionGeometry = Subpolyline(PolylinePosition(0, 0.0), PolylinePosition(0, 1.0)).toNative()
-        val section = NativeSection(sectionMetadata, sectionGeometry, emptyList(), emptyList())
+        val section = NativeSection(sectionMetadata, sectionGeometry, stops, emptyList())
         return proxy { method, _ ->
             when (method) {
                 "getMetadata" -> metadata

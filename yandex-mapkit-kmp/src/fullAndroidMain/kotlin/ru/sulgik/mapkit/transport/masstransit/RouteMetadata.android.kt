@@ -1,9 +1,10 @@
 package ru.sulgik.mapkit.transport.masstransit
 
+import ru.sulgik.mapkit.map.BaseMetadata
 import com.yandex.mapkit.transport.masstransit.RouteMetadata as NativeRouteMetadata
 
 /** Information about a walking, cycling or transit route. */
-public actual class RouteMetadata internal constructor(private val nativeRouteMetadata: NativeRouteMetadata) {
+public actual class RouteMetadata internal constructor(private val nativeRouteMetadata: NativeRouteMetadata) : BaseMetadata {
 
     /** Returns the wrapped native handle. */
     public fun toNative(): NativeRouteMetadata {

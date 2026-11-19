@@ -9,12 +9,14 @@ import ru.sulgik.mapkit.transport.masstransit.RouteListener
 import ru.sulgik.mapkit.transport.masstransit.RouteOptions
 import ru.sulgik.mapkit.transport.masstransit.Session
 import ru.sulgik.mapkit.transport.masstransit.TimeOptions
+import ru.sulgik.mapkit.transport.masstransit.TransitOptions
 
 internal class FullTransportExample(private val parent: MapObjectCollection) {
 
     private val transport = Transport.getInstance()
     private val pedestrian = transport.createPedestrianRouter()
     private val bicycle = transport.createBicycleRouterV2()
+    private val publicTransport = transport.createMasstransitRouter()
     private val routeObjects = parent.addCollection()
     private var session: Session? = null
     private var generation: Long = 0
@@ -38,6 +40,19 @@ internal class FullTransportExample(private val parent: MapObjectCollection) {
     ) {
         replaceRoute(
             request = { listener -> bicycle.requestRoutes(points, TimeOptions(), RouteOptions(), listener) },
+            onRoutes = onRoutes,
+            onFailure = onFailure,
+        )
+    }
+
+    fun replaceTransitRoute(
+        points: List<RequestPoint>,
+        transitOptions: TransitOptions,
+        onRoutes: (List<Route>) -> Unit,
+        onFailure: (RouteError) -> Unit,
+    ) {
+        replaceRoute(
+            request = { listener -> publicTransport.requestRoutes(points, transitOptions, RouteOptions(), listener) },
             onRoutes = onRoutes,
             onFailure = onFailure,
         )

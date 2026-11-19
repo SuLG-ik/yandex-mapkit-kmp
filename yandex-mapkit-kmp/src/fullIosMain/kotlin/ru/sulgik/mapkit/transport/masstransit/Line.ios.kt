@@ -1,9 +1,10 @@
 package ru.sulgik.mapkit.transport.masstransit
 
+import ru.sulgik.mapkit.map.BaseMetadata
 import YandexMapKit.YMKMasstransitLine as NativeLine
 
 /** A public transport line. */
-public actual class Line internal constructor(private val nativeLine: NativeLine) {
+public actual class Line internal constructor(private val nativeLine: NativeLine) : BaseMetadata {
 
     /** Returns the wrapped native handle. */
     public fun toNative(): NativeLine {

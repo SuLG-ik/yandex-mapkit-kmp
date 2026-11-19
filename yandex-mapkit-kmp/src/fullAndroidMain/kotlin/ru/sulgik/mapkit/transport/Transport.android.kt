@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.transport
 
 import ru.sulgik.mapkit.transport.masstransit.BicycleRouterV2
+import ru.sulgik.mapkit.transport.masstransit.MasstransitRouter
 import ru.sulgik.mapkit.transport.masstransit.PedestrianRouter
 import ru.sulgik.mapkit.transport.masstransit.toCommon
 import com.yandex.mapkit.transport.Transport as NativeTransport
@@ -26,6 +27,11 @@ public actual class Transport internal constructor(private val nativeTransport: 
     /** Creates a manager that builds bicycle routes. */
     public actual fun createBicycleRouterV2(): BicycleRouterV2 {
         return nativeTransport.createBicycleRouterV2().toCommon()
+    }
+
+    /** Creates a manager that builds public transport routes. */
+    public actual fun createMasstransitRouter(): MasstransitRouter {
+        return nativeTransport.createMasstransitRouter().toCommon()
     }
 
     public actual companion object {
