@@ -57,11 +57,17 @@ sample and same-viewport timings are tracked in [#75][75] and [#74][74].
 | [#42][42] Base Compose module pulls in Compose Resources | [#61][split] moves the overload to the optional module and the [ABI check][api] covers the exposed overload. The [Android][a-consumer] and [iOS][i-consumer] consumers resolve the optional artifact and set a PNG on a placemark. | Cover rendering and updates on markers and clusters [#84][84]. |
 | [#55][55] Crash when closing a Compose map | [NativeYandexMapLifecycleTest][a-lifecycle] initializes MapKit, creates the map and finishes the Activity. The [Android][a-host-lifecycle] and [iOS][i-host-lifecycle] lifecycle scenarios remove the map repeatedly during an animation and require one detach per old attachment. Android also verifies that released windows are invalid. | Navigation back-stack transitions [#72][72], [#73][73]. |
 
-## Full text search
+## Full search
 
 [Android and iOS adapter tests](full-text-search.md#regression-checks) cover request options,
 named coordinates, an empty result, a native error and callbacks after cancellation.
 The Full consumer instantiates the native manager as part of the edition checks in [#77][77].
+
+[SuggestAdapterTest · Android host][a-suggest] and [SuggestAdapterTest · iOS simulator][i-suggest]
+cover [suggestions and reset](full-text-search.md#suggestions-while-typing), including options,
+result fields, request replacement, reset through a native alias and late responses. The Full
+consumer creates and resets a native suggestion session. [#82][82] tracks live response checks.
+
 The remaining Full surface is tracked in [#81][81]. Use the [regression workflow](../getting-started/contributing.md#regressions)
 when adding evidence or reporting a remaining gap.
 
@@ -149,6 +155,8 @@ when adding evidence or reporting a remaining gap.
 [84]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/84
 [85]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/85
 [86]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/86
+[a-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
+[i-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
 
 [a-nav3]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/4adbf6cc0e960b89767ca5cef163f28b0d305960/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/Nav3MapTest.kt
 [i-nav3]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/4adbf6cc0e960b89767ca5cef163f28b0d305960/tests/map-interaction/iosApp/Nav3MapTests.swift

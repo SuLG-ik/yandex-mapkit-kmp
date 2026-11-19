@@ -21,6 +21,9 @@ public expect class SearchManager {
         searchListener: SearchListener,
     ): Session
 
+    /** Creates a session for suggest requests. Retain it for the lifetime of the query editor. */
+    public fun createSuggestSession(): SuggestSession
+
     /** Two handles are equal when they wrap the same native search manager. */
     override fun equals(other: Any?): Boolean
 
