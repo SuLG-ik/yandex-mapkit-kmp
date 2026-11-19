@@ -113,18 +113,18 @@ bash verification/lite-consumer/run.sh android "$ANDROID_SERIAL" with-integratio
 bash verification/lite-consumer/run.sh ios "$IOS_DEVICE_UDID" with-integrations full
 ```
 
-The first two commands cover [DrivingAdapterTest · Android][android-adapter] and
-[DrivingAdapterTest · iOS][ios-adapter]. Android runs on a device because the `RequestPoint`
-and `Polyline` constructors call JNI. Android sends two routes through the native listener and checks their order, geometry and cancellation.
-iOS uses real point and polyline values and a surrogate `NSObject` in the same weak registry to
-test shared cancellation. The SDK constructs driving routes and sessions through the router.
-Decoding non-empty route alternatives on iOS remains a keyed live check.
+The first two commands exercise `DrivingAdapterTest` and `TransportAdapterTest`. Android runs
+on a device because `RequestPoint` and `Polyline` constructors call JNI. Tests create aliases
+before the first binding and before `retry`, cancel through the older alias, and assert that a
+native callback arriving during or after cancellation reaches no retired listener.
 
-Before reporting `MAP_READY` the isolated Full app creates, replaces and clears native map
-polylines. In the installed app tap **Draw route**, **Replace route**, then **Clear route**.
-A blue line appears, changes to the alternative and disappears. This preview uses the same
-drawing code as the request example. A live driving request and replacement before delivery
-require a test MapKit key.
+Before reporting `MAP_READY` the Full app creates, replaces and clears actual map polylines.
+In the installed app tap **Draw route**, **Replace route**, then **Clear route**. A thick blue
+line appears, changes to the alternative and disappears. This offline preview exercises the
+same drawing and clearing code as the request examples. A scheduled service request for each
+mode, including replacing an in-flight request before it delivers, needs a test MapKit key.
+
+The iOS driving test uses a surrogate identity for shared session ownership because the native SDK creates driving sessions.
 
 If an ABI check finds a difference, [Full CI][full-workflow] uploads the actual Android or iOS
 dump. Review and update the snapshots in `api/full`, then rerun both mandatory checks.

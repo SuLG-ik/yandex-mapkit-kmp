@@ -11,13 +11,13 @@ import ru.sulgik.mapkit.transport.masstransit.Session
 import ru.sulgik.mapkit.transport.masstransit.TimeOptions
 import ru.sulgik.mapkit.transport.masstransit.TransitOptions
 
-internal class FullTransportExample(private val parent: MapObjectCollection) {
+internal class FullTransportExample(parent: MapObjectCollection) {
 
     private val transport = Transport.getInstance()
     private val pedestrian = transport.createPedestrianRouter()
     private val bicycle = transport.createBicycleRouterV2()
     private val publicTransport = transport.createMasstransitRouter()
-    private val routeObjects = parent.addCollection()
+    private val drawing = RoutingOverlay(parent)
     private var session: Session? = null
     private var generation: Long = 0
 
@@ -68,15 +68,14 @@ internal class FullTransportExample(private val parent: MapObjectCollection) {
         val next = request(
             RouteListener(
                 onMasstransitRoutes = { routes ->
-                    if (owner == generation && routeObjects.isValid) {
-                        routeObjects.clear()
-                        routes.firstOrNull()?.let { routeObjects.addPolyline(it.geometry) }
+                    if (owner == generation && drawing.isValid) {
+                        drawing.show(routes.firstOrNull()?.geometry)
                         onRoutes(routes)
                     }
                 },
                 onMasstransitRoutesError = { failure ->
-                    if (owner == generation && routeObjects.isValid) {
-                        routeObjects.clear()
+                    if (owner == generation && drawing.isValid) {
+                        drawing.clear()
                         onFailure(failure)
                     }
                 },
@@ -94,15 +93,11 @@ internal class FullTransportExample(private val parent: MapObjectCollection) {
         val previous = session
         session = null
         previous?.cancel()
-        if (routeObjects.isValid) {
-            routeObjects.clear()
-        }
+        drawing.clear()
     }
 
     fun dispose() {
         clear()
-        if (parent.isValid && routeObjects.isValid) {
-            parent.remove(routeObjects)
-        }
+        drawing.dispose()
     }
 }
