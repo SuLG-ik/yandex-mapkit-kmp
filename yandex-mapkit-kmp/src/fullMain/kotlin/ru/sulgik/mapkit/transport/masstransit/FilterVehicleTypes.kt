@@ -1,7 +1,9 @@
 package ru.sulgik.mapkit.transport.masstransit
 
 /** Vehicle types that may be excluded from a public transit request. */
-public enum class FilterVehicleTypes(public val value: Int) {
+public enum class FilterVehicleTypes(
+    public val value: Int,
+) {
     NONE(0),
     BUS(1 shl 0),
     MINIBUS(1 shl 1),

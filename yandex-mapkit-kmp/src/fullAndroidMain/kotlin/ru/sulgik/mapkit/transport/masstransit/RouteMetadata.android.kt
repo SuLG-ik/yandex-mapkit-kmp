@@ -4,12 +4,11 @@ import ru.sulgik.mapkit.map.BaseMetadata
 import com.yandex.mapkit.transport.masstransit.RouteMetadata as NativeRouteMetadata
 
 /** Information about a walking, cycling or transit route. */
-public actual class RouteMetadata internal constructor(private val nativeRouteMetadata: NativeRouteMetadata) : BaseMetadata {
-
+public actual class RouteMetadata internal constructor(
+    private val nativeRouteMetadata: NativeRouteMetadata,
+) : BaseMetadata {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeRouteMetadata {
-        return nativeRouteMetadata
-    }
+    public fun toNative(): NativeRouteMetadata = nativeRouteMetadata
 
     /** Travel time, walking distance and transfer count. */
     public actual val weight: Weight
@@ -51,12 +50,8 @@ public actual class RouteMetadata internal constructor(private val nativeRouteMe
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeRouteMetadata.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeRouteMetadata.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeRouteMetadata.toCommon(): RouteMetadata {
-    return RouteMetadata(this)
-}
+public fun NativeRouteMetadata.toCommon(): RouteMetadata = RouteMetadata(this)

@@ -4,7 +4,6 @@ import ru.sulgik.mapkit.map.BaseMetadata
 
 /** A public transport stop. */
 public expect class Stop : BaseMetadata {
-
     /** The stop identifier. */
     public val id: String
 

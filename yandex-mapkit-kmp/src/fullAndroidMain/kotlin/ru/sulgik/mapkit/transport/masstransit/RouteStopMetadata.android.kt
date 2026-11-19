@@ -6,12 +6,11 @@ import ru.sulgik.mapkit.map.BaseMetadata
 import com.yandex.mapkit.transport.masstransit.RouteStopMetadata as NativeRouteStopMetadata
 
 /** Stop information, with optional station entrances and exits. */
-public actual class RouteStopMetadata internal constructor(private val nativeRouteStopMetadata: NativeRouteStopMetadata) : BaseMetadata {
-
+public actual class RouteStopMetadata internal constructor(
+    private val nativeRouteStopMetadata: NativeRouteStopMetadata,
+) : BaseMetadata {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeRouteStopMetadata {
-        return nativeRouteStopMetadata
-    }
+    public fun toNative(): NativeRouteStopMetadata = nativeRouteStopMetadata
 
     /** The stop on the route. */
     public actual val stop: Stop
@@ -41,12 +40,8 @@ public actual class RouteStopMetadata internal constructor(private val nativeRou
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeRouteStopMetadata.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeRouteStopMetadata.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeRouteStopMetadata.toCommon(): RouteStopMetadata {
-    return RouteStopMetadata(this)
-}
+public fun NativeRouteStopMetadata.toCommon(): RouteStopMetadata = RouteStopMetadata(this)

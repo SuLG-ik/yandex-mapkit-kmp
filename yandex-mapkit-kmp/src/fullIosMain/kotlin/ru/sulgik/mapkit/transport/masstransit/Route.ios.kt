@@ -11,12 +11,11 @@ import YandexMapKit.YMKMasstransitSection as NativeSection
 import YandexMapKit.YMKMasstransitWayPoint as NativeWayPoint
 
 /** A walking, cycling or transit route returned by MapKit. */
-public actual class Route internal constructor(private val nativeRoute: NativeRoute) {
-
+public actual class Route internal constructor(
+    private val nativeRoute: NativeRoute,
+) {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeRoute {
-        return nativeRoute
-    }
+    public fun toNative(): NativeRoute = nativeRoute
 
     /** General information about this route. */
     public actual val metadata: RouteMetadata
@@ -39,14 +38,16 @@ public actual class Route internal constructor(private val nativeRoute: NativeRo
         get() = nativeRoute.uriMetadata.toCommon()
 
     /** Returns the path distance between two positions on this route. */
-    public actual fun distanceBetweenPolylinePositions(from: PolylinePosition, to: PolylinePosition): Double {
-        return nativeRoute.distanceBetweenPolylinePositionsWithFrom(from = from.toNative(), to = to.toNative())
-    }
+    public actual fun distanceBetweenPolylinePositions(
+        from: PolylinePosition,
+        to: PolylinePosition,
+    ): Double = nativeRoute.distanceBetweenPolylinePositionsWithFrom(from = from.toNative(), to = to.toNative())
 
     /** Returns the travel time between two positions on this route. */
-    public actual fun timeBetweenPolylinePositions(from: PolylinePosition, to: PolylinePosition): Double {
-        return nativeRoute.timeBetweenPolylinePositionsWithFrom(from = from.toNative(), to = to.toNative())
-    }
+    public actual fun timeBetweenPolylinePositions(
+        from: PolylinePosition,
+        to: PolylinePosition,
+    ): Double = nativeRoute.timeBetweenPolylinePositionsWithFrom(from = from.toNative(), to = to.toNative())
 
     /** Reports whether two wrappers hold the same native handle. */
     actual override fun equals(other: Any?): Boolean {
@@ -56,12 +57,8 @@ public actual class Route internal constructor(private val nativeRoute: NativeRo
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeRoute.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeRoute.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeRoute.toCommon(): Route {
-    return Route(this)
-}
+public fun NativeRoute.toCommon(): Route = Route(this)

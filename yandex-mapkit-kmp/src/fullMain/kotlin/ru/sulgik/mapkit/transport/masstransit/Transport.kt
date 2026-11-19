@@ -2,7 +2,6 @@ package ru.sulgik.mapkit.transport.masstransit
 
 /** Transport suitable for a ride section. */
 public expect class Transport {
-
     /** The public transport line. */
     public val line: Line
 

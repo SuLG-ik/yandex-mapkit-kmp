@@ -5,8 +5,8 @@ import ru.sulgik.mapkit.geometry.toNative
 import YandexMapKit.YMKMasstransitWayPoint as NativeWayPoint
 
 /** Converts this WayPoint to the native value. */
-public fun WayPoint.toNative(): NativeWayPoint {
-    return NativeWayPoint.wayPointWithPosition(
+public fun WayPoint.toNative(): NativeWayPoint =
+    NativeWayPoint.wayPointWithPosition(
         position = position.toNative(),
         selectedArrivalPoint = selectedArrivalPoint?.toNative(),
         selectedDeparturePoint = selectedDeparturePoint?.toNative(),
@@ -14,11 +14,10 @@ public fun WayPoint.toNative(): NativeWayPoint {
         levelId = levelId,
         levelName = levelName,
     )
-}
 
 /** Reads this native WayPoint. */
-public fun NativeWayPoint.toCommon(): WayPoint {
-    return WayPoint(
+public fun NativeWayPoint.toCommon(): WayPoint =
+    WayPoint(
         position = position.toCommon(),
         selectedArrivalPoint = selectedArrivalPoint?.toCommon(),
         selectedDeparturePoint = selectedDeparturePoint?.toCommon(),
@@ -26,4 +25,3 @@ public fun NativeWayPoint.toCommon(): WayPoint {
         levelId = levelId,
         levelName = levelName,
     )
-}

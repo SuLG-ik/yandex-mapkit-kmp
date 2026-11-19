@@ -4,7 +4,6 @@ import ru.sulgik.mapkit.map.BaseMetadata
 
 /** A public transport line. */
 public expect class Line : BaseMetadata {
-
     /** The line identifier. */
     public val id: String
 

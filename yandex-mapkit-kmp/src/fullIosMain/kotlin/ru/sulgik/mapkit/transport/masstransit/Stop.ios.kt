@@ -4,12 +4,11 @@ import ru.sulgik.mapkit.map.BaseMetadata
 import YandexMapKit.YMKMasstransitStop as NativeStop
 
 /** A public transport stop. */
-public actual class Stop internal constructor(private val nativeStop: NativeStop) : BaseMetadata {
-
+public actual class Stop internal constructor(
+    private val nativeStop: NativeStop,
+) : BaseMetadata {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeStop {
-        return nativeStop
-    }
+    public fun toNative(): NativeStop = nativeStop
 
     /** The stop identifier. */
     public actual val id: String
@@ -35,12 +34,8 @@ public actual class Stop internal constructor(private val nativeStop: NativeStop
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeStop.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeStop.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeStop.toCommon(): Stop {
-    return Stop(this)
-}
+public fun NativeStop.toCommon(): Stop = Stop(this)

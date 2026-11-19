@@ -4,7 +4,6 @@ import ru.sulgik.mapkit.geometry.Subpolyline
 
 /** A section of a walking, cycling or transit route. */
 public expect class Section {
-
     /** General information about this section. */
     public val metadata: SectionMetadata
 

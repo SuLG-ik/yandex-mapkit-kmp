@@ -5,12 +5,11 @@ import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.transport.masstransit.PedestrianRouter as NativePedestrianRouter
 
 /** A router that builds pedestrian routes. */
-public actual class PedestrianRouter internal constructor(private val nativePedestrianRouter: NativePedestrianRouter) {
-
+public actual class PedestrianRouter internal constructor(
+    private val nativePedestrianRouter: NativePedestrianRouter,
+) {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativePedestrianRouter {
-        return nativePedestrianRouter
-    }
+    public fun toNative(): NativePedestrianRouter = nativePedestrianRouter
 
     /** Builds routes through [points] in the supplied order.
      *
@@ -24,12 +23,13 @@ public actual class PedestrianRouter internal constructor(private val nativePede
         routeListener: RouteListener,
     ): Session {
         val request = RouteRequest(routeListener)
-        val session = nativePedestrianRouter.requestRoutes(
-            points.map(RequestPoint::toNative),
-            timeOptions.toNative(),
-            routeOptions.toNative(),
-            request.toNative(),
-        )
+        val session =
+            nativePedestrianRouter.requestRoutes(
+                points.map(RequestPoint::toNative),
+                timeOptions.toNative(),
+                routeOptions.toNative(),
+                request.toNative(),
+            )
         return session.toCommon(request)
     }
 
@@ -41,12 +41,8 @@ public actual class PedestrianRouter internal constructor(private val nativePede
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativePedestrianRouter.hashCode()
-    }
+    actual override fun hashCode(): Int = nativePedestrianRouter.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativePedestrianRouter.toCommon(): PedestrianRouter {
-    return PedestrianRouter(this)
-}
+public fun NativePedestrianRouter.toCommon(): PedestrianRouter = PedestrianRouter(this)

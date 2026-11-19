@@ -5,12 +5,11 @@ import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKMasstransitRouter as NativeMasstransitRouter
 
 /** A router that builds public transport routes. */
-public actual class MasstransitRouter internal constructor(private val nativeMasstransitRouter: NativeMasstransitRouter) {
-
+public actual class MasstransitRouter internal constructor(
+    private val nativeMasstransitRouter: NativeMasstransitRouter,
+) {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeMasstransitRouter {
-        return nativeMasstransitRouter
-    }
+    public fun toNative(): NativeMasstransitRouter = nativeMasstransitRouter
 
     /** Builds routes through [points] in the supplied order.
      *
@@ -24,12 +23,13 @@ public actual class MasstransitRouter internal constructor(private val nativeMas
         routeListener: RouteListener,
     ): Session {
         val request = RouteRequest(routeListener)
-        val session = nativeMasstransitRouter.requestRoutesWithPoints(
-            points = points.map(RequestPoint::toNative),
-            transitOptions = transitOptions.toNative(),
-            routeOptions = routeOptions.toNative(),
-            routeHandler = request.toNative(),
-        )
+        val session =
+            nativeMasstransitRouter.requestRoutesWithPoints(
+                points = points.map(RequestPoint::toNative),
+                transitOptions = transitOptions.toNative(),
+                routeOptions = routeOptions.toNative(),
+                routeHandler = request.toNative(),
+            )
         return session.toCommon(request)
     }
 
@@ -41,12 +41,8 @@ public actual class MasstransitRouter internal constructor(private val nativeMas
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeMasstransitRouter.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeMasstransitRouter.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeMasstransitRouter.toCommon(): MasstransitRouter {
-    return MasstransitRouter(this)
-}
+public fun NativeMasstransitRouter.toCommon(): MasstransitRouter = MasstransitRouter(this)

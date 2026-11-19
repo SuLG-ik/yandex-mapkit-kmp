@@ -3,12 +3,11 @@ package ru.sulgik.mapkit.transport.masstransit
 import YandexMapKit.YMKMasstransitTransfer as NativeTransfer
 
 /** Native data for a transfer section. */
-public actual class Transfer internal constructor(private val nativeTransfer: NativeTransfer) {
-
+public actual class Transfer internal constructor(
+    private val nativeTransfer: NativeTransfer,
+) {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeTransfer {
-        return nativeTransfer
-    }
+    public fun toNative(): NativeTransfer = nativeTransfer
 
     /** The stop used by the transfer. */
     public actual val transferStop: TransferStop
@@ -22,12 +21,8 @@ public actual class Transfer internal constructor(private val nativeTransfer: Na
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeTransfer.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeTransfer.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeTransfer.toCommon(): Transfer {
-    return Transfer(this)
-}
+public fun NativeTransfer.toCommon(): Transfer = Transfer(this)

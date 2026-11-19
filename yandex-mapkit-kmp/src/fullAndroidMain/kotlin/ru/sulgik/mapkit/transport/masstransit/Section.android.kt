@@ -5,12 +5,11 @@ import ru.sulgik.mapkit.geometry.toCommon
 import com.yandex.mapkit.transport.masstransit.Section as NativeSection
 
 /** A section of a walking, cycling or transit route. */
-public actual class Section internal constructor(private val nativeSection: NativeSection) {
-
+public actual class Section internal constructor(
+    private val nativeSection: NativeSection,
+) {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeSection {
-        return nativeSection
-    }
+    public fun toNative(): NativeSection = nativeSection
 
     /** General information about this section. */
     public actual val metadata: SectionMetadata
@@ -36,12 +35,8 @@ public actual class Section internal constructor(private val nativeSection: Nati
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeSection.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeSection.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeSection.toCommon(): Section {
-    return Section(this)
-}
+public fun NativeSection.toCommon(): Section = Section(this)

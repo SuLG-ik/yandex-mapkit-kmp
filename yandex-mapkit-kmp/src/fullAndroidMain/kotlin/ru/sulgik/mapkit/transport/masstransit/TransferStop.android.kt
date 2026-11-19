@@ -3,12 +3,11 @@ package ru.sulgik.mapkit.transport.masstransit
 import com.yandex.mapkit.transport.masstransit.TransferStop as NativeTransferStop
 
 /** A stop visited while transferring between rides. */
-public actual class TransferStop internal constructor(private val nativeTransferStop: NativeTransferStop) {
-
+public actual class TransferStop internal constructor(
+    private val nativeTransferStop: NativeTransferStop,
+) {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeTransferStop {
-        return nativeTransferStop
-    }
+    public fun toNative(): NativeTransferStop = nativeTransferStop
 
     /** The stop used by the transfer. */
     public actual val routeStop: RouteStop
@@ -26,12 +25,8 @@ public actual class TransferStop internal constructor(private val nativeTransfer
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeTransferStop.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeTransferStop.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeTransferStop.toCommon(): TransferStop {
-    return TransferStop(this)
-}
+public fun NativeTransferStop.toCommon(): TransferStop = TransferStop(this)

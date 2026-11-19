@@ -33,15 +33,15 @@ import YandexMapKit.YMKMasstransitStop as NativeStop
 import YandexMapKit.YMKMasstransitTransport as NativeTransportLeg
 
 public class TransportAdapterTest {
-
     @Test
     public fun optional_times_waypoints_and_fitness_options_round_trip() {
         val departure = TimeOptions(departureTime = Instant.fromEpochMilliseconds(1_797_432_000_123L))
         val arrival = TimeOptions(arrivalTime = Instant.fromEpochMilliseconds(1_797_432_123_456L))
-        val request = listOf(
-            RequestPoint(Point(55.75, 37.62), RequestPointType.WAYPOINT, pointContext = "first"),
-            RequestPoint(Point(55.76, 37.61), RequestPointType.WAYPOINT, indoorLevelId = "ground"),
-        )
+        val request =
+            listOf(
+                RequestPoint(Point(55.75, 37.62), RequestPointType.WAYPOINT, pointContext = "first"),
+                RequestPoint(Point(55.76, 37.61), RequestPointType.WAYPOINT, indoorLevelId = "ground"),
+            )
         val routeOptions = RouteOptions(FitnessOptions(avoidStairs = true))
 
         assertEquals(departure, departure.toNative().toCommon())
@@ -55,40 +55,46 @@ public class TransportAdapterTest {
 
     @Test
     public fun optional_native_metadata_and_section_geometry_survive_conversion() {
-        val wayPoints = listOf(
-            WayPoint(position = Point(55.75, 37.62), context = "origin"),
-            WayPoint(
-                position = Point(55.76, 37.61),
-                selectedArrivalPoint = Point(55.76, 37.6101),
-                levelId = "ground",
-            ),
-        )
+        val wayPoints =
+            listOf(
+                WayPoint(position = Point(55.75, 37.62), context = "origin"),
+                WayPoint(
+                    position = Point(55.76, 37.61),
+                    selectedArrivalPoint = Point(55.76, 37.6101),
+                    levelId = "ground",
+                ),
+            )
         val weight = Weight(LocalizedValue(90.0, "90 s"), LocalizedValue(120.0, "120 m"), 0)
-        val metadata = NativeRouteMetadata.routeMetadataWithWeight(
-            weight = weight.toNative(),
-            settings = null,
-            estimation = null,
-            wayPoints = wayPoints.map { it.toNative() },
-            routeId = null,
-            flags = null,
-            comfortTags = emptyList<Any>(),
-            stairsSummary = StairsSummary(2, 1).toNative(),
-            paymentOptions = emptyList<Any>(),
-            routeExplanation = null,
-        ).toCommon()
+        val metadata =
+            NativeRouteMetadata
+                .routeMetadataWithWeight(
+                    weight = weight.toNative(),
+                    settings = null,
+                    estimation = null,
+                    wayPoints = wayPoints.map { it.toNative() },
+                    routeId = null,
+                    flags = null,
+                    comfortTags = emptyList<Any>(),
+                    stairsSummary = StairsSummary(2, 1).toNative(),
+                    paymentOptions = emptyList<Any>(),
+                    routeExplanation = null,
+                ).toCommon()
         val sectionGeometry = Subpolyline(PolylinePosition(0, 0.0), PolylinePosition(0, 1.0))
-        val section = NativeSection.sectionWithMetadata(
-            metadata = NativeSectionMetadata.sectionMetadataWithWeight(
-                weight = weight.toNative(),
-                data = NativeSectionData.sectionDataWithWait(Wait(1).toNative()),
-                estimation = null,
-                legIndex = 0uL,
-                paymentOptions = emptyList<Any>(),
-            ),
-            geometry = sectionGeometry.toNative(),
-            stops = emptyList<Any>(),
-            rideLegs = emptyList<Any>(),
-        ).toCommon()
+        val section =
+            NativeSection
+                .sectionWithMetadata(
+                    metadata =
+                        NativeSectionMetadata.sectionMetadataWithWeight(
+                            weight = weight.toNative(),
+                            data = NativeSectionData.sectionDataWithWait(Wait(1).toNative()),
+                            estimation = null,
+                            legIndex = 0uL,
+                            paymentOptions = emptyList<Any>(),
+                        ),
+                    geometry = sectionGeometry.toNative(),
+                    stops = emptyList<Any>(),
+                    rideLegs = emptyList<Any>(),
+                ).toCommon()
 
         assertEquals(wayPoints, metadata.wayPoints)
         assertEquals(weight, metadata.weight)
@@ -107,16 +113,17 @@ public class TransportAdapterTest {
     @Test
     public fun bicycle_section_keeps_kind_and_via_positions() {
         val via = listOf(PolylinePosition(0, 0.25), PolylinePosition(1, 0.5))
-        val native = NativeFitness.fitnessWithType(
-            type = FitnessType.BICYCLE.toNative(),
-            constructions = emptyList<Any>(),
-            restrictedEntries = emptyList<Any>(),
-            viaPoints = via.map { it.toNative() },
-            annotations = emptyList<Any>(),
-            trafficTypes = emptyList<Any>(),
-            elevationData = null,
-            indoorSegments = emptyList<Any>(),
-        )
+        val native =
+            NativeFitness.fitnessWithType(
+                type = FitnessType.BICYCLE.toNative(),
+                constructions = emptyList<Any>(),
+                restrictedEntries = emptyList<Any>(),
+                viaPoints = via.map { it.toNative() },
+                annotations = emptyList<Any>(),
+                trafficTypes = emptyList<Any>(),
+                elevationData = null,
+                indoorSegments = emptyList<Any>(),
+            )
         val section = NativeSectionData.sectionDataWithFitness(native).toCommon()
         val bicycle = checkNotNull(section.fitness)
 
@@ -130,78 +137,112 @@ public class TransportAdapterTest {
     @Test
     public fun transit_filters_and_nullable_access_points_survive_native_mapping() {
         val filters = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value
-        val options = TransitOptions(
-            avoid = filters,
-            timeOptions = TimeOptions(arrivalTime = Instant.fromEpochMilliseconds(1_797_432_000_123L)),
-        )
+        val options =
+            TransitOptions(
+                avoid = filters,
+                timeOptions = TimeOptions(arrivalTime = Instant.fromEpochMilliseconds(1_797_432_000_123L)),
+            )
         assertEquals(17uL, options.toNative().avoid)
         assertEquals(options, options.toNative().toCommon())
         assertEquals(TransitOptions(), TransitOptions().toNative().toCommon())
 
         val places = listOf(Point(55.75, 37.62), Point(55.76, 37.61))
-        val stops = places.mapIndexed { index, place ->
-            val stop = NativeStop.stopWithId(
-                id = "stop-$index",
-                name = "Station $index",
-                additionalName = null,
-                features = null,
-                transportContours = emptyList<Any>(),
+        val stops =
+            places.mapIndexed { index, place ->
+                val stop =
+                    NativeStop.stopWithId(
+                        id = "stop-$index",
+                        name = "Station $index",
+                        additionalName = null,
+                        features = null,
+                        transportContours = emptyList<Any>(),
+                    )
+                NativeRouteStop.routeStopWithMetadata(
+                    metadata =
+                        NativeRouteStopMetadata.routeStopMetadataWithStop(
+                            stop = stop,
+                            stopExit = null,
+                            exitPoint = null,
+                            stopEntrance = null,
+                            entrancePoint = if (index == 0) place.toNative() else null,
+                        ),
+                    position = place.toNative(),
+                )
+            }
+        val line =
+            NativeLine.lineWithId(
+                id = "line-1",
+                name = "M1",
+                vehicleTypes = listOf("underground"),
+                style = null,
+                isNight = false,
+                uri = null,
+                shortName = null,
+                transportSystemId = null,
             )
-            NativeRouteStop.routeStopWithMetadata(
-                metadata = NativeRouteStopMetadata.routeStopMetadataWithStop(
-                    stop = stop,
-                    stopExit = null,
-                    exitPoint = null,
-                    stopEntrance = null,
-                    entrancePoint = if (index == 0) place.toNative() else null,
-                ),
-                position = place.toNative(),
-            )
-        }
-        val line = NativeLine.lineWithId(
-            id = "line-1",
-            name = "M1",
-            vehicleTypes = listOf("underground"),
-            style = null,
-            isNight = false,
-            uri = null,
-            shortName = null,
-            transportSystemId = null,
-        )
         val ride = NativeTransportLeg.transportWithLine(line, emptyList<Any>(), emptyList<Any>())
         val weight = Weight(LocalizedValue(70.0, "70 s"), LocalizedValue(0.0, "0 m"), 0)
         val sectionGeometry = Subpolyline(PolylinePosition(0, 0.0), PolylinePosition(0, 1.0))
-        val section = NativeSection.sectionWithMetadata(
-            metadata = NativeSectionMetadata.sectionMetadataWithWeight(
-                weight = weight.toNative(),
-                data = NativeSectionData.sectionDataWithTransports(listOf(ride)),
-                estimation = null,
-                legIndex = 0uL,
-                paymentOptions = emptyList<Any>(),
-            ),
-            geometry = sectionGeometry.toNative(),
-            stops = stops,
-            rideLegs = listOf(sectionGeometry.toNative()),
-        ).toCommon()
+        val section =
+            NativeSection
+                .sectionWithMetadata(
+                    metadata =
+                        NativeSectionMetadata.sectionMetadataWithWeight(
+                            weight = weight.toNative(),
+                            data = NativeSectionData.sectionDataWithTransports(listOf(ride)),
+                            estimation = null,
+                            legIndex = 0uL,
+                            paymentOptions = emptyList<Any>(),
+                        ),
+                    geometry = sectionGeometry.toNative(),
+                    stops = stops,
+                    rideLegs = listOf(sectionGeometry.toNative()),
+                ).toCommon()
 
         assertNull(section.metadata.data.fitness)
-        assertSame(line, section.metadata.data.transports?.single()?.line?.toNative())
-        assertEquals(listOf("underground"), section.metadata.data.transports?.single()?.line?.vehicleTypes)
+        assertSame(
+            line,
+            section.metadata.data.transports
+                ?.single()
+                ?.line
+                ?.toNative(),
+        )
+        assertEquals(
+            listOf("underground"),
+            section.metadata.data.transports
+                ?.single()
+                ?.line
+                ?.vehicleTypes,
+        )
         assertEquals(listOf("stop-0", "stop-1"), section.stops.map { it.metadata.stop.id })
         assertEquals(places, section.stops.map { it.position })
-        assertEquals(places[0], section.stops.first().metadata.entrancePoint)
-        assertNull(section.stops.last().metadata.entrancePoint)
-        assertNull(section.stops.last().metadata.stop.additionalName)
+        assertEquals(
+            places[0],
+            section.stops
+                .first()
+                .metadata.entrancePoint,
+        )
+        assertNull(
+            section.stops
+                .last()
+                .metadata.entrancePoint,
+        )
+        assertNull(
+            section.stops
+                .last()
+                .metadata.stop.additionalName,
+        )
         assertEquals(listOf(sectionGeometry), section.rideLegs)
     }
 
     @Test
     public fun native_handler_delivers_no_route_and_error_and_ignores_retired_callbacks() {
-        val nativeError = NSError.errorWithDomain(
-            domain = "TransportTest",
-            code = 42,
-            userInfo = mapOf(NSLocalizedDescriptionKey to "Routing unavailable"),
-        )
+        val nativeError =
+            NSError.errorWithDomain(
+                domain = "TransportTest",
+                code = 42,
+                userInfo = mapOf(NSLocalizedDescriptionKey to "Routing unavailable"),
+            )
         val results = mutableListOf<List<Route>>()
         val errors = mutableListOf<RouteError>()
         val listener = RouteListener({ results.add(it) }, { errors.add(it) })
@@ -226,9 +267,10 @@ public class TransportAdapterTest {
         val native = RecordingSession()
         val aliasBeforeRequest = native.toCommon()
         val oldResults = mutableListOf<List<Route>>()
-        val oldRequest = RouteRequest(
-            RouteListener({ oldResults.add(it) }, { error("Unexpected initial failure") }),
-        )
+        val oldRequest =
+            RouteRequest(
+                RouteListener({ oldResults.add(it) }, { error("Unexpected initial failure") }),
+            )
         native.callbacks.add(oldRequest.toNative())
         val owner = native.toCommon(oldRequest)
         val aliasBeforeRetry = owner.toNative().toCommon()
@@ -246,11 +288,9 @@ public class TransportAdapterTest {
         assertTrue(oldResults.isEmpty())
         assertTrue(currentResults.single().isEmpty())
     }
-
 }
 
 private class RecordingSession : NativeSession() {
-
     val callbacks = mutableListOf<(List<*>?, NSError?) -> Unit>()
     var cancelCount = 0
         private set

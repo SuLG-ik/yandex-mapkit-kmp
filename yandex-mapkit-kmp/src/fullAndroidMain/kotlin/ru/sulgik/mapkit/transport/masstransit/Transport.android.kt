@@ -3,12 +3,11 @@ package ru.sulgik.mapkit.transport.masstransit
 import com.yandex.mapkit.transport.masstransit.Transport as NativeTransport
 
 /** Transport suitable for a ride section. */
-public actual class Transport internal constructor(private val nativeTransport: NativeTransport) {
-
+public actual class Transport internal constructor(
+    private val nativeTransport: NativeTransport,
+) {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeTransport {
-        return nativeTransport
-    }
+    public fun toNative(): NativeTransport = nativeTransport
 
     /** The public transport line. */
     public actual val line: Line
@@ -22,12 +21,8 @@ public actual class Transport internal constructor(private val nativeTransport: 
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeTransport.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeTransport.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeTransport.toCommon(): Transport {
-    return Transport(this)
-}
+public fun NativeTransport.toCommon(): Transport = Transport(this)

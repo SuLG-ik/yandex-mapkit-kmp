@@ -4,12 +4,11 @@ import com.yandex.mapkit.transport.masstransit.SectionMetadata as NativeSectionM
 import com.yandex.mapkit.transport.masstransit.SectionMetadata.SectionData as NativeSectionData
 
 /** Information about a section of a transport route. */
-public actual class SectionMetadata internal constructor(private val nativeSectionMetadata: NativeSectionMetadata) {
-
+public actual class SectionMetadata internal constructor(
+    private val nativeSectionMetadata: NativeSectionMetadata,
+) {
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeSectionMetadata {
-        return nativeSectionMetadata
-    }
+    public fun toNative(): NativeSectionMetadata = nativeSectionMetadata
 
     /** Travel time, walking distance and transfer count. */
     public actual val weight: Weight
@@ -28,12 +27,11 @@ public actual class SectionMetadata internal constructor(private val nativeSecti
         get() = nativeSectionMetadata.legIndex
 
     /** A choice of data specific to a transport section. */
-    public actual class SectionData internal constructor(private val nativeSectionData: NativeSectionData) {
-
+    public actual class SectionData internal constructor(
+        private val nativeSectionData: NativeSectionData,
+    ) {
         /** Returns the wrapped native handle. */
-        public fun toNative(): NativeSectionData {
-            return nativeSectionData
-        }
+        public fun toNative(): NativeSectionData = nativeSectionData
 
         /** Data for waiting. */
         public actual val wait: Wait?
@@ -63,9 +61,7 @@ public actual class SectionMetadata internal constructor(private val nativeSecti
         }
 
         /** Returns the native handle's hash code. */
-        actual override fun hashCode(): Int {
-            return nativeSectionData.hashCode()
-        }
+        actual override fun hashCode(): Int = nativeSectionData.hashCode()
     }
 
     /** Reports whether two wrappers hold the same native handle. */
@@ -76,17 +72,11 @@ public actual class SectionMetadata internal constructor(private val nativeSecti
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int {
-        return nativeSectionMetadata.hashCode()
-    }
+    actual override fun hashCode(): Int = nativeSectionMetadata.hashCode()
 }
 
 /** Wraps this native handle. */
-public fun NativeSectionMetadata.toCommon(): SectionMetadata {
-    return SectionMetadata(this)
-}
+public fun NativeSectionMetadata.toCommon(): SectionMetadata = SectionMetadata(this)
 
 /** Wraps this native section data. */
-public fun NativeSectionData.toCommon(): SectionMetadata.SectionData {
-    return SectionMetadata.SectionData(this)
-}
+public fun NativeSectionData.toCommon(): SectionMetadata.SectionData = SectionMetadata.SectionData(this)
