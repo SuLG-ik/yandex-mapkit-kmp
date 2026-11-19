@@ -3,6 +3,8 @@ package ru.sulgik.mapkit.compose
 import android.os.SystemClock
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.geometry.Offset
@@ -15,6 +17,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
+import ru.sulgik.mapkit.mapview.toCommon
 import ru.sulgik.mapkit.test.interaction.FixtureClose
 import ru.sulgik.mapkit.test.interaction.FixtureMapTag
 import ru.sulgik.mapkit.test.interaction.FixtureOpen
@@ -25,6 +28,7 @@ import ru.sulgik.mapkit.test.interaction.MapTapTrace
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import com.yandex.mapkit.mapview.MapView as NativeMapView
 
 @OptIn(ExperimentalTestApi::class)
 public class MapInteractionTest {
@@ -83,10 +87,10 @@ public class MapInteractionTest {
                 assertEquals(expected, actual, "Native map event trace")
             }
 
-            fun touch(center: () -> Offset?, holdMillis: Long = 0L) {
+            fun advanceCase() {
                 var point = Offset.Zero
                 scenario.onActivity { activity ->
-                    val target = assertNotNull(center(), "Touch target is not laid out")
+                    val target = assertNotNull(trace.nextCaseCenter, "Next case control is not laid out")
                     val decor = activity.window.decorView
                     val screen = IntArray(2)
                     val window = IntArray(2)
@@ -94,40 +98,67 @@ public class MapInteractionTest {
                     decor.getLocationInWindow(window)
                     point = Offset(target.x + screen[0] - window[0], target.y + screen[1] - window[1])
                 }
-                tap(point.x, point.y, holdMillis)
+                tap(point.x, point.y)
             }
 
-            fun touchCenter(vararg events: String, holdMillis: Long = 0L) {
-                touch({ trace.mapCenter }, holdMillis)
+            fun touchProjectedPoint(vararg events: String, holdMillis: Long = 0L) {
+                val deadline = SystemClock.uptimeMillis() + 3_000L
+                var point: Offset? = null
+                while (point == null && SystemClock.uptimeMillis() < deadline) {
+                    scenario.onActivity { activity ->
+                        val target = assertNotNull(trace.target, "The fixture did not provide a tap target")
+                        val view = activity.window.decorView.findNativeMap()
+                        if (view == null || !view.isShown || !view.hasWindowFocus() || view.width == 0 || view.height == 0) {
+                            return@onActivity
+                        }
+                        val window = view.toCommon().mapWindow
+                        if (!window.isValid || window.width == 0 || window.height == 0) return@onActivity
+                        val projected = window.worldToScreen(target) ?: return@onActivity
+                        if (projected.x !in 0f..window.width.toFloat() || projected.y !in 0f..window.height.toFloat()) {
+                            return@onActivity
+                        }
+
+                        val location = IntArray(2)
+                        view.getLocationOnScreen(location)
+                        point = Offset(
+                            x = location[0] + projected.x / window.width * view.width,
+                            y = location[1] + projected.y / window.height * view.height,
+                        )
+                        Log.d("MapInteractionTest", "Native tap target $target projects to $projected, screen $point")
+                    }
+                    if (point == null) SystemClock.sleep(20L)
+                }
+                val screenPoint = assertNotNull(point, "The map did not project a touch target. Events: $expected")
+                tap(screenPoint.x, screenPoint.y, holdMillis)
                 expected.addAll(events)
                 awaitTrace()
             }
 
             fun ready(case: String, advance: Boolean = true) {
-                if (advance) touch({ trace.nextCaseCenter })
+                if (advance) advanceCase()
                 expected.add("ready $case")
                 awaitTrace()
             }
 
             ready("Disabled", advance = false)
-            touchCenter("polygon", "collection")
+            touchProjectedPoint("polygon", "collection")
             ready("Empty")
-            touchCenter("map")
-            touchCenter("long", holdMillis = 900L)
+            touchProjectedPoint("map")
+            touchProjectedPoint("long", holdMillis = 900L)
             ready("PlacemarkConsumes")
-            touchCenter("placemark")
+            touchProjectedPoint("placemark")
             ready("PlacemarkPropagates")
-            touchCenter("placemark", "collection")
+            touchProjectedPoint("placemark", "collection")
             ready("PlacemarkHidden")
-            touchCenter("polygon")
+            touchProjectedPoint("polygon")
             ready("PlacemarkRestored")
-            touchCenter("placemark")
+            touchProjectedPoint("placemark")
             ready("PlacemarkRemoved")
-            touchCenter("polygon", "collection", "replacement")
+            touchProjectedPoint("polygon", "collection", "replacement")
             ready("HandlerRemoved")
-            touchCenter("polygon", "collection")
+            touchProjectedPoint("polygon", "collection")
             ready("HandlerRestored")
-            touchCenter("polygon", "collection", "restored")
+            touchProjectedPoint("polygon", "collection", "restored")
         }
     }
 
@@ -151,6 +182,16 @@ public class MapInteractionTest {
         } catch (failure: Throwable) {
             throw AssertionError("Waiting for '$expected'. Events: ${trace.events}", failure)
         }
+    }
+
+    private fun View.findNativeMap(): NativeMapView? {
+        if (this is NativeMapView) return this
+        if (this is ViewGroup) {
+            for (index in 0 until childCount) {
+                getChildAt(index).findNativeMap()?.let { return it }
+            }
+        }
+        return null
     }
 
     private fun tap(x: Float, y: Float, holdMillis: Long = 0L) {

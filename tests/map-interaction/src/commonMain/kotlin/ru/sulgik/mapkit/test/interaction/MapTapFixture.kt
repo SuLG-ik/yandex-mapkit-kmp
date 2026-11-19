@@ -53,9 +53,9 @@ private val polygonGeometry = PolygonGeometry(
     outerRing = LinearRing(
         listOf(
             Point(55.751225, 37.637540),
-            Point(55.751225, 37.639540),
-            Point(55.753225, 37.639540),
             Point(55.753225, 37.637540),
+            Point(55.753225, 37.639540),
+            Point(55.751225, 37.639540),
             Point(55.751225, 37.637540),
         ),
     ),
@@ -86,7 +86,7 @@ private enum class TapCase(
 internal class MapTapTrace {
     val events = mutableStateListOf<String>()
     var nextCaseCenter: Offset? = null
-    var mapCenter: Offset? = null
+    var target: Point? = null
 
     fun record(name: String, actual: Point, expected: Point) {
         val event = if (actual.isNear(expected)) name else "wrong $name coordinate: $actual, expected $expected"
@@ -117,7 +117,6 @@ internal fun MapTapFixture(trace: MapTapTrace = remember { MapTapTrace() }) {
         YandexMap(
             cameraPositionState = camera,
             modifier = Modifier.size(260.dp)
-                .onGloballyPositioned { trace.mapCenter = it.boundsInWindow().center }
                 .testTag(TapMapLabel)
                 .semantics { contentDescription = TapMapLabel },
             config = MapConfig(
@@ -175,6 +174,7 @@ internal fun MapTapFixture(trace: MapTapTrace = remember { MapTapTrace() }) {
                     withFrameNanos { }
                     true
                 }
+                trace.target = activeCase.target.takeIf { ready == true }
                 trace.events.add(if (ready == true) "ready ${activeCase.name}" else "timeout ${activeCase.name}")
             }
         }
