@@ -51,6 +51,8 @@ private key file there atomically. The fixture removes the key file and records 
 before MapKit initialization. XCTest stdout and stderr are discarded. Its private xcresult stays
 in runner temporary storage and is removed by the cleanup hook. The scheduler uploads the category
 only.
+A termination error reports incomplete cleanup unless simctl confirms the app was already stopped.
+Cleanup still scrubs the recorded sandbox and the current simulator sandbox before reporting its status.
 A missing loaded map or selectable POI reports provider-or-network. A mismatch after independent
 native discovery reports wrapper-or-result-shape.
 

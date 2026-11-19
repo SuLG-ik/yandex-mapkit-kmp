@@ -1,5 +1,6 @@
 """Run the trusted iOS basemap probe after XCTest launches its own simulator app."""
 
+import errno
 import json
 import os
 from pathlib import Path
@@ -26,9 +27,33 @@ class PoiRunnerError(RuntimeError):
     pass
 
 
-def run_command(*command, timeout=5):
+def run_command(*command, timeout=5, capture_error=False):
     return subprocess.run(
-        command, check=False, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout
+        command,
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE if capture_error else subprocess.DEVNULL,
+        timeout=timeout,
+    )
+
+
+def already_stopped(result):
+    if result.returncode != errno.ESRCH:
+        return False
+    lines = [line.strip() for line in result.stderr.splitlines() if line.strip()]
+    domain = b"NSPOSIXErrorDomain, code=3"
+    reported = b"An error was encountered processing the command (domain=" + domain + b"):"
+    absent = b"found nothing to terminate"
+    return lines in (
+        [reported, f"Simulator device failed to terminate {PACKAGE}.".encode(), absent],
+        [
+            reported,
+            b"Simulator device returned an error for the requested operation.",
+            absent,
+            b"Underlying error (domain=" + domain + b"):",
+            f'The request to terminate "{PACKAGE}" failed. found nothing to terminate'.encode(),
+            absent,
+        ],
     )
 
 
@@ -53,9 +78,9 @@ class Simulator:
         return container if container.is_dir() else None
 
     def terminate_app(self):
-        result = run_command("xcrun", "simctl", "terminate", self.udid, PACKAGE)
-        if result.returncode and self.container() is None:
-            raise PoiRunnerError("The POI simulator could not be reached during cleanup.")
+        result = run_command("xcrun", "simctl", "terminate", self.udid, PACKAGE, capture_error=True)
+        if result.returncode and not already_stopped(result):
+            raise PoiRunnerError("Could not confirm the POI app stopped during cleanup.")
 
 
 def test_spec_with_run_id(source, token):
@@ -120,7 +145,9 @@ def stop_process(process):
 
 
 def is_probe(identifier):
-    return unquote(identifier).removesuffix("()").endswith(f"{TARGET}/testTrustedBasemapPoiTap")
+    probe = f"{TARGET}/testTrustedBasemapPoiTap"
+    normalized = unquote(identifier).removesuffix("()")
+    return normalized == probe or (normalized.startswith("test://") and normalized.endswith(f"/{probe}"))
 
 
 def result_category(bundle, status):
@@ -204,17 +231,30 @@ def run_probe(device, token, key, scratch, spec):
                 erase_handoff(directory, token)
 
 
+def erase_device_handoffs(device, token, pointer):
+    staged = None
+    try:
+        if pointer.is_file():
+            staged = device.validated_container(Path(pointer.read_text(encoding="utf-8")))
+            erase_handoff(poi_directory(staged), token)
+    finally:
+        current = device.container()
+        if current is not None and current != staged:
+            erase_handoff(poi_directory(current), token)
+
+
 def cleanup(device, token, scratch, spec):
     try:
-        pointer = scratch / "container"
-        if pointer.is_file():
-            container = device.validated_container(Path(pointer.read_text(encoding="utf-8")))
-            erase_handoff(poi_directory(container), token)
         device.terminate_app()
     finally:
-        spec.unlink(missing_ok=True)
-        if scratch.exists():
-            shutil.rmtree(scratch)
+        try:
+            erase_device_handoffs(device, token, scratch / "container")
+        finally:
+            try:
+                spec.unlink(missing_ok=True)
+            finally:
+                if scratch.exists():
+                    shutil.rmtree(scratch)
 
 
 def main():
