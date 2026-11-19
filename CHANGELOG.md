@@ -11,6 +11,11 @@ summarise them. Their tags carry no `v` prefix, unlike the ones cut since.
 
 ## [Unreleased]
 
+### Added
+
+- Cancellable text search by area in the unreleased MapKit Full candidate for Android and iOS.
+  The Full consumer workflow checks both ABI snapshots and the search adapter regressions.
+
 ## [1.0.0-beta02] - 2026-11-19
 
 ### Changed
