@@ -2,7 +2,6 @@ package ru.sulgik.mapkit.search
 
 import platform.Foundation.NSError
 import platform.Foundation.NSLocalizedDescriptionKey
-import platform.Foundation.errorWithDomain
 import ru.sulgik.mapkit.geometry.Geometry
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.geometry.toNative
@@ -59,7 +58,7 @@ public class SearchAdapterTest {
 
     @Test
     public fun native_error_and_disposal_do_not_deliver_results() {
-        val nativeError = NSError.errorWithDomain(
+        val nativeError = NSError(
             domain = "SearchTest",
             code = 42,
             userInfo = mapOf(NSLocalizedDescriptionKey to "Network unavailable"),
