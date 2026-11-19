@@ -19,9 +19,9 @@ EXIT_CATEGORIES = {
     10: "authorization",
     11: "provider-or-network",
     12: "wrapper-or-result-shape",
-    13: "provider-no-route",
     70: "runner-or-fixture",
 }
+ROUTING_EXIT_CATEGORIES = {**EXIT_CATEGORIES, 13: "provider-no-route"}
 
 
 def hook(check, platform):
@@ -69,9 +69,9 @@ def run_process(command, environment, timeout, stdout=subprocess.DEVNULL):
         return 70
 
 
-def read_modes(command, environment, mode_names):
+def read_modes(command, environment, mode_names, exit_categories):
     modes = dict.fromkeys(mode_names, "not-run")
-    categories = {str(code): category for code, category in EXIT_CATEGORIES.items()}
+    categories = {str(code): category for code, category in exit_categories.items()}
     with tempfile.TemporaryFile(mode="w+", encoding="utf-8", errors="replace") as markers:
         run_process(command + ["--modes"], environment, timeout=15, stdout=markers)
         markers.seek(0)
@@ -88,8 +88,9 @@ def run_check(check, platform, device, api_key):
     environment.pop("MAPKIT_TEST_API_KEY", None)
     environment.pop("MAPKIT_LIVE_KEY_FILE", None)
     status = run_process(command, dict(environment, MAPKIT_TEST_API_KEY=api_key), timeout=120)
-    category = "runner-deadline" if status is None else EXIT_CATEGORIES.get(status, "runner-or-fixture")
-    modes = read_modes(command, environment, CHECK_MODES[check]) if check in CHECK_MODES else None
+    exit_categories = ROUTING_EXIT_CATEGORIES if check == "routing" else EXIT_CATEGORIES
+    category = "runner-deadline" if status is None else exit_categories.get(status, "runner-or-fixture")
+    modes = read_modes(command, environment, CHECK_MODES[check], exit_categories) if check in CHECK_MODES else None
     if run_process(command + ["--cleanup"], environment, timeout=15) != 0:
         category = f"{category}-cleanup-incomplete"
     return category, modes
