@@ -60,11 +60,18 @@
 | [#42][42] Compose Resources как зависимость основного Compose-модуля | [#61][split] перенёс перегрузку в опциональный модуль, [проверка ABI][api] проверяет её сигнатуру. Приложения на [Android][a-consumer] и [iOS][i-consumer] подключают опциональный артефакт и устанавливают PNG на метку. | Проверить отрисовку и обновление изображений меток и кластеров [#84][84]. |
 | [#55][55] Сбой при закрытии карты Compose | [NativeYandexMapLifecycleTest][a-lifecycle] инициализирует MapKit, создаёт карту и завершает Activity. Тесты жизненного цикла на [Android][a-host-lifecycle] и [iOS][i-host-lifecycle] многократно удаляют карту во время анимации и требуют одного отсоединения для каждого старого экземпляра. Android также проверяет, что освобождённые окна теряют валидность. | Переходы по стеку экранов [#72][72], [#73][73]. |
 
-## Текстовый поиск Full
+## Поиск Full
 
 [Тесты адаптеров Android и iOS](full-text-search.ru.md#проверки-регрессий) покрывают параметры
 запроса, названия и координаты, пустой ответ, нативную ошибку и события после отмены. Тестовое
 приложение Full создаёт нативный менеджер в рамках проверки редакций SDK из [#77][77].
+
+[SuggestAdapterTest на Android JVM][a-suggest] и [на симуляторе iOS][i-suggest] проверяют
+[подсказки и сброс сессии](full-text-search.ru.md#подсказки-при-вводе), включая параметры и поля
+ответа, замену запроса, сброс через другую обёртку нативной сессии и запоздалые ответы.
+Приложение Full создаёт и сбрасывает нативную сессию подсказок. Проверки сетевого ответа
+отслеживаются в [#82][82].
+
 Остальные API Full отслеживаются в [#81][81]. Новые сценарии проверяйте по
 [процессу проверки регрессий](../getting-started/contributing.md#regressions).
 
@@ -156,3 +163,5 @@
 [84]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/84
 [85]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/85
 [86]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/86
+[a-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
+[i-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt

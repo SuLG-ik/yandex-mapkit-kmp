@@ -63,6 +63,57 @@ The common API currently covers the initial text request and cancellation. The p
 are available through `toNative()`. See the [Android search guide] and [iOS search guide] for
 provider behavior.
 
+## Suggestions while typing
+
+On the UI thread, use one `manager.createSuggestSession()` per query editor. Hold the session while
+the editor is open, and pass the visible map window as a `BoundingBox` on every call.
+
+```kotlin
+session.suggest(
+    text = query,
+    window = window,
+    suggestOptions = SuggestOptions(
+        suggestTypes = SuggestType.GEO.value or SuggestType.BIZ.value,
+        strictBounds = true,
+    ),
+    suggestListener = SuggestListener(
+        onResponse = { response -> showSuggestions(response.items) },
+        onError = { showFailure("Suggestions unavailable") },
+    ),
+)
+```
+
+A new `suggest()` replaces the pending request. The wrapper keeps its listener until it receives a
+response, receives an error, or discards the request. Call `reset()` when the query is cleared or
+the editor closes. MapKit then starts a new backend session on the next query. The
+[Full suggestions example] clears visible results on edit and uses a query generation to keep a
+superseded reply from overwriting newer UI state. Reopening creates a new editor and session.
+
+Kotlin aliases of the same native session share the pending request. Resetting through an alias
+created by `session.toNative().toCommon()` therefore cancels delivery to the original listener.
+
+An empty item list is a successful response. Display `item.displayText ?: item.title.text`.
+`title.spans` contains highlight ranges, and `center` and `distance` are optional. When the user
+selects an item, use `item.action` to choose between submitting `searchText`, substituting it in
+the editor, or following `link`. Use a MapKit key for a live query. The Full consumer smoke only
+creates and resets a session, and the adapter tests supply deterministic replies. See the official
+[Android Geosuggest guide] and [iOS Geosuggest guide].
+
+### Run the editor example
+
+Start an emulator or simulator, then install and open the Full suggestions profile.
+
+```sh
+bash verification/lite-consumer/run.sh android emulator-5554 base full suggestions
+bash verification/lite-consumer/run.sh ios SIMULATOR_UUID base full suggestions
+```
+
+Enter a valid MapKit Full API key in the masked app field, then select **Open editor**. The example
+uses a preset Moscow viewport and sends its first request when you type. Clear the text to reset the
+session or close and reopen the editor to start a new one. The fixture keeps keys out of build
+arguments, launch arguments and diagnostic logs. [#82] tracks trusted provider checks of response
+fields independent of provider ranking.
+
 ## Regression checks
 
 The [Android adapter test] and [iOS adapter test] supply responses locally. They check options,
@@ -76,3 +127,7 @@ named coordinates, empty responses, native errors and late callbacks after dispo
 [Android adapter test]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SearchAdapterTest.kt
 [iOS adapter test]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SearchAdapterTest.kt
 [Full consumer workflow]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/full-consumer.yml
+[Full suggestions example]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/lite-consumer/shared/src/fullMain/kotlin/ru/sulgik/liteconsumer/FullSuggestionsExample.kt
+[Android Geosuggest guide]: https://yandex.com/maps-api/docs/mapkit/android/generated/tutorials/map_suggest.html
+[iOS Geosuggest guide]: https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_suggest.html
+[#82]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/82

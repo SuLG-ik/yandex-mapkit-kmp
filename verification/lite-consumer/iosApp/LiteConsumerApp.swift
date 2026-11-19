@@ -13,6 +13,9 @@ struct LiteConsumerApp: App {
 struct MapScreen: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let arguments = ProcessInfo.processInfo.arguments
+        if arguments.last == "mapkit-suggestions" {
+            return SmokeControllerKt.suggestionsController()
+        }
         if arguments.count >= 3 && arguments.last == "live-search" {
             let token = arguments[arguments.count - 2]
             let keyFile = FileManager.default.temporaryDirectory.appendingPathComponent("live-search-key")

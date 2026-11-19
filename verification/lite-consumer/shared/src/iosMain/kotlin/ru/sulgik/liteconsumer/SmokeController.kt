@@ -6,6 +6,10 @@ import platform.Foundation.NSLog
 import platform.Foundation.NSTemporaryDirectory
 import platform.UIKit.UIViewController
 
+public fun suggestionsController(): UIViewController {
+    return ComposeUIViewController { SuggestionsScreen() }
+}
+
 public fun smokeController(token: String): UIViewController {
     initializeSmokeMap()
     return ComposeUIViewController {
