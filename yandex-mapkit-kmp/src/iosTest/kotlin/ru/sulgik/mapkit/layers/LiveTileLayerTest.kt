@@ -3,11 +3,13 @@ package ru.sulgik.mapkit.layers
 import ru.sulgik.mapkit.LiveMap
 import ru.sulgik.mapkit.RawTile
 import ru.sulgik.mapkit.ZoomRange
+import ru.sulgik.mapkit.asWeakRef
 import ru.sulgik.mapkit.geometry.geo.Projections
 import ru.sulgik.mapkit.tiles.TileProvider
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotSame
 import kotlin.test.assertTrue
 
 public class LiveTileLayerTest {
@@ -39,6 +41,20 @@ public class LiveTileLayerTest {
                     assertTrue(data.isValid)
                     assertEquals(data, data.toNative().toCommon())
                     assertFalse(data.isActive)
+
+                    val firstSourceListener = DataSourceListener { }
+                    val nextSourceListener = DataSourceListener { }
+                    val firstLoadedListener = LayerLoadedListener { }
+                    val nextLoadedListener = LayerLoadedListener { }
+                    data.setDataSourceListener(firstSourceListener.asWeakRef())
+                    data.setLayerLoadedListener(firstLoadedListener.asWeakRef())
+                    data.setDataSourceListener(nextSourceListener.asWeakRef())
+                    data.setLayerLoadedListener(nextLoadedListener.asWeakRef())
+                    data.setDataSourceListener(null)
+                    data.setLayerLoadedListener(null)
+                    assertNotSame(firstSourceListener.toNative(), nextSourceListener.toNative())
+                    assertNotSame(firstLoadedListener.toNative(), nextLoadedListener.toNative())
+
                     data.isActive = true
                     assertTrue(data.isActive)
                     data.isActive = false

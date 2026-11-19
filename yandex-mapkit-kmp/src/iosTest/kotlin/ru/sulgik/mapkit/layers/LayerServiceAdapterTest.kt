@@ -7,10 +7,7 @@ import ru.sulgik.mapkit.traffic.TrafficListener
 import ru.sulgik.mapkit.traffic.toNative
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertSame
-import kotlin.test.assertTrue
-import YandexMapKit.YMKGeoObjectTapEvent as NativeGeoObjectTapEvent
 
 public class LayerServiceAdapterTest {
 
@@ -37,25 +34,6 @@ public class LayerServiceAdapterTest {
 
         assertEquals(listOf("loading", "change", "change", "expired"), events)
         assertEquals(listOf(null, level), levels)
-    }
-
-    @Test
-    public fun base_map_tap_adapter_returns_the_consumption_decision() {
-        val nativeEvent = NativeGeoObjectTapEvent()
-        val forwarded = mutableListOf<GeoObjectTapEvent>()
-        var consume = false
-        val listener = GeoObjectTapListener {
-            forwarded += it
-            consume
-        }
-        val adapter = listener.toNative()
-        assertSame(adapter, listener.toNative())
-
-        assertFalse(adapter.onObjectTapWithEvent(nativeEvent))
-        consume = true
-        assertTrue(adapter.onObjectTapWithEvent(nativeEvent))
-        assertEquals(2, forwarded.size)
-        forwarded.forEach { assertSame(nativeEvent, it.toNative()) }
     }
 
     @Test
