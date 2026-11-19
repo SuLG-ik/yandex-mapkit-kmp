@@ -21,7 +21,16 @@ log="${RUNNER_TEMP:?}/mapkit-service-emulator.log"
 nohup "$sdk/emulator/emulator" -avd "$name" -port 5556 -memory 4096 \
     -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim > "$log" 2>&1 < /dev/null &
 pid=$!
-trap 'kill "$pid" 2>/dev/null || true' EXIT
+report_failed_boot() {
+    local boot_status=$?
+    kill "$pid" 2>/dev/null || true
+    if (( boot_status != 0 )) && [[ -s "$log" ]]; then
+        echo "Android service emulator startup output (last 60 lines, up to 16 KiB):" >&2
+        tail -n 60 -- "$log" | tail -c 16384 >&2 || true
+    fi
+    return "$boot_status"
+}
+trap report_failed_boot EXIT
 deadline=$((SECONDS + 180))
 while (( SECONDS < deadline )); do
     status=$(timeout 5 adb -s "$serial" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)
@@ -36,5 +45,5 @@ while (( SECONDS < deadline )); do
     fi
     sleep 2
 done
-echo "The dedicated Android service emulator did not become ready. See $log." >&2
+echo "The dedicated Android service emulator did not become ready." >&2
 exit 1
