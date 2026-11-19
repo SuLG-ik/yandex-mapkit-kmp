@@ -43,6 +43,7 @@ import ru.sulgik.mapkit.compose.toImageProvider
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.CameraListener
 import ru.sulgik.mapkit.map.CameraPosition
+import ru.sulgik.mapkit.map.CameraUpdateReason
 import ru.sulgik.mapkit.map.InputListener
 import ru.sulgik.mapkit.map.MapType
 import ru.sulgik.mapkit.map.MapWindow
@@ -214,8 +215,12 @@ private class LifecycleAttachment(
         },
         onMapLongTap = { _, _ -> scenario.events.add("unexpected long tap $id") },
     )
-    private val cameraListener = CameraListener { _, _, _, _ ->
-        if (closed) scenario.events.add("stale camera $id")
+    private val cameraListener = CameraListener { _, _, reason, finished ->
+        when {
+            closed -> scenario.events.add("stale camera $id")
+            reason == CameraUpdateReason.GESTURES && finished -> scenario.events.add("unexpected camera gesture $id")
+            else -> Unit
+        }
     }
 
     init {

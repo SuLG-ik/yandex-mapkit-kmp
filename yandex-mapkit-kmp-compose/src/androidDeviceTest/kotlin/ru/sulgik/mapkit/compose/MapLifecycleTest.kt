@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.InputDevice
 import android.view.MotionEvent
+import android.view.ViewConfiguration
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.geometry.Offset
@@ -20,6 +21,8 @@ import ru.sulgik.mapkit.test.interaction.MapLifecycleFixture
 import ru.sulgik.mapkit.test.interaction.MapLifecycleScenario
 import ru.sulgik.mapkit.test.interaction.OpenLifecycleMap
 import ru.sulgik.mapkit.test.interaction.SaveViewport
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -127,13 +130,25 @@ public class MapLifecycleTest {
         private val run: LifecycleRun,
     ) {
         private var lastTouch = "no pointer injected"
+        private var previousMap: Int? = null
+        private var previousMapTapUp = 0L
 
         fun tapMap(id: Int, saved: Boolean) {
             waitForEvent("ready $id camera=$saved selected=$saved")
+            if (previousMap == id) waitForSingleTapInterval()
             touch("map $id") {
                 val target = run.fixture.target
                 if (target?.id != id) null else screenPoint(LifecycleMapTag, target.x, target.y)
             }
+            previousMap = id
+            previousMapTapUp = SystemClock.uptimeMillis()
+        }
+
+        private fun waitForSingleTapInterval() {
+            val doubleTapTimeout = maxOf(ViewConfiguration.getDoubleTapTimeout().toLong(), 300L)
+            val nextSingleTap = previousMapTapUp + doubleTapTimeout + 1L
+            val remaining = nextSingleTap - SystemClock.uptimeMillis()
+            if (remaining > 0L) SystemClock.sleep(remaining)
         }
 
         fun tapButton(button: String) {
@@ -144,6 +159,12 @@ public class MapLifecycleTest {
             waitUntil("overlay visible=$visible") {
                 (run.positions[LifecycleOverlay]?.isAttached == true) == visible
             }
+            val frame = CountDownLatch(1)
+            host.onActivity { activity ->
+                val decor = activity.window.decorView
+                decor.postOnAnimation { decor.postOnAnimation { frame.countDown() } }
+            }
+            assertTrue(frame.await(5L, TimeUnit.SECONDS), "No frame after overlay visible=$visible")
         }
 
         fun waitForWindowRelease(id: Int) {
