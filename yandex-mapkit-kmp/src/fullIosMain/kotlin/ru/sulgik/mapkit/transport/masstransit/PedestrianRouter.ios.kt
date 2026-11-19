@@ -21,7 +21,7 @@ public actual class PedestrianRouter internal constructor(private val nativePede
         points: List<RequestPoint>,
         timeOptions: TimeOptions,
         routeOptions: RouteOptions,
-        routeListener: RouteListener,
+        routeListener: Session.RouteListener,
     ): Session {
         val request = RouteRequest(routeListener)
         val session = nativePedestrianRouter.requestRoutesWithPoints(

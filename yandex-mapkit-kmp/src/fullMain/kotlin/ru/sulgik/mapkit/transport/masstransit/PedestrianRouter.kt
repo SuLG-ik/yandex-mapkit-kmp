@@ -14,7 +14,7 @@ public expect class PedestrianRouter {
         points: List<RequestPoint>,
         timeOptions: TimeOptions,
         routeOptions: RouteOptions,
-        routeListener: RouteListener,
+        routeListener: Session.RouteListener,
     ): Session
 
     /** Reports whether two wrappers hold the same native handle. */

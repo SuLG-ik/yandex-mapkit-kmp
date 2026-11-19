@@ -14,7 +14,7 @@ public expect class MasstransitRouter {
         points: List<RequestPoint>,
         transitOptions: TransitOptions,
         routeOptions: RouteOptions,
-        routeListener: RouteListener,
+        routeListener: Session.RouteListener,
     ): Session
 
     /** Reports whether two wrappers hold the same native handle. */

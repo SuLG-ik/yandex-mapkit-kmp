@@ -20,6 +20,8 @@ summarise them. Their tags carry no `v` prefix, unlike the ones cut since.
 - Driving routes in the unreleased MapKit Full candidate, with ordered waypoints, alternatives,
   route geometry and session cancellation on Android and iOS. The Full consumer includes an
   offline preview for drawing, replacing and clearing routes.
+- Walking, cycling and public transit routes in MapKit Full, with route sections, session retry
+  and cancellation, and native conversions for transit vehicle filters.
 
 ## [1.0.0-beta02] - 2026-11-19
 

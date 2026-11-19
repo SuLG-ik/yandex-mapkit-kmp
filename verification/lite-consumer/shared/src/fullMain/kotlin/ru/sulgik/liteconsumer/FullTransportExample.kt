@@ -2,7 +2,7 @@ package ru.sulgik.liteconsumer
 
 import ru.sulgik.mapkit.RequestPoint
 import ru.sulgik.mapkit.map.MapObjectCollection
-import ru.sulgik.mapkit.transport.Transport
+import ru.sulgik.mapkit.transport.TransportFactory
 import ru.sulgik.mapkit.transport.masstransit.Route
 import ru.sulgik.mapkit.transport.masstransit.RouteError
 import ru.sulgik.mapkit.transport.masstransit.RouteListener
@@ -13,7 +13,7 @@ import ru.sulgik.mapkit.transport.masstransit.TransitOptions
 
 internal class FullTransportExample(parent: MapObjectCollection) {
 
-    private val transport = Transport.getInstance()
+    private val transport = TransportFactory.getInstance()
     private val pedestrian = transport.createPedestrianRouter()
     private val bicycle = transport.createBicycleRouterV2()
     private val publicTransport = transport.createMasstransitRouter()
@@ -59,7 +59,7 @@ internal class FullTransportExample(parent: MapObjectCollection) {
     }
 
     private fun replaceRoute(
-        request: (RouteListener) -> Session,
+        request: (Session.RouteListener) -> Session,
         onRoutes: (List<Route>) -> Unit,
         onFailure: (RouteError) -> Unit,
     ) {
