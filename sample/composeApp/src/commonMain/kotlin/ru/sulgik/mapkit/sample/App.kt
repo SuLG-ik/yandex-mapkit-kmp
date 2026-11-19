@@ -50,10 +50,15 @@ fun NavHost(
 ) {
     when (navItem) {
         NavItem.SELECTION -> Selection(onNavigate, modifier)
+
         NavItem.OLD_API -> MapScreen(modifier)
+
         NavItem.NEW_API_OBJECTS -> NewMapScreen(modifier)
+
         NavItem.ADVANCED_MAP -> AdvancedMapScreen(modifier)
+
         NavItem.RUNTIME -> RuntimeScreen(modifier)
+
         NavItem.RETURN_TO_MAP -> ReturnToMapScreen(
             onExit = { onNavigate(NavItem.SELECTION) },
             modifier = modifier,
