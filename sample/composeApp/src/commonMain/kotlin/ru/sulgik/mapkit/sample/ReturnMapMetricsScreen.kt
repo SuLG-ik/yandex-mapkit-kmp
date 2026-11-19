@@ -57,7 +57,7 @@ private val ProbeMarkers = listOf(
     Point(55.750225, 37.630540),
 )
 private const val ProbeDeadlineMillis = 30_000L
-private const val ProbePlaceholderKey = "00000000-0000-0000-0000-000000000000"
+private val ProbePlaceholderKeys = setOf("00000000-0000-0000-0000-000000000000", "sample-ci-placeholder")
 private val CohortPattern = Regex("[A-Za-z0-9_-]{1,32}")
 
 private enum class ReturnCase(val wireName: String) {
@@ -106,7 +106,7 @@ internal fun ReturnMapMetricsScreen(modifier: Modifier, onExit: () -> Unit) {
             OutlinedButton(onClick = {
                 bench.mode = if (bench.mode == TileMode.VIEW_ONLY) {
                     val key = BuildKonfig.MAPKIT_API_KEY
-                    if (key.isBlank() || key == ProbePlaceholderKey) TileMode.MISSING_KEY else TileMode.REAL
+                    if (key.isBlank() || key in ProbePlaceholderKeys) TileMode.MISSING_KEY else TileMode.REAL
                 } else {
                     TileMode.VIEW_ONLY
                 }

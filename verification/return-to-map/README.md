@@ -2,10 +2,11 @@
 
 [Русская инструкция](README.ru.md)
 
-Open **Measure return to map** in the sample. The probe uses the same 260 dp viewport, daytime
-style, camera at 55.751225 / 37.629540 (zoom 16, zero tilt and azimuth), and three local markers
-on Android and iOS. The default mode uses no basemap. The **Real tiles** mode uses the SDK's
-vector basemap and default disk cache. Choose a mode before the first measurement.
+Open **Measure return to map** in the sample. The separate **Return to map** example demonstrates
+preserving camera and selection. The probe uses the same 260 dp viewport, daytime style, camera
+at 55.751225 / 37.629540 (zoom 16, zero tilt and azimuth), and three local markers on Android
+and iOS. The default mode uses no basemap. The **Real tiles** mode uses the SDK's vector basemap
+and default disk cache. Choose a mode before the first measurement.
 
 The sample initializes MapKit while showing the setup controls. Each trial starts at the opening
 button press and reports `scope=post_init`. The numbers cover the route and native viewport
@@ -17,8 +18,9 @@ Use a disposable test install, a fixed device and OS/runtime per report, portrai
 the same revision and a stable connection for the real-tile comparison. Build the normal sample
 for each platform. For a trusted real-tile run, configure a dedicated MapKit key with the sample's
 ignored `local.properties` on a trusted machine. Keep the key out of logs and uploaded artifacts.
-No hosted PR job runs this probe. A blank or all-zero placeholder key is reported as
-`missing_key` if real tiles are requested. The placeholder can be used for view-only measurements.
+The hosted sample workflow compiles the probe with a placeholder key without collecting timings.
+A blank key, the sample CI placeholder or the all-zero placeholder is reported as `missing_key`
+if real tiles are requested. The all-zero placeholder can be used for view-only measurements.
 
 1. Clear the disposable Android test app's storage after installing it. On iOS delete the test
    app and reinstall it with a fresh container. Offloading preserves app data. Use a fresh
