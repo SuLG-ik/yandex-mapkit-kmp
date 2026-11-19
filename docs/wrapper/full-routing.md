@@ -1,6 +1,6 @@
 # Full routing
 
-The driving router is part of the Full edition. Use the candidate
+Driving, walking, cycling and public transit routing are part of the Full edition. Use the candidate
 `ru.sulgik.mapkit:yandex-mapkit-kmp-full` and `yandex-mapkit-kmp-compose-full` coordinates and
 `YandexMapsMobile` {{ mapkit_version_full }} on iOS. The
 [Full consumer fixture](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/verification/lite-consumer)
@@ -48,10 +48,21 @@ fixture exercises the example's public API calls. A live route request needs a v
 
 ## Walking
 
-Create the router with `Transport.getInstance().createPedestrianRouter()`. Pass ordered
+Create the router with `TransportFactory.getInstance().createPedestrianRouter()`. Pass ordered
 `RequestPoint` values, `TimeOptions` and `RouteOptions`. Set either departure or arrival time for
 time-dependent requests. The Android binding represents the timestamp in UTC milliseconds. The
 iOS bridge uses `NSDate`. `FitnessOptions` can request avoidance of steep sections and stairs.
+
+Use `Session.RouteListener` when porting a native Android listener. The `RouteListener(...)`
+factory builds the same type from Kotlin callbacks.
+
+```kotlin
+val listener: Session.RouteListener = RouteListener(
+    onMasstransitRoutes = { alternatives -> showRoutes(alternatives) },
+    onMasstransitRoutesError = { failure -> showFailure(failure) },
+)
+val session = router.requestRoutes(points, TimeOptions(), RouteOptions(), listener)
+```
 
 The [walking route example][transport-example] owns the same lifetime as the driving example.
 Keep the `Session`, cancel the previous request, and draw `route.geometry` in a separate map object
@@ -63,7 +74,7 @@ the underlying native objects.
 
 ## Cycling
 
-Use `Transport.getInstance().createBicycleRouterV2()`. It accepts the same ordered points, time
+Use `TransportFactory.getInstance().createBicycleRouterV2()`. It accepts the same ordered points, time
 and route preferences as the walking router. Bicycle sections preserve `FitnessType.BICYCLE` and
 the projected via points in `Section.metadata.data.fitness`. `replaceCyclingRoute` in the
 [transport example][transport-example] draws the result, cancels the previous request and clears
@@ -71,10 +82,15 @@ its own geometry.
 
 ## Public transit
 
-Create the router with `Transport.getInstance().createMasstransitRouter()`. Pass the requested
+Create the router with `TransportFactory.getInstance().createMasstransitRouter()`. Pass the requested
 points, `TransitOptions` and `RouteOptions`. Combine excluded `FilterVehicleTypes` values with
 `or` in `TransitOptions.avoid`. Use `TimeOptions` for either departure or arrival time when
 the request depends on time.
+
+```kotlin
+val avoid = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value
+val transitOptions = TransitOptions(avoid = avoid)
+```
 
 `Section.metadata.data.transports` holds the lines for a ride. `Section.stops` lists the stops
 from boarding to exiting. `Section.rideLegs` gives the subpolylines between stops. Entrance
@@ -102,6 +118,11 @@ fun routeFromNativeInterop(route: Route): Route {
 The driving types use the same methods in `ru.sulgik.mapkit.directions.driving`. Use wrapper
 `retry()` and `cancel()` for sessions you create through the wrapper so every alias shares
 the listener and cancellation state.
+
+For a single vehicle flag, call `FilterVehicleTypes.BUS.toNative()`. On Android the native enum
+converts back with `nativeFlag.toCommon()`. On iOS call `FilterVehicleTypes.toCommon(nativeFlag)`
+because the native mask is an unsigned integer shared by multiple SDK types. For combined masks,
+convert the entire `TransitOptions` object to preserve all 32 bits of `avoid`.
 
 ## Mode parity in MapKit 4.45.0 Full
 

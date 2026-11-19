@@ -21,7 +21,7 @@ public actual class BicycleRouterV2 internal constructor(private val nativeBicyc
         points: List<RequestPoint>,
         timeOptions: TimeOptions,
         routeOptions: RouteOptions,
-        routeListener: RouteListener,
+        routeListener: Session.RouteListener,
     ): Session {
         val request = RouteRequest(routeListener)
         val session = nativeBicycleRouterV2.requestRoutes(

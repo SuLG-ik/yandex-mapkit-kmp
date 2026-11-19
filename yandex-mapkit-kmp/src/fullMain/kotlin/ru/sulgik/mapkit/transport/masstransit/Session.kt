@@ -9,6 +9,16 @@ public expect class Session {
     /** Retries using [routeListener]. Call on the UI thread. */
     public fun retry(routeListener: RouteListener)
 
+    /** Receives transport routes or a failure on the UI thread. */
+    public abstract class RouteListener() {
+
+        /** Called with the routes in native order. The list may be empty. */
+        public abstract fun onMasstransitRoutes(routes: List<Route>)
+
+        /** Called with the native request failure. */
+        public abstract fun onMasstransitRoutesError(error: RouteError)
+    }
+
     /** Reports whether two wrappers hold the same native handle. */
     override fun equals(other: Any?): Boolean
 

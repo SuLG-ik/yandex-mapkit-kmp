@@ -18,6 +18,7 @@ import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
@@ -129,6 +130,23 @@ public class TransportAdapterTest {
     }
 
     @Test
+    public fun single_filter_flags_round_trip_and_combined_masks_stay_in_options() {
+        for (flag in FilterVehicleTypes.entries) {
+            val native = flag.toNative()
+            assertEquals(flag.value.toULong(), native)
+            assertEquals(flag, FilterVehicleTypes.toCommon(native))
+        }
+        val combined = FilterVehicleTypes.BUS.toNative() or FilterVehicleTypes.TRAMWAY.toNative()
+        assertFailsWith<IllegalArgumentException> { FilterVehicleTypes.toCommon(combined) }
+        assertFailsWith<IllegalArgumentException> { FilterVehicleTypes.toCommon(1uL shl 31) }
+        assertFailsWith<IllegalArgumentException> { FilterVehicleTypes.toCommon(1uL shl 33) }
+        val mask = combined or (1uL shl 31)
+        val options = TransitOptions(avoid = mask.toInt())
+        assertEquals(mask, options.toNative().avoid)
+        assertEquals(options, options.toNative().toCommon())
+    }
+
+    @Test
     public fun transit_filters_and_nullable_access_points_survive_native_mapping() {
         val filters = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value
         val options = TransitOptions(
@@ -205,7 +223,8 @@ public class TransportAdapterTest {
         )
         val results = mutableListOf<List<Route>>()
         val errors = mutableListOf<RouteError>()
-        val listener = RouteListener({ results.add(it) }, { errors.add(it) })
+        val listener: Session.RouteListener = RouteListener({ results.add(it) }, { errors.add(it) })
+        assertSame(listener.toNative(), listener.toNative())
         val retired = RouteRequest(listener)
         val first = retired.toNative()
         assertSame(first, retired.toNative())

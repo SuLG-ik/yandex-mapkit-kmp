@@ -1,6 +1,6 @@
 # Маршрутизация Full
 
-Автомобильный маршрутизатор входит в редакцию Full. Используйте кандидатные координаты
+Автомобильная, пешая, велосипедная маршрутизация и маршруты общественного транспорта входят в редакцию Full. Используйте кандидатные координаты
 `ru.sulgik.mapkit:yandex-mapkit-kmp-full` и `yandex-mapkit-kmp-compose-full`, а для iOS
 `YandexMapsMobile` {{ mapkit_version_full }}.
 [Проверочное приложение Full](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/verification/lite-consumer)
@@ -48,11 +48,22 @@ val session = router.requestRoutes(
 
 ## Пеший маршрут
 
-Создайте маршрутизатор через `Transport.getInstance().createPedestrianRouter()`.
+Создайте маршрутизатор через `TransportFactory.getInstance().createPedestrianRouter()`.
 Передайте упорядоченные `RequestPoint`, `TimeOptions` и `RouteOptions`. Для
 запроса по времени задайте либо отправление, либо прибытие. Время на Android
 хранится в миллисекундах UTC, на iOS преобразуется в `NSDate`. В `FitnessOptions` можно
 попросить маршрутизатор избегать лестниц и крутых участков.
+
+Используйте `Session.RouteListener` при переносе нативного слушателя Android. Фабрика
+`RouteListener(...)` создаёт слушатель того же типа из колбэков Kotlin.
+
+```kotlin
+val listener: Session.RouteListener = RouteListener(
+    onMasstransitRoutes = { alternatives -> showRoutes(alternatives) },
+    onMasstransitRoutesError = { failure -> showFailure(failure) },
+)
+val session = router.requestRoutes(points, TimeOptions(), RouteOptions(), listener)
+```
 
 [Пример управления пешим маршрутом][transport-example] использует тот же принцип, что и
 автомобильный. Храните `Session`, отменяйте устаревший запрос и рисуйте `route.geometry` в
@@ -64,7 +75,7 @@ val session = router.requestRoutes(
 
 ## Велосипедный маршрут
 
-Используйте `Transport.getInstance().createBicycleRouterV2()`. Он принимает те же упорядоченные
+Используйте `TransportFactory.getInstance().createBicycleRouterV2()`. Он принимает те же упорядоченные
 точки и параметры времени и маршрута, что пеший режим. В `Section.metadata.data.fitness`
 велосипедный участок сохраняет `FitnessType.BICYCLE` и позиции точек проезда.
 `replaceCyclingRoute` в [примере транспорта][transport-example] строит и рисует этот маршрут,
@@ -72,10 +83,15 @@ val session = router.requestRoutes(
 
 ## Общественный транспорт
 
-Создайте маршрутизатор через `Transport.getInstance().createMasstransitRouter()`. Передайте
+Создайте маршрутизатор через `TransportFactory.getInstance().createMasstransitRouter()`. Передайте
 точки, `TransitOptions` и `RouteOptions`. В `TransitOptions.avoid` объединяйте значения
 `FilterVehicleTypes` с помощью `or`. Для маршрута, зависящего от времени, задайте отправление
 или прибытие через `TimeOptions`.
+
+```kotlin
+val avoid = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value
+val transitOptions = TransitOptions(avoid = avoid)
+```
 
 `Section.metadata.data.transports` содержит линии для поездки. `Section.stops` перечисляет
 остановки от посадки до выхода. `Section.rideLegs` возвращает фрагменты полилинии между
@@ -103,6 +119,12 @@ fun routeFromNativeInterop(route: Route): Route {
 У автомобильных типов эти же методы находятся в `ru.sulgik.mapkit.directions.driving`.
 Для сессий, созданных через обёртку, вызывайте её `retry()` и `cancel()`, чтобы все обёртки
 одной сессии совместно управляли слушателем и отменой.
+
+Отдельный флаг можно передать в SDK через `FilterVehicleTypes.BUS.toNative()`. На Android
+обратное преобразование выглядит как `nativeFlag.toCommon()`. На iOS используйте
+`FilterVehicleTypes.toCommon(nativeFlag)`, поскольку такой беззнаковый тип маски используют
+несколько типов SDK. Для комбинации флагов преобразуйте весь `TransitOptions`, чтобы сохранить
+все 32 бита поля `avoid`.
 
 ## Режимы в MapKit 4.45.0 Full
 
