@@ -82,6 +82,8 @@ internal const val IconRenderingStatus = "icon-rendering-status"
 internal const val AdvanceIconRendering = "Advance icon rendering"
 internal const val PlacemarkIconRenderingArgument = "--placemark-image-test"
 internal const val ClusterIconRenderingArgument = "--cluster-image-test"
+internal const val BitmapIconMarginPixels = 8
+internal const val BitmapIconBandPixels = 24
 
 private val iconPoint = Point(55.751225, 37.629540)
 private val iconCamera = CameraPosition(iconPoint, zoom = 14f, azimuth = 0f, tilt = 0f)
@@ -435,8 +437,12 @@ private fun IconInk.coilImage(): ColorImage {
 }
 
 private fun bitmapIcon(ink: IconInk): ImageProvider {
-    val bitmap = ImageBitmap(32, 24)
-    Canvas(bitmap).drawRect(Rect(8f, 0f, 32f, 24f), Paint().apply { color = ink.color })
+    val width = BitmapIconMarginPixels + BitmapIconBandPixels
+    val bitmap = ImageBitmap(width, BitmapIconBandPixels)
+    Canvas(bitmap).drawRect(
+        Rect(BitmapIconMarginPixels.toFloat(), 0f, width.toFloat(), BitmapIconBandPixels.toFloat()),
+        Paint().apply { color = ink.color },
+    )
     return bitmap.toImageProvider()
 }
 

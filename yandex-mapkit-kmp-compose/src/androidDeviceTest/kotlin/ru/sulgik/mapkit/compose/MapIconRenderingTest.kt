@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
+import ru.sulgik.mapkit.test.interaction.BitmapIconBandPixels
+import ru.sulgik.mapkit.test.interaction.BitmapIconMarginPixels
 import ru.sulgik.mapkit.test.interaction.IconInk
 import ru.sulgik.mapkit.test.interaction.IconRenderingBackdrop
 import ru.sulgik.mapkit.test.interaction.IconRenderingCase
@@ -145,23 +147,38 @@ private data class Viewport(val origin: Offset, val width: Int, val height: Int)
 private data class VerticalBand(val first: Int, val last: Int, val count: Int)
 
 private data class IconRow(
-    val first: Float?,
-    val widthFraction: Float,
-    val heightFraction: Float,
-    val verticalCenter: Float?,
+    val leftOffsetPixels: Float?,
+    val widthPixels: Int,
+    val heightPixels: Int,
+    val verticalCenterOffsetPixels: Float?,
+    val viewportWidth: Int,
+    val viewportHeight: Int,
     val densityMark: Boolean,
     val colors: Set<IconInk>,
     val background: Int,
 ) {
 
+    val widthFraction: Float
+        get() = widthPixels.toFloat() / viewportWidth
+
+    val heightFraction: Float
+        get() = heightPixels.toFloat() / viewportHeight
+
     fun matches(case: IconRenderingCase): Boolean {
         if (!background.isClose(IconRenderingBackdrop.toArgb(), tolerance = 32)) return false
         val ink = case.ink
         if (ink == null) return colors.isEmpty()
-        return colors == setOf(ink) &&
-            first != null && first in 0.012f..0.085f && widthFraction in 0.065f..0.39f &&
-            verticalCenter != null && abs(verticalCenter) <= 0.02f && heightFraction in 0.065f..0.17f &&
-            densityMark == case.raisesDensity
+        if (colors != setOf(ink) || densityMark != case.raisesDensity) return false
+        val left = leftOffsetPixels ?: return false
+        val center = verticalCenterOffsetPixels ?: return false
+        if (case == IconRenderingCase.Bitmap) {
+            return abs(left - BitmapIconMarginPixels) <= BitmapPixelTolerance &&
+                abs(widthPixels - BitmapIconBandPixels) <= BitmapPixelTolerance &&
+                abs(heightPixels - BitmapIconBandPixels) <= BitmapPixelTolerance &&
+                abs(center) <= BitmapPixelTolerance
+        }
+        return left / viewportWidth in 0.012f..0.085f && widthFraction in 0.065f..0.39f &&
+            abs(center) / viewportHeight <= 0.02f && heightFraction in 0.065f..0.17f
     }
 }
 
@@ -177,7 +194,7 @@ private fun Bitmap.probeAndRecycle(viewport: Viewport, expected: IconInk?): Icon
 
 private fun Bitmap.probe(viewport: Viewport, expected: IconInk?): IconRow? {
     val width = viewport.width
-    if (width <= 0 || viewport.height <= 0) return null
+    if (width < 32 || viewport.height < 32) return null
     if (!viewport.origin.x.isFinite() || !viewport.origin.y.isFinite()) return null
     val left = viewport.origin.x.roundToInt()
     val top = viewport.origin.y.roundToInt()
@@ -211,13 +228,15 @@ private fun Bitmap.probe(viewport: Viewport, expected: IconInk?): IconRow? {
         false
     }
     return IconRow(
-        first = first?.let { it.toFloat() / width - 0.5f },
-        widthFraction = count.toFloat() / width,
-        heightFraction = (vertical?.count ?: 0).toFloat() / viewport.height,
-        verticalCenter = vertical?.let { (it.first + it.last) / (2f * viewport.height) - 0.5f },
+        leftOffsetPixels = first?.let { it - width / 2f },
+        widthPixels = count,
+        heightPixels = vertical?.count ?: 0,
+        verticalCenterOffsetPixels = vertical?.let { (it.first + it.last) / 2f - viewport.height / 2f },
+        viewportWidth = width,
+        viewportHeight = viewport.height,
         densityMark = densityMark,
         colors = inks,
-        background = pixels[(width * 0.508f).roundToInt()],
+        background = pixels[width / 2 + 2],
     )
 }
 
@@ -234,3 +253,5 @@ private fun Int.isClose(other: Int, tolerance: Int): Boolean {
         abs(AndroidColor.green(this) - AndroidColor.green(other)) <= tolerance &&
         abs(AndroidColor.blue(this) - AndroidColor.blue(other)) <= tolerance
 }
+
+private const val BitmapPixelTolerance = 4

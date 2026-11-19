@@ -72,8 +72,10 @@ try to mutate the old object through a weak reference.
 `MapIconRenderingTest` on Android and `MapIconRenderingTests` on iOS run the same fixture
 on a live map for both a placemark and a cluster. The probes sample horizontal and vertical
 strips to check the anchor, transparent margin over a colored backing placemark, and the icon
-dimensions. Cluster members have a distinct color so a visible member cannot pass as the
-cluster image. A mark drawn at the raised density confirms the icon was rerendered even on iOS,
+dimensions. The Android bitmap case checks both axes in physical pixels because its source
+bitmap has a fixed pixel size. The Compose cases measure relative to the viewport. Distinct
+colors distinguish cluster members from the cluster image. A mark drawn at the raised density
+confirms the icon was rerendered even on iOS,
 where its logical size should stay the same. The next step resizes the content at that density.
 The 240 dp viewport leaves space for the 48 dp advance control and a two-line diagnostic on
 compact simulators. XCTest checks containment and taps the control's center.
