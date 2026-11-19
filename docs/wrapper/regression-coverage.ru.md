@@ -2,7 +2,7 @@
 
 Список составлен по [дампам публичного ABI][abi] и исходникам тестов на коммите [`c6049906`][snapshot].
 Задачи CI ниже относятся к этому коммиту. В таблицах также приведены более поздние проверки
-[отдельных приложений][consumer] и [нативных жестов на Android][a-map-taps-ci].
+[отдельных приложений][consumer] и нативных жестов на [Android][a-map-taps-ci] и [iOS][i-map-taps-ci].
 Доступные API и ограничения платформ описаны на странице
 [«Что обёрнуто»](coverage.md).
 
@@ -33,8 +33,8 @@
 
 | Публичный API | Проверенное поведение, тесты и платформы | Оставшиеся сценарии |
 | --- | --- | --- |
-| [`YandexMap(controller = …)`, `YandexMapController` и `MapControllerEffect`](../compose/overview.md) | [NativeYandexMapLifecycleTest · эмулятор Android][a-lifecycle] создаёт карту с контроллером, проверяет доступность `controller.mapWindow` и завершает Activity, пока карта остаётся в композиции. [MapLifecycleTest · Android][a-host-lifecycle] и [MapLifecycleTests · iOS][i-host-lifecycle] проверяют касания при перекрытии карты, возврат приложения, повторное удаление карты во время анимации и восстановление камеры и выделения после пересоздания хоста. Оба теста сверяют точный порядок подключений и касаний. [Эмулятор Android][a-host-ci] · [Симулятор iOS][i-host-ci]. | Переходы по стеку экранов [#72][72], [#73][73]. |
-| [Декларативная `YandexMap`, `MapEffect`, `MapConfig` и `MapListeners`](../compose/overview.md) | Отдельные приложения на [Android][a-consumer] и [iOS][i-consumer] создают декларативную `YandexMap` и валидную нативную метку внутри `MapEffect`. Тесты ядра на [Android][a-map] и [iOS][i-map] проверяют настройки и адаптеры слушателей нативной карты. [MapInteractionTest · эмулятор Android][a-map-taps] проверяет подписку при рекомпозиции, замену, удаление и повторное добавление колбэков. [Прогон Android][a-map-taps-ci] прошёл. [MapInteractionTests · iOS XCTest][i-map-taps] реализует тот же сценарий. | Зафиксировать результат прогона на iOS [#67][67]. Проверить обновление настроек, перезапуск и отмену эффекта [#69][69] и переходы по стеку экранов [#72][72], [#73][73]. |
+| [`YandexMap(controller = …)`, `YandexMapController` и `MapControllerEffect`](../compose/overview.md) | [NativeYandexMapLifecycleTest · эмулятор Android][a-lifecycle] создаёт карту с контроллером, проверяет доступность `controller.mapWindow` и завершает Activity, пока карта остаётся в композиции. [MapInteractionTest · Android][a-reopen] и [MapInteractionTests · iOS][i-reopen] проверяют реальные касания при первом и повторном открытии карты [#66][66]. Прогоны на [Android][a-reopen-ci] и [iOS][i-reopen-ci] прошли. [MapLifecycleTest · Android][a-host-lifecycle] и [MapLifecycleTests · iOS][i-host-lifecycle] проверяют касания при перекрытии карты, возврат приложения, повторное удаление карты во время анимации и восстановление камеры и выделения после пересоздания хоста. Оба теста сверяют точный порядок подключений и касаний. [Эмулятор Android][a-host-ci] · [Симулятор iOS][i-host-ci]. | Переходы по стеку экранов [#72][72], [#73][73]. |
+| [Декларативная `YandexMap`, `MapEffect`, `MapConfig` и `MapListeners`](../compose/overview.md) | Отдельные приложения на [Android][a-consumer] и [iOS][i-consumer] создают декларативную `YandexMap` и валидную нативную метку внутри `MapEffect`. Тесты ядра на [Android][a-map] и [iOS][i-map] проверяют настройки и адаптеры слушателей нативной карты. [MapInteractionTest · эмулятор Android][a-map-taps] проверяет подписку при рекомпозиции, замену, удаление и повторное добавление колбэков. [MapInteractionTests · iOS XCTest][i-map-taps] проверяет те же колбэки. Прогоны на [Android][a-map-taps-ci] и [iOS][i-map-taps-ci] прошли [#67][67]. | Проверить обновление настроек, перезапуск и отмену эффекта [#69][69] и переходы по стеку экранов [#72][72], [#73][73]. |
 | [`Placemark`, `Polyline`, `Polygon`, `Circle`, `MapObjectCollection` и `Clustering`](../compose/mapobjects.md) | [MapNodeInsertOrderTest · Порядок вставки узла][map-order] проверяется на Android JVM, эмуляторе Android и симуляторе iOS. [MapObjectStatesRestorationTest · Восстановление состояния][a-savers] проверено на Android, [MapObjectStateSaversTest · сохранение состояния][i-savers] фигур и камеры в обе стороны проверено на iOS. [Тест нативного ввода на Android][a-map-taps] проверяет порядок попаданий в перекрывающиеся метку и полигон, изменение видимости и передачу события через родительскую коллекцию. | Состав и обновление нативных коллекций и кластеров, прекращение вызовов удалённых обработчиков [#68][68]. Сохранение состояния после возврата к карте [#75][75]. |
 | [`YandexMap` с `UserLocationState`, `TrafficLayer`, `TileLayer` и `MapObjectLayer`](../compose/overview.md) | Тесты ядра выше проверяют часть геолокации и слоёв. Обновление и удаление слоёв в Compose ещё предстоит проверить. | Симуляция позиции и движение камеры [#69][69], замена слоя и колбэки [#85][85]. |
 | [`ImageBitmap.toImageProvider()` и `imageProvider { … }`](../compose/image-resources.md) | [ComposeMapObjectRendererTest · Тест рендера Compose][renderer] проверяет кадр и перерисовку после смены состояния на эмуляторе Android и симуляторе iOS. [ComposeMapObjectRendererIosTest · Тест размеров на iOS][i-renderer] проверяет внутренний размер и масштаб. [ColorConvertionTest · Преобразование цветов][color] проверяет ARGB в общих тестах. | Установка иконки на настоящую метку или кластер, привязка, замена и отмена [#84][84]. |
@@ -46,7 +46,7 @@
 
 | Отчёт | Проверенное поведение и тесты | Оставшиеся сценарии |
 | --- | --- | --- |
-| [#20][20] Касание карты | Подписка и отписка в ядре на [Android][a-map] и [iOS][i-map]. [Тест нативного ввода на Android][a-map-taps] отправляет короткое и долгое нажатие и проверяет соответствующие колбэки и координаты. | Зафиксировать результат аналогичного прогона на iOS [#67][67]. |
+| [#20][20] Касание карты | Подписка и отписка в ядре на [Android][a-map] и [iOS][i-map]. Тесты нативного ввода на [Android][a-map-taps] и [iOS][i-map-taps] отправляют короткое и долгое нажатие и проверяют колбэки и координаты. | События POI базовой карты [#85][85]. |
 | [#32][32] Перемещение к позиции пользователя на одной карте | [Пример][location-sample] анимирует перемещение на той же карте. Тесты слоя геолокации проверяют состояние без позиции. | Подать тестовую позицию и проверить завершение движения камеры [#69][69]. |
 | [#33][33] Ошибка iOS cinterop в приложении | [Руководство по установке](../getting-started/installation.md) описывает CocoaPods и линковку. [Отдельное приложение iOS][i-consumer] устанавливает pod Lite, выполняет cinterop, линкуется и запускается с кандидатными Maven-артефактами. | Запустить тест в релизной матрице ОС [#82][82]. |
 | [#34][34] Пропавшее событие камеры на iOS | [LiveCameraListenerDeliveryTest][i-camera] на нативной карте сохраняет слушатель и проверяет его вызов после `move`. | Доставка событий о жестах и через Compose [#69][69]. |
@@ -59,7 +59,7 @@ Full отслеживаются в [#81][81]. При добавлении тес
 [процесс проверки регрессий](../getting-started/contributing.md#regressions).
 
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
-[i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
+[i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
 [a-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44435197621/job/135262196868
 [a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238
 [i-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L194-L226
@@ -78,6 +78,11 @@ Full отслеживаются в [#81][81]. При добавлении тес
 [location-sample]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/sample/composeApp/src/commonMain/kotlin/ru/sulgik/mapkit/sample/NewMap.kt#L148
 [a-window]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/map/LiveMapWindowTest.kt
 [i-window]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/map/LiveMapWindowTest.kt
+[a-reopen]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/2dd192398ebafa1bc02f98fb6649237ef09f6649/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L25
+[i-reopen]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/2dd192398ebafa1bc02f98fb6649237ef09f6649/tests/map-interaction/iosApp/MapInteractionTests.swift#L4
+[a-reopen-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44429584892/job/135243201327
+[i-reopen-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44429584892/job/135243201431
+[i-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44440201914/job/135278848866
 [a-host-lifecycle]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/69960e03a1efc1a6762bdeede715efc7ec9d783a/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapLifecycleTest.kt
 [i-host-lifecycle]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/69960e03a1efc1a6762bdeede715efc7ec9d783a/tests/map-interaction/iosApp/MapLifecycleTests.swift
 [a-host-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44433760924/job/135257507625
