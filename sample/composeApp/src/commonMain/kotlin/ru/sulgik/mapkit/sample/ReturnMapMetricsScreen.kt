@@ -60,7 +60,6 @@ private val ProbeMarkers = listOf(
 )
 private const val ProbeDeadlineMillis = 30_000L
 private val ProbePlaceholderKeys = setOf("00000000-0000-0000-0000-000000000000", "sample-ci-placeholder")
-private val CohortPattern = Regex("[A-Za-z0-9_-]{1,32}")
 
 private enum class ReturnCase(val wireName: String) {
     COLD("cold"),
@@ -286,9 +285,9 @@ private class MeasuredAttachment(private val bench: ReturnBench, val window: Map
 private class ReturnBench(private val sdkVersion: String) {
 
     var mode by mutableStateOf(TileMode.VIEW_ONLY)
-    var cohort by mutableStateOf("")
+    var cohort by mutableStateOf(returnMapBenchmarkCohort)
     val hasCohort: Boolean
-        get() = CohortPattern.matches(cohort)
+        get() = ReturnMapBenchmarkCohortPattern.matches(cohort)
     var started by mutableStateOf(false)
         private set
     var details by mutableStateOf<ReturnCase?>(null)

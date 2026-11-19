@@ -33,12 +33,27 @@ zero new mounts. A comparable baseline also requires the same SDK version and me
 across all five cohorts. A mismatch or an incomplete cohort fails the run. Extracted observations
 remain in the metric file, and the summary explicitly reports any mismatch.
 
-This automation covers Android. The iOS baseline can still be collected with the controlled run
-below. A follow-up can reuse the existing MapInteraction XCTest host with the same shared probe.
-The host would install a test app once per cohort and stage a sandbox key by stdin or a private file
-before each process launch. The test runner would send native taps while leaving the application
-container intact between the retained and restart trials. Measure cache reuse only after confirming
-that the second test invocation preserves that container.
+## Hosted iOS run
+
+The same manual workflow runs the iOS job on one disposable iPhone simulator with the runner's
+current installed iOS runtime. The job builds the normal sample and its **ReturnMapBenchmark**
+XCUITest scheme with a placeholder key. Before each cohort the job removes the sample,
+and Xcode installs a new copy with a fresh app data container.
+
+XCUITest uses the shared sample route for all four cases. It waits for the projection prompt
+and sends a native center tap after 350 ms. After the retained trial, it terminates and
+relaunches the same installation within the test invocation. The host checks that the app
+keeps its data container and that the restart uses a different process identifier in the metric
+rows. Keeping that container gives the restarted process access to the same on-disk cache. The run
+records the iPhone model, runtime, SDK and measured viewport in its metrics and report.
+
+Before initializing MapKit, each app process signals that it is ready for a credential.
+Trusted runner code verifies the installed app's data container and stages a private one-time
+file there. The job checks that both processes removed their files and removes the sample after
+collecting the rows.
+The **return-to-map-ios** artifact contains only extracted metric rows and their Markdown
+summary. A comparable baseline uses one measured viewport and SDK version across all five
+complete cohorts. Partial rows remain available when the job fails.
 
 ## Controlled run
 

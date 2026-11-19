@@ -19,11 +19,17 @@ fun initMapKit() {
     MapKit.setApiKey(BuildKonfig.MAPKIT_API_KEY)
 }
 
+internal val ReturnMapBenchmarkCohortPattern = Regex("[A-Za-z0-9_-]{1,32}")
+
+internal var returnMapBenchmarkCohort: String = ""
+    private set
 internal var returnMapBenchmarkMetricSink: ((String) -> Unit)? = null
     private set
 
-fun initMapKitForReturnBenchmark(apiKey: String, writeMetric: (String) -> Unit) {
+fun initMapKitForReturnBenchmark(apiKey: String, cohort: String = "", writeMetric: (String) -> Unit) {
+    require(cohort.isEmpty() || ReturnMapBenchmarkCohortPattern.matches(cohort)) { "Invalid return-to-map cohort." }
     MapKit.setApiKey(apiKey)
+    returnMapBenchmarkCohort = cohort
     returnMapBenchmarkMetricSink = writeMetric
 }
 
