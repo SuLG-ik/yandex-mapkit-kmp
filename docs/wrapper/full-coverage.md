@@ -3,8 +3,9 @@
 This inventory compares the native SDK's Lite and Full artifacts at **4.45.0**. It records the work
 needed to make the Full API available in common Kotlin. Check the [release notes][releases] for
 features shipped in a particular wrapper version. At this inventory's baseline the released wrapper
-is Lite. The [Full packaging work][77] exercises creating a native search manager through common
-Kotlin. That proof omits requests and results, which are tracked in [text search][78].
+is Lite. The [Full packaging checks][77] launched standalone [Android][full-android-ci] and
+[iOS][full-ios-ci] consumers and created a native `ONLINE` search manager from common Kotlin.
+Requests and results are tracked in [text search][78].
 
 The comparison uses the Android AARs for `com.yandex.android:maps.mobile` and the iOS
 `YandexMapsMobile` CocoaPods XCFrameworks for `4.45.0-lite` and `4.45.0-full`. Native names below come
@@ -41,8 +42,9 @@ The [NaviKit setup][navikit] uses a separate edition for active navigation and g
 
 ## Scenarios and verification
 
-Fixtures cover mapping, lifecycle and cancellation on both platforms. Tests that require provider
-data or credentials belong in the trusted [service checks][82].
+For the planned work below, use controlled fixtures to test mapping, lifecycle and cancellation
+on both platforms. The trusted [service checks][82] track tests that require provider data
+or credentials.
 
 | Uncovered behavior | Required inputs | Acceptance check |
 | --- | --- | --- |
@@ -63,22 +65,27 @@ data or credentials belong in the trusted [service checks][82].
    to the two `ios-arm64/YandexMapsMobile.framework/Headers` paths. Compare top-level Android
    types and shared signatures, then compare iOS headers.
 
-```sh
-export LC_ALL=C
-for edition in lite full; do
-    unzip -p "maps.mobile-$version-$edition.aar" classes.jar > "$edition.jar"
-    jar tf "$edition.jar" |
-        sed -n '/^com\/yandex\//{ /\$/d; /\/internal\//d; s/\.class$//p; }' |
-        tr '/' '.' | sort > "$edition.types"
-done
-comm -13 lite.types full.types > android-full-only.types
-comm -12 lite.types full.types > android-shared.types
-for edition in lite full; do
-    xargs javap -public -classpath "$edition.jar" < android-shared.types > "$edition.shared-api"
-done
-diff -u lite.shared-api full.shared-api
-diff -r "$lite_headers" "$full_headers"
-```
+    ```sh
+    export LC_ALL=C
+    for edition in lite full; do
+        unzip -p "maps.mobile-$version-$edition.aar" classes.jar > "$edition.jar"
+        jar tf "$edition.jar" |
+            sed -n '/^com\/yandex\//{ /\$/d; /\/internal\//d; s/\.class$//p; }' |
+            tr '/' '.' | sort > "$edition.types"
+    done
+    comm -13 lite.types full.types > android-full-only.types
+    comm -12 lite.types full.types > android-shared.types
+    for edition in lite full; do
+        xargs javap -public -classpath "$edition.jar" < android-shared.types > "$edition.shared-api"
+    done
+    diff -u lite.shared-api full.shared-api
+    diff -r "$lite_headers" "$full_headers"
+    ```
+
+3. Compare those boundaries with the wrapper's common source and ABI for the release being
+   documented. Update both languages and link a test or follow-up for each changed family.
+   Names marked undocumented or with no supported factory need a verified caller before gaining
+   a common API. Keep real service entitlement and asset requirements in the relevant tests.
 
 At 4.45.0 this yields **286** extra Android top-level declarations in **14** packages and **141**
 additional iOS header filenames. The shared iOS header with a declaration change is
@@ -86,11 +93,6 @@ additional iOS header filenames. The shared iOS header with a declaration change
 These counts describe different units. To review a specific addition, inspect the relevant
 `javap -public` output, including any nested callback types, and the actual iOS declaration
 rather than inferring behavior from a filename.
-
-3. Compare those boundaries with the wrapper's common source and ABI for the release being
-   documented. Update both languages and link a test or follow-up for each changed family.
-   Names marked undocumented or with no supported factory need a verified caller before gaining
-   a common API. Keep real service entitlement and asset requirements in the relevant tests.
 
 [android-setup]: https://yandex.ru/maps-api/docs/mapkit/android/generated/getting_started.html
 [ios-setup]: https://yandex.com/maps-api/docs/mapkit/ios/generated/getting_started.html
@@ -102,6 +104,8 @@ rather than inferring behavior from a filename.
 [native-search-layer]: https://yandex.com/maps-api/docs/mapkit/com/yandex/mapkit/search/search_layer/SearchLayer.html
 [native-offscreen]: https://yandex.com/maps-api/docs/mapkit/android/static/tutorials/map_surface.html
 [navikit]: https://yandex.com/maps-api/docs/mapkit/ios/generated/navigation/getting_started.html
+[full-android-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44432360794/job/135252651813
+[full-ios-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44432360794/job/135252652111
 [releases]: https://github.com/SuLG-ik/yandex-mapkit-kmp/releases
 [77]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/77
 [78]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/78

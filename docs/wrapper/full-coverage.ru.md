@@ -3,8 +3,10 @@
 Здесь сравниваются нативные артефакты Lite и Full версии **4.45.0**. Страница показывает,
 какие возможности Full предстоит открыть в общем Kotlin-коде. Возможности конкретной версии
 обёртки указаны в [описаниях релизов][releases]. На момент сравнения опубликованная обёртка
-использует Lite. [Проверка Full-артефактов][77] создаёт нативный менеджер поиска из общего
-Kotlin-кода. Отправка запросов и обработка результатов входят в [задачу текстового поиска][78].
+использует Lite. В рамках [проверки Full-артефактов][77] отдельные приложения
+[Android][full-android-ci] и [iOS][full-ios-ci] запустились и создали нативный менеджер
+поиска `ONLINE` из общего Kotlin-кода. Отправка запросов и обработка результатов входят
+в [задачу текстового поиска][78].
 
 Для сравнения использованы Android AAR `com.yandex.android:maps.mobile` и CocoaPods
 XCFramework `YandexMapsMobile` для `4.45.0-lite` и `4.45.0-full`. Имена нативных типов и функций
@@ -23,9 +25,9 @@ XCFramework `YandexMapsMobile` для `4.45.0-lite` и `4.45.0-full`. Имена
 | Текстовый поиск | `search.SearchFactory`, `Search.createSearchManager`, `SearchManager.submit(String, Geometry, …)`, `Session`, `Response` | `YMKSearchFactory`, `YMKSearch.createSearchManagerWithSearchManagerType:`, `YMKSearchManager.submitWithText:geometry:searchOptions:responseHandler:`, `YMKSearchSession`, `YMKSearchResponse` | **Частично** в [проверке Full-артефактов][77]. В [#78][78] запланированы запросы, результаты и отмена. |
 | Поисковые подсказки | `SearchManager.createSuggestSession`, `SuggestSession.suggest`, `reset` | `YMKSearchManager.createSuggestSession`, `YMKSearchSuggestSession.suggestWithText:window:suggestOptions:responseHandler:`, `reset` | **Запланировано** в [#79][79]. |
 | Обратное геокодирование | `SearchManager.submit(Point, Integer, …)`, `ToponymObjectMetadata`, `Address` | `YMKSearchManager.submitWithPoint:zoom:searchOptions:responseHandler:`, `YMKSearchToponymObjectMetadata`, `YMKSearchAddress` | **Запланировано** в [#95][95]. Использует существующий API поиска. Масштаб может отсутствовать на обеих платформах. |
-| Слои поиска и расширенные результаты | `Search.createSearchLayer`, `search.search_layer.SearchLayer`, `SearchManager.searchByURI`, `searchByBusinessOids`, along-polyline `submit` | `YMKSearch.createSearchLayerWithMapWindow:`, `YMKSearchLayer`, `YMKSearchManager.searchByURIWithUri:…`, `searchByBusinessOidsWithBusinessOids:…`, `submitWithText:polyline:…` | **Запланировано** в [#96][96]. Включает фильтры организаций, изображения меток и колбэки слоя. [Справочник слоя][native-search-layer] |
+| Слои поиска и расширенные результаты | `Search.createSearchLayer`, `search.search_layer.SearchLayer`, `SearchManager.searchByURI`, `searchByBusinessOids`, `submit` для поиска вдоль полилинии | `YMKSearch.createSearchLayerWithMapWindow:`, `YMKSearchLayer`, `YMKSearchManager.searchByURIWithUri:…`, `searchByBusinessOidsWithBusinessOids:…`, `submitWithText:polyline:…` | **Запланировано** в [#96][96]. Включает фильтры организаций, изображения меток и колбэки слоя. [Справочник слоя][native-search-layer] |
 | Автомобильные маршруты | `directions.DirectionsFactory`, `Directions.createDrivingRouter`, `directions.driving.{DrivingRouter, DrivingSession, DrivingRoute}` | `YMKDirectionsFactory`, `YMKDirections.createDrivingRouterWithType:`, `YMKDriving{Router,Session,Route}` | **Запланировано** в [#80][80], включая геометрию, отмену и параметры транспорта, доступные на обеих платформах. |
-| Пешеходные, велосипедные маршруты и общественный транспорт | `transport.TransportFactory`, `Transport.createPedestrianRouter`, `createBicycleRouterV2`, `createMasstransitRouter`; `transport.masstransit` sessions and route data | `YMKTransportFactory`, `YMKTransport.createPedestrianRouter`, `createBicycleRouterV2`, `createMasstransitRouter`; `YMKPedestrianRouter`, `YMKBicycleRouterV2`, `YMKMasstransit{Router,Session,Route}` | **Запланировано** в [#80][80]. Отдельные классы `transport.bicycle` и `YMKBicycleRouter` относятся к устаревшему API V1. |
+| Пешеходные, велосипедные маршруты и общественный транспорт | `transport.TransportFactory`, `Transport.createPedestrianRouter`, `createBicycleRouterV2`, `createMasstransitRouter`, сессии и данные маршрутов из `transport.masstransit` | `YMKTransportFactory`, `YMKTransport.createPedestrianRouter`, `createBicycleRouterV2`, `createMasstransitRouter`, `YMKPedestrianRouter`, `YMKBicycleRouterV2`, `YMKMasstransit{Router,Session,Route}` | **Запланировано** в [#80][80]. Отдельные классы `transport.bicycle` и `YMKBicycleRouter` относятся к устаревшему API V1. |
 | Сводки маршрутов, микромобильность, сериализация и отображение | `Transport.createScooterRouter`, `createElectricBikeRouter`, `transport.time.AdjustedClock`, `MasstransitRouteSerializer`, `DrivingJamsPainter`, `RouteHelper`, `annotations.Speaker` | `YMKTransport.createScooterRouter`, `createElectricBikeRouter`, `YMKAdjustedClock`, `YMKMasstransitRouteSerializer`, `YMKMasstransitDrivingJamsPainter`, `YMKRouteHelper`, `YMKSpeaker` | **Запланировано** в [#101][101] после базовых режимов маршрутизации. |
 | Поиск, плеер и слой панорам | `places.PlacesFactory`, `Places.createPanoramaService`, `createPanoramaLayer`, `PanoramaService.findNearest`, `places.panorama.Player`, `PanoramaView` | `YMKPlacesFactory`, `YMKPlaces.createPanoramaService`, `createPanoramaLayerWithMapWindow:`, `YMKPanoramaService.findNearestWithPosition:searchHandler:`, `YMKPanoramaPlayer`, `YMKPanoView` | Поиск и управление плеером **запланированы** в [#97][97]. Android View и iOS UIView **платформенные**. [Справочник поиска панорам][native-panorama] |
 | Плееры снимков и треков MRC | `Places.createMrcPhotoPlayer`, `createMrcPhotoTrackPlayer`, `places.mrc.MrcPhoto{Player,TrackPlayer,View,TrackView}` | `YMKPlaces.createMrcPhotoPlayerWithPlatformView:`, `createMrcPhotoTrackPlayerWithPlatformView:`, `YMKMrcPhoto{Player,TrackPlayer,View,TrackView}` | **Платформенные** в этой инвентаризации. В [#97][97] нужно подтвердить поддерживаемый способ загрузки и найти тестовые данные до добавления обёртки. |
@@ -41,9 +43,9 @@ XCFramework `YandexMapsMobile` для `4.45.0-lite` и `4.45.0-full`. Имена
 
 ## Сценарии и проверки
 
-Преобразования, жизненный цикл и отмена проверяются на обеих платформах контролируемыми данными.
-Сценарии с реальными данными провайдера или учётными данными относятся к доверенным
-[интеграционным проверкам][82].
+Для задач ниже используйте контролируемые данные, чтобы проверить преобразования, жизненный
+цикл и отмену на обеих платформах. Сценарии с реальными данными провайдера или учётными данными
+запланированы в доверенных [интеграционных проверках][82].
 
 | Непокрытое поведение | Необходимые данные | Приёмочная проверка |
 | --- | --- | --- |
@@ -64,33 +66,33 @@ XCFramework `YandexMapsMobile` для `4.45.0-lite` и `4.45.0-full`. Имена
    двух путей к `ios-arm64/YandexMapsMobile.framework/Headers`. Сравните верхнеуровневые типы
    и общие сигнатуры Android, затем заголовки iOS.
 
-```sh
-export LC_ALL=C
-for edition in lite full; do
-    unzip -p "maps.mobile-$version-$edition.aar" classes.jar > "$edition.jar"
-    jar tf "$edition.jar" |
-        sed -n '/^com\/yandex\//{ /\$/d; /\/internal\//d; s/\.class$//p; }' |
-        tr '/' '.' | sort > "$edition.types"
-done
-comm -13 lite.types full.types > android-full-only.types
-comm -12 lite.types full.types > android-shared.types
-for edition in lite full; do
-    xargs javap -public -classpath "$edition.jar" < android-shared.types > "$edition.shared-api"
-done
-diff -u lite.shared-api full.shared-api
-diff -r "$lite_headers" "$full_headers"
-```
+    ```sh
+    export LC_ALL=C
+    for edition in lite full; do
+        unzip -p "maps.mobile-$version-$edition.aar" classes.jar > "$edition.jar"
+        jar tf "$edition.jar" |
+            sed -n '/^com\/yandex\//{ /\$/d; /\/internal\//d; s/\.class$//p; }' |
+            tr '/' '.' | sort > "$edition.types"
+    done
+    comm -13 lite.types full.types > android-full-only.types
+    comm -12 lite.types full.types > android-shared.types
+    for edition in lite full; do
+        xargs javap -public -classpath "$edition.jar" < android-shared.types > "$edition.shared-api"
+    done
+    diff -u lite.shared-api full.shared-api
+    diff -r "$lite_headers" "$full_headers"
+    ```
+
+3. Сопоставьте эти границы с общими исходниками и ABI документируемого релиза обёртки.
+   Обновите обе локали и укажите тест или задачу для каждого изменившегося семейства.
+   Для недокументированных объявлений и типов без фабрики сначала подтвердите способ вызова.
+   Требования к сервису и тестовым данным фиксируйте в соответствующих проверках.
 
 В версии 4.45.0 получаются **286** дополнительных верхнеуровневых объявлений в **14** пакетах
 Android и **141** дополнительное имя заголовка iOS. Из общих заголовков iOS объявления изменились
 в `YMKMapkit.h`. Из общих верхнеуровневых типов Android сигнатуры добавлены в `MapKit`.
 Число типов и число заголовков измеряют разные вещи. Для отдельного изменения сверяйте
 `javap -public` с учётом вложенных типов колбэков и само объявление iOS.
-
-3. Сопоставьте эти границы с общими исходниками и ABI документируемого релиза обёртки.
-   Обновите обе локали и укажите тест или задачу для каждого изменившегося семейства.
-   Для недокументированных объявлений и типов без фабрики сначала подтвердите способ вызова.
-   Требования к сервису и тестовым данным фиксируйте в соответствующих проверках.
 
 [android-setup]: https://yandex.ru/maps-api/docs/mapkit/android/generated/getting_started.html
 [ios-setup]: https://yandex.com/maps-api/docs/mapkit/ios/generated/getting_started.html
@@ -102,6 +104,8 @@ Android и **141** дополнительное имя заголовка iOS. �
 [native-search-layer]: https://yandex.com/maps-api/docs/mapkit/com/yandex/mapkit/search/search_layer/SearchLayer.html
 [native-offscreen]: https://yandex.com/maps-api/docs/mapkit/android/static/tutorials/map_surface.html
 [navikit]: https://yandex.com/maps-api/docs/mapkit/ios/generated/navigation/getting_started.html
+[full-android-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44432360794/job/135252651813
+[full-ios-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44432360794/job/135252652111
 [releases]: https://github.com/SuLG-ik/yandex-mapkit-kmp/releases
 [77]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/77
 [78]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/78
