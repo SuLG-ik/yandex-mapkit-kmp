@@ -22,5 +22,7 @@ public enum class FilterVehicleTypes(public val value: Int) {
     FUNICULAR(1 shl 16),
     CABLE(1 shl 17),
     AERO(1 shl 18),
-    S_BAHN(1 shl 19),
+    S_BAHN(1 shl 19);
+
+    public companion object
 }

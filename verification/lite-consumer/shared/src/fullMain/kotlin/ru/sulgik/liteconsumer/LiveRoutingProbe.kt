@@ -18,7 +18,7 @@ import ru.sulgik.mapkit.map.Map
 import ru.sulgik.mapkit.runtime.Error
 import ru.sulgik.mapkit.runtime.network.ForbiddenError
 import ru.sulgik.mapkit.runtime.network.UnauthorizedError
-import ru.sulgik.mapkit.transport.Transport
+import ru.sulgik.mapkit.transport.TransportFactory
 import ru.sulgik.mapkit.transport.masstransit.FitnessType
 import ru.sulgik.mapkit.transport.masstransit.Route
 import ru.sulgik.mapkit.transport.masstransit.RouteListener
@@ -140,7 +140,7 @@ private fun routeStarter(mode: RouteMode): StartRoute {
             session::cancel
         }
     }
-    val transport = Transport.getInstance()
+    val transport = TransportFactory.getInstance()
     val request: (List<RequestPoint>, RouteListener) -> Session = when (mode) {
         RouteMode.Walking -> transport.createPedestrianRouter().let { router ->
             { points: List<RequestPoint>, listener: RouteListener ->

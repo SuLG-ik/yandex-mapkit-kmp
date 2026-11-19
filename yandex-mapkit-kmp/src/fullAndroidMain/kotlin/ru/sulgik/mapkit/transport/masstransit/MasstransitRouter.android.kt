@@ -21,7 +21,7 @@ public actual class MasstransitRouter internal constructor(private val nativeMas
         points: List<RequestPoint>,
         transitOptions: TransitOptions,
         routeOptions: RouteOptions,
-        routeListener: RouteListener,
+        routeListener: Session.RouteListener,
     ): Session {
         val request = RouteRequest(routeListener)
         val session = nativeMasstransitRouter.requestRoutes(

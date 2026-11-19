@@ -5,7 +5,6 @@ import ru.sulgik.mapkit.transport.masstransit.MasstransitRouter
 import ru.sulgik.mapkit.transport.masstransit.PedestrianRouter
 import ru.sulgik.mapkit.transport.masstransit.toCommon
 import com.yandex.mapkit.transport.Transport as NativeTransport
-import com.yandex.mapkit.transport.TransportFactory as NativeTransportFactory
 
 /** Entry point for walking, cycling and public transport in Full MapKit. */
 public actual class Transport internal constructor(private val nativeTransport: NativeTransport) {
@@ -36,9 +35,9 @@ public actual class Transport internal constructor(private val nativeTransport: 
 
     public actual companion object {
 
-        /** Returns the transport entry point. */
+        /** Returns the transport entry point through [TransportFactory]. */
         public actual fun getInstance(): Transport {
-            return NativeTransportFactory.getInstance().toCommon()
+            return TransportFactory.getInstance()
         }
     }
 
