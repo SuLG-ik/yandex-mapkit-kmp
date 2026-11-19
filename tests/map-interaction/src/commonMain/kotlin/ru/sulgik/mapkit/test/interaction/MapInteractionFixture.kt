@@ -34,6 +34,7 @@ import ru.sulgik.mapkit.compose.rememberYandexMapController
 import ru.sulgik.mapkit.compose.toImageProvider
 import ru.sulgik.mapkit.geometry.Point
 import ru.sulgik.mapkit.map.CameraPosition
+import ru.sulgik.mapkit.map.ImageProvider
 import ru.sulgik.mapkit.map.InputListener
 import ru.sulgik.mapkit.map.MapType
 import ru.sulgik.mapkit.map.MapWindow
@@ -113,9 +114,7 @@ private fun FixtureMap(screen: Int, trace: MapInteractionTrace) {
         window.map.move(initialCamera)
         val marker = window.map.mapObjects.addPlacemark()
         marker.geometry = markerPosition
-        val icon = ImageBitmap(24, 24)
-        Canvas(icon).drawCircle(Offset(12f, 12f), 10f, Paint().apply { color = Color.Red })
-        marker.setIcon(icon.toImageProvider())
+        marker.setIcon(fixtureMarkerIcon())
         attachment = Attachment(window, trace.mounted(screen))
     }
 
@@ -151,6 +150,12 @@ private fun FixtureMap(screen: Int, trace: MapInteractionTrace) {
             }
         }
     }
+}
+
+internal fun fixtureMarkerIcon(): ImageProvider {
+    val icon = ImageBitmap(24, 24)
+    Canvas(icon).drawCircle(Offset(12f, 12f), 10f, Paint().apply { color = Color.Red })
+    return icon.toImageProvider()
 }
 
 private class Attachment(val window: MapWindow, val identity: String)

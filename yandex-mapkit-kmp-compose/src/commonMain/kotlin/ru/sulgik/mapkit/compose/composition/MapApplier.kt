@@ -41,7 +41,9 @@ internal class MapApplier(
     }
 
     override fun onClear() {
-        mapObjects.clear()
+        if (mapObjects.isValid) {
+            mapObjects.clear()
+        }
         decorations.forEach { it.onCleared() }
         decorations.clear()
     }
