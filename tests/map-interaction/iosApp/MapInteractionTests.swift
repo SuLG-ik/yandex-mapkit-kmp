@@ -199,7 +199,7 @@ final class MapInteractionTests: XCTestCase {
             """
             native request entered
             layer removed while pending
-            worker released
+            workers released
             replacement layer loaded
             finished
             """

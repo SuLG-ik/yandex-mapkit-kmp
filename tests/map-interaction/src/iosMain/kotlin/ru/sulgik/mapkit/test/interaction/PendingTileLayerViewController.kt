@@ -4,13 +4,11 @@ package ru.sulgik.mapkit.test.interaction
 
 import androidx.compose.ui.window.ComposeUIViewController
 import kotlinx.cinterop.ExperimentalForeignApi
+import platform.Foundation.NSCondition
+import platform.Foundation.NSDate
 import platform.Foundation.NSThread
+import platform.Foundation.dateWithTimeIntervalSinceNow
 import platform.UIKit.UIViewController
-import platform.darwin.DISPATCH_TIME_NOW
-import platform.darwin.dispatch_semaphore_create
-import platform.darwin.dispatch_semaphore_signal
-import platform.darwin.dispatch_semaphore_wait
-import platform.darwin.dispatch_time
 import ru.sulgik.mapkit.MapKit
 
 public fun pendingTileLayerViewController(): UIViewController {
@@ -21,21 +19,34 @@ public fun pendingTileLayerViewController(): UIViewController {
 
 private class IosTileWorkerGate : TileWorkerGate {
 
-    private val releaseSignal = checkNotNull(dispatch_semaphore_create(0L))
+    private val releaseCondition = NSCondition()
+    private var released = false
 
-    override fun awaitRelease(): TileWorkerState {
+    override fun awaitRelease(): TileWorkerResult {
         if (NSThread.isMainThread) {
-            return TileWorkerState.MainThread
+            return TileWorkerResult.MainThread
         }
-        val timeout = dispatch_time(DISPATCH_TIME_NOW, PendingTileWorkerTimeoutMillis * 1_000_000L)
-        return if (dispatch_semaphore_wait(releaseSignal, timeout) == 0L) {
-            TileWorkerState.Released
-        } else {
-            TileWorkerState.TimedOut
+        val deadline = NSDate.dateWithTimeIntervalSinceNow(PendingTileWorkerTimeoutMillis / 1_000.0)
+        releaseCondition.lock()
+        try {
+            while (!released) {
+                if (!releaseCondition.waitUntilDate(deadline) && !released) {
+                    return TileWorkerResult.TimedOut
+                }
+            }
+            return TileWorkerResult.Released
+        } finally {
+            releaseCondition.unlock()
         }
     }
 
     override fun release() {
-        dispatch_semaphore_signal(releaseSignal)
+        releaseCondition.lock()
+        try {
+            released = true
+            releaseCondition.broadcast()
+        } finally {
+            releaseCondition.unlock()
+        }
     }
 }

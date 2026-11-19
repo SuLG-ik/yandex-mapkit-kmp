@@ -10,7 +10,7 @@ import ru.sulgik.mapkit.test.interaction.PendingTileLayerFixture
 import ru.sulgik.mapkit.test.interaction.PendingTileLayerTrace
 import ru.sulgik.mapkit.test.interaction.PendingTileWorkerTimeoutMillis
 import ru.sulgik.mapkit.test.interaction.TileWorkerGate
-import ru.sulgik.mapkit.test.interaction.TileWorkerState
+import ru.sulgik.mapkit.test.interaction.TileWorkerResult
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.test.Test
@@ -46,7 +46,7 @@ public class PendingTileLayerTest {
                 listOf(
                     "native request entered",
                     "layer removed while pending",
-                    "worker released",
+                    "workers released",
                     "replacement layer loaded",
                     "finished",
                 ),
@@ -60,19 +60,19 @@ private class AndroidTileWorkerGate : TileWorkerGate {
 
     private val releaseSignal = CountDownLatch(1)
 
-    override fun awaitRelease(): TileWorkerState {
+    override fun awaitRelease(): TileWorkerResult {
         if (Looper.getMainLooper().thread === Thread.currentThread()) {
-            return TileWorkerState.MainThread
+            return TileWorkerResult.MainThread
         }
         return try {
             if (releaseSignal.await(PendingTileWorkerTimeoutMillis, TimeUnit.MILLISECONDS)) {
-                TileWorkerState.Released
+                TileWorkerResult.Released
             } else {
-                TileWorkerState.TimedOut
+                TileWorkerResult.TimedOut
             }
         } catch (_: InterruptedException) {
             Thread.currentThread().interrupt()
-            TileWorkerState.Interrupted
+            TileWorkerResult.Interrupted
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -31,6 +32,7 @@ import ru.sulgik.mapkit.map.MapType
 import ru.sulgik.mapkit.map.MapWindow
 import ru.sulgik.mapkit.tiles.TileProvider
 import kotlin.concurrent.atomics.AtomicBoolean
+import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.AtomicReference
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.io.encoding.Base64
@@ -43,9 +45,7 @@ private val tilePng = Base64.decode(
     "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQAAAAB0CZXLAAAAM0lEQVR42u3KoQEAAAwCIP9/Wk9YXYBMeoggCIIgCIIgCIIgCIIgCIIgCIIgCIIgCMLvMPPS4dI8z/G7AAAAAElFTkSuQmCC",
 )
 
-internal enum class TileWorkerState {
-    Waiting,
-    Entered,
+internal enum class TileWorkerResult {
     Released,
     TimedOut,
     MainThread,
@@ -53,7 +53,7 @@ internal enum class TileWorkerState {
 }
 
 internal interface TileWorkerGate {
-    fun awaitRelease(): TileWorkerState
+    fun awaitRelease(): TileWorkerResult
     fun release()
 }
 
@@ -69,6 +69,9 @@ internal fun PendingTileLayerFixture(
     rememberAndInitializeMapKit().bindToLifecycleOwner()
     val controller = rememberYandexMapController()
     val scenario = remember(gate, trace) { PendingTileLayerScenario(gate, trace) }
+    DisposableEffect(gate) {
+        onDispose { gate.release() }
+    }
 
     Column {
         YandexMap(controller = controller, modifier = Modifier.size(260.dp))
@@ -88,16 +91,29 @@ private class PendingTileLayerScenario(
     private val gate: TileWorkerGate,
     private val trace: PendingTileLayerTrace,
 ) {
-    private val worker = AtomicReference(TileWorkerState.Waiting)
+    private val firstRequestEntered = AtomicBoolean(false)
+    private val pendingResponses = AtomicInt(0)
+    private val workerFailure = AtomicReference<TileWorkerResult?>(null)
     private val replacementRequested = AtomicBoolean(false)
     private val replacementLoaded = AtomicBoolean(false)
     private val retiredCallbackDelivered = AtomicBoolean(false)
 
     private val heldProvider = TileProvider { _, version, features, _ ->
-        if (worker.compareAndSet(TileWorkerState.Waiting, TileWorkerState.Entered)) {
-            worker.store(gate.awaitRelease())
+        pendingResponses.addAndFetch(1)
+        firstRequestEntered.store(true)
+        try {
+            val outcome = gate.awaitRelease()
+            if (outcome != TileWorkerResult.Released && workerFailure.compareAndSet(null, outcome)) {
+                gate.release()
+            }
+            if (workerFailure.load() == null) {
+                RawTile(version, features, "held-png", RawTile.UseCache.NO, RawTile.State.OK, tilePng)
+            } else {
+                RawTile(version, features, "", RawTile.UseCache.NO, RawTile.State.ERROR, byteArrayOf())
+            }
+        } finally {
+            pendingResponses.addAndFetch(-1)
         }
-        RawTile(version, features, "held-png", RawTile.UseCache.NO, RawTile.State.OK, tilePng)
     }
     private val replacementProvider = TileProvider { _, version, features, _ ->
         replacementRequested.store(true)
@@ -118,11 +134,11 @@ private class PendingTileLayerScenario(
         if (!removePendingLayer(map)) {
             return
         }
-        if (!awaitNative { worker.load() != TileWorkerState.Entered } || worker.load() != TileWorkerState.Released) {
-            trace.events += "failed waiting for the gated worker to exit ${worker.load()}"
+        if (!awaitNative { pendingResponses.load() == 0 || workerFailure.load() != null } || workerFailure.load() != null) {
+            trace.events += "failed waiting for tile responses pending=${pendingResponses.load()} workerFailure=${workerFailure.load()}"
             return
         }
-        trace.events += "worker released"
+        trace.events += "workers released"
 
         val replacement = map.addLocalTiles("pending-tile-replacement", replacementProvider)
         try {
@@ -131,8 +147,8 @@ private class PendingTileLayerScenario(
                 trace.events += "failed waiting for replacement rendering requested=${replacementRequested.load()} loaded=${replacementLoaded.load()}"
                 return
             }
-            if (retiredCallbackDelivered.load() || !replacement.isValid || !map.isValid) {
-                trace.events += "failed after replacement rendering retiredCallback=${retiredCallbackDelivered.load()} replacementValid=${replacement.isValid} mapValid=${map.isValid}"
+            if (workerFailure.load() != null || retiredCallbackDelivered.load() || !replacement.isValid || !map.isValid) {
+                trace.events += "failed after replacement rendering workerFailure=${workerFailure.load()} retiredCallback=${retiredCallbackDelivered.load()} replacementValid=${replacement.isValid} mapValid=${map.isValid}"
                 return
             }
             trace.events += "replacement layer loaded"
@@ -149,23 +165,20 @@ private class PendingTileLayerScenario(
         try {
             val activeLayer = map.addLocalTiles("pending-tile-held", heldProvider)
             heldLayer = activeLayer
-            val data = activeLayer.dataSourceLayer()
-            data.setLayerLoadedListener(heldListener.asWeakRef())
-            if (!awaitNative { worker.load() != TileWorkerState.Waiting }) {
+            activeLayer.dataSourceLayer().setLayerLoadedListener(heldListener.asWeakRef())
+            if (!awaitNative { firstRequestEntered.load() }) {
                 trace.events += "failed waiting for renderer to request a tile"
                 return false
             }
 
-            val beforeRemoval = worker.load()
-            if (beforeRemoval != TileWorkerState.Entered || retiredCallbackDelivered.load()) {
-                trace.events += "failed to hold request before removal state=$beforeRemoval callback=${retiredCallbackDelivered.load()}"
+            if (pendingResponses.load() == 0 || workerFailure.load() != null || retiredCallbackDelivered.load()) {
+                trace.events += "failed to hold requests before removal pending=${pendingResponses.load()} workerFailure=${workerFailure.load()} callback=${retiredCallbackDelivered.load()}"
                 return false
             }
             trace.events += "native request entered"
             activeLayer.remove()
-            val afterRemoval = worker.load()
-            if (afterRemoval != TileWorkerState.Entered || activeLayer.isValid || data.isValid) {
-                trace.events += "failed to remove pending tile layer state=$afterRemoval layerValid=${activeLayer.isValid} dataValid=${data.isValid}"
+            if (pendingResponses.load() == 0 || workerFailure.load() != null || activeLayer.isValid || retiredCallbackDelivered.load()) {
+                trace.events += "failed to remove pending tile layer pending=${pendingResponses.load()} workerFailure=${workerFailure.load()} layerValid=${activeLayer.isValid} callback=${retiredCallbackDelivered.load()}"
                 return false
             }
             trace.events += "layer removed while pending"
