@@ -71,6 +71,14 @@ consumer creates and resets a native suggestion session. [#82][82] tracks live r
 The remaining Full surface is tracked in [#81][81]. Use the [regression workflow](../getting-started/contributing.md#regressions)
 when adding evidence or reporting a remaining gap.
 
+## Full driving routing
+
+The [device adapter checks](full-routing.md#regression-checks) cover point order, geometry,
+empty results, native errors and cancellation through an alias created before retry. The
+isolated Full app draws, replaces and clears a real polyline before `MAP_READY`. Live driving
+requests and the other routing modes remain tracked in [#80][80], with scheduled service
+runs in [#82][82].
+
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
 [a-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44435197621/job/135262196868
@@ -165,3 +173,4 @@ when adding evidence or reporting a remaining gap.
 [86]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/86
 [a-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
 [i-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
+[80]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/80

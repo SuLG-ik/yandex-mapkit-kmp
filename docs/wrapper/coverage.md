@@ -143,3 +143,5 @@ request replacement, session reset, and suggested items with actions and optiona
   `UIImage` — so they stay parameters of the Android factories.
 
 Use `toNative()` in a platform source set for omissions present in the selected native artifact.
+
+See [Full routing](full-routing.md) for driving requests and route geometry in the candidate.

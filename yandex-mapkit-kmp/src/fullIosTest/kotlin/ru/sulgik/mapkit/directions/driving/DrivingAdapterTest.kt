@@ -1,0 +1,139 @@
+package ru.sulgik.mapkit.directions.driving
+
+import platform.Foundation.NSError
+import platform.Foundation.NSLocalizedDescriptionKey
+import platform.Foundation.errorWithDomain
+import platform.Foundation.timeIntervalSince1970
+import ru.sulgik.mapkit.RequestPoint
+import ru.sulgik.mapkit.RequestPointType
+import ru.sulgik.mapkit.annotations.AnnotationLanguage
+import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.geometry.Polyline
+import ru.sulgik.mapkit.geometry.toCommon
+import ru.sulgik.mapkit.toCommon
+import ru.sulgik.mapkit.toNative
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertSame
+import kotlin.test.assertTrue
+import kotlin.time.Instant
+import YandexMapKit.YMKDrivingSession as NativeDrivingSession
+
+public class DrivingAdapterTest {
+
+    @Test
+    public fun native_options_waypoints_and_geometry_preserve_values_and_order() {
+        val options = DrivingOptions(
+            initialAzimuth = 210.0,
+            routesCount = 2,
+            departureTime = Instant.fromEpochMilliseconds(1_797_432_000_123L),
+            annotationLanguage = AnnotationLanguage.LATIN_AMERICAN_SPANISH,
+            avoidanceFlags = AvoidanceFlags(avoidTolls = true, avoidRailwayCrossing = true, avoidTunnel = true),
+        )
+        val vehicle = VehicleOptions(
+            vehicleType = VehicleType.TRUCK,
+            weight = 4.25f,
+            axleWeight = 1.5f,
+            maxWeight = 7.5f,
+            height = 3.0f,
+            width = 2.25f,
+            length = 6.75f,
+            payload = 2.125f,
+            ecoClass = 5,
+            hasTrailer = false,
+            buswayPermitted = true,
+        )
+        val points = listOf(
+            RequestPoint(Point(55.75, 37.62), RequestPointType.WAYPOINT, pointContext = "origin"),
+            RequestPoint(Point(55.76, 37.61), RequestPointType.VIAPOINT),
+            RequestPoint(
+                Point(55.77, 37.60),
+                RequestPointType.WAYPOINT,
+                drivingArrivalPointId = "entrance",
+                indoorLevelId = "ground",
+            ),
+        )
+        val nativeOptions = options.toNative()
+
+        assertEquals(1_797_432_000.123, checkNotNull(nativeOptions.departureTime).timeIntervalSince1970, 0.001)
+        assertEquals(options, nativeOptions.toCommon())
+        assertEquals(vehicle, vehicle.toNative().toCommon())
+        assertEquals(DrivingOptions(), DrivingOptions().toNative().toCommon())
+        assertEquals(VehicleOptions(), VehicleOptions().toNative().toCommon())
+        assertEquals(points, points.map(RequestPoint::toNative).map { it.toCommon() })
+        assertEquals(points.map { it.point }, Polyline(points.map { it.point }).toNative().toCommon().points)
+    }
+
+    @Test
+    public fun native_handler_preserves_empty_results_errors_and_disposal() {
+        val error = NSError.errorWithDomain(
+            domain = "DrivingTest",
+            code = 42,
+            userInfo = mapOf(NSLocalizedDescriptionKey to "Network unavailable"),
+        )
+        val results = mutableListOf<List<DrivingRoute>>()
+        val failures = mutableListOf<DrivingRouteError>()
+        val listener = DrivingRouteListener({ results.add(it) }, { failures.add(it) })
+        val retired = DrivingRouteRequest(listener)
+        val retiredHandler = retired.toNative()
+        assertSame(retiredHandler, retired.toNative())
+        retiredHandler(emptyList<Any>(), null)
+
+        retired.dispose()
+        retiredHandler(null, error)
+        retiredHandler(emptyList<Any>(), null)
+        assertTrue(results.single().isEmpty())
+        assertTrue(failures.isEmpty())
+
+        val next = DrivingRouteRequest(listener).toNative()
+        next(null, error)
+        assertSame(error, failures.single().toNative())
+        assertEquals("Network unavailable", failures.single().description)
+        assertNull(failures.single().error)
+        assertEquals(1, results.size)
+    }
+
+    @Test
+    public fun aliases_replace_and_cancel_the_same_native_driving_request() {
+        val native = RecordingDrivingSession()
+        val aliasBeforeRequest = native.toCommon()
+        val oldResults = mutableListOf<List<DrivingRoute>>()
+        val oldRequest = DrivingRouteRequest(
+            DrivingRouteListener({ oldResults.add(it) }, { error("Unexpected initial failure") }),
+        )
+        native.callbacks.add(oldRequest.toNative())
+        val owner = native.toCommon(oldRequest)
+        val aliasBeforeRetry = owner.toNative().toCommon()
+        val currentResults = mutableListOf<List<DrivingRoute>>()
+        aliasBeforeRetry.retry(DrivingRouteListener({ currentResults.add(it) }, { error("Unexpected retry failure") }))
+        assertEquals(2, native.callbacks.size)
+
+        native.callbacks[0](emptyList<Any>(), null)
+        native.callbacks[1](emptyList<Any>(), null)
+        aliasBeforeRequest.cancel()
+        native.callbacks[1](emptyList<Any>(), null)
+
+        assertSame(native, owner.toNative())
+        assertEquals(1, native.cancelCount)
+        assertTrue(oldResults.isEmpty())
+        assertTrue(currentResults.single().isEmpty())
+    }
+
+}
+
+private class RecordingDrivingSession : NativeDrivingSession() {
+
+    val callbacks = mutableListOf<(List<*>?, NSError?) -> Unit>()
+    var cancelCount = 0
+        private set
+
+    override fun retryWithRouteHandler(routeHandler: (List<*>?, NSError?) -> Unit) {
+        callbacks.add(routeHandler)
+    }
+
+    override fun cancel() {
+        cancelCount++
+        callbacks.lastOrNull()?.invoke(emptyList<Any>(), null)
+    }
+}
