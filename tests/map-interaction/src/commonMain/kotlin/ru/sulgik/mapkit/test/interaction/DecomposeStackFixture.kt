@@ -143,6 +143,10 @@ internal class DecomposeTrace {
         events.add("release $id")
     }
 
+    fun mapWindow(id: String): MapWindow? {
+        return windows[id]?.window
+    }
+
     fun holdFade(outgoingId: String) {
         check(heldOutgoing == null)
         heldOutgoing = outgoingId
