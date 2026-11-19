@@ -25,7 +25,7 @@ if [[ ! -s "$ANDROID_AVD_HOME/$name.ini" ]]; then
     exit 1
 fi
 log="$runner_temp/mapkit-service-emulator.log"
-nohup "$sdk/emulator/emulator" -avd "$name" -port 5556 -memory 4096 \
+nohup "$sdk/emulator/emulator" -avd "$name" -port 5556 -cores 2 -memory 4096 \
     -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim > "$log" 2>&1 < /dev/null &
 pid=$!
 report_failed_boot() {

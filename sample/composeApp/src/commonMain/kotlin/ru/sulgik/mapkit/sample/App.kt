@@ -19,6 +19,14 @@ fun initMapKit() {
     MapKit.setApiKey(BuildKonfig.MAPKIT_API_KEY)
 }
 
+internal var returnMapBenchmarkMetricSink: ((String) -> Unit)? = null
+    private set
+
+fun initMapKitForReturnBenchmark(apiKey: String, writeMetric: (String) -> Unit) {
+    MapKit.setApiKey(apiKey)
+    returnMapBenchmarkMetricSink = writeMetric
+}
+
 enum class NavItem(val title: String) {
     SELECTION("Selection"),
     OLD_API("Old api objects"),

@@ -12,6 +12,36 @@ The sample initializes MapKit while showing the setup controls. Each trial start
 button press and reports `scope=post_init`. The numbers cover the route and native viewport
 from there. Process startup, SDK initialization and menu navigation fall outside the interval.
 
+## Hosted Android run
+
+After this workflow lands on `main`, run **Return-to-map benchmark** manually on `main` in
+GitHub Actions. Choose `boot_only` to check Android startup on a branch without building the
+sample, loading a credential or collecting metrics. Leave it off for a benchmark on `main`.
+Both modes boot a disposable Pixel 7 emulator with the Android 37 Google APIs image.
+The job runs five cohorts against the same installed sample. Each cohort clears app storage before
+its cold trial, then measures same-process reopen and retained return. A force-stop and launch
+starts the restart trial with storage and cache intact. The driver finds the actual sample controls,
+waits for the map projection and taps the center with Android input 350 ms after the UI probe sees
+the ready prompt. The measured callback includes UI detection and scheduling overhead.
+
+The build uses a placeholder key. The job stages the dedicated repository credential only after
+compilation and emulator boot, and sends it over stdin to the private app directory. The debug host
+consumes and removes that file on each launched process. The trusted run writes metric records to
+its private file. The only uploaded artifacts are the extracted records and their Markdown summary.
+
+A cohort is complete when all four routes report projection and a native tap at the same viewport
+and SDK version, the newly mounted maps report verified tile callbacks, and the retained map reports
+zero new mounts. A comparable baseline also requires the same SDK version and measured viewport
+across all five cohorts. A mismatch or an incomplete cohort fails the run. Extracted observations
+remain in the metric file, and the summary explicitly reports any mismatch.
+
+This automation covers Android. The iOS baseline can still be collected with the controlled run
+below. A follow-up can reuse the existing MapInteraction XCTest host with the same shared probe.
+The host would install a test app once per cohort and stage a sandbox key by stdin or a private file
+before each process launch. The test runner would send native taps while leaving the application
+container intact between the retained and restart trials. Measure cache reuse only after confirming
+that the second test invocation preserves that container.
+
 ## Controlled run
 
 Use a disposable test install, a fixed device and OS/runtime per report, portrait orientation,
