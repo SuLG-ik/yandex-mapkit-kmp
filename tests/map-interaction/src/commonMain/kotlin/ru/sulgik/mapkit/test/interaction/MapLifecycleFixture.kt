@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -49,6 +51,8 @@ import kotlin.math.abs
 import kotlin.time.Duration.Companion.seconds
 
 internal const val LifecycleMapTag = "lifecycle-map"
+internal const val CoverToggle = "cover-toggle"
+internal const val LifecycleOverlay = "lifecycle-overlay"
 internal const val LifecycleTraceTag = "lifecycle-trace"
 internal const val CoverMap = "Cover map"
 internal const val UncoverMap = "Uncover map"
@@ -66,6 +70,7 @@ public class MapLifecycleScenario {
     internal val events = mutableStateListOf<String>()
     internal var customCamera: Boolean by mutableStateOf(false)
     internal var selected: Boolean by mutableStateOf(false)
+    internal var target: LifecycleTarget? = null
     private var nextAttachment = 0
 
     internal fun attach(): Int {
@@ -79,6 +84,7 @@ public class MapLifecycleScenario {
 internal fun MapLifecycleFixture(
     scenario: MapLifecycleScenario,
     onWindowAttached: (Int, MapWindow) -> Unit = { _, _ -> },
+    onPositioned: ((String, LayoutCoordinates) -> Unit)? = null,
 ) {
     rememberAndInitializeMapKit().bindToLifecycleOwner()
     val controller = rememberYandexMapController()
@@ -89,12 +95,15 @@ internal fun MapLifecycleFixture(
     Column {
         if (open) {
             Row {
-                FixtureButton(if (covered) UncoverMap else CoverMap) { covered = !covered }
-                FixtureButton(SaveViewport) {
+                FixtureButton(
+                    if (covered) UncoverMap else CoverMap,
+                    Modifier.trackPosition(CoverToggle, onPositioned),
+                ) { covered = !covered }
+                FixtureButton(SaveViewport, Modifier.trackPosition(SaveViewport, onPositioned)) {
                     scenario.customCamera = true
                     scenario.selected = true
                 }
-                FixtureButton(AnimateAndClose) {
+                FixtureButton(AnimateAndClose, Modifier.trackPosition(AnimateAndClose, onPositioned)) {
                     attachment?.animate()
                     covered = false
                     open = false
@@ -106,6 +115,7 @@ internal fun MapLifecycleFixture(
                 dispose = {
                     attachment?.close()
                     attachment = null
+                    scenario.target = null
                 },
             ) { window ->
                 val current = LifecycleAttachment(scenario, window)
@@ -113,13 +123,14 @@ internal fun MapLifecycleFixture(
                 onWindowAttached(current.id, window)
             }
 
-            var target by remember { mutableStateOf<String?>(null) }
+            var target by remember { mutableStateOf<LifecycleTarget?>(null) }
             Box(Modifier.size(260.dp)) {
                 YandexMap(
                     controller = controller,
                     modifier = Modifier.matchParentSize()
                         .testTag(LifecycleMapTag)
-                        .semantics { contentDescription = target ?: "lifecycle-map-waiting" },
+                        .semantics { contentDescription = target?.label ?: "lifecycle-map-waiting" }
+                        .trackPosition(LifecycleMapTag, onPositioned),
                 )
                 if (covered) {
                     Box(
@@ -128,13 +139,15 @@ internal fun MapLifecycleFixture(
                             .clickable(role = Role.Button) {
                                 attachment?.let { scenario.events.add("overlay ${it.id}") }
                             }
-                            .semantics { contentDescription = "Map overlay" },
+                            .semantics { contentDescription = "Map overlay" }
+                            .trackPosition(LifecycleOverlay, onPositioned),
                     )
                 }
             }
             LaunchedEffect(attachment, scenario.customCamera, scenario.selected) {
                 val current = attachment ?: return@LaunchedEffect
                 target = null
+                scenario.target = null
                 val customCamera = scenario.customCamera
                 val selected = scenario.selected
                 val camera = if (customCamera) savedCamera else defaultCamera
@@ -149,13 +162,14 @@ internal fun MapLifecycleFixture(
                 }
                 if (projected != null) {
                     target = projected
+                    scenario.target = projected
                     scenario.events.add("ready ${current.id} camera=$customCamera selected=$selected")
                 } else {
                     scenario.events.add("readiness timeout ${current.id}")
                 }
             }
         } else {
-            FixtureButton(OpenLifecycleMap) { open = true }
+            FixtureButton(OpenLifecycleMap, Modifier.trackPosition(OpenLifecycleMap, onPositioned)) { open = true }
         }
         BasicText(
             text = scenario.events.joinToString("\n"),
@@ -166,8 +180,19 @@ internal fun MapLifecycleFixture(
 }
 
 @Composable
-private fun FixtureButton(text: String, onClick: () -> Unit) {
-    BasicText(text, Modifier.clickable(role = Role.Button, onClick = onClick).padding(6.dp))
+private fun FixtureButton(text: String, modifier: Modifier, onClick: () -> Unit) {
+    BasicText(text, modifier.clickable(role = Role.Button, onClick = onClick).padding(6.dp))
+}
+
+private fun Modifier.trackPosition(
+    name: String,
+    onPositioned: ((String, LayoutCoordinates) -> Unit)?,
+): Modifier {
+    return if (onPositioned != null) onGloballyPositioned { onPositioned(name, it) } else this
+}
+
+internal data class LifecycleTarget(val id: Int, val x: Float, val y: Float) {
+    val label: String get() = "lifecycle-target $id $x $y"
 }
 
 private class LifecycleAttachment(
@@ -225,7 +250,7 @@ private class LifecycleAttachment(
         scenario.events.add("detach $id")
     }
 
-    fun projectCenter(camera: CameraPosition, selected: Boolean): String? {
+    fun projectCenter(camera: CameraPosition, selected: Boolean): LifecycleTarget? {
         if (!window.isValid || window.width == 0 || window.height == 0 || !marker.isValid) return null
         val actual = map.cameraPosition
         if (!near(actual.target, camera.target) || abs(actual.zoom - camera.zoom) > 0.01f) return null
@@ -234,7 +259,7 @@ private class LifecycleAttachment(
         val point = window.worldToScreen(camera.target) ?: return null
         val x = point.x / window.width
         val y = point.y / window.height
-        return if (x in 0.05f..0.95f && y in 0.05f..0.95f) "lifecycle-target $id $x $y" else null
+        return if (x in 0.05f..0.95f && y in 0.05f..0.95f) LifecycleTarget(id, x, y) else null
     }
 }
 

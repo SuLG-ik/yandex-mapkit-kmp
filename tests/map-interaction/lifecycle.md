@@ -11,7 +11,8 @@ reports ready only after the native camera and marker selection match the saved 
 requires one detach for each previous map and exposes late camera or input events with the old
 attachment ID.
 
-Android uses `ActivityScenario` for background/resume and Activity recreation. The Activity writes
+Android uses a regular `ActivityScenario` and sends input in screen coordinates. The driver moves
+the Activity through background/resume and recreates it. The Activity writes
 the viewport choices to its saved state and restores them on creation. The driver also checks
 MapKit's native window validity after removal. iOS uses Home and app activation for the foreground
 transition. Its SwiftUI parent removes and recreates the Compose view controller while retaining
