@@ -6,30 +6,21 @@ successful response.
 
 ## Installation
 
-Add the Full wrapper. Use the matching `-full` coordinates for every optional wrapper module
-your app uses.
+The Full wrapper is an unreleased candidate. The [consumer fixture] builds its artifacts into
+a temporary Maven repository and resolves them there. Start an Android emulator or iOS simulator,
+then run the corresponding command from the repository root. Substitute the ID from `adb devices`
+or `xcrun simctl list devices booted`.
 
-```kotlin
-commonMain.dependencies {
-    implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-full:{{ version }}")
-}
+```sh
+bash verification/lite-consumer/run.sh android emulator-5554 with-integrations full
+bash verification/lite-consumer/run.sh ios SIMULATOR_UUID with-integrations full
 ```
 
-Android resolves `com.yandex.android:maps.mobile:{{ mapkit_version_full }}` through the wrapper.
-On iOS, pin `YandexMapsMobile` to the matching Full SDK in the shared module and Xcode app.
-
-```kotlin
-cocoapods {
-    ios.deploymentTarget = "15.0"
-    pod("YandexMapsMobile") {
-        version = "{{ mapkit_version_full }}"
-        packageName = "YandexMapKit"
-    }
-}
-```
-
-Use the [platform initialization steps](../getting-started/quick-start.md) and an active MapKit
-key. The [consumer fixture] verifies Full installation and manager creation without a live query.
+The fixture resolves the matching `-full` coordinates for the core wrapper and optional modules.
+It uses `com.yandex.android:maps.mobile:{{ mapkit_version_full }}` on Android and
+`YandexMapsMobile ({{ mapkit_version_full }})` with CocoaPods on iOS. It verifies installation
+and manager creation without a live query. For a live query in your app, use the
+[platform initialization steps](../getting-started/quick-start.md) and an active MapKit key.
 
 ## Run a query
 

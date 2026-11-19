@@ -6,31 +6,21 @@
 
 ## Установка
 
-Подключите обёртку Full. Для каждого дополнительного модуля обёртки в приложении используйте
-соответствующий артефакт с суффиксом `-full`.
+Обёртка Full пока готовится к выпуску. [Тестовое приложение] собирает её артефакты во временный
+Maven-репозиторий и подключает их оттуда. Запустите эмулятор Android или симулятор iOS, затем
+выполните соответствующую команду из корня репозитория. Подставьте идентификатор из
+`adb devices` или `xcrun simctl list devices booted`.
 
-```kotlin
-commonMain.dependencies {
-    implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-full:{{ version }}")
-}
+```sh
+bash verification/lite-consumer/run.sh android emulator-5554 with-integrations full
+bash verification/lite-consumer/run.sh ios SIMULATOR_UUID with-integrations full
 ```
 
-Android получает `com.yandex.android:maps.mobile:{{ mapkit_version_full }}` через обёртку.
-На iOS укажите ту же версию Full для `YandexMapsMobile` в общем модуле и приложении Xcode.
-
-```kotlin
-cocoapods {
-    ios.deploymentTarget = "15.0"
-    pod("YandexMapsMobile") {
-        version = "{{ mapkit_version_full }}"
-        packageName = "YandexMapKit"
-    }
-}
-```
-
-Выполните [инициализацию на платформе](../getting-started/quick-start.ru.md) и укажите действующий
-ключ MapKit. [Тестовое приложение] проверяет установку Full и создание менеджера без сетевого
-запроса.
+Приложение подключает ядро и дополнительные модули по координатам с суффиксом `-full`. На Android
+оно использует `com.yandex.android:maps.mobile:{{ mapkit_version_full }}`, а на iOS —
+`YandexMapsMobile ({{ mapkit_version_full }})` через CocoaPods. Оно проверяет установку и создание
+менеджера без сетевого запроса. Для запроса к сервису в своём приложении выполните
+[инициализацию на платформе](../getting-started/quick-start.ru.md) и укажите действующий ключ MapKit.
 
 ## Выполнение запроса
 

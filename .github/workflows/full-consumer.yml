@@ -9,7 +9,10 @@ on:
       - 'gradle/libs.versions.toml'
       - 'verification/lite-consumer/**'
       - 'yandex-mapkit-kmp*/build.gradle.kts'
-      - 'yandex-mapkit-kmp/api/full/**'
+      - 'yandex-mapkit-kmp/api/**'
+      - 'yandex-mapkit-kmp/src/commonMain/**'
+      - 'yandex-mapkit-kmp/src/androidMain/**'
+      - 'yandex-mapkit-kmp/src/iosMain/**'
       - 'yandex-mapkit-kmp/src/full*/**'
 
 permissions:
