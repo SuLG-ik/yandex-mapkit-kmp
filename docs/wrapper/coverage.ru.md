@@ -125,8 +125,8 @@ MapKit наследует `LocationSimulator` от `LocationManager`. Kotlin н�
 
 ## Что не обёрнуто
 
-- **API сборки full.** Поиска, маршрутизации, панорам, дорожных событий и API персонализации
-  (`MapKit.setAccount`, `MapKit.createOffscreenMapWindow`) в сборке lite нет.
+- **API сборки full.** В [покрытии MapKit Full](full-coverage.md) перечислены поиск, маршрутизация,
+  панорамы, аккаунты, рендеринг без экрана и доступные только в Full точки входа для дорожных событий.
 - **`BaseDataSourceBuilder` и `mapkit.images`.** Типы в lite есть, но их никто не отдаёт наружу —
   `Map.addTileLayer` строит `TileDataSourceBuilder`.
 - **`ViewProvider`.** MapKit умеет отрисовывать нативную `View` / `UIView` в иконку. Общей формы для
@@ -134,4 +134,5 @@ MapKit наследует `LocationSimulator` от `LocationManager`. Kotlin н�
 - **`ImageProvider.id` / `isCacheable`.** Они есть только на Android — iOS MapKit принимает обычный
   `UIImage`, — поэтому остались параметрами Android-фабрик.
 
-Всё из этого списка по-прежнему достижимо через `toNative()` из платформенных исходников.
+Используйте `toNative()` в платформенных исходниках для возможностей выбранного нативного артефакта,
+у которых пока нет обёртки.
