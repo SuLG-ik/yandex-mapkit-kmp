@@ -20,6 +20,9 @@ private struct ComposeMapHost: UIViewControllerRepresentable {
         if arguments.contains("--navigation3") {
             return InteractionViewControllerKt.nav3ViewController()
         }
+        if arguments.contains("--decompose-stack") {
+            return DecomposeStackViewControllerKt.decomposeStackViewController()
+        }
         if arguments.contains("--map-object-membership") {
             return InteractionViewControllerKt.objectMembershipViewController()
         }

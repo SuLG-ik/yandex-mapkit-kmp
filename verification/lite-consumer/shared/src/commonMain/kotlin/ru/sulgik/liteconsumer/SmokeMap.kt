@@ -10,8 +10,8 @@ import ru.sulgik.mapkit.compose.bindToLifecycleOwner
 import ru.sulgik.mapkit.compose.rememberAndInitializeMapKit
 import ru.sulgik.mapkit.geometry.Point
 
-public fun initializeSmokeMap() {
-    MapKit.setApiKey("mapkit-lite-consumer-smoke")
+public fun initializeSmokeMap(apiKey: String = "mapkit-lite-consumer-smoke") {
+    MapKit.setApiKey(apiKey)
 }
 
 @Composable

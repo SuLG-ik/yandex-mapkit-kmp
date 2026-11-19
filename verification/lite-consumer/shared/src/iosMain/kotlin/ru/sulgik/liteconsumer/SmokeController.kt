@@ -17,3 +17,21 @@ public fun smokeController(token: String): UIViewController {
         }
     }
 }
+
+public fun liveSearchController(token: String, apiKey: String): UIViewController {
+    check(isLiveSearchToken(token))
+    if (apiKey.isBlank()) {
+        reportLiveSearch(token, LiveSearchStatus.RunnerOrFixture)
+        return ComposeUIViewController {}
+    }
+    initializeSmokeMap(apiKey)
+    return ComposeUIViewController {
+        LiveSearchMap { status -> reportLiveSearch(token, status) }
+    }
+}
+
+private fun reportLiveSearch(token: String, status: LiveSearchStatus) {
+    val temporaryPath = NSTemporaryDirectory().trimEnd('/')
+    val path = "$temporaryPath/$token-LIVE_SEARCH-${status.code}"
+    check(NSFileManager.defaultManager.createFileAtPath(path, contents = null, attributes = null))
+}

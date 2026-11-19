@@ -67,6 +67,22 @@ checks that the new native root has no tag and sets its own `userData` tag. This
 without retaining the disposed map. A late continuation records a failure event before it can
 try to mutate the old object through a weak reference.
 
+## Decompose child stack
+
+`DecomposeStackTest` on Android and `DecomposeStackTests` on iOS run a separate mode of
+the test host. A native map tap pushes details. Popping details creates a fresh map attachment
+for the retained component. Both drivers verify the native camera target, zoom, and marker
+geometry against known per-child coordinates. The scenario switches between two keyed map
+children and holds the replacement fade with both native windows alive. One tap reaches the
+incoming map while the stopped outgoing child has already released its listener. The test then
+releases the fade, backgrounds and resumes the host, and opens details from the replacement.
+The 200 dp viewport and 30 FPS cap bound the virtual GPU load while the native windows overlap.
+
+The trace records the child lifecycle separately from composition overlap, map attachment and
+listener ownership. On Android the driver changes the actual activity lifecycle. On iOS it
+backgrounds and reactivates the app with XCTest. Decompose is a dependency of the test host and
+Android device tests only.
+
 ## Navigation 3
 
 The Android instrumentation test and the iOS XCTest target both mount a test-only `NavDisplay`.

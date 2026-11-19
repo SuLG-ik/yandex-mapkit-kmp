@@ -39,6 +39,7 @@ Compose Multiplatform, которое прогоняет всю обёртку. 
 | **Layers, listeners and states** | `MapObjectCollection`, `MapObjectLayer`, `TileLayer`, `TrafficLayer`, `MapListeners`, объекты состояния и `traverse` |
 | **Storage, offline cache, i18n** | `StorageManager`, `OfflineCacheManager`, `I18nManager` и поток логов MapKit |
 | **Return to map** | сохранение камеры и выбранной метки при переходе в детали или на другую вкладку |
+| **Measure return to map** | Замер создания карты, присвоения объектов, готовности проекции и загрузки тайлов после инициализации MapKit. Для реальных тайлов нужен отдельный ключ. [Инструкция по замеру](https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/return-to-map/README.ru.md). |
 
 В примерах API события выводятся прямо на экран. Нажатие, движение камеры или неудавшийся вызов
 можно проверить без отладчика.

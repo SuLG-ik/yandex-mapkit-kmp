@@ -42,9 +42,13 @@ The workflow refuses to start when
   up to `0.4.1`,
 - `CHANGELOG.md` has no section for that version.
 
-Then it runs the instrumented tests on an emulator, and after that, on `macos-26`, `spotlessCheck`
-plus `libraryCompileIosArm64 libraryTests libraryApiCheck` — iOS compilation, unit tests and the
-public API check. Only afterwards:
+The workflow runs Android instrumented tests and installs and launches the Lite and Full consumers
+from staged Maven artifacts. On `macos-26` it runs `spotlessCheck` and
+`libraryCompileIosArm64 libraryTests libraryApiCheck`, then builds, links and launches the two
+iOS consumer editions on the selected iPhone simulator. Failed consumer checks upload their
+dependency and launch diagnostics. These checks also run in a dry run.
+
+After verification succeeds, the release workflow performs these steps.
 
 1. `./gradlew publishAndReleaseToMavenCentral`,
 2. `git tag -a vX.Y.Z` and push,

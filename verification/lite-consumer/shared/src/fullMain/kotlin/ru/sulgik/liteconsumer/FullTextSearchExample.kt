@@ -57,7 +57,7 @@ internal class FullTextSearchExample(private val manager: SearchManager) {
     }
 }
 
-private fun GeoObjectCollection.namedPlaces(): List<SearchPlace> {
+internal fun GeoObjectCollection.namedPlaces(): List<SearchPlace> {
     return buildList {
         for (entry in children) {
             val obj = entry.obj
