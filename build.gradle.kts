@@ -264,15 +264,19 @@ fun Project.configureAbiValidation() {
         val kotlin = extensions.findByType<KotlinProjectExtension>() ?: return@afterEvaluate
 
         kotlin.abiValidation {
-            referenceDumpDir.set(layout.projectDirectory.dir("api"))
+            referenceDumpDir.set(layout.projectDirectory.dir(apiReferenceDirectory()))
             binariesSource.set(BinariesSource.MAIN_COMPILATION)
         }
     }
 }
 
+private fun Project.apiReferenceDirectory(): String {
+    return if (name == "yandex-mapkit-kmp" && extra["mapkit_edition"] == "full") "api/full" else "api"
+}
+
 fun Project.configureAndroidAbiValidation() {
     val dumpFileName = "$name.android.api"
-    val referenceDump = layout.projectDirectory.file("api/$dumpFileName")
+    val referenceDump = layout.projectDirectory.file("${apiReferenceDirectory()}/$dumpFileName")
 
     val dump = tasks.register<AndroidAbiDumpTask>("dumpAndroidAbi") {
         group = "verification"

@@ -55,8 +55,9 @@ The smoke check only constructs the manager. It can run without an online search
 The pinned 4.45.0 SDK release ships both editions on Android and iOS. Compressed upstream
 artifact sizes are 46,046,811 bytes (Lite) and 61,346,821 bytes (Full) for the Android AAR and
 199,668,819 bytes (Lite) and 259,160,882 bytes (Full) for the iOS CocoaPods archive. Final app
-sizes also depend on architecture selection and packaging. The default ABI check continues
-to validate Lite against the existing baselines. Full stages its extra search types separately.
+sizes also depend on architecture selection and packaging. The default ABI check validates Lite
+against the existing baselines. The Full workflow runs the search adapter tests and verifies
+the Full Android and Kotlin snapshots in `yandex-mapkit-kmp/api/full`.
 
 The regular release workflow publishes the existing Lite coordinates. The Full workflow verifies
 the candidate packaging on an Android emulator and an iOS simulator.
