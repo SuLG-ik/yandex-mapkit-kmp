@@ -29,6 +29,7 @@
 | [`Map.addTileLayer`, `addMapObjectLayer`, `Logo`, состояние indoor и оверлеи](layers.md) | Независимая коллекция объектов, стили карты, флаги indoor, доступ к логотипу и проекции в [Android][a-map] и на [iOS][i-map]. | Контролируемый источник тайлов, колбэки стилей и загрузки, переходы indoor и отрисовка оверлеев [#85][85], [#83][83]. |
 | [`TrafficLayer`, `StorageManager` и `OfflineCacheManager`](offline.md) | `TrafficColor` и `RegionState` преобразуются в обе стороны в [EnumConverterTest · Android JVM][a-enums] и [EnumConverterTest · iOS][i-enums]. Запросы к сервисам и жизненный цикл хранилища ещё предстоит проверить. | Пробки, жизненный цикл региона и ошибки кеша [#85][85]. Холодный и прогретый кеш и изолированные релизные сценарии [#74][74], [#82][82]. |
 | [`Logging`, `I18nManager` и ошибки Runtime](runtime.md) | Уровень логов, фильтрация, доставка и отписка в [LiveLoggingTest · Android][a-logs] и на [LiveLoggingTest · iOS][i-logs]. Преобразование настроек локали и перечислений на [Android JVM][a-converters] и на [iOS][i-converters]. | Результаты форматирования и колбэки ошибок от контролируемых источников [#85][85]. |
+| [Подсказки Full и сброс сессии](full-text-search.ru.md#подсказки-при-вводе) | [SuggestAdapterTest · Android JVM][a-suggest] и [SuggestAdapterTest · симулятор iOS][i-suggest] проверяют область и параметры, поля ответа, замену запроса, сброс через алиас нативной сессии и запоздалые ответы. | Проверка полей сетевого ответа с доверенным ключом Full [#82][82]. |
 
 ## Compose и ресурсы
 
@@ -152,3 +153,5 @@
 [84]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/84
 [85]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/85
 [86]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/86
+[a-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
+[i-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt

@@ -27,6 +27,7 @@ native gesture checks on [Android][a-map-taps-ci] and [iOS][i-map-taps-ci], and 
 | [`Map.addTileLayer`, `addMapObjectLayer`, `Logo`, indoor state and overlays](layers.md) | An independent object collection, map styles, indoor flags and reachable logo/projection handles in [Android][a-map] and [iOS][i-map]. | Controlled tile providers, style and loaded callbacks, indoor state transitions and rendered overlays [#85][85], [#83][83]. |
 | [`TrafficLayer`, `StorageManager` and `OfflineCacheManager`](offline.md) | `TrafficColor` and `RegionState` convert in both directions in [EnumConverterTest · Android host][a-enums] and [EnumConverterTest · iOS][i-enums]. Service requests and storage lifecycle remain gaps. | Traffic, region lifecycle and cache errors [#85][85]. Cold/warm cache and isolated release scenarios [#74][74], [#82][82]. |
 | [`Logging`, `I18nManager` and runtime failures](runtime.md) | Log level, filtering, delivery and unsubscribe in [LiveLoggingTest · Android][a-logs] and [LiveLoggingTest · iOS][i-logs]. Locale preferences and enum conversion in [Android host][a-converters] and [iOS][i-converters]. | Real formatting output and runtime error callbacks from controlled providers [#85][85]. |
+| [Full suggestions and session reset](full-text-search.md#suggestions-while-typing) | [SuggestAdapterTest · Android host][a-suggest] and [SuggestAdapterTest · iOS simulator][i-suggest] cover bounds and options, item fields, request replacement, reset through a native alias and late responses. | Validate provider response shape with a trusted Full key [#82][82]. |
 
 ## Compose and resources
 
@@ -149,3 +150,5 @@ when adding evidence or reporting a remaining gap.
 [84]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/84
 [85]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/85
 [86]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/86
+[a-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
+[i-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
