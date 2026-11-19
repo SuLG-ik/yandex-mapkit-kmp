@@ -193,6 +193,7 @@ jobs:
           api-level: 30
           arch: x86_64
           target: aosp_atd
+          disable-animations: false
           script: bash .github/scripts/test-android-device.sh
 
       - name: Upload emulator logcat
