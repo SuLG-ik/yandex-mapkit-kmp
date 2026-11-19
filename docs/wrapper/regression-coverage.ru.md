@@ -26,7 +26,7 @@
 | [`toNative()`, `toCommon()`, `WeakRef` и фабрики слушателей](overview.md) | Стабильная идентичность нативного адаптера и чтение слабой ссылки в [LiveListenerIdentityTest · Android][a-listener] и на [LiveListenerIdentityTest · iOS][i-listener]. Равенство обёрток нативных объектов на [HandleIdentityTest · Android JVM][a-identity] и на [HandleIdentityTest · iOS][i-identity]. [ListenerOwnershipTest · эмулятор Android][a-listener-ownership] и [MapInteractionTests · симулятор iOS][i-listener-ownership] проверяют доставку события после запроса GC, отписку при наличии сильной ссылки на прежний слушатель и отмену обработки события при создании новой карты [#71][71]. | — |
 | `Point`, `Polyline`, `IconStyle`, длительности, структуры и перечисления | Порядок полей, единицы измерения и отображение перечислений на [Android JVM][a-converters] и на [iOS][i-converters]. Дополнительные проверки геометрии и стилей с нативными объектами и nullable-полями в [PolylineConverterTest · Android][a-geometry]/[IconStyleConverterTest · стили][a-style] и на [GeometryConverterTest · iOS][i-geometry]/[IconStyleConverterTest · стили][i-style]. | Проверки преобразования в обе стороны для новых API [#86][86] и соответствие редакций SDK [#81][81]. |
 | [`MapKit.createUserLocationLayer`, `LocationManager` и симуляция геопозиции](location.md) | Видимость, ориентация, привязки, адаптеры слушателей и состояние камеры без координат в [LiveUserLocationLayerTest · Android][a-location] и на [LiveUserLocationLayerTest · iOS][i-location]. | Доставка подставной позиции, вращение и перемещение камеры к известной позиции на одной Compose-карте [#69][69]. |
-| [`Map.addTileLayer`, `addMapObjectLayer`, `Logo`, состояние indoor и оверлеи](layers.md) | Независимая коллекция объектов, стили карты, флаги indoor, доступ к логотипу и проекции в [Android][a-map] и на [iOS][i-map]. [LiveTileLayerTest · Android][a-layer-tile-live] и [iOS][i-layer-tile-live] проверяют активацию, стиль и удаление нативного слоя. [TileLayerContractTest · Android][a-layer-tile-contract] и [iOS][i-layer-tile-contract] проверяют локальный PNG, поля запроса, использование кеша и состояния тайлов. На Android тест подаёт колбэки после замены слушателей. На iOS живой слой устанавливает, заменяет и очищает оба слушателя. | Доставка колбэков рендера iOS и удаление слоя при незавершённом запросе тайла [#85][85]. Переходы indoor и отрисовка оверлеев [#83][83]. |
+| [`Map.addTileLayer`, `addMapObjectLayer`, `Logo`, состояние indoor и оверлеи](layers.md) | Независимая коллекция объектов, стили карты, флаги indoor, доступ к логотипу и проекции в [Android][a-map] и на [iOS][i-map]. [LiveTileLayerTest · Android][a-layer-tile-live] и [iOS][i-layer-tile-live] проверяют активацию, стиль и удаление нативного слоя. [TileLayerContractTest · Android][a-layer-tile-contract] и [iOS][i-layer-tile-contract] проверяют локальный PNG, поля запроса, использование кеша и состояния тайлов. На Android тест подаёт колбэки после замены слушателей. На iOS живой слой устанавливает, заменяет и очищает оба слушателя. [PendingTileLayerTest · Android][a-pending-tile] и [MapInteractionTests · iOS][i-pending-tile] задерживают все ответы исходного слоя, удаляют его во время загрузки и проверяют отрисовку нового слоя и отсутствие колбэка прежнего слоя. Прогон на устройствах ещё ожидается [#85][85]. | Переходы indoor и отрисовка оверлеев [#83][83]. |
 | [`TrafficLayer`, `StorageManager` и `OfflineCacheManager`](offline.md) | `TrafficColor` и `RegionState` преобразуются в обе стороны в [EnumConverterTest · Android JVM][a-enums] и [EnumConverterTest · iOS][i-enums]. [LayerServiceAdapterTest · Android][a-layer-service-adapter] и [iOS][i-layer-service-adapter] проверяют загрузку, неопределённые данные, истечение срока действия пробок и передачу состояния и прогресса региона. [StorageManagerContractTest · Android][a-storage-contract] проверяет отложенные результаты, 64-битные и nullable-размеры и типизированные ошибки на заглушке в памяти. [StorageManagerContractTest · iOS][i-storage-contract] проверяет реальные байты в колбэке и регистрацию слушателя ошибок. Очистка и лимиты проверяются на заглушке Android. | Реальные пробки, лицензированная загрузка регионов и ошибки диска в доверенных запусках по расписанию [#82][82]. Замеры холодного и прогретого кеша [#74][74]. |
 | [`Logging`, `I18nManager` и ошибки Runtime](runtime.md) | Уровень логов, фильтрация, доставка и отписка в [LiveLoggingTest · Android][a-logs] и на [LiveLoggingTest · iOS][i-logs]. Преобразование настроек локали и перечислений на [Android JVM][a-converters] и на [iOS][i-converters]. | Результаты форматирования и колбэки ошибок от контролируемых источников [#85][85]. |
 
@@ -76,9 +76,20 @@
 Остальные API Full отслеживаются в [#81][81]. Новые сценарии проверяйте по
 [процессу проверки регрессий](../getting-started/contributing.md#regressions).
 
+## Автомобильная маршрутизация Full
+
+[Проверки регрессий](full-routing.ru.md#проверки-регрессий) на Android проверяют фактическую
+границу доставки маршрутов. iOS проверяет нативные значения геометрии, пустой результат и
+ошибку, а отмену через раннюю обёртку проверяет с тестовым объектом того же реестра.
+Приложение Full создаёт, заменяет и очищает полилинию
+до `MAP_READY`. Сетевые запросы и остальные режимы остаются в [#80][80], а плановый
+сетевой прогон отслеживается в [#82][82].
+
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
 [a-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44435197621/job/135262196868
+[a-pending-tile]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/PendingTileLayerTest.kt
+[i-pending-tile]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/tests/map-interaction/iosApp/MapInteractionTests.swift
 [a-layer-tile-live]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/layers/LiveTileLayerTest.kt
 [i-layer-tile-live]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/layers/LiveTileLayerTest.kt
 [a-layer-tile-contract]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/layers/TileLayerContractTest.kt
@@ -174,6 +185,7 @@
 [86]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/86
 [a-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
 [i-suggest]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SuggestAdapterTest.kt
+[80]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/80
 
 [a-nav3]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/4adbf6cc0e960b89767ca5cef163f28b0d305960/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/Nav3MapTest.kt
 [i-nav3]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/4adbf6cc0e960b89767ca5cef163f28b0d305960/tests/map-interaction/iosApp/Nav3MapTests.swift

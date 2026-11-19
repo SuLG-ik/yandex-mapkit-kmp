@@ -75,6 +75,7 @@ plugins:
             Offline maps and storage: Офлайн-карты и хранилище
             Runtime: Runtime
             MapKit Full coverage: Покрытие MapKit Full
+            Full routing: Маршрутизация Full
             Image resources: Изображения
             Compose support: Поддержка Compose
             Sample: Пример приложения
@@ -107,6 +108,7 @@ nav:
       - Runtime: wrapper/runtime.md
       - Image resources: wrapper/image-resources.md
       - MapKit Full coverage: wrapper/full-coverage.md
+      - Full routing: wrapper/full-routing.md
   - Compose support:
       - Overview: compose/overview.md
       - Map objects: compose/mapobjects.md

@@ -50,7 +50,16 @@ jobs:
           --tests ru.sulgik.mapkit.search.SuggestAdapterTest
 
       - name: Check the Full Android API
+        id: full-android-api
         run: ./gradlew -PmapkitEdition=full -PskipIosTarget=true :yandex-mapkit-kmp:checkAndroidAbi
+
+      - name: Upload actual Full Android API after a mismatch
+        if: ${{ failure() && steps.full-android-api.outcome == 'failure' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: full-android-api
+          path: yandex-mapkit-kmp/build/androidAbi/*.android.api
+          if-no-files-found: ignore
 
       - name: Enable KVM
         run: |
@@ -64,7 +73,17 @@ jobs:
           api-level: 30
           arch: x86_64
           target: aosp_atd
-          script: bash verification/lite-consumer/run.sh android emulator-5554 with-integrations full
+          script: >-
+            ./gradlew -PmapkitEdition=full -PskipIosTarget=true :yandex-mapkit-kmp:connectedAndroidDeviceTest
+            && bash verification/lite-consumer/run.sh android emulator-5554 with-integrations full
+
+      - name: Upload Full Android device test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: full-android-device-test-reports
+          path: yandex-mapkit-kmp/build/reports/androidTests/
+          if-no-files-found: ignore
 
       - name: Upload consumer diagnostics
         if: failure()
@@ -108,9 +127,18 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Check the Full Kotlin API
+        id: full-kotlin-api
         run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:checkKotlinAbi
 
-      - name: Test the Full iOS search and suggestion adapters
+      - name: Upload actual Full Kotlin API after a mismatch
+        if: ${{ failure() && steps.full-kotlin-api.outcome == 'failure' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: full-kotlin-api
+          path: yandex-mapkit-kmp/build/kotlin/abi/**/*.klib.api
+          if-no-files-found: ignore
+
+      - name: Test the Full iOS adapters
         run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:iosSimulatorArm64Test
 
       - name: Launch Full consumer

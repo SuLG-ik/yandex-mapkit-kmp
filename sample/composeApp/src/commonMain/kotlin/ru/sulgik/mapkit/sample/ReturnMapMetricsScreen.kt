@@ -29,6 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.sulgik.mapkit.asWeakRef
@@ -98,6 +100,7 @@ internal fun ReturnMapMetricsScreen(modifier: Modifier, onExit: () -> Unit) {
             OutlinedTextField(
                 value = bench.cohort,
                 onValueChange = { bench.cohort = it },
+                modifier = Modifier.semantics { contentDescription = "Return map benchmark cohort" },
                 isError = bench.cohort.isNotEmpty() && !bench.hasCohort,
                 singleLine = true,
                 label = { Text("Cohort ID (reuse after restart)") },
@@ -106,7 +109,11 @@ internal fun ReturnMapMetricsScreen(modifier: Modifier, onExit: () -> Unit) {
             OutlinedButton(onClick = {
                 bench.mode = if (bench.mode == TileMode.VIEW_ONLY) {
                     val key = BuildKonfig.MAPKIT_API_KEY
-                    if (key.isBlank() || key in ProbePlaceholderKeys) TileMode.MISSING_KEY else TileMode.REAL
+                    if (returnMapBenchmarkMetricSink != null || (key.isNotBlank() && key !in ProbePlaceholderKeys)) {
+                        TileMode.REAL
+                    } else {
+                        TileMode.MISSING_KEY
+                    }
                 } else {
                     TileMode.VIEW_ONLY
                 }
@@ -126,7 +133,10 @@ internal fun ReturnMapMetricsScreen(modifier: Modifier, onExit: () -> Unit) {
                 Text("Open after process restart")
             }
         } else {
-            Box(Modifier.size(260.dp), contentAlignment = Alignment.Center) {
+            Box(
+                Modifier.size(260.dp).semantics { contentDescription = "Return map benchmark viewport" },
+                contentAlignment = Alignment.Center,
+            ) {
                 if (bench.showViewport) {
                     MeasuredViewport(bench, Modifier.matchParentSize())
                 }
@@ -402,7 +412,12 @@ private class ReturnBench(private val sdkVersion: String) {
             "tile_bytes=${stats?.tileMemoryUsage ?: "na"}",
         )
         val row = "MAPKIT_RETURN_METRIC|" + fields.joinToString("|")
-        println(row)
+        val sink = returnMapBenchmarkMetricSink
+        if (sink == null) {
+            println(row)
+        } else {
+            sink(row)
+        }
         results.add(row)
         trial = null
     }
