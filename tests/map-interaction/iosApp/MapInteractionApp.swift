@@ -16,12 +16,16 @@ struct MapInteractionApp: App {
 
 private struct ComposeMapHost: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
+        let arguments = ProcessInfo.processInfo.arguments
         let cameraFlag = "--camera="
-        if let argument = CommandLine.arguments.first(where: { $0.hasPrefix(cameraFlag) }) {
+        if let argument = arguments.first(where: { $0.hasPrefix(cameraFlag) }) {
             return CameraViewControllerKt.cameraViewController(mode: String(argument.dropFirst(cameraFlag.count)))
         }
+        if arguments.contains("--map-object-membership") {
+            return InteractionViewControllerKt.objectMembershipViewController()
+        }
         return InteractionViewControllerKt.interactionViewController(
-            tapCases: ProcessInfo.processInfo.arguments.contains("--map-tap-cases")
+            tapCases: arguments.contains("--map-tap-cases")
         )
     }
 

@@ -19,6 +19,11 @@ public fun interactionViewController(tapCases: Boolean): UIViewController {
     }
 }
 
+public fun objectMembershipViewController(): UIViewController {
+    MapKit.setApiKey(FixtureKey)
+    return ComposeUIViewController { MapObjectMembershipFixture() }
+}
+
 @OptIn(NativeRuntimeApi::class)
 private fun collectGarbage() {
     GC.collect()
