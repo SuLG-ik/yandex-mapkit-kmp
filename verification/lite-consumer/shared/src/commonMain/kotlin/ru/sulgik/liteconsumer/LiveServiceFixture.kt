@@ -37,7 +37,7 @@ public fun LiveServiceMap(
         MapEffect(probe) { map ->
             val status = if (map.isValid) {
                 when (probe) {
-                    LiveServiceProbe.Search -> probeLiveSearch()
+                    LiveServiceProbe.Search -> probeLiveSearch(onModeResult)
                     LiveServiceProbe.Routing -> probeLiveRouting(map, onModeResult)
                 }
             } else {

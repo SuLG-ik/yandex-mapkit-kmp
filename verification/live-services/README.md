@@ -13,9 +13,12 @@ Android uses `adb run-as` with stdin. iOS writes directly into the installed sim
 container. The app reads and removes the file at launch. The credential and the runner handoff path
 stay out of action inputs, build arguments, device command arguments and diagnostic artifacts.
 
-The search probe makes one online request for cafés in a preset Moscow area. An online response
-must contain a nonblank place name with valid coordinates. Rankings and businesses may change. The
-app owns the session and cancels an unfinished request after 20 seconds.
+The search probe runs a text query and Geosuggest in a preset Moscow area. The text response must
+contain an online place with a nonblank name and valid coordinates. The suggestion response must
+contain an online item with a nonblank title and query text and valid title highlight spans.
+Rankings and businesses may change. Each request has a 20-second deadline, and the probe requires
+both markers before reporting success. The app cancels unfinished text work and resets its suggest
+session.
 
 The routing probe requests driving, pedestrian, bicycle and public transit routes in the same preset
 region. Each mode starts a route to a different destination and cancels it before submitting the
@@ -32,12 +35,12 @@ after 18 seconds. Success requires four mode markers and the final routing marke
 adapter tests inject retired callbacks separately to cover delivery even when the provider honors
 cancellation before it replies.
 
-Markers contain fixed probe names and status codes. After each routing launch, including a failure
-or timeout, the runner reads the four allowed mode markers before cleanup. The `routing_modes`
-object in `results.json` keeps a category for each mode. Absent or invalid markers are `not-run`.
-After each launch the runner starts bounded, credential-free cleanup on the same device. It terminates the fixture app,
-removes its temporary inputs and markers and reports an incomplete cleanup if the device is
-unreachable. Each hook has a 120-second outer deadline.
+Markers contain fixed probe names and status codes. After each search or routing launch, including a
+failure or timeout, the runner reads the allowed mode markers before cleanup. The `search_modes`
+and `routing_modes` objects in `results.json` keep a category for each mode. Absent or invalid
+markers are `not-run`. The runner starts bounded, credential-free cleanup on the same device. It
+terminates the fixture app, removes its temporary inputs and markers, and reports an incomplete
+cleanup if the device is unreachable. Each hook has a 120-second outer deadline.
 
 | Status | Meaning |
 | --- | --- |
