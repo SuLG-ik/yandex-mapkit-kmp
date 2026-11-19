@@ -7,6 +7,9 @@ import time
 from pathlib import Path
 
 
+SIMCTL_LIST_TIMEOUTS = (60, 60, 60)
+
+
 def simctl_state(diagnostics, phase, timeouts):
     with diagnostics.open("a", encoding="utf-8") as log:
         for attempt, timeout in enumerate(timeouts, start=1):
@@ -33,7 +36,7 @@ def main():
     arguments.diagnostics.mkdir(parents=True, exist_ok=True)
     diagnostics = arguments.diagnostics / "simctl-list.log"
     diagnostics.write_text("", encoding="utf-8")
-    state = simctl_state(diagnostics, "runtime discovery", (60, 60, 60))
+    state = simctl_state(diagnostics, "runtime discovery", SIMCTL_LIST_TIMEOUTS)
     candidates = []
     for runtime in state["runtimes"]:
         identifier = runtime["identifier"]
@@ -56,10 +59,11 @@ def main():
     device = min(phones, key=lambda phone: (phone["state"] != "Booted", phone["name"], phone["udid"]))
     udid = device["udid"]
     subprocess.run(["xcrun", "simctl", "bootstatus", udid, "-b"], check=True, timeout=480)
+    booted_state = simctl_state(diagnostics, "boot verification", SIMCTL_LIST_TIMEOUTS)
     actual = next(
         (
             phone
-            for phone in simctl_state(diagnostics, "boot verification", (30,))["devices"].get(runtime["identifier"], [])
+            for phone in booted_state["devices"].get(runtime["identifier"], [])
             if phone["udid"] == udid and phone["state"] == "Booted"
         ),
         None,

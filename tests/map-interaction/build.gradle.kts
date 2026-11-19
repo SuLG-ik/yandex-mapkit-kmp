@@ -34,6 +34,7 @@ kotlin {
             implementation(compose.animation)
             implementation(compose.runtime)
             implementation(compose.foundation)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(libs.navigation3.ui)
             implementation(libs.navigation.event.compose)
