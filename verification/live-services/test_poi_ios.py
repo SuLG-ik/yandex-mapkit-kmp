@@ -62,9 +62,17 @@ class TrustedPoiRunnerTest(unittest.TestCase):
     def directory(self, container):
         return container / poi_ios.POI_DIRECTORY
 
-    def test_xctest_install_replaces_container_before_atomic_private_handoff(self):
+    def test_xctest_install_retries_timeouts_and_confirms_the_ready_container(self):
         device = Mock(udid="test-simulator")
-        device.container.side_effect = [None, self.stale, self.final, self.final, self.final]
+        device.container.side_effect = [
+            poi_ios.subprocess.TimeoutExpired("simctl", 5),
+            None,
+            self.stale,
+            self.final,
+            poi_ios.subprocess.TimeoutExpired("simctl", 5),
+            self.final,
+            self.final,
+        ]
         process = Mock()
         process.poll.return_value = None
 
@@ -106,6 +114,64 @@ class TrustedPoiRunnerTest(unittest.TestCase):
         ):
             self.assertEqual(poi_ios.run_probe(device, TOKEN, KEY, self.scratch, self.spec), 0)
         self.assertEqual(list(self.directory(self.final).iterdir()), [])
+        for call in device.container.call_args_list[:-1]:
+            self.assertGreater(call.kwargs["timeout"], 0)
+            self.assertLessEqual(call.kwargs["timeout"], poi_ios.CONTAINER_QUERY_TIMEOUT)
+
+    def test_launch_recoverable_timeouts_cannot_reset_the_absolute_deadline(self):
+        device = Mock()
+        process = Mock()
+        process.poll.return_value = None
+        clock = 0.0
+        attempts = []
+
+        def advance(seconds):
+            nonlocal clock
+            clock += seconds
+
+        def lookup(*, timeout):
+            attempts.append(timeout)
+            advance(timeout)
+            raise poi_ios.subprocess.TimeoutExpired("simctl", timeout)
+
+        device.container.side_effect = lookup
+        with (
+            patch.object(poi_ios.time, "monotonic", side_effect=lambda: clock),
+            patch.object(poi_ios.time, "sleep", side_effect=advance),
+            self.assertRaisesRegex(poi_ios.PoiRunnerError, "did not launch"),
+        ):
+            poi_ios.wait_for_launch(device, process, TOKEN, deadline=7.0)
+        self.assertEqual(attempts, [5.0, 1.75])
+        self.assertEqual(clock, 7.0)
+
+    def test_confirmation_timeout_does_not_allow_switching_ready_container(self):
+        device = Mock()
+        device.container.side_effect = [self.final, poi_ios.subprocess.TimeoutExpired("simctl", 5), self.stale]
+        process = Mock()
+        process.poll.return_value = None
+        with (
+            patch.object(poi_ios.time, "sleep"),
+            self.assertRaisesRegex(poi_ios.PoiRunnerError, "container changed"),
+        ):
+            poi_ios.wait_for_launch(device, process, TOKEN, deadline=float("inf"))
+
+    def test_launch_does_not_retry_an_invalid_container(self):
+        device = Mock()
+        device.container.side_effect = poi_ios.PoiRunnerError("outside the selected simulator")
+        process = Mock()
+        process.poll.return_value = None
+        with self.assertRaisesRegex(poi_ios.PoiRunnerError, "outside the selected simulator"):
+            poi_ios.wait_for_launch(device, process, TOKEN, deadline=float("inf"))
+        device.container.assert_called_once()
+
+    def test_launch_does_not_accept_ready_marker_after_xctest_exits(self):
+        device = Mock()
+        device.container.return_value = self.final
+        process = Mock()
+        process.poll.side_effect = [None, 0]
+        with self.assertRaisesRegex(poi_ios.PoiRunnerError, "did not launch"):
+            poi_ios.wait_for_launch(device, process, TOKEN, deadline=float("inf"))
+        device.container.assert_called_once()
 
     def test_consumed_marker_in_a_different_container_does_not_pass(self):
         device = Mock(udid="test-simulator")

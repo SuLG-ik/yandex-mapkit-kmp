@@ -21,6 +21,7 @@ PRODUCTS = Path("tests/map-interaction/build/xcode/Build/Products")
 POI_DIRECTORY = Path("Library/TrustedPoi")
 RUN_TIMEOUT = 110
 READY_TIMEOUT = 45
+CONTAINER_QUERY_TIMEOUT = 5
 
 
 class PoiRunnerError(RuntimeError):
@@ -70,8 +71,8 @@ class Simulator:
             raise PoiRunnerError("The POI app container is outside the selected simulator.")
         return container
 
-    def container(self):
-        result = run_command("xcrun", "simctl", "get_app_container", self.udid, PACKAGE, "data")
+    def container(self, *, timeout=CONTAINER_QUERY_TIMEOUT):
+        result = run_command("xcrun", "simctl", "get_app_container", self.udid, PACKAGE, "data", timeout=timeout)
         if result.returncode:
             return None
         container = self.validated_container(Path(os.fsdecode(result.stdout).strip()))
@@ -118,11 +119,31 @@ def has_regular_file(path):
 
 
 def wait_for_launch(device, process, token, deadline):
-    while process.poll() is None and time.monotonic() < deadline:
-        container = device.container()
-        if container is not None and has_regular_file(poi_directory(container) / f"{token}.ready"):
-            return container
-        time.sleep(0.25)
+    ready_container = None
+    while process.poll() is None:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            break
+        try:
+            container = device.container(timeout=min(CONTAINER_QUERY_TIMEOUT, remaining))
+        except subprocess.TimeoutExpired:
+            pass
+        else:
+            if process.poll() is not None or time.monotonic() >= deadline:
+                break
+            if ready_container is not None and container != ready_container:
+                raise PoiRunnerError("The POI app container changed after launch.")
+            ready = container is not None and has_regular_file(poi_directory(container) / f"{token}.ready")
+            if ready_container is not None:
+                if not ready:
+                    raise PoiRunnerError("The POI app readiness marker disappeared.")
+                return container
+            if ready:
+                ready_container = container
+                continue
+        pause = min(0.25, deadline - time.monotonic())
+        if pause > 0:
+            time.sleep(pause)
     raise PoiRunnerError("XCUITest did not launch a ready POI app.")
 
 
@@ -209,11 +230,12 @@ def run_probe(device, token, key, scratch, spec):
             ],
             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
-        container = wait_for_launch(device, process, token, min(deadline, time.monotonic() + READY_TIMEOUT))
-        if device.container() != container:
-            raise PoiRunnerError("The POI app container changed after launch.")
+        ready_deadline = min(deadline, time.monotonic() + READY_TIMEOUT)
+        container = wait_for_launch(device, process, token, ready_deadline)
         directory = poi_directory(container)
         (scratch / "container").write_text(str(container), encoding="utf-8")
+        if process.poll() is not None or time.monotonic() >= ready_deadline:
+            raise PoiRunnerError("XCUITest was no longer ready for the POI credential handoff.")
         stage_key(directory, token, key)
         status = process.wait(timeout=max(0, deadline - time.monotonic()))
         if (
