@@ -81,8 +81,12 @@
 границу доставки маршрутов. iOS проверяет нативные значения геометрии, пустой результат и
 ошибку, а отмену через раннюю обёртку проверяет с тестовым объектом того же реестра.
 Приложение Full создаёт, заменяет и очищает полилинию
-до `MAP_READY`. Сетевые запросы и остальные режимы остаются в [#80][80], а плановый
+до `MAP_READY`. Сетевые запросы остаются в [#80][80], а плановый
 сетевой прогон отслеживается в [#82][82].
+
+## Маршрутизация Full
+
+Для [автомобильных и пеших маршрутов](full-routing.ru.md) добавлены `DrivingAdapterTest` и `TransportAdapterTest`. [Android][a-full-transport] проверяет порядок запроса и маршрутов, геометрию, nullable-метаданные и отмену сессии. [iOS][i-full-transport] проверяет нативные параметры, метаданные участков, пустые ответы и обработку ошибок после отмены. Прогоны Full и живые запросы остаются в [#80][80].
 
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
@@ -184,3 +188,6 @@
 [i-nav3]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/4adbf6cc0e960b89767ca5cef163f28b0d305960/tests/map-interaction/iosApp/Nav3MapTests.swift
 [a-nav3-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44542390742/job/135623893971
 [i-nav3-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44542390742/job/135623894416
+
+[a-full-transport]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidDeviceTest/kotlin/ru/sulgik/mapkit/transport/masstransit/TransportAdapterTest.kt
+[i-full-transport]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/transport/masstransit/TransportAdapterTest.kt

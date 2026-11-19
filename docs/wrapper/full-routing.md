@@ -46,6 +46,21 @@ first alternative in its own collection and presents all alternatives to its cal
 cancels the request and removes its lines. Call `dispose` before leaving the screen. Building the
 fixture exercises the example's public API calls. A live route request needs a valid MapKit key.
 
+## Walking
+
+Create the router with `Transport.getInstance().createPedestrianRouter()`. Pass ordered
+`RequestPoint` values, `TimeOptions` and `RouteOptions`. Set either departure or arrival time for
+time-dependent requests. The Android binding represents the timestamp in UTC milliseconds. The
+iOS bridge uses `NSDate`. `FitnessOptions` can request avoidance of steep sections and stairs.
+
+The [walking route example][transport-example] owns the same lifetime as the driving example.
+Keep the `Session`, cancel the previous request, and draw `route.geometry` in a separate map object
+collection. `Route.metadata` preserves waypoint order, distance, travel time and transfers.
+`routeId`, `settings`, `flags` and `estimation` retain the SDK's nullability. `Section.geometry`
+describes a fragment of the whole route. `Section.metadata.data` distinguishes waiting, walking,
+transfer, taxi and transit information. Detailed payment and stop data remain accessible through
+the underlying native handles.
+
 ## Mode parity in MapKit 4.45.0 Full
 
 Both pinned SDKs have the factories below. Android returns results through listener interfaces.
@@ -55,7 +70,7 @@ separately from successful route lists and preserves the native alternative orde
 | Mode | Native factories and options | Geometry and lifetime | Wrapper delivery and verification |
 | --- | --- | --- | --- |
 | Driving | Android `DirectionsFactory.getInstance().createDrivingRouter(type)`, iOS `YMKDirectionsFactory.instance().createDrivingRouter(withType:)`. Ordered request points, `DrivingOptions` and `VehicleOptions`. | `DrivingRoute.geometry` and waypoint positions, `DrivingSession.cancel/retry`. | Request and geometry slice implemented. Android checks input and alternative order, geometry, no route, error, retry and cancellation. iOS checks native waypoint and geometry values, empty results, errors and shared cancellation state through a surrogate identity. Live requests require a MapKit key. |
-| Walking | `Transport.createPedestrianRouter()` / `YMKTransport.createPedestrianRouter()` with ordered request points, `TimeOptions` and `RouteOptions`. | `transport.masstransit.Route` / `YMKMasstransitRoute` expose a polyline and sections. The shared transport session supports cancel and retry. | Next transport slice. Wrap the shared session, route and options, then verify ordered walking waypoints and section geometry before enabling the scheduled request. |
+| Walking | `Transport.createPedestrianRouter()` / `YMKTransport.createPedestrianRouter()` with ordered request points, `TimeOptions` and `RouteOptions`. | `transport.masstransit.Route` / `YMKMasstransitRoute` expose a polyline and sections. The shared transport session supports cancel and retry. | Request and shared transport types implemented. Android adapter checks input order, alternatives, geometry and session lifetime. iOS fixture checks metadata, nullable values and the handler. Hosted and live verification pending. |
 | Cycling | `Transport.createBicycleRouterV2()` / `YMKTransport.createBicycleRouterV2()` with the same `TimeOptions` and `RouteOptions` as walking. | Same route and session as walking. | Reuse the walking slice's transport adapters and add a separate factory, callback and map rendering check. |
 | Public transit | `Transport.createMasstransitRouter()` / `YMKTransport.createMasstransitRouter()` takes `TransitOptions` and `RouteOptions`. `TransitOptions` carries departure/arrival time settings and a vehicle-type filter. | Same route and session as walking. Route sections distinguish transit legs and transfers. | Add transit-specific options and verify walking/transit alternatives, geometry and cancellation. Run one deterministic fixture per platform and a trusted live request. |
 
@@ -98,3 +113,4 @@ dump. Review and update the snapshots in `api/full`, then rerun both mandatory c
 [android-adapter]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidDeviceTest/kotlin/ru/sulgik/mapkit/directions/driving/DrivingAdapterTest.kt
 [ios-adapter]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/directions/driving/DrivingAdapterTest.kt
 [full-workflow]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/full-consumer.yml
+[transport-example]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/lite-consumer/shared/src/fullMain/kotlin/ru/sulgik/liteconsumer/FullTransportExample.kt
