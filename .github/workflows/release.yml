@@ -57,6 +57,8 @@ jobs:
   test-android-device:
     name: Tests (Android emulator)
     needs: verify
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -83,7 +85,19 @@ jobs:
           api-level: 30
           arch: x86_64
           target: aosp_atd
-          script: ./gradlew :yandex-mapkit-kmp:connectedAndroidDeviceTest :yandex-mapkit-kmp-compose:connectedAndroidDeviceTest -PskipIosTarget=true
+          script: bash .github/scripts/test-android-device.sh release
+
+      - name: Upload Android consumer and test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-android-diagnostics
+          path: |
+            ${{ runner.temp }}/android-emulator-logcat.txt
+            build/lite-consumer/android/
+            build/full-consumer/android/
+            **/build/reports/androidTests/**
+          if-no-files-found: ignore
 
   release:
     name: Publish ${{ inputs.version }}
@@ -137,6 +151,28 @@ jobs:
 
       - name: Build, test and check public API
         run: ./gradlew libraryCompileIosArm64 libraryTests libraryApiCheck
+
+      - name: Boot an iPhone for staged consumer verification
+        id: simulator
+        run: python3 .github/scripts/select-ios-runtime.py current build/device-matrix/ios
+
+      - name: Verify Lite and Full iOS consumers from staged artifacts
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: |
+          bash verification/lite-consumer/run.sh ios "$SIMULATOR_UDID"
+          bash verification/lite-consumer/run.sh ios "$SIMULATOR_UDID" with-integrations full
+
+      - name: Upload iOS consumer diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-ios-consumer-diagnostics
+          path: |
+            build/device-matrix/ios/
+            build/lite-consumer/ios/
+            build/full-consumer/ios/
+          if-no-files-found: ignore
 
       - name: Publish to Maven Central
         if: ${{ !inputs.dry_run }}

@@ -17,6 +17,9 @@ struct MapInteractionApp: App {
 private struct ComposeMapHost: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--decompose-stack") {
+            return DecomposeStackViewControllerKt.decomposeStackViewController()
+        }
         if arguments.contains("--map-object-membership") {
             return InteractionViewControllerKt.objectMembershipViewController()
         }

@@ -2621,6 +2621,22 @@ public class ru.sulgik.mapkit.runtime.Error {
 public final class ru.sulgik.mapkit.runtime.Error_androidKt {
   public static final ru.sulgik.mapkit.runtime.Error toCommon(com.yandex.runtime.Error);
 }
+public final class ru.sulgik.mapkit.runtime.KeyValuePair {
+  public ru.sulgik.mapkit.runtime.KeyValuePair(java.lang.String, java.lang.String);
+  public final java.lang.String getKey();
+  public final java.lang.String getValue();
+  public final java.lang.String component1();
+  public final java.lang.String component2();
+  public final ru.sulgik.mapkit.runtime.KeyValuePair copy(java.lang.String, java.lang.String);
+  public static ru.sulgik.mapkit.runtime.KeyValuePair copy$default(ru.sulgik.mapkit.runtime.KeyValuePair, java.lang.String, java.lang.String, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.runtime.KeyValuePair_androidKt {
+  public static final com.yandex.runtime.KeyValuePair toNative(ru.sulgik.mapkit.runtime.KeyValuePair);
+  public static final ru.sulgik.mapkit.runtime.KeyValuePair toCommon(com.yandex.runtime.KeyValuePair);
+}
 public class ru.sulgik.mapkit.runtime.LocalError extends ru.sulgik.mapkit.runtime.Error {
   public ru.sulgik.mapkit.runtime.LocalError(com.yandex.runtime.LocalError);
   public com.yandex.runtime.LocalError toNative();
@@ -2881,6 +2897,7 @@ public final class ru.sulgik.mapkit.search.SearchManager {
   public ru.sulgik.mapkit.search.SearchManager(com.yandex.mapkit.search.SearchManager);
   public final com.yandex.mapkit.search.SearchManager toNative();
   public final ru.sulgik.mapkit.search.Session submit(java.lang.String, ru.sulgik.mapkit.geometry.Geometry, ru.sulgik.mapkit.search.SearchOptions, ru.sulgik.mapkit.search.SearchListener);
+  public final ru.sulgik.mapkit.search.SuggestSession createSuggestSession();
   public boolean equals(java.lang.Object);
   public int hashCode();
 }
@@ -2966,6 +2983,170 @@ public final class ru.sulgik.mapkit.search.Session {
 public final class ru.sulgik.mapkit.search.Session_androidKt {
   public static final ru.sulgik.mapkit.search.Session toCommon(com.yandex.mapkit.search.Session);
   public static final ru.sulgik.mapkit.search.Session toCommon(com.yandex.mapkit.search.Session, ru.sulgik.mapkit.search.SearchRequest);
+}
+public final class ru.sulgik.mapkit.search.SuggestItem {
+  public ru.sulgik.mapkit.search.SuggestItem(ru.sulgik.mapkit.search.SuggestItem$Type, ru.sulgik.mapkit.SpannableString, ru.sulgik.mapkit.SpannableString, java.util.List<java.lang.String>, java.lang.String, java.lang.String, java.lang.String, java.lang.String, ru.sulgik.mapkit.LocalizedValue, boolean, ru.sulgik.mapkit.search.SuggestItem$Action, java.lang.String, boolean, boolean, java.util.List<ru.sulgik.mapkit.runtime.KeyValuePair>, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.search.SuggestItem$BusinessContext);
+  public final ru.sulgik.mapkit.search.SuggestItem$Type getType();
+  public final ru.sulgik.mapkit.SpannableString getTitle();
+  public final ru.sulgik.mapkit.SpannableString getSubtitle();
+  public final java.util.List<java.lang.String> getTags();
+  public final java.lang.String getSearchText();
+  public final java.lang.String getDisplayText();
+  public final java.lang.String getUri();
+  public final java.lang.String getLink();
+  public final ru.sulgik.mapkit.LocalizedValue getDistance();
+  public final boolean isPersonal();
+  public final ru.sulgik.mapkit.search.SuggestItem$Action getAction();
+  public final java.lang.String getLogId();
+  public final boolean isOffline();
+  public final boolean isWordItem();
+  public final java.util.List<ru.sulgik.mapkit.runtime.KeyValuePair> getProperties();
+  public final ru.sulgik.mapkit.geometry.Point getCenter();
+  public final ru.sulgik.mapkit.search.SuggestItem$BusinessContext getBusinessContext();
+  public final ru.sulgik.mapkit.search.SuggestItem$Type component1();
+  public final ru.sulgik.mapkit.SpannableString component2();
+  public final ru.sulgik.mapkit.SpannableString component3();
+  public final java.util.List<java.lang.String> component4();
+  public final java.lang.String component5();
+  public final java.lang.String component6();
+  public final java.lang.String component7();
+  public final java.lang.String component8();
+  public final ru.sulgik.mapkit.LocalizedValue component9();
+  public final boolean component10();
+  public final ru.sulgik.mapkit.search.SuggestItem$Action component11();
+  public final java.lang.String component12();
+  public final boolean component13();
+  public final boolean component14();
+  public final java.util.List<ru.sulgik.mapkit.runtime.KeyValuePair> component15();
+  public final ru.sulgik.mapkit.geometry.Point component16();
+  public final ru.sulgik.mapkit.search.SuggestItem$BusinessContext component17();
+  public final ru.sulgik.mapkit.search.SuggestItem copy(ru.sulgik.mapkit.search.SuggestItem$Type, ru.sulgik.mapkit.SpannableString, ru.sulgik.mapkit.SpannableString, java.util.List<java.lang.String>, java.lang.String, java.lang.String, java.lang.String, java.lang.String, ru.sulgik.mapkit.LocalizedValue, boolean, ru.sulgik.mapkit.search.SuggestItem$Action, java.lang.String, boolean, boolean, java.util.List<ru.sulgik.mapkit.runtime.KeyValuePair>, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.search.SuggestItem$BusinessContext);
+  public static ru.sulgik.mapkit.search.SuggestItem copy$default(ru.sulgik.mapkit.search.SuggestItem, ru.sulgik.mapkit.search.SuggestItem$Type, ru.sulgik.mapkit.SpannableString, ru.sulgik.mapkit.SpannableString, java.util.List, java.lang.String, java.lang.String, java.lang.String, java.lang.String, ru.sulgik.mapkit.LocalizedValue, boolean, ru.sulgik.mapkit.search.SuggestItem$Action, java.lang.String, boolean, boolean, java.util.List, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.search.SuggestItem$BusinessContext, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.search.SuggestItem$Action extends java.lang.Enum<ru.sulgik.mapkit.search.SuggestItem$Action> {
+  public static final ru.sulgik.mapkit.search.SuggestItem$Action SEARCH;
+  public static final ru.sulgik.mapkit.search.SuggestItem$Action SUBSTITUTE;
+  public static final ru.sulgik.mapkit.search.SuggestItem$Action FOLLOW_LINK;
+  public static ru.sulgik.mapkit.search.SuggestItem$Action[] values();
+  public static ru.sulgik.mapkit.search.SuggestItem$Action valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.search.SuggestItem$Action> getEntries();
+}
+public final class ru.sulgik.mapkit.search.SuggestItem$BusinessContext extends java.lang.Enum<ru.sulgik.mapkit.search.SuggestItem$BusinessContext> {
+  public static final ru.sulgik.mapkit.search.SuggestItem$BusinessContext BUSINESS_CONTEXT_UNKNOWN;
+  public static final ru.sulgik.mapkit.search.SuggestItem$BusinessContext BUSINESS_CONTEXT_ORG1;
+  public static final ru.sulgik.mapkit.search.SuggestItem$BusinessContext BUSINESS_CONTEXT_RUBRIC;
+  public static final ru.sulgik.mapkit.search.SuggestItem$BusinessContext BUSINESS_CONTEXT_CHAIN;
+  public static ru.sulgik.mapkit.search.SuggestItem$BusinessContext[] values();
+  public static ru.sulgik.mapkit.search.SuggestItem$BusinessContext valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.search.SuggestItem$BusinessContext> getEntries();
+}
+public final class ru.sulgik.mapkit.search.SuggestItem$Type extends java.lang.Enum<ru.sulgik.mapkit.search.SuggestItem$Type> {
+  public static final ru.sulgik.mapkit.search.SuggestItem$Type UNKNOWN;
+  public static final ru.sulgik.mapkit.search.SuggestItem$Type TOPONYM;
+  public static final ru.sulgik.mapkit.search.SuggestItem$Type BUSINESS;
+  public static final ru.sulgik.mapkit.search.SuggestItem$Type TRANSIT;
+  public static final ru.sulgik.mapkit.search.SuggestItem$Type LINK;
+  public static ru.sulgik.mapkit.search.SuggestItem$Type[] values();
+  public static ru.sulgik.mapkit.search.SuggestItem$Type valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.search.SuggestItem$Type> getEntries();
+}
+public final class ru.sulgik.mapkit.search.SuggestItem_androidKt {
+  public static final com.yandex.mapkit.search.SuggestItem toNative(ru.sulgik.mapkit.search.SuggestItem);
+  public static final ru.sulgik.mapkit.search.SuggestItem toCommon(com.yandex.mapkit.search.SuggestItem);
+  public static final com.yandex.mapkit.search.SuggestItem$Type toNative(ru.sulgik.mapkit.search.SuggestItem$Type);
+  public static final ru.sulgik.mapkit.search.SuggestItem$Type toCommon(com.yandex.mapkit.search.SuggestItem$Type);
+  public static final com.yandex.mapkit.search.SuggestItem$Action toNative(ru.sulgik.mapkit.search.SuggestItem$Action);
+  public static final ru.sulgik.mapkit.search.SuggestItem$Action toCommon(com.yandex.mapkit.search.SuggestItem$Action);
+  public static final com.yandex.mapkit.search.SuggestItem$BusinessContext toNative(ru.sulgik.mapkit.search.SuggestItem$BusinessContext);
+  public static final ru.sulgik.mapkit.search.SuggestItem$BusinessContext toCommon(com.yandex.mapkit.search.SuggestItem$BusinessContext);
+}
+public abstract class ru.sulgik.mapkit.search.SuggestListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.search.SuggestSession$SuggestListener> {
+  public ru.sulgik.mapkit.search.SuggestListener();
+  public com.yandex.mapkit.search.SuggestSession$SuggestListener toNative();
+  public abstract void onResponse(ru.sulgik.mapkit.search.SuggestResponse);
+  public abstract void onError(ru.sulgik.mapkit.search.SearchError);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.search.SuggestListenerKt {
+  public static final ru.sulgik.mapkit.search.SuggestListener SuggestListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.search.SuggestResponse, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.search.SearchError, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.search.SuggestOptions {
+  public ru.sulgik.mapkit.search.SuggestOptions(int, ru.sulgik.mapkit.geometry.Point, boolean, boolean);
+  public ru.sulgik.mapkit.search.SuggestOptions(int, ru.sulgik.mapkit.geometry.Point, boolean, boolean, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final int getSuggestTypes();
+  public final ru.sulgik.mapkit.geometry.Point getUserPosition();
+  public final boolean getSuggestWords();
+  public final boolean getStrictBounds();
+  public final int component1();
+  public final ru.sulgik.mapkit.geometry.Point component2();
+  public final boolean component3();
+  public final boolean component4();
+  public final ru.sulgik.mapkit.search.SuggestOptions copy(int, ru.sulgik.mapkit.geometry.Point, boolean, boolean);
+  public static ru.sulgik.mapkit.search.SuggestOptions copy$default(ru.sulgik.mapkit.search.SuggestOptions, int, ru.sulgik.mapkit.geometry.Point, boolean, boolean, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.search.SuggestOptions();
+}
+public final class ru.sulgik.mapkit.search.SuggestOptions_androidKt {
+  public static final com.yandex.mapkit.search.SuggestOptions toNative(ru.sulgik.mapkit.search.SuggestOptions);
+  public static final ru.sulgik.mapkit.search.SuggestOptions toCommon(com.yandex.mapkit.search.SuggestOptions);
+}
+final class ru.sulgik.mapkit.search.SuggestRequest extends ru.sulgik.mapkit.search.SuggestListener {
+  public ru.sulgik.mapkit.search.SuggestRequest(ru.sulgik.mapkit.search.SuggestListener, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.search.SuggestRequest, kotlin.Unit>);
+  public void onResponse(ru.sulgik.mapkit.search.SuggestResponse);
+  public void onError(ru.sulgik.mapkit.search.SearchError);
+  public final void dispose();
+}
+public final class ru.sulgik.mapkit.search.SuggestRequests {
+  public ru.sulgik.mapkit.search.SuggestRequests();
+  public final void submit(ru.sulgik.mapkit.search.SuggestListener, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.search.SuggestListener, kotlin.Unit>);
+  public final void dispose();
+}
+public final class ru.sulgik.mapkit.search.SuggestResponse {
+  public ru.sulgik.mapkit.search.SuggestResponse(java.util.List<ru.sulgik.mapkit.search.SuggestItem>);
+  public final java.util.List<ru.sulgik.mapkit.search.SuggestItem> getItems();
+  public final java.util.List<ru.sulgik.mapkit.search.SuggestItem> component1();
+  public final ru.sulgik.mapkit.search.SuggestResponse copy(java.util.List<ru.sulgik.mapkit.search.SuggestItem>);
+  public static ru.sulgik.mapkit.search.SuggestResponse copy$default(ru.sulgik.mapkit.search.SuggestResponse, java.util.List, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.search.SuggestResponse_androidKt {
+  public static final com.yandex.mapkit.search.SuggestResponse toNative(ru.sulgik.mapkit.search.SuggestResponse);
+  public static final ru.sulgik.mapkit.search.SuggestResponse toCommon(com.yandex.mapkit.search.SuggestResponse);
+}
+public final class ru.sulgik.mapkit.search.SuggestSession {
+  public ru.sulgik.mapkit.search.SuggestSession(com.yandex.mapkit.search.SuggestSession);
+  public final com.yandex.mapkit.search.SuggestSession toNative();
+  public final void suggest(java.lang.String, ru.sulgik.mapkit.geometry.BoundingBox, ru.sulgik.mapkit.search.SuggestOptions, ru.sulgik.mapkit.search.SuggestListener);
+  public final void reset();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.search.SuggestSession_androidKt {
+  public static final ru.sulgik.mapkit.search.SuggestRequests requestState(com.yandex.mapkit.search.SuggestSession);
+  public static final ru.sulgik.mapkit.search.SuggestSession toCommon(com.yandex.mapkit.search.SuggestSession);
+}
+public final class ru.sulgik.mapkit.search.SuggestType extends java.lang.Enum<ru.sulgik.mapkit.search.SuggestType> {
+  public static final ru.sulgik.mapkit.search.SuggestType UNSPECIFIED;
+  public static final ru.sulgik.mapkit.search.SuggestType GEO;
+  public static final ru.sulgik.mapkit.search.SuggestType BIZ;
+  public static final ru.sulgik.mapkit.search.SuggestType TRANSIT;
+  public static final ru.sulgik.mapkit.search.SuggestType ONE_ORG;
+  public static final ru.sulgik.mapkit.search.SuggestType CHAIN;
+  public static final ru.sulgik.mapkit.search.SuggestType RUBRIC;
+  public static final ru.sulgik.mapkit.search.SuggestType TEXT_HINT;
+  public static final ru.sulgik.mapkit.search.SuggestType PROMO_QUERY;
+  public static final ru.sulgik.mapkit.search.SuggestType COORDS;
+  public final int getValue();
+  public static ru.sulgik.mapkit.search.SuggestType[] values();
+  public static ru.sulgik.mapkit.search.SuggestType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.search.SuggestType> getEntries();
 }
 public abstract class ru.sulgik.mapkit.storage.StorageErrorListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.storage.StorageErrorListener> {
   public ru.sulgik.mapkit.storage.StorageErrorListener();

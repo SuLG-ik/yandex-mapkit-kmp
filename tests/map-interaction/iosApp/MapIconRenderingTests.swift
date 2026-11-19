@@ -42,6 +42,7 @@ final class MapIconRenderingTests: XCTestCase {
         let window = app.windows.firstMatch
         let status = app.staticTexts["icon-rendering-status"]
         let advance = app.buttons["Advance icon rendering"]
+        var bitmapScale: BitmapScale?
         var narrow: IconRow?
         var densityOnly: IconRow?
 
@@ -51,9 +52,12 @@ final class MapIconRenderingTests: XCTestCase {
                 ink: ink,
                 viewport: viewport,
                 window: window,
-                status: status
+                status: status,
+                bitmapScale: bitmapScale
             ) else { return }
             switch name {
+            case "Empty":
+                bitmapScale = image.backdropScale
             case "Narrow":
                 narrow = image
             case "DensityOnly":
@@ -90,7 +94,8 @@ final class MapIconRenderingTests: XCTestCase {
         ink: Ink?,
         viewport: XCUIElement,
         window: XCUIElement,
-        status: XCUIElement
+        status: XCUIElement,
+        bitmapScale: BitmapScale?
     ) -> IconRow? {
         let deadline = Date().addingTimeInterval(15)
         var stage = "<unmounted>"
@@ -109,10 +114,10 @@ final class MapIconRenderingTests: XCTestCase {
                     XCUIScreen.main.screenshot().image,
                     frame: frame,
                     screenWidthInPoints: windowFrame.width,
-                    expected: ink
+                    expected: ink,
+                    measureBackdrop: name == "Empty"
                 )
-                let raisesDensity = ["DensityOnly", "Wide", "Visible"].contains(name)
-                if let sample, sample.matches(expected: ink, raisesDensity: raisesDensity) {
+                if let sample, sample.matches(name: name, expected: ink, bitmapScale: bitmapScale) {
                     matchingFrames += 1
                     if matchingFrames >= 3 { return sample }
                 } else {
@@ -121,7 +126,7 @@ final class MapIconRenderingTests: XCTestCase {
             }
             Thread.sleep(forTimeInterval: 0.06)
         } while Date() < deadline
-        XCTFail("Expected \(name) with \(String(describing: ink)). Last stage: \(stage). Native map sample: \(String(describing: sample))")
+        XCTFail("Expected \(name) with \(String(describing: ink)). Last stage: \(stage). Native map sample: \(String(describing: sample)). Bitmap scale: \(String(describing: bitmapScale))")
         return nil
     }
 }
@@ -153,30 +158,53 @@ private enum Ink: CaseIterable, Hashable {
 }
 
 private struct IconRow {
-    let first: Double?
-    let widthFraction: Double
-    let heightFraction: Double
-    let verticalCenter: Double?
+    let leftOffsetPixels: Double?
+    let widthPixels: Int
+    let heightPixels: Int
+    let verticalCenterOffsetPixels: Double?
+    let viewportWidth: Int
+    let viewportHeight: Int
     let densityMark: Bool
     let colors: Set<Ink>
     let background: RGB
+    let backdropScale: BitmapScale?
 
-    func matches(expected: Ink?, raisesDensity: Bool) -> Bool {
-        guard background.isClose(to: RGB(red: 99, green: 125, blue: 143), tolerance: 32) else { return false }
-        guard let expected else { return colors.isEmpty }
-        guard let first, let verticalCenter else { return false }
-        return colors == [expected] &&
-            (0.012...0.085).contains(first) && (0.065...0.39).contains(widthFraction) &&
-            abs(verticalCenter) <= 0.02 && (0.065...0.17).contains(heightFraction) &&
-            densityMark == raisesDensity
+    var widthFraction: Double { Double(widthPixels) / Double(viewportWidth) }
+    var heightFraction: Double { Double(heightPixels) / Double(viewportHeight) }
+
+    func matches(name: String, expected: Ink?, bitmapScale: BitmapScale?) -> Bool {
+        guard background.isClose(to: backdropColor, tolerance: 32) else { return false }
+        guard let expected else { return colors.isEmpty && (name != "Empty" || backdropScale != nil) }
+        let raisesDensity = ["DensityOnly", "Wide", "Visible"].contains(name)
+        guard colors == [expected], densityMark == raisesDensity,
+              let leftOffsetPixels, let verticalCenterOffsetPixels else { return false }
+        if name == "Bitmap" {
+            guard let bitmapScale else { return false }
+            return abs(leftOffsetPixels / bitmapScale.x - 8) <= 4 &&
+                abs(Double(widthPixels) / bitmapScale.x - 24) <= 4 &&
+                abs(Double(heightPixels) / bitmapScale.y - 24) <= 4 &&
+                abs(verticalCenterOffsetPixels / bitmapScale.y) <= 4
+        }
+        return (0.012...0.085).contains(leftOffsetPixels / Double(viewportWidth)) &&
+            (0.065...0.39).contains(widthFraction) &&
+            abs(verticalCenterOffsetPixels) / Double(viewportHeight) <= 0.02 &&
+            (0.065...0.17).contains(heightFraction)
     }
+}
+
+private let backdropColor = RGB(red: 99, green: 125, blue: 143)
+
+private struct BitmapScale {
+    let x: Double
+    let y: Double
 }
 
 private func probe(
     _ screenshot: UIImage,
     frame: CGRect,
     screenWidthInPoints: CGFloat,
-    expected: Ink?
+    expected: Ink?,
+    measureBackdrop: Bool
 ) -> IconRow? {
     guard let image = screenshot.cgImage, let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
           screenshot.imageOrientation == .up, screenWidthInPoints.isFinite, screenWidthInPoints > 0 else {
@@ -224,15 +252,53 @@ private func probe(
     } else {
         densityMark = false
     }
+    let backdropScale = measureBackdrop ? measureBitmapScale(
+        image,
+        row: row,
+        x: left + CGFloat(width / 2),
+        top: top,
+        height: height,
+        colorSpace: colorSpace
+    ) : nil
     return IconRow(
-        first: first.map { Double($0) / Double(width) - 0.5 },
-        widthFraction: Double(count) / Double(width),
-        heightFraction: Double(vertical?.count ?? 0) / Double(height),
-        verticalCenter: vertical.map { Double($0.first + $0.last) / (2 * Double(height)) - 0.5 },
+        leftOffsetPixels: first.map { Double($0) - Double(width) / 2 },
+        widthPixels: count,
+        heightPixels: vertical?.count ?? 0,
+        verticalCenterOffsetPixels: vertical.map { Double($0.first + $0.last) / 2 - Double(height) / 2 },
+        viewportWidth: width,
+        viewportHeight: height,
         densityMark: densityMark,
         colors: colors,
-        background: row[Int((Double(width) * 0.508).rounded())]
+        background: row[width / 2 + 2],
+        backdropScale: backdropScale
     )
+}
+
+private func measureBitmapScale(
+    _ image: CGImage,
+    row: [RGB],
+    x: CGFloat,
+    top: CGFloat,
+    height: Int,
+    colorSpace: CGColorSpace
+) -> BitmapScale? {
+    let frame = CGRect(x: x, y: top, width: 1, height: CGFloat(height))
+    guard let column = readPixels(image, in: frame, colorSpace: colorSpace), column.count == height else { return nil }
+    // The backing placemark is a known 48×48 bitmap in the same map renderer as the icon.
+    let xScale = Double(centeredBackdropBand(in: row)) / 48
+    let yScale = Double(centeredBackdropBand(in: column)) / 48
+    guard (0.75...1.5).contains(xScale), (0.75...1.5).contains(yScale) else { return nil }
+    return BitmapScale(x: xScale, y: yScale)
+}
+
+private func centeredBackdropBand(in pixels: [RGB]) -> Int {
+    let center = pixels.count / 2
+    guard pixels[center].isClose(to: backdropColor, tolerance: 18) else { return 0 }
+    var first = center
+    var last = center
+    while first > 0 && pixels[first - 1].isClose(to: backdropColor, tolerance: 18) { first -= 1 }
+    while last + 1 < pixels.count && pixels[last + 1].isClose(to: backdropColor, tolerance: 18) { last += 1 }
+    return last - first + 1
 }
 
 private struct VerticalBand {
