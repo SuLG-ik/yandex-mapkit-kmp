@@ -122,7 +122,7 @@ public class TransportAdapterTest {
         val section = NativeSectionData.sectionDataWithFitness(native).toCommon()
         val bicycle = checkNotNull(section.fitness)
 
-        assertSame(native, bicycle.toNative())
+        assertTrue(native.isEqual(bicycle.toNative()))
         assertEquals(FitnessType.BICYCLE, bicycle.type)
         assertEquals(via, bicycle.viaPoints)
         assertNull(section.wait)
@@ -177,7 +177,7 @@ public class TransportAdapterTest {
                 position = place.toNative(),
             )
         }
-        val line = NativeLine.lineWithId(
+        val nativeLine = NativeLine.lineWithId(
             id = "line-1",
             name = "M1",
             vehicleTypes = listOf("underground"),
@@ -187,7 +187,7 @@ public class TransportAdapterTest {
             shortName = null,
             transportSystemId = null,
         )
-        val ride = NativeTransportLeg.transportWithLine(line, emptyList<Any>(), emptyList<Any>())
+        val ride = NativeTransportLeg.transportWithLine(nativeLine, emptyList<Any>(), emptyList<Any>())
         val weight = Weight(LocalizedValue(70.0, "70 s"), LocalizedValue(0.0, "0 m"), 0)
         val sectionGeometry = Subpolyline(PolylinePosition(0, 0.0), PolylinePosition(0, 1.0))
         val section = NativeSection.sectionWithMetadata(
@@ -204,8 +204,11 @@ public class TransportAdapterTest {
         ).toCommon()
 
         assertNull(section.metadata.data.fitness)
-        assertSame(line, section.metadata.data.transports?.single()?.line?.toNative())
-        assertEquals(listOf("underground"), section.metadata.data.transports?.single()?.line?.vehicleTypes)
+        val line = checkNotNull(section.metadata.data.transports).single().line
+        assertTrue(nativeLine.isEqual(line.toNative()))
+        assertEquals("line-1", line.id)
+        assertEquals("M1", line.name)
+        assertEquals(listOf("underground"), line.vehicleTypes)
         assertEquals(listOf("stop-0", "stop-1"), section.stops.map { it.metadata.stop.id })
         assertEquals(places, section.stops.map { it.position })
         assertEquals(places[0], section.stops.first().metadata.entrancePoint)
