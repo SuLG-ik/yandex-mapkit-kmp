@@ -4,6 +4,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.view.Window
 import androidx.activity.ComponentActivity
@@ -18,6 +19,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
+import ru.sulgik.mapkit.asWeakRef
+import ru.sulgik.mapkit.map.InputListener
 import ru.sulgik.mapkit.mapview.toCommon
 import ru.sulgik.mapkit.test.interaction.FixtureClose
 import ru.sulgik.mapkit.test.interaction.FixtureMapTag
@@ -128,7 +131,12 @@ public class MapInteractionTest {
                 tapAndVerifyDelivery(point)
             }
 
-            fun touchProjectedPoint(vararg events: String, holdMillis: Long = 0L) {
+            val singleTapInterval = maxOf(ViewConfiguration.getDoubleTapTimeout().toLong(), 300L) + 1L
+            var lastMapTapUp = 0L
+
+            fun tapProjectedPoint(holdMillis: Long = 0L) {
+                val remaining = lastMapTapUp + singleTapInterval - SystemClock.uptimeMillis()
+                if (remaining > 0L) SystemClock.sleep(remaining)
                 val deadline = SystemClock.uptimeMillis() + 3_000L
                 var point: Offset? = null
                 while (point == null && SystemClock.uptimeMillis() < deadline) {
@@ -162,8 +170,40 @@ public class MapInteractionTest {
                 }
                 val screenPoint = assertNotNull(point, "The map did not project a touch target. Events: $expected")
                 tapAndVerifyDelivery(screenPoint, holdMillis)
+                lastMapTapUp = SystemClock.uptimeMillis()
+            }
+
+            fun touchProjectedPoint(vararg events: String, holdMillis: Long = 0L) {
+                tapProjectedPoint(holdMillis)
                 expected.addAll(events)
                 awaitTrace()
+            }
+
+            fun diagnoseMissingMapTap() {
+                val probeEvents = mutableListOf<String>()
+                val probe = InputListener(
+                    onMapTap = { _, point -> probeEvents.add("tap $point") },
+                    onMapLongTap = { _, point -> probeEvents.add("long tap $point") },
+                )
+                scenario.onActivity { activity ->
+                    val view = assertNotNull(activity.window.decorView.findNativeMap())
+                    view.toCommon().mapWindow.map.addInputListener(probe.asWeakRef())
+                }
+                try {
+                    tapProjectedPoint()
+                    val deadline = SystemClock.uptimeMillis() + 1_000L
+                    var delivered = false
+                    while (!delivered && SystemClock.uptimeMillis() < deadline) {
+                        scenario.onActivity { delivered = probeEvents.isNotEmpty() }
+                        if (!delivered) SystemClock.sleep(20L)
+                    }
+                } finally {
+                    scenario.onActivity { activity ->
+                        val map = activity.window.decorView.findNativeMap()?.toCommon()?.mapWindow?.map
+                        if (map?.isValid == true) map.removeInputListener(probe.asWeakRef())
+                        Log.e("MapInteractionTest", "Direct MapKit listener: $probeEvents. Compose trace: ${trace.events}")
+                    }
+                }
             }
 
             fun ready(case: String, advance: Boolean = true) {
@@ -175,7 +215,14 @@ public class MapInteractionTest {
             ready("Disabled", advance = false)
             touchProjectedPoint()
             ready("Empty")
-            touchProjectedPoint("map")
+            try {
+                touchProjectedPoint("map")
+            } catch (failure: AssertionError) {
+                runCatching { diagnoseMissingMapTap() }.onFailure {
+                    Log.e("MapInteractionTest", "Could not query the direct MapKit listener", it)
+                }
+                throw failure
+            }
             touchProjectedPoint("long", holdMillis = 900L)
             ready("PolygonOnly")
             touchProjectedPoint("polygon", "collection", "map")

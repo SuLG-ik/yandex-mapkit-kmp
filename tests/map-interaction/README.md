@@ -15,8 +15,11 @@ within 0.0001° on each axis to allow for the platform's screen-point rounding. 
 checks z-order, polygon and placemark visibility, parent consumption, and map callbacks through
 registration, replacement, removal, and reattachment. The fixture taps the same empty map point
 before and after enabling callbacks, then checks an isolated polygon hit before introducing the
-overlapping placemark. On Android, a regular activity keeps MapKit composition work on the UI
-thread and verifies that each injected pointer release reaches the window at the intended location.
+overlapping placemark. Map touches are separated by MapKit's single/double-tap interval so each
+case exercises one gesture. On Android, a regular activity keeps MapKit composition work on the UI
+thread and verifies that each pointer release reaches the window at the intended location. If the
+first enabled callback is missing, the report also records the result from a separately registered
+MapKit input listener after preserving the original assertion failure.
 
 ## Android
 

@@ -32,6 +32,7 @@ final class MapInteractionTests: XCTestCase {
         app.launchArguments.append("--map-tap-cases")
         app.launch()
         var expected: [String] = []
+        var lastMapTapUp: TimeInterval? = nil
 
         func awaitTrace() {
             let expectedTrace = expected.joined(separator: "\n")
@@ -54,6 +55,12 @@ final class MapInteractionTests: XCTestCase {
         }
 
         func touchCenter(_ events: String..., hold: Bool = false) {
+            if let lastMapTapUp {
+                let remaining = lastMapTapUp + 0.301 - ProcessInfo.processInfo.systemUptime
+                if remaining > 0 {
+                    Thread.sleep(forTimeInterval: remaining)
+                }
+            }
             let target = app.descendants(matching: .any).matching(
                 NSPredicate(format: "label == %@", "fixture-tap-map")
             ).firstMatch
@@ -64,6 +71,7 @@ final class MapInteractionTests: XCTestCase {
             } else {
                 center.tap()
             }
+            lastMapTapUp = ProcessInfo.processInfo.systemUptime
             expected.append(contentsOf: events)
             awaitTrace()
         }
