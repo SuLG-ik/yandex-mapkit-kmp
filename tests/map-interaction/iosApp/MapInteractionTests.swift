@@ -1,5 +1,179 @@
 import XCTest
 
+final class DecomposeStackTests: XCTestCase {
+    func testStoppedChildrenRetainStateAndDestroyedChildrenReleaseTheMap() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments.append("--decompose-stack")
+        app.launch()
+
+        ready("A1.1", initialA, in: app)
+        app.buttons["Save A viewport"].tap()
+        ready("A1.1", savedA, in: app)
+        tapMap("A1.1", in: app)
+        expect(["show D1", "tap A1.1", "stop A1", "unsubscribe A1.1", "overlap A1 D1", "release A1.1"], in: app)
+        app.buttons["Pop details"].tap()
+        expect(["destroy D1", "hide D1"], in: app)
+        ready("A1.2", savedA.withMarker(markerA), in: app)
+
+        tapMap("A1.2", in: app)
+        expect(["show D2", "tap A1.2", "unsubscribe A1.2", "release A1.2"], in: app)
+        app.buttons["Pop details"].tap()
+        expect(["destroy D2", "hide D2"], in: app)
+        ready("A1.3", savedA.withMarker(markerA), in: app)
+
+        app.buttons["Push B"].tap()
+        expect(["release A1.3", "overlap A1 B1"], in: app)
+        ready("B1.1", initialB, in: app)
+        tapMap("B1.1", in: app)
+        expect(["show D3", "tap B1.1", "release B1.1"], in: app)
+        app.buttons["Pop details"].tap()
+        expect(["destroy D3", "hide D3"], in: app)
+        ready("B1.2", initialB.withMarker(markerB), in: app)
+
+        app.buttons["Front A"].tap()
+        expect(["release B1.2"], in: app)
+        ready("A1.4", savedA.withMarker(markerA), in: app)
+        app.buttons["Front B"].tap()
+        expect(["release A1.4"], in: app)
+        ready("B1.3", initialB.withMarker(markerB), in: app)
+        app.buttons["Replace with C"].tap()
+        expect([
+            "stop B1", "destroy B1", "unsubscribe B1.3", "overlap B1 C1", "overlap windows B1.3 C1.1", "fade held"
+        ], in: app)
+        ready("C1.1", initialC, in: app)
+        tapMap("C1.1", in: app)
+        expect(["overlap tap B1.3 C1.1"], in: app)
+        XCTAssertFalse(trace(in: app).contains("release B1.3"), trace(in: app).joined(separator: "\n"))
+        app.buttons["Finish fade"].tap()
+        expect(["release B1.3"], in: app)
+
+        XCUIDevice.shared.press(.home)
+        let background = NSPredicate { object, _ in
+            guard let application = object as? XCUIApplication else { return false }
+            return application.state == .runningBackground || application.state == .runningBackgroundSuspended
+        }
+        XCTAssertEqual(
+            XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: background, object: app)], timeout: 10),
+            .completed
+        )
+        app.activate()
+        expect(["parent stop", "stop C1", "unsubscribe C1.1"], in: app)
+        expect(["parent start", "start C1", "subscribe C1.1"], count: 2, in: app)
+        tapMap("C1.1", in: app)
+        expect(["show D4", "tap C1.1", "release C1.1"], in: app)
+        XCTAssertTrue(app.buttons["Pop details"].waitForExistence(timeout: 10))
+
+        let events = trace(in: app)
+        XCTAssertEqual(events.filter { $0.hasPrefix("tap ") }, ["tap A1.1", "tap A1.2", "tap B1.1", "tap C1.1"])
+        XCTAssertEqual(events.filter { $0 == "unsubscribe C1.1" }.count, 2, events.joined(separator: "\n"))
+        XCTAssertEqual(events.filter { $0 == "attach C1.1" }.count, 1, events.joined(separator: "\n"))
+        XCTAssertEqual(events.filter { $0 == "parent stop" }.count, 1, events.joined(separator: "\n"))
+        XCTAssertEqual(events.filter { $0 == "parent start" }.count, 2, events.joined(separator: "\n"))
+        XCTAssertEqual(events.filter { $0 == "overlap tap B1.3 C1.1" }.count, 1, events.joined(separator: "\n"))
+        XCTAssertEqual(events.filter { $0 == "unsubscribe B1.3" }.count, 1, events.joined(separator: "\n"))
+        guard let unsubscribe = events.firstIndex(of: "unsubscribe B1.3"),
+              let destroy = events.firstIndex(of: "destroy B1"),
+              let overlapTap = events.firstIndex(of: "overlap tap B1.3 C1.1"),
+              let release = events.firstIndex(of: "release B1.3") else {
+            XCTFail("Missing B1 teardown. Events: \(events)")
+            return
+        }
+        XCTAssertLessThan(unsubscribe, destroy, events.joined(separator: "\n"))
+        XCTAssertLessThan(overlapTap, release, events.joined(separator: "\n"))
+        XCTAssertLessThan(destroy, release, events.joined(separator: "\n"))
+        XCTAssertFalse(events.contains { $0.hasPrefix("unexpected") || $0 == "destroy A1" }, events.joined(separator: "\n"))
+    }
+
+    private func ready(_ id: String, _ expected: Scene, in app: XCUIApplication) {
+        expect(["subscribe \(id)"], in: app)
+        waitFor("native scene for \(id): \(expected)", in: app) { lines in
+            guard let lastScene = lines.last(where: { $0.hasPrefix("scene \(id) ") }) else { return false }
+            return expected.matches(lastScene)
+        }
+    }
+
+    private func tapMap(_ id: String, in app: XCUIApplication) {
+        let target = app.descendants(matching: .any).matching(
+            NSPredicate(format: "label BEGINSWITH %@", "decompose-target \(id) ")
+        ).firstMatch
+        guard target.waitForExistence(timeout: 10) else {
+            XCTFail("Missing projected target \(id). Events: \(trace(in: app))")
+            return
+        }
+        let fields = target.label.split(separator: " ")
+        guard fields.count == 4, let x = Double(fields[2]), let y = Double(fields[3]) else {
+            XCTFail("Invalid projected target: \(target.label)")
+            return
+        }
+        target.coordinate(withNormalizedOffset: CGVector(dx: x, dy: y)).tap()
+    }
+
+    private func expect(_ events: [String], count: Int = 1, in app: XCUIApplication) {
+        waitFor("\(events) x\(count)", in: app) { lines in
+            events.allSatisfy { event in lines.filter { $0 == event }.count >= count }
+        }
+    }
+
+    private func waitFor(_ description: String, in app: XCUIApplication, condition: @escaping ([String]) -> Bool) {
+        let element = app.staticTexts["decompose-trace"]
+        let containsEvents = NSPredicate { object, _ in
+            guard let trace = object as? XCUIElement, trace.exists else { return app.state == .notRunning }
+            return condition(trace.label.split(whereSeparator: \.isNewline).map(String.init))
+        }
+        let predicate = XCTNSPredicateExpectation(predicate: containsEvents, object: element)
+        let outcome = XCTWaiter.wait(for: [predicate], timeout: 10)
+        guard app.state != .notRunning else {
+            XCTFail("MapInteractionApp terminated while waiting for \(description). See the simulator and crash diagnostics.")
+            return
+        }
+        XCTAssertEqual(outcome, .completed, "Waiting for \(description). Events: \(trace(in: app))")
+    }
+
+    private func trace(in app: XCUIApplication) -> [String] {
+        let element = app.staticTexts["decompose-trace"]
+        return element.exists
+            ? element.label.split(whereSeparator: \.isNewline).map(String.init)
+            : ["<missing decompose-trace>", app.debugDescription]
+    }
+
+    private struct Geo {
+        let latitude: Double
+        let longitude: Double
+
+        func matches(_ latitudeField: Substring, _ longitudeField: Substring) -> Bool {
+            guard let actualLatitude = Double(latitudeField), let actualLongitude = Double(longitudeField) else { return false }
+            return abs(latitude - actualLatitude) < 0.0001 && abs(longitude - actualLongitude) < 0.0001
+        }
+    }
+
+    private struct Scene {
+        let target: Geo
+        let zoom: Double
+        var marker: Geo? = nil
+
+        func withMarker(_ geo: Geo) -> Scene {
+            Scene(target: target, zoom: zoom, marker: geo)
+        }
+
+        func matches(_ line: String) -> Bool {
+            let fields = line.split(separator: " ")
+            guard (6...7).contains(fields.count), target.matches(fields[2], fields[3]),
+                  let actualZoom = Double(fields[4]), abs(zoom - actualZoom) < 0.01 else { return false }
+            guard let marker else { return fields.count == 6 && fields[5] == "none" }
+            return fields.count == 7 && marker.matches(fields[5], fields[6])
+        }
+    }
+
+    private let initialA = Scene(target: Geo(latitude: 55.751225, longitude: 37.629540), zoom: 16)
+    private let savedA = Scene(target: Geo(latitude: 55.751525, longitude: 37.629840), zoom: 17)
+    private let markerA = Geo(latitude: 55.751625, longitude: 37.629540)
+    private let initialB = Scene(target: Geo(latitude: 59.939800, longitude: 30.314600), zoom: 16)
+    private let markerB = Geo(latitude: 59.940200, longitude: 30.314600)
+    private let initialC = Scene(target: Geo(latitude: 56.838900, longitude: 60.605700), zoom: 16)
+}
+
+
 final class MapInteractionTests: XCTestCase {
     func testMapAcceptsTouchAfterMountAndReopen() {
         continueAfterFailure = false

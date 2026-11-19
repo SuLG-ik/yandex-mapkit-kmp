@@ -4,5 +4,6 @@
     android:versionName="1.0">
     <application>
         <activity android:name="ru.sulgik.mapkit.compose.MapLifecycleTestActivity" android:exported="false" />
+        <activity android:name="ru.sulgik.mapkit.compose.DecomposeStackTestActivity" android:exported="false" />
     </application>
 </manifest>
