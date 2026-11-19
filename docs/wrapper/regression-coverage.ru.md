@@ -42,6 +42,12 @@
 | [`MOKOImageLoader.fromResource` и `rememberMOKOImageLoader`](image-resources.md) в `-moko` и `-moko-compose` | [Публичный ABI][api] проверяет оба модуля. Ещё нужно проверить декодирование ресурса Moko, флаг кеширования и сохранение загрузчика в Compose. | Опциональные интеграции изображений [#84][84]. |
 | [Установка опубликованных модулей](../getting-started/installation.md) | [Проверка #76][consumer] подключает кандидатные артефакты из временного Maven-репозитория в изолированных приложениях на [Android][a-consumer] и [iOS][i-consumer]. Задачи проверяют выбор Lite SDK, собирают и запускают приложения и ждут создания нативной карты и метки. | Релизные проверки и матрица ОС [#82][82]. |
 
+В примере [возврата к карте](../sample.md#возврат-к-карте) есть отдельный Android-тест
+[ReturnMapRoutesTest][a-return-routes]. Он проверяет переход в детали, переключение вкладок,
+сохранение и восстановление, завершение маршрута и правки меток. Вместо нативной карты тест
+использует небольшой интерфейс. Прогоны примера на устройствах и замеры на одной области
+отслеживаются в [#75][75] и [#74][74].
+
 ## Отчёты о регрессиях
 
 | Отчёт | Проверенное поведение и тесты | Оставшиеся сценарии |
@@ -65,6 +71,7 @@
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
 [a-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44435197621/job/135262196868
 [a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238
+[a-return-routes]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/74cc86a90ee3ea2b50a9d6d65f55c490c2619981/sample/composeApp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/sample/ReturnMapRoutesTest.kt#L28-L97
 [i-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L194-L226
 [consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/pull/88
 [a-consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44408195495/job/135169172609
