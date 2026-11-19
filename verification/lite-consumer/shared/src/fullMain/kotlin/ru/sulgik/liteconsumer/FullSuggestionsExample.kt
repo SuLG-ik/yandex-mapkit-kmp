@@ -1,6 +1,9 @@
 package ru.sulgik.liteconsumer
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
@@ -9,6 +12,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import ru.sulgik.mapkit.geometry.BoundingBox
 import ru.sulgik.mapkit.search.SearchError
 import ru.sulgik.mapkit.search.SearchManager
@@ -22,23 +28,28 @@ internal fun FullSuggestionsExample(manager: SearchManager, window: BoundingBox)
     val editor = remember(manager) { SuggestEditor(manager.createSuggestSession()) }
     var query by remember(editor) { mutableStateOf("") }
     var items by remember(editor) { mutableStateOf(emptyList<SuggestItem>()) }
-    var failure by remember(editor) { mutableStateOf<SearchError?>(null) }
+    var failed by remember(editor) { mutableStateOf(false) }
 
     DisposableEffect(editor) {
         onDispose { editor.close() }
     }
 
     Column {
+        BasicText("Type a place name")
         BasicTextField(
             value = query,
             onValueChange = { text ->
                 query = text
                 items = emptyList()
-                failure = null
-                editor.update(text, window, { items = it }, { failure = it })
+                failed = false
+                editor.update(text, window, { items = it }, { failed = true })
             },
+            modifier = Modifier.fillMaxWidth().border(1.dp, Color.Gray).padding(8.dp),
+            singleLine = true,
         )
-        failure?.let { BasicText(it.description ?: "MapKit could not load suggestions") }
+        if (failed) {
+            BasicText("MapKit could not load suggestions")
+        }
         for (item in items) {
             BasicText(item.displayText ?: item.title.text)
         }

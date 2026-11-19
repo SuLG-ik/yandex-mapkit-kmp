@@ -76,7 +76,7 @@ session.suggest(
     ),
     suggestListener = SuggestListener(
         onResponse = { response -> showSuggestions(response.items) },
-        onError = { failure -> showFailure(failure.description ?: "Подсказки недоступны") },
+        onError = { showFailure("Подсказки недоступны") },
     ),
 )
 ```
@@ -98,6 +98,21 @@ session.suggest(
 а тесты адаптеров подают заранее известные ответы. См. документацию Geosuggest [на Android]
 и [на iOS].
 
+### Запуск примера
+
+Запустите эмулятор или симулятор и откройте приложение Full в режиме подсказок.
+
+```sh
+bash verification/lite-consumer/run.sh android emulator-5554 base full suggestions
+bash verification/lite-consumer/run.sh ios SIMULATOR_UUID base full suggestions
+```
+
+Введите действующий ключ MapKit Full в скрытое поле приложения и нажмите **Open editor**. Пример
+использует заданную область Москвы и отправляет первый запрос при вводе. Очистка текста сбрасывает
+сессию, а закрытие и повторное открытие редактора создаёт новую. Ключ остаётся вне параметров
+сборки, параметров запуска и диагностических журналов примера. В [#82] отслеживаются проверки
+полей ответа сервиса независимо от порядка выдачи.
+
 ## Проверки регрессий
 
 [Тест адаптера Android] и [тест адаптера iOS] получают ответы локально. Они проверяют параметры,
@@ -114,3 +129,4 @@ session.suggest(
 [Пример подсказок Full]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/lite-consumer/shared/src/fullMain/kotlin/ru/sulgik/liteconsumer/FullSuggestionsExample.kt
 [на Android]: https://yandex.com/maps-api/docs/mapkit/android/generated/tutorials/map_suggest.html
 [на iOS]: https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_suggest.html
+[#82]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/82

@@ -50,7 +50,23 @@ pod and checks the pod version in its lockfile.
 
 A Full run separately stages the Lite core to exercise the mixed graph. After that negative
 check it builds a Full app, creates a map and obtains an online SearchManager from common Kotlin.
-The smoke check only constructs the manager. It can run without an online search request.
+The unattended smoke check creates and resets a suggestion session without sending a query.
+
+### Try the Full suggestions editor
+
+Launch the manual profile on the running emulator or simulator.
+
+```sh
+bash verification/lite-consumer/run.sh android emulator-5554 base full suggestions
+bash verification/lite-consumer/run.sh ios SIMULATOR_UUID base full suggestions
+```
+
+Enter a valid MapKit Full key in the masked field and select **Open editor**. The field clears after
+configuration. The fixture keeps the key out of build arguments, launch arguments and diagnostic logs.
+Type a place name for the preset Moscow viewport. Rapid edits replace the request, clearing the text
+resets its session, and **Close editor** disposes it. Open the editor again to start a fresh session.
+Relaunch the manual profile to enter a different key. The script returns once it opens the setup
+screen. Requests begin when you type in the editor.
 
 The pinned 4.45.0 SDK release ships both editions on Android and iOS. Compressed upstream
 artifact sizes are 46,046,811 bytes (Lite) and 61,346,821 bytes (Full) for the Android AAR and

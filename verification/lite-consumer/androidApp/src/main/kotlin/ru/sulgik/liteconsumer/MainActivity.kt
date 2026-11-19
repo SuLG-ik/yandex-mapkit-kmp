@@ -10,8 +10,16 @@ internal class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val showSuggestions = intent.getBooleanExtra("suggestions", false)
+        val liveSearch = intent.getBooleanExtra("liveSearch", false)
+        if (showSuggestions && liveSearch) return
+        if (showSuggestions) {
+            setContent { SuggestionsScreen() }
+            return
+        }
+
         val token = intent.getStringExtra("smokeToken") ?: "manual"
-        if (intent.getBooleanExtra("liveSearch", false)) {
+        if (liveSearch) {
             launchLiveSearch(token)
             return
         }

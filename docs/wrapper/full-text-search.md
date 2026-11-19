@@ -78,7 +78,7 @@ session.suggest(
     ),
     suggestListener = SuggestListener(
         onResponse = { response -> showSuggestions(response.items) },
-        onError = { failure -> showFailure(failure.description ?: "Suggestions unavailable") },
+        onError = { showFailure("Suggestions unavailable") },
     ),
 )
 ```
@@ -99,6 +99,21 @@ the editor, or following `link`. Use a MapKit key for a live query. The Full con
 creates and resets a session, and the adapter tests supply deterministic replies. See the official
 [Android Geosuggest guide] and [iOS Geosuggest guide].
 
+### Run the editor example
+
+Start an emulator or simulator, then install and open the Full suggestions profile.
+
+```sh
+bash verification/lite-consumer/run.sh android emulator-5554 base full suggestions
+bash verification/lite-consumer/run.sh ios SIMULATOR_UUID base full suggestions
+```
+
+Enter a valid MapKit Full API key in the masked app field, then select **Open editor**. The example
+uses a preset Moscow viewport and sends its first request when you type. Clear the text to reset the
+session or close and reopen the editor to start a new one. The fixture keeps keys out of build
+arguments, launch arguments and diagnostic logs. [#82] tracks trusted provider checks of response
+fields independent of provider ranking.
+
 ## Regression checks
 
 The [Android adapter test] and [iOS adapter test] supply responses locally. They check options,
@@ -115,3 +130,4 @@ named coordinates, empty responses, native errors and late callbacks after dispo
 [Full suggestions example]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/lite-consumer/shared/src/fullMain/kotlin/ru/sulgik/liteconsumer/FullSuggestionsExample.kt
 [Android Geosuggest guide]: https://yandex.com/maps-api/docs/mapkit/android/generated/tutorials/map_suggest.html
 [iOS Geosuggest guide]: https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_suggest.html
+[#82]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/82

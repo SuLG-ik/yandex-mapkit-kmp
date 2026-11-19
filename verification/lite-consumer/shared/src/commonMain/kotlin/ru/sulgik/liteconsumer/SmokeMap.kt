@@ -15,6 +15,11 @@ public fun initializeSmokeMap(apiKey: String = "mapkit-lite-consumer-smoke") {
 }
 
 @Composable
+public fun SuggestionsScreen() {
+    EditionSuggestionsScreen()
+}
+
+@Composable
 public fun SmokeMap(onReady: () -> Unit) {
     rememberAndInitializeMapKit().bindToLifecycleOwner()
     val image = smokeImage()
