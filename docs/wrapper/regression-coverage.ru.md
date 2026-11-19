@@ -139,8 +139,8 @@
 [i-savers]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/iosTest/kotlin/ru/sulgik/mapkit/compose/MapObjectStateSaversTest.kt
 [renderer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/commonTest/kotlin/ru/sulgik/mapkit/compose/ComposeMapObjectRendererTest.kt
 [i-renderer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/iosTest/kotlin/ru/sulgik/mapkit/compose/ComposeMapObjectRendererIosTest.kt
-[a-icon-rendering]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/e63d926208208a6c8fa7f05ea095444befe42e9b/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapIconRenderingTest.kt
-[i-icon-rendering]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/e63d926208208a6c8fa7f05ea095444befe42e9b/tests/map-interaction/iosApp/MapIconRenderingTests.swift
+[a-icon-rendering]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/9dbd32afeb09d81c6748d392f59e2b20206ae75f/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapIconRenderingTest.kt
+[i-icon-rendering]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/9dbd32afeb09d81c6748d392f59e2b20206ae75f/tests/map-interaction/iosApp/MapIconRenderingTests.swift
 [color]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/commonTest/kotlin/ru/sulgik/mapkit/ColorConvertionTest.kt
 [19]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/19
 [20]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/20
