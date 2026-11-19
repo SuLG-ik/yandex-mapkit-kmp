@@ -2,7 +2,8 @@
 
 Список составлен по [дампам публичного ABI][abi] и исходникам тестов на коммите [`c6049906`][snapshot].
 Задачи CI ниже относятся к этому коммиту. В таблицах также приведены более поздние проверки
-[отдельных приложений][consumer] и нативных жестов на [Android][a-map-taps-ci] и [iOS][i-map-taps-ci].
+[отдельных приложений][consumer], нативных жестов на [Android][a-map-taps-ci] и [iOS][i-map-taps-ci],
+а также [жизненного цикла слушателей][71].
 Доступные API и ограничения платформ описаны на странице
 [«Что обёрнуто»](coverage.md).
 
@@ -19,10 +20,10 @@
 | --- | --- | --- |
 | [`MapKit`, `MapView` и `MapWindow`](map.md) | Нативное окно отдаёт размеры, фокус, масштаб и проекцию. В [LiveMapWindowTest · Android][a-window] и на [LiveMapWindowTest · iOS][i-window] проверено преобразование между экранными и географическими координатами в обе стороны. [NativeYandexMapLifecycleTest · Закрытие Android Activity][a-lifecycle] проверяет нативное представление через Compose. [MapLifecycleTest · Android][a-host-lifecycle] проверяет уход в фон и возврат, пересоздание Activity и потерю валидности освобождённых нативных окон. | Несколько нативных карт и раскладка оверлеев [#83][83]. |
 | [`Map.move`, `CameraPosition`, параметры жестов и `CameraListener`](map.md) | [LiveMapTest · Android][a-map] и [LiveMapTest · iOS][i-map] проверяют изменение позиции после программного перемещения и соответствие флагов жестов. [LiveCameraListenerDeliveryTest · Тест iOS][i-camera] наблюдает вызов слушателя после перемещения. | Доставка событий камеры на Android, жесты, прерывание анимации и жизненный цикл камеры в Compose [#69][69]. |
-| [`InputListener`, `GeoObjectTapListener`, `MapLoadedListener` и метаданные карты](geoobjects.md) | Подписка, отписка или очистка слушателей в [Android][a-map] и на [iOS][i-map]. Тесты конвертации авторства, изображений, тайлов и текста в [NativeBackedConverterTest · Android][a-native] и на [NativeBackedConverterTest · iOS][i-native]. [Тест нативного ввода на Android][a-map-taps] проверяет доставку короткого и долгого нажатия через Compose и их координаты. | События POI базовой карты, готовность карты и преобразование метаданных на контролируемых данных [#85][85]. |
+| [`InputListener`, `GeoObjectTapListener`, `MapLoadedListener` и метаданные карты](geoobjects.md) | Подписка, отписка или очистка слушателей в [Android][a-map] и на [iOS][i-map]. Тесты конвертации авторства, изображений, тайлов и текста в [NativeBackedConverterTest · Android][a-native] и на [NativeBackedConverterTest · iOS][i-native]. Тесты нативного ввода на [Android][a-map-taps] и [iOS][i-map-taps] проверяют доставку короткого и долгого нажатия через Compose и их координаты. | События POI базовой карты, готовность карты и преобразование метаданных на контролируемых данных [#85][85]. |
 | [`MapObjectCollection`, `PlacemarkMapObject` и остальные фигуры](mapobjects.md) | Добавление, обход, очистка, слушатели, конкретные подтипы и создание кластерной коллекции в [LiveMapObjectCollectionTest · Android][a-collection] и на [LiveMapObjectCollectionTest · iOS][i-collection]. Геометрия, стиль, видимость и идентичность метки в [LivePlacemarkMapObjectTest · Android][a-pin] и на [LivePlacemarkMapObjectTest · iOS][i-pin]. | Перетаскивание объектов. |
 | [`ImageProvider` и `AnimatedImageProvider`](image-resources.md) | [LivePlacemarkMapObjectTest · Android][a-pin] и [LivePlacemarkMapObjectTest · iOS][i-pin] подтверждают, что `useIcon()`, `useModel()` и `useAnimation()` возвращают валидные нативные объекты. | Декодировать иконку через платформенную фабрику и установить её на нативный объект. Проверить `AnimatedImageProvider.fromByteArray`, `fromFile` и `fromAnimatedImage`, воспроизведение анимации на метке и анимированную заливку полигона [#84][84]. |
-| [`toNative()`, `toCommon()`, `WeakRef` и фабрики слушателей](overview.md) | Стабильная идентичность нативного адаптера и чтение слабой ссылки в [LiveListenerIdentityTest · Android][a-listener] и на [LiveListenerIdentityTest · iOS][i-listener]. Равенство обёрток нативных объектов на [HandleIdentityTest · Android JVM][a-identity] и на [HandleIdentityTest · iOS][i-identity]. | Удержание слушателя и отмена подписки при пересоздании карты [#71][71]. |
+| [`toNative()`, `toCommon()`, `WeakRef` и фабрики слушателей](overview.md) | Стабильная идентичность нативного адаптера и чтение слабой ссылки в [LiveListenerIdentityTest · Android][a-listener] и на [LiveListenerIdentityTest · iOS][i-listener]. Равенство обёрток нативных объектов на [HandleIdentityTest · Android JVM][a-identity] и на [HandleIdentityTest · iOS][i-identity]. [ListenerOwnershipTest · эмулятор Android][a-listener-ownership] и [MapInteractionTests · симулятор iOS][i-listener-ownership] проверяют доставку события после запроса GC, отписку при наличии сильной ссылки на прежний слушатель и отмену обработки события при создании новой карты [#71][71]. | — |
 | `Point`, `Polyline`, `IconStyle`, длительности, структуры и перечисления | Порядок полей, единицы измерения и отображение перечислений на [Android JVM][a-converters] и на [iOS][i-converters]. Дополнительные проверки геометрии и стилей с нативными объектами и nullable-полями в [PolylineConverterTest · Android][a-geometry]/[IconStyleConverterTest · стили][a-style] и на [GeometryConverterTest · iOS][i-geometry]/[IconStyleConverterTest · стили][i-style]. | Проверки преобразования в обе стороны для новых API [#86][86] и соответствие редакций SDK [#81][81]. |
 | [`MapKit.createUserLocationLayer`, `LocationManager` и симуляция геопозиции](location.md) | Видимость, ориентация, привязки, адаптеры слушателей и состояние камеры без координат в [LiveUserLocationLayerTest · Android][a-location] и на [LiveUserLocationLayerTest · iOS][i-location]. | Доставка подставной позиции, вращение и перемещение камеры к известной позиции на одной Compose-карте [#69][69]. |
 | [`Map.addTileLayer`, `addMapObjectLayer`, `Logo`, состояние indoor и оверлеи](layers.md) | Независимая коллекция объектов, стили карты, флаги indoor, доступ к логотипу и проекции в [Android][a-map] и на [iOS][i-map]. | Контролируемый источник тайлов, колбэки стилей и загрузки, переходы indoor и отрисовка оверлеев [#85][85], [#83][83]. |
@@ -41,6 +42,12 @@
 | [`imageProvider(DrawableResource)`](../compose/image-resources.md#ресурсы-compose-multiplatform) в `-compose-resources` | [Публичный ABI][api] включает опциональную точку входа. [PR #61][split] перенёс зависимость от ресурсов в этот модуль. Отдельные приложения на [Android][a-consumer] и [iOS][i-consumer] загружают PNG через опциональный модуль и устанавливают его на валидную нативную метку. | Проверить отрисовку, привязку, замену и изображения кластеров [#84][84]. |
 | [`MOKOImageLoader.fromResource` и `rememberMOKOImageLoader`](image-resources.md) в `-moko` и `-moko-compose` | [Публичный ABI][api] проверяет оба модуля. Ещё нужно проверить декодирование ресурса Moko, флаг кеширования и сохранение загрузчика в Compose. | Опциональные интеграции изображений [#84][84]. |
 | [Установка опубликованных модулей](../getting-started/installation.md) | [Проверка #76][consumer] подключает кандидатные артефакты из временного Maven-репозитория в изолированных приложениях на [Android][a-consumer] и [iOS][i-consumer]. Задачи проверяют выбор Lite SDK, собирают и запускают приложения и ждут создания нативной карты и метки. | Релизные проверки и матрица ОС [#82][82]. |
+
+В примере [возврата к карте](../sample.md#возврат-к-карте) есть отдельный Android-тест
+[ReturnMapRoutesTest][a-return-routes]. Он проверяет переход в детали, переключение вкладок,
+сохранение и восстановление, завершение маршрута и правки меток. Вместо нативной карты тест
+использует небольшой интерфейс. Прогоны примера на устройствах и замеры на одной области
+отслеживаются в [#75][75] и [#74][74].
 
 ## Отчёты о регрессиях
 
@@ -65,6 +72,7 @@
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
 [a-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44435197621/job/135262196868
 [a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238
+[a-return-routes]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/49449ba1394c264ca50748667faf7a95cc42e560/sample/composeApp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/sample/ReturnMapRoutesTest.kt#L28-L97
 [i-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L194-L226
 [consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/pull/88
 [a-consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44408195495/job/135169172609
@@ -102,6 +110,8 @@
 [i-pin]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/map/LivePlacemarkMapObjectTest.kt
 [a-listener]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/LiveListenerIdentityTest.kt
 [i-listener]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/LiveListenerIdentityTest.kt
+[a-listener-ownership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/ListenerOwnershipTest.kt
+[i-listener-ownership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/tests/map-interaction/iosApp/MapInteractionTests.swift
 [a-identity]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/HandleIdentityTest.kt
 [i-identity]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/HandleIdentityTest.kt
 [a-geometry]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/geometry/PolylineConverterTest.kt
@@ -112,8 +122,8 @@
 [i-location]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/user_location/LiveUserLocationLayerTest.kt
 [a-logs]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/runtime/logging/LiveLoggingTest.kt
 [i-logs]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/runtime/logging/LiveLoggingTest.kt
-[a-membership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/629c2810448006a44a12c8c85848ad858611d2c2/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapObjectMembershipTest.kt#L33
-[i-membership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/629c2810448006a44a12c8c85848ad858611d2c2/tests/map-interaction/iosApp/MapInteractionTests.swift#L141
+[a-membership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/ddd37f2fe7a0b210e98050393e474cf206eebbca/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapObjectMembershipTest.kt#L33
+[i-membership]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/ddd37f2fe7a0b210e98050393e474cf206eebbca/tests/map-interaction/iosApp/MapInteractionTests.swift#L141
 [map-order]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/commonTest/kotlin/ru/sulgik/mapkit/compose/MapNodeInsertOrderTest.kt
 [a-savers]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/MapObjectStatesRestorationTest.kt
 [i-savers]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/iosTest/kotlin/ru/sulgik/mapkit/compose/MapObjectStateSaversTest.kt
