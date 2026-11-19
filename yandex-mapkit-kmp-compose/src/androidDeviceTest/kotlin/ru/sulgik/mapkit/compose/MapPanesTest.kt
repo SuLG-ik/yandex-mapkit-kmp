@@ -6,6 +6,9 @@ import android.view.MotionEvent
 import android.view.ViewConfiguration
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
@@ -36,7 +39,11 @@ public class MapPanesTest {
         ActivityScenario.launch(ComponentActivity::class.java).use { host ->
             host.onActivity { activity ->
                 setDeviceTestMapKitApiKey()
-                activity.setContent { MapPanesFixture(trace) }
+                activity.setContent {
+                    Box(Modifier.safeDrawingPadding()) {
+                        MapPanesFixture(trace)
+                    }
+                }
             }
             val driver = PaneDriver(host, trace)
             val exposed = driver.mapPoint(PaneA, 1)
