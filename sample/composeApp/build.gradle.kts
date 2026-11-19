@@ -1,4 +1,6 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
+import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
@@ -29,6 +31,13 @@ kotlin {
                     jvmTarget.set(JvmTarget.JVM_11)
                 }
             }
+        }
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }.configure {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
 
@@ -71,6 +80,13 @@ kotlin {
             api(project(":yandex-mapkit-kmp-compose"))
             implementation(project(":yandex-mapkit-kmp-compose-resources"))
             implementation(compose.components.uiToolingPreview)
+        }
+        getByName("androidDeviceTest").dependencies {
+            implementation(kotlin("test"))
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+            implementation(libs.androidx.compose.ui.test.manifest)
+            implementation("androidx.test:runner:1.7.0")
         }
     }
 }

@@ -124,10 +124,14 @@ visibility with `setVisible(visible, animation)`, `PlacemarkState` reaches `useI
 
 → [Compose overview](../compose/overview.md)
 
+## Full edition
+
+The Full wrapper adds [text search](full-text-search.md) with a query and area, search options,
+named geographic results, native errors and session cancellation. The
+[MapKit Full inventory](full-coverage.md) tracks the rest of the native surface.
+
 ## Not wrapped
 
-- **Full-build API.** Search, routing, panoramas, road events and the personalization API
-  (`MapKit.setAccount`, `MapKit.createOffscreenMapWindow`) do not exist in the lite build.
 - **`BaseDataSourceBuilder` and `mapkit.images`.** The types exist in the lite build but nothing
   hands one out — `Map.addTileLayer` builds a `TileDataSourceBuilder` instead.
 - **`ViewProvider`.** MapKit can render a native `View` / `UIView` into an icon. There is no common
@@ -135,4 +139,4 @@ visibility with `setVisible(visible, animation)`, `PlacemarkState` reaches `useI
 - **`ImageProvider.id` / `isCacheable`.** They exist on Android only — iOS MapKit takes a plain
   `UIImage` — so they stay parameters of the Android factories.
 
-Anything on this list is still reachable through `toNative()` from a platform source set.
+Use `toNative()` in a platform source set for omissions present in the selected native artifact.

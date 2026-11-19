@@ -66,6 +66,7 @@ plugins:
             Wrapper: Обёртка
             What is wrapped: Что обёрнуто
             Regression test coverage: Покрытие регрессионными тестами
+            Full text search: Текстовый поиск Full
             Map and camera: Карта и камера
             Map objects: Объекты карты
             Base map objects: Объекты базовой карты
@@ -73,6 +74,7 @@ plugins:
             Layers and tiles: Слои и тайлы
             Offline maps and storage: Офлайн-карты и хранилище
             Runtime: Runtime
+            MapKit Full coverage: Покрытие MapKit Full
             Image resources: Изображения
             Compose support: Поддержка Compose
             Sample: Пример приложения
@@ -95,6 +97,7 @@ nav:
       - Overview: wrapper/overview.md
       - What is wrapped: wrapper/coverage.md
       - Regression test coverage: wrapper/regression-coverage.md
+      - Full text search: wrapper/full-text-search.md
       - Map and camera: wrapper/map.md
       - Map objects: wrapper/mapobjects.md
       - Base map objects: wrapper/geoobjects.md
@@ -103,6 +106,7 @@ nav:
       - Offline maps and storage: wrapper/offline.md
       - Runtime: wrapper/runtime.md
       - Image resources: wrapper/image-resources.md
+      - MapKit Full coverage: wrapper/full-coverage.md
   - Compose support:
       - Overview: compose/overview.md
       - Map objects: compose/mapobjects.md

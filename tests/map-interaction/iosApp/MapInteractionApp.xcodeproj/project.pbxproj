@@ -12,6 +12,7 @@
 		77CDC498BF9B76677BC72CE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E68E8B5FBB5F6AA733CD42 /* Foundation.framework */; };
 		E82FBEAA06B22F7EF3EEAB59 /* MapInteractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E545105B306970CB0D6B964 /* MapInteractionTests.swift */; };
 		EAF397BF2DB3AE6D12539C11 /* MapIconRenderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B10BCD6A949D7F24CB102E /* MapIconRenderingTests.swift */; };
+		0ACFC80A96AC4CBD888D4AAA /* MapLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACFC80A96AC4CBD888D4BBB /* MapLifecycleTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		A1B10BCD6A949D7F24CB102E /* MapIconRenderingTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MapIconRenderingTests.swift; sourceTree = "<group>"; };
 		A6E68E8B5FBB5F6AA733CD42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		E2F3C43BE5862FE053FDBE2F /* MapInteractionApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MapInteractionApp.swift; sourceTree = "<group>"; };
+		0ACFC80A96AC4CBD888D4BBB /* MapLifecycleTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MapLifecycleTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				49DD5321A6D3C0FAC7BB6FEA /* Products */,
 				2A842C041FD67AFF3C45A86C /* Frameworks */,
 				E2F3C43BE5862FE053FDBE2F /* MapInteractionApp.swift */,
+				0ACFC80A96AC4CBD888D4BBB /* MapLifecycleTests.swift */,
 				9E545105B306970CB0D6B964 /* MapInteractionTests.swift */,
 				A1B10BCD6A949D7F24CB102E /* MapIconRenderingTests.swift */,
 			);
@@ -184,6 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ACFC80A96AC4CBD888D4AAA /* MapLifecycleTests.swift in Sources */,
 				E82FBEAA06B22F7EF3EEAB59 /* MapInteractionTests.swift in Sources */,
 				EAF397BF2DB3AE6D12539C11 /* MapIconRenderingTests.swift in Sources */,
 			);

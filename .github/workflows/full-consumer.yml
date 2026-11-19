@@ -9,6 +9,10 @@ on:
       - 'gradle/libs.versions.toml'
       - 'verification/lite-consumer/**'
       - 'yandex-mapkit-kmp*/build.gradle.kts'
+      - 'yandex-mapkit-kmp/api/**'
+      - 'yandex-mapkit-kmp/src/commonMain/**'
+      - 'yandex-mapkit-kmp/src/androidMain/**'
+      - 'yandex-mapkit-kmp/src/iosMain/**'
       - 'yandex-mapkit-kmp/src/full*/**'
 
 permissions:
@@ -37,6 +41,15 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
+
+      - name: Test the Full Android search adapter
+        run: >-
+          ./gradlew -PmapkitEdition=full -PskipIosTarget=true
+          :yandex-mapkit-kmp:testAndroidHostTest
+          --tests ru.sulgik.mapkit.search.SearchAdapterTest
+
+      - name: Check the Full Android API
+        run: ./gradlew -PmapkitEdition=full -PskipIosTarget=true :yandex-mapkit-kmp:checkAndroidAbi
 
       - name: Enable KVM
         run: |
@@ -90,6 +103,12 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
+
+      - name: Check the Full Kotlin API
+        run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:checkKotlinAbi
+
+      - name: Test the Full iOS search adapter
+        run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:iosSimulatorArm64Test
 
       - name: Launch Full consumer
         run: |

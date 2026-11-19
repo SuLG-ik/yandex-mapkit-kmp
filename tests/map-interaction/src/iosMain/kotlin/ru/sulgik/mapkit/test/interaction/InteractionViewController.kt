@@ -1,15 +1,27 @@
 package ru.sulgik.mapkit.test.interaction
 
 import androidx.compose.ui.window.ComposeUIViewController
+import platform.Foundation.NSProcessInfo
 import platform.UIKit.UIViewController
 import ru.sulgik.mapkit.MapKit
+import kotlin.native.runtime.GC
+import kotlin.native.runtime.NativeRuntimeApi
 
-public fun interactionViewController(): UIViewController {
+public fun interactionViewController(tapCases: Boolean): UIViewController {
     MapKit.setApiKey(FixtureKey)
-    return ComposeUIViewController { MapInteractionFixture() }
+    val arguments = NSProcessInfo.processInfo.arguments
+    return ComposeUIViewController {
+        when {
+            ListenerOwnershipArgument in arguments -> ListenerOwnershipFixture(collectGarbage = ::collectGarbage)
+            PlacemarkIconRenderingArgument in arguments -> MapIconRenderingFixture(clustered = false)
+            ClusterIconRenderingArgument in arguments -> MapIconRenderingFixture(clustered = true)
+            tapCases -> MapTapFixture()
+            else -> MapInteractionFixture()
+        }
+    }
 }
 
-public fun iconRenderingViewController(clustered: Boolean): UIViewController {
-    MapKit.setApiKey(FixtureKey)
-    return ComposeUIViewController { MapIconRenderingFixture(clustered) }
+@OptIn(NativeRuntimeApi::class)
+private fun collectGarbage() {
+    GC.collect()
 }

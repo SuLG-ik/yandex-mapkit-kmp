@@ -6,8 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -19,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Canvas
@@ -34,8 +38,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.ColorImage
 import coil3.ImageLoader
 import coil3.compose.LocalPlatformContext
@@ -52,8 +58,8 @@ import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.withContext
 import ru.sulgik.mapkit.PointF
 import ru.sulgik.mapkit.compose.ClusterGroup
-import ru.sulgik.mapkit.compose.ClusterizingConfig
 import ru.sulgik.mapkit.compose.Clustering
+import ru.sulgik.mapkit.compose.ClusterizingConfig
 import ru.sulgik.mapkit.compose.MapConfig
 import ru.sulgik.mapkit.compose.Placemark
 import ru.sulgik.mapkit.compose.PlacemarkState
@@ -74,6 +80,8 @@ import ru.sulgik.mapkit.map.MapType
 internal const val IconRenderingMap = "icon-rendering-map"
 internal const val IconRenderingStatus = "icon-rendering-status"
 internal const val AdvanceIconRendering = "Advance icon rendering"
+internal const val PlacemarkIconRenderingArgument = "--placemark-image-test"
+internal const val ClusterIconRenderingArgument = "--cluster-image-test"
 
 private val iconPoint = Point(55.751225, 37.629540)
 private val iconCamera = CameraPosition(iconPoint, zoom = 14f, azimuth = 0f, tilt = 0f)
@@ -195,9 +203,13 @@ private class IconRenderingSequence {
             IconRenderingCase.Retrying,
             IconRenderingCase.Retried,
             -> retryable
+
             IconRenderingCase.OlderPending -> older
+
             IconRenderingCase.Newer, IconRenderingCase.OlderCompleted -> newer
+
             IconRenderingCase.RemovalPending -> removed
+
             else -> null
         }
     }
@@ -235,12 +247,14 @@ internal fun MapIconRenderingFixture(
     val context = LocalPlatformContext.current
     val loader = remember(context) {
         ImageLoader.Builder(context).components {
-            add(Fetcher.Factory<IconRequest> { data, _, _ ->
-                Fetcher {
-                    val ink = data.fetch()
-                    ImageFetchResult(ink.coilImage(), isSampled = false, dataSource = DataSource.MEMORY)
-                }
-            })
+            add(
+                Fetcher.Factory<IconRequest> { data, _, _ ->
+                    Fetcher {
+                        val ink = data.fetch()
+                        ImageFetchResult(ink.coilImage(), isSampled = false, dataSource = DataSource.MEMORY)
+                    }
+                },
+            )
         }.build()
     }
     DisposableEffect(loader) {
@@ -277,17 +291,19 @@ internal fun MapIconRenderingFixture(
     }
     val retry = case == IconRenderingCase.Retrying || case == IconRenderingCase.Retried
 
-    Column {
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
-            Modifier.size(260.dp)
+            Modifier.size(240.dp)
                 .onGloballyPositioned(onMapLayout)
                 .semantics { contentDescription = IconRenderingMap },
         ) {
-            CompositionLocalProvider(LocalDensity provides if (case.raisesDensity) {
-                Density(density.density * 1.5f, density.fontScale)
-            } else {
-                density
-            }) {
+            CompositionLocalProvider(
+                LocalDensity provides if (case.raisesDensity) {
+                    Density(density.density * 1.5f, density.fontScale)
+                } else {
+                    density
+                },
+            ) {
                 YandexMap(
                     cameraPositionState = camera,
                     modifier = Modifier.fillMaxSize(),
@@ -301,6 +317,7 @@ internal fun MapIconRenderingFixture(
                         -> Unit
 
                         IconRenderingCase.Bitmap -> BitmapMapIcon(clustered, placemark, group, bitmap)
+
                         else -> RenderedMapIcon(clustered, placemark, group, case != IconRenderingCase.Hidden) {
                             if (request == null) {
                                 val paint = if (case == IconRenderingCase.Hidden) IconInk.Green else checkNotNull(case.ink)
@@ -313,14 +330,24 @@ internal fun MapIconRenderingFixture(
                 }
             }
         }
-        BasicText(
-            text = AdvanceIconRendering,
-            modifier = Modifier.onGloballyPositioned(onAdvanceLayout)
+        Box(
+            modifier = Modifier.widthIn(min = 180.dp)
+                .heightIn(min = 48.dp)
+                .testTag(AdvanceIconRendering)
+                .onGloballyPositioned(onAdvanceLayout)
                 .clickable(enabled = case != IconRenderingCase.Recreated, role = Role.Button) {
                     sequence.advance()
                 },
+            contentAlignment = Alignment.Center,
+        ) {
+            BasicText(AdvanceIconRendering, maxLines = 1)
+        }
+        BasicText(
+            text = status,
+            modifier = Modifier.testTag(IconRenderingStatus),
+            style = TextStyle(fontSize = 14.sp, lineHeight = 18.sp),
+            maxLines = 2,
         )
-        BasicText(status, Modifier.testTag(IconRenderingStatus))
     }
 }
 

@@ -99,8 +99,8 @@ kotlin {
         getByName("androidDeviceTest") {
             kotlin.srcDir(rootProject.file("tests/map-interaction/src/commonMain/kotlin"))
             dependencies {
-                implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.compose.ui.test.manifest)
+                implementation(libs.androidx.activity.compose)
                 implementation(libs.coil.compose)
                 implementation("androidx.test:core:1.7.0")
                 implementation("androidx.test:runner:1.7.0")

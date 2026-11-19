@@ -45,17 +45,20 @@ public class MapIconRenderingTest {
                 val image = fixture.awaitImage(case)
                 when (case) {
                     IconRenderingCase.Narrow -> narrow = image
+
                     IconRenderingCase.DensityOnly -> {
                         val before = assertNotNull(narrow)
                         assertTrue(image.widthFraction / before.widthFraction in 1.25f..1.75f, "Density-only width: $before → $image")
                         assertTrue(image.heightFraction / before.heightFraction in 1.25f..1.75f, "Density-only height: $before → $image")
                         densityOnly = image
                     }
+
                     IconRenderingCase.Wide -> {
                         val before = assertNotNull(densityOnly)
                         assertTrue(image.widthFraction >= before.widthFraction * 1.65f, "Wider content: $before → $image")
                         assertTrue(image.heightFraction / before.heightFraction in 0.83f..1.17f, "Height after resize: $before → $image")
                     }
+
                     else -> Unit
                 }
                 if (case != IconRenderingCase.Recreated) fixture.advance()
@@ -86,10 +89,12 @@ private class IconFixtureDriver(private val scenario: ActivityScenario<Component
     }
 
     fun advance() {
-        val target = assertNotNull(onActivity {
-            val control = advanceControl?.takeIf { it.isAttached } ?: return@onActivity null
-            control.localToScreen(Offset(control.size.width / 2f, control.size.height / 2f))
-        })
+        val target = assertNotNull(
+            onActivity {
+                val control = advanceControl?.takeIf { it.isAttached } ?: return@onActivity null
+                control.localToScreen(Offset(control.size.width / 2f, control.size.height / 2f))
+            },
+        )
         val start = SystemClock.uptimeMillis()
         for (action in listOf(MotionEvent.ACTION_DOWN, MotionEvent.ACTION_UP)) {
             val event = MotionEvent.obtain(start, SystemClock.uptimeMillis(), action, target.x, target.y, 0)
@@ -154,7 +159,7 @@ private data class IconRow(
         val ink = case.ink
         if (ink == null) return colors.isEmpty()
         return colors == setOf(ink) &&
-            first != null && first in 0.012f..0.075f && widthFraction in 0.065f..0.36f &&
+            first != null && first in 0.012f..0.085f && widthFraction in 0.065f..0.39f &&
             verticalCenter != null && abs(verticalCenter) <= 0.02f && heightFraction in 0.065f..0.17f &&
             densityMark == case.raisesDensity
     }

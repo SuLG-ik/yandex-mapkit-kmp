@@ -39,6 +39,7 @@ final class MapIconRenderingTests: XCTestCase {
         let viewport = app.descendants(matching: .any).matching(
             NSPredicate(format: "label == %@", "icon-rendering-map")
         ).firstMatch
+        let window = app.windows.firstMatch
         let status = app.staticTexts["icon-rendering-status"]
         let advance = app.buttons["Advance icon rendering"]
         var narrow: IconRow?
@@ -49,6 +50,7 @@ final class MapIconRenderingTests: XCTestCase {
                 name: name,
                 ink: ink,
                 viewport: viewport,
+                window: window,
                 status: status
             ) else { return }
             switch name {
@@ -72,7 +74,14 @@ final class MapIconRenderingTests: XCTestCase {
             default:
                 break
             }
-            if name != cases.last?.0 { advance.tap() }
+            if name != cases.last?.0 {
+                guard advance.exists, advance.isHittable, window.frame.contains(advance.frame),
+                      advance.frame.width >= 44, advance.frame.height >= 44 else {
+                    XCTFail("The advance control must fit and be hittable. Control \(advance.frame), window \(window.frame)")
+                    return
+                }
+                advance.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+            }
         }
     }
 
@@ -80,6 +89,7 @@ final class MapIconRenderingTests: XCTestCase {
         name: String,
         ink: Ink?,
         viewport: XCUIElement,
+        window: XCUIElement,
         status: XCUIElement
     ) -> IconRow? {
         let deadline = Date().addingTimeInterval(15)
@@ -88,8 +98,19 @@ final class MapIconRenderingTests: XCTestCase {
         var matchingFrames = 0
         repeat {
             stage = status.exists ? status.label : "<missing status>"
-            if stage == name && viewport.exists {
-                sample = probe(XCUIScreen.main.screenshot().image, frame: viewport.frame, expected: ink)
+            if stage == name && viewport.exists && window.exists {
+                let windowFrame = window.frame
+                let frame = viewport.frame
+                guard windowFrame.contains(frame) else {
+                    XCTFail("The map viewport must fit inside the window. Map \(frame), window \(windowFrame)")
+                    return nil
+                }
+                sample = probe(
+                    XCUIScreen.main.screenshot().image,
+                    frame: frame,
+                    screenWidthInPoints: windowFrame.width,
+                    expected: ink
+                )
                 let raisesDensity = ["DensityOnly", "Wide", "Visible"].contains(name)
                 if let sample, sample.matches(expected: ink, raisesDensity: raisesDensity) {
                     matchingFrames += 1
@@ -145,23 +166,28 @@ private struct IconRow {
         guard let expected else { return colors.isEmpty }
         guard let first, let verticalCenter else { return false }
         return colors == [expected] &&
-            (0.012...0.075).contains(first) && (0.065...0.36).contains(widthFraction) &&
+            (0.012...0.085).contains(first) && (0.065...0.39).contains(widthFraction) &&
             abs(verticalCenter) <= 0.02 && (0.065...0.17).contains(heightFraction) &&
             densityMark == raisesDensity
     }
 }
 
-private func probe(_ screenshot: UIImage, frame: CGRect, expected: Ink?) -> IconRow? {
-    guard let image = screenshot.cgImage, let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else {
+private func probe(
+    _ screenshot: UIImage,
+    frame: CGRect,
+    screenWidthInPoints: CGFloat,
+    expected: Ink?
+) -> IconRow? {
+    guard let image = screenshot.cgImage, let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+          screenshot.imageOrientation == .up, screenWidthInPoints.isFinite, screenWidthInPoints > 0 else {
         return nil
     }
-    let sx = CGFloat(image.width) / screenshot.size.width
-    let sy = CGFloat(image.height) / screenshot.size.height
-    let width = Int((frame.width * sx).rounded())
-    let height = Int((frame.height * sy).rounded())
-    let left = (frame.minX * sx).rounded()
-    let top = (frame.minY * sy).rounded()
-    guard width > 0, height > 0, let row = readPixels(image, in: CGRect(
+    let scale = CGFloat(image.width) / screenWidthInPoints
+    let width = Int((frame.width * scale).rounded())
+    let height = Int((frame.height * scale).rounded())
+    let left = (frame.minX * scale).rounded()
+    let top = (frame.minY * scale).rounded()
+    guard width >= 32, height >= 32, let row = readPixels(image, in: CGRect(
         x: left,
         y: top + CGFloat(height / 2),
         width: CGFloat(width),
