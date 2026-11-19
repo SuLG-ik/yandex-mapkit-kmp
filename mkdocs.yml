@@ -74,6 +74,7 @@ plugins:
             Layers and tiles: Слои и тайлы
             Offline maps and storage: Офлайн-карты и хранилище
             Runtime: Runtime
+            MapKit Full coverage: Покрытие MapKit Full
             Image resources: Изображения
             Compose support: Поддержка Compose
             Sample: Пример приложения
@@ -105,6 +106,7 @@ nav:
       - Offline maps and storage: wrapper/offline.md
       - Runtime: wrapper/runtime.md
       - Image resources: wrapper/image-resources.md
+      - MapKit Full coverage: wrapper/full-coverage.md
   - Compose support:
       - Overview: compose/overview.md
       - Map objects: compose/mapobjects.md
