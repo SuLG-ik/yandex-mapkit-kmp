@@ -36,11 +36,11 @@ import ru.sulgik.mapkit.compose.rememberPlacemarkState
 import ru.sulgik.mapkit.compose.rememberPolygonState
 import ru.sulgik.mapkit.geometry.LinearRing
 import ru.sulgik.mapkit.geometry.Point
-import ru.sulgik.mapkit.geometry.Polygon as PolygonGeometry
 import ru.sulgik.mapkit.map.CameraPosition
 import ru.sulgik.mapkit.map.IconStyle
 import ru.sulgik.mapkit.map.MapType
 import kotlin.math.abs
+import ru.sulgik.mapkit.geometry.Polygon as PolygonGeometry
 
 internal const val TapMapLabel = "fixture-tap-map"
 internal const val TapNextCase = "Next tap case"
