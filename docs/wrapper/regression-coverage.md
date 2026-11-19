@@ -2,7 +2,8 @@
 
 This inventory uses the [public ABI dumps][abi] and test sources at [`c6049906`][snapshot].
 The CI jobs below describe that baseline. Later [standalone consumer coverage][consumer] and
-[Android native gesture coverage][a-map-taps-ci] are linked separately in the tables. SDK surface and platform exclusions are listed in
+native gesture checks on [Android][a-map-taps-ci] and [iOS][i-map-taps-ci] are linked separately
+in the tables. SDK surface and platform exclusions are listed in
 [What is wrapped](coverage.md).
 
 | Platform | CI job and task |
@@ -16,7 +17,7 @@ The CI jobs below describe that baseline. Later [standalone consumer coverage][c
 
 | Public entry point | Verified behavior, tests and platforms | Follow-up |
 | --- | --- | --- |
-| [`MapKit`, `MapView` and `MapWindow`](map.md) | Live windows expose size, focus, scale and projection. Screen and world conversion round-trips in [LiveMapWindowTest · Android][a-window] and [LiveMapWindowTest · iOS][i-window]. [NativeYandexMapLifecycleTest · Android Activity teardown][a-lifecycle] exercises the native view through Compose. | MapKit lifecycle through host recreation and repeated stop/start [#70][70]. Multiple live maps and overlay layout [#83][83]. |
+| [`MapKit`, `MapView` and `MapWindow`](map.md) | Live windows expose size, focus, scale and projection. Screen and world conversion round-trips in [LiveMapWindowTest · Android][a-window] and [LiveMapWindowTest · iOS][i-window]. [NativeYandexMapLifecycleTest · Android Activity teardown][a-lifecycle] exercises the native view through Compose. [MapLifecycleTest · Android][a-host-lifecycle] covers stop/start, Activity recreation and native window invalidation. | Multiple live maps and overlay layout [#83][83]. |
 | [`Map.move`, `CameraPosition`, gesture flags and `CameraListener`](map.md) | [LiveMapTest · Android][a-map] and [LiveMapTest · iOS][i-map] cover programmatic moves and gesture configuration. [LiveCameraListenerDeliveryTest · iOS][i-camera] observes a native move callback. [CameraRegressionTest · Android][a-camera-compose] and [MapInteractionTests · iOS][i-camera-compose] verify gesture direction, independent scroll and zoom flags, interrupted moves and the final camera event on a distinct reopened map. | Record the hosted camera runs on both platforms [#69][69]. |
 | [`InputListener`, `GeoObjectTapListener`, `MapLoadedListener` and map metadata](geoobjects.md) | Listener registration, removal or clearing in [Android][a-map] and [iOS][i-map]. [NativeBackedConverterTest · Android][a-native] and [NativeBackedConverterTest · iOS][i-native] pin representative attribution, image, tile and text conversions. [Android native input][a-map-taps] verifies tap and long-press delivery and coordinates through Compose. | Base-map POI events, map-ready delivery and metadata mapping with controlled inputs [#85][85]. |
 | [`MapObjectCollection`, `PlacemarkMapObject` and other shapes](mapobjects.md) | Add, traverse, clear, callbacks, concrete subtypes and cluster collection creation in [LiveMapObjectCollectionTest · Android][a-collection] and [LiveMapObjectCollectionTest · iOS][i-collection]. Placemark geometry, styling, visibility and native identity in [LivePlacemarkMapObjectTest · Android][a-pin] and [LivePlacemarkMapObjectTest · iOS][i-pin]. | Object and cluster updates, visibility for other shapes, and dragging [#68][68]. |
@@ -32,8 +33,8 @@ The CI jobs below describe that baseline. Later [standalone consumer coverage][c
 
 | Public entry point | Verified behavior, tests and platforms | Follow-up |
 | --- | --- | --- |
-| [`YandexMap(controller = …)`, `YandexMapController` and `MapControllerEffect`](../compose/overview.md) | [NativeYandexMapLifecycleTest · Android emulator][a-lifecycle] mounts the controller overload, asserts that `controller.mapWindow` becomes available and finishes the Activity with the map still in composition. | Native taps on a reopened controller-backed map [#66][66]. Effect start once a window is available, cancellation on disposal, and clearing the window on detach [#70][70]. |
-| [Declarative `YandexMap`, `MapEffect`, `MapConfig` and `MapListeners`](../compose/overview.md) | The [Android][a-consumer] and [iOS][i-consumer] consumer apps mount declarative `YandexMap` and create a valid native placemark in `MapEffect`. The core [Android][a-map] and [iOS][i-map] tests exercise native settings and listener adapters. [MapInteractionTest · Android emulator][a-map-taps] checks listener registration on recomposition, replacement, removal and reattachment. The [Android run][a-map-taps-ci] passed. [MapInteractionTests · iOS XCTest][i-map-taps] implements the matching scenario. The shared camera fixture covers gestures, interruption and simulated location on [Android][a-camera-compose] and [iOS][i-camera-compose]. | Record the iOS native tap result [#67][67] and camera results [#69][69]. Check effect cancellation [#70][70] and back-stack transitions [#72][72], [#73][73]. |
+| [`YandexMap(controller = …)`, `YandexMapController` and `MapControllerEffect`](../compose/overview.md) | [NativeYandexMapLifecycleTest · Android emulator][a-lifecycle] mounts the controller overload, asserts that `controller.mapWindow` becomes available and finishes the Activity with the map still in composition. [MapInteractionTest · Android][a-reopen] and [MapInteractionTests · iOS][i-reopen] exercise real taps after mounting and reopening the map [#66][66]. [Android][a-reopen-ci] and [iOS][i-reopen-ci] passed. [MapLifecycleTest · Android][a-host-lifecycle] and [MapLifecycleTests · iOS][i-host-lifecycle] cover overlay input, foreground transitions, repeated removal during camera animation, and camera and selection restoration when the host is recreated. Both assert the exact attachment and input trace. [Android emulator][a-host-ci] · [iOS simulator][i-host-ci]. | Navigation back-stack transitions [#72][72], [#73][73]. |
+| [Declarative `YandexMap`, `MapEffect`, `MapConfig` and `MapListeners`](../compose/overview.md) | The [Android][a-consumer] and [iOS][i-consumer] consumer apps mount declarative `YandexMap` and create a valid native placemark in `MapEffect`. The core [Android][a-map] and [iOS][i-map] tests exercise native settings and listener adapters. [MapInteractionTest · Android emulator][a-map-taps] checks listener registration on recomposition, replacement, removal and reattachment. [MapInteractionTests · iOS XCTest][i-map-taps] checks the same callbacks. The [Android][a-map-taps-ci] and [iOS][i-map-taps-ci] runs passed [#67][67]. The shared camera fixture covers gestures, interruption and simulated location on [Android][a-camera-compose] and [iOS][i-camera-compose]. | Record the hosted camera runs [#69][69] and check back-stack transitions [#72][72], [#73][73]. |
 | [`Placemark`, `Polyline`, `Polygon`, `Circle`, `MapObjectCollection` and `Clustering`](../compose/mapobjects.md) | [MapNodeInsertOrderTest · Node insert order][map-order] is checked in the Android host, Android emulator and iOS simulator suites. [MapObjectStatesRestorationTest · Android state restoration][a-savers] exercises save/restore; [MapObjectStateSaversTest · iOS saver tests][i-savers] exercise round-trips for shapes and camera state. [Android native input][a-map-taps] verifies hit order for an overlapping placemark and polygon, visibility changes and propagation through their parent collection. | Native object and cluster membership, updates and handler retirement [#68][68]. State preservation after returning to a map [#75][75]. |
 | [`YandexMap` with `UserLocationState`, `TrafficLayer`, `TileLayer` and `MapObjectLayer`](../compose/overview.md) | The [Android][a-camera-compose] and [iOS][i-camera-compose] camera tests move the same map to a fix from `UserLocationState.cameraPosition` and check that toggling `UserLocationConfig.isVisible` hides its pin. | Layer replacement and callbacks [#85][85]. |
 | [`ImageBitmap.toImageProvider()` and `imageProvider { … }`](../compose/image-resources.md) | [ComposeMapObjectRendererTest · Compose renderer][renderer] runs on the Android emulator and iOS simulator, covering a rendered frame and rerender on state change. [ComposeMapObjectRendererIosTest · iOS renderer sizing][i-renderer] checks intrinsic size and scale. [ColorConvertionTest · Color conversion][color] checks ARGB in the shared test suites. | Real marker/cluster installation, anchors, replacements and cancellation [#84][84]. |
@@ -45,12 +46,12 @@ The CI jobs below describe that baseline. Later [standalone consumer coverage][c
 
 | Report | Verified behavior and evidence | Next coverage |
 | --- | --- | --- |
-| [#20][20] User taps the map | Core listener registration and removal in [Android][a-map] and [iOS][i-map]. [Android native input][a-map-taps] additionally injects a tap and a long press and checks their callbacks and coordinates. | Record the equivalent iOS run [#67][67]. |
+| [#20][20] User taps the map | Core listener registration and removal in [Android][a-map] and [iOS][i-map]. The [Android][a-map-taps] and [iOS][i-map-taps] native-input tests inject a tap and a long press and check their callbacks and coordinates. | Base-map POI events [#85][85]. |
 | [#32][32] Move to the user's location on one map | The [sample][location-sample] animates the same map. The [Android][a-camera-compose] and [iOS][i-camera-compose] tests inject a fix and await the camera finishing on that map. | Record the hosted camera runs on both platforms [#69][69]. |
 | [#33][33] iOS cinterop fails in a consumer | [Installation guide](../getting-started/installation.md) describes CocoaPods and linker setup. The [iOS consumer][i-consumer] installs the Lite pod, runs cinterop, links the app and launches it with candidate Maven artifacts. | Run the consumer across the release and OS matrix [#82][82]. |
 | [#34][34] Missing iOS camera callback | [LiveCameraListenerDeliveryTest][i-camera] observes a retained listener on a native map. [MapInteractionTests][i-camera-compose] also check completion and callback identity after reopening a Compose map. | — |
 | [#42][42] Base Compose module pulls in Compose Resources | [#61][split] moves the overload to the optional module and the [ABI check][api] covers the exposed overload. The [Android][a-consumer] and [iOS][i-consumer] consumers resolve the optional artifact and set a PNG on a placemark. | Cover rendering and updates on markers and clusters [#84][84]. |
-| [#55][55] Crash when closing a Compose map | [NativeYandexMapLifecycleTest][a-lifecycle] initializes MapKit, creates the map and finishes the Activity. | Hide/show, recreation and repeated teardown [#70][70]. |
+| [#55][55] Crash when closing a Compose map | [NativeYandexMapLifecycleTest][a-lifecycle] initializes MapKit, creates the map and finishes the Activity. The [Android][a-host-lifecycle] and [iOS][i-host-lifecycle] lifecycle scenarios remove the map repeatedly during an animation and require one detach per old attachment. Android also verifies that released windows are invalid. | Navigation back-stack transitions [#72][72], [#73][73]. |
 
 The [API exclusions](coverage.md) also apply to the test matrix. Search, routing and other Full-only
 families have no Lite runtime contract. Separate edition resolution is tracked in [#77][77], and the
@@ -58,7 +59,7 @@ remaining Full surface in [#81][81]. Use the [regression workflow](../getting-st
 when adding evidence or reporting a remaining gap.
 
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
-[i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
+[i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
 [a-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44435197621/job/135262196868
 [a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238
 [i-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L194-L226
@@ -77,6 +78,15 @@ when adding evidence or reporting a remaining gap.
 [location-sample]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/sample/composeApp/src/commonMain/kotlin/ru/sulgik/mapkit/sample/NewMap.kt#L148
 [a-window]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/map/LiveMapWindowTest.kt
 [i-window]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/map/LiveMapWindowTest.kt
+[a-reopen]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/2dd192398ebafa1bc02f98fb6649237ef09f6649/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L25
+[i-reopen]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/2dd192398ebafa1bc02f98fb6649237ef09f6649/tests/map-interaction/iosApp/MapInteractionTests.swift#L4
+[a-reopen-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44429584892/job/135243201327
+[i-reopen-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44429584892/job/135243201431
+[i-map-taps-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44440201914/job/135278848866
+[a-host-lifecycle]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/69960e03a1efc1a6762bdeede715efc7ec9d783a/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapLifecycleTest.kt
+[i-host-lifecycle]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/69960e03a1efc1a6762bdeede715efc7ec9d783a/tests/map-interaction/iosApp/MapLifecycleTests.swift
+[a-host-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44433760924/job/135257507625
+[i-host-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44433760924/job/135257508055
 [a-lifecycle]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/NativeYandexMapLifecycleTest.kt
 [a-map]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/map/LiveMapTest.kt
 [i-map]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/map/LiveMapTest.kt
@@ -117,7 +127,6 @@ when adding evidence or reporting a remaining gap.
 [67]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/67
 [68]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/68
 [69]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/69
-[70]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/70
 [71]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/71
 [72]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/72
 [73]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/73
