@@ -102,3 +102,20 @@ leaves details in place while a full swipe pops it.
 Navigation 3 and its gesture observer are dependencies of the test targets. The fixture uses the
 [Navigation 3 versions documented for Compose Multiplatform 1.11](https://kotlinlang.org/docs/multiplatform/whats-new-compose-111.html)
 and the Navigation Event version declared by the published Navigation 3 artifact.
+
+## Modal sheets and multiple panes
+
+`MapPanesTest` on Android and the `--map-panes` launch in `MapInteractionTests` on iOS
+exercise a real Material 3 modal sheet above a live map. A tap in the exposed map region
+must be stopped by the scrim while the sheet is open. The sheet's draggable control and
+button receive native input. After dismissal, the same map must receive the next tap.
+The iOS driver checks that the 48 dp controls fit and have separate hit frames. The XCTest
+result contains screenshots of the toolbar, the modal sheet and the resized split layout.
+
+The scenario opens a second native map in a split layout, changes the two cameras
+one at a time, and taps the untouched map at its previous camera position after each
+move. Each callback must come from the native map for the pane that received the
+touch. The scenario then resizes and pads one pane, applies an asymmetric MapKit focus
+rectangle, and verifies the new projection before tapping both maps again. Removing
+the second pane must leave the first interactive. Android also checks that the removed
+pane's native window is invalidated.
