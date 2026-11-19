@@ -14,3 +14,8 @@ public fun interactionViewController(tapCases: Boolean): UIViewController {
         }
     }
 }
+
+public fun objectMembershipViewController(): UIViewController {
+    MapKit.setApiKey(FixtureKey)
+    return ComposeUIViewController { MapObjectMembershipFixture() }
+}

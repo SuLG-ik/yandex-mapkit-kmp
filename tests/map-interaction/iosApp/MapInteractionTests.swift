@@ -136,3 +136,58 @@ final class MapInteractionTests: XCTestCase {
         return element.exists ? element.label : "<missing fixture-trace>\n\(app.debugDescription)"
     }
 }
+
+final class MapObjectMembershipTests: XCTestCase {
+    func testKeyedObjectsKeepIdentityAndClustersFollowTheCurrentDataset() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments.append("--map-object-membership")
+        app.launch()
+
+        let cases = [
+            ("Initial", "marker:initial"),
+            ("ShiftedLine", "line"),
+            ("FormerLine", "map"),
+            ("CircleCenter", "circle"),
+            ("PolygonCenter", "polygon"),
+            ("ChildrenHidden", "map"),
+            ("ChildrenShown", "circle"),
+            ("ParentHidden", "map"),
+            ("Reordered", "marker:reordered"),
+            ("Cleared", "map"),
+            ("Repopulated", "marker:repopulated"),
+            ("Clustered", "cluster:a1,a2"),
+            ("Scattered", "item:a1"),
+            ("ClusterReplaced", "cluster:b1,b2"),
+        ]
+        var expected: [String] = []
+        for (index, testCase) in cases.enumerated() {
+            let (stage, tap) = testCase
+            if index > 0 {
+                app.buttons["Next object case"].tap()
+            }
+            expected.append("ready \(stage)")
+            waitForTrace(expected, in: app)
+            let map = app.descendants(matching: .any).matching(
+                NSPredicate(format: "label == %@", "fixture-object-map")
+            ).firstMatch
+            XCTAssertTrue(map.waitForExistence(timeout: 10), "Missing map for \(stage)")
+            map.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+            expected.append("tap \(stage) \(tap)")
+            waitForTrace(expected, in: app)
+        }
+    }
+
+    private func waitForTrace(_ events: [String], in app: XCUIApplication) {
+        let expected = events.suffix(8).joined(separator: "\n")
+        let trace = app.staticTexts["fixture-object-trace"]
+        let matches = NSPredicate { object, _ in
+            guard let element = object as? XCUIElement, element.exists else { return false }
+            return element.label == expected
+        }
+        let expectation = XCTNSPredicateExpectation(predicate: matches, object: trace)
+        let outcome = XCTWaiter.wait(for: [expectation], timeout: 10)
+        let actual = trace.exists ? trace.label : app.debugDescription
+        XCTAssertEqual(outcome, .completed, "Expected:\n\(expected)\nActual:\n\(actual)")
+    }
+}
