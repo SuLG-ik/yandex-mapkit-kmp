@@ -1,3 +1,5 @@
+import org.gradle.api.artifacts.result.UnresolvedDependencyResult
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose.plugin)
@@ -6,7 +8,11 @@ plugins {
 
 val platform = providers.gradleProperty("consumerPlatform").get()
 val candidateVersion = providers.gradleProperty("candidateVersion").get()
-val sdkVersion = libs.versions.yandex.mapkit.get()
+val edition = providers.gradleProperty("mapkitEdition").orElse("lite").get()
+val artifactSuffix = if (edition == "full") "-full" else ""
+val sdkVersion = libs.versions.yandex.mapkit.get().removeSuffix("-lite") + "-" + edition
+val withMoko = providers.gradleProperty("withMokoResources").orElse("false").get().toBoolean()
+val mixEditions = providers.gradleProperty("mixMapKitEditions").orElse("false").get().toBoolean()
 val withResources = providers.gradleProperty("withComposeResources").get() == "true"
 
 if (platform == "android") {
@@ -22,9 +28,6 @@ kotlin {
             compileSdk = libs.versions.android.compileSdk.get().toInt()
             minSdk = libs.versions.android.minSdk.get().toInt()
             androidResources { enable = true }
-        }
-        sourceSets.getByName("androidMain").dependencies {
-            implementation(libs.yandex.mapkit)
         }
     } else {
         iosSimulatorArm64()
@@ -47,6 +50,7 @@ kotlin {
     }
 
     sourceSets.commonMain {
+        kotlin.srcDir(if (edition == "full") "src/fullMain/kotlin" else "src/liteMain/kotlin")
         if (withResources) {
             kotlin.srcDir("src/resourcesMain/kotlin")
         } else {
@@ -56,11 +60,18 @@ kotlin {
             api(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
-            implementation("ru.sulgik.mapkit:yandex-mapkit-kmp:$candidateVersion")
-            implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose:$candidateVersion")
+            implementation("ru.sulgik.mapkit:yandex-mapkit-kmp$artifactSuffix:$candidateVersion")
+            implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose$artifactSuffix:$candidateVersion")
             if (withResources) {
                 implementation(compose.components.resources)
-                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:$candidateVersion")
+                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources$artifactSuffix:$candidateVersion")
+            }
+            if (withMoko) {
+                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-moko$artifactSuffix:$candidateVersion")
+                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-moko-compose$artifactSuffix:$candidateVersion")
+            }
+            if (mixEditions) {
+                implementation("ru.sulgik.mapkit:yandex-mapkit-kmp:$candidateVersion")
             }
         }
     }
@@ -73,5 +84,22 @@ compose.resources {
             sourceSetName = "commonMain",
             directoryProvider = provider { layout.projectDirectory.dir("src/resourcesMain/composeResources") },
         )
+    }
+}
+
+tasks.register("verifyMixedMapKitEditions") {
+    doLast {
+        val configurationName = if (platform == "android") {
+            "androidCompileClasspath"
+        } else {
+            "iosSimulatorArm64CompileKlibraries"
+        }
+        val resolution = configurations.getByName(configurationName).incoming.resolutionResult
+        val failures = resolution.allDependencies.filterIsInstance<UnresolvedDependencyResult>()
+            .map { it.failure.stackTraceToString() }
+        check(failures.any { it.contains("Choose either MapKit Lite or Full") }) {
+            "Expected Gradle to reject mixed MapKit editions. Resolution errors:\n${failures.joinToString("\n")}"
+        }
+        logger.lifecycle("Mixed MapKit editions rejected by the Full artifact's Lite exclusion constraint")
     }
 }

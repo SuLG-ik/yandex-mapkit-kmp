@@ -1,33 +1,55 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-platform=${1:?Usage: bash verification/lite-consumer/run.sh android|ios device-id [with-resources|base]}
+platform=${1:?Usage: bash verification/lite-consumer/run.sh android|ios device-id [with-resources|base|with-integrations] [lite|full]}
 device=${2:?Provide an Android emulator serial or iOS simulator UUID}
 fixture="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 root="$(cd "$fixture/../.." && pwd)"
 resources_mode=${3:-with-resources}
+edition=${4:-lite}
+case "$edition" in
+    lite|full) ;;
+    *) echo "Unknown SDK edition: $edition" >&2; exit 2 ;;
+esac
 case "$platform" in
     android) producer_flags=(-PskipIosTarget=true) ;;
     ios) producer_flags=(-PskipIosTarget=false) ;;
     *) echo "Unknown platform: $platform" >&2; exit 2 ;;
 esac
+with_moko=false
 case "$resources_mode" in
     with-resources) with_resources=true ;;
+    with-integrations) with_resources=true; with_moko=true ;;
     base) with_resources=false ;;
     *) echo "Unknown resources mode: $resources_mode" >&2; exit 2 ;;
 esac
 
 logs="$root/build/lite-consumer/$platform/$resources_mode"
+if [[ "$edition" == full ]]; then
+    logs="$root/build/full-consumer/$platform/$resources_mode"
+fi
 mkdir -p "$logs"
 temp_dir="$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/ymk-lite-consumer.XXXXXX")"
-trap 'echo "Consumer files: $temp_dir"; echo "Diagnostic logs: $logs"' EXIT
+cleanup() {
+    if [[ $? == 0 ]]; then
+        rm -rf "$temp_dir"
+    else
+        echo "Consumer files: $temp_dir"
+    fi
+    echo "Diagnostic logs: $logs"
+}
+trap cleanup EXIT
 
 candidate_version="$(sed -n 's/^library_version=//p' "$root/gradle.properties")"
 sdk_version="$(sed -n 's/^yandex-mapkit = "\(.*\)"$/\1/p' "$root/gradle/libs.versions.toml")"
 [[ -n "$candidate_version" && "$sdk_version" == *-lite ]]
+sdk_version="${sdk_version%-lite}-$edition"
 modules=(yandex-mapkit-kmp yandex-mapkit-kmp-compose)
 if [[ "$with_resources" == true ]]; then
     modules+=(yandex-mapkit-kmp-compose-resources)
+fi
+if [[ "$with_moko" == true ]]; then
+    modules+=(yandex-mapkit-kmp-moko yandex-mapkit-kmp-moko-compose)
 fi
 publish_tasks=()
 for module in "${modules[@]}"; do
@@ -36,8 +58,16 @@ done
 
 "$root/gradlew" -p "$root" --no-configuration-cache --console=plain --stacktrace \
     -I "$fixture/candidate-repository.init.gradle.kts" \
-    -PcandidateRepository="$temp_dir/maven" "${producer_flags[@]}" "${publish_tasks[@]}" \
-    2>&1 | tee "$logs/publication.log"
+    -PcandidateRepository="$temp_dir/maven" -PmapkitEdition="$edition" \
+    "${producer_flags[@]}" "${publish_tasks[@]}" 2>&1 | tee "$logs/publication.log"
+
+if [[ "$edition" == full ]]; then
+    "$root/gradlew" -p "$root" --no-configuration-cache --console=plain --stacktrace \
+        -I "$fixture/candidate-repository.init.gradle.kts" \
+        -PcandidateRepository="$temp_dir/maven" -PmapkitEdition=lite "${producer_flags[@]}" \
+        :yandex-mapkit-kmp:publishAllPublicationsToLiteConsumerRepository \
+        2>&1 | tee "$logs/publication-lite-for-conflict.log"
+fi
 
 # Run the consumer outside the source tree, with its own settings and no project substitution.
 consumer="$temp_dir/app"
@@ -51,14 +81,21 @@ candidateRepository=$temp_dir/maven
 candidateVersion=$candidate_version
 consumerPlatform=$platform
 withComposeResources=$with_resources
+withMokoResources=$with_moko
+mapkitEdition=$edition
 EOF
 gradle=("$consumer/gradlew" -p "$consumer" --console=plain --stacktrace)
 token="$(date +%s)-$$"
 
+if [[ "$edition" == full ]]; then
+    "${gradle[@]}" -PmixMapKitEditions=true :shared:verifyMixedMapKitEditions \
+        2>&1 | tee "$logs/mixed-editions.log"
+fi
+
 if [[ "$platform" == android ]]; then
     "${gradle[@]}" :androidApp:dependencies --configuration debugRuntimeClasspath \
         2>&1 | tee "$logs/dependencies.log"
-    "${gradle[@]}" :androidApp:verifyLiteSdk :androidApp:assembleDebug \
+    "${gradle[@]}" :androidApp:verifyMapKitSdk :androidApp:assembleDebug \
         2>&1 | tee "$logs/build.log"
     adb -s "$device" install -r "$consumer/androidApp/build/outputs/apk/debug/androidApp-debug.apk"
     adb -s "$device" shell am start -W -S -n ru.sulgik.liteconsumer/.MainActivity --es smokeToken "$token" \
@@ -72,7 +109,12 @@ else
     "${gradle[@]}" :shared:cinteropYandexMapsMobileIosSimulatorArm64 :shared:podInstall \
         2>&1 | tee "$logs/pods.log"
     cp "$consumer/iosApp/Podfile.lock" "$logs/"
-    grep -Fx "  - YandexMapsMobile ($sdk_version)" "$logs/Podfile.lock"
+    selected_sdk="$(sed -n 's/^  - YandexMapsMobile (\([^()]*\))$/\1/p' "$logs/Podfile.lock")"
+    if [[ "$selected_sdk" != "$sdk_version" ]]; then
+        echo "Expected exactly one YandexMapsMobile ($sdk_version), found: $selected_sdk" >&2
+        exit 1
+    fi
+    echo "Verified YandexMapsMobile ($sdk_version)"
     xcodebuild -workspace "$consumer/iosApp/LiteConsumerApp.xcworkspace" -scheme LiteConsumerApp \
         -configuration Debug -destination "id=$device" -derivedDataPath "$temp_dir/xcode" \
         CODE_SIGNING_ALLOWED=NO build 2>&1 | tee "$logs/build.log"

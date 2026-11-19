@@ -212,8 +212,18 @@ abstract class DocumentedVersionsCheckTask : DocumentedVersionsTask() {
     }
 }
 
+val mapkitEdition = providers.gradleProperty("mapkitEdition").orElse("lite").get()
+require(mapkitEdition == "lite" || mapkitEdition == "full") {
+    "mapkitEdition must be lite or full, was '$mapkitEdition'"
+}
+val mapkitSdkVersion = libs.versions.yandex.mapkit.get().removeSuffix("-lite") + "-$mapkitEdition"
+val mapkitArtifactSuffix = if (mapkitEdition == "full") "-full" else ""
+
 subprojects {
     extra.set("library_version", getProperty("library_version", "0.0.0"))
+    extra.set("mapkit_edition", mapkitEdition)
+    extra.set("mapkit_sdk_version", mapkitSdkVersion)
+    extra.set("mapkit_artifact_suffix", mapkitArtifactSuffix)
 
     group = "ru.sulgik.mapkit"
 

@@ -18,6 +18,8 @@ plugins {
 
 val supportIosTarget = project.property("skipIosTarget") != "true"
 version = extra["library_version"].toString()
+val mapkitSdkVersion = extra["mapkit_sdk_version"] as String
+val mapkitArtifactSuffix = extra["mapkit_artifact_suffix"] as String
 
 kotlin {
     android {
@@ -60,7 +62,7 @@ kotlin {
             }
             noPodspec()
             pod("YandexMapsMobile") {
-                version = libs.versions.yandex.mapkit.get()
+                version = mapkitSdkVersion
                 packageName = "YandexMapKit"
             }
         }
@@ -159,7 +161,7 @@ tasks.withType<Test>().configureEach {
 
 if (version != "null") {
     mavenPublishing {
-        coordinates(group.toString(), name, version.toString())
+        coordinates(group.toString(), name + mapkitArtifactSuffix, version.toString())
         publishToMavenCentral()
 
         signAllPublications()

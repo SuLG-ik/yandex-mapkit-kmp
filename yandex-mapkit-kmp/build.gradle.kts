@@ -14,6 +14,10 @@ plugins {
 
 val supportIosTarget = project.property("skipIosTarget") != "true"
 version = extra["library_version"].toString()
+val mapkitSdkVersion = extra["mapkit_sdk_version"] as String
+val mapkitArtifactSuffix = extra["mapkit_artifact_suffix"] as String
+val isFullEdition = extra["mapkit_edition"] == "full"
+val artifactName = name + mapkitArtifactSuffix
 
 val yandexMapsMobileFrameworks = listOf(
     "CoreLocation",
@@ -63,14 +67,22 @@ kotlin {
             }
             noPodspec()
             pod("YandexMapsMobile") {
-                version = libs.versions.yandex.mapkit.get()
+                version = mapkitSdkVersion
                 packageName = "YandexMapKit"
             }
         }
     }
 
     sourceSets {
+        if (isFullEdition) {
+            commonMain.get().kotlin.srcDir("src/fullMain/kotlin")
+            androidMain.get().kotlin.srcDir("src/fullAndroidMain/kotlin")
+        }
+
         all {
+            if (isFullEdition && name == "iosMain") {
+                kotlin.srcDir("src/fullIosMain/kotlin")
+            }
             languageSettings.apply {
                 progressiveMode = true
                 if (name.lowercase().contains("ios")) {
@@ -81,7 +93,11 @@ kotlin {
         }
 
         androidMain.dependencies {
-            api(libs.yandex.mapkit)
+            api("com.yandex.android:maps.mobile:$mapkitSdkVersion") {
+                if (isFullEdition) {
+                    version { strictly(mapkitSdkVersion) }
+                }
+            }
         }
         commonMain.dependencies {
             api(libs.kotlinx.datetime)
@@ -119,9 +135,31 @@ kotlin {
     }
 }
 
+if (isFullEdition) {
+    val liteCoreArtifacts = listOf(name, "$name-android", "$name-iosarm64", "$name-iossimulatorarm64")
+    val publishedGraphConfigurations = setOf(
+        "androidApiElements-published",
+        "androidRuntimeElements-published",
+        "iosArm64ApiElements-published",
+        "iosArm64MetadataElements-published",
+        "iosSimulatorArm64ApiElements-published",
+        "iosSimulatorArm64MetadataElements-published",
+    )
+    configurations.matching { it.name in publishedGraphConfigurations }.configureEach {
+        val constraints = project.dependencies.constraints
+        for (artifact in liteCoreArtifacts) {
+            val constraint = constraints.create("${project.group}:$artifact:${project.version}") {
+                version { reject("+") }
+                because("Choose either MapKit Lite or Full")
+            }
+            dependencyConstraints.add(constraint)
+        }
+    }
+}
+
 if (version != "null") {
     mavenPublishing {
-        coordinates(group.toString(), name, version.toString())
+        coordinates(group.toString(), artifactName, version.toString())
         publishToMavenCentral()
 
         signAllPublications()
