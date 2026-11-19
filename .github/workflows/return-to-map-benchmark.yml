@@ -2,6 +2,11 @@ name: Return-to-map benchmark
 
 on:
   workflow_dispatch:
+    inputs:
+      boot_only:
+        description: Verify emulator startup without building the sample or using credentials
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -13,7 +18,7 @@ concurrency:
 jobs:
   android:
     name: Trusted Android return-to-map benchmark
-    if: github.repository == 'SuLG-ik/yandex-mapkit-kmp' && github.ref == 'refs/heads/main'
+    if: github.repository == 'SuLG-ik/yandex-mapkit-kmp' && (github.ref == 'refs/heads/main' || inputs.boot_only)
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -27,31 +32,45 @@ jobs:
           java-version: '21'
 
       - uses: gradle/actions/setup-gradle@v6
+        if: github.ref == 'refs/heads/main' && !inputs.boot_only
 
       - name: Assemble the sample without credentials
+        if: github.ref == 'refs/heads/main' && !inputs.boot_only
         run: |
           printf '%s\n' 'MAPKIT_API_KEY=sample-ci-placeholder' >> local.properties
           ./gradlew :sample:androidApp:assembleDebug -PskipIosTarget=true
 
-      - name: Prepare and boot the disposable Android emulator
+      - name: Prepare the Android SDK and KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
           image='system-images;android-37.0;google_apis;x86_64'
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'emulator' "$image"
-          printf 'no\n' | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd \
-            --force --name mapkit-return-benchmark --package "$image" --device pixel_7
-          nohup "$ANDROID_HOME/emulator/emulator" -avd mapkit-return-benchmark -port 5554 \
-            -memory 4096 -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect \
-            </dev/null > "$RUNNER_TEMP/mapkit-return-emulator.log" 2>&1 &
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install platform-tools emulator "$image" --channel=0
+
+      - name: Boot the credential-free Android emulator
+        id: device
+        run: |
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
-          timeout 480 bash -c 'until [[ "$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d "\r")" == 1 ]]; do sleep 2; done'
-          adb -s emulator-5554 shell input keyevent 82
+          bash .github/scripts/start-android-service-emulator.sh 37.0 google_apis
+
+      - name: Verify the booted Android runtime
+        env:
+          DEVICE_SERIAL: ${{ steps.device.outputs.serial }}
+        run: |
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
+          api=$(timeout 5 adb -s "$DEVICE_SERIAL" shell getprop ro.build.version.sdk | tr -d '\r')
+          test "$api" = 37 || {
+            echo "::error::Expected a booted Android API 37 device."
+            exit 1
+          }
+          echo "Android API $api booted before credential staging."
 
       - name: Measure cold and warm map routes
+        if: github.ref == 'refs/heads/main' && !inputs.boot_only
         env:
           MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+          DEVICE_SERIAL: ${{ steps.device.outputs.serial }}
         run: |
           set +x
           test -n "$MAPKIT_TEST_API_KEY" || {
@@ -67,10 +86,18 @@ jobs:
           apks=(sample/androidApp/build/outputs/apk/debug/*.apk)
           test "${#apks[@]}" = 1 && test -f "${apks[0]}"
           python3 -B verification/return-to-map/android_benchmark.py \
-            emulator-5554 "${apks[0]}" --key-file "$key_file"
+            "$DEVICE_SERIAL" "${apks[0]}" --key-file "$key_file"
+
+      - name: Stop the dedicated Android emulator
+        if: ${{ always() && steps.device.outcome == 'success' }}
+        env:
+          DEVICE_SERIAL: ${{ steps.device.outputs.serial }}
+        run: |
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
+          timeout 15 adb -s "$DEVICE_SERIAL" emu kill
 
       - name: Upload extracted metrics and summary
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && !inputs.boot_only }}
         uses: actions/upload-artifact@v7
         with:
           name: return-to-map-android

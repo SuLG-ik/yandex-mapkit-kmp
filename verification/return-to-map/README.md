@@ -15,7 +15,9 @@ from there. Process startup, SDK initialization and menu navigation fall outside
 ## Hosted Android run
 
 After this workflow lands on `main`, run **Return-to-map benchmark** manually on `main` in
-GitHub Actions. It uses a disposable Pixel 7 emulator with the pinned Android 37 Google APIs image.
+GitHub Actions. Choose `boot_only` to check Android startup on a branch without building the
+sample, loading a credential or collecting metrics. Leave it off for a benchmark on `main`.
+Both modes boot a disposable Pixel 7 emulator with the Android 37 Google APIs image.
 The job runs five cohorts against the same installed sample. Each cohort clears app storage before
 its cold trial, then measures same-process reopen and retained return. A force-stop and launch
 starts the restart trial with storage and cache intact. The driver finds the actual sample controls,
