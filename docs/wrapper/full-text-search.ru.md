@@ -61,6 +61,58 @@ val session = manager.submit(
 Общий API покрывает начальный текстовый запрос и отмену. Платформенные методы доступны через
 `toNative()`. Поведение сервиса описано в руководствах [для Android] и [для iOS].
 
+## Подсказки при вводе
+
+На UI-потоке создайте одну сессию `manager.createSuggestSession()` на редактор запроса.
+Храните сессию, пока редактор открыт, и передавайте видимую область как `BoundingBox`.
+
+```kotlin
+session.suggest(
+    text = query,
+    window = window,
+    suggestOptions = SuggestOptions(
+        suggestTypes = SuggestType.GEO.value or SuggestType.BIZ.value,
+        strictBounds = true,
+    ),
+    suggestListener = SuggestListener(
+        onResponse = { response -> showSuggestions(response.items) },
+        onError = { showFailure("Подсказки недоступны") },
+    ),
+)
+```
+
+Следующий вызов `suggest()` заменяет выполняющийся запрос. Обёртка держит его слушатель до
+получения результата, ошибки или отмены. Вызывайте `reset()` при очистке текста и закрытии
+редактора. При следующем запросе MapKit начнёт новую сессию на сервере. [Пример подсказок Full]
+очищает прежние результаты при вводе и использует номер запроса, чтобы запоздалый ответ не
+обновил экран. При повторном открытии создаются новый редактор и новая сессия.
+
+Обёртки одной нативной сессии используют общий текущий запрос. Сброс через
+`session.toNative().toCommon()` отменяет доставку исходному слушателю.
+
+Пустой список — успешный результат. Для отображения используйте
+`item.displayText ?: item.title.text`. Диапазоны подсветки лежат в `title.spans`. Координаты
+`center` и расстояние `distance` могут отсутствовать. При выборе подсказки `item.action`
+определяет действие — искать `searchText`, подставить его в редактор или открыть `link`.
+Для реального запроса нужен ключ MapKit. Тестовое приложение только создаёт и сбрасывает сессию,
+а тесты адаптеров подают заранее известные ответы. См. документацию Geosuggest [на Android]
+и [на iOS].
+
+### Запуск примера
+
+Запустите эмулятор или симулятор и откройте приложение Full в режиме подсказок.
+
+```sh
+bash verification/lite-consumer/run.sh android emulator-5554 base full suggestions
+bash verification/lite-consumer/run.sh ios SIMULATOR_UUID base full suggestions
+```
+
+Введите действующий ключ MapKit Full в скрытое поле приложения и нажмите **Open editor**. Пример
+использует заданную область Москвы и отправляет первый запрос при вводе. Очистка текста сбрасывает
+сессию, а закрытие и повторное открытие редактора создаёт новую. Ключ остаётся вне параметров
+сборки, параметров запуска и диагностических журналов примера. В [#82] отслеживаются проверки
+полей ответа сервиса независимо от порядка выдачи.
+
 ## Проверки регрессий
 
 [Тест адаптера Android] и [тест адаптера iOS] получают ответы локально. Они проверяют параметры,
@@ -74,3 +126,7 @@ val session = manager.submit(
 [Тест адаптера Android]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidHostTest/kotlin/ru/sulgik/mapkit/search/SearchAdapterTest.kt
 [тест адаптера iOS]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/search/SearchAdapterTest.kt
 [CI Full]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/full-consumer.yml
+[Пример подсказок Full]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/lite-consumer/shared/src/fullMain/kotlin/ru/sulgik/liteconsumer/FullSuggestionsExample.kt
+[на Android]: https://yandex.com/maps-api/docs/mapkit/android/generated/tutorials/map_suggest.html
+[на iOS]: https://yandex.com/maps-api/docs/mapkit/ios/generated/tutorials/map_suggest.html
+[#82]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/82

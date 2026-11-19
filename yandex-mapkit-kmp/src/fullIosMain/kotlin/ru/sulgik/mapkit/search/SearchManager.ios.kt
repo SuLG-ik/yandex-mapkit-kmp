@@ -36,6 +36,11 @@ public actual class SearchManager internal constructor(private val nativeSearchM
         return session.toCommon(request)
     }
 
+    /** Creates a session for suggest requests. Retain it for the lifetime of the query editor. */
+    public actual fun createSuggestSession(): SuggestSession {
+        return nativeSearchManager.createSuggestSession().toCommon()
+    }
+
     /** Two handles are equal when they wrap the same native search manager. */
     actual override fun equals(other: Any?): Boolean {
         if (this === other) return true

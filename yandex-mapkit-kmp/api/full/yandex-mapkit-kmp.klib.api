@@ -255,6 +255,27 @@ final enum class ru.sulgik.mapkit.search/SearchType : kotlin/Enum<ru.sulgik.mapk
     final fun values(): kotlin/Array<ru.sulgik.mapkit.search/SearchType> // ru.sulgik.mapkit.search/SearchType.values|values#static(){}[0]
 }
 
+final enum class ru.sulgik.mapkit.search/SuggestType : kotlin/Enum<ru.sulgik.mapkit.search/SuggestType> { // ru.sulgik.mapkit.search/SuggestType|null[0]
+    enum entry BIZ // ru.sulgik.mapkit.search/SuggestType.BIZ|null[0]
+    enum entry CHAIN // ru.sulgik.mapkit.search/SuggestType.CHAIN|null[0]
+    enum entry COORDS // ru.sulgik.mapkit.search/SuggestType.COORDS|null[0]
+    enum entry GEO // ru.sulgik.mapkit.search/SuggestType.GEO|null[0]
+    enum entry ONE_ORG // ru.sulgik.mapkit.search/SuggestType.ONE_ORG|null[0]
+    enum entry PROMO_QUERY // ru.sulgik.mapkit.search/SuggestType.PROMO_QUERY|null[0]
+    enum entry RUBRIC // ru.sulgik.mapkit.search/SuggestType.RUBRIC|null[0]
+    enum entry TEXT_HINT // ru.sulgik.mapkit.search/SuggestType.TEXT_HINT|null[0]
+    enum entry TRANSIT // ru.sulgik.mapkit.search/SuggestType.TRANSIT|null[0]
+    enum entry UNSPECIFIED // ru.sulgik.mapkit.search/SuggestType.UNSPECIFIED|null[0]
+
+    final val entries // ru.sulgik.mapkit.search/SuggestType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<ru.sulgik.mapkit.search/SuggestType> // ru.sulgik.mapkit.search/SuggestType.entries.<get-entries>|<get-entries>#static(){}[0]
+    final val value // ru.sulgik.mapkit.search/SuggestType.value|{}value[0]
+        final fun <get-value>(): kotlin/Int // ru.sulgik.mapkit.search/SuggestType.value.<get-value>|<get-value>(){}[0]
+
+    final fun valueOf(kotlin/String): ru.sulgik.mapkit.search/SuggestType // ru.sulgik.mapkit.search/SuggestType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<ru.sulgik.mapkit.search/SuggestType> // ru.sulgik.mapkit.search/SuggestType.values|values#static(){}[0]
+}
+
 final enum class ru.sulgik.mapkit.traffic/TrafficColor : kotlin/Enum<ru.sulgik.mapkit.traffic/TrafficColor> { // ru.sulgik.mapkit.traffic/TrafficColor|null[0]
     enum entry GREEN // ru.sulgik.mapkit.traffic/TrafficColor.GREEN|null[0]
     enum entry RED // ru.sulgik.mapkit.traffic/TrafficColor.RED|null[0]
@@ -510,6 +531,14 @@ abstract class ru.sulgik.mapkit.search/SearchListener : ru.sulgik.mapkit/NativeC
     abstract fun onSearchError(ru.sulgik.mapkit.search/SearchError) // ru.sulgik.mapkit.search/SearchListener.onSearchError|onSearchError(ru.sulgik.mapkit.search.SearchError){}[0]
     abstract fun onSearchResponse(ru.sulgik.mapkit.search/Response) // ru.sulgik.mapkit.search/SearchListener.onSearchResponse|onSearchResponse(ru.sulgik.mapkit.search.Response){}[0]
     open fun toNative(): kotlin/Function2<YandexMapKit/YMKSearchResponse?, platform.Foundation/NSError?, kotlin/Unit> // ru.sulgik.mapkit.search/SearchListener.toNative|toNative(){}[0]
+}
+
+abstract class ru.sulgik.mapkit.search/SuggestListener : ru.sulgik.mapkit/NativeConvertible<kotlin/Function2<YandexMapKit/YMKSuggestResponse?, platform.Foundation/NSError?, kotlin/Unit>> { // ru.sulgik.mapkit.search/SuggestListener|null[0]
+    constructor <init>() // ru.sulgik.mapkit.search/SuggestListener.<init>|<init>(){}[0]
+
+    abstract fun onError(ru.sulgik.mapkit.search/SearchError) // ru.sulgik.mapkit.search/SuggestListener.onError|onError(ru.sulgik.mapkit.search.SearchError){}[0]
+    abstract fun onResponse(ru.sulgik.mapkit.search/SuggestResponse) // ru.sulgik.mapkit.search/SuggestListener.onResponse|onResponse(ru.sulgik.mapkit.search.SuggestResponse){}[0]
+    open fun toNative(): kotlin/Function2<YandexMapKit/YMKSuggestResponse?, platform.Foundation/NSError?, kotlin/Unit> // ru.sulgik.mapkit.search/SuggestListener.toNative|toNative(){}[0]
 }
 
 abstract class ru.sulgik.mapkit.storage/StorageErrorListener : ru.sulgik.mapkit/NativeConvertible<YandexMapKit/YMKStorageErrorListenerProtocol> { // ru.sulgik.mapkit.storage/StorageErrorListener|null[0]
@@ -2196,6 +2225,22 @@ final class ru.sulgik.mapkit.runtime.logging/Logging { // ru.sulgik.mapkit.runti
     }
 }
 
+final class ru.sulgik.mapkit.runtime/KeyValuePair { // ru.sulgik.mapkit.runtime/KeyValuePair|null[0]
+    constructor <init>(kotlin/String, kotlin/String) // ru.sulgik.mapkit.runtime/KeyValuePair.<init>|<init>(kotlin.String;kotlin.String){}[0]
+
+    final val key // ru.sulgik.mapkit.runtime/KeyValuePair.key|{}key[0]
+        final fun <get-key>(): kotlin/String // ru.sulgik.mapkit.runtime/KeyValuePair.key.<get-key>|<get-key>(){}[0]
+    final val value // ru.sulgik.mapkit.runtime/KeyValuePair.value|{}value[0]
+        final fun <get-value>(): kotlin/String // ru.sulgik.mapkit.runtime/KeyValuePair.value.<get-value>|<get-value>(){}[0]
+
+    final fun component1(): kotlin/String // ru.sulgik.mapkit.runtime/KeyValuePair.component1|component1(){}[0]
+    final fun component2(): kotlin/String // ru.sulgik.mapkit.runtime/KeyValuePair.component2|component2(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ...): ru.sulgik.mapkit.runtime/KeyValuePair // ru.sulgik.mapkit.runtime/KeyValuePair.copy|copy(kotlin.String;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.runtime/KeyValuePair.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.runtime/KeyValuePair.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.runtime/KeyValuePair.toString|toString(){}[0]
+}
+
 final class ru.sulgik.mapkit.search/Response { // ru.sulgik.mapkit.search/Response|null[0]
     final val collection // ru.sulgik.mapkit.search/Response.collection|{}collection[0]
         final fun <get-collection>(): ru.sulgik.mapkit/GeoObjectCollection // ru.sulgik.mapkit.search/Response.collection.<get-collection>|<get-collection>(){}[0]
@@ -2231,6 +2276,7 @@ final class ru.sulgik.mapkit.search/SearchError { // ru.sulgik.mapkit.search/Sea
 }
 
 final class ru.sulgik.mapkit.search/SearchManager { // ru.sulgik.mapkit.search/SearchManager|null[0]
+    final fun createSuggestSession(): ru.sulgik.mapkit.search/SuggestSession // ru.sulgik.mapkit.search/SearchManager.createSuggestSession|createSuggestSession(){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.search/SearchManager.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.search/SearchManager.hashCode|hashCode(){}[0]
     final fun submit(kotlin/String, ru.sulgik.mapkit.geometry/Geometry, ru.sulgik.mapkit.search/SearchOptions, ru.sulgik.mapkit.search/SearchListener): ru.sulgik.mapkit.search/Session // ru.sulgik.mapkit.search/SearchManager.submit|submit(kotlin.String;ru.sulgik.mapkit.geometry.Geometry;ru.sulgik.mapkit.search.SearchOptions;ru.sulgik.mapkit.search.SearchListener){}[0]
@@ -2273,6 +2319,149 @@ final class ru.sulgik.mapkit.search/Session { // ru.sulgik.mapkit.search/Session
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.search/Session.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.search/Session.hashCode|hashCode(){}[0]
     final fun toNative(): YandexMapKit/YMKSearchSession // ru.sulgik.mapkit.search/Session.toNative|toNative(){}[0]
+}
+
+final class ru.sulgik.mapkit.search/SuggestItem { // ru.sulgik.mapkit.search/SuggestItem|null[0]
+    constructor <init>(ru.sulgik.mapkit.search/SuggestItem.Type, ru.sulgik.mapkit/SpannableString, ru.sulgik.mapkit/SpannableString?, kotlin.collections/List<kotlin/String>, kotlin/String, kotlin/String?, kotlin/String?, kotlin/String?, ru.sulgik.mapkit/LocalizedValue?, kotlin/Boolean, ru.sulgik.mapkit.search/SuggestItem.Action, kotlin/String?, kotlin/Boolean, kotlin/Boolean, kotlin.collections/List<ru.sulgik.mapkit.runtime/KeyValuePair>, ru.sulgik.mapkit.geometry/Point?, ru.sulgik.mapkit.search/SuggestItem.BusinessContext?) // ru.sulgik.mapkit.search/SuggestItem.<init>|<init>(ru.sulgik.mapkit.search.SuggestItem.Type;ru.sulgik.mapkit.SpannableString;ru.sulgik.mapkit.SpannableString?;kotlin.collections.List<kotlin.String>;kotlin.String;kotlin.String?;kotlin.String?;kotlin.String?;ru.sulgik.mapkit.LocalizedValue?;kotlin.Boolean;ru.sulgik.mapkit.search.SuggestItem.Action;kotlin.String?;kotlin.Boolean;kotlin.Boolean;kotlin.collections.List<ru.sulgik.mapkit.runtime.KeyValuePair>;ru.sulgik.mapkit.geometry.Point?;ru.sulgik.mapkit.search.SuggestItem.BusinessContext?){}[0]
+
+    final val action // ru.sulgik.mapkit.search/SuggestItem.action|{}action[0]
+        final fun <get-action>(): ru.sulgik.mapkit.search/SuggestItem.Action // ru.sulgik.mapkit.search/SuggestItem.action.<get-action>|<get-action>(){}[0]
+    final val businessContext // ru.sulgik.mapkit.search/SuggestItem.businessContext|{}businessContext[0]
+        final fun <get-businessContext>(): ru.sulgik.mapkit.search/SuggestItem.BusinessContext? // ru.sulgik.mapkit.search/SuggestItem.businessContext.<get-businessContext>|<get-businessContext>(){}[0]
+    final val center // ru.sulgik.mapkit.search/SuggestItem.center|{}center[0]
+        final fun <get-center>(): ru.sulgik.mapkit.geometry/Point? // ru.sulgik.mapkit.search/SuggestItem.center.<get-center>|<get-center>(){}[0]
+    final val displayText // ru.sulgik.mapkit.search/SuggestItem.displayText|{}displayText[0]
+        final fun <get-displayText>(): kotlin/String? // ru.sulgik.mapkit.search/SuggestItem.displayText.<get-displayText>|<get-displayText>(){}[0]
+    final val distance // ru.sulgik.mapkit.search/SuggestItem.distance|{}distance[0]
+        final fun <get-distance>(): ru.sulgik.mapkit/LocalizedValue? // ru.sulgik.mapkit.search/SuggestItem.distance.<get-distance>|<get-distance>(){}[0]
+    final val isOffline // ru.sulgik.mapkit.search/SuggestItem.isOffline|{}isOffline[0]
+        final fun <get-isOffline>(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestItem.isOffline.<get-isOffline>|<get-isOffline>(){}[0]
+    final val isPersonal // ru.sulgik.mapkit.search/SuggestItem.isPersonal|{}isPersonal[0]
+        final fun <get-isPersonal>(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestItem.isPersonal.<get-isPersonal>|<get-isPersonal>(){}[0]
+    final val isWordItem // ru.sulgik.mapkit.search/SuggestItem.isWordItem|{}isWordItem[0]
+        final fun <get-isWordItem>(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestItem.isWordItem.<get-isWordItem>|<get-isWordItem>(){}[0]
+    final val link // ru.sulgik.mapkit.search/SuggestItem.link|{}link[0]
+        final fun <get-link>(): kotlin/String? // ru.sulgik.mapkit.search/SuggestItem.link.<get-link>|<get-link>(){}[0]
+    final val logId // ru.sulgik.mapkit.search/SuggestItem.logId|{}logId[0]
+        final fun <get-logId>(): kotlin/String? // ru.sulgik.mapkit.search/SuggestItem.logId.<get-logId>|<get-logId>(){}[0]
+    final val properties // ru.sulgik.mapkit.search/SuggestItem.properties|{}properties[0]
+        final fun <get-properties>(): kotlin.collections/List<ru.sulgik.mapkit.runtime/KeyValuePair> // ru.sulgik.mapkit.search/SuggestItem.properties.<get-properties>|<get-properties>(){}[0]
+    final val searchText // ru.sulgik.mapkit.search/SuggestItem.searchText|{}searchText[0]
+        final fun <get-searchText>(): kotlin/String // ru.sulgik.mapkit.search/SuggestItem.searchText.<get-searchText>|<get-searchText>(){}[0]
+    final val subtitle // ru.sulgik.mapkit.search/SuggestItem.subtitle|{}subtitle[0]
+        final fun <get-subtitle>(): ru.sulgik.mapkit/SpannableString? // ru.sulgik.mapkit.search/SuggestItem.subtitle.<get-subtitle>|<get-subtitle>(){}[0]
+    final val tags // ru.sulgik.mapkit.search/SuggestItem.tags|{}tags[0]
+        final fun <get-tags>(): kotlin.collections/List<kotlin/String> // ru.sulgik.mapkit.search/SuggestItem.tags.<get-tags>|<get-tags>(){}[0]
+    final val title // ru.sulgik.mapkit.search/SuggestItem.title|{}title[0]
+        final fun <get-title>(): ru.sulgik.mapkit/SpannableString // ru.sulgik.mapkit.search/SuggestItem.title.<get-title>|<get-title>(){}[0]
+    final val type // ru.sulgik.mapkit.search/SuggestItem.type|{}type[0]
+        final fun <get-type>(): ru.sulgik.mapkit.search/SuggestItem.Type // ru.sulgik.mapkit.search/SuggestItem.type.<get-type>|<get-type>(){}[0]
+    final val uri // ru.sulgik.mapkit.search/SuggestItem.uri|{}uri[0]
+        final fun <get-uri>(): kotlin/String? // ru.sulgik.mapkit.search/SuggestItem.uri.<get-uri>|<get-uri>(){}[0]
+
+    final fun component1(): ru.sulgik.mapkit.search/SuggestItem.Type // ru.sulgik.mapkit.search/SuggestItem.component1|component1(){}[0]
+    final fun component10(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestItem.component10|component10(){}[0]
+    final fun component11(): ru.sulgik.mapkit.search/SuggestItem.Action // ru.sulgik.mapkit.search/SuggestItem.component11|component11(){}[0]
+    final fun component12(): kotlin/String? // ru.sulgik.mapkit.search/SuggestItem.component12|component12(){}[0]
+    final fun component13(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestItem.component13|component13(){}[0]
+    final fun component14(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestItem.component14|component14(){}[0]
+    final fun component15(): kotlin.collections/List<ru.sulgik.mapkit.runtime/KeyValuePair> // ru.sulgik.mapkit.search/SuggestItem.component15|component15(){}[0]
+    final fun component16(): ru.sulgik.mapkit.geometry/Point? // ru.sulgik.mapkit.search/SuggestItem.component16|component16(){}[0]
+    final fun component17(): ru.sulgik.mapkit.search/SuggestItem.BusinessContext? // ru.sulgik.mapkit.search/SuggestItem.component17|component17(){}[0]
+    final fun component2(): ru.sulgik.mapkit/SpannableString // ru.sulgik.mapkit.search/SuggestItem.component2|component2(){}[0]
+    final fun component3(): ru.sulgik.mapkit/SpannableString? // ru.sulgik.mapkit.search/SuggestItem.component3|component3(){}[0]
+    final fun component4(): kotlin.collections/List<kotlin/String> // ru.sulgik.mapkit.search/SuggestItem.component4|component4(){}[0]
+    final fun component5(): kotlin/String // ru.sulgik.mapkit.search/SuggestItem.component5|component5(){}[0]
+    final fun component6(): kotlin/String? // ru.sulgik.mapkit.search/SuggestItem.component6|component6(){}[0]
+    final fun component7(): kotlin/String? // ru.sulgik.mapkit.search/SuggestItem.component7|component7(){}[0]
+    final fun component8(): kotlin/String? // ru.sulgik.mapkit.search/SuggestItem.component8|component8(){}[0]
+    final fun component9(): ru.sulgik.mapkit/LocalizedValue? // ru.sulgik.mapkit.search/SuggestItem.component9|component9(){}[0]
+    final fun copy(ru.sulgik.mapkit.search/SuggestItem.Type = ..., ru.sulgik.mapkit/SpannableString = ..., ru.sulgik.mapkit/SpannableString? = ..., kotlin.collections/List<kotlin/String> = ..., kotlin/String = ..., kotlin/String? = ..., kotlin/String? = ..., kotlin/String? = ..., ru.sulgik.mapkit/LocalizedValue? = ..., kotlin/Boolean = ..., ru.sulgik.mapkit.search/SuggestItem.Action = ..., kotlin/String? = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin.collections/List<ru.sulgik.mapkit.runtime/KeyValuePair> = ..., ru.sulgik.mapkit.geometry/Point? = ..., ru.sulgik.mapkit.search/SuggestItem.BusinessContext? = ...): ru.sulgik.mapkit.search/SuggestItem // ru.sulgik.mapkit.search/SuggestItem.copy|copy(ru.sulgik.mapkit.search.SuggestItem.Type;ru.sulgik.mapkit.SpannableString;ru.sulgik.mapkit.SpannableString?;kotlin.collections.List<kotlin.String>;kotlin.String;kotlin.String?;kotlin.String?;kotlin.String?;ru.sulgik.mapkit.LocalizedValue?;kotlin.Boolean;ru.sulgik.mapkit.search.SuggestItem.Action;kotlin.String?;kotlin.Boolean;kotlin.Boolean;kotlin.collections.List<ru.sulgik.mapkit.runtime.KeyValuePair>;ru.sulgik.mapkit.geometry.Point?;ru.sulgik.mapkit.search.SuggestItem.BusinessContext?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestItem.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.search/SuggestItem.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.search/SuggestItem.toString|toString(){}[0]
+
+    final enum class Action : kotlin/Enum<ru.sulgik.mapkit.search/SuggestItem.Action> { // ru.sulgik.mapkit.search/SuggestItem.Action|null[0]
+        enum entry FOLLOW_LINK // ru.sulgik.mapkit.search/SuggestItem.Action.FOLLOW_LINK|null[0]
+        enum entry SEARCH // ru.sulgik.mapkit.search/SuggestItem.Action.SEARCH|null[0]
+        enum entry SUBSTITUTE // ru.sulgik.mapkit.search/SuggestItem.Action.SUBSTITUTE|null[0]
+
+        final val entries // ru.sulgik.mapkit.search/SuggestItem.Action.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<ru.sulgik.mapkit.search/SuggestItem.Action> // ru.sulgik.mapkit.search/SuggestItem.Action.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): ru.sulgik.mapkit.search/SuggestItem.Action // ru.sulgik.mapkit.search/SuggestItem.Action.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<ru.sulgik.mapkit.search/SuggestItem.Action> // ru.sulgik.mapkit.search/SuggestItem.Action.values|values#static(){}[0]
+    }
+
+    final enum class BusinessContext : kotlin/Enum<ru.sulgik.mapkit.search/SuggestItem.BusinessContext> { // ru.sulgik.mapkit.search/SuggestItem.BusinessContext|null[0]
+        enum entry BUSINESS_CONTEXT_CHAIN // ru.sulgik.mapkit.search/SuggestItem.BusinessContext.BUSINESS_CONTEXT_CHAIN|null[0]
+        enum entry BUSINESS_CONTEXT_ORG1 // ru.sulgik.mapkit.search/SuggestItem.BusinessContext.BUSINESS_CONTEXT_ORG1|null[0]
+        enum entry BUSINESS_CONTEXT_RUBRIC // ru.sulgik.mapkit.search/SuggestItem.BusinessContext.BUSINESS_CONTEXT_RUBRIC|null[0]
+        enum entry BUSINESS_CONTEXT_UNKNOWN // ru.sulgik.mapkit.search/SuggestItem.BusinessContext.BUSINESS_CONTEXT_UNKNOWN|null[0]
+
+        final val entries // ru.sulgik.mapkit.search/SuggestItem.BusinessContext.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<ru.sulgik.mapkit.search/SuggestItem.BusinessContext> // ru.sulgik.mapkit.search/SuggestItem.BusinessContext.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): ru.sulgik.mapkit.search/SuggestItem.BusinessContext // ru.sulgik.mapkit.search/SuggestItem.BusinessContext.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<ru.sulgik.mapkit.search/SuggestItem.BusinessContext> // ru.sulgik.mapkit.search/SuggestItem.BusinessContext.values|values#static(){}[0]
+    }
+
+    final enum class Type : kotlin/Enum<ru.sulgik.mapkit.search/SuggestItem.Type> { // ru.sulgik.mapkit.search/SuggestItem.Type|null[0]
+        enum entry BUSINESS // ru.sulgik.mapkit.search/SuggestItem.Type.BUSINESS|null[0]
+        enum entry LINK // ru.sulgik.mapkit.search/SuggestItem.Type.LINK|null[0]
+        enum entry TOPONYM // ru.sulgik.mapkit.search/SuggestItem.Type.TOPONYM|null[0]
+        enum entry TRANSIT // ru.sulgik.mapkit.search/SuggestItem.Type.TRANSIT|null[0]
+        enum entry UNKNOWN // ru.sulgik.mapkit.search/SuggestItem.Type.UNKNOWN|null[0]
+
+        final val entries // ru.sulgik.mapkit.search/SuggestItem.Type.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<ru.sulgik.mapkit.search/SuggestItem.Type> // ru.sulgik.mapkit.search/SuggestItem.Type.entries.<get-entries>|<get-entries>#static(){}[0]
+
+        final fun valueOf(kotlin/String): ru.sulgik.mapkit.search/SuggestItem.Type // ru.sulgik.mapkit.search/SuggestItem.Type.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<ru.sulgik.mapkit.search/SuggestItem.Type> // ru.sulgik.mapkit.search/SuggestItem.Type.values|values#static(){}[0]
+    }
+}
+
+final class ru.sulgik.mapkit.search/SuggestOptions { // ru.sulgik.mapkit.search/SuggestOptions|null[0]
+    constructor <init>(kotlin/Int = ..., ru.sulgik.mapkit.geometry/Point? = ..., kotlin/Boolean = ..., kotlin/Boolean = ...) // ru.sulgik.mapkit.search/SuggestOptions.<init>|<init>(kotlin.Int;ru.sulgik.mapkit.geometry.Point?;kotlin.Boolean;kotlin.Boolean){}[0]
+
+    final val strictBounds // ru.sulgik.mapkit.search/SuggestOptions.strictBounds|{}strictBounds[0]
+        final fun <get-strictBounds>(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestOptions.strictBounds.<get-strictBounds>|<get-strictBounds>(){}[0]
+    final val suggestTypes // ru.sulgik.mapkit.search/SuggestOptions.suggestTypes|{}suggestTypes[0]
+        final fun <get-suggestTypes>(): kotlin/Int // ru.sulgik.mapkit.search/SuggestOptions.suggestTypes.<get-suggestTypes>|<get-suggestTypes>(){}[0]
+    final val suggestWords // ru.sulgik.mapkit.search/SuggestOptions.suggestWords|{}suggestWords[0]
+        final fun <get-suggestWords>(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestOptions.suggestWords.<get-suggestWords>|<get-suggestWords>(){}[0]
+    final val userPosition // ru.sulgik.mapkit.search/SuggestOptions.userPosition|{}userPosition[0]
+        final fun <get-userPosition>(): ru.sulgik.mapkit.geometry/Point? // ru.sulgik.mapkit.search/SuggestOptions.userPosition.<get-userPosition>|<get-userPosition>(){}[0]
+
+    final fun component1(): kotlin/Int // ru.sulgik.mapkit.search/SuggestOptions.component1|component1(){}[0]
+    final fun component2(): ru.sulgik.mapkit.geometry/Point? // ru.sulgik.mapkit.search/SuggestOptions.component2|component2(){}[0]
+    final fun component3(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestOptions.component3|component3(){}[0]
+    final fun component4(): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestOptions.component4|component4(){}[0]
+    final fun copy(kotlin/Int = ..., ru.sulgik.mapkit.geometry/Point? = ..., kotlin/Boolean = ..., kotlin/Boolean = ...): ru.sulgik.mapkit.search/SuggestOptions // ru.sulgik.mapkit.search/SuggestOptions.copy|copy(kotlin.Int;ru.sulgik.mapkit.geometry.Point?;kotlin.Boolean;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.search/SuggestOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.search/SuggestOptions.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.search/SuggestResponse { // ru.sulgik.mapkit.search/SuggestResponse|null[0]
+    constructor <init>(kotlin.collections/List<ru.sulgik.mapkit.search/SuggestItem>) // ru.sulgik.mapkit.search/SuggestResponse.<init>|<init>(kotlin.collections.List<ru.sulgik.mapkit.search.SuggestItem>){}[0]
+
+    final val items // ru.sulgik.mapkit.search/SuggestResponse.items|{}items[0]
+        final fun <get-items>(): kotlin.collections/List<ru.sulgik.mapkit.search/SuggestItem> // ru.sulgik.mapkit.search/SuggestResponse.items.<get-items>|<get-items>(){}[0]
+
+    final fun component1(): kotlin.collections/List<ru.sulgik.mapkit.search/SuggestItem> // ru.sulgik.mapkit.search/SuggestResponse.component1|component1(){}[0]
+    final fun copy(kotlin.collections/List<ru.sulgik.mapkit.search/SuggestItem> = ...): ru.sulgik.mapkit.search/SuggestResponse // ru.sulgik.mapkit.search/SuggestResponse.copy|copy(kotlin.collections.List<ru.sulgik.mapkit.search.SuggestItem>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestResponse.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.search/SuggestResponse.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // ru.sulgik.mapkit.search/SuggestResponse.toString|toString(){}[0]
+}
+
+final class ru.sulgik.mapkit.search/SuggestSession { // ru.sulgik.mapkit.search/SuggestSession|null[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.search/SuggestSession.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.search/SuggestSession.hashCode|hashCode(){}[0]
+    final fun reset() // ru.sulgik.mapkit.search/SuggestSession.reset|reset(){}[0]
+    final fun suggest(kotlin/String, ru.sulgik.mapkit.geometry/BoundingBox, ru.sulgik.mapkit.search/SuggestOptions, ru.sulgik.mapkit.search/SuggestListener) // ru.sulgik.mapkit.search/SuggestSession.suggest|suggest(kotlin.String;ru.sulgik.mapkit.geometry.BoundingBox;ru.sulgik.mapkit.search.SuggestOptions;ru.sulgik.mapkit.search.SuggestListener){}[0]
+    final fun toNative(): YandexMapKit/YMKSearchSuggestSession // ru.sulgik.mapkit.search/SuggestSession.toNative|toNative(){}[0]
 }
 
 final class ru.sulgik.mapkit.storage/StorageManager { // ru.sulgik.mapkit.storage/StorageManager|null[0]
@@ -3190,6 +3379,7 @@ final fun (YandexMapKit/YMKSearchManagerType).ru.sulgik.mapkit.search/toCommon()
 final fun (YandexMapKit/YMKSearchOptions).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SearchOptions // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSearchOptions(){}[0]
 final fun (YandexMapKit/YMKSearchResponse).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/Response // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSearchResponse(){}[0]
 final fun (YandexMapKit/YMKSearchSession).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/Session // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSearchSession(){}[0]
+final fun (YandexMapKit/YMKSearchSuggestSession).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SuggestSession // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSearchSuggestSession(){}[0]
 final fun (YandexMapKit/YMKSegment).ru.sulgik.mapkit.geometry/toCommon(): ru.sulgik.mapkit.geometry/Segment // ru.sulgik.mapkit.geometry/toCommon|toCommon@YandexMapKit.YMKSegment(){}[0]
 final fun (YandexMapKit/YMKSimulationSettings).ru.sulgik.mapkit.location/toCommon(): ru.sulgik.mapkit.location/SimulationSettings // ru.sulgik.mapkit.location/toCommon|toCommon@YandexMapKit.YMKSimulationSettings(){}[0]
 final fun (YandexMapKit/YMKSize2u).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Size2u // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKSize2u(){}[0]
@@ -3198,6 +3388,12 @@ final fun (YandexMapKit/YMKSpannableString).ru.sulgik.mapkit/toCommon(): ru.sulg
 final fun (YandexMapKit/YMKSpannableStringSpan).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/SpannableString.Span // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKSpannableStringSpan(){}[0]
 final fun (YandexMapKit/YMKStorageManager).ru.sulgik.mapkit.storage/toCommon(): ru.sulgik.mapkit.storage/StorageManager // ru.sulgik.mapkit.storage/toCommon|toCommon@YandexMapKit.YMKStorageManager(){}[0]
 final fun (YandexMapKit/YMKSubpolyline).ru.sulgik.mapkit.geometry/toCommon(): ru.sulgik.mapkit.geometry/Subpolyline // ru.sulgik.mapkit.geometry/toCommon|toCommon@YandexMapKit.YMKSubpolyline(){}[0]
+final fun (YandexMapKit/YMKSuggestItem).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SuggestItem // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSuggestItem(){}[0]
+final fun (YandexMapKit/YMKSuggestItemAction).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SuggestItem.Action // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSuggestItemAction(){}[0]
+final fun (YandexMapKit/YMKSuggestItemBusinessContext).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SuggestItem.BusinessContext // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSuggestItemBusinessContext(){}[0]
+final fun (YandexMapKit/YMKSuggestItemType).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SuggestItem.Type // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSuggestItemType(){}[0]
+final fun (YandexMapKit/YMKSuggestOptions).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SuggestOptions // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSuggestOptions(){}[0]
+final fun (YandexMapKit/YMKSuggestResponse).ru.sulgik.mapkit.search/toCommon(): ru.sulgik.mapkit.search/SuggestResponse // ru.sulgik.mapkit.search/toCommon|toCommon@YandexMapKit.YMKSuggestResponse(){}[0]
 final fun (YandexMapKit/YMKTextStyle).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/TextStyle // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKTextStyle(){}[0]
 final fun (YandexMapKit/YMKTextStylePlacement).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/TextStyle.Placement // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YMKTextStylePlacement(){}[0]
 final fun (YandexMapKit/YMKTileDataSource).ru.sulgik.mapkit.layers/toCommon(): ru.sulgik.mapkit.layers/TileDataSource // ru.sulgik.mapkit.layers/toCommon|toCommon@YandexMapKit.YMKTileDataSource(){}[0]
@@ -3235,6 +3431,7 @@ final fun (YandexMapKit/YRTForbiddenError).ru.sulgik.mapkit.runtime.network/toCo
 final fun (YandexMapKit/YRTFrame).ru.sulgik.mapkit.map/toCommon(): ru.sulgik.mapkit.map/Frame // ru.sulgik.mapkit.map/toCommon|toCommon@YandexMapKit.YRTFrame(){}[0]
 final fun (YandexMapKit/YRTI18nManager).ru.sulgik.mapkit.runtime.i18n/toCommon(): ru.sulgik.mapkit.runtime.i18n/I18nManager // ru.sulgik.mapkit.runtime.i18n/toCommon|toCommon@YandexMapKit.YRTI18nManager(){}[0]
 final fun (YandexMapKit/YRTI18nPrefs).ru.sulgik.mapkit.runtime.i18n/toCommon(): ru.sulgik.mapkit.runtime.i18n/I18nPrefs // ru.sulgik.mapkit.runtime.i18n/toCommon|toCommon@YandexMapKit.YRTI18nPrefs(){}[0]
+final fun (YandexMapKit/YRTKeyValuePair).ru.sulgik.mapkit.runtime/toCommon(): ru.sulgik.mapkit.runtime/KeyValuePair // ru.sulgik.mapkit.runtime/toCommon|toCommon@YandexMapKit.YRTKeyValuePair(){}[0]
 final fun (YandexMapKit/YRTLocalError).ru.sulgik.mapkit.runtime/toCommon(): ru.sulgik.mapkit.runtime/LocalError // ru.sulgik.mapkit.runtime/toCommon|toCommon@YandexMapKit.YRTLocalError(){}[0]
 final fun (YandexMapKit/YRTLogMessage).ru.sulgik.mapkit.runtime.logging/toCommon(): ru.sulgik.mapkit.runtime.logging/LogMessage // ru.sulgik.mapkit.runtime.logging/toCommon|toCommon@YandexMapKit.YRTLogMessage(){}[0]
 final fun (YandexMapKit/YRTLogMessageLogLevel).ru.sulgik.mapkit.runtime.logging/toCommon(): ru.sulgik.mapkit.runtime.logging/LogMessage.LogLevel // ru.sulgik.mapkit.runtime.logging/toCommon|toCommon@YandexMapKit.YRTLogMessageLogLevel(){}[0]
@@ -3339,8 +3536,15 @@ final fun (ru.sulgik.mapkit.runtime.i18n/SystemOfMeasurement).ru.sulgik.mapkit.r
 final fun (ru.sulgik.mapkit.runtime.i18n/TimeFormat).ru.sulgik.mapkit.runtime.i18n/toNative(): YandexMapKit/YRTTimeFormat // ru.sulgik.mapkit.runtime.i18n/toNative|toNative@ru.sulgik.mapkit.runtime.i18n.TimeFormat(){}[0]
 final fun (ru.sulgik.mapkit.runtime.logging/LogMessage).ru.sulgik.mapkit.runtime.logging/toNative(): YandexMapKit/YRTLogMessage // ru.sulgik.mapkit.runtime.logging/toNative|toNative@ru.sulgik.mapkit.runtime.logging.LogMessage(){}[0]
 final fun (ru.sulgik.mapkit.runtime.logging/LogMessage.LogLevel).ru.sulgik.mapkit.runtime.logging/toNative(): YandexMapKit/YRTLogMessageLogLevel // ru.sulgik.mapkit.runtime.logging/toNative|toNative@ru.sulgik.mapkit.runtime.logging.LogMessage.LogLevel(){}[0]
+final fun (ru.sulgik.mapkit.runtime/KeyValuePair).ru.sulgik.mapkit.runtime/toNative(): YandexMapKit/YRTKeyValuePair // ru.sulgik.mapkit.runtime/toNative|toNative@ru.sulgik.mapkit.runtime.KeyValuePair(){}[0]
 final fun (ru.sulgik.mapkit.search/SearchManagerType).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSearchManagerType // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SearchManagerType(){}[0]
 final fun (ru.sulgik.mapkit.search/SearchOptions).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSearchOptions // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SearchOptions(){}[0]
+final fun (ru.sulgik.mapkit.search/SuggestItem).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSuggestItem // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SuggestItem(){}[0]
+final fun (ru.sulgik.mapkit.search/SuggestItem.Action).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSuggestItemAction // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SuggestItem.Action(){}[0]
+final fun (ru.sulgik.mapkit.search/SuggestItem.BusinessContext).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSuggestItemBusinessContext // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SuggestItem.BusinessContext(){}[0]
+final fun (ru.sulgik.mapkit.search/SuggestItem.Type).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSuggestItemType // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SuggestItem.Type(){}[0]
+final fun (ru.sulgik.mapkit.search/SuggestOptions).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSuggestOptions // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SuggestOptions(){}[0]
+final fun (ru.sulgik.mapkit.search/SuggestResponse).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSuggestResponse // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SuggestResponse(){}[0]
 final fun (ru.sulgik.mapkit.traffic/TrafficColor).ru.sulgik.mapkit.traffic/toNative(): YandexMapKit/YMKTrafficColor // ru.sulgik.mapkit.traffic/toNative|toNative@ru.sulgik.mapkit.traffic.TrafficColor(){}[0]
 final fun (ru.sulgik.mapkit.traffic/TrafficLevel).ru.sulgik.mapkit.traffic/toNative(): YandexMapKit/YMKTrafficLevel // ru.sulgik.mapkit.traffic/toNative|toNative@ru.sulgik.mapkit.traffic.TrafficLevel(){}[0]
 final fun (ru.sulgik.mapkit.uri/Uri).ru.sulgik.mapkit.uri/toNative(): YandexMapKit/YMKUri // ru.sulgik.mapkit.uri/toNative|toNative@ru.sulgik.mapkit.uri.Uri(){}[0]
@@ -3405,6 +3609,7 @@ final inline fun ru.sulgik.mapkit.offline_cache/RegionListUpdatesListener(crossi
 final inline fun ru.sulgik.mapkit.offline_cache/RegionListener(crossinline kotlin/Function1<kotlin/Int, kotlin/Unit>, crossinline kotlin/Function1<kotlin/Int, kotlin/Unit> = ...): ru.sulgik.mapkit.offline_cache/RegionListener // ru.sulgik.mapkit.offline_cache/RegionListener|RegionListener(kotlin.Function1<kotlin.Int,kotlin.Unit>;kotlin.Function1<kotlin.Int,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.runtime.logging/LogListener(crossinline kotlin/Function1<ru.sulgik.mapkit.runtime.logging/LogMessage, kotlin/Unit>): ru.sulgik.mapkit.runtime.logging/LogListener // ru.sulgik.mapkit.runtime.logging/LogListener|LogListener(kotlin.Function1<ru.sulgik.mapkit.runtime.logging.LogMessage,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.search/SearchListener(crossinline kotlin/Function1<ru.sulgik.mapkit.search/Response, kotlin/Unit>, crossinline kotlin/Function1<ru.sulgik.mapkit.search/SearchError, kotlin/Unit>): ru.sulgik.mapkit.search/SearchListener // ru.sulgik.mapkit.search/SearchListener|SearchListener(kotlin.Function1<ru.sulgik.mapkit.search.Response,kotlin.Unit>;kotlin.Function1<ru.sulgik.mapkit.search.SearchError,kotlin.Unit>){}[0]
+final inline fun ru.sulgik.mapkit.search/SuggestListener(crossinline kotlin/Function1<ru.sulgik.mapkit.search/SuggestResponse, kotlin/Unit>, crossinline kotlin/Function1<ru.sulgik.mapkit.search/SearchError, kotlin/Unit>): ru.sulgik.mapkit.search/SuggestListener // ru.sulgik.mapkit.search/SuggestListener|SuggestListener(kotlin.Function1<ru.sulgik.mapkit.search.SuggestResponse,kotlin.Unit>;kotlin.Function1<ru.sulgik.mapkit.search.SearchError,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.storage/StorageErrorListener(crossinline kotlin/Function1<ru.sulgik.mapkit.runtime/LocalError, kotlin/Unit>): ru.sulgik.mapkit.storage/StorageErrorListener // ru.sulgik.mapkit.storage/StorageErrorListener|StorageErrorListener(kotlin.Function1<ru.sulgik.mapkit.runtime.LocalError,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.tiles/TileProvider(crossinline kotlin/Function4<ru.sulgik.mapkit/TileId, ru.sulgik.mapkit/Version, kotlin.collections/Map<kotlin/String, kotlin/String>, kotlin/String, ru.sulgik.mapkit/RawTile>): ru.sulgik.mapkit.tiles/TileProvider // ru.sulgik.mapkit.tiles/TileProvider|TileProvider(kotlin.Function4<ru.sulgik.mapkit.TileId,ru.sulgik.mapkit.Version,kotlin.collections.Map<kotlin.String,kotlin.String>,kotlin.String,ru.sulgik.mapkit.RawTile>){}[0]
 final inline fun ru.sulgik.mapkit.tiles/UrlProvider(crossinline kotlin/Function3<ru.sulgik.mapkit/TileId, ru.sulgik.mapkit/Version, kotlin.collections/Map<kotlin/String, kotlin/String>, kotlin/String>): ru.sulgik.mapkit.tiles/UrlProvider // ru.sulgik.mapkit.tiles/UrlProvider|UrlProvider(kotlin.Function3<ru.sulgik.mapkit.TileId,ru.sulgik.mapkit.Version,kotlin.collections.Map<kotlin.String,kotlin.String>,kotlin.String>){}[0]
