@@ -2,7 +2,7 @@ package ru.sulgik.mapkit.transport.masstransit
 
 import platform.Foundation.NSError
 import platform.Foundation.NSLocalizedDescriptionKey
-import platform.Foundation.errorWithDomain
+import platform.darwin.NSObject
 import ru.sulgik.mapkit.LocalizedValue
 import ru.sulgik.mapkit.RequestPoint
 import ru.sulgik.mapkit.RequestPointType
@@ -12,6 +12,8 @@ import ru.sulgik.mapkit.geometry.PolylinePosition
 import ru.sulgik.mapkit.geometry.Subpolyline
 import ru.sulgik.mapkit.geometry.toCommon
 import ru.sulgik.mapkit.geometry.toNative
+import ru.sulgik.mapkit.routing.RoutingRequestState
+import ru.sulgik.mapkit.search.SearchRequestBindings
 import ru.sulgik.mapkit.toCommon
 import ru.sulgik.mapkit.toNative
 import kotlin.test.Test
@@ -28,7 +30,6 @@ import YandexMapKit.YMKMasstransitRouteStopMetadata as NativeRouteStopMetadata
 import YandexMapKit.YMKMasstransitSection as NativeSection
 import YandexMapKit.YMKMasstransitSectionMetadata as NativeSectionMetadata
 import YandexMapKit.YMKMasstransitSectionMetadataSectionData as NativeSectionData
-import YandexMapKit.YMKMasstransitSession as NativeSession
 import YandexMapKit.YMKMasstransitStop as NativeStop
 import YandexMapKit.YMKMasstransitTransport as NativeTransportLeg
 
@@ -197,7 +198,7 @@ public class TransportAdapterTest {
 
     @Test
     public fun native_handler_delivers_no_route_and_error_and_ignores_retired_callbacks() {
-        val nativeError = NSError.errorWithDomain(
+        val nativeError = NSError(
             domain = "TransportTest",
             code = 42,
             userInfo = mapOf(NSLocalizedDescriptionKey to "Routing unavailable"),
@@ -222,44 +223,33 @@ public class TransportAdapterTest {
     }
 
     @Test
-    public fun aliases_replace_and_cancel_the_same_native_transport_request() {
-        val native = RecordingSession()
-        val aliasBeforeRequest = native.toCommon()
+    public fun shared_lifecycle_state_cancels_replacement_through_an_earlier_surrogate_alias() {
+        val handle = NSObject()
+        val bindings = SearchRequestBindings<NSObject, RoutingRequestState<RouteListener>>()
+        val aliasBeforeRequest = bindings.getOrPut(handle) { RoutingRequestState() }
         val oldResults = mutableListOf<List<Route>>()
         val oldRequest = RouteRequest(
             RouteListener({ oldResults.add(it) }, { error("Unexpected initial failure") }),
         )
-        native.callbacks.add(oldRequest.toNative())
-        val owner = native.toCommon(oldRequest)
-        val aliasBeforeRetry = owner.toNative().toCommon()
+        val owner = bindings.getOrPut(handle) { error("Earlier alias lost its request state") }
+        owner.replace(oldRequest)
+        val retiredHandler = oldRequest.toNative()
+        val aliasBeforeRetry = bindings.getOrPut(handle) { error("Request state was replaced") }
         val currentResults = mutableListOf<List<Route>>()
-        aliasBeforeRetry.retry(RouteListener({ currentResults.add(it) }, { error("Unexpected retry failure") }))
-        assertEquals(2, native.callbacks.size)
+        val currentRequest = RouteRequest(
+            RouteListener({ currentResults.add(it) }, { error("Unexpected retry failure") }),
+        )
+        aliasBeforeRetry.replace(currentRequest)
+        val currentHandler = currentRequest.toNative()
 
-        native.callbacks[0](emptyList<Any>(), null)
-        native.callbacks[1](emptyList<Any>(), null)
+        retiredHandler(emptyList<Any>(), null)
+        currentHandler(emptyList<Any>(), null)
         aliasBeforeRequest.cancel()
-        native.callbacks[1](emptyList<Any>(), null)
+        currentHandler(emptyList<Any>(), null)
 
-        assertSame(native, owner.toNative())
-        assertEquals(1, native.cancelCount)
+        assertSame(aliasBeforeRequest, owner)
+        assertSame(aliasBeforeRequest, aliasBeforeRetry)
         assertTrue(oldResults.isEmpty())
         assertTrue(currentResults.single().isEmpty())
-    }
-}
-
-private class RecordingSession : NativeSession() {
-
-    val callbacks = mutableListOf<(List<*>?, NSError?) -> Unit>()
-    var cancelCount = 0
-        private set
-
-    override fun retryWithRouteHandler(routeHandler: (List<*>?, NSError?) -> Unit) {
-        callbacks.add(routeHandler)
-    }
-
-    override fun cancel() {
-        cancelCount++
-        callbacks.lastOrNull()?.invoke(emptyList<Any>(), null)
     }
 }

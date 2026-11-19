@@ -3520,6 +3520,515 @@ public final class ru.sulgik.mapkit.traffic.TrafficListenerKt {
   public static final ru.sulgik.mapkit.traffic.TrafficListener TrafficListener(kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.traffic.TrafficLevel, kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>, kotlin.jvm.functions.Function0<kotlin.Unit>);
   public static ru.sulgik.mapkit.traffic.TrafficListener TrafficListener$default(kotlin.jvm.functions.Function1, kotlin.jvm.functions.Function0, kotlin.jvm.functions.Function0, int, java.lang.Object);
 }
+public final class ru.sulgik.mapkit.transport.Transport {
+  public static final ru.sulgik.mapkit.transport.Transport$Companion Companion;
+  public ru.sulgik.mapkit.transport.Transport(com.yandex.mapkit.transport.Transport);
+  public final com.yandex.mapkit.transport.Transport toNative();
+  public final boolean isValid();
+  public final ru.sulgik.mapkit.transport.masstransit.PedestrianRouter createPedestrianRouter();
+  public final ru.sulgik.mapkit.transport.masstransit.BicycleRouterV2 createBicycleRouterV2();
+  public final ru.sulgik.mapkit.transport.masstransit.MasstransitRouter createMasstransitRouter();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.Transport$Companion {
+  public final ru.sulgik.mapkit.transport.Transport getInstance();
+  public ru.sulgik.mapkit.transport.Transport$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+}
+public final class ru.sulgik.mapkit.transport.Transport_androidKt {
+  public static final ru.sulgik.mapkit.transport.Transport toCommon(com.yandex.mapkit.transport.Transport);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.BicycleRouterV2 {
+  public ru.sulgik.mapkit.transport.masstransit.BicycleRouterV2(com.yandex.mapkit.transport.masstransit.BicycleRouterV2);
+  public final com.yandex.mapkit.transport.masstransit.BicycleRouterV2 toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.Session requestRoutes(java.util.List<ru.sulgik.mapkit.RequestPoint>, ru.sulgik.mapkit.transport.masstransit.TimeOptions, ru.sulgik.mapkit.transport.masstransit.RouteOptions, ru.sulgik.mapkit.transport.masstransit.RouteListener);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.BicycleRouterV2_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.BicycleRouterV2 toCommon(com.yandex.mapkit.transport.masstransit.BicycleRouterV2);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes extends java.lang.Enum<ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes> {
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes NONE;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes BUS;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes MINIBUS;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes RAILWAY;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes SUBURBAN;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes TRAMWAY;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes TROLLEYBUS;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes UNDERGROUND;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes METROBUS;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes DOLMUS;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes HISTORIC_TRAM;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes RAPID_TRAM;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes LIGHT_RAIL;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes SUBURBAN_EXPRESS;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes AEROEXPRESS;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes WATER;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes FERRY;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes FUNICULAR;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes CABLE;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes AERO;
+  public static final ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes S_BAHN;
+  public final int getValue();
+  public static ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes[] values();
+  public static ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes> getEntries();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Fitness {
+  public ru.sulgik.mapkit.transport.masstransit.Fitness(com.yandex.mapkit.transport.masstransit.Fitness);
+  public final com.yandex.mapkit.transport.masstransit.Fitness toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.FitnessType getType();
+  public final java.util.List<ru.sulgik.mapkit.geometry.PolylinePosition> getViaPoints();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.FitnessOptions {
+  public ru.sulgik.mapkit.transport.masstransit.FitnessOptions(boolean, boolean);
+  public ru.sulgik.mapkit.transport.masstransit.FitnessOptions(boolean, boolean, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final boolean getAvoidSteep();
+  public final boolean getAvoidStairs();
+  public final boolean component1();
+  public final boolean component2();
+  public final ru.sulgik.mapkit.transport.masstransit.FitnessOptions copy(boolean, boolean);
+  public static ru.sulgik.mapkit.transport.masstransit.FitnessOptions copy$default(ru.sulgik.mapkit.transport.masstransit.FitnessOptions, boolean, boolean, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.transport.masstransit.FitnessOptions();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.FitnessOptions_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.FitnessOptions toNative(ru.sulgik.mapkit.transport.masstransit.FitnessOptions);
+  public static final ru.sulgik.mapkit.transport.masstransit.FitnessOptions toCommon(com.yandex.mapkit.transport.masstransit.FitnessOptions);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.FitnessType extends java.lang.Enum<ru.sulgik.mapkit.transport.masstransit.FitnessType> {
+  public static final ru.sulgik.mapkit.transport.masstransit.FitnessType PEDESTRIAN;
+  public static final ru.sulgik.mapkit.transport.masstransit.FitnessType BICYCLE;
+  public static ru.sulgik.mapkit.transport.masstransit.FitnessType[] values();
+  public static ru.sulgik.mapkit.transport.masstransit.FitnessType valueOf(java.lang.String);
+  public static kotlin.enums.EnumEntries<ru.sulgik.mapkit.transport.masstransit.FitnessType> getEntries();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.FitnessType_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.FitnessType toNative(ru.sulgik.mapkit.transport.masstransit.FitnessType);
+  public static final ru.sulgik.mapkit.transport.masstransit.FitnessType toCommon(com.yandex.mapkit.transport.masstransit.FitnessType);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Fitness_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Fitness toCommon(com.yandex.mapkit.transport.masstransit.Fitness);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Flags {
+  public ru.sulgik.mapkit.transport.masstransit.Flags(boolean, boolean);
+  public ru.sulgik.mapkit.transport.masstransit.Flags(boolean, boolean, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final boolean getRequiresAccessPass();
+  public final boolean getHasAutoRoad();
+  public final boolean component1();
+  public final boolean component2();
+  public final ru.sulgik.mapkit.transport.masstransit.Flags copy(boolean, boolean);
+  public static ru.sulgik.mapkit.transport.masstransit.Flags copy$default(ru.sulgik.mapkit.transport.masstransit.Flags, boolean, boolean, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.transport.masstransit.Flags();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Flags_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.Flags toNative(ru.sulgik.mapkit.transport.masstransit.Flags);
+  public static final ru.sulgik.mapkit.transport.masstransit.Flags toCommon(com.yandex.mapkit.transport.masstransit.Flags);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Line implements ru.sulgik.mapkit.map.BaseMetadata {
+  public ru.sulgik.mapkit.transport.masstransit.Line(com.yandex.mapkit.transport.masstransit.Line);
+  public final com.yandex.mapkit.transport.masstransit.Line toNative();
+  public final java.lang.String getId();
+  public final java.lang.String getName();
+  public final java.util.List<java.lang.String> getVehicleTypes();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Line_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Line toCommon(com.yandex.mapkit.transport.masstransit.Line);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.MasstransitRouter {
+  public ru.sulgik.mapkit.transport.masstransit.MasstransitRouter(com.yandex.mapkit.transport.masstransit.MasstransitRouter);
+  public final com.yandex.mapkit.transport.masstransit.MasstransitRouter toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.Session requestRoutes(java.util.List<ru.sulgik.mapkit.RequestPoint>, ru.sulgik.mapkit.transport.masstransit.TransitOptions, ru.sulgik.mapkit.transport.masstransit.RouteOptions, ru.sulgik.mapkit.transport.masstransit.RouteListener);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.MasstransitRouter_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.MasstransitRouter toCommon(com.yandex.mapkit.transport.masstransit.MasstransitRouter);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.PedestrianRouter {
+  public ru.sulgik.mapkit.transport.masstransit.PedestrianRouter(com.yandex.mapkit.transport.masstransit.PedestrianRouter);
+  public final com.yandex.mapkit.transport.masstransit.PedestrianRouter toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.Session requestRoutes(java.util.List<ru.sulgik.mapkit.RequestPoint>, ru.sulgik.mapkit.transport.masstransit.TimeOptions, ru.sulgik.mapkit.transport.masstransit.RouteOptions, ru.sulgik.mapkit.transport.masstransit.RouteListener);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.PedestrianRouter_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.PedestrianRouter toCommon(com.yandex.mapkit.transport.masstransit.PedestrianRouter);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Route {
+  public ru.sulgik.mapkit.transport.masstransit.Route(com.yandex.mapkit.transport.masstransit.Route);
+  public final com.yandex.mapkit.transport.masstransit.Route toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.RouteMetadata getMetadata();
+  public final java.util.List<ru.sulgik.mapkit.transport.masstransit.WayPoint> getWayPoints();
+  public final java.util.List<ru.sulgik.mapkit.transport.masstransit.Section> getSections();
+  public final ru.sulgik.mapkit.geometry.Polyline getGeometry();
+  public final ru.sulgik.mapkit.uri.UriObjectMetadata getUriMetadata();
+  public final double distanceBetweenPolylinePositions(ru.sulgik.mapkit.geometry.PolylinePosition, ru.sulgik.mapkit.geometry.PolylinePosition);
+  public final double timeBetweenPolylinePositions(ru.sulgik.mapkit.geometry.PolylinePosition, ru.sulgik.mapkit.geometry.PolylinePosition);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteError {
+  public ru.sulgik.mapkit.transport.masstransit.RouteError(com.yandex.runtime.Error);
+  public final com.yandex.runtime.Error toNative();
+  public final ru.sulgik.mapkit.runtime.Error getError();
+  public final java.lang.String getDescription();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteError_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.RouteError toCommon(com.yandex.runtime.Error);
+}
+public abstract class ru.sulgik.mapkit.transport.masstransit.RouteListener implements ru.sulgik.mapkit.NativeConvertible<com.yandex.mapkit.transport.masstransit.Session$RouteListener> {
+  public ru.sulgik.mapkit.transport.masstransit.RouteListener();
+  public com.yandex.mapkit.transport.masstransit.Session$RouteListener toNative();
+  public abstract void onMasstransitRoutes(java.util.List<ru.sulgik.mapkit.transport.masstransit.Route>);
+  public abstract void onMasstransitRoutesError(ru.sulgik.mapkit.transport.masstransit.RouteError);
+  public java.lang.Object toNative();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteListenerKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.RouteListener RouteListener(kotlin.jvm.functions.Function1<? super java.util.List<ru.sulgik.mapkit.transport.masstransit.Route>, kotlin.Unit>, kotlin.jvm.functions.Function1<? super ru.sulgik.mapkit.transport.masstransit.RouteError, kotlin.Unit>);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteListener_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.Session$RouteListener toNative(ru.sulgik.mapkit.transport.masstransit.RouteRequest);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteMetadata implements ru.sulgik.mapkit.map.BaseMetadata {
+  public ru.sulgik.mapkit.transport.masstransit.RouteMetadata(com.yandex.mapkit.transport.masstransit.RouteMetadata);
+  public final com.yandex.mapkit.transport.masstransit.RouteMetadata toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.Weight getWeight();
+  public final ru.sulgik.mapkit.transport.masstransit.RouteSettings getSettings();
+  public final ru.sulgik.mapkit.transport.masstransit.TravelEstimation getEstimation();
+  public final java.util.List<ru.sulgik.mapkit.transport.masstransit.WayPoint> getWayPoints();
+  public final java.lang.String getRouteId();
+  public final ru.sulgik.mapkit.transport.masstransit.Flags getFlags();
+  public final ru.sulgik.mapkit.transport.masstransit.StairsSummary getStairsSummary();
+  public final java.lang.String getRouteExplanation();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteMetadata_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.RouteMetadata toCommon(com.yandex.mapkit.transport.masstransit.RouteMetadata);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteOptions {
+  public ru.sulgik.mapkit.transport.masstransit.RouteOptions(ru.sulgik.mapkit.transport.masstransit.FitnessOptions);
+  public ru.sulgik.mapkit.transport.masstransit.RouteOptions(ru.sulgik.mapkit.transport.masstransit.FitnessOptions, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final ru.sulgik.mapkit.transport.masstransit.FitnessOptions getFitnessOptions();
+  public final ru.sulgik.mapkit.transport.masstransit.FitnessOptions component1();
+  public final ru.sulgik.mapkit.transport.masstransit.RouteOptions copy(ru.sulgik.mapkit.transport.masstransit.FitnessOptions);
+  public static ru.sulgik.mapkit.transport.masstransit.RouteOptions copy$default(ru.sulgik.mapkit.transport.masstransit.RouteOptions, ru.sulgik.mapkit.transport.masstransit.FitnessOptions, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.transport.masstransit.RouteOptions();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteOptions_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.RouteOptions toNative(ru.sulgik.mapkit.transport.masstransit.RouteOptions);
+  public static final ru.sulgik.mapkit.transport.masstransit.RouteOptions toCommon(com.yandex.mapkit.transport.masstransit.RouteOptions);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteRequest extends ru.sulgik.mapkit.routing.RoutingRequest<ru.sulgik.mapkit.transport.masstransit.RouteListener> {
+  public ru.sulgik.mapkit.transport.masstransit.RouteRequest(ru.sulgik.mapkit.transport.masstransit.RouteListener);
+  public final ru.sulgik.mapkit.transport.masstransit.RouteListener asListener();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteSettings {
+  public ru.sulgik.mapkit.transport.masstransit.RouteSettings(java.util.List<java.lang.String>, java.util.List<java.lang.String>);
+  public final java.util.List<java.lang.String> getAvoidTypes();
+  public final java.util.List<java.lang.String> getAcceptTypes();
+  public final java.util.List<java.lang.String> component1();
+  public final java.util.List<java.lang.String> component2();
+  public final ru.sulgik.mapkit.transport.masstransit.RouteSettings copy(java.util.List<java.lang.String>, java.util.List<java.lang.String>);
+  public static ru.sulgik.mapkit.transport.masstransit.RouteSettings copy$default(ru.sulgik.mapkit.transport.masstransit.RouteSettings, java.util.List, java.util.List, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteSettings_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.RouteSettings toNative(ru.sulgik.mapkit.transport.masstransit.RouteSettings);
+  public static final ru.sulgik.mapkit.transport.masstransit.RouteSettings toCommon(com.yandex.mapkit.transport.masstransit.RouteSettings);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteStop {
+  public ru.sulgik.mapkit.transport.masstransit.RouteStop(com.yandex.mapkit.transport.masstransit.RouteStop);
+  public final com.yandex.mapkit.transport.masstransit.RouteStop toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.RouteStopMetadata getMetadata();
+  public final ru.sulgik.mapkit.geometry.Point getPosition();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteStopMetadata implements ru.sulgik.mapkit.map.BaseMetadata {
+  public ru.sulgik.mapkit.transport.masstransit.RouteStopMetadata(com.yandex.mapkit.transport.masstransit.RouteStopMetadata);
+  public final com.yandex.mapkit.transport.masstransit.RouteStopMetadata toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.Stop getStop();
+  public final ru.sulgik.mapkit.transport.masstransit.Stop getStopExit();
+  public final ru.sulgik.mapkit.geometry.Point getExitPoint();
+  public final ru.sulgik.mapkit.transport.masstransit.Stop getStopEntrance();
+  public final ru.sulgik.mapkit.geometry.Point getEntrancePoint();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteStopMetadata_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.RouteStopMetadata toCommon(com.yandex.mapkit.transport.masstransit.RouteStopMetadata);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.RouteStop_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.RouteStop toCommon(com.yandex.mapkit.transport.masstransit.RouteStop);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Route_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Route toCommon(com.yandex.mapkit.transport.masstransit.Route);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Section {
+  public ru.sulgik.mapkit.transport.masstransit.Section(com.yandex.mapkit.transport.masstransit.Section);
+  public final com.yandex.mapkit.transport.masstransit.Section toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.SectionMetadata getMetadata();
+  public final ru.sulgik.mapkit.geometry.Subpolyline getGeometry();
+  public final java.util.List<ru.sulgik.mapkit.transport.masstransit.RouteStop> getStops();
+  public final java.util.List<ru.sulgik.mapkit.geometry.Subpolyline> getRideLegs();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.SectionMetadata {
+  public ru.sulgik.mapkit.transport.masstransit.SectionMetadata(com.yandex.mapkit.transport.masstransit.SectionMetadata);
+  public final com.yandex.mapkit.transport.masstransit.SectionMetadata toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.Weight getWeight();
+  public final ru.sulgik.mapkit.transport.masstransit.SectionMetadata$SectionData getData();
+  public final ru.sulgik.mapkit.transport.masstransit.TravelEstimation getEstimation();
+  public final int getLegIndex();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.SectionMetadata$SectionData {
+  public ru.sulgik.mapkit.transport.masstransit.SectionMetadata$SectionData(com.yandex.mapkit.transport.masstransit.SectionMetadata$SectionData);
+  public final com.yandex.mapkit.transport.masstransit.SectionMetadata$SectionData toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.Wait getWait();
+  public final ru.sulgik.mapkit.transport.masstransit.Fitness getFitness();
+  public final ru.sulgik.mapkit.transport.masstransit.Transfer getTransfer();
+  public final ru.sulgik.mapkit.transport.masstransit.Taxi getTaxi();
+  public final java.util.List<ru.sulgik.mapkit.transport.masstransit.Transport> getTransports();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.SectionMetadata_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.SectionMetadata toCommon(com.yandex.mapkit.transport.masstransit.SectionMetadata);
+  public static final ru.sulgik.mapkit.transport.masstransit.SectionMetadata$SectionData toCommon(com.yandex.mapkit.transport.masstransit.SectionMetadata$SectionData);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Section_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Section toCommon(com.yandex.mapkit.transport.masstransit.Section);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Session {
+  public ru.sulgik.mapkit.transport.masstransit.Session(com.yandex.mapkit.transport.masstransit.Session, ru.sulgik.mapkit.routing.RoutingRequestState<ru.sulgik.mapkit.transport.masstransit.RouteListener>);
+  public final com.yandex.mapkit.transport.masstransit.Session toNative();
+  public final void cancel();
+  public final void retry(ru.sulgik.mapkit.transport.masstransit.RouteListener);
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Session_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Session toCommon(com.yandex.mapkit.transport.masstransit.Session);
+  public static final ru.sulgik.mapkit.transport.masstransit.Session toCommon(com.yandex.mapkit.transport.masstransit.Session, ru.sulgik.mapkit.transport.masstransit.RouteRequest);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.StairsSummary {
+  public ru.sulgik.mapkit.transport.masstransit.StairsSummary(int, int);
+  public final int getNumberOfStairs();
+  public final int getNumberOfStairsWithRamp();
+  public final int component1();
+  public final int component2();
+  public final ru.sulgik.mapkit.transport.masstransit.StairsSummary copy(int, int);
+  public static ru.sulgik.mapkit.transport.masstransit.StairsSummary copy$default(ru.sulgik.mapkit.transport.masstransit.StairsSummary, int, int, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.StairsSummary_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.StairsSummary toNative(ru.sulgik.mapkit.transport.masstransit.StairsSummary);
+  public static final ru.sulgik.mapkit.transport.masstransit.StairsSummary toCommon(com.yandex.mapkit.transport.masstransit.StairsSummary);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Stop implements ru.sulgik.mapkit.map.BaseMetadata {
+  public ru.sulgik.mapkit.transport.masstransit.Stop(com.yandex.mapkit.transport.masstransit.Stop);
+  public final com.yandex.mapkit.transport.masstransit.Stop toNative();
+  public final java.lang.String getId();
+  public final java.lang.String getName();
+  public final java.lang.String getAdditionalName();
+  public final ru.sulgik.mapkit.transport.masstransit.StopFeatureMask getFeatures();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.StopFeatureMask {
+  public ru.sulgik.mapkit.transport.masstransit.StopFeatureMask(boolean, boolean);
+  public ru.sulgik.mapkit.transport.masstransit.StopFeatureMask(boolean, boolean, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final boolean getCooled();
+  public final boolean getHeated();
+  public final boolean component1();
+  public final boolean component2();
+  public final ru.sulgik.mapkit.transport.masstransit.StopFeatureMask copy(boolean, boolean);
+  public static ru.sulgik.mapkit.transport.masstransit.StopFeatureMask copy$default(ru.sulgik.mapkit.transport.masstransit.StopFeatureMask, boolean, boolean, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.transport.masstransit.StopFeatureMask();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.StopFeatureMask_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.StopFeatureMask toNative(ru.sulgik.mapkit.transport.masstransit.StopFeatureMask);
+  public static final ru.sulgik.mapkit.transport.masstransit.StopFeatureMask toCommon(com.yandex.mapkit.transport.masstransit.StopFeatureMask);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Stop_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Stop toCommon(com.yandex.mapkit.transport.masstransit.Stop);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Taxi {
+  public ru.sulgik.mapkit.transport.masstransit.Taxi(com.yandex.mapkit.transport.masstransit.Taxi);
+  public final com.yandex.mapkit.transport.masstransit.Taxi toNative();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Taxi_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Taxi toCommon(com.yandex.mapkit.transport.masstransit.Taxi);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.TimeOptions {
+  public ru.sulgik.mapkit.transport.masstransit.TimeOptions(kotlin.time.Instant, kotlin.time.Instant);
+  public ru.sulgik.mapkit.transport.masstransit.TimeOptions(kotlin.time.Instant, kotlin.time.Instant, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final kotlin.time.Instant getDepartureTime();
+  public final kotlin.time.Instant getArrivalTime();
+  public final kotlin.time.Instant component1();
+  public final kotlin.time.Instant component2();
+  public final ru.sulgik.mapkit.transport.masstransit.TimeOptions copy(kotlin.time.Instant, kotlin.time.Instant);
+  public static ru.sulgik.mapkit.transport.masstransit.TimeOptions copy$default(ru.sulgik.mapkit.transport.masstransit.TimeOptions, kotlin.time.Instant, kotlin.time.Instant, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.transport.masstransit.TimeOptions();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.TimeOptions_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.TimeOptions toNative(ru.sulgik.mapkit.transport.masstransit.TimeOptions);
+  public static final ru.sulgik.mapkit.transport.masstransit.TimeOptions toCommon(com.yandex.mapkit.transport.masstransit.TimeOptions);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Transfer {
+  public ru.sulgik.mapkit.transport.masstransit.Transfer(com.yandex.mapkit.transport.masstransit.Transfer);
+  public final com.yandex.mapkit.transport.masstransit.Transfer toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.TransferStop getTransferStop();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.TransferStop {
+  public ru.sulgik.mapkit.transport.masstransit.TransferStop(com.yandex.mapkit.transport.masstransit.TransferStop);
+  public final com.yandex.mapkit.transport.masstransit.TransferStop toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.RouteStop getRouteStop();
+  public final java.util.List<ru.sulgik.mapkit.transport.masstransit.Transport> getTransports();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.TransferStop_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.TransferStop toCommon(com.yandex.mapkit.transport.masstransit.TransferStop);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Transfer_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Transfer toCommon(com.yandex.mapkit.transport.masstransit.Transfer);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.TransitOptions {
+  public ru.sulgik.mapkit.transport.masstransit.TransitOptions(int, ru.sulgik.mapkit.transport.masstransit.TimeOptions);
+  public ru.sulgik.mapkit.transport.masstransit.TransitOptions(int, ru.sulgik.mapkit.transport.masstransit.TimeOptions, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final int getAvoid();
+  public final ru.sulgik.mapkit.transport.masstransit.TimeOptions getTimeOptions();
+  public final int component1();
+  public final ru.sulgik.mapkit.transport.masstransit.TimeOptions component2();
+  public final ru.sulgik.mapkit.transport.masstransit.TransitOptions copy(int, ru.sulgik.mapkit.transport.masstransit.TimeOptions);
+  public static ru.sulgik.mapkit.transport.masstransit.TransitOptions copy$default(ru.sulgik.mapkit.transport.masstransit.TransitOptions, int, ru.sulgik.mapkit.transport.masstransit.TimeOptions, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.transport.masstransit.TransitOptions();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.TransitOptions_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.TransitOptions toNative(ru.sulgik.mapkit.transport.masstransit.TransitOptions);
+  public static final ru.sulgik.mapkit.transport.masstransit.TransitOptions toCommon(com.yandex.mapkit.transport.masstransit.TransitOptions);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Transport {
+  public ru.sulgik.mapkit.transport.masstransit.Transport(com.yandex.mapkit.transport.masstransit.Transport);
+  public final com.yandex.mapkit.transport.masstransit.Transport toNative();
+  public final ru.sulgik.mapkit.transport.masstransit.Line getLine();
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Transport_androidKt {
+  public static final ru.sulgik.mapkit.transport.masstransit.Transport toCommon(com.yandex.mapkit.transport.masstransit.Transport);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.TravelEstimation {
+  public ru.sulgik.mapkit.transport.masstransit.TravelEstimation(ru.sulgik.mapkit.Time, ru.sulgik.mapkit.Time);
+  public final ru.sulgik.mapkit.Time getDepartureTime();
+  public final ru.sulgik.mapkit.Time getArrivalTime();
+  public final ru.sulgik.mapkit.Time component1();
+  public final ru.sulgik.mapkit.Time component2();
+  public final ru.sulgik.mapkit.transport.masstransit.TravelEstimation copy(ru.sulgik.mapkit.Time, ru.sulgik.mapkit.Time);
+  public static ru.sulgik.mapkit.transport.masstransit.TravelEstimation copy$default(ru.sulgik.mapkit.transport.masstransit.TravelEstimation, ru.sulgik.mapkit.Time, ru.sulgik.mapkit.Time, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.TravelEstimation_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.TravelEstimation toNative(ru.sulgik.mapkit.transport.masstransit.TravelEstimation);
+  public static final ru.sulgik.mapkit.transport.masstransit.TravelEstimation toCommon(com.yandex.mapkit.transport.masstransit.TravelEstimation);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Wait {
+  public ru.sulgik.mapkit.transport.masstransit.Wait(int);
+  public ru.sulgik.mapkit.transport.masstransit.Wait(int, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final int getDummy();
+  public final int component1();
+  public final ru.sulgik.mapkit.transport.masstransit.Wait copy(int);
+  public static ru.sulgik.mapkit.transport.masstransit.Wait copy$default(ru.sulgik.mapkit.transport.masstransit.Wait, int, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+  public ru.sulgik.mapkit.transport.masstransit.Wait();
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Wait_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.Wait toNative(ru.sulgik.mapkit.transport.masstransit.Wait);
+  public static final ru.sulgik.mapkit.transport.masstransit.Wait toCommon(com.yandex.mapkit.transport.masstransit.Wait);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.WayPoint {
+  public ru.sulgik.mapkit.transport.masstransit.WayPoint(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, java.lang.String, java.lang.String, java.lang.String);
+  public ru.sulgik.mapkit.transport.masstransit.WayPoint(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, java.lang.String, java.lang.String, java.lang.String, int, kotlin.jvm.internal.DefaultConstructorMarker);
+  public final ru.sulgik.mapkit.geometry.Point getPosition();
+  public final ru.sulgik.mapkit.geometry.Point getSelectedArrivalPoint();
+  public final ru.sulgik.mapkit.geometry.Point getSelectedDeparturePoint();
+  public final java.lang.String getContext();
+  public final java.lang.String getLevelId();
+  public final java.lang.String getLevelName();
+  public final ru.sulgik.mapkit.geometry.Point component1();
+  public final ru.sulgik.mapkit.geometry.Point component2();
+  public final ru.sulgik.mapkit.geometry.Point component3();
+  public final java.lang.String component4();
+  public final java.lang.String component5();
+  public final java.lang.String component6();
+  public final ru.sulgik.mapkit.transport.masstransit.WayPoint copy(ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, java.lang.String, java.lang.String, java.lang.String);
+  public static ru.sulgik.mapkit.transport.masstransit.WayPoint copy$default(ru.sulgik.mapkit.transport.masstransit.WayPoint, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, ru.sulgik.mapkit.geometry.Point, java.lang.String, java.lang.String, java.lang.String, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.WayPoint_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.WayPoint toNative(ru.sulgik.mapkit.transport.masstransit.WayPoint);
+  public static final ru.sulgik.mapkit.transport.masstransit.WayPoint toCommon(com.yandex.mapkit.transport.masstransit.WayPoint);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Weight {
+  public ru.sulgik.mapkit.transport.masstransit.Weight(ru.sulgik.mapkit.LocalizedValue, ru.sulgik.mapkit.LocalizedValue, int);
+  public final ru.sulgik.mapkit.LocalizedValue getTime();
+  public final ru.sulgik.mapkit.LocalizedValue getWalkingDistance();
+  public final int getTransfersCount();
+  public final ru.sulgik.mapkit.LocalizedValue component1();
+  public final ru.sulgik.mapkit.LocalizedValue component2();
+  public final int component3();
+  public final ru.sulgik.mapkit.transport.masstransit.Weight copy(ru.sulgik.mapkit.LocalizedValue, ru.sulgik.mapkit.LocalizedValue, int);
+  public static ru.sulgik.mapkit.transport.masstransit.Weight copy$default(ru.sulgik.mapkit.transport.masstransit.Weight, ru.sulgik.mapkit.LocalizedValue, ru.sulgik.mapkit.LocalizedValue, int, int, java.lang.Object);
+  public java.lang.String toString();
+  public int hashCode();
+  public boolean equals(java.lang.Object);
+}
+public final class ru.sulgik.mapkit.transport.masstransit.Weight_androidKt {
+  public static final com.yandex.mapkit.transport.masstransit.Weight toNative(ru.sulgik.mapkit.transport.masstransit.Weight);
+  public static final ru.sulgik.mapkit.transport.masstransit.Weight toCommon(com.yandex.mapkit.transport.masstransit.Weight);
+}
 public final class ru.sulgik.mapkit.ui.Overlay {
   public ru.sulgik.mapkit.ui.Overlay(com.yandex.mapkit.ui.Overlay);
   public final com.yandex.mapkit.ui.Overlay toNative();

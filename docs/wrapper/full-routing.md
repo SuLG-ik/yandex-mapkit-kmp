@@ -124,7 +124,8 @@ line appears, changes to the alternative and disappears. This offline preview ex
 same drawing and clearing code as the request examples. A scheduled service request for each
 mode, including replacing an in-flight request before it delivers, needs a test MapKit key.
 
-The iOS driving test uses a surrogate identity for shared session ownership because the native SDK creates driving sessions.
+The iOS adapter tests use a surrogate identity for shared session ownership because MapKit
+creates the native sessions. The tests still invoke the native response handlers.
 
 If an ABI check finds a difference, [Full CI][full-workflow] uploads the actual Android or iOS
 dump. Review and update the snapshots in `api/full`, then rerun both mandatory checks.
