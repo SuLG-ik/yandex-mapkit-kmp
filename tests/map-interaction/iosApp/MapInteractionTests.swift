@@ -175,6 +175,37 @@ final class DecomposeStackTests: XCTestCase {
 
 
 final class MapInteractionTests: XCTestCase {
+    func testRemovesNativeLayerBeforeReturningItsPendingTile() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments.append("--pending-tile-layer")
+        app.launch()
+
+        let trace = app.staticTexts["pending-tile-layer-trace"]
+        let terminal = NSPredicate { object, _ in
+            guard let element = object as? XCUIElement, element.exists else { return false }
+            return element.label.split(separator: "\n").contains {
+                $0 == "finished" || $0.hasPrefix("failed")
+            }
+        }
+        let result = XCTWaiter.wait(
+            for: [XCTNSPredicateExpectation(predicate: terminal, object: trace)],
+            timeout: 40
+        )
+        let actual = trace.exists ? trace.label : "<missing native tile trace>"
+        XCTAssertEqual(result, .completed, actual)
+        XCTAssertEqual(
+            actual,
+            """
+            native request entered
+            layer removed while pending
+            workers released
+            replacement layer loaded
+            finished
+            """
+        )
+    }
+
     func testMapAcceptsTouchAfterMountAndReopen() {
         continueAfterFailure = false
         let app = XCUIApplication()
