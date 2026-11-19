@@ -54,10 +54,11 @@ independently of marker selection. Each new window applies its stored camera onc
 Readiness observes the actual camera and marker visibility after the NavDisplay entry is resumed.
 
 The drivers tap the projected map position to open details and check the complete tap recipient
-trace after returning, replacing entries and switching stacks. Android sends system Back and uses
+trace after returning, replacing entries and switching stacks. Android projects into the on-screen
+bounds of the current native MapView. It sends system Back and uses
 `ActivityScenario.recreate()` with a details entry on the secondary tab, then waits for its content
 to be laid out in the new Activity. The iOS test waits for the details entry and its actual text. The iOS simulator sends
-an edge swipe, observes a Navigation Event gesture start and idle, and checks that a short swipe
+an edge swipe, observes progress through Navigation Event, and checks that a short, low-velocity swipe
 leaves details in place while a full swipe pops it.
 
 Navigation 3 and its gesture observer are dependencies of the test targets. The fixture uses the

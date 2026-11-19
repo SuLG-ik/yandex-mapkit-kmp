@@ -5,12 +5,16 @@ import android.os.SystemClock
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
+import ru.sulgik.mapkit.map.MapWindow
+import ru.sulgik.mapkit.mapview.toCommon
 import ru.sulgik.mapkit.test.interaction.Nav3Fixture
 import ru.sulgik.mapkit.test.interaction.Nav3Main
 import ru.sulgik.mapkit.test.interaction.Nav3Move
@@ -22,6 +26,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNotSame
+import com.yandex.mapkit.mapview.MapView as NativeMapView
 
 private var activeProbe: Nav3Probe? = null
 
@@ -60,6 +65,8 @@ public class Nav3MapTest {
                 driver.waitForDetails("main-B")
                 driver.back()
                 driver.waitForMap("main-B", "default", selected = true)
+                driver.button(Nav3Move)
+                driver.waitForMap("main-B", "custom", selected = true)
                 driver.back()
 
                 driver.waitForMap("main-A", "custom", selected = false)
@@ -130,10 +137,18 @@ private class NavDriver(
 
     fun tapMap(id: String, viewport: String, selected: Boolean) {
         waitForMap(id, viewport, selected)
-        tap(id) {
-            probe.target?.takeIf { it.entry === probe.screen }?.let { hit ->
-                hit.entry.layout?.let { screenPoint(it, hit.x, hit.y) }
-            }
+        tap(id) { activity ->
+            val target = probe.target?.takeIf { it.entry === probe.screen } ?: return@tap null
+            val window = target.window
+            val view = activity.window.decorView.findNativeMap(window) ?: return@tap null
+            if (!window.isValid || window.width == 0 || window.height == 0) return@tap null
+            val point = window.worldToScreen(target.point) ?: return@tap null
+            val location = IntArray(2)
+            view.getLocationOnScreen(location)
+            Offset(
+                x = location[0] + point.x / window.width * view.width,
+                y = location[1] + point.y / window.height * view.height,
+            )
         }
     }
 
@@ -162,7 +177,7 @@ private class NavDriver(
             var satisfied = false
             scenario.onActivity { host ->
                 satisfied = host.hasWindowFocus() && condition(host)
-                diagnostic = "screen=${probe.screen?.name}; target=${probe.target}; taps=${probe.taps.toList()}"
+                diagnostic = "screen=${probe.screen?.name}; target=${probe.target}; taps=${probe.taps.toList()}; mismatch=${probe.tapMismatch}"
             }
             if (satisfied) return
             SystemClock.sleep(20L)
@@ -170,10 +185,10 @@ private class NavDriver(
         throw AssertionError("Waiting for $description. $diagnostic")
     }
 
-    private fun tap(label: String, coordinate: () -> Offset?) {
+    private fun tap(label: String, coordinate: (Nav3TestActivity) -> Offset?) {
         var last: Offset? = null
-        await("stable screen position of $label") {
-            val point = coordinate()
+        await("stable screen position of $label") { host ->
+            val point = coordinate(host)
             val stable = point != null && point == last
             last = point
             stable
@@ -190,5 +205,19 @@ private class NavDriver(
                 event.recycle()
             }
         }
+    }
+
+    private fun View.findNativeMap(window: MapWindow): NativeMapView? {
+        if (this is NativeMapView && isShown && hasWindowFocus() && width > 0 && height > 0 &&
+            toCommon().mapWindow == window
+        ) {
+            return this
+        }
+        if (this is ViewGroup) {
+            for (index in 0 until childCount) {
+                getChildAt(index).findNativeMap(window)?.let { return it }
+            }
+        }
+        return null
     }
 }

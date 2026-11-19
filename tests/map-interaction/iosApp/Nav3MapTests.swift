@@ -13,14 +13,14 @@ final class Nav3MapTests: XCTestCase {
         driver.tapMap("main-A", viewport: "custom", selected: false)
         driver.waitForDetails("main-A")
 
-        driver.waitForLabel("Nav gesture 0 idle")
-        driver.swipeBack(end: 0.16)
-        driver.waitForLabel("Nav gesture 1 idle")
+        driver.waitForLabel("Nav gesture 0 idle progressed=false")
+        driver.cancelBack()
+        driver.waitForLabel("Nav gesture 1 idle progressed=true")
         driver.waitForDetails("main-A")
         driver.waitForLabel("Nav taps main-A")
 
         driver.back()
-        driver.waitForLabel("Nav gesture 2 idle")
+        driver.waitForLabel("Nav gesture 2 idle progressed=true")
         driver.waitForMap("main-A", viewport: "custom", selected: false)
         app.buttons["Nav push B"].tap()
         driver.waitForMap("main-B", viewport: "default", selected: false)
@@ -29,6 +29,8 @@ final class Nav3MapTests: XCTestCase {
         driver.waitForDetails("main-B")
         driver.back()
         driver.waitForMap("main-B", viewport: "default", selected: true)
+        app.buttons["Nav move camera"].tap()
+        driver.waitForMap("main-B", viewport: "custom", selected: true)
         driver.back()
         driver.waitForMap("main-A", viewport: "custom", selected: false)
 
@@ -103,12 +105,16 @@ private struct Nav3Driver {
     }
 
     func back() {
-        swipeBack(end: 0.83)
+        swipeBack(end: 0.83, velocity: .slow)
     }
 
-    func swipeBack(end: CGFloat) {
+    func cancelBack() {
+        swipeBack(end: 0.14, velocity: XCUIGestureVelocity(40))
+    }
+
+    private func swipeBack(end: CGFloat, velocity: XCUIGestureVelocity) {
         let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.005, dy: 0.5))
         let destination = app.coordinate(withNormalizedOffset: CGVector(dx: end, dy: 0.5))
-        start.press(forDuration: 0.05, thenDragTo: destination, withVelocity: .slow, thenHoldForDuration: 0.6)
+        start.press(forDuration: 0.05, thenDragTo: destination, withVelocity: velocity, thenHoldForDuration: 0.6)
     }
 }

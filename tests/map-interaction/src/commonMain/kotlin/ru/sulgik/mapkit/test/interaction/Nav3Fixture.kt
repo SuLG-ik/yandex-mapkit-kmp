@@ -94,6 +94,8 @@ internal class Nav3Entry(val name: String, val host: Any) {
 
 internal data class Nav3Target(
     val entry: Nav3Entry,
+    val window: MapWindow,
+    val point: Point,
     val viewport: String,
     val selected: Boolean,
     val x: Float,
@@ -105,6 +107,8 @@ internal class Nav3Probe {
     var target by mutableStateOf<Nav3Target?>(null)
     var gestureStarts by mutableStateOf(0)
     var gestureInProgress by mutableStateOf(false)
+    var gestureProgressed by mutableStateOf(false)
+    var tapMismatch: String? = null
     val taps = mutableStateListOf<String>()
     val layouts = mutableMapOf<String, LayoutCoordinates>()
 }
@@ -122,22 +126,31 @@ internal fun Nav3Fixture(probe: Nav3Probe, host: Any = remember { Any() }) {
 
     LaunchedEffect(dispatcher) {
         dispatcher?.transitionState?.collect { transition ->
-            val inProgress = transition is NavigationEventTransitionState.InProgress
-            if (inProgress && !probe.gestureInProgress) probe.gestureStarts++
-            probe.gestureInProgress = inProgress
+            if (transition is NavigationEventTransitionState.InProgress) {
+                if (!probe.gestureInProgress) {
+                    probe.gestureStarts++
+                    probe.gestureProgressed = false
+                }
+                if (transition.latestEvent.progress > 0.05f) probe.gestureProgressed = true
+                probe.gestureInProgress = true
+            } else {
+                probe.gestureInProgress = false
+            }
         }
     }
     Column {
-        Row(Modifier.width(navMapSize)) {
+        Row(Modifier.width(navMapWidth)) {
             NavButton(Nav3Main, probe, Modifier.weight(1f)) { activeTab = "main" }
             NavButton(Nav3Other, probe, Modifier.weight(1f)) { activeTab = "other" }
         }
         BasicText("Nav visible ${probe.screen?.name ?: "transitioning"}")
-        probe.target?.takeIf { it.entry === probe.screen }?.let {
-            BasicText("Nav ready ${it.entry.name.removePrefix("Map ")} ${it.viewport} selected=${it.selected}")
-        }
+        val ready = probe.target?.takeIf { it.entry === probe.screen }?.let {
+            "${it.entry.name.removePrefix("Map ")} ${it.viewport} selected=${it.selected}"
+        } ?: "pending"
+        BasicText("Nav ready $ready", maxLines = 1)
         BasicText("Nav taps ${probe.taps.joinToString(" ")}")
-        BasicText("Nav gesture ${probe.gestureStarts} ${if (probe.gestureInProgress) "dragging" else "idle"}")
+        val gesture = if (probe.gestureInProgress) "dragging" else "idle"
+        BasicText("Nav gesture ${probe.gestureStarts} $gesture progressed=${probe.gestureProgressed}", maxLines = 1)
         stateHolder.SaveableStateProvider(tab) {
             NavDisplay(
                 backStack = backStack,
@@ -198,7 +211,6 @@ private fun NavMapEntry(
     val controller = rememberYandexMapController()
     var attachment by remember { mutableStateOf<NativeAttachment?>(null) }
     val currentOpenDetails by rememberUpdatedState(openDetails)
-    val currentActive by rememberUpdatedState(active)
     val cameraListener = remember(camera) {
         CameraListener { _, position, _, finished ->
             if (finished) camera.position = position
@@ -207,7 +219,7 @@ private fun NavMapEntry(
 
     Column {
         if (pushB != null) NavButton(Nav3PushB, probe, onClick = pushB)
-        Row(Modifier.width(navMapSize)) {
+        Row(Modifier.width(navMapWidth)) {
             NavButton(Nav3Move, probe, Modifier.weight(1f)) {
                 attachment?.window?.map?.move(movedViewport(route))
             }
@@ -221,7 +233,7 @@ private fun NavMapEntry(
         YandexMap(
             controller = controller,
             modifier = Modifier
-                .size(navMapSize)
+                .size(width = navMapWidth, height = 160.dp)
                 .onGloballyPositioned { entry.layout = it }
                 .semantics {
                     contentDescription = probe.target?.takeIf { it.entry === entry }?.let {
@@ -251,10 +263,17 @@ private fun NavMapEntry(
     val currentAttachment = attachment ?: return
     val listener = remember(currentAttachment) {
         InputListener(
-            onMapTap = { map, point ->
-                val onTarget = near(point, map.cameraPosition.target, 0.00012)
-                probe.taps.add(if (onTarget && currentActive) id else "unexpected-$id")
-                if (onTarget && currentActive) currentOpenDetails()
+            onMapTap = { _, point ->
+                val target = probe.target
+                val activeWindow = target != null && probe.screen === entry && target.entry === entry &&
+                    target.window == currentAttachment.window
+                if (target != null && activeWindow && near(point, target.point, 0.00012)) {
+                    probe.taps.add(id)
+                    currentOpenDetails()
+                } else {
+                    probe.tapMismatch = "map=$id actual=$point projected=${target?.point} resumed=${probe.screen?.name} activeWindow=$activeWindow"
+                    probe.taps.add("unexpected-$id")
+                }
             },
             onMapLongTap = { _, _ -> probe.taps.add("long-$id") },
         )
@@ -312,7 +331,7 @@ private fun NavButton(label: String, probe: Nav3Probe, modifier: Modifier = Modi
     }
 }
 
-private val navMapSize = 240.dp
+private val navMapWidth = 240.dp
 
 private class NativeAttachment(val window: MapWindow, val marker: CircleMapObject)
 
@@ -328,7 +347,7 @@ private fun movedViewport(route: MapRoute): CameraPosition {
 }
 
 private fun selectionCircle(point: Point): Circle {
-    val center = Point(point.latitude.value + 0.0007, point.longitude.value)
+    val center = Point(point.latitude.value + 0.0004, point.longitude.value)
     return Circle(center, 18f)
 }
 
@@ -349,7 +368,7 @@ private fun project(window: MapWindow, route: MapRoute, entry: Nav3Entry, marker
     val x = projected.x / window.width
     val y = projected.y / window.height
     if (x !in 0.05f..0.95f || y !in 0.05f..0.95f) return null
-    return Nav3Target(entry, viewport, marker.isVisible, x, y)
+    return Nav3Target(entry, window, actual.target, viewport, marker.isVisible, x, y)
 }
 
 private fun matches(actual: CameraPosition, expected: CameraPosition): Boolean {
