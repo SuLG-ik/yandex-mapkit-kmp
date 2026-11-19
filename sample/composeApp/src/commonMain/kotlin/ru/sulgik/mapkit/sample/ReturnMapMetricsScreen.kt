@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.sulgik.mapkit.asWeakRef
@@ -56,6 +58,7 @@ private val ProbeMarkers = listOf(
 )
 private const val ProbeDeadlineMillis = 30_000L
 private const val ProbePlaceholderKey = "00000000-0000-0000-0000-000000000000"
+private val CohortPattern = Regex("[A-Za-z0-9_-]{1,32}")
 
 private enum class ReturnCase(val wireName: String) {
     COLD("cold"),
@@ -68,6 +71,11 @@ private enum class TileMode(val label: String, val wireName: String, val mapType
     VIEW_ONLY("Native view only", "view_only", MapType.NONE),
     REAL("Real tiles (requires a dedicated key)", "real", MapType.VECTOR_MAP),
     MISSING_KEY("Real tiles unavailable", "missing_key", MapType.NONE),
+}
+
+private enum class TileRegistration(val wireName: String) {
+    MOUNT("mount"),
+    READY("ready"),
 }
 
 @Composable
@@ -87,7 +95,14 @@ internal fun ReturnMapMetricsScreen(modifier: Modifier, onExit: () -> Unit) {
     Column(modifier.verticalScroll(rememberScrollState()).padding(12.dp)) {
         OutlinedButton(onClick = onExit, enabled = trial == null) { Text("Back to samples") }
         if (!bench.started) {
-            Text("Select the tile mode and the condition of this test install.")
+            OutlinedTextField(
+                value = bench.cohort,
+                onValueChange = { bench.cohort = it },
+                isError = bench.cohort.isNotEmpty() && !bench.hasCohort,
+                singleLine = true,
+                label = { Text("Cohort ID (reuse after restart)") },
+                supportingText = { Text("Use 1–32 letters, digits, hyphens or underscores.") },
+            )
             OutlinedButton(onClick = {
                 bench.mode = if (bench.mode == TileMode.VIEW_ONLY) {
                     val key = BuildKonfig.MAPKIT_API_KEY
@@ -98,8 +113,18 @@ internal fun ReturnMapMetricsScreen(modifier: Modifier, onExit: () -> Unit) {
             }) {
                 Text(bench.mode.label)
             }
-            OutlinedButton(onClick = { bench.start(ReturnCase.COLD) }) { Text("Open on clean install") }
-            OutlinedButton(onClick = { bench.start(ReturnCase.RESTART) }) { Text("Open after process restart") }
+            OutlinedButton(
+                onClick = { bench.start(ReturnCase.COLD) },
+                enabled = bench.hasCohort,
+            ) {
+                Text("Open after clearing app data")
+            }
+            OutlinedButton(
+                onClick = { bench.start(ReturnCase.RESTART) },
+                enabled = bench.hasCohort,
+            ) {
+                Text("Open after process restart")
+            }
         } else {
             Box(Modifier.size(260.dp), contentAlignment = Alignment.Center) {
                 if (bench.showViewport) {
@@ -117,7 +142,11 @@ internal fun ReturnMapMetricsScreen(modifier: Modifier, onExit: () -> Unit) {
             if (bench.details != null) {
                 OutlinedButton(onClick = bench::returnToMap) { Text("Return to map") }
             } else if (trial != null) {
-                Text(if (trial.readyMs == null) "Waiting for map projection" else "Tap the map center once")
+                if (trial.readyMs == null) {
+                    Text("Waiting for map projection")
+                } else {
+                    Text("Tap near the map center once", Modifier.testTag("return-map-benchmark-ready"))
+                }
             } else {
                 OutlinedButton(onClick = { bench.openDetails(ReturnCase.REOPEN) }) { Text("Details (unmount map)") }
                 OutlinedButton(onClick = { bench.openDetails(ReturnCase.RETAINED) }) { Text("Other tab (retain map)") }
@@ -136,7 +165,7 @@ private fun MeasuredViewport(bench: ReturnBench, modifier: Modifier) {
     val trial = bench.trial
     val current = attachment
 
-    YandexMap(controller = controller, modifier = modifier)
+    YandexMap(controller = controller, modifier = modifier.testTag("return-map-benchmark-viewport"))
     MapControllerEffect(controller, dispose = {
         attachment?.dispose()
         attachment = null
@@ -152,6 +181,7 @@ private fun MeasuredViewport(bench: ReturnBench, modifier: Modifier) {
                 withFrameNanos { }
             } while (!current.hasProjection())
             bench.ready(trial, current.window)
+            current.observeTilesAfterReadiness(trial)
         }
     }
 }
@@ -159,18 +189,15 @@ private fun MeasuredViewport(bench: ReturnBench, modifier: Modifier) {
 private class MeasuredAttachment(private val bench: ReturnBench, val window: MapWindow) {
 
     private val map = window.map
-    private val initialTrial = bench.trial
     private val inputListener = InputListener(
         onMapTap = { _, point ->
             if (point.isNearProbeCenter()) bench.tapped()
         },
         onMapLongTap = { _, _ -> },
     )
-    private val loadedListener = MapLoadedListener { statistics ->
-        if (initialTrial != null && hasProjection()) {
-            bench.tilesLoaded(initialTrial, statistics)
-        }
-    }
+    private var loadedListener: MapLoadedListener? = null
+    private var observedTrial: ReturnTrial? = null
+    private var unverifiedLoad = false
 
     fun configure() {
         bench.attached()
@@ -183,9 +210,7 @@ private class MeasuredAttachment(private val bench: ReturnBench, val window: Map
         map.isFastTapEnabled = true
         map.addInputListener(inputListener.asWeakRef())
         map.move(ProbeCamera)
-        if (bench.mode == TileMode.REAL) {
-            map.setMapLoadedListener(loadedListener.asWeakRef())
-        }
+        bench.trial?.let { observeTiles(it, TileRegistration.MOUNT) }
 
         val bitmap = ImageBitmap(24, 24)
         Canvas(bitmap).drawCircle(Offset(12f, 12f), 10f, Paint().apply { color = Color.Red })
@@ -201,22 +226,59 @@ private class MeasuredAttachment(private val bench: ReturnBench, val window: Map
     fun hasProjection(): Boolean {
         if (!window.isValid || !map.isValid || window.width == 0 || window.height == 0) return false
         val camera = map.cameraPosition
-        return abs(camera.zoom - ProbeCamera.zoom) < 0.01f &&
-            camera.target.isNearProbeCenter() &&
-            window.worldToScreen(ProbeCenter) != null
+        if (abs(camera.zoom - ProbeCamera.zoom) >= 0.01f ||
+            abs(camera.target.latitude.value - ProbeCenter.latitude.value) >= 0.00001 ||
+            abs(camera.target.longitude.value - ProbeCenter.longitude.value) >= 0.00001 ||
+            abs(camera.azimuth - ProbeCamera.azimuth) >= 0.01f ||
+            abs(camera.tilt - ProbeCamera.tilt) >= 0.01f
+        ) {
+            return false
+        }
+        val center = window.worldToScreen(ProbeCenter) ?: return false
+        return center.x in 0f..window.width.toFloat() && center.y in 0f..window.height.toFloat()
+    }
+
+    fun observeTilesAfterReadiness(sample: ReturnTrial) {
+        if (sample.tileMs == null && (observedTrial !== sample || unverifiedLoad)) {
+            observeTiles(sample, TileRegistration.READY)
+        }
+    }
+
+    private fun observeTiles(sample: ReturnTrial, registration: TileRegistration) {
+        if (!bench.watchesTiles(sample)) return
+        observedTrial = sample
+        unverifiedLoad = false
+        sample.tileRegistration = registration
+        val listener = MapLoadedListener { statistics ->
+            if (bench.watchesTiles(sample) && observedTrial === sample) {
+                if (hasProjection()) {
+                    bench.tilesLoaded(sample, statistics)
+                } else {
+                    unverifiedLoad = true
+                    if (sample.earlyTileMs == null) sample.earlyTileMs = sample.elapsed()
+                }
+            }
+        }
+        loadedListener = listener
+        map.setMapLoadedListener(loadedListener?.asWeakRef())
     }
 
     fun dispose() {
         if (map.isValid) {
             map.removeInputListener(inputListener.asWeakRef())
-            if (bench.mode == TileMode.REAL) map.setMapLoadedListener(null)
+            if (loadedListener != null) map.setMapLoadedListener(null)
         }
+        loadedListener = null
+        observedTrial = null
     }
 }
 
 private class ReturnBench(private val sdkVersion: String) {
 
     var mode by mutableStateOf(TileMode.VIEW_ONLY)
+    var cohort by mutableStateOf("")
+    val hasCohort: Boolean
+        get() = CohortPattern.matches(cohort)
     var started by mutableStateOf(false)
         private set
     var details by mutableStateOf<ReturnCase?>(null)
@@ -266,9 +328,6 @@ private class ReturnBench(private val sdkVersion: String) {
         sample.width = window.width
         sample.height = window.height
         sample.readyMs = sample.elapsed()
-        if (sample.overlayMs == null && sample.case == ReturnCase.RETAINED) {
-            sample.overlayMs = sample.readyMs
-        }
         finish(sample)
     }
 
@@ -288,32 +347,45 @@ private class ReturnBench(private val sdkVersion: String) {
         }
     }
 
+    fun watchesTiles(sample: ReturnTrial): Boolean {
+        return trial === sample && mode == TileMode.REAL && !isRetained(sample)
+    }
+
+    private fun isRetained(sample: ReturnTrial): Boolean {
+        return sample.case == ReturnCase.RETAINED && currentCounts.mounts == sample.before.mounts
+    }
+
     fun finish(sample: ReturnTrial, expired: Boolean = false) {
         if (trial !== sample) return
-        val needsTiles = mode == TileMode.REAL && sample.case != ReturnCase.RETAINED
-        if (!expired && (sample.readyMs == null || sample.tapMs == null || (needsTiles && sample.tileMs == null))) {
+        if (!expired && (sample.readyMs == null || sample.tapMs == null || (watchesTiles(sample) && sample.tileMs == null))) {
             return
         }
 
         val tiles = when {
             mode == TileMode.MISSING_KEY -> "missing_key"
             mode == TileMode.VIEW_ONLY -> "disabled"
-            !needsTiles -> "retained"
+            isRetained(sample) && sample.readyMs != null -> "retained"
+            isRetained(sample) -> "retained_unverified"
+            sample.statistics == null && sample.earlyTileMs != null -> "early_only"
             sample.statistics == null -> "timeout"
             else -> "loaded"
         }
         val stats = sample.statistics
         val fields = listOf(
             "id=${sample.id}",
+            "cohort=$cohort",
             "case=${sample.case.wireName}",
             "mode=${mode.wireName}",
             "sdk=$sdkVersion",
+            "scope=post_init",
             "viewport=${sample.width}x${sample.height}",
             "mount_ms=${sample.mountMs ?: "na"}",
             "overlay_ms=${sample.overlayMs ?: "na"}",
             "ready_ms=${sample.readyMs ?: "na"}",
             "tap_ms=${sample.tapMs ?: "na"}",
             "tile_ms=${sample.tileMs ?: "na"}",
+            "early_tile_ms=${sample.earlyTileMs ?: "na"}",
+            "tile_registered=${sample.tileRegistration?.wireName ?: "na"}",
             "tiles=$tiles",
             "end=${if (expired) "deadline" else "complete"}",
             "mounts=${currentCounts.mounts - sample.before.mounts}",
@@ -346,6 +418,8 @@ private class ReturnTrial(val id: String, val case: ReturnCase, val before: Retu
     var readyMs: Long? by mutableStateOf(null)
     var tapMs: Long? = null
     var tileMs: Long? = null
+    var earlyTileMs: Long? = null
+    var tileRegistration: TileRegistration? = null
     var statistics: MapLoadStatistics? = null
     var width = 0
     var height = 0

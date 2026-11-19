@@ -39,7 +39,7 @@ The app opens on a menu of screens, each covering a slice of the API.
 | **Layers, listeners and states** | `MapObjectCollection`, `MapObjectLayer`, `TileLayer`, `TrafficLayer`, `MapListeners`, the state objects and `traverse` |
 | **Storage, offline cache, i18n** | `StorageManager`, `OfflineCacheManager`, `I18nManager` and the MapKit log stream |
 | **Return to map** | save the camera and marker selection while leaving a map tab or opening details |
-| **Measure return to map** | Opt-in measurements for view creation, overlay restoration, input readiness and tile loading. [Run the benchmark](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/verification/return-to-map). |
+| **Measure return to map** | View creation, overlay assignment, viewport projection and tile loading after MapKit initialization. Real tiles require a dedicated key. [Run the benchmark](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/verification/return-to-map). |
 
 The API demonstrations show their events on screen, so you can inspect a tap, a camera move or
 a failed call without a debugger.
