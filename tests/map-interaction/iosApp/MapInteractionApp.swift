@@ -17,6 +17,10 @@ struct MapInteractionApp: App {
 private struct ComposeMapHost: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let arguments = ProcessInfo.processInfo.arguments
+        let cameraFlag = "--camera="
+        if let argument = arguments.first(where: { $0.hasPrefix(cameraFlag) }) {
+            return CameraViewControllerKt.cameraViewController(mode: String(argument.dropFirst(cameraFlag.count)))
+        }
         if arguments.contains("--navigation3") {
             return InteractionViewControllerKt.nav3ViewController()
         }

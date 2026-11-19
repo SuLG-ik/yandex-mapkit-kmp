@@ -32,6 +32,15 @@ Start an emulator and run:
 `MapInteractionTest` sends down/up pointer events via Android instrumentation to the projected
 point in the MapKit view.
 
+`CameraRegressionTest` drives a real Android activity. Its drag and two-pointer pinch use screen
+coordinates from the measured Compose map. The camera fixture checks direction and completion
+with independent scroll and zoom flags. It starts new camera listeners on distinct native maps,
+ignores an outgoing map's camera completion after detachment, and waits past the previous
+animation's deadline. The location case reads
+`UserLocationState.cameraPosition`, moves the same map to each injected fix, and checks a custom
+pin on screen while toggling `UserLocationConfig.isVisible`. The test host installs a dummy
+location manager before enabling the layer and restores the default during cleanup.
+
 ## iOS
 
 Choose an available simulator UDID from `xcrun simctl list devices available`. With Xcode,
@@ -44,6 +53,13 @@ bash .github/scripts/test-ios-map-interaction.sh SIMULATOR_UDID
 The script installs pods and runs `MapInteractionTests` against a test-only app. XCUITest taps
 the projected UIKit coordinate and verifies the ordered trace through accessibility. The result
 bundle is under `tests/map-interaction/build`.
+
+The camera scenarios use the same simulator test target. XCUITest drags the UIKit map and sends
+MapKit's two-finger tap to an inset area to zoom out. The gesture map renders at up to 30 FPS on
+the iOS simulator to limit Metal load. XCUITest also selects the animation and location
+controls. It samples the map viewport to check the location pin and attaches that viewport on
+failure. The pin check uses magenta color contrast across multiple pixels to account for blending
+with the map. The controls and fixture are test-only.
 
 ## Listener ownership
 
