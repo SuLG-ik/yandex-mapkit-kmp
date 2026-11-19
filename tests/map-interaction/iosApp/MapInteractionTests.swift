@@ -100,32 +100,40 @@ final class MapInteractionTests: XCTestCase {
         touchCenter("polygon", "collection", "restored")
     }
 
-    func testPanAndPinchSettleAndRespectGestureFlags() {
+    func testPanAndTwoFingerZoomSettleAndRespectGestureFlags() {
         let app = launchCameraFixture("Gestures")
         waitForEvent("gestures enabled", in: app)
         let map = app.descendants(matching: .any).matching(
             NSPredicate(format: "label == %@", "camera gesture map")
         ).firstMatch
         XCTAssertTrue(map.waitForExistence(timeout: 10), trace(in: app))
+        let zoomTarget = app.descendants(matching: .any).matching(
+            NSPredicate(format: "label == %@", "camera two-finger target")
+        ).firstMatch
+        XCTAssertTrue(zoomTarget.waitForExistence(timeout: 10), trace(in: app))
+        XCTAssertTrue(
+            map.frame.insetBy(dx: 10, dy: 10).contains(zoomTarget.frame),
+            "Two-finger target \(zoomTarget.frame) must stay inside map \(map.frame)"
+        )
 
         drag(on: map)
         waitForEvent("pan moved west", in: app)
-        map.pinch(withScale: 2, velocity: 1)
-        waitForEvent("pinch zoomed in", in: app)
+        zoomTarget.twoFingerTap()
+        waitForEvent("zoom moved out", in: app)
 
         app.buttons["Disable scroll"].tap()
         waitForEvent("scroll disabled", in: app)
         drag(on: map)
         app.buttons["Check blocked pan"].tap()
         waitForEvent("blocked pan held camera", in: app)
-        map.pinch(withScale: 2, velocity: 1)
-        waitForEvent("pinch zoomed in with scroll disabled", in: app)
+        zoomTarget.twoFingerTap()
+        waitForEvent("zoom moved out with scroll disabled", in: app)
 
         app.buttons["Disable zoom"].tap()
         waitForEvent("zoom disabled", in: app)
-        map.pinch(withScale: 2, velocity: 1)
-        app.buttons["Check blocked pinch"].tap()
-        waitForEvent("blocked pinch held camera", in: app)
+        zoomTarget.twoFingerTap()
+        app.buttons["Check blocked zoom"].tap()
+        waitForEvent("blocked zoom held camera", in: app)
         drag(on: map)
         waitForEvent("pan moved west with zoom disabled", in: app)
         XCTAssertEqual(
@@ -133,12 +141,12 @@ final class MapInteractionTests: XCTestCase {
             """
             gestures enabled
             pan moved west
-            pinch zoomed in
+            zoom moved out
             scroll disabled
             blocked pan held camera
-            pinch zoomed in with scroll disabled
+            zoom moved out with scroll disabled
             zoom disabled
-            blocked pinch held camera
+            blocked zoom held camera
             pan moved west with zoom disabled
             """
         )
@@ -261,7 +269,13 @@ final class MapInteractionTests: XCTestCase {
         }
         let expectation = XCTNSPredicateExpectation(predicate: containsEvent, object: element)
         let outcome = XCTWaiter.wait(for: [expectation], timeout: timeout)
-        XCTAssertEqual(outcome, .completed, "Waiting for \(event). Events: \(trace(in: app))")
+        XCTAssertEqual(outcome, .completed, eventFailure(event, in: app))
+    }
+
+    private func eventFailure(_ event: String, in app: XCUIApplication) -> String {
+        let camera = app.staticTexts["fixture-gesture-position"]
+        let cameraState = camera.exists ? "\nLast stationary camera: \(camera.label)" : ""
+        return "Waiting for \(event). Events: \(trace(in: app))\(cameraState)"
     }
 
     private func trace(in app: XCUIApplication) -> String {

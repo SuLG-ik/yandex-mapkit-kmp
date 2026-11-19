@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.test.interaction
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
@@ -66,6 +68,11 @@ import kotlin.time.TimeSource
 
 internal enum class CameraRegressionMode { Gestures, Animation, Location }
 
+internal enum class CameraZoomDirection(val sign: Float, val event: String) {
+    In(1f, "zoom moved in"),
+    Out(-1f, "zoom moved out"),
+}
+
 internal class CameraRegressionProbe {
 
     val events = mutableStateListOf<String>()
@@ -77,13 +84,14 @@ internal class CameraRegressionProbe {
 internal fun CameraRegressionFixture(
     mode: CameraRegressionMode,
     probe: CameraRegressionProbe = remember { CameraRegressionProbe() },
+    zoomDirection: CameraZoomDirection = CameraZoomDirection.In,
 ) {
     val kit = rememberAndInitializeMapKit()
     kit.bindToLifecycleOwner()
 
     Column {
         when (mode) {
-            CameraRegressionMode.Gestures -> GestureCamera(probe)
+            CameraRegressionMode.Gestures -> GestureCamera(probe, zoomDirection)
             CameraRegressionMode.Animation -> AnimatedCamera(probe)
             CameraRegressionMode.Location -> SimulatedLocationCamera(probe, kit)
         }
@@ -92,7 +100,7 @@ internal fun CameraRegressionFixture(
 }
 
 @Composable
-private fun GestureCamera(probe: CameraRegressionProbe) {
+private fun GestureCamera(probe: CameraRegressionProbe, zoomDirection: CameraZoomDirection) {
     val camera = remember { CameraPositionState(InitialCamera) }
     var nativeMap by remember { mutableStateOf<Map?>(null) }
     var phase by remember { mutableStateOf(GesturePhase.Enabled) }
@@ -100,11 +108,12 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
     var checkBlocked by remember { mutableStateOf(false) }
     var blockedChecked by remember { mutableStateOf(false) }
     var movedWhileBlocked by remember { mutableStateOf(false) }
+    var lastCameraReading by remember { mutableStateOf("") }
 
     val action = when (phase) {
         GesturePhase.Enabled -> "Disable scroll"
         GesturePhase.NoScroll -> if (blockedChecked) "Disable zoom" else "Check blocked pan"
-        GesturePhase.NoZoom -> "Check blocked pinch"
+        GesturePhase.NoZoom -> "Check blocked zoom"
     }
     CameraAction(probe, action) {
         when {
@@ -121,45 +130,56 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
             else -> checkBlocked = true
         }
     }
-    YandexMap(
-        cameraPositionState = camera,
-        modifier = Modifier.size(260.dp)
-            .onGloballyPositioned { probe.mapLayout = it }
-            .semantics { contentDescription = "camera gesture map" },
-        config = MapConfig(
-            mapType = MapType.NONE,
-            isScrollGesturesEnabled = phase.scroll,
-            isZoomGesturesEnabled = phase.zoom,
-            isRotateGesturesEnabled = false,
-            isTiltGesturesEnabled = false,
-        ),
-    ) {
-        MapEffect(phase) { map ->
-            nativeMap = map
-            val currentPhase = phase
-            val configured = awaitCameraCondition {
-                map.isScrollGesturesEnabled == currentPhase.scroll && map.isZoomGesturesEnabled == currentPhase.zoom &&
-                    probe.mapLayout?.isAttached == true
-            }
-            if (!configured) {
-                probe.events.add("failure: native gesture configuration was not applied")
-                return@MapEffect
-            }
-
-            if (currentPhase != GesturePhase.Enabled) {
-                camera.position = InitialCamera
-                val reset = awaitCameraCondition {
-                    map.cameraPosition.near(InitialCamera) && camera.position.near(InitialCamera) && !camera.isMoving
+    Box(Modifier.size(260.dp)) {
+        YandexMap(
+            cameraPositionState = camera,
+            modifier = Modifier.matchParentSize()
+                .onGloballyPositioned { probe.mapLayout = it }
+                .semantics { contentDescription = "camera gesture map" },
+            config = MapConfig(
+                mapType = MapType.NONE,
+                isScrollGesturesEnabled = phase.scroll,
+                isZoomGesturesEnabled = phase.zoom,
+                isRotateGesturesEnabled = false,
+                isTiltGesturesEnabled = false,
+            ),
+        ) {
+            MapEffect(phase) { map ->
+                nativeMap = map
+                val currentPhase = phase
+                val configured = awaitCameraCondition {
+                    map.isScrollGesturesEnabled == currentPhase.scroll &&
+                        map.isZoomGesturesEnabled == currentPhase.zoom &&
+                        probe.mapLayout?.isAttached == true
                 }
-                if (!reset) {
-                    probe.events.add("failure: could not reset the camera after disabling gestures")
+                if (!configured) {
+                    probe.events.add("failure: native gesture configuration was not applied")
                     return@MapEffect
                 }
-                baseline = map.cameraPosition
+
+                if (currentPhase != GesturePhase.Enabled) {
+                    camera.position = InitialCamera
+                    val reset = awaitCameraCondition {
+                        map.cameraPosition.near(InitialCamera) && camera.position.near(InitialCamera) && !camera.isMoving
+                    }
+                    if (!reset) {
+                        probe.events.add("failure: could not reset the camera after disabling gestures")
+                        return@MapEffect
+                    }
+                    baseline = map.cameraPosition
+                }
+                probe.events.add(currentPhase.readyEvent)
             }
-            probe.events.add(currentPhase.readyEvent)
+        }
+        if (zoomDirection == CameraZoomDirection.Out) {
+            Box(
+                Modifier.align(Alignment.Center)
+                    .size(140.dp)
+                    .semantics { contentDescription = "camera two-finger target" },
+            )
         }
     }
+    BasicText(lastCameraReading, modifier = Modifier.testTag("fixture-gesture-position"))
 
     LaunchedEffect(camera) {
         snapshotFlow {
@@ -170,20 +190,22 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
             if (start != null && !reading.blockedChecked && !reading.position.near(start)) {
                 movedWhileBlocked = true
             }
-            if (reading.moving || reading.reason != CameraUpdateReason.GESTURES) return@collect
+            if (reading.moving) return@collect
+            lastCameraReading = "${reading.phase} ${reading.reason} ${reading.position}"
+            if (reading.reason != CameraUpdateReason.GESTURES) return@collect
             val comparedTo = start ?: InitialCamera
             val pannedWest = reading.position.target.longitude.value < comparedTo.target.longitude.value - 0.0001 &&
                 abs(reading.position.zoom - comparedTo.zoom) < 0.02f
-            val zoomedIn = reading.position.zoom > comparedTo.zoom + 0.35f
+            val zoomed = (reading.position.zoom - comparedTo.zoom) * zoomDirection.sign > 0.35f
             val event = when (phase) {
                 GesturePhase.Enabled -> when {
                     "pan moved west" !in probe.events && pannedWest -> "pan moved west"
-                    "pan moved west" in probe.events && zoomedIn -> "pinch zoomed in"
+                    "pan moved west" in probe.events && zoomed -> zoomDirection.event
                     else -> null
                 }
 
                 GesturePhase.NoScroll -> {
-                    if (reading.blockedChecked && zoomedIn) "pinch zoomed in with scroll disabled" else null
+                    if (reading.blockedChecked && zoomed) "${zoomDirection.event} with scroll disabled" else null
                 }
 
                 GesturePhase.NoZoom -> {
@@ -200,7 +222,7 @@ private fun GestureCamera(probe: CameraRegressionProbe) {
         val actual = nativeMap?.cameraPosition
         if (!movedWhileBlocked && actual?.near(before) == true && camera.position.near(before) && !camera.isMoving) {
             blockedChecked = true
-            val event = if (phase == GesturePhase.NoScroll) "blocked pan held camera" else "blocked pinch held camera"
+            val event = if (phase == GesturePhase.NoScroll) "blocked pan held camera" else "blocked zoom held camera"
             probe.events.add(event)
         } else {
             probe.events.add(
@@ -304,7 +326,9 @@ private fun AnimatedCamera(probe: CameraRegressionProbe) {
             AnimationStep.Leave -> {
                 val origin = generation
                 val leaving = CameraCallback { completed ->
-                    if (completed) probe.events.add("failure: animation finished after leaving map $origin")
+                    if (mounted && generation == origin && window == current) {
+                        probe.events.add("failure: outgoing animation reported $completed before map $origin detached")
+                    }
                 }
                 val deadline = TimeSource.Monotonic.markNow() + DepartingMove.duration
                 if (!awaitNativeMoveStart(current.map, DepartingMove, leaving, probe)) return@LaunchedEffect

@@ -7,5 +7,7 @@ import ru.sulgik.mapkit.MapKit
 public fun cameraViewController(mode: String): UIViewController {
     MapKit.setApiKey(FixtureKey)
     val cameraMode = CameraRegressionMode.valueOf(mode)
-    return ComposeUIViewController { CameraRegressionFixture(cameraMode) }
+    return ComposeUIViewController {
+        CameraRegressionFixture(cameraMode, zoomDirection = CameraZoomDirection.Out)
+    }
 }
