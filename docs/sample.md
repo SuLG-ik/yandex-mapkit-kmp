@@ -82,9 +82,23 @@ route-state tests with a small UI in place of the native map and compiles the iO
 Those jobs use a placeholder key and make no MapKit service requests. On a device, use the actual
 example to check marker hits and camera restoration as the map opens and closes.
 
-A comparison of view recreation with keeping
-the tab mounted needs the same viewport, device and dataset on both runs. Compare native view
-creation, the first usable frame, touch delivery and memory after [the baseline measurements][74].
+### Retain a viewport within its current host
+
+The measurement sample offers both **Details (unmount map)** and **Other tab (retain map)**.
+Both use the same camera, markers and SDK storage settings. In the retained case, the map stays
+in its host and the tab's cover receives input. When the owning route is finally removed, dispose
+the map and its listeners with that route.
+
+Five real-tile Android cohorts at the same 683×683 viewport reached a usable projection in a
+median of 83 ms after recreating the view and 28 ms when retaining it. An ordinary reopen rebuilt
+one map, three markers and one icon. The retained route rebuilt none of them. The verified tile
+callback arrived at a median of 6.6 seconds after an ordinary reopen. A ready projection and
+completed tile loading describe different stages. [Android baseline and measurement scope][74]
+
+Use the saved-camera and selection recipe when a route can leave its host. For a short tab switch
+inside the same host, the retained example shows how to preserve the viewport and avoid rebuilding
+its overlays. Use the same device and viewport to measure this choice in your app, including memory
+and pointer delivery while the map is covered.
 
 [74]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/74
 [sample-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/sample.yml
