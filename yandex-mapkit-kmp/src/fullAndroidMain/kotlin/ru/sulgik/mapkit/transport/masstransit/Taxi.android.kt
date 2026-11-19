@@ -3,11 +3,12 @@ package ru.sulgik.mapkit.transport.masstransit
 import com.yandex.mapkit.transport.masstransit.Taxi as NativeTaxi
 
 /** Native data for a taxi section. */
-public actual class Taxi internal constructor(
-    private val nativeTaxi: NativeTaxi,
-) {
+public actual class Taxi internal constructor(private val nativeTaxi: NativeTaxi) {
+
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeTaxi = nativeTaxi
+    public fun toNative(): NativeTaxi {
+        return nativeTaxi
+    }
 
     /** Reports whether two wrappers hold the same native handle. */
     actual override fun equals(other: Any?): Boolean {
@@ -17,8 +18,12 @@ public actual class Taxi internal constructor(
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int = nativeTaxi.hashCode()
+    actual override fun hashCode(): Int {
+        return nativeTaxi.hashCode()
+    }
 }
 
 /** Wraps this native handle. */
-public fun NativeTaxi.toCommon(): Taxi = Taxi(this)
+public fun NativeTaxi.toCommon(): Taxi {
+    return Taxi(this)
+}

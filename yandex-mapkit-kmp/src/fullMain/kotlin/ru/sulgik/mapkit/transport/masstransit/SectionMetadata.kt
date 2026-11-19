@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.transport.masstransit
 
 /** Information about a section of a transport route. */
 public expect class SectionMetadata {
+
     /** Travel time, walking distance and transfer count. */
     public val weight: Weight
 
@@ -16,6 +17,7 @@ public expect class SectionMetadata {
 
     /** A choice of data specific to a transport section. */
     public class SectionData {
+
         /** Data for waiting. */
         public val wait: Wait?
 

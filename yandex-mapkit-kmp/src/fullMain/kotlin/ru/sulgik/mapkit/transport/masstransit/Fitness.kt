@@ -4,6 +4,7 @@ import ru.sulgik.mapkit.geometry.PolylinePosition
 
 /** Walking or cycling section data. */
 public expect class Fitness {
+
     /** How the user travels through the section. */
     public val type: FitnessType
 

@@ -6,6 +6,7 @@ import ru.sulgik.mapkit.transport.masstransit.PedestrianRouter
 
 /** Entry point for walking, cycling and public transport in Full MapKit. */
 public expect class Transport {
+
     /** Tells whether this transport object is valid. */
     public val isValid: Boolean
 
@@ -19,6 +20,7 @@ public expect class Transport {
     public fun createMasstransitRouter(): MasstransitRouter
 
     public companion object {
+
         /** Returns the transport entry point. */
         public fun getInstance(): Transport
     }

@@ -4,11 +4,12 @@ import ru.sulgik.mapkit.map.BaseMetadata
 import com.yandex.mapkit.transport.masstransit.Line as NativeLine
 
 /** A public transport line. */
-public actual class Line internal constructor(
-    private val nativeLine: NativeLine,
-) : BaseMetadata {
+public actual class Line internal constructor(private val nativeLine: NativeLine) : BaseMetadata {
+
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeLine = nativeLine
+    public fun toNative(): NativeLine {
+        return nativeLine
+    }
 
     /** The line identifier. */
     public actual val id: String
@@ -30,8 +31,12 @@ public actual class Line internal constructor(
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int = nativeLine.hashCode()
+    actual override fun hashCode(): Int {
+        return nativeLine.hashCode()
+    }
 }
 
 /** Wraps this native handle. */
-public fun NativeLine.toCommon(): Line = Line(this)
+public fun NativeLine.toCommon(): Line {
+    return Line(this)
+}

@@ -6,11 +6,12 @@ import YandexMapKit.YMKMasstransitFitness as NativeFitness
 import YandexMapKit.YMKPolylinePosition as NativePolylinePosition
 
 /** Walking or cycling section data. */
-public actual class Fitness internal constructor(
-    private val nativeFitness: NativeFitness,
-) {
+public actual class Fitness internal constructor(private val nativeFitness: NativeFitness) {
+
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeFitness = nativeFitness
+    public fun toNative(): NativeFitness {
+        return nativeFitness
+    }
 
     /** How the user travels through the section. */
     public actual val type: FitnessType
@@ -28,8 +29,12 @@ public actual class Fitness internal constructor(
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int = nativeFitness.hashCode()
+    actual override fun hashCode(): Int {
+        return nativeFitness.hashCode()
+    }
 }
 
 /** Wraps this native handle. */
-public fun NativeFitness.toCommon(): Fitness = Fitness(this)
+public fun NativeFitness.toCommon(): Fitness {
+    return Fitness(this)
+}

@@ -5,11 +5,12 @@ import ru.sulgik.mapkit.geometry.toCommon
 import YandexMapKit.YMKMasstransitRouteStop as NativeRouteStop
 
 /** A public transport stop on a route. */
-public actual class RouteStop internal constructor(
-    private val nativeRouteStop: NativeRouteStop,
-) {
+public actual class RouteStop internal constructor(private val nativeRouteStop: NativeRouteStop) {
+
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeRouteStop = nativeRouteStop
+    public fun toNative(): NativeRouteStop {
+        return nativeRouteStop
+    }
 
     /** The stop information and optional entrances or exits. */
     public actual val metadata: RouteStopMetadata
@@ -27,8 +28,12 @@ public actual class RouteStop internal constructor(
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int = nativeRouteStop.hashCode()
+    actual override fun hashCode(): Int {
+        return nativeRouteStop.hashCode()
+    }
 }
 
 /** Wraps this native handle. */
-public fun NativeRouteStop.toCommon(): RouteStop = RouteStop(this)
+public fun NativeRouteStop.toCommon(): RouteStop {
+    return RouteStop(this)
+}

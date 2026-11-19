@@ -5,11 +5,12 @@ import ru.sulgik.mapkit.toNative
 import com.yandex.mapkit.transport.masstransit.MasstransitRouter as NativeMasstransitRouter
 
 /** A router that builds public transport routes. */
-public actual class MasstransitRouter internal constructor(
-    private val nativeMasstransitRouter: NativeMasstransitRouter,
-) {
+public actual class MasstransitRouter internal constructor(private val nativeMasstransitRouter: NativeMasstransitRouter) {
+
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeMasstransitRouter = nativeMasstransitRouter
+    public fun toNative(): NativeMasstransitRouter {
+        return nativeMasstransitRouter
+    }
 
     /** Builds routes through [points] in the supplied order.
      *
@@ -23,13 +24,12 @@ public actual class MasstransitRouter internal constructor(
         routeListener: RouteListener,
     ): Session {
         val request = RouteRequest(routeListener)
-        val session =
-            nativeMasstransitRouter.requestRoutes(
-                points.map(RequestPoint::toNative),
-                transitOptions.toNative(),
-                routeOptions.toNative(),
-                request.toNative(),
-            )
+        val session = nativeMasstransitRouter.requestRoutes(
+            points.map(RequestPoint::toNative),
+            transitOptions.toNative(),
+            routeOptions.toNative(),
+            request.toNative(),
+        )
         return session.toCommon(request)
     }
 
@@ -41,8 +41,12 @@ public actual class MasstransitRouter internal constructor(
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int = nativeMasstransitRouter.hashCode()
+    actual override fun hashCode(): Int {
+        return nativeMasstransitRouter.hashCode()
+    }
 }
 
 /** Wraps this native handle. */
-public fun NativeMasstransitRouter.toCommon(): MasstransitRouter = MasstransitRouter(this)
+public fun NativeMasstransitRouter.toCommon(): MasstransitRouter {
+    return MasstransitRouter(this)
+}

@@ -4,6 +4,7 @@ import ru.sulgik.mapkit.RequestPoint
 
 /** A router that builds bicycle routes. */
 public expect class BicycleRouterV2 {
+
     /** Builds routes through [points] in the supplied order.
      *
      * Call on the UI thread. Keep the returned session while the request is active, and

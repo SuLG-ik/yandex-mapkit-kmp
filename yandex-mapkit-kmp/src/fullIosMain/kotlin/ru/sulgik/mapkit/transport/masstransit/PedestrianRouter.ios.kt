@@ -5,11 +5,12 @@ import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKPedestrianRouter as NativePedestrianRouter
 
 /** A router that builds pedestrian routes. */
-public actual class PedestrianRouter internal constructor(
-    private val nativePedestrianRouter: NativePedestrianRouter,
-) {
+public actual class PedestrianRouter internal constructor(private val nativePedestrianRouter: NativePedestrianRouter) {
+
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativePedestrianRouter = nativePedestrianRouter
+    public fun toNative(): NativePedestrianRouter {
+        return nativePedestrianRouter
+    }
 
     /** Builds routes through [points] in the supplied order.
      *
@@ -23,13 +24,12 @@ public actual class PedestrianRouter internal constructor(
         routeListener: RouteListener,
     ): Session {
         val request = RouteRequest(routeListener)
-        val session =
-            nativePedestrianRouter.requestRoutesWithPoints(
-                points = points.map(RequestPoint::toNative),
-                timeOptions = timeOptions.toNative(),
-                routeOptions = routeOptions.toNative(),
-                routeHandler = request.toNative(),
-            )
+        val session = nativePedestrianRouter.requestRoutesWithPoints(
+            points = points.map(RequestPoint::toNative),
+            timeOptions = timeOptions.toNative(),
+            routeOptions = routeOptions.toNative(),
+            routeHandler = request.toNative(),
+        )
         return session.toCommon(request)
     }
 
@@ -41,8 +41,12 @@ public actual class PedestrianRouter internal constructor(
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int = nativePedestrianRouter.hashCode()
+    actual override fun hashCode(): Int {
+        return nativePedestrianRouter.hashCode()
+    }
 }
 
 /** Wraps this native handle. */
-public fun NativePedestrianRouter.toCommon(): PedestrianRouter = PedestrianRouter(this)
+public fun NativePedestrianRouter.toCommon(): PedestrianRouter {
+    return PedestrianRouter(this)
+}

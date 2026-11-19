@@ -7,19 +7,21 @@ import com.yandex.runtime.Error as NativeError
 
 /** Receives transport routes or a failure on the UI thread. */
 public actual abstract class RouteListener actual constructor() : NativeConvertible<NativeRouteListener> {
-    private val nativeListener =
-        object : NativeRouteListener {
-            override fun onMasstransitRoutes(routes: List<NativeRoute>) {
-                this@RouteListener.onMasstransitRoutes(routes.map { it.toCommon() })
-            }
 
-            override fun onMasstransitRoutesError(error: NativeError) {
-                this@RouteListener.onMasstransitRoutesError(error.toCommon())
-            }
+    private val nativeListener = object : NativeRouteListener {
+        override fun onMasstransitRoutes(routes: List<NativeRoute>) {
+            this@RouteListener.onMasstransitRoutes(routes.map { it.toCommon() })
         }
 
+        override fun onMasstransitRoutesError(error: NativeError) {
+            this@RouteListener.onMasstransitRoutesError(error.toCommon())
+        }
+    }
+
     /** Returns this listener's native adapter. */
-    override fun toNative(): NativeRouteListener = nativeListener
+    override fun toNative(): NativeRouteListener {
+        return nativeListener
+    }
 
     /** Called with the routes in native order. The list may be empty. */
     public actual abstract fun onMasstransitRoutes(routes: List<Route>)
@@ -28,4 +30,6 @@ public actual abstract class RouteListener actual constructor() : NativeConverti
     public actual abstract fun onMasstransitRoutesError(error: RouteError)
 }
 
-internal fun RouteRequest.toNative(): NativeRouteListener = asListener().toNative()
+internal fun RouteRequest.toNative(): NativeRouteListener {
+    return asListener().toNative()
+}

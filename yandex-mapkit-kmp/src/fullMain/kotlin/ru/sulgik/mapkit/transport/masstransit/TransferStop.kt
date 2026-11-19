@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.transport.masstransit
 
 /** A stop visited while transferring between rides. */
 public expect class TransferStop {
+
     /** The stop used by the transfer. */
     public val routeStop: RouteStop
 

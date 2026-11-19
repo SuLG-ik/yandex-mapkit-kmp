@@ -6,6 +6,7 @@ import ru.sulgik.mapkit.uri.UriObjectMetadata
 
 /** A walking, cycling or transit route returned by MapKit. */
 public expect class Route {
+
     /** General information about this route. */
     public val metadata: RouteMetadata
 
@@ -22,16 +23,10 @@ public expect class Route {
     public val uriMetadata: UriObjectMetadata
 
     /** Returns the path distance between two positions on this route. */
-    public fun distanceBetweenPolylinePositions(
-        from: PolylinePosition,
-        to: PolylinePosition,
-    ): Double
+    public fun distanceBetweenPolylinePositions(from: PolylinePosition, to: PolylinePosition): Double
 
     /** Returns the travel time between two positions on this route. */
-    public fun timeBetweenPolylinePositions(
-        from: PolylinePosition,
-        to: PolylinePosition,
-    ): Double
+    public fun timeBetweenPolylinePositions(from: PolylinePosition, to: PolylinePosition): Double
 
     /** Reports whether two wrappers hold the same native handle. */
     override fun equals(other: Any?): Boolean

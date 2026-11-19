@@ -4,6 +4,7 @@ import ru.sulgik.mapkit.geometry.Point
 
 /** A public transport stop on a route. */
 public expect class RouteStop {
+
     /** The stop information and optional entrances or exits. */
     public val metadata: RouteStopMetadata
 

@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.transport.masstransit
 
 /** A session for a walking, cycling or transit route request. */
 public expect class Session {
+
     /** Cancels the current request and releases its listener through any alias. Call on the UI thread. */
     public fun cancel()
 

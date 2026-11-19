@@ -5,11 +5,12 @@ import com.yandex.runtime.Error as NativeError
 import ru.sulgik.mapkit.runtime.toCommon as toRuntimeError
 
 /** A failure reported by a walking, cycling or transit router. */
-public actual class RouteError internal constructor(
-    private val nativeError: NativeError,
-) {
+public actual class RouteError internal constructor(private val nativeError: NativeError) {
+
     /** Returns the native failure. */
-    public fun toNative(): NativeError = nativeError
+    public fun toNative(): NativeError {
+        return nativeError
+    }
 
     /** The typed MapKit failure, when the platform supplies one. */
     public actual val error: Error?
@@ -21,4 +22,6 @@ public actual class RouteError internal constructor(
 }
 
 /** Wraps a native transport failure. */
-public fun NativeError.toCommon(): RouteError = RouteError(this)
+public fun NativeError.toCommon(): RouteError {
+    return RouteError(this)
+}

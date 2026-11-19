@@ -5,11 +5,12 @@ import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKBicycleRouterV2 as NativeBicycleRouterV2
 
 /** A router that builds bicycle routes. */
-public actual class BicycleRouterV2 internal constructor(
-    private val nativeBicycleRouterV2: NativeBicycleRouterV2,
-) {
+public actual class BicycleRouterV2 internal constructor(private val nativeBicycleRouterV2: NativeBicycleRouterV2) {
+
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeBicycleRouterV2 = nativeBicycleRouterV2
+    public fun toNative(): NativeBicycleRouterV2 {
+        return nativeBicycleRouterV2
+    }
 
     /** Builds routes through [points] in the supplied order.
      *
@@ -23,13 +24,12 @@ public actual class BicycleRouterV2 internal constructor(
         routeListener: RouteListener,
     ): Session {
         val request = RouteRequest(routeListener)
-        val session =
-            nativeBicycleRouterV2.requestRoutesWithPoints(
-                points = points.map(RequestPoint::toNative),
-                timeOptions = timeOptions.toNative(),
-                routeOptions = routeOptions.toNative(),
-                routeHandler = request.toNative(),
-            )
+        val session = nativeBicycleRouterV2.requestRoutesWithPoints(
+            points = points.map(RequestPoint::toNative),
+            timeOptions = timeOptions.toNative(),
+            routeOptions = routeOptions.toNative(),
+            routeHandler = request.toNative(),
+        )
         return session.toCommon(request)
     }
 
@@ -41,8 +41,12 @@ public actual class BicycleRouterV2 internal constructor(
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int = nativeBicycleRouterV2.hashCode()
+    actual override fun hashCode(): Int {
+        return nativeBicycleRouterV2.hashCode()
+    }
 }
 
 /** Wraps this native handle. */
-public fun NativeBicycleRouterV2.toCommon(): BicycleRouterV2 = BicycleRouterV2(this)
+public fun NativeBicycleRouterV2.toCommon(): BicycleRouterV2 {
+    return BicycleRouterV2(this)
+}

@@ -2,6 +2,7 @@ package ru.sulgik.mapkit.transport.masstransit
 
 /** Receives transport routes or a failure on the UI thread. */
 public expect abstract class RouteListener() {
+
     /** Called with the routes in native order. The list may be empty. */
     public abstract fun onMasstransitRoutes(routes: List<Route>)
 
@@ -13,8 +14,8 @@ public expect abstract class RouteListener() {
 public inline fun RouteListener(
     crossinline onMasstransitRoutes: (List<Route>) -> Unit,
     crossinline onMasstransitRoutesError: (RouteError) -> Unit,
-): RouteListener =
-    object : RouteListener() {
+): RouteListener {
+    return object : RouteListener() {
         override fun onMasstransitRoutes(routes: List<Route>) {
             onMasstransitRoutes.invoke(routes)
         }
@@ -23,3 +24,4 @@ public inline fun RouteListener(
             onMasstransitRoutesError.invoke(error)
         }
     }
+}

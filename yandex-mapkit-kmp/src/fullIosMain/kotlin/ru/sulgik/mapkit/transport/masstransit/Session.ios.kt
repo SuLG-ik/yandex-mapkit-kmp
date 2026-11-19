@@ -11,8 +11,11 @@ public actual class Session internal constructor(
     private val nativeSession: NativeSession,
     private val requests: RoutingRequestState<RouteListener>,
 ) {
+
     /** Returns the wrapped native handle. */
-    public fun toNative(): NativeSession = nativeSession
+    public fun toNative(): NativeSession {
+        return nativeSession
+    }
 
     /** Cancels the current request and releases its listener through any alias. Call on the UI thread. */
     public actual fun cancel() {
@@ -35,11 +38,15 @@ public actual class Session internal constructor(
     }
 
     /** Returns the native handle's hash code. */
-    actual override fun hashCode(): Int = nativeSession.hashCode()
+    actual override fun hashCode(): Int {
+        return nativeSession.hashCode()
+    }
 }
 
 /** Wraps this native handle. */
-public fun NativeSession.toCommon(): Session = Session(this, transitRouteRequests.getOrPut(this) { RoutingRequestState() })
+public fun NativeSession.toCommon(): Session {
+    return Session(this, transitRouteRequests.getOrPut(this) { RoutingRequestState() })
+}
 
 internal fun NativeSession.toCommon(request: RouteRequest): Session {
     val requests = transitRouteRequests.getOrPut(this) { RoutingRequestState() }
