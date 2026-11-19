@@ -7,6 +7,7 @@ probe=${2:?Provide a Full service probe}
 package=ru.sulgik.liteconsumer
 token=${MAPKIT_LIVE_SEARCH_TOKEN:?Launch through the trusted checker}
 [[ "$token" =~ ^[0-9]+-[0-9]+$ ]]
+statuses=(0 10 11 12 13 70)
 
 case "$probe" in
     search) marker=LIVE_SEARCH; attempts=65; modes=(text suggestions) ;;
@@ -16,13 +17,30 @@ esac
 key_name="live-$probe-key"
 result="$token-$marker"
 
+if [[ "${3:-}" == --modes ]]; then
+    app_data=$(xcrun simctl get_app_container "$device" "$package" data)
+    [[ -n "$app_data" && -d "$app_data" ]]
+    for mode in "${modes[@]}"; do
+        for status in "${statuses[@]}"; do
+            if [[ -f "$app_data/tmp/$result-$mode-$status" ]]; then
+                printf '%s %s\n' "$mode" "$status"
+                break
+            fi
+        done
+    done
+    exit 0
+fi
+
 if [[ "${3:-}" == --cleanup ]]; then
     xcrun simctl terminate "$device" "$package" >/dev/null 2>&1 || true
     app_data=$(xcrun simctl get_app_container "$device" "$package" data)
     [[ -n "$app_data" && -d "$app_data" ]]
     temporary="$app_data/tmp"
-    files=("$temporary/$key_name" "$temporary/$result-"{0,10,11,12,70})
-    for mode in "${modes[@]}"; do files+=("$temporary/$result-$mode-"{0,10,11,12,70}); done
+    files=("$temporary/$key_name")
+    for status in "${statuses[@]}"; do
+        files+=("$temporary/$result-$status")
+        for mode in "${modes[@]}"; do files+=("$temporary/$result-$mode-$status"); done
+    done
     rm -f -- "${files[@]}"
     exit 0
 fi
@@ -41,7 +59,7 @@ unset key
 xcrun simctl launch --terminate-running-process "$device" "$package" "$token" "live-$probe" >/dev/null
 
 for ((attempt = 0; attempt < attempts; attempt++)); do
-    for status in 0 10 11 12 70; do
+    for status in "${statuses[@]}"; do
         if [[ -f "$temporary/$result-$status" ]]; then
             if [[ "$status" == 0 ]]; then
                 for mode in "${modes[@]}"; do

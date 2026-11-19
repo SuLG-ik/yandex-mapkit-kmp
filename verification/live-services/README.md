@@ -24,16 +24,23 @@ The routing probe requests driving, pedestrian, bicycle and public transit route
 region. Each mode starts a route to a different destination and cancels it before submitting the
 replacement. The probe requires a real callback for the replacement and observes whether the
 retired request delivers a callback during cancellation or the bounded draw window. It checks
-nonempty geometry and ordered waypoints. The public transit case requires an alternative with a
-transit line. The accepted geometry is set on a native polyline, then cleared. A mode times out
+nonempty geometry and distinct, ordered waypoints. Driving positions must refer to real segments.
+The final vertex is the end of the last segment, at index `pointCount - 2` and fraction `1`.
+For driving alternatives without request-point metadata, the probe projects the first and last
+waypoints onto the polyline with MapKit and checks that they are within 250 m of the requested
+endpoints. This allows street snapping while keeping the replacement and cancelled destinations,
+which are over 4 km apart, distinct. The public transit case requires an alternative with a transit
+line. The accepted geometry is set on a native polyline, then cleared. A mode times out
 after 18 seconds. Success requires four mode markers and the final routing marker. Deterministic
 adapter tests inject retired callbacks separately to cover delivery even when the provider honors
 cancellation before it replies.
 
-Markers contain fixed probe names and status codes. After each launch, including a timeout, the
-runner starts bounded, credential-free cleanup on the same device. It terminates the fixture app,
-removes its temporary inputs and markers and reports an incomplete cleanup if the device is
-unreachable. Each hook has a 120-second outer deadline.
+Markers contain fixed probe names and status codes. After each search or routing launch, including a
+failure or timeout, the runner reads the allowed mode markers before cleanup. The `search_modes`
+and `routing_modes` objects in `results.json` keep a category for each mode. Absent or invalid
+markers are `not-run`. The runner starts bounded, credential-free cleanup on the same device. It
+terminates the fixture app, removes its temporary inputs and markers, and reports an incomplete
+cleanup if the device is unreachable. Each hook has a 120-second outer deadline.
 
 | Status | Meaning |
 | --- | --- |
@@ -41,8 +48,15 @@ unreachable. Each hook has a 120-second outer deadline.
 | `10` | MapKit supplied a typed unauthorized or forbidden error |
 | `11` | The provider returned another error or the request deadline expired |
 | `12` | Callback, conversion or result-shape verification failed |
+| `13` | The provider returned a valid empty route list, so no route could be drawn |
 | Anything else | The runner or fixture failed |
 
 The driver discards raw output and uploads only the result categories. An authorization,
 provider, wrapper or runner failure marks the corresponding scheduled/manual job failed. The
 offline regression suite still runs without credentials.
+
+Run the diagnostics unit tests without a device or key.
+
+```sh
+python3 verification/live-services/test_live_checks.py
+```

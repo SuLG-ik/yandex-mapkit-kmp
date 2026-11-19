@@ -16,6 +16,16 @@ esac
 key_file="files/live-$probe-key"
 result="files/$token-$marker"
 
+if [[ "${3:-}" == --modes ]]; then
+    for mode in "${modes[@]}"; do
+        status=$(adb -s "$device" exec-out "run-as $package cat $result-$mode" 2>/dev/null || true)
+        case "$status" in
+            0|10|11|12|13|70) printf '%s %s\n' "$mode" "$status" ;;
+        esac
+    done
+    exit 0
+fi
+
 if [[ "${3:-}" == --cleanup ]]; then
     adb -s "$device" shell am force-stop "$package" >/dev/null 2>&1 || true
     files=("$key_file" "$result")
@@ -46,7 +56,7 @@ for ((attempt = 0; attempt < attempts; attempt++)); do
             done
             exit 0
             ;;
-        10|11|12|70) exit "$status" ;;
+        10|11|12|13|70) exit "$status" ;;
     esac
     sleep 1
 done
