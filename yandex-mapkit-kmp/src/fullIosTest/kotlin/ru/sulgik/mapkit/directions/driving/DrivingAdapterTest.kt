@@ -2,8 +2,8 @@ package ru.sulgik.mapkit.directions.driving
 
 import platform.Foundation.NSError
 import platform.Foundation.NSLocalizedDescriptionKey
-import platform.Foundation.NSObject
 import platform.Foundation.timeIntervalSince1970
+import platform.darwin.NSObject
 import ru.sulgik.mapkit.RequestPoint
 import ru.sulgik.mapkit.RequestPointType
 import ru.sulgik.mapkit.annotations.AnnotationLanguage
