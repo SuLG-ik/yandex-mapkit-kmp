@@ -94,8 +94,12 @@ kotlin {
             implementation(compose.uiTest)
         }
 
-        getByName("androidDeviceTest").dependencies {
-            implementation(libs.androidx.compose.ui.test.manifest)
+        getByName("androidDeviceTest") {
+            kotlin.srcDir(rootProject.file("tests/map-interaction/src/commonMain/kotlin"))
+            dependencies {
+                implementation(libs.androidx.compose.ui.test.manifest)
+                implementation("androidx.test:runner:1.7.0")
+            }
         }
     }
 

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.v2.runComposeUiTest
-import ru.sulgik.mapkit.MapKit
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
@@ -14,7 +13,7 @@ public class NativeYandexMapLifecycleTest {
     @Test
     public fun activityCanCloseWithMapInComposition() {
         runComposeUiTest {
-            runOnUiThread { MapKit.setApiKey("00000000-0000-0000-0000-000000000000") }
+            runOnUiThread { setDeviceTestMapKitApiKey() }
             var controller: YandexMapController? = null
             setContent {
                 rememberAndInitializeMapKit().bindToLifecycleOwner()
