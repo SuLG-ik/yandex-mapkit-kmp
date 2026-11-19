@@ -34,8 +34,8 @@ import ru.sulgik.mapkit.compose.Circle
 import ru.sulgik.mapkit.compose.CircleState
 import ru.sulgik.mapkit.compose.ClusterGroup
 import ru.sulgik.mapkit.compose.ClusterItem
-import ru.sulgik.mapkit.compose.ClusterizingConfig
 import ru.sulgik.mapkit.compose.Clustering
+import ru.sulgik.mapkit.compose.ClusterizingConfig
 import ru.sulgik.mapkit.compose.MapConfig
 import ru.sulgik.mapkit.compose.MapEffect
 import ru.sulgik.mapkit.compose.MapListeners
@@ -339,6 +339,7 @@ private fun MembershipShape(
                 zIndex = zIndex,
             )
         }
+
         ShapeKind.Line -> {
             val state = remember { PolylineState(lineAt(center)) }
             LaunchedEffect(center) { state.geometry = lineAt(center) }
@@ -352,6 +353,7 @@ private fun MembershipShape(
                 zIndex = zIndex,
             )
         }
+
         ShapeKind.Circle -> {
             val state = remember { CircleState(circleAt(center)) }
             LaunchedEffect(center) { state.geometry = circleAt(center) }
@@ -364,6 +366,7 @@ private fun MembershipShape(
                 zIndex = zIndex,
             )
         }
+
         ShapeKind.Polygon -> {
             val state = remember { PolygonState(polygonAt(center)) }
             LaunchedEffect(center) { state.geometry = polygonAt(center) }
@@ -411,17 +414,21 @@ private fun readMembership(map: MapKitMap): MembershipSnapshot {
 private fun matchesGeometry(shape: MapObject, center: Point): Boolean {
     return when (shape) {
         is PlacemarkMapObject -> near(shape.geometry, center)
+
         is PolylineMapObject -> {
             val points = shape.geometry.points
             val expected = lineAt(center).points
             points.size == expected.size && points.zip(expected).all { (actual, wanted) -> near(actual, wanted) }
         }
+
         is CircleMapObject -> near(shape.geometry.center, center) && abs(shape.geometry.radius - 45f) < 0.01
+
         is PolygonMapObject -> {
             val points = shape.geometry.outerRing.points
             val expected = polygonAt(center).outerRing.points
             points.size == expected.size && expected.all { wanted -> points.any { near(it, wanted) } }
         }
+
         else -> false
     }
 }
