@@ -27,6 +27,9 @@ private struct ComposeMapHost: UIViewControllerRepresentable {
         if arguments.contains("--decompose-stack") {
             return DecomposeStackViewControllerKt.decomposeStackViewController()
         }
+        if arguments.contains("--pending-tile-layer") {
+            return PendingTileLayerViewControllerKt.pendingTileLayerViewController()
+        }
         if arguments.contains("--map-object-membership") {
             return InteractionViewControllerKt.objectMembershipViewController()
         }
