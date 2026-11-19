@@ -5,8 +5,8 @@ import ru.sulgik.mapkit.geometry.toNative
 import ru.sulgik.mapkit.runtime.toCommon
 import ru.sulgik.mapkit.runtime.toNative
 import ru.sulgik.mapkit.toCommon
-import ru.sulgik.mapkit.toNative
 import ru.sulgik.mapkit.toNSNumber
+import ru.sulgik.mapkit.toNative
 import YandexMapKit.YMKSuggestItem as NativeSuggestItem
 import YandexMapKit.YMKSuggestItemAction as NativeAction
 import YandexMapKit.YMKSuggestItemBusinessContext as NativeBusinessContext

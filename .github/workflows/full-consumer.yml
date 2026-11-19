@@ -50,16 +50,7 @@ jobs:
           --tests ru.sulgik.mapkit.search.SuggestAdapterTest
 
       - name: Check the Full Android API
-        id: full-android-api
         run: ./gradlew -PmapkitEdition=full -PskipIosTarget=true :yandex-mapkit-kmp:checkAndroidAbi
-
-      - name: Upload actual Full Android API after a mismatch
-        if: ${{ failure() && steps.full-android-api.outcome == 'failure' }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: full-suggestions-android-api
-          path: yandex-mapkit-kmp/build/androidAbi/*.android.api
-          if-no-files-found: ignore
 
       - name: Enable KVM
         run: |
@@ -117,16 +108,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Check the Full Kotlin API
-        id: full-kotlin-api
         run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:checkKotlinAbi
-
-      - name: Upload actual Full Kotlin API after a mismatch
-        if: ${{ failure() && steps.full-kotlin-api.outcome == 'failure' }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: full-suggestions-kotlin-api
-          path: yandex-mapkit-kmp/build/kotlin/abi/**/*.klib.api
-          if-no-files-found: ignore
 
       - name: Test the Full iOS search and suggestion adapters
         run: ./gradlew -PmapkitEdition=full :yandex-mapkit-kmp:iosSimulatorArm64Test
