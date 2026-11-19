@@ -1,5 +1,7 @@
 package ru.sulgik.mapkit.search
 
+import ru.sulgik.mapkit.geometry.Geometry
+import ru.sulgik.mapkit.geometry.toNative
 import com.yandex.mapkit.search.SearchManager as NativeSearchManager
 
 /**
@@ -9,6 +11,24 @@ public actual class SearchManager internal constructor(private val nativeSearchM
 
     public fun toNative(): NativeSearchManager {
         return nativeSearchManager
+    }
+
+    /**
+     * Searches near a point, bounding box, polyline or rectangular polygon.
+     *
+     * Call on the UI thread and retain the returned session. The session holds the listener until
+     * delivery or cancellation. Call [Session.cancel] when leaving the owning screen or replacing
+     * the request. The listener runs on the UI thread.
+     */
+    public actual fun submit(
+        text: String,
+        geometry: Geometry,
+        searchOptions: SearchOptions,
+        searchListener: SearchListener,
+    ): Session {
+        val request = SearchRequest(searchListener)
+        val session = nativeSearchManager.submit(text, geometry.toNative(), searchOptions.toNative(), request.toNative())
+        return session.toCommon(request)
     }
 
     /** Two handles are equal when they wrap the same native search manager. */

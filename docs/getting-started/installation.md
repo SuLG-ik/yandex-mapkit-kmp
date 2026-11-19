@@ -3,8 +3,9 @@
 All modules are published to Maven Central under the `ru.sulgik.mapkit` group.
 
 !!! info "Built against [Yandex MapKit SDK](https://yandex.ru/dev/mapkit/doc/ru/) `{{ mapkit_version }}`"
-    The wrapper targets the **lite** build. Your project links MapKit itself, so use the same
-    version there.
+    The coordinates below target the **lite** build. Use the same native SDK version when linking
+    it explicitly. See [Full text search](../wrapper/full-text-search.md#installation) for commands
+    to stage and verify the unreleased Full candidate.
 
 | Module | Gradle dependency | Description |
 |---|:---|:---|
