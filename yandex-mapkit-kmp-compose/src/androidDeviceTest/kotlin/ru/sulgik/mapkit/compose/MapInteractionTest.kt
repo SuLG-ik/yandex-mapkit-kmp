@@ -1,6 +1,7 @@
 package ru.sulgik.mapkit.compose
 
 import android.os.SystemClock
+import android.util.Log
 import android.view.MotionEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -78,6 +79,7 @@ public class MapInteractionTest {
                     if (actual.size >= expected.size || actual != expected.take(actual.size)) break
                     SystemClock.sleep(20L)
                 }
+                Log.e("MapInteractionTest", "Expected native map events: $expected. Actual events: $actual")
                 assertEquals(expected, actual, "Native map event trace")
             }
 
