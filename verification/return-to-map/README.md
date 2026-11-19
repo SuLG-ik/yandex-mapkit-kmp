@@ -29,8 +29,9 @@ its private file. The only uploaded artifacts are the extracted records and thei
 
 A cohort is complete when all four routes report projection and a native tap at the same viewport
 and SDK version, the newly mounted maps report verified tile callbacks, and the retained map reports
-zero new mounts. The summary aggregates complete cohorts. Partial observations remain in the metric
-file, and the run reports failure if fewer than five cohorts complete.
+zero new mounts. A comparable baseline also requires the same SDK version and measured viewport
+across all five cohorts. A mismatch or an incomplete cohort fails the run. Extracted observations
+remain in the metric file, and the summary explicitly reports any mismatch.
 
 This automation covers Android. The iOS baseline can still be collected with the controlled run
 below. A follow-up can reuse the existing MapInteraction XCTest host with the same shared probe.

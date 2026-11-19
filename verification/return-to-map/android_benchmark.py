@@ -180,7 +180,8 @@ def run_cohort(device, key, cohort, seen):
 def is_complete(cohort):
     if tuple(row["case"] for row in cohort) != CASE_ORDER:
         return False
-    if len({(row["cohort"], row["viewport"], row["sdk"]) for row in cohort}) != 1:
+    configurations = {(row["cohort"], row["viewport"], row["sdk"]) for row in cohort}
+    if cohort[0]["viewport"] == "0x0" or len(configurations) != 1:
         return False
     for row in cohort:
         if row["mode"] != "real" or row["end"] != "complete" or row["ready_ms"] == "na" or row["tap_ms"] == "na":
@@ -203,6 +204,7 @@ def write_results(seen, status, device_label, revision, key):
     if key and key in (payload + device_label).encode():
         raise BenchmarkError("A captured value matches the credential. No benchmark artifacts were written.")
     (OUTPUT / "baseline.metrics").write_text(payload, encoding="utf-8")
+    problem = None
     with (OUTPUT / "summary.md").open("w", encoding="utf-8") as report, redirect_stdout(report):
         print("# Android return-to-map observations\n")
         print(f"Runtime: {device_label}. Revision: {revision}.")
@@ -211,11 +213,16 @@ def write_results(seen, status, device_label, revision, key):
         for cohort, complete in status.items():
             print(f"- {cohort}: {'complete' if complete else 'incomplete'}")
         matched = [row for row in rows if status.get(row["cohort"])]
-        if matched:
+        if len({(row["sdk"], row["viewport"]) for row in matched}) > 1:
+            problem = "Complete cohorts used different SDK versions or viewport sizes. No comparable baseline was produced."
+        elif matched:
             try:
                 print_summary(matched)
             except ValueError:
-                print("\nThe captures could not be grouped at the same viewport and SDK.")
+                problem = "The captures could not be grouped into a comparable baseline."
+        if problem:
+            print(f"\n{problem} The extracted metric rows are available.")
+    return problem
 
 
 def main():
@@ -273,9 +280,11 @@ def main():
             device.cleanup()
             device.adb("shell", "pm", "clear", PACKAGE, optional=True)
         try:
-            write_results(seen, status, device_label, revision, key)
+            report_problem = write_results(seen, status, device_label, revision, key)
         except BenchmarkError as error:
             raise SystemExit(str(error)) from None
+    if report_problem:
+        raise SystemExit(report_problem)
     if sum(status.values()) != COHORT_COUNT:
         raise SystemExit("The real-tile baseline is incomplete. Review the extracted metric rows.")
 

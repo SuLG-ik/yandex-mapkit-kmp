@@ -1,3 +1,5 @@
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 import tempfile
 import unittest
@@ -11,10 +13,12 @@ from android_benchmark import (
     PACKAGE,
     bounds_for_label,
     is_complete,
+    main,
     read_runner_key,
     run_cohort,
     write_results,
 )
+from summarize import CASE_ORDER
 from test_summarize import trial
 
 
@@ -132,6 +136,60 @@ class AndroidBenchmarkTest(unittest.TestCase):
             self.assertIn("tile_ms=na", metrics)
             self.assertIn("0/5", summary)
             self.assertNotIn("## real", summary)
+
+    def test_run_rejects_five_complete_cohorts_with_different_viewports_or_sdk(self):
+        for field, value in (("viewport", "520x520"), ("sdk", "4.46.0-lite")):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as directory:
+                def collect_cohort(device, key, name, seen):
+                    number = int(name.split("_")[-1])
+                    rows = []
+                    for index, case in enumerate(CASE_ORDER, 1):
+                        retained = case == "retained"
+                        record = trial(
+                            f"a{number}-{index}", "na" if retained else "mount", "na" if retained else 35,
+                        )
+                        record.update(
+                            cohort=name,
+                            case=case,
+                            tap_ms=380,
+                            mounts=0 if retained else 1,
+                            tiles="retained" if retained else "loaded",
+                        )
+                        if number == 5:
+                            record[field] = value
+                        seen[record["id"]] = record
+                        rows.append(record)
+                    self.assertTrue(is_complete(rows))
+                    return rows
+
+                environment = {
+                    "GITHUB_ACTIONS": "true",
+                    "GITHUB_REPOSITORY": "SuLG-ik/yandex-mapkit-kmp",
+                    "GITHUB_REF": "refs/heads/main",
+                    "GITHUB_EVENT_NAME": "workflow_dispatch",
+                    "GITHUB_SHA": "a" * 40,
+                }
+                arguments = ["android_benchmark.py", "emulator-5554", "sample.apk", "--key-file", "fixture"]
+                with (
+                    patch.dict("os.environ", environment, clear=True),
+                    patch("sys.argv", arguments),
+                    patch("android_benchmark.Device") as device,
+                    patch("android_benchmark.read_runner_key", return_value=b"fixture-key"),
+                    patch("android_benchmark.run_cohort", side_effect=collect_cohort),
+                    patch("android_benchmark.OUTPUT", Path(directory)),
+                    redirect_stdout(StringIO()),
+                ):
+                    device.return_value.adb.return_value = "1"
+                    with self.assertRaisesRegex(SystemExit, "different SDK versions or viewport sizes"):
+                        main()
+
+                summary = Path(directory, "summary.md").read_text()
+                metrics = Path(directory, "baseline.metrics").read_text()
+                self.assertIn("5/5", summary)
+                self.assertIn("No comparable baseline was produced", summary)
+                self.assertNotIn("## real", summary)
+                self.assertEqual(len(metrics.splitlines()), 20)
+                self.assertIn(f"{field}={value}", metrics)
 
 
 if __name__ == "__main__":
