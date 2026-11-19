@@ -11,10 +11,27 @@ summarise them. Their tags carry no `v` prefix, unlike the ones cut since.
 
 ## [Unreleased]
 
+## [1.0.0-beta02] - 2026-11-19
+
 ### Changed
 
+- Moved `imageProvider(DrawableResource)` to `yandex-mapkit-kmp-compose-resources`. Add
+  `ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources` at the same version if you use this
+  overload. The import and calls stay the same. The main Compose module no longer depends on
+  Compose Multiplatform Resources.
 - Updated Yandex MapKit to 4.45.0-lite on Android and iOS. Set the same version in your `Podfile`
   or `podspec` when updating the wrapper.
+- Adapt Android logging subscriptions to MapKit 4.45’s weak-reference API.
+
+### Fixed
+
+- Stop the Android MapView before destroying it when a Compose map leaves its host (#55).
+
+### Documentation and tests
+
+- Document CocoaPods cinterop diagnostics and system framework linkage for iOS consumers (#33).
+- Exercise delivery of programmatic camera updates to a retained listener on iOS (#34).
+- Show how to animate the camera to the user location on the same map (#32).
 
 ## [1.0.0-beta01] - 2026-08-01
 
@@ -340,7 +357,8 @@ Uses Yandex MapKit 4.7.0-lite.
 
 The first published version.
 
-[Unreleased]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/v1.0.0-beta01...HEAD
+[Unreleased]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/v1.0.0-beta02...HEAD
+[1.0.0-beta02]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/v1.0.0-beta01...v1.0.0-beta02
 [1.0.0-beta01]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/0.4.1...v1.0.0-beta01
 [0.4.1]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/0.4.0...0.4.1
 [0.4.0]: https://github.com/SuLG-ik/yandex-mapkit-kmp/compare/0.3.1...0.4.0

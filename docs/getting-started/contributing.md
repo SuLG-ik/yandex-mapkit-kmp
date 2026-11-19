@@ -64,7 +64,7 @@ You can run these checks locally.
     ./gradlew libraryApiCheck
     ```
 
-The `library*` tasks fan out over the four published modules. The iOS ones need Cocoapods, and so
+The `library*` tasks fan out over all published modules. The iOS ones need Cocoapods, and so
 does `libraryApiCheck` — the dumps cover the iOS targets, so it only runs on macOS.
 
 Compose rendering tests wait for a real frame (`GraphicsLayer` → `ImageBitmap`), which the JVM does
@@ -78,7 +78,7 @@ download the `android-emulator-logcat` artifact for the device log. To run the t
 
 ## Public API
 
-The four published modules keep two dumps of their public API in `<module>/api`. Any change to a
+The published modules keep two dumps of their public API in `<module>/api`. Any change to a
 public declaration makes `libraryApiCheck` fail until both are refreshed:
 
 ```

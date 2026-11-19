@@ -1,12 +1,18 @@
 # Image resources
 
-!!! info "Requires `yandex-mapkit-kmp-compose`"
-
-In common code an `ImageProvider` cannot be built from a `Bitmap` or a `UIImage` — the Compose
-module fills that gap with three sources: a Compose Multiplatform resource, composable content, and
-moko-resources.
+`yandex-mapkit-kmp-compose` turns an `ImageBitmap` or composable content into an
+`ImageProvider`. Optional modules support Compose Multiplatform drawables and moko-resources.
 
 ## Compose Multiplatform resources
+
+!!! info "Requires `yandex-mapkit-kmp-compose-resources`"
+    If you previously used this overload from `yandex-mapkit-kmp-compose`, add the dependency
+    below to `commonMain.dependencies`. Use the same version as the Compose module. Keep the
+    `ru.sulgik.mapkit.compose.imageProvider` import and your existing calls.
+
+```kotlin
+implementation("ru.sulgik.mapkit:yandex-mapkit-kmp-compose-resources:{{ version }}")
+```
 
 ```kotlin
 @Composable

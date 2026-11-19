@@ -38,8 +38,13 @@ official SDK asks, convert it, and hand the result to common code.
     === "Kotlin (iosMain)"
 
         ```kotlin
-        fun setupMap(mapView: YMKMapView) {
-            setupMap(mapView.mapWindow.toCommon().map)
+        import YandexMapKit.YMKMapView
+        import kotlinx.cinterop.ExperimentalForeignApi
+        import ru.sulgik.mapkit.mapview.toCommon
+
+        @OptIn(ExperimentalForeignApi::class)
+        public fun setupMap(mapView: YMKMapView) {
+            setupMap(mapView.toCommon().mapWindow.map)
         }
         ```
 
@@ -48,17 +53,66 @@ To have the view itself created from common code, add
 
 ## Crossing the boundary
 
-Exactly two names spell every crossing, and both live in the platform source sets only:
+Use `toCommon()` to pass a native MapKit object into common code. Use `toNative()` to pass a wrapper
+value or handle to an API that expects the native SDK type. Call both conversions in `androidMain`
+or `iosMain`. Keep shared map logic and wrapper types in `commonMain`.
 
-```kotlin
-public fun NativePoint.toCommon(): Point
-public fun Point.toNative(): NativePoint
-```
+These examples accept the platform's existing `MapView`. A converted live map view holds that
+same native instance. A value like `Point` converts by fields.
 
-`commonMain` never sees a native type, which is what lets the same common code compile for both
-platforms. Everything MapKit hands out has a `toCommon()`, and everything the wrapper holds has a
-`toNative()`, so falling back to the platform SDK for something the wrapper does not cover is always
-possible.
+=== "Kotlin (androidMain)"
+
+    ```kotlin
+    import com.yandex.mapkit.mapview.MapView
+    import ru.sulgik.mapkit.geometry.Point
+    import ru.sulgik.mapkit.geometry.toCommon
+    import ru.sulgik.mapkit.geometry.toNative
+    import ru.sulgik.mapkit.map.Map
+    import ru.sulgik.mapkit.mapview.toCommon
+
+    public fun mapFromPlatform(nativeView: MapView): Map {
+        val view = nativeView.toCommon()
+        check(view.toNative() === nativeView)
+
+        val point = Point(55.751225, 37.629540)
+        val nativePoint = point.toNative()
+        check(nativePoint.toCommon() == point)
+
+        return view.mapWindow.map
+    }
+    ```
+
+=== "Kotlin (iosMain)"
+
+    ```kotlin
+    import YandexMapKit.YMKMapView
+    import kotlinx.cinterop.ExperimentalForeignApi
+    import ru.sulgik.mapkit.geometry.Point
+    import ru.sulgik.mapkit.geometry.toCommon
+    import ru.sulgik.mapkit.geometry.toNative
+    import ru.sulgik.mapkit.map.Map
+    import ru.sulgik.mapkit.mapview.toCommon
+
+    @OptIn(ExperimentalForeignApi::class)
+    public fun mapFromPlatform(nativeView: YMKMapView): Map {
+        val view = nativeView.toCommon()
+        check(view.toNative() === nativeView)
+
+        val point = Point(55.751225, 37.629540)
+        val nativePoint = point.toNative()
+        check(nativePoint.toCommon() == point)
+
+        return view.mapWindow.map
+    }
+    ```
+
+Use these conversions for types supported by the wrapper. When you need an SDK feature that the
+wrapper has yet to expose, use `toNative()` on its wrapped entry point and make the call in
+platform code. Callback adapters can be directional. For example, create the wrapper
+`InputListener` from lambdas and use `toNative()` when a native API needs it. The wrapper exposes
+no reverse converter for an existing native input listener. For `Geometry`, use a factory such as
+`Geometry.fromPoint(point)` to select the variant that the native SDK can represent. Conversion
+of a geometry with no variant throws.
 
 ## Three kinds of type
 
@@ -88,7 +142,12 @@ Every subscription in the wrapper therefore takes a `WeakRef<Listener>`, and the
 strong reference.
 
 ```kotlin
-class MapController(private val map: Map) {
+import ru.sulgik.mapkit.asWeakRef
+import ru.sulgik.mapkit.geometry.Point
+import ru.sulgik.mapkit.map.InputListener
+import ru.sulgik.mapkit.map.Map
+
+public class MapController(private val map: Map, onTap: (Point) -> Unit) {
 
     private val inputListener = InputListener(
         onMapTap = { _, point -> onTap(point) },
@@ -99,16 +158,15 @@ class MapController(private val map: Map) {
         map.addInputListener(inputListener.asWeakRef())
     }
 
-    fun dispose() {
+    public fun dispose() {
         map.removeInputListener(inputListener.asWeakRef())
     }
 }
 ```
 
-!!! warning "Keep the listener alive yourself"
-    `map.addInputListener(InputListener { /* ... */ }.asWeakRef())` compiles and then never fires:
-    nothing holds the listener, so it is collected. Store it in a field of whatever owns the
-    subscription — a controller, a Compose node, a screen model.
+Keep the controller alive while you need the subscription, and call `dispose()` before releasing
+the map. If the only reference to a temporary listener is weak, the listener can be collected and
+event delivery will stop.
 
 Unsubscribing works with a fresh `WeakRef` around the same listener, because the wrapper's
 `toNative()` returns one stored native instance per listener for its whole life, and MapKit compares

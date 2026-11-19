@@ -1,0 +1,3 @@
+public final class ru.sulgik.mapkit.compose.ComposeImageResourceKt {
+  public static final ru.sulgik.mapkit.map.ImageProvider imageProvider(org.jetbrains.compose.resources.DrawableResource, androidx.compose.runtime.Composer, int);
+}
