@@ -536,6 +536,84 @@ final class MapInteractionTests: XCTestCase {
         XCTAssertEqual(Array(remainder.dropFirst(remount.count)), suffix, actual)
     }
 
+    func testModalSheetOwnsInputAndResizedPanesKeepIndependentNativeWindows() {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["--map-panes"]
+        app.launch()
+        var driver = PaneDriver(app: app)
+        driver.assertToolbarFits()
+
+        let baseline = driver.target("A", revision: 1)
+        let exposed = baseline.screenPoint
+        driver.tap(baseline)
+        driver.waitForTrace("attach A", "tap A 1")
+        recordPaneScreenshot("Single map and pane controls", in: app)
+
+        driver.tapControl("Open panel")
+        driver.waitForTrace("sheet-open")
+        let slider = app.descendants(matching: .any).matching(identifier: "panes-sheet-slider").firstMatch
+        XCTAssertTrue(slider.waitForExistence(timeout: 10))
+        XCTAssertTrue(slider.isHittable, "The sheet slider is clipped at \(slider.frame)")
+        XCTAssertLessThan(exposed.y, slider.frame.minY, "Map point must be outside the sheet's bounds")
+        recordPaneScreenshot("Modal sheet and exposed map", in: app)
+        driver.tap(exposed)
+        let start = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.2, dy: 0.5))
+        let end = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.8, dy: 0.5))
+        start.press(forDuration: 0.05, thenDragTo: end)
+        driver.waitForTrace("sheet-drag")
+        driver.tapControl("Panel action")
+        driver.waitForTrace("sheet-action")
+        driver.tapControl("Close panel")
+        XCTAssertTrue(slider.waitForNonExistence(timeout: 10))
+        driver.waitForTrace("sheet-dismiss")
+        driver.tapMap("A", revision: 1)
+        driver.waitForTrace("tap A 1")
+
+        driver.tapControl("Show B")
+        driver.waitForTrace("attach B")
+        driver.tapMap("A", revision: 2)
+        driver.waitForTrace("tap A 2")
+        driver.tapMap("B", revision: 1)
+        driver.waitForTrace("tap B 1")
+        driver.tapControl("Move A")
+        driver.tapMap("A", revision: 3)
+        driver.waitForTrace("tap A 3")
+        driver.tapMap("B", revision: 1)
+        driver.waitForTrace("tap B 1")
+        driver.tapControl("Move B")
+        driver.tapMap("B", revision: 2)
+        driver.waitForTrace("tap B 2")
+        driver.tapMap("A", revision: 3)
+        driver.waitForTrace("tap A 3")
+
+        let split = driver.target("A", revision: 3)
+        driver.tapControl("Resize A")
+        let resized = driver.target("A", revision: 4)
+        XCTAssertLessThan(resized.width, split.width)
+        XCTAssertLessThan(resized.height, split.height)
+        XCTAssertLessThan(resized.x, split.x)
+        XCTAssertGreaterThan(resized.y, split.y)
+        recordPaneScreenshot("Resized split panes", in: app)
+        driver.tap(resized)
+        driver.waitForTrace("tap A 4")
+        driver.tapMap("B", revision: 2)
+        driver.waitForTrace("tap B 2")
+
+        driver.tapControl("Remove B")
+        driver.waitForTrace("detach B")
+        XCTAssertTrue(driver.targetElement("B", revision: 2).waitForNonExistence(timeout: 10))
+        driver.tapMap("A", revision: 5)
+        driver.waitForTrace("tap A 5")
+    }
+
+    private func recordPaneScreenshot(_ name: String, in app: XCUIApplication) {
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = name
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     private func tapReadyMap(_ app: XCUIApplication, screen: Int) {
         let identity = "screen=\(screen) map=\(screen)"
         waitForEvent("ready \(identity)", in: app)
@@ -633,5 +711,119 @@ final class MapObjectMembershipTests: XCTestCase {
         let outcome = XCTWaiter.wait(for: [expectation], timeout: 10)
         let actual = trace.exists ? trace.label : app.debugDescription
         XCTAssertEqual(outcome, .completed, "Expected:\n\(expected)\nActual:\n\(actual)")
+    }
+}
+
+private struct PaneProjection {
+    let x: Double
+    let y: Double
+    let width: Int
+    let height: Int
+    let frame: CGRect
+
+    var screenPoint: CGPoint {
+        CGPoint(x: frame.minX + frame.width * CGFloat(x), y: frame.minY + frame.height * CGFloat(y))
+    }
+}
+
+private struct PaneDriver {
+    let app: XCUIApplication
+    private var expected: [String] = []
+    private var lastRelease = Date.distantPast
+
+    init(app: XCUIApplication) {
+        self.app = app
+    }
+
+    func targetElement(_ id: String, revision: Int) -> XCUIElement {
+        app.descendants(matching: .any).matching(
+            NSPredicate(format: "label BEGINSWITH %@", "pane-target \(id) \(revision) ")
+        ).firstMatch
+    }
+
+    func target(_ id: String, revision: Int) -> PaneProjection {
+        let element = targetElement(id, revision: revision)
+        XCTAssertTrue(element.waitForExistence(timeout: 10), "Missing projection \(id) \(revision): \(trace)")
+        let fields = element.label.split(separator: " ")
+        guard fields.count == 7,
+              let x = Double(fields[3]), let y = Double(fields[4]),
+              let width = Int(fields[5]), let height = Int(fields[6]) else {
+            XCTFail("Malformed target: \(element.label)")
+            return PaneProjection(x: 0, y: 0, width: 0, height: 0, frame: .zero)
+        }
+        return PaneProjection(x: x, y: y, width: width, height: height, frame: element.frame)
+    }
+
+    mutating func tapMap(_ id: String, revision: Int) {
+        let point = target(id, revision: revision)
+        tap(point)
+    }
+
+    mutating func tap(_ point: PaneProjection) {
+        tap(point.screenPoint)
+    }
+
+    mutating func tap(_ point: CGPoint) {
+        let frame = app.frame
+        let coordinate = app.coordinate(withNormalizedOffset: .zero).withOffset(
+            CGVector(dx: point.x - frame.minX, dy: point.y - frame.minY)
+        )
+        pauseBetweenTaps()
+        coordinate.tap()
+        lastRelease = Date()
+    }
+
+    func assertToolbarFits() {
+        for labels in [["Open panel", "Show B", "Remove B"], ["Move A", "Move B", "Resize A"]] {
+            let frames = labels.map { control($0).frame }
+            for (left, right) in zip(frames, frames.dropFirst()) {
+                XCTAssertLessThan(left.maxX, right.minX, "Toolbar controls overlap: \(labels)")
+            }
+        }
+    }
+
+    private func control(_ label: String) -> XCUIElement {
+        let control = app.buttons[label]
+        XCTAssertTrue(control.waitForExistence(timeout: 10), "Missing control \(label): \(trace)")
+        let frame = control.frame
+        XCTAssertTrue(control.isHittable, "Cannot tap \(label) at \(frame)")
+        XCTAssertTrue(app.windows.firstMatch.frame.contains(frame), "\(label) is clipped at \(frame)")
+        XCTAssertGreaterThanOrEqual(min(frame.width, frame.height), 47, "Touch target for \(label) is \(frame)")
+        return control
+    }
+
+    mutating func tapControl(_ label: String) {
+        let action = control(label)
+        pauseBetweenTaps()
+        action.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        lastRelease = Date()
+    }
+
+    mutating func waitForTrace(_ events: String...) {
+        expected.append(contentsOf: events)
+        let expectedTrace = expected.joined(separator: "|")
+        let sheet = app.staticTexts["panes-sheet-trace"]
+        let host = app.staticTexts["panes-trace"]
+        let matches = NSPredicate { _, _ in
+            let element = sheet.exists ? sheet : host
+            return element.exists && element.label == expectedTrace
+        }
+        let observation = XCTNSPredicateExpectation(predicate: matches, object: app)
+        let outcome = XCTWaiter.wait(for: [observation], timeout: 10)
+        XCTAssertEqual(outcome, .completed, "Expected \(expectedTrace). Actual \(trace)")
+    }
+
+    private var trace: String {
+        let sheet = app.staticTexts["panes-sheet-trace"]
+        let host = app.staticTexts["panes-trace"]
+        let element = sheet.exists ? sheet : host
+        return element.exists ? element.label : "<missing pane trace>\n\(app.debugDescription)"
+    }
+
+    private func pauseBetweenTaps() {
+        let delay = 0.35 - Date().timeIntervalSince(lastRelease)
+        if delay > 0 {
+            Thread.sleep(forTimeInterval: delay)
+        }
     }
 }

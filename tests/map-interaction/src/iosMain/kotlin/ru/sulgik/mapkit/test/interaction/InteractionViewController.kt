@@ -11,9 +11,11 @@ import kotlin.native.runtime.NativeRuntimeApi
 public fun interactionViewController(tapCases: Boolean): UIViewController {
     MapKit.setApiKey(FixtureKey)
     val listenerOwnership = ListenerOwnershipArgument in NSProcessInfo.processInfo.arguments
+    val mapPanes = PaneScenarioArgument in NSProcessInfo.processInfo.arguments
     return ComposeUIViewController {
         when {
             listenerOwnership -> ListenerOwnershipFixture(collectGarbage = ::collectGarbage)
+            mapPanes -> MapPanesFixture()
             tapCases -> MapTapFixture()
             else -> MapInteractionFixture()
         }
