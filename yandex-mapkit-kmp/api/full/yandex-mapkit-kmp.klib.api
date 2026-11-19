@@ -376,6 +376,8 @@ final enum class ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes : kot
 
     final fun valueOf(kotlin/String): ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes // ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes.valueOf|valueOf#static(kotlin.String){}[0]
     final fun values(): kotlin/Array<ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes> // ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes.values|values#static(){}[0]
+
+    final object Companion // ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes.Companion|null[0]
 }
 
 final enum class ru.sulgik.mapkit.transport.masstransit/FitnessType : kotlin/Enum<ru.sulgik.mapkit.transport.masstransit/FitnessType> { // ru.sulgik.mapkit.transport.masstransit/FitnessType|null[0]
@@ -689,14 +691,6 @@ abstract class ru.sulgik.mapkit.traffic/TrafficListener : ru.sulgik.mapkit/Nativ
     abstract fun onTrafficExpired() // ru.sulgik.mapkit.traffic/TrafficListener.onTrafficExpired|onTrafficExpired(){}[0]
     abstract fun onTrafficLoading() // ru.sulgik.mapkit.traffic/TrafficListener.onTrafficLoading|onTrafficLoading(){}[0]
     open fun toNative(): YandexMapKit/YMKTrafficDelegateProtocol // ru.sulgik.mapkit.traffic/TrafficListener.toNative|toNative(){}[0]
-}
-
-abstract class ru.sulgik.mapkit.transport.masstransit/RouteListener : ru.sulgik.mapkit/NativeConvertible<kotlin/Function2<kotlin.collections/List<*>?, platform.Foundation/NSError?, kotlin/Unit>> { // ru.sulgik.mapkit.transport.masstransit/RouteListener|null[0]
-    constructor <init>() // ru.sulgik.mapkit.transport.masstransit/RouteListener.<init>|<init>(){}[0]
-
-    abstract fun onMasstransitRoutes(kotlin.collections/List<ru.sulgik.mapkit.transport.masstransit/Route>) // ru.sulgik.mapkit.transport.masstransit/RouteListener.onMasstransitRoutes|onMasstransitRoutes(kotlin.collections.List<ru.sulgik.mapkit.transport.masstransit.Route>){}[0]
-    abstract fun onMasstransitRoutesError(ru.sulgik.mapkit.transport.masstransit/RouteError) // ru.sulgik.mapkit.transport.masstransit/RouteListener.onMasstransitRoutesError|onMasstransitRoutesError(ru.sulgik.mapkit.transport.masstransit.RouteError){}[0]
-    open fun toNative(): kotlin/Function2<kotlin.collections/List<*>?, platform.Foundation/NSError?, kotlin/Unit> // ru.sulgik.mapkit.transport.masstransit/RouteListener.toNative|toNative(){}[0]
 }
 
 abstract class ru.sulgik.mapkit.user_location/UserLocationObjectListener : ru.sulgik.mapkit/NativeConvertible<YandexMapKit/YMKUserLocationObjectListenerProtocol> { // ru.sulgik.mapkit.user_location/UserLocationObjectListener|null[0]
@@ -2800,7 +2794,7 @@ final class ru.sulgik.mapkit.traffic/TrafficLevel { // ru.sulgik.mapkit.traffic/
 final class ru.sulgik.mapkit.transport.masstransit/BicycleRouterV2 { // ru.sulgik.mapkit.transport.masstransit/BicycleRouterV2|null[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.transport.masstransit/BicycleRouterV2.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.transport.masstransit/BicycleRouterV2.hashCode|hashCode(){}[0]
-    final fun requestRoutes(kotlin.collections/List<ru.sulgik.mapkit/RequestPoint>, ru.sulgik.mapkit.transport.masstransit/TimeOptions, ru.sulgik.mapkit.transport.masstransit/RouteOptions, ru.sulgik.mapkit.transport.masstransit/RouteListener): ru.sulgik.mapkit.transport.masstransit/Session // ru.sulgik.mapkit.transport.masstransit/BicycleRouterV2.requestRoutes|requestRoutes(kotlin.collections.List<ru.sulgik.mapkit.RequestPoint>;ru.sulgik.mapkit.transport.masstransit.TimeOptions;ru.sulgik.mapkit.transport.masstransit.RouteOptions;ru.sulgik.mapkit.transport.masstransit.RouteListener){}[0]
+    final fun requestRoutes(kotlin.collections/List<ru.sulgik.mapkit/RequestPoint>, ru.sulgik.mapkit.transport.masstransit/TimeOptions, ru.sulgik.mapkit.transport.masstransit/RouteOptions, ru.sulgik.mapkit.transport.masstransit/Session.RouteListener): ru.sulgik.mapkit.transport.masstransit/Session // ru.sulgik.mapkit.transport.masstransit/BicycleRouterV2.requestRoutes|requestRoutes(kotlin.collections.List<ru.sulgik.mapkit.RequestPoint>;ru.sulgik.mapkit.transport.masstransit.TimeOptions;ru.sulgik.mapkit.transport.masstransit.RouteOptions;ru.sulgik.mapkit.transport.masstransit.Session.RouteListener){}[0]
     final fun toNative(): YandexMapKit/YMKBicycleRouterV2 // ru.sulgik.mapkit.transport.masstransit/BicycleRouterV2.toNative|toNative(){}[0]
 }
 
@@ -2863,14 +2857,14 @@ final class ru.sulgik.mapkit.transport.masstransit/Line : ru.sulgik.mapkit.map/B
 final class ru.sulgik.mapkit.transport.masstransit/MasstransitRouter { // ru.sulgik.mapkit.transport.masstransit/MasstransitRouter|null[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.transport.masstransit/MasstransitRouter.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.transport.masstransit/MasstransitRouter.hashCode|hashCode(){}[0]
-    final fun requestRoutes(kotlin.collections/List<ru.sulgik.mapkit/RequestPoint>, ru.sulgik.mapkit.transport.masstransit/TransitOptions, ru.sulgik.mapkit.transport.masstransit/RouteOptions, ru.sulgik.mapkit.transport.masstransit/RouteListener): ru.sulgik.mapkit.transport.masstransit/Session // ru.sulgik.mapkit.transport.masstransit/MasstransitRouter.requestRoutes|requestRoutes(kotlin.collections.List<ru.sulgik.mapkit.RequestPoint>;ru.sulgik.mapkit.transport.masstransit.TransitOptions;ru.sulgik.mapkit.transport.masstransit.RouteOptions;ru.sulgik.mapkit.transport.masstransit.RouteListener){}[0]
+    final fun requestRoutes(kotlin.collections/List<ru.sulgik.mapkit/RequestPoint>, ru.sulgik.mapkit.transport.masstransit/TransitOptions, ru.sulgik.mapkit.transport.masstransit/RouteOptions, ru.sulgik.mapkit.transport.masstransit/Session.RouteListener): ru.sulgik.mapkit.transport.masstransit/Session // ru.sulgik.mapkit.transport.masstransit/MasstransitRouter.requestRoutes|requestRoutes(kotlin.collections.List<ru.sulgik.mapkit.RequestPoint>;ru.sulgik.mapkit.transport.masstransit.TransitOptions;ru.sulgik.mapkit.transport.masstransit.RouteOptions;ru.sulgik.mapkit.transport.masstransit.Session.RouteListener){}[0]
     final fun toNative(): YandexMapKit/YMKMasstransitRouter // ru.sulgik.mapkit.transport.masstransit/MasstransitRouter.toNative|toNative(){}[0]
 }
 
 final class ru.sulgik.mapkit.transport.masstransit/PedestrianRouter { // ru.sulgik.mapkit.transport.masstransit/PedestrianRouter|null[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.transport.masstransit/PedestrianRouter.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.transport.masstransit/PedestrianRouter.hashCode|hashCode(){}[0]
-    final fun requestRoutes(kotlin.collections/List<ru.sulgik.mapkit/RequestPoint>, ru.sulgik.mapkit.transport.masstransit/TimeOptions, ru.sulgik.mapkit.transport.masstransit/RouteOptions, ru.sulgik.mapkit.transport.masstransit/RouteListener): ru.sulgik.mapkit.transport.masstransit/Session // ru.sulgik.mapkit.transport.masstransit/PedestrianRouter.requestRoutes|requestRoutes(kotlin.collections.List<ru.sulgik.mapkit.RequestPoint>;ru.sulgik.mapkit.transport.masstransit.TimeOptions;ru.sulgik.mapkit.transport.masstransit.RouteOptions;ru.sulgik.mapkit.transport.masstransit.RouteListener){}[0]
+    final fun requestRoutes(kotlin.collections/List<ru.sulgik.mapkit/RequestPoint>, ru.sulgik.mapkit.transport.masstransit/TimeOptions, ru.sulgik.mapkit.transport.masstransit/RouteOptions, ru.sulgik.mapkit.transport.masstransit/Session.RouteListener): ru.sulgik.mapkit.transport.masstransit/Session // ru.sulgik.mapkit.transport.masstransit/PedestrianRouter.requestRoutes|requestRoutes(kotlin.collections.List<ru.sulgik.mapkit.RequestPoint>;ru.sulgik.mapkit.transport.masstransit.TimeOptions;ru.sulgik.mapkit.transport.masstransit.RouteOptions;ru.sulgik.mapkit.transport.masstransit.Session.RouteListener){}[0]
     final fun toNative(): YandexMapKit/YMKPedestrianRouter // ru.sulgik.mapkit.transport.masstransit/PedestrianRouter.toNative|toNative(){}[0]
 }
 
@@ -3033,8 +3027,16 @@ final class ru.sulgik.mapkit.transport.masstransit/Session { // ru.sulgik.mapkit
     final fun cancel() // ru.sulgik.mapkit.transport.masstransit/Session.cancel|cancel(){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // ru.sulgik.mapkit.transport.masstransit/Session.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // ru.sulgik.mapkit.transport.masstransit/Session.hashCode|hashCode(){}[0]
-    final fun retry(ru.sulgik.mapkit.transport.masstransit/RouteListener) // ru.sulgik.mapkit.transport.masstransit/Session.retry|retry(ru.sulgik.mapkit.transport.masstransit.RouteListener){}[0]
+    final fun retry(ru.sulgik.mapkit.transport.masstransit/Session.RouteListener) // ru.sulgik.mapkit.transport.masstransit/Session.retry|retry(ru.sulgik.mapkit.transport.masstransit.Session.RouteListener){}[0]
     final fun toNative(): YandexMapKit/YMKMasstransitSession // ru.sulgik.mapkit.transport.masstransit/Session.toNative|toNative(){}[0]
+
+    abstract class RouteListener : ru.sulgik.mapkit/NativeConvertible<kotlin/Function2<kotlin.collections/List<*>?, platform.Foundation/NSError?, kotlin/Unit>> { // ru.sulgik.mapkit.transport.masstransit/Session.RouteListener|null[0]
+        constructor <init>() // ru.sulgik.mapkit.transport.masstransit/Session.RouteListener.<init>|<init>(){}[0]
+
+        abstract fun onMasstransitRoutes(kotlin.collections/List<ru.sulgik.mapkit.transport.masstransit/Route>) // ru.sulgik.mapkit.transport.masstransit/Session.RouteListener.onMasstransitRoutes|onMasstransitRoutes(kotlin.collections.List<ru.sulgik.mapkit.transport.masstransit.Route>){}[0]
+        abstract fun onMasstransitRoutesError(ru.sulgik.mapkit.transport.masstransit/RouteError) // ru.sulgik.mapkit.transport.masstransit/Session.RouteListener.onMasstransitRoutesError|onMasstransitRoutesError(ru.sulgik.mapkit.transport.masstransit.RouteError){}[0]
+        open fun toNative(): kotlin/Function2<kotlin.collections/List<*>?, platform.Foundation/NSError?, kotlin/Unit> // ru.sulgik.mapkit.transport.masstransit/Session.RouteListener.toNative|toNative(){}[0]
+    }
 }
 
 final class ru.sulgik.mapkit.transport.masstransit/StairsSummary { // ru.sulgik.mapkit.transport.masstransit/StairsSummary|null[0]
@@ -4020,6 +4022,10 @@ final object ru.sulgik.mapkit.map/LayerIds { // ru.sulgik.mapkit.map/LayerIds|nu
         final fun <get-userLocationLayerId>(): kotlin/String // ru.sulgik.mapkit.map/LayerIds.userLocationLayerId.<get-userLocationLayerId>|<get-userLocationLayerId>(){}[0]
 }
 
+final object ru.sulgik.mapkit.transport/TransportFactory { // ru.sulgik.mapkit.transport/TransportFactory|null[0]
+    final fun getInstance(): ru.sulgik.mapkit.transport/Transport // ru.sulgik.mapkit.transport/TransportFactory.getInstance|getInstance(){}[0]
+}
+
 final fun (YandexMapKit/YMKAnimation).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Animation // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAnimation(){}[0]
 final fun (YandexMapKit/YMKAnimationType).ru.sulgik.mapkit/toCommon(): ru.sulgik.mapkit/Animation.Type // ru.sulgik.mapkit/toCommon|toCommon@YandexMapKit.YMKAnimationType(){}[0]
 final fun (YandexMapKit/YMKAnnotationLanguage).ru.sulgik.mapkit.annotations/toCommon(): ru.sulgik.mapkit.annotations/AnnotationLanguage // ru.sulgik.mapkit.annotations/toCommon|toCommon@YandexMapKit.YMKAnnotationLanguage(){}[0]
@@ -4353,6 +4359,8 @@ final fun (ru.sulgik.mapkit.search/SuggestOptions).ru.sulgik.mapkit.search/toNat
 final fun (ru.sulgik.mapkit.search/SuggestResponse).ru.sulgik.mapkit.search/toNative(): YandexMapKit/YMKSuggestResponse // ru.sulgik.mapkit.search/toNative|toNative@ru.sulgik.mapkit.search.SuggestResponse(){}[0]
 final fun (ru.sulgik.mapkit.traffic/TrafficColor).ru.sulgik.mapkit.traffic/toNative(): YandexMapKit/YMKTrafficColor // ru.sulgik.mapkit.traffic/toNative|toNative@ru.sulgik.mapkit.traffic.TrafficColor(){}[0]
 final fun (ru.sulgik.mapkit.traffic/TrafficLevel).ru.sulgik.mapkit.traffic/toNative(): YandexMapKit/YMKTrafficLevel // ru.sulgik.mapkit.traffic/toNative|toNative@ru.sulgik.mapkit.traffic.TrafficLevel(){}[0]
+final fun (ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes).ru.sulgik.mapkit.transport.masstransit/toNative(): kotlin/ULong // ru.sulgik.mapkit.transport.masstransit/toNative|toNative@ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes(){}[0]
+final fun (ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes.Companion).ru.sulgik.mapkit.transport.masstransit/toCommon(kotlin/ULong): ru.sulgik.mapkit.transport.masstransit/FilterVehicleTypes // ru.sulgik.mapkit.transport.masstransit/toCommon|toCommon@ru.sulgik.mapkit.transport.masstransit.FilterVehicleTypes.Companion(kotlin.ULong){}[0]
 final fun (ru.sulgik.mapkit.transport.masstransit/FitnessOptions).ru.sulgik.mapkit.transport.masstransit/toNative(): YandexMapKit/YMKFitnessOptions // ru.sulgik.mapkit.transport.masstransit/toNative|toNative@ru.sulgik.mapkit.transport.masstransit.FitnessOptions(){}[0]
 final fun (ru.sulgik.mapkit.transport.masstransit/FitnessType).ru.sulgik.mapkit.transport.masstransit/toNative(): YandexMapKit/YMKMasstransitFitnessType // ru.sulgik.mapkit.transport.masstransit/toNative|toNative@ru.sulgik.mapkit.transport.masstransit.FitnessType(){}[0]
 final fun (ru.sulgik.mapkit.transport.masstransit/Flags).ru.sulgik.mapkit.transport.masstransit/toNative(): YandexMapKit/YMKMasstransitFlags // ru.sulgik.mapkit.transport.masstransit/toNative|toNative@ru.sulgik.mapkit.transport.masstransit.Flags(){}[0]
@@ -4436,6 +4444,6 @@ final inline fun ru.sulgik.mapkit.storage/StorageErrorListener(crossinline kotli
 final inline fun ru.sulgik.mapkit.tiles/TileProvider(crossinline kotlin/Function4<ru.sulgik.mapkit/TileId, ru.sulgik.mapkit/Version, kotlin.collections/Map<kotlin/String, kotlin/String>, kotlin/String, ru.sulgik.mapkit/RawTile>): ru.sulgik.mapkit.tiles/TileProvider // ru.sulgik.mapkit.tiles/TileProvider|TileProvider(kotlin.Function4<ru.sulgik.mapkit.TileId,ru.sulgik.mapkit.Version,kotlin.collections.Map<kotlin.String,kotlin.String>,kotlin.String,ru.sulgik.mapkit.RawTile>){}[0]
 final inline fun ru.sulgik.mapkit.tiles/UrlProvider(crossinline kotlin/Function3<ru.sulgik.mapkit/TileId, ru.sulgik.mapkit/Version, kotlin.collections/Map<kotlin/String, kotlin/String>, kotlin/String>): ru.sulgik.mapkit.tiles/UrlProvider // ru.sulgik.mapkit.tiles/UrlProvider|UrlProvider(kotlin.Function3<ru.sulgik.mapkit.TileId,ru.sulgik.mapkit.Version,kotlin.collections.Map<kotlin.String,kotlin.String>,kotlin.String>){}[0]
 final inline fun ru.sulgik.mapkit.traffic/TrafficListener(crossinline kotlin/Function1<ru.sulgik.mapkit.traffic/TrafficLevel?, kotlin/Unit>, crossinline kotlin/Function0<kotlin/Unit> = ..., crossinline kotlin/Function0<kotlin/Unit> = ...): ru.sulgik.mapkit.traffic/TrafficListener // ru.sulgik.mapkit.traffic/TrafficListener|TrafficListener(kotlin.Function1<ru.sulgik.mapkit.traffic.TrafficLevel?,kotlin.Unit>;kotlin.Function0<kotlin.Unit>;kotlin.Function0<kotlin.Unit>){}[0]
-final inline fun ru.sulgik.mapkit.transport.masstransit/RouteListener(crossinline kotlin/Function1<kotlin.collections/List<ru.sulgik.mapkit.transport.masstransit/Route>, kotlin/Unit>, crossinline kotlin/Function1<ru.sulgik.mapkit.transport.masstransit/RouteError, kotlin/Unit>): ru.sulgik.mapkit.transport.masstransit/RouteListener // ru.sulgik.mapkit.transport.masstransit/RouteListener|RouteListener(kotlin.Function1<kotlin.collections.List<ru.sulgik.mapkit.transport.masstransit.Route>,kotlin.Unit>;kotlin.Function1<ru.sulgik.mapkit.transport.masstransit.RouteError,kotlin.Unit>){}[0]
+final inline fun ru.sulgik.mapkit.transport.masstransit/RouteListener(crossinline kotlin/Function1<kotlin.collections/List<ru.sulgik.mapkit.transport.masstransit/Route>, kotlin/Unit>, crossinline kotlin/Function1<ru.sulgik.mapkit.transport.masstransit/RouteError, kotlin/Unit>): ru.sulgik.mapkit.transport.masstransit/Session.RouteListener // ru.sulgik.mapkit.transport.masstransit/RouteListener|RouteListener(kotlin.Function1<kotlin.collections.List<ru.sulgik.mapkit.transport.masstransit.Route>,kotlin.Unit>;kotlin.Function1<ru.sulgik.mapkit.transport.masstransit.RouteError,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.user_location/UserLocationObjectListener(crossinline kotlin/Function1<ru.sulgik.mapkit.user_location/UserLocationView, kotlin/Unit>, crossinline kotlin/Function1<ru.sulgik.mapkit.user_location/UserLocationView, kotlin/Unit>, crossinline kotlin/Function2<ru.sulgik.mapkit.user_location/UserLocationView, ru.sulgik.mapkit.layers/ObjectEvent, kotlin/Unit>): ru.sulgik.mapkit.user_location/UserLocationObjectListener // ru.sulgik.mapkit.user_location/UserLocationObjectListener|UserLocationObjectListener(kotlin.Function1<ru.sulgik.mapkit.user_location.UserLocationView,kotlin.Unit>;kotlin.Function1<ru.sulgik.mapkit.user_location.UserLocationView,kotlin.Unit>;kotlin.Function2<ru.sulgik.mapkit.user_location.UserLocationView,ru.sulgik.mapkit.layers.ObjectEvent,kotlin.Unit>){}[0]
 final inline fun ru.sulgik.mapkit.user_location/UserLocationTapListener(crossinline kotlin/Function1<ru.sulgik.mapkit.geometry/Point, kotlin/Unit>): ru.sulgik.mapkit.user_location/UserLocationTapListener // ru.sulgik.mapkit.user_location/UserLocationTapListener|UserLocationTapListener(kotlin.Function1<ru.sulgik.mapkit.geometry.Point,kotlin.Unit>){}[0]
