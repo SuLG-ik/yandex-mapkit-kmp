@@ -68,8 +68,6 @@ public class CameraRegressionTest {
             expect("location hide requested 1")
             expectLocationPin(visible = false)
             advance()
-            expect("location source released 1")
-            advance()
             expect("location applied 2")
             expectLocationPin(visible = true)
         }

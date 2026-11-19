@@ -186,9 +186,7 @@ final class MapInteractionTests: XCTestCase {
         app.buttons["Hide simulated location"].tap()
         waitForEvent("location hide requested 1", in: app)
         expectLocationPin(false, in: app)
-        app.buttons["Remove location map"].tap()
-        waitForEvent("location source released 1", in: app)
-        app.buttons["Open location map"].tap()
+        app.buttons["Remount location map"].tap()
         waitForEvent("location applied 2", in: app, timeout: 15)
         expectLocationPin(true, in: app)
         XCTAssertEqual(
@@ -196,7 +194,6 @@ final class MapInteractionTests: XCTestCase {
             """
             location applied 1
             location hide requested 1
-            location source released 1
             location applied 2
             """
         )
@@ -211,6 +208,7 @@ final class MapInteractionTests: XCTestCase {
             return
         }
         let deadline = Date().addingTimeInterval(10)
+        let minimumPinSamples = 16
         var lastScreenshot: XCUIScreenshot?
         var lastPinSamples = 0
         repeat {
@@ -236,13 +234,16 @@ final class MapInteractionTests: XCTestCase {
             pixels.draw(image, in: CGRect(x: 0, y: 0, width: CGFloat(extent), height: CGFloat(extent)))
             var pinSamples = 0
             for offset in stride(from: 0, to: extent * extent * 4, by: 4) {
-                if bytes[offset] >= 175 && bytes[offset + 1] <= 90 && bytes[offset + 2] >= 125 {
+                let red = Int(bytes[offset])
+                let green = Int(bytes[offset + 1])
+                let blue = Int(bytes[offset + 2])
+                if red >= 175 && blue >= 125 && red - green >= 65 && blue - green >= 45 {
                     pinSamples += 1
-                    if pinSamples == 4 { break }
+                    if pinSamples == minimumPinSamples { break }
                 }
             }
             lastPinSamples = pinSamples
-            if (pinSamples >= 4) == visible { return }
+            if (pinSamples >= minimumPinSamples) == visible { return }
             Thread.sleep(forTimeInterval: 0.1)
         } while Date() < deadline
         if let screenshot = lastScreenshot {

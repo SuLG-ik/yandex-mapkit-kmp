@@ -39,8 +39,7 @@ ignores an outgoing map's camera completion after detachment, and waits past the
 animation's deadline. The location case reads
 `UserLocationState.cameraPosition`, moves the same map to each injected fix, and checks a custom
 pin on screen while toggling `UserLocationConfig.isVisible`. The test host installs a dummy
-location manager before enabling the layer. It sends fixes with a steady-clock timestamp while
-each map is mounted and waits for the previous map to restore the default before reopening.
+location manager before enabling the layer and restores the default during cleanup.
 
 ## iOS
 
@@ -58,7 +57,8 @@ bundle is under `tests/map-interaction/build`.
 The camera scenarios use the same simulator test target. XCUITest drags the UIKit map and sends
 MapKit's two-finger tap to an inset area to zoom out. It also selects the animation and location
 controls. It samples the map viewport to check the location pin and attaches that viewport on
-failure. The controls and fixture are test-only.
+failure. The pin check uses magenta color contrast across multiple pixels to account for blending
+with the map. The controls and fixture are test-only.
 
 ## Listener ownership
 
