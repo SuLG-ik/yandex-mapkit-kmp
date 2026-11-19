@@ -99,6 +99,87 @@ final class MapInteractionTests: XCTestCase {
         touchCenter("polygon", "collection", "restored")
     }
 
+    func testPanAndPinchSettleAndRespectGestureFlags() {
+        let app = launchCameraFixture("Gestures")
+        waitForEvent("gestures enabled", in: app)
+        let map = app.descendants(matching: .any).matching(
+            NSPredicate(format: "label == %@", "camera gesture map")
+        ).firstMatch
+        XCTAssertTrue(map.waitForExistence(timeout: 10), trace(in: app))
+
+        drag(on: map)
+        waitForEvent("pan finished", in: app)
+        map.pinch(withScale: 2, velocity: 1)
+        waitForEvent("zoom finished", in: app)
+
+        app.buttons["Disable gestures"].tap()
+        waitForEvent("gestures disabled", in: app)
+        drag(on: map)
+        map.pinch(withScale: 2, velocity: 1)
+        app.buttons["Check disabled gestures"].tap()
+        waitForEvent("disabled gestures held camera", in: app)
+        XCTAssertEqual(
+            trace(in: app),
+            """
+            gestures enabled
+            pan finished
+            zoom finished
+            gestures disabled
+            disabled gestures held camera
+            """
+        )
+    }
+
+    func testSupersededAndDisposedMovesKeepTheirMapIdentity() {
+        let app = launchCameraFixture("Animation")
+        waitForEvent("animation ready 1", in: app)
+        app.buttons["Supersede animated move"].tap()
+        waitForEvent("replacement finished 1", in: app)
+        app.buttons["Leave during a move"].tap()
+        waitForEvent("animation detached 1", in: app)
+        app.buttons["Reopen animation map"].tap()
+        waitForEvent("animation ready 2", in: app)
+        app.buttons["Move the new map"].tap()
+        waitForEvent("new animation finished 2", in: app)
+        XCTAssertEqual(
+            trace(in: app),
+            """
+            animation ready 1
+            first animation moving 1
+            first animation cancelled 1
+            replacement finished 1
+            leaving while moving 1
+            animation detached 1
+            animation ready 2
+            new animation finished 2
+            """
+        )
+    }
+
+    func testSimulatedPositionDrivesBothMountedMapsWithoutGps() {
+        let app = launchCameraFixture("Location")
+        waitForEvent("location applied 1", in: app)
+        app.buttons["Hide simulated location"].tap()
+        waitForEvent("location hidden 1", in: app)
+        app.buttons["Remount location map"].tap()
+        waitForEvent("location applied 2", in: app)
+        XCTAssertEqual(trace(in: app), "location applied 1\nlocation hidden 1\nlocation applied 2")
+    }
+
+    private func launchCameraFixture(_ mode: String) -> XCUIApplication {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["--camera=\(mode)"]
+        app.launch()
+        return app
+    }
+
+    private func drag(on map: XCUIElement) {
+        let start = map.coordinate(withNormalizedOffset: CGVector(dx: 0.34, dy: 0.5))
+        let end = map.coordinate(withNormalizedOffset: CGVector(dx: 0.70, dy: 0.5))
+        start.press(forDuration: 0.1, thenDragTo: end)
+    }
+
     private func tapReadyMap(_ app: XCUIApplication, screen: Int) {
         let identity = "screen=\(screen) map=\(screen)"
         waitForEvent("ready \(identity)", in: app)

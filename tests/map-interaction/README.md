@@ -32,6 +32,11 @@ Start an emulator and run:
 `MapInteractionTest` sends down/up pointer events via Android instrumentation to the projected
 point in the MapKit view.
 
+`CameraRegressionTest` drives a real Android activity. Its drag and two-pointer pinch use screen
+coordinates from the measured Compose map. The shared Kotlin camera fixture waits for completion
+and compares positions with tolerances. It also checks interrupted animations and feeds two
+known positions through a per-map dummy location source without requesting device GPS.
+
 ## iOS
 
 Choose an available simulator UDID from `xcrun simctl list devices available`. With Xcode,
@@ -44,3 +49,6 @@ bash .github/scripts/test-ios-map-interaction.sh SIMULATOR_UDID
 The script installs pods and runs `MapInteractionTests` against a test-only app. XCUITest taps
 the projected UIKit coordinate and verifies the ordered trace through accessibility. The result
 bundle is under `tests/map-interaction/build`.
+
+The camera scenarios use the same simulator test target. XCUITest drags and pinches the UIKit
+map and selects the animation and location controls. The controls and fixture are test-only.
