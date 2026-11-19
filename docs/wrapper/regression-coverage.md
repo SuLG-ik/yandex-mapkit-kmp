@@ -1,8 +1,9 @@
 # Regression test coverage
 
 This inventory uses the [public ABI dumps][abi] and test sources at [`c6049906`][snapshot].
-It records the observable behavior each test exercises. SDK surface and platform exclusions are
-listed in [What is wrapped](coverage.md).
+The CI jobs below describe that baseline. Later [standalone consumer coverage][consumer] is
+linked separately in the tables. SDK surface and platform exclusions are listed in
+[What is wrapped](coverage.md).
 
 | Platform | CI job and task |
 | --- | --- |
@@ -24,7 +25,7 @@ listed in [What is wrapped](coverage.md).
 | `Point`, `Polyline`, `IconStyle`, durations, structs and enums | Field order, units and enum mappings in [Android host][a-converters] and [iOS][i-converters]. Native geometry and nullable style fields have additional checks in [PolylineConverterTest · Android][a-geometry]/[IconStyleConverterTest · style][a-style] and [GeometryConverterTest · iOS][i-geometry]/[IconStyleConverterTest · style][i-style]. | Extend round-trip checks alongside new entry points [#86][86] and track edition-specific parity [#81][81]. |
 | [`MapKit.createUserLocationLayer`, `LocationManager` and location simulation](location.md) | Visibility, heading, anchors, listener adapters and no-fix camera state in [LiveUserLocationLayerTest · Android][a-location] and [LiveUserLocationLayerTest · iOS][i-location]. | Injected location delivery, rotation and moving a single Compose map to a known fix [#69][69]. |
 | [`Map.addTileLayer`, `addMapObjectLayer`, `Logo`, indoor state and overlays](layers.md) | An independent object collection, map styles, indoor flags and reachable logo/projection handles in [Android][a-map] and [iOS][i-map]. | Controlled tile providers, style and loaded callbacks, indoor state transitions and rendered overlays [#85][85], [#83][83]. |
-| [`TrafficLayer`, `StorageManager` and `OfflineCacheManager`](offline.md) | Traffic and region enums in representative [Android host][a-converters] and [iOS][i-converters] converter tests. Service requests and storage lifecycle remain gaps. | Traffic, region lifecycle and cache errors [#85][85]. Cold/warm cache and isolated release scenarios [#74][74], [#82][82]. |
+| [`TrafficLayer`, `StorageManager` and `OfflineCacheManager`](offline.md) | `TrafficColor` and `RegionState` convert in both directions in [EnumConverterTest · Android host][a-enums] and [EnumConverterTest · iOS][i-enums]. Service requests and storage lifecycle remain gaps. | Traffic, region lifecycle and cache errors [#85][85]. Cold/warm cache and isolated release scenarios [#74][74], [#82][82]. |
 | [`Logging`, `I18nManager` and runtime failures](runtime.md) | Log level, filtering, delivery and unsubscribe in [LiveLoggingTest · Android][a-logs] and [LiveLoggingTest · iOS][i-logs]. Locale preferences and enum conversion in [Android host][a-converters] and [iOS][i-converters]. | Real formatting output and runtime error callbacks from controlled providers [#85][85]. |
 
 ## Compose and resources
@@ -32,23 +33,23 @@ listed in [What is wrapped](coverage.md).
 | Public entry point | Verified behavior, tests and platforms | Follow-up |
 | --- | --- | --- |
 | [`YandexMap(controller = …)`, `YandexMapController` and `MapControllerEffect`](../compose/overview.md) | [NativeYandexMapLifecycleTest · Android emulator][a-lifecycle] mounts the controller overload, asserts that `controller.mapWindow` becomes available and finishes the Activity with the map still in composition. | Native taps on a reopened controller-backed map [#66][66]. Effect start once a window is available, cancellation on disposal, and clearing the window on detach [#70][70]. |
-| [Declarative `YandexMap`, `MapEffect`, `MapConfig` and `MapListeners`](../compose/overview.md) | The core [Android][a-map] and [iOS][i-map] tests exercise native settings and listener adapters. | Check config and effect updates and cancellation in a declarative map [#69][69], [#70][70]. Route real taps through Compose [#67][67] and exercise back-stack transitions [#72][72], [#73][73]. |
+| [Declarative `YandexMap`, `MapEffect`, `MapConfig` and `MapListeners`](../compose/overview.md) | The [Android][a-consumer] and [iOS][i-consumer] consumer apps mount declarative `YandexMap` and create a valid native placemark in `MapEffect`. The core [Android][a-map] and [iOS][i-map] tests exercise native settings and listener adapters. | Check config and effect updates and cancellation in a declarative map [#69][69], [#70][70]. Route real taps through Compose [#67][67] and exercise back-stack transitions [#72][72], [#73][73]. |
 | [`Placemark`, `Polyline`, `Polygon`, `Circle`, `MapObjectCollection` and `Clustering`](../compose/mapobjects.md) | [MapNodeInsertOrderTest · Node insert order][map-order] is checked in the Android host, Android emulator and iOS simulator suites. [MapObjectStatesRestorationTest · Android state restoration][a-savers] exercises save/restore; [MapObjectStateSaversTest · iOS saver tests][i-savers] exercise round-trips for shapes and camera state. | Native object membership, visibility and handler replacement [#68][68]. State preservation after returning to a map [#75][75]. |
 | [`YandexMap` with `UserLocationState`, `TrafficLayer`, `TileLayer` and `MapObjectLayer`](../compose/overview.md) | Closest runtime evidence comes from the core layer and location tests above. Compose updates and disposal remain gaps. | Simulated location plus camera [#69][69], layer replacement and callbacks [#85][85]. |
 | [`ImageBitmap.toImageProvider()` and `imageProvider { … }`](../compose/image-resources.md) | [ComposeMapObjectRendererTest · Compose renderer][renderer] runs on the Android emulator and iOS simulator, covering a rendered frame and rerender on state change. [ComposeMapObjectRendererIosTest · iOS renderer sizing][i-renderer] checks intrinsic size and scale. [ColorConvertionTest · Color conversion][color] checks ARGB in the shared test suites. | Real marker/cluster installation, anchors, replacements and cancellation [#84][84]. |
-| [`imageProvider(DrawableResource)`](../compose/image-resources.md#compose-multiplatform-resources) in `-compose-resources` | The [public ABI][api] includes the optional entry point. The [#61 merge][split] moves the resource dependency to that module. A dedicated CI test that decodes a drawable and assigns it to a live pin remains a follow-up. | Published Android and iOS resource consumer [#76][76] and image behavior [#84][84]. |
+| [`imageProvider(DrawableResource)`](../compose/image-resources.md#compose-multiplatform-resources) in `-compose-resources` | The [public ABI][api] includes the optional entry point. The [#61 merge][split] moves the resource dependency to that module. The [Android][a-consumer] and [iOS][i-consumer] standalone apps load a PNG through the optional module and set it on a valid native placemark. | Check rendering, anchor behavior, replacement and cluster images [#84][84]. |
 | [`MOKOImageLoader.fromResource` and `rememberMOKOImageLoader`](image-resources.md) in `-moko` and `-moko-compose` | The [public ABI][api] covers both modules. Dedicated runtime tests for decoding a Moko asset, the cache flag and retaining the Compose loader remain gaps. | Optional image integrations [#84][84]. |
-| [Installing the published modules](../getting-started/installation.md) | [iOS][ios] compiles and links library frameworks. [Android host][android-host] assembles the libraries. Separate consumer installation is a follow-up. | Build and launch an isolated Maven consumer [#76][76]. Release and OS matrix [#82][82]. |
+| [Installing the published modules](../getting-started/installation.md) | The [#76 fixture][consumer] resolves candidate artifacts from a temporary Maven repository in an isolated [Android][a-consumer] and [iOS][i-consumer] app. The jobs check the selected Lite SDK, build and launch the apps, and wait for a native map and placemark. | Release and OS matrix [#82][82]. |
 
 ## Reported regressions
 
-| Report | Closest evidence in the baseline | Next coverage |
+| Report | Verified behavior and evidence | Next coverage |
 | --- | --- | --- |
 | [#20][20] User taps the map | Core listener registration and removal in [Android][a-map] and [iOS][i-map]. | Inject real touch into a mounted map [#66][66], [#67][67]. |
 | [#32][32] Move to the user's location on one map | [Sample][location-sample] animates the same map; core layer tests exercise the no-fix state. | Inject a location and assert the camera completes its move [#69][69]. |
-| [#33][33] iOS cinterop fails in a consumer | [Installation guide](../getting-started/installation.md) describes CocoaPods and linker setup. [iOS CI][ios] links the library's own framework. | Install, link and launch a separate application from Maven artifacts [#76][76]. |
+| [#33][33] iOS cinterop fails in a consumer | [Installation guide](../getting-started/installation.md) describes CocoaPods and linker setup. The [iOS consumer][i-consumer] installs the Lite pod, runs cinterop, links the app and launches it with candidate Maven artifacts. | Run the consumer across the release and OS matrix [#82][82]. |
 | [#34][34] Missing iOS camera callback | [LiveCameraListenerDeliveryTest][i-camera] uses a live map and a retained listener to observe the effect of `move`. | Gesture and Compose delivery [#69][69]. |
-| [#42][42] Base Compose module pulls in Compose Resources | [Optional module split][split] and [ABI check][api] cover the exposed overload. | Verify published dependency resolution and the drawable in an app [#76][76], [#84][84]. |
+| [#42][42] Base Compose module pulls in Compose Resources | [#61][split] moves the overload to the optional module and the [ABI check][api] covers the exposed overload. The [Android][a-consumer] and [iOS][i-consumer] consumers resolve the optional artifact and set a PNG on a placemark. | Cover rendering and updates on markers and clusters [#84][84]. |
 | [#55][55] Crash when closing a Compose map | [NativeYandexMapLifecycleTest][a-lifecycle] initializes MapKit, creates the map and finishes the Activity. | Hide/show, recreation and repeated teardown [#70][70]. |
 
 The [API exclusions](coverage.md) also apply to the test matrix. Search, routing and other Full-only
@@ -56,6 +57,11 @@ families have no Lite runtime contract. Separate edition resolution is tracked i
 remaining Full surface in [#81][81]. Use the [regression workflow](../getting-started/contributing.md#regressions)
 when adding evidence or reporting a remaining gap.
 
+[a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238
+[i-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L194-L226
+[consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/pull/88
+[a-consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44408195495/job/135169172609
+[i-consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44408195495/job/135169172544
 [abi]: ../getting-started/contributing.md#public-api
 [snapshot]: https://github.com/SuLG-ik/yandex-mapkit-kmp/commit/c60499064c8a42531a3fcf344d3c0a40a6a38cd6
 [android-host]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44406693288/job/135163693889
@@ -112,7 +118,6 @@ when adding evidence or reporting a remaining gap.
 [73]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/73
 [74]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/74
 [75]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/75
-[76]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/76
 [77]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/77
 [81]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/81
 [82]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/82

@@ -1,7 +1,8 @@
 # Покрытие регрессионными тестами
 
 Список составлен по [дампам публичного ABI][abi] и исходникам тестов на коммите [`c6049906`][snapshot].
-В таблицах указано проверенное поведение. Доступные API и ограничения платформ описаны на странице
+Задачи CI ниже относятся к этому коммиту. В таблицах также приведены более поздние проверки
+[отдельных приложений][consumer]. Доступные API и ограничения платформ описаны на странице
 [«Что обёрнуто»](coverage.md).
 
 | Платформа | Задача и команда CI |
@@ -24,7 +25,7 @@
 | `Point`, `Polyline`, `IconStyle`, длительности, структуры и перечисления | Порядок полей, единицы измерения и отображение перечислений на [Android JVM][a-converters] и на [iOS][i-converters]. Дополнительные проверки геометрии и стилей с нативными объектами и nullable-полями в [PolylineConverterTest · Android][a-geometry]/[IconStyleConverterTest · стили][a-style] и на [GeometryConverterTest · iOS][i-geometry]/[IconStyleConverterTest · стили][i-style]. | Проверки преобразования в обе стороны для новых API [#86][86] и соответствие редакций SDK [#81][81]. |
 | [`MapKit.createUserLocationLayer`, `LocationManager` и симуляция геопозиции](location.md) | Видимость, ориентация, привязки, адаптеры слушателей и состояние камеры без координат в [LiveUserLocationLayerTest · Android][a-location] и на [LiveUserLocationLayerTest · iOS][i-location]. | Доставка подставной позиции, вращение и перемещение камеры к известной позиции на одной Compose-карте [#69][69]. |
 | [`Map.addTileLayer`, `addMapObjectLayer`, `Logo`, состояние indoor и оверлеи](layers.md) | Независимая коллекция объектов, стили карты, флаги indoor, доступ к логотипу и проекции в [Android][a-map] и на [iOS][i-map]. | Контролируемый источник тайлов, колбэки стилей и загрузки, переходы indoor и отрисовка оверлеев [#85][85], [#83][83]. |
-| [`TrafficLayer`, `StorageManager` и `OfflineCacheManager`](offline.md) | Перечисления для пробок и регионов в тестах преобразования на [Android JVM][a-converters] и на [iOS][i-converters]. Запросы к сервисам и жизненный цикл хранилища ещё предстоит проверить. | Пробки, жизненный цикл региона и ошибки кеша [#85][85]. Холодный и прогретый кеш и изолированные релизные сценарии [#74][74], [#82][82]. |
+| [`TrafficLayer`, `StorageManager` и `OfflineCacheManager`](offline.md) | `TrafficColor` и `RegionState` преобразуются в обе стороны в [EnumConverterTest · Android JVM][a-enums] и [EnumConverterTest · iOS][i-enums]. Запросы к сервисам и жизненный цикл хранилища ещё предстоит проверить. | Пробки, жизненный цикл региона и ошибки кеша [#85][85]. Холодный и прогретый кеш и изолированные релизные сценарии [#74][74], [#82][82]. |
 | [`Logging`, `I18nManager` и ошибки Runtime](runtime.md) | Уровень логов, фильтрация, доставка и отписка в [LiveLoggingTest · Android][a-logs] и на [LiveLoggingTest · iOS][i-logs]. Преобразование настроек локали и перечислений на [Android JVM][a-converters] и на [iOS][i-converters]. | Результаты форматирования и колбэки ошибок от контролируемых источников [#85][85]. |
 
 ## Compose и ресурсы
@@ -32,23 +33,23 @@
 | Публичный API | Проверенное поведение, тесты и платформы | Оставшиеся сценарии |
 | --- | --- | --- |
 | [`YandexMap(controller = …)`, `YandexMapController` и `MapControllerEffect`](../compose/overview.md) | [NativeYandexMapLifecycleTest · эмулятор Android][a-lifecycle] создаёт карту с контроллером, проверяет доступность `controller.mapWindow` и завершает Activity, пока карта остаётся в композиции. | Нативные касания после повторного открытия карты с контроллером [#66][66]. Запуск эффекта при появлении окна, отмена при удалении и очистка ссылки на окно при отсоединении [#70][70]. |
-| [Декларативная `YandexMap`, `MapEffect`, `MapConfig` и `MapListeners`](../compose/overview.md) | Тесты ядра на [Android][a-map] и [iOS][i-map] проверяют настройки и адаптеры слушателей нативной карты. | Проверить обновление настроек, перезапуск и отмену эффекта в декларативной карте [#69][69], [#70][70]. Доставить реальные касания в Compose [#67][67] и проверить переходы по стеку экранов [#72][72], [#73][73]. |
+| [Декларативная `YandexMap`, `MapEffect`, `MapConfig` и `MapListeners`](../compose/overview.md) | Отдельные приложения на [Android][a-consumer] и [iOS][i-consumer] создают декларативную `YandexMap` и валидную нативную метку внутри `MapEffect`. Тесты ядра на [Android][a-map] и [iOS][i-map] проверяют настройки и адаптеры слушателей нативной карты. | Проверить обновление настроек, перезапуск и отмену эффекта в декларативной карте [#69][69], [#70][70]. Доставить реальные касания в Compose [#67][67] и проверить переходы по стеку экранов [#72][72], [#73][73]. |
 | [`Placemark`, `Polyline`, `Polygon`, `Circle`, `MapObjectCollection` и `Clustering`](../compose/mapobjects.md) | [MapNodeInsertOrderTest · Порядок вставки узла][map-order] проверяется на Android JVM, эмуляторе Android и симуляторе iOS. [MapObjectStatesRestorationTest · Восстановление состояния][a-savers] проверено на Android, [MapObjectStateSaversTest · сохранение состояния][i-savers] фигур и камеры в обе стороны проверено на iOS. | Состав нативных коллекций, видимость и замена обработчика [#68][68]. Сохранение состояния после возврата к карте [#75][75]. |
 | [`YandexMap` с `UserLocationState`, `TrafficLayer`, `TileLayer` и `MapObjectLayer`](../compose/overview.md) | Тесты ядра выше проверяют часть геолокации и слоёв. Обновление и удаление слоёв в Compose ещё предстоит проверить. | Симуляция позиции и движение камеры [#69][69], замена слоя и колбэки [#85][85]. |
 | [`ImageBitmap.toImageProvider()` и `imageProvider { … }`](../compose/image-resources.md) | [ComposeMapObjectRendererTest · Тест рендера Compose][renderer] проверяет кадр и перерисовку после смены состояния на эмуляторе Android и симуляторе iOS. [ComposeMapObjectRendererIosTest · Тест размеров на iOS][i-renderer] проверяет внутренний размер и масштаб. [ColorConvertionTest · Преобразование цветов][color] проверяет ARGB в общих тестах. | Установка иконки на настоящую метку или кластер, привязка, замена и отмена [#84][84]. |
-| [`imageProvider(DrawableResource)`](../compose/image-resources.md#ресурсы-compose-multiplatform) в `-compose-resources` | [Публичный ABI][api] включает опциональную точку входа. [PR #61][split] перенёс зависимость от ресурсов в этот модуль. Автоматическую проверку чтения drawable и его установки на нативную метку ещё предстоит добавить. | Отдельное приложение с опубликованными артефактами на Android и iOS [#76][76], поведение изображений [#84][84]. |
+| [`imageProvider(DrawableResource)`](../compose/image-resources.md#ресурсы-compose-multiplatform) в `-compose-resources` | [Публичный ABI][api] включает опциональную точку входа. [PR #61][split] перенёс зависимость от ресурсов в этот модуль. Отдельные приложения на [Android][a-consumer] и [iOS][i-consumer] загружают PNG через опциональный модуль и устанавливают его на валидную нативную метку. | Проверить отрисовку, привязку, замену и изображения кластеров [#84][84]. |
 | [`MOKOImageLoader.fromResource` и `rememberMOKOImageLoader`](image-resources.md) в `-moko` и `-moko-compose` | [Публичный ABI][api] проверяет оба модуля. Ещё нужно проверить декодирование ресурса Moko, флаг кеширования и сохранение загрузчика в Compose. | Опциональные интеграции изображений [#84][84]. |
-| [Установка опубликованных модулей](../getting-started/installation.md) | [iOS][ios] компилирует и линкует фреймворки библиотек. [Android JVM][android-host] собирает библиотеки. Установка в отдельное приложение отслеживается отдельно. | Собрать и запустить изолированное приложение из Maven-артефактов [#76][76]. Релизные проверки и матрица ОС [#82][82]. |
+| [Установка опубликованных модулей](../getting-started/installation.md) | [Проверка #76][consumer] подключает кандидатные артефакты из временного Maven-репозитория в изолированных приложениях на [Android][a-consumer] и [iOS][i-consumer]. Задачи проверяют выбор Lite SDK, собирают и запускают приложения и ждут создания нативной карты и метки. | Релизные проверки и матрица ОС [#82][82]. |
 
 ## Отчёты о регрессиях
 
-| Отчёт | Ближайшая проверка на этом коммите | Оставшиеся сценарии |
+| Отчёт | Проверенное поведение и тесты | Оставшиеся сценарии |
 | --- | --- | --- |
 | [#20][20] Касание карты | Подписка и отписка в ядре на [Android][a-map] и [iOS][i-map]. | Направить реальное касание в нативную карту [#66][66], [#67][67]. |
 | [#32][32] Перемещение к позиции пользователя на одной карте | [Пример][location-sample] анимирует перемещение на той же карте. Тесты слоя геолокации проверяют состояние без позиции. | Подать тестовую позицию и проверить завершение движения камеры [#69][69]. |
-| [#33][33] Ошибка iOS cinterop в приложении | [Руководство по установке](../getting-started/installation.md) описывает CocoaPods и линковку. [CI iOS][ios] линкует фреймворк самой библиотеки. | Установить, слинковать и запустить отдельное приложение с Maven-артефактами [#76][76]. |
+| [#33][33] Ошибка iOS cinterop в приложении | [Руководство по установке](../getting-started/installation.md) описывает CocoaPods и линковку. [Отдельное приложение iOS][i-consumer] устанавливает pod Lite, выполняет cinterop, линкуется и запускается с кандидатными Maven-артефактами. | Запустить тест в релизной матрице ОС [#82][82]. |
 | [#34][34] Пропавшее событие камеры на iOS | [LiveCameraListenerDeliveryTest][i-camera] на нативной карте сохраняет слушатель и проверяет его вызов после `move`. | Доставка событий о жестах и через Compose [#69][69]. |
-| [#42][42] Compose Resources как зависимость основного Compose-модуля | [Разделение модулей][split] и [проверка ABI][api] покрывают публичную перегрузку. | Проверить зависимости опубликованных артефактов и загрузку drawable в приложении [#76][76], [#84][84]. |
+| [#42][42] Compose Resources как зависимость основного Compose-модуля | [#61][split] перенёс перегрузку в опциональный модуль, [проверка ABI][api] проверяет её сигнатуру. Приложения на [Android][a-consumer] и [iOS][i-consumer] подключают опциональный артефакт и устанавливают PNG на метку. | Проверить отрисовку и обновление изображений меток и кластеров [#84][84]. |
 | [#55][55] Сбой при закрытии карты Compose | [NativeYandexMapLifecycleTest][a-lifecycle] инициализирует MapKit, создаёт карту и завершает Activity. | Скрытие и показ, пересоздание и повторное закрытие [#70][70]. |
 
 [Ограничения API](coverage.md) применимы и к тестам. Поиск, маршрутизация и другие API сборки Full
@@ -56,6 +57,11 @@
 Full отслеживаются в [#81][81]. При добавлении тестов или обнаружении пробела используйте
 [процесс проверки регрессий](../getting-started/contributing.md#regressions).
 
+[a-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/androidHostTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L206-L238
+[i-enums]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/c60499064c8a42531a3fcf344d3c0a40a6a38cd6/yandex-mapkit-kmp/src/iosTest/kotlin/ru/sulgik/mapkit/EnumConverterTest.kt#L194-L226
+[consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/pull/88
+[a-consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44408195495/job/135169172609
+[i-consumer]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44408195495/job/135169172544
 [abi]: ../getting-started/contributing.md#public-api
 [snapshot]: https://github.com/SuLG-ik/yandex-mapkit-kmp/commit/c60499064c8a42531a3fcf344d3c0a40a6a38cd6
 [android-host]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44406693288/job/135163693889
@@ -112,7 +118,6 @@ Full отслеживаются в [#81][81]. При добавлении тес
 [73]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/73
 [74]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/74
 [75]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/75
-[76]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/76
 [77]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/77
 [81]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/81
 [82]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/82
