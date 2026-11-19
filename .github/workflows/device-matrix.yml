@@ -99,18 +99,42 @@ jobs:
           MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
         run: python3 .github/scripts/mapkit-live-checks.py plan android
 
+      - name: Prepare the Full Android search app without credentials
+        id: live-app
+        if: steps.live.outputs.enabled == 'true'
+        run: bash verification/lite-consumer/run.sh android emulator-5554 base full prepare-live-search
+
+      - name: Stage the Android hook credential
+        id: live-key
+        if: steps.live.outputs.enabled == 'true'
+        env:
+          MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+        run: |
+          set +x
+          umask 077
+          key_file=$(mktemp "$RUNNER_TEMP/mapkit-service-key.XXXXXX")
+          printf '%s' "$MAPKIT_TEST_API_KEY" > "$key_file"
+          printf 'file=%s\n' "$key_file" >> "$GITHUB_OUTPUT"
+
       - name: Run trusted Android service tests
         if: steps.live.outputs.enabled == 'true'
         uses: reactivecircus/android-emulator-runner@v2
         env:
-          MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+          MAPKIT_LIVE_SEARCH_APP: ${{ steps.live-app.outputs.app }}
+          MAPKIT_LIVE_KEY_FILE: ${{ steps.live-key.outputs.file }}
         with:
           api-level: ${{ matrix.sdk-package }}
           arch: x86_64
           target: ${{ matrix.target }}
           profile: pixel_7
           ram-size: 4096M
-          script: python3 .github/scripts/mapkit-live-checks.py run android emulator-5554
+          script: python3 .github/scripts/mapkit-live-checks.py run android emulator-5554 --key-file "$MAPKIT_LIVE_KEY_FILE"
+
+      - name: Remove any unconsumed Android credential handoff
+        if: ${{ always() && steps.live-key.outcome == 'success' }}
+        env:
+          MAPKIT_LIVE_KEY_FILE: ${{ steps.live-key.outputs.file }}
+        run: rm -f -- "$MAPKIT_LIVE_KEY_FILE"
 
       - name: Upload Android service result categories
         if: ${{ !cancelled() && steps.live.outputs.enabled == 'true' }}
@@ -193,10 +217,18 @@ jobs:
           MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
         run: python3 .github/scripts/mapkit-live-checks.py plan ios
 
+      - name: Prepare the Full iOS search app without credentials
+        id: live-app
+        if: steps.live.outputs.enabled == 'true'
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
+        run: bash verification/lite-consumer/run.sh ios "$SIMULATOR_UDID" base full prepare-live-search
+
       - name: Run trusted iOS service tests
         if: steps.live.outputs.enabled == 'true'
         env:
           MAPKIT_TEST_API_KEY: ${{ secrets.MAPKIT_TEST_API_KEY }}
+          MAPKIT_LIVE_SEARCH_APP: ${{ steps.live-app.outputs.app }}
           SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
         run: python3 .github/scripts/mapkit-live-checks.py run ios "$SIMULATOR_UDID"
 
