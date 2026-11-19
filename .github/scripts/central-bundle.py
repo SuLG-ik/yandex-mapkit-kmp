@@ -33,6 +33,7 @@ PLATFORMS = {
     "-iossimulatorarm64": ".klib",
 }
 CHECKSUMS = ("md5", "sha1", "sha256", "sha512")
+ANDROID_SDK = ("com.yandex.android", "maps.mobile")
 PUBLISHER = "https://central.sonatype.com/api/v1/publisher"
 CENTRAL_REPO = "https://repo.maven.apache.org/maven2"
 
@@ -86,7 +87,7 @@ def verify_module(path, root, platform, version, artifacts, sdk_version, files):
                     dependency["module"] in artifacts and dependency["version"]["requires"] == version,
                     f"{path}: unexpected MapKit dependency {dependency}",
                 )
-            if (dependency["group"], dependency["module"]) == ("com.yandex.android", "maps.mobile"):
+            if (dependency["group"], dependency["module"]) == ANDROID_SDK:
                 sdk_dependencies.add(dependency["version"]["requires"])
     if not platform:
         require(
@@ -97,7 +98,27 @@ def verify_module(path, root, platform, version, artifacts, sdk_version, files):
         require(sdk_dependencies == {sdk_version}, f"{path}: expected maps.mobile {sdk_version}")
 
 
-def edition_files(repository, edition, version, sdk_version, verify_signatures):
+def verify_pom(path, artifact, version, artifacts, sdk_version):
+    pom = ET.parse(path).getroot()
+    coordinates = tuple(pom.findtext(f"{{*}}{field}") for field in ("groupId", "artifactId", "version"))
+    require(coordinates == (GROUP, artifact, version), f"{path.name}: incorrect POM coordinates")
+    sdk_dependencies = []
+    for dependency in pom.findall("{*}dependencies/{*}dependency"):
+        group = dependency.findtext("{*}groupId")
+        name = dependency.findtext("{*}artifactId")
+        dependency_version = dependency.findtext("{*}version")
+        if group == GROUP:
+            require(name in artifacts and dependency_version == version, f"{path.name}: unexpected MapKit dependency")
+        if (group, name) == ANDROID_SDK:
+            sdk_dependencies.append(dependency_version)
+    if sdk_version:
+        require(
+            len(sdk_dependencies) == 1 and sdk_dependencies[0] in (sdk_version, f"[{sdk_version}]"),
+            f"{path.name}: expected a dependency on maps.mobile {sdk_version}",
+        )
+
+
+def edition_files(repository, edition, version, sdk_version):
     suffix = "-full" if edition == "full" else ""
     artifacts = {module + suffix + target for module in MODULES for target in PLATFORMS}
     expected_poms = {artifact_path(artifact, version, ".pom") for artifact in artifacts}
@@ -119,17 +140,13 @@ def edition_files(repository, edition, version, sdk_version, verify_signatures):
             for required in (".pom", ".module", "-sources.jar", "-javadoc.jar", extension):
                 path = artifact_path(artifact, version, required)
                 require(path in files, f"Missing {path}")
-            pom_path = artifact_path(artifact, version, ".pom")
-            pom = ET.parse(files[pom_path]).getroot()
-            coordinates = tuple(pom.findtext(f"{{*}}{field}") for field in ("groupId", "artifactId", "version"))
-            require(coordinates == (GROUP, artifact, version), f"{pom_path}: incorrect POM coordinates")
-            for dependency in pom.findall("{*}dependencies/{*}dependency"):
-                if dependency.findtext("{*}groupId") == GROUP:
-                    require(
-                        dependency.findtext("{*}artifactId") in artifacts
-                        and dependency.findtext("{*}version") == version,
-                        f"{pom_path}: unexpected MapKit dependency",
-                    )
+            verify_pom(
+                files[artifact_path(artifact, version, ".pom")],
+                artifact,
+                version,
+                artifacts,
+                sdk_version if module == MODULES[0] and platform == "-android" else None,
+            )
             verify_module(
                 artifact_path(artifact, version, ".module"),
                 root,
@@ -146,11 +163,12 @@ def edition_files(repository, edition, version, sdk_version, verify_signatures):
             continue
         signature = files.get(name + ".asc")
         require(signature is not None and signature.stat().st_size > 0, f"Missing signature for {name}")
-        if verify_signatures:
-            result = subprocess.run(
-                ["gpg", "--batch", "--quiet", "--verify", signature, path], capture_output=True, text=True
-            )
-            require(result.returncode == 0, f"Invalid signature for {name}: {result.stderr}")
+        result = subprocess.run(
+            ["gpg", "--batch", "--quiet", "--no-auto-key-retrieve", "--no-auto-key-import", "--verify", signature, path],
+            capture_output=True,
+            text=True,
+        )
+        require(result.returncode == 0, f"Invalid signature for {name}: {result.stderr}")
         for algorithm in CHECKSUMS:
             checksum = files.get(f"{name}.{algorithm}")
             if algorithm in ("md5", "sha1"):
@@ -165,9 +183,7 @@ def assemble(args):
     sdk_base = tomllib.loads(catalog.read_text())["versions"]["yandex-mapkit"].removesuffix("-lite")
     files = {}
     for edition in ("lite", "full"):
-        staged = edition_files(
-            args.staging / edition, edition, args.version, f"{sdk_base}-{edition}", args.mode == "rehearsal"
-        )
+        staged = edition_files(args.staging / edition, edition, args.version, f"{sdk_base}-{edition}")
         require(not files.keys() & staged.keys(), f"{edition}: duplicates another edition's release files")
         files.update(staged)
 
@@ -283,6 +299,10 @@ def verify_publication(version):
 
 def publish(args):
     require(re.fullmatch(r"[0-9a-f]{40}", args.commit), "Invalid release commit")
+    require(
+        args.resume or os.environ.get("GITHUB_RUN_ATTEMPT") == "1",
+        "A live rerun requires the existing deployment UUID. Check Central Portal and dispatch with deployment_id.",
+    )
     username = os.environ["CENTRAL_USERNAME"]
     password = os.environ["CENTRAL_PASSWORD"]
     require(username and password, "Missing Central Portal token credentials")
@@ -311,7 +331,6 @@ def main():
     assembly.add_argument("version")
     assembly.add_argument("staging", type=Path)
     assembly.add_argument("bundle", type=Path)
-    assembly.add_argument("mode", choices=("rehearsal", "release"))
     publication = commands.add_parser("publish")
     publication.add_argument("version")
     publication.add_argument("commit")

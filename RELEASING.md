@@ -32,7 +32,8 @@ the tag itself. A version carrying a pre-release suffix is published like any ot
 pre-release on GitHub.
 
 Set `dry_run` to `true` first if you want a rehearsal. The workflow runs the release checks, signs
-both editions with a temporary key and verifies the same bundle layout used for publishing.
+both editions with a temporary key and verifies the same bundle layout used for publishing. Bundle
+verification in both modes checks every signature against the public key for that run.
 
 The workflow refuses to start when
 
@@ -63,10 +64,13 @@ After verification succeeds, the release workflow performs these steps.
   version.
 - **The upload or a later step failed.** Check the run summary and
   [Central Portal](https://central.sonatype.com/publishing/deployments) for
-  `yandex-mapkit-kmp-VERSION-COMMIT_SHA`. If the accepted deployment is still processing, validated
-  or published, run the workflow again from the original commit and set `deployment_id` to its UUID.
-  This also handles a failed tag or GitHub release step after both editions reach Maven Central.
-  If the branch advanced, dispatch from a release branch pointing to the original commit.
+  `yandex-mapkit-kmp-VERSION-COMMIT_SHA`. A GitHub rerun without a deployment ID is blocked at the
+  publishing job. If a deployment is still processing, validated or published, use **Run workflow**
+  from the original commit and set `deployment_id` to its UUID. This also handles a failed tag or
+  GitHub release step after both editions reach Maven Central. If the branch advanced, dispatch
+  from a release branch pointing to the original commit.
+- **No deployment was accepted.** After confirming in Central Portal that there is no active
+  deployment for this version, use **Run workflow** to start a new upload.
 - **Central reports a failed deployment.** Check its validation errors and confirm the version is
   absent from Maven Central before preparing a corrected bundle. Releasing fixes to an already
   published version requires new Maven coordinates.
