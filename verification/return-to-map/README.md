@@ -116,7 +116,7 @@ Describe a warm-versus-cold difference at the same viewport as an inference abou
 The SDK reports tile memory use. Cache eviction and network changes can both affect the result.
 
 Keep only the extracted anonymous metric rows with the report for
-[#74](https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/74). There is no measured baseline in this
-directory. No timing values should be treated as established until the controlled Android and iOS
-series are captured. See the SDK's [Android](https://yandex.com/maps-api/docs/mapkit/com/yandex/mapkit/map/MapLoadedListener.html)
+[#74](https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/74). The [measured baseline](baselines/)
+includes the Android and iOS observations and their device scope. See the SDK's
+[Android](https://yandex.com/maps-api/docs/mapkit/com/yandex/mapkit/map/MapLoadedListener.html)
 and [iOS](https://yandex.com/maps-api/docs/mapkit/Swift/YMKMapLoadedListener.html) load callbacks.

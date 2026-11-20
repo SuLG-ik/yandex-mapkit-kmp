@@ -79,12 +79,29 @@ Region downloads require a paid MapKit license. [Storage reference](https://yand
 
 The [sample workflow][sample-ci] checks sample changes in GitHub Actions. It runs the Android
 route-state tests with a small UI in place of the native map and compiles the iOS simulator target.
-Those jobs use a placeholder key and make no MapKit service requests. On a device, use the actual
-example to check marker hits and camera restoration as the map opens and closes.
+Those jobs use a placeholder key. The measured baseline records a native replay of the Android
+sample, including marker hits, camera restoration after the background process was killed,
+and reset after leaving the example. [Native saved-state replay][return-baseline]
 
-A comparison of view recreation with keeping
-the tab mounted needs the same viewport, device and dataset on both runs. Compare native view
-creation, the first usable frame, touch delivery and memory after [the baseline measurements][74].
+### Retain a viewport within its current host
 
-[74]: https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/74
+The measurement sample offers both **Details (unmount map)** and **Other tab (retain map)**.
+Both use the same camera, markers and SDK storage settings. In the retained case, the map stays
+in its host and the tab's cover receives input. When the owning route is finally removed, dispose
+the map and its listeners with that route.
+
+Five real-tile cohorts per simulator compared each pair at a fixed viewport. On Android a
+usable projection took a median of 83 ms after recreating the view and 28 ms when retaining it.
+On iOS the corresponding medians were 66 ms and 17 ms. An ordinary reopen created one map,
+three markers and one icon provider. The retained route reused all of them on both platforms.
+The verified tile callback arrived at a median of 6.6 seconds after reopening on Android and
+0.52 seconds on iOS. A ready projection and completed tile loading describe different stages.
+[Baseline data and device scope][return-baseline]
+
+Use the saved-camera and selection recipe when a route can leave its host. For a short tab switch
+inside the same host, the retained example shows how to preserve the viewport and avoid rebuilding
+its overlays. Use the same device and viewport to measure this choice in your app, including memory
+and pointer delivery while the map is covered.
+
+[return-baseline]: https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/verification/return-to-map/baselines
 [sample-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/sample.yml
