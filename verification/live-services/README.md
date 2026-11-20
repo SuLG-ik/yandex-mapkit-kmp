@@ -7,11 +7,12 @@ verification do not use it.
 
 The search hooks install the Full consumer built in a separate, credential-free step. They
 transfer the key to a private file in the debug app's sandbox at launch. The app reads and removes
-that file, then writes a marker with only its result category. On Android, the runner consumes a
-restricted temporary credential file after emulator startup so the emulator and SDK setup have no
-credential in their environment. The hook uses `adb run-as` and stdin for the app transfer. The iOS
-hook writes the file in the installed simulator app container. The credential is absent from the
-build, artifact paths and device command arguments. The driver then runs a separate credential-free
+that file, then writes a marker with only its result category. On Android, a checked-in shell
+script starts a dedicated emulator after the offline action exits. First-party steps stage and
+consume a restricted runner file. The hook uses `adb run-as` and stdin for the app transfer. The
+iOS hook writes the file in the installed simulator app container. The credential and its runner
+handoff path stay out of action inputs, build arguments, artifact paths and device command
+arguments. The driver then runs a separate credential-free
 cleanup while the device is still running, including after a hook deadline. Cleanup is itself
 bounded. It terminates only the fixture app, removes its temporary inputs and markers and reports
 an incomplete cleanup if it cannot reach the device.
