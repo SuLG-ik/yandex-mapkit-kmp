@@ -1,6 +1,6 @@
 # Маршрутизация Full
 
-Автомобильный маршрутизатор входит в редакцию Full. Используйте кандидатные координаты
+Автомобильная, пешая, велосипедная маршрутизация и маршруты общественного транспорта входят в редакцию Full. Используйте кандидатные координаты
 `ru.sulgik.mapkit:yandex-mapkit-kmp-full` и `yandex-mapkit-kmp-compose-full`, а для iOS
 `YandexMapsMobile` {{ mapkit_version_full }}.
 [Проверочное приложение Full](https://github.com/SuLG-ik/yandex-mapkit-kmp/tree/main/verification/lite-consumer)
@@ -46,23 +46,105 @@ val session = router.requestRoutes(
 и удаляет линии. Вызывайте `dispose` перед уходом с экрана. Сборка приложения проверяет вызовы
 публичного API из примера. Для живого запроса маршрута нужен действующий ключ MapKit.
 
+## Пеший маршрут
+
+Создайте маршрутизатор через `TransportFactory.getInstance().createPedestrianRouter()`.
+Передайте упорядоченные `RequestPoint`, `TimeOptions` и `RouteOptions`. Для
+запроса по времени задайте либо отправление, либо прибытие. Время на Android
+хранится в миллисекундах UTC, на iOS преобразуется в `NSDate`. В `FitnessOptions` можно
+попросить маршрутизатор избегать лестниц и крутых участков.
+
+Используйте `Session.RouteListener` при переносе нативного слушателя Android. Фабрика
+`RouteListener(...)` создаёт слушатель того же типа из колбэков Kotlin.
+
+```kotlin
+val listener: Session.RouteListener = RouteListener(
+    onMasstransitRoutes = { alternatives -> showRoutes(alternatives) },
+    onMasstransitRoutesError = { failure -> showFailure(failure) },
+)
+val session = router.requestRoutes(points, TimeOptions(), RouteOptions(), listener)
+```
+
+[Пример управления пешим маршрутом][transport-example] использует тот же принцип, что и
+автомобильный. Храните `Session`, отменяйте устаревший запрос и рисуйте `route.geometry` в
+собственной коллекции. `Route.metadata` сохраняет порядок точек, расстояние, время и количество
+пересадок. `routeId`, `settings`, `flags` и `estimation` содержат данные только тогда, когда
+их вернул SDK. `Section.geometry` описывает фрагмент общей линии. Тип поездки, ожидания или
+перехода определяется полями `Section.metadata.data`. Дополнительные платёжные поля и
+контуры доступны через нативные объекты.
+
+## Велосипедный маршрут
+
+Используйте `TransportFactory.getInstance().createBicycleRouterV2()`. Он принимает те же упорядоченные
+точки и параметры времени и маршрута, что пеший режим. В `Section.metadata.data.fitness`
+велосипедный участок сохраняет `FitnessType.BICYCLE` и позиции точек проезда.
+`replaceCyclingRoute` в [примере транспорта][transport-example] строит и рисует этот маршрут,
+отменяет предыдущий запрос и очищает свою коллекцию.
+
+## Общественный транспорт
+
+Создайте маршрутизатор через `TransportFactory.getInstance().createMasstransitRouter()`. Передайте
+точки, `TransitOptions` и `RouteOptions`. В `TransitOptions.avoid` объединяйте значения
+`FilterVehicleTypes` с помощью `or`. Для маршрута, зависящего от времени, задайте отправление
+или прибытие через `TimeOptions`.
+
+```kotlin
+val avoid = FilterVehicleTypes.BUS.value or FilterVehicleTypes.TRAMWAY.value
+val transitOptions = TransitOptions(avoid = avoid)
+```
+
+`Section.metadata.data.transports` содержит линии для поездки. `Section.stops` перечисляет
+остановки от посадки до выхода. `Section.rideLegs` возвращает фрагменты полилинии между
+остановками. Данные входа, выхода, оценка времени и идентификатор маршрута остаются
+nullable, когда их не вернул SDK. `replaceTransitRoute` в [примере транспорта][transport-example]
+отменяет старую сессию, рисует выбранный маршрут и позволяет очистить выделенную коллекцию.
+
+## Нативные объекты маршрутов и сессий
+
+Для отрисовки и чтения маршрута в общем коде используйте обёртку. В коде Android или iOS
+вызовите `toNative()`, если платформенный API принимает объект MapKit. Вызовите `toCommon()`
+у объекта из нативного API, чтобы передать его в общий код.
+
+```kotlin
+import ru.sulgik.mapkit.transport.masstransit.Route
+import ru.sulgik.mapkit.transport.masstransit.toCommon
+
+fun routeFromNativeInterop(route: Route): Route {
+    val nativeRoute = route.toNative()
+    // Передайте nativeRoute платформенному коду, который использует нативный MapKit.
+    return nativeRoute.toCommon()
+}
+```
+
+У автомобильных типов эти же методы находятся в `ru.sulgik.mapkit.directions.driving`.
+Для сессий, созданных через обёртку, вызывайте её `retry()` и `cancel()`, чтобы все обёртки
+одной сессии совместно управляли слушателем и отменой.
+
+Отдельный флаг можно передать в SDK через `FilterVehicleTypes.BUS.toNative()`. На Android
+обратное преобразование выглядит как `nativeFlag.toCommon()`. На iOS используйте
+`FilterVehicleTypes.toCommon(nativeFlag)`, поскольку такой беззнаковый тип маски используют
+несколько типов SDK. Для комбинации флагов преобразуйте весь `TransitOptions`, чтобы сохранить
+все 32 бита поля `avoid`.
+
 ## Режимы в MapKit 4.45.0 Full
 
 Проверенные версии Android и iOS содержат следующие фабрики. Android возвращает результат через
 интерфейсы слушателей. iOS использует обработчики с nullable-массивом маршрутов и `NSError`.
-Автомобильная обёртка отделяет ошибку от успешного результата и сохраняет порядок вариантов SDK.
+Обёртки отделяют ошибку от успешного результата и сохраняют порядок вариантов SDK.
 
 | Режим | Нативные фабрики и параметры | Геометрия и жизненный цикл | Реализация и проверка |
 | --- | --- | --- | --- |
 | Автомобиль | Android `DirectionsFactory.getInstance().createDrivingRouter(type)`, iOS `YMKDirectionsFactory.instance().createDrivingRouter(withType:)`. Упорядоченные точки, `DrivingOptions` и `VehicleOptions`. | `DrivingRoute.geometry` и позиции точек, `DrivingSession.cancel/retry`. | Реализованы запрос и геометрия. Android-тест проверяет порядок и геометрию вариантов, отсутствие маршрута, ошибку, повтор и отмену. iOS проверяет нативные значения точек и геометрии, пустой ответ и обработку ошибок. Общая логика отмены на iOS проверяется через тестовый объект. Сетевая проверка требует ключа MapKit. |
-| Пешком | `Transport.createPedestrianRouter()` / `YMKTransport.createPedestrianRouter()` принимает упорядоченные точки, `TimeOptions` и `RouteOptions`. | `transport.masstransit.Route` / `YMKMasstransitRoute` предоставляют полилинию и участки. Общая сессия поддерживает отмену и повтор. | Следующий шаг. Обернуть общую сессию, маршрут и параметры транспорта, проверить порядок точек и геометрию участков, затем добавить плановый живой запрос. |
-| Велосипед | `Transport.createBicycleRouterV2()` / `YMKTransport.createBicycleRouterV2()` с теми же `TimeOptions` и `RouteOptions`, что для пешего маршрута. | Те же типы маршрута и сессии, что для пешего режима. | Переиспользовать транспортные адаптеры пешего режима и отдельно проверить фабрику, обработчик результата и отображение на карте. |
-| Общественный транспорт | `Transport.createMasstransitRouter()` / `YMKTransport.createMasstransitRouter()` принимает `TransitOptions` и `RouteOptions`. `TransitOptions` включает время отправления или прибытия и фильтр транспорта. | Те же типы маршрута и сессии, что для пешего режима. Участки различают поездки и пересадки. | Добавить параметры общественного транспорта. Проверить пешие и транспортные альтернативы, геометрию и отмену. Запустить детерминированные тесты и доверенный живой запрос. |
+| Пешком | `Transport.createPedestrianRouter()` / `YMKTransport.createPedestrianRouter()` принимает упорядоченные точки, `TimeOptions` и `RouteOptions`. | `transport.masstransit.Route` / `YMKMasstransitRoute` предоставляют полилинию и участки. Общая сессия поддерживает отмену и повтор. | Запрос и общая обёртка транспорта добавлены. Android проверяет порядок точек и вариантов, геометрию и сессию. iOS проверяет метаданные, nullable-поля и обработчик. CI и живой запрос ещё впереди. |
+| Велосипед | `Transport.createBicycleRouterV2()` / `YMKTransport.createBicycleRouterV2()` с теми же `TimeOptions` и `RouteOptions`, что для пешего маршрута. | Те же типы маршрута и сессии, что для пешего режима. | Фабрика и запрос добавлены. Android проверяет точки проезда, параметры, геометрию и отмену. iOS проверяет тип и точки проезда в участке. Прогоны CI и живого запроса впереди. |
+| Общественный транспорт | `Transport.createMasstransitRouter()` / `YMKTransport.createMasstransitRouter()` принимает `TransitOptions` и `RouteOptions`. `TransitOptions` включает время отправления или прибытия и фильтр транспорта. | Те же типы маршрута и сессии, что для пешего режима. Участки различают поездки и пересадки. | Фабрика и запрос добавлены. Android проверяет нативные маски, пешую и транспортную альтернативы, геометрию и отмену. iOS проверяет маску, линии, порядок остановок и nullable-входы. Прогоны CI и живого запроса впереди. |
 
 Автомобильная обёртка предоставляет идентификаторы маршрутов, полилинии, позиции точек и параметры
 исходной последовательности точек. Метаданные маршрута, ограничения транспорта в ответе, сводные
 запросы, сопоставление внешнего маршрута и подписки на дорожную обстановку остаются отдельными
-сценариями. Следующие шаги для пеших, велосипедных и транспортных маршрутов описаны в
+сценариями. В транспортной обёртке расширенные платёжные данные, нити маршрутов и
+детализация конструкций остаются доступны через нативные объекты. Прогоны платформ,
+снимки ABI Full и плановые живые запросы отслеживаются в
 [#80](https://github.com/SuLG-ik/yandex-mapkit-kmp/issues/80).
 
 ## Проверки регрессий
@@ -77,19 +159,20 @@ bash verification/lite-consumer/run.sh android "$ANDROID_SERIAL" with-integratio
 bash verification/lite-consumer/run.sh ios "$IOS_DEVICE_UDID" with-integrations full
 ```
 
-Первые две команды включают [DrivingAdapterTest · Android][android-adapter] и
-[DrivingAdapterTest · iOS][ios-adapter]. Android выполняет их на устройстве, потому что
-`RequestPoint` и `Polyline` вызывают JNI. Android вызывает нативный адаптер с двумя маршрутами и проверяет порядок, геометрию и отмену.
-iOS использует настоящие значения точек и полилиний, а для проверки общей логики отмены
-сессии передаёт тестовый `NSObject` в тот же реестр. SDK создаёт объекты маршрута и
-сессии через маршрутизатор. Проверка ответа iOS с непустым списком альтернатив ждёт
-сетевого запуска с ключом.
+Первые две команды проходят `DrivingAdapterTest` и `TransportAdapterTest`. Android использует
+тест на устройстве: построение `RequestPoint` и `Polyline` вызывает JNI. Тесты создают обёртки до
+первого запроса и до `retry`, отменяют текущий запрос через раннюю обёртку и проверяют, что
+нативный обработчик, вызванный во время отмены или позже, больше не доставляет ответ.
 
-До `MAP_READY` отдельное приложение Full создаёт, заменяет и очищает нативные полилинии
-на карте. В установленном приложении нажмите **Draw route**, **Replace route** и
-**Clear route**. Синяя линия должна появиться, смениться другой и исчезнуть. Превью
-использует тот же код отрисовки, что и пример с реальным запросом. Для сетевой проверки
-автомобильного маршрута и замены запроса до получения ответа нужен тестовый ключ MapKit.
+Перед `MAP_READY` приложение Full создаёт, заменяет и очищает настоящие полилинии на карте.
+В собранном приложении нажмите **Draw route**, **Replace route** и **Clear route**. Должна
+появиться толстая синяя линия, смениться альтернативной и исчезнуть после очистки. Превью
+использует ту же коллекцию, что и примеры реального маршрута, и работает без сетевого ключа.
+Для планового запроса по каждому режиму, включая замену запроса до получения ответа,
+нужен тестовый ключ MapKit.
+
+На iOS тесты проверяют общий реестр с тестовым объектом и вызывают нативные обработчики.
+Нативные сессии создаёт SDK.
 
 При расхождении ABI [Full CI][full-workflow] сохраняет фактические Android и iOS dump-файлы.
 Обновляйте проверенные снимки в `api/full` и запускайте обе проверки ещё раз, сохраняя
@@ -101,3 +184,4 @@ iOS использует настоящие значения точек и по�
 [android-adapter]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidDeviceTest/kotlin/ru/sulgik/mapkit/directions/driving/DrivingAdapterTest.kt
 [ios-adapter]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/directions/driving/DrivingAdapterTest.kt
 [full-workflow]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/workflows/full-consumer.yml
+[transport-example]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/verification/lite-consumer/shared/src/fullMain/kotlin/ru/sulgik/liteconsumer/FullTransportExample.kt

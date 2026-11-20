@@ -78,8 +78,12 @@ The [Android adapter check](full-routing.md#regression-checks) exercises route d
 empty results, errors and cancellation through a native wrapper. iOS checks native geometry
 values, empty/error callbacks and shared cancellation with a surrogate registry identity. The
 isolated Full app draws, replaces and clears a real polyline before `MAP_READY`. Live driving
-requests and the other routing modes remain tracked in [#80][80], with scheduled service
+requests remain tracked in [#80][80], with scheduled service
 runs in [#82][82].
+
+## Full routing
+
+[Driving, walking, cycling and public transit routing](full-routing.md) add `DrivingAdapterTest` and `TransportAdapterTest`. [Android][a-full-transport] checks request and result order, geometry, nullable metadata and cancellation. Mode-specific fixtures preserve bicycle via points and the section type, as well as transit masks, ride lines and stop order. [iOS][i-full-transport] checks native options and section metadata, empty results, error delivery and suppression of late callbacks after cancellation. Full CI and live routing remain tracked in [#80][80].
 
 [a-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/a4cad8e0063f4ac78f945c4c626346e6fb0ead2d/yandex-mapkit-kmp-compose/src/androidDeviceTest/kotlin/ru/sulgik/mapkit/compose/MapInteractionTest.kt#L72
 [i-map-taps]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/b8a9958310dd34265f11312c87031ab221a79498/tests/map-interaction/iosApp/MapInteractionTests.swift#L29
@@ -187,3 +191,6 @@ runs in [#82][82].
 [i-nav3]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/4adbf6cc0e960b89767ca5cef163f28b0d305960/tests/map-interaction/iosApp/Nav3MapTests.swift
 [a-nav3-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44542390742/job/135623893971
 [i-nav3-ci]: https://github.com/SuLG-ik/yandex-mapkit-kmp/actions/runs/44542390742/job/135623894416
+
+[a-full-transport]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullAndroidDeviceTest/kotlin/ru/sulgik/mapkit/transport/masstransit/TransportAdapterTest.kt
+[i-full-transport]: https://github.com/SuLG-ik/yandex-mapkit-kmp/blob/main/yandex-mapkit-kmp/src/fullIosTest/kotlin/ru/sulgik/mapkit/transport/masstransit/TransportAdapterTest.kt
