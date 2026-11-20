@@ -11,6 +11,7 @@
 		6BC55609ECAEF3D3DAE185B7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E68E8B5FBB5F6AA733CD42 /* Foundation.framework */; };
 		77CDC498BF9B76677BC72CE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E68E8B5FBB5F6AA733CD42 /* Foundation.framework */; };
 		E82FBEAA06B22F7EF3EEAB59 /* MapInteractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E545105B306970CB0D6B964 /* MapInteractionTests.swift */; };
+		EAF397BF2DB3AE6D12539C11 /* MapIconRenderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B10BCD6A949D7F24CB102E /* MapIconRenderingTests.swift */; };
 		0ACFC80A96AC4CBD888D4AAA /* MapLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACFC80A96AC4CBD888D4BBB /* MapLifecycleTests.swift */; };
 		EC7B232ACBD675B8A395E86D /* Nav3MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC86C60D07EF0457A419DFE3 /* Nav3MapTests.swift */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 		3508DABD72355A2EF3775C43 /* MapInteractionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapInteractionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5924C3AE07CD77F99206D088 /* MapInteractionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapInteractionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E545105B306970CB0D6B964 /* MapInteractionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MapInteractionTests.swift; sourceTree = "<group>"; };
+		A1B10BCD6A949D7F24CB102E /* MapIconRenderingTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MapIconRenderingTests.swift; sourceTree = "<group>"; };
 		A6E68E8B5FBB5F6AA733CD42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		E2F3C43BE5862FE053FDBE2F /* MapInteractionApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MapInteractionApp.swift; sourceTree = "<group>"; };
 		0ACFC80A96AC4CBD888D4BBB /* MapLifecycleTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MapLifecycleTests.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				0ACFC80A96AC4CBD888D4BBB /* MapLifecycleTests.swift */,
 				FC86C60D07EF0457A419DFE3 /* Nav3MapTests.swift */,
 				9E545105B306970CB0D6B964 /* MapInteractionTests.swift */,
+				A1B10BCD6A949D7F24CB102E /* MapIconRenderingTests.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -190,6 +193,7 @@
 				0ACFC80A96AC4CBD888D4AAA /* MapLifecycleTests.swift in Sources */,
 				EC7B232ACBD675B8A395E86D /* Nav3MapTests.swift in Sources */,
 				E82FBEAA06B22F7EF3EEAB59 /* MapInteractionTests.swift in Sources */,
+				EAF397BF2DB3AE6D12539C11 /* MapIconRenderingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

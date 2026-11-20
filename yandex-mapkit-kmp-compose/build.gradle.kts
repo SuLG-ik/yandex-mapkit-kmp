@@ -102,6 +102,7 @@ kotlin {
             dependencies {
                 implementation(libs.androidx.compose.ui.test.manifest)
                 implementation(libs.androidx.activity.compose)
+                implementation(libs.coil.compose)
                 implementation(libs.decompose)
                 implementation(libs.decompose.compose)
                 implementation(compose.animation)

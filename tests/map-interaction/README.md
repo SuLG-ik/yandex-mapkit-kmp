@@ -119,3 +119,24 @@ touch. The scenario then resizes and pads one pane, applies an asymmetric MapKit
 rectangle, and verifies the new projection before tapping both maps again. Removing
 the second pane must leave the first interactive. Android also checks that the removed
 pane's native window is invalidated.
+
+## On-map icon rendering
+
+`MapIconRenderingTest` on Android and `MapIconRenderingTests` on iOS run the same fixture
+on a live map for both a placemark and a cluster. The probes sample horizontal and vertical
+strips to check the anchor, transparent margin over a colored backing placemark, and the icon
+dimensions. The Android bitmap case checks physical pixels on both axes. On iOS the known
+48×48 backing bitmap gives the screenshot scale for the fixed bitmap on each axis. The
+Compose cases measure relative to the viewport. Distinct colors distinguish cluster members
+from the cluster image. The density-only step holds the viewport and content dimensions fixed
+and raises the renderer's density by 1.5×. Both native pixel axes grow by that factor, and the
+new image contains the density mark. The next step increases the content width at that density.
+The 240 dp viewport leaves space for the 48 dp advance control and a two-line diagnostic on
+compact simulators. XCTest checks containment and taps the control's center.
+
+The fixture uses a local Coil fetcher with two attempts for the same model. The first attempt
+shows a placeholder and an error. The painter then restarts the request and shows the fetched
+image. The fixture later releases both a superseded request and a request whose map object was
+removed. Each final pixel check waits for Coil's cancellation callback. The
+[standalone consumer](../../verification/lite-consumer/README.md) exercises the published
+drawable adapter.

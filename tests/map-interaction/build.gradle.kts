@@ -38,6 +38,7 @@ kotlin {
             implementation(compose.ui)
             implementation(libs.navigation3.ui)
             implementation(libs.navigation.event.compose)
+            implementation(libs.coil.compose)
             implementation(project(":yandex-mapkit-kmp-compose"))
         }
     }
